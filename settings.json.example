@@ -1,0 +1,10 @@
+{
+	"cooldown": 30,
+	"wiki": "minecraft",
+	"header": {
+		"user-agent": "FrisksRcGcDw/0.1"
+		},
+	"limit": 11,
+	"webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+} 
+	
