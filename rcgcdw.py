@@ -9,6 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 #DEBUG, INFO, WARNING, ERROR, CRITICAL
 pl = gettext.translation('rcgcdw', localedir='locale', languages=['pl'])
 pl.install()
+_ = lambda s: s
 
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
@@ -56,16 +57,17 @@ def webhook_formatter(action, timestamp, **params):
 		author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=params["user"].replace(" ", "_"))
 	if action in [1, 37]: #edit or new page
 		editsize = params["size"]
+		print (editsize)
 		if editsize > 0:
 			if editsize > 6032:
 				colornumber = 65280
 			else:
-				colornumber = 35840 + (editsize/(52))*256
+				colornumber = 35840 + (math.floor(editsize/(52)))*256
 		elif editsize < 0:
 			if editsize < -6032:
 				colornumber = 16711680
 			else:
-				colornumber = 9175040 + ((editsize*-1)/(52))*65536
+				colornumber = 9175040 + (math.floor((editsize*-1)/(52)))*65536
 		elif editsize == 0:
 			colornumber = 8750469
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"], article=article_encoded)
@@ -79,7 +81,7 @@ def webhook_formatter(action, timestamp, **params):
 		undolink = ""
 		link ="https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		if urls is not None:
-			img_info = iter(urls.values()).next()["imageinfo"]
+			img_info = next(iter(urls.values()))["imageinfo"]
 			embed["image"]["url"] = img_info[0]["url"]
 		else:
 			return
@@ -277,6 +279,7 @@ def webhook_formatter(action, timestamp, **params):
 	data["embeds"].append(dict(embed))
 	formatted_embed = json.dumps(data, indent=4)
 	headers = {'Content-Type': 'application/json'}
+	#logging.debug(data)
 	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
 		
 def first_pass(change):
