@@ -4,7 +4,6 @@
 import time, logging, json, requests, datetime, re
 from bs4 import BeautifulSoup
 from collections import defaultdict
-from datetime import datetime
 logging.basicConfig(level=logging.DEBUG)
 #logging.warning('Watch out!')
 #DEBUG, INFO, WARNING, ERROR, CRITICAL
@@ -41,8 +40,7 @@ def webhook_formatter(action, timestamp, **params):
 	if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", params["author"]) is not None:
 		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"], user=params["author"])
 		if params["author"] not in recent_changes.map_ips.keys():
-			try:
-				contibs = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucprop=".format(wiki=settings["wiki"], user=params["author"])), "query", "usercontribs")
+			contibs = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucprop=".format(wiki=settings["wiki"], user=params["author"])), "query", "usercontribs")
 			if contibs is None:
 				logging.warning("WARNING: Something went wrong when checking amount of contributions for given IP address")
 				params["author"] = params["author"] + "(?)"
@@ -154,7 +152,7 @@ def webhook_formatter(action, timestamp, **params):
 	elif event == 29:
 		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=params["target"])
-	elif event == 26
+	elif event == 26:
 		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Edited a comment on {target}'s profile").format(target=params["target"])
 	elif event == 28:
@@ -365,7 +363,7 @@ def first_pass(change):
 			print (change)
 			send(_("Unable to process the event"), _("error"), "")
 			return
-		elif change["type"] == "external": #not sure what happens then, but it's listed as possible type
+		if change["type"] == "external": #not sure what happens then, but it's listed as possible type
 			logging.warning("External event happened, ignoring.")
 			print (change)
 			return
@@ -393,7 +391,7 @@ class recent_changes(object):
 		if len(self.cache) == 0:
 			logging.debug("cache is empty, triggering clean fetch")
 			clean = True
-		changes = safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal".format(wiki=settings["wiki"], amount=settings["limit"]))
+		changes = self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal".format(wiki=settings["wiki"], amount=settings["limit"]))
 		if changes:
 			try:
 				changes = changes.json()['query']['recentchanges']
@@ -406,7 +404,7 @@ class recent_changes(object):
 				logging.warning("Wiki returned %s" % (request.json()))
 				return None
 			else:
-				for change in pchanges:
+				for change in changes:
 					if change["rcid"] in self.ids:
 						continue
 					self.add_cache(change)
