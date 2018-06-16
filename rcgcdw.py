@@ -1,12 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import time, logging, json, requests, datetime, re
+import time, logging, json, requests, datetime, re, gettext
 from bs4 import BeautifulSoup
 from collections import defaultdict
 logging.basicConfig(level=logging.DEBUG)
 #logging.warning('Watch out!')
 #DEBUG, INFO, WARNING, ERROR, CRITICAL
+pl = gettext.translation('rcgcdw', localedir='locale', languages=['pl'])
+pl.install()
 
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
@@ -39,7 +41,7 @@ def webhook_formatter(action, timestamp, **params):
 		article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
 	if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", params["author"]) is not None:
 		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"], user=params["author"])
-		if params["author"] not in recent_changes.map_ips.keys():
+		if params["author"] not in list(recent_changes.map_ips.keys()):
 			contibs = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucprop=".format(wiki=settings["wiki"], user=params["author"])), "query", "usercontribs")
 			if contibs is None:
 				logging.warning("WARNING: Something went wrong when checking amount of contributions for given IP address")
@@ -77,23 +79,23 @@ def webhook_formatter(action, timestamp, **params):
 		undolink = ""
 		link ="https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		if urls is not None:
-			img_info = urls.itervalues().next()["imageinfo"]
+			img_info = iter(urls.values()).next()["imageinfo"]
 			embed["image"]["url"] = img_info[0]["url"]
 		else:
 			return
 		if params["overwrite"]:
 			colornumber = 12390624
-			img_timestamp = filter(lambda x: x.isdigit(), img_info[1]["timestamp"])
+			img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 			undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(wiki=settings["wiki"], filename=article_encoded, timestamp=img_timestamp, filenamewon = article_encoded[5:])
 			embed["title"] = _("New file version {name}").format(name=params["title"])
 			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(link=embed["image"]["url"], undolink=undolink)}]
 		else:
 			embed["title"] = _("New file {name}").format(name=params["title"])
-			article_content = safe_read(recent_changes.safe_request("https://minecraft.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(article=urllib.quote_plus(params["title"]))), "query", "pages") #TODO Napewno urllib?
+			article_content = safe_read(recent_changes.safe_request("https://minecraft.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(article=urllib.parse.quote_plus(params["title"]))), "query", "pages") #TODO Napewno urllib?
 			if article_content is None:
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
-			content = article_content.values()[0]['revisions'][0]['*'].lower()
+			content = list(article_content.values())[0]['revisions'][0]['*'].lower()
 			if "{{license" not in content:
 				license = "**No license!**"
 			else:
@@ -387,7 +389,7 @@ class recent_changes(object):
 			self.ids.pop(0)
 	def fetch(self):
 		self.recent_id = self.fetch_changes()
-	def fetch_changes(self):
+	def fetch_changes(self, clean=False):
 		if len(self.cache) == 0:
 			logging.debug("cache is empty, triggering clean fetch")
 			clean = True
