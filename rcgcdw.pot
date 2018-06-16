@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-16 13:32+0200\n"
+"POT-Creation-Date: 2018-06-16 14:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,233 +15,233 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: rcgcdw.py:88
+#: rcgcdw.py:90
 msgid "New file version {name}"
 msgstr ""
 
-#: rcgcdw.py:89
+#: rcgcdw.py:91
 msgid "([preview]({link}) | [undo]({undolink}))"
 msgstr ""
 
-#: rcgcdw.py:89 rcgcdw.py:105
+#: rcgcdw.py:91 rcgcdw.py:107
 msgid "Options"
 msgstr ""
 
-#: rcgcdw.py:91
+#: rcgcdw.py:93
 msgid "New file {name}"
 msgstr ""
 
-#: rcgcdw.py:105
+#: rcgcdw.py:107
 msgid "([preview]({link}))"
 msgstr ""
 
-#: rcgcdw.py:106
+#: rcgcdw.py:108
 msgid ""
 "{desc}\n"
 "License: {license}"
 msgstr ""
 
-#: rcgcdw.py:111
+#: rcgcdw.py:113
 msgid "Deleted {article}"
 msgstr ""
 
-#: rcgcdw.py:116
+#: rcgcdw.py:118
 msgid "Deleted redirect ({article}) to make space for moved page"
 msgstr ""
 
-#: rcgcdw.py:120
+#: rcgcdw.py:122
 msgid "A redirect has been made"
 msgstr ""
 
-#: rcgcdw.py:120
+#: rcgcdw.py:122
 msgid "No redirect has been made"
 msgstr ""
 
-#: rcgcdw.py:121
+#: rcgcdw.py:123
 msgid "Moved \"{article}\" to \"{target}\""
 msgstr ""
 
-#: rcgcdw.py:124
+#: rcgcdw.py:126
 msgid "Moved {article} to redirect page ({title})"
 msgstr ""
 
-#: rcgcdw.py:128
+#: rcgcdw.py:130
 msgid "Moved protection settings from {article} to {title}"
 msgstr ""
 
-#: rcgcdw.py:133
+#: rcgcdw.py:135
 msgid "infinity and beyond"
 msgstr ""
 
-#: rcgcdw.py:134
+#: rcgcdw.py:136
 msgid "Blocked {blocked_user} for {time}"
 msgstr ""
 
-#: rcgcdw.py:140
+#: rcgcdw.py:142
 msgid "Reapplied the block on {blocked_user}"
 msgstr ""
 
-#: rcgcdw.py:146
+#: rcgcdw.py:148
 msgid "Removed the block on {blocked_user}"
 msgstr ""
 
-#: rcgcdw.py:151
+#: rcgcdw.py:153
 msgid "Left a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:154
+#: rcgcdw.py:156
 msgid "Replied to a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:157
+#: rcgcdw.py:159
 msgid "Edited a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:161
+#: rcgcdw.py:163
 msgid "Location"
 msgstr ""
 
-#: rcgcdw.py:163
+#: rcgcdw.py:165
 msgid "About me"
 msgstr ""
 
-#: rcgcdw.py:183
+#: rcgcdw.py:185
 msgid "Unknown"
 msgstr ""
 
-#: rcgcdw.py:184
+#: rcgcdw.py:186
 msgid "Edited {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:185
+#: rcgcdw.py:187
 msgid "{field} field changed to: {desc}"
 msgstr ""
 
-#: rcgcdw.py:188
+#: rcgcdw.py:190
 msgid "Removed a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:191
+#: rcgcdw.py:193
 msgid "Changed {target}'s user groups"
 msgstr ""
 
-#: rcgcdw.py:195 rcgcdw.py:197
+#: rcgcdw.py:197 rcgcdw.py:199
 msgid "none"
 msgstr ""
 
-#: rcgcdw.py:198
+#: rcgcdw.py:200
 msgid "Groups changed from {old_groups} to {new_groups} with reason given: {desc}"
 msgstr ""
 
-#: rcgcdw.py:201
+#: rcgcdw.py:203
 msgid "Protected the page {target}"
 msgstr ""
 
-#: rcgcdw.py:206
+#: rcgcdw.py:208
 msgid "Modified protection settings for {article}"
 msgstr ""
 
-#: rcgcdw.py:211
+#: rcgcdw.py:213
 msgid "Removed protection for {article}"
 msgstr ""
 
-#: rcgcdw.py:215
+#: rcgcdw.py:217
 msgid "Removed revision(s) from public view for {article}"
 msgstr ""
 
-#: rcgcdw.py:218
+#: rcgcdw.py:220
 msgid "Imported {article} with {count} revision(s)"
 msgstr ""
 
-#: rcgcdw.py:221
+#: rcgcdw.py:223
 msgid "Restored {article}"
 msgstr ""
 
-#: rcgcdw.py:224
+#: rcgcdw.py:226
 msgid "Removed events"
 msgstr ""
 
-#: rcgcdw.py:227
+#: rcgcdw.py:229
 msgid "Imported interwiki"
 msgstr ""
 
-#: rcgcdw.py:230
+#: rcgcdw.py:232
 msgid "Edited abuse filter number {number}"
 msgstr ""
 
-#: rcgcdw.py:233
+#: rcgcdw.py:235
 msgid "Merged revision histories for {article}"
 msgstr ""
 
-#: rcgcdw.py:236
+#: rcgcdw.py:238
 msgid "Added interwiki entry"
 msgstr ""
 
-#: rcgcdw.py:237 rcgcdw.py:241
+#: rcgcdw.py:239 rcgcdw.py:243
 msgid "Prefix: {prefix}, website: {website} | {desc}"
 msgstr ""
 
-#: rcgcdw.py:240
+#: rcgcdw.py:242
 msgid "Edited interwiki entry"
 msgstr ""
 
-#: rcgcdw.py:244
+#: rcgcdw.py:246
 msgid "Deleted interwiki entry"
 msgstr ""
 
-#: rcgcdw.py:245
+#: rcgcdw.py:247
 msgid "Prefix: {prefix} | {desc}"
 msgstr ""
 
-#: rcgcdw.py:248
+#: rcgcdw.py:250
 msgid "Changed content model of {article}"
 msgstr ""
 
-#: rcgcdw.py:249
+#: rcgcdw.py:251
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr ""
 
-#: rcgcdw.py:252
+#: rcgcdw.py:254
 msgid "Edited the sprite for {article}"
 msgstr ""
 
-#: rcgcdw.py:255
+#: rcgcdw.py:257
 msgid "Created the sprite sheet for {article}"
 msgstr ""
 
-#: rcgcdw.py:258
+#: rcgcdw.py:260
 msgid "Edited the slice for {article}"
 msgstr ""
 
-#: rcgcdw.py:261
+#: rcgcdw.py:263
 msgid "Created a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:264
+#: rcgcdw.py:266
 msgid "Deleted a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:283
+#: rcgcdw.py:285
 msgid "No description provided"
 msgstr ""
 
-#: rcgcdw.py:364
+#: rcgcdw.py:366
 msgid "Unable to process the event"
 msgstr ""
 
-#: rcgcdw.py:364
+#: rcgcdw.py:366
 msgid "error"
 msgstr ""
 
-#: rcgcdw.py:445
+#: rcgcdw.py:451
 msgid "Connection status"
 msgstr ""
 
-#: rcgcdw.py:445
-msgid "Minecraft Wiki seems to be down or unreachable."
+#: rcgcdw.py:451
+msgid "https://i.imgur.com/2jWQEt1.png"
 msgstr ""
 
-#: rcgcdw.py:445
-msgid "https://i.imgur.com/2jWQEt1.png"
+#: rcgcdw.py:451
+msgid "{wiki} seems to be down or unreachable."
 msgstr ""
 
