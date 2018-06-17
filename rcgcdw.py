@@ -14,7 +14,9 @@ _ = lambda s: s
 
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
-if os.path.exists("lastchange.txt") == False:
+	if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"]!=-1:
+		settings["limitrefetch"] = settings["limit"]
+if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("")
 logging.info("Current settings: {settings}".format(settings=settings))
@@ -388,9 +390,12 @@ class recent_changes(object):
 	recent_id = 0
 	downtimecredibility = 0
 	last_downtime = 0
-	with open("lastchange.txt", "r") as record:
-		file_id = int(record.read().strip())
-		logging.debug("File_id is {val}".format(val=file_id))
+	if settings["limitrefetch"] != -1:
+		with open("lastchange.txt", "r") as record:
+			file_id = int(record.read().strip())
+			logging.debug("File_id is {val}".format(val=file_id))
+	else:
+		file_id = 9999999
 	def add_cache(self, change):
 		self.cache.append(change)
 		self.ids.append(change["rcid"])
@@ -399,7 +404,7 @@ class recent_changes(object):
 			self.ids.pop(0)
 	def fetch(self, amount=settings["limit"]):
 		self.recent_id = self.fetch_changes(amount=amount)
-		if self.recent_id != self.file_id:
+		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
 			self.file_id = self.recent_id
 			with open("lastchange.txt", "w") as record:
 				record.write(str(self.file_id))
@@ -425,7 +430,6 @@ class recent_changes(object):
 					if change["rcid"] in self.ids:
 						continue
 					self.add_cache(change)
-					logging.debug("Info {val} | {val2} | {val3} | {val4}".format(val=clean, val2=self.file_id, val3=change["rcid"], val4=self.recent_id))
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
@@ -468,11 +472,13 @@ class recent_changes(object):
 				self.last_downtime = time.time()
 	
 recent_changes = recent_changes()
-recent_changes.fetch(amount=settings["limitrefetch"])
+recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
 	
 while 1:
 	time.sleep(float(settings["cooldown"]))
+	logging.debug(time.time())
 	recent_changes.fetch()
+	logging.debug(time.time())
 	if (recent_changes.day != datetime.date.fromtimestamp(time.time()).day):
 		logging.info("A brand new day! Printing the summary and clearing the cache")
 		#recent_changes.summary()
