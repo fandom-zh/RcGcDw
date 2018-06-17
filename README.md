@@ -1,6 +1,12 @@
 ## Overview ##
 Recent changes Gamepedia compatible Discord webhook is a project made from earlier recent changes module of FriskBot. It has been remade as independent script for public usage. 
 
+### Dependencies ###
+* **Python3 3.6>**
+* requests 2.18.4>
+* beautifulsoup4 4.6.0>
+^ lxml 4.2.1>
+
 ### Features ###
 * Fetch recent changes from Gamepedia wiki and send them to Discord channel using a webhook
 * Send day overview, that lists how active was the wiki this day
@@ -14,3 +20,8 @@ Explanation for settings:
 `header` – it's recommended to leave this value as it is, it's a header the script will use to communicate with Gamepedia. Please note that without it, no communication will be possible.    
 `limit` – amount of actions retrieved every `cooldown` amount of seconds. The higher it is the more network data will be used and the data will be processed longer, setting it to higher values is not recommended, but if you want to make sure no edit is omitted (which only happen if there are more actions in last `cooldown` seconds than this value).    
 `webhookURL` – webhook URL you can get using channel settings in Discord     
+`limitrefetch` – limit of how many changes can be retrieved when refetch happens    
+
+### How to use ###
+Make sure you have installed all of dependencies and filled settings.json properly.
+When you are sure, use `python rcgcdw.py` command to run the script.

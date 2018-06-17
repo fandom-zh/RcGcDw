@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import time, logging, json, requests, datetime, re, gettext, math, random
+import time, logging, json, requests, datetime, re, gettext, math, random, os.path
 from bs4 import BeautifulSoup
 from collections import defaultdict
+from urllib.parse import quote_plus
 logging.basicConfig(level=logging.DEBUG)
 #logging.warning('Watch out!')
 #DEBUG, INFO, WARNING, ERROR, CRITICAL
@@ -13,6 +14,9 @@ _ = lambda s: s
 
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
+if os.path.exists("lastchange.txt") == False:
+	with open("lastchange.txt", 'w') as sfile:
+		sfile.write("")
 logging.info("Current settings: {settings}".format(settings=settings))
 
 def send(message, name, avatar):
@@ -88,12 +92,12 @@ def webhook_formatter(action, timestamp, **params):
 		if params["overwrite"]:
 			colornumber = 12390624
 			img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
-			undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(wiki=settings["wiki"], filename=article_encoded, timestamp=img_timestamp, filenamewon = article_encoded[5:])
+			undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp), filenamewon = article_encoded[5:])
 			embed["title"] = _("New file version {name}").format(name=params["title"])
 			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(link=embed["image"]["url"], undolink=undolink)}]
 		else:
 			embed["title"] = _("New file {name}").format(name=params["title"])
-			article_content = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(wiki=settings["wiki"], article=urllib.parse.quote_plus(params["title"]))), "query", "pages") #TODO Napewno urllib?
+			article_content = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(wiki=settings["wiki"], article=quote_plus(params["title"], safe=''))), "query", "pages")
 			if article_content is None:
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
@@ -106,7 +110,7 @@ def webhook_formatter(action, timestamp, **params):
 					license = matches.group(1)
 				else:
 					license = "?"
-			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}))").format(link=pic_url)}]
+			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
 			params["desc"] = _("{desc}\nLicense: {license}").format(desc=params["desc"], license=license)
 	elif action == 6:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
@@ -368,12 +372,12 @@ def first_pass(change):
 			print (change)
 			send(_("Unable to process the event"), _("error"), "")
 			return
-		if change["type"] == "external": #not sure what happens then, but it's listed as possible type
-			logging.warning("External event happened, ignoring.")
-			print (change)
-			return
-		elif change["type"] == "new": #new page
-			webhook_formatter(37, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"])
+	if change["type"] == "external": #not sure what happens then, but it's listed as possible type
+		logging.warning("External event happened, ignoring.")
+		print (change)
+		return
+	elif change["type"] == "new": #new page
+		webhook_formatter(37, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"])
 
 class recent_changes(object):
 	starttime = time.time()
@@ -384,19 +388,27 @@ class recent_changes(object):
 	recent_id = 0
 	downtimecredibility = 0
 	last_downtime = 0
+	with open("lastchange.txt", "r") as record:
+		file_id = int(record.read().strip())
+		logging.debug("File_id is {val}".format(val=file_id))
 	def add_cache(self, change):
 		self.cache.append(change)
 		self.ids.append(change["rcid"])
-		self.recent_id = change["rcid"]
+		#self.recent_id = change["rcid"]
 		if len(self.ids) > settings["limit"]+5:
 			self.ids.pop(0)
-	def fetch(self):
-		self.recent_id = self.fetch_changes()
-	def fetch_changes(self, clean=False):
+	def fetch(self, amount=settings["limit"]):
+		self.recent_id = self.fetch_changes(amount=amount)
+		if self.recent_id != self.file_id:
+			self.file_id = self.recent_id
+			with open("lastchange.txt", "w") as record:
+				record.write(str(self.file_id))
+		logging.debug("Most recent rcid is: {}".format(self.recent_id))
+	def fetch_changes(self, amount, clean=False):
 		if len(self.cache) == 0:
 			logging.debug("cache is empty, triggering clean fetch")
 			clean = True
-		changes = self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal".format(wiki=settings["wiki"], amount=settings["limit"]))
+		changes = self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal".format(wiki=settings["wiki"], amount=amount))
 		if changes:
 			try:
 				changes = changes.json()['query']['recentchanges']
@@ -413,10 +425,13 @@ class recent_changes(object):
 					if change["rcid"] in self.ids:
 						continue
 					self.add_cache(change)
-					if clean:
+					logging.debug("Info {val} | {val2} | {val3} | {val4}".format(val=clean, val2=self.file_id, val3=change["rcid"], val4=self.recent_id))
+					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
+						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-					time.sleep(0.5)
+					time.sleep(1.0)
+				return change["rcid"]
 	def safe_request(self, url):
 		try:
 			request = requests.get(url, timeout=10, headers=settings["header"])
@@ -453,7 +468,7 @@ class recent_changes(object):
 				self.last_downtime = time.time()
 	
 recent_changes = recent_changes()
-recent_changes.fetch()
+recent_changes.fetch(amount=settings["limitrefetch"])
 	
 while 1:
 	time.sleep(float(settings["cooldown"]))
@@ -462,3 +477,4 @@ while 1:
 		logging.info("A brand new day! Printing the summary and clearing the cache")
 		#recent_changes.summary()
 		#recent_changes.clear_cache()
+		recent_changes.day = datetime.date.fromtimestamp(time.time()).day
