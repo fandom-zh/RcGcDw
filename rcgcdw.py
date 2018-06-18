@@ -5,24 +5,29 @@ import time, logging, json, requests, datetime, re, gettext, math, random, os.pa
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from urllib.parse import quote_plus
-logging.basicConfig(level=logging.DEBUG)
 #logging.warning('Watch out!')
 #DEBUG, INFO, WARNING, ERROR, CRITICAL
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
 	if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"]!=-1:
 		settings["limitrefetch"] = settings["limit"]
+logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("")
 logging.info("Current settings: {settings}".format(settings=settings))
-lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
-lang.install()
-#_ = lambda s: s
+if settings["lang"] != "en" or settings["lang"] == "":
+	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
+	lang.install()
+else:
+	_ = lambda s: s
 
 
 def send(message, name, avatar):
-	req = requests.post(settings["webhookURL"], data={"content": message, "avatar_url": avatar, "username": name}, timeout=10)
+	try:
+		req = requests.post(settings["webhookURL"], data={"content": message, "avatar_url": avatar, "username": name}, timeout=10)
+	except:
+		pass
 	
 def safe_read(request, *keys):
 	if request is None:
@@ -415,7 +420,8 @@ class recent_changes(object):
 		if len(self.ids) > settings["limit"]+5:
 			self.ids.pop(0)
 	def fetch(self, amount=settings["limit"]):
-		self.recent_id = self.fetch_changes(amount=amount)
+		last_check = self.fetch_changes(amount=amount)
+		self.recent_id = last_check if last_check is not None else self.recent_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
 			self.file_id = self.recent_id
 			with open("lastchange.txt", "w") as record:
@@ -454,16 +460,16 @@ class recent_changes(object):
 		try:
 			request = requests.get(url, timeout=10, headers=settings["header"])
 		except requests.exceptions.Timeout:
-			logging.warning("Reached timeout error for request on link {url}")
+			logging.warning("Reached timeout error for request on link {url}".format(url=url))
 			self.downtime_controller()
 			return None
 		except requests.exceptions.ConnectionError:
-			logging.warning("Reached connection error for request on link {url}")
+			logging.warning("Reached connection error for request on link {url}".format(url=url))
 			self.downtime_controller()
 			return None
 		else:
 			return request
-	def check_connection(self):
+	def check_connection(self, looped=False):
 		online = 0
 		for website in ["https://google.com", "https://instagram.com", "https://steamcommunity.com"]:
 			try:
@@ -475,14 +481,22 @@ class recent_changes(object):
 				pass
 		if online < 1:
 			logging.error("Failure when checking Internet connection at {time}".format(time=time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())))
+			self.downtimecredibility = 0
+			if looped == False:
+				while 1: #recursed loop, check for connection (every 10 seconds) as long as three services are down, don't do anything else
+					if self.check_connection(looped=True):
+						break
+					time.sleep(10)
 			return False
 		return True
 	def downtime_controller(self):
+		if settings["show_updown_messages"] == False:
+			return
 		if self.downtimecredibility<60:
 			self.downtimecredibility+=15
 		else:
-			if (time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
-				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wiki"]), _("Connection status"), settings["avatars"]["connection_failed"])
+			if(time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
+				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
 	
 recent_changes = recent_changes()
