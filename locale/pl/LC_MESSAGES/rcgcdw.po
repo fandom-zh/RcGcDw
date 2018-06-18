@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
-"POT-Creation-Date: 2018-06-16 14:38+0200\n"
-"PO-Revision-Date: 2018-06-16 14:44+0200\n"
+"POT-Creation-Date: 2018-06-18 11:12+0200\n"
+"PO-Revision-Date: 2018-06-18 11:15+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -18,27 +18,39 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: rcgcdw.py:90
-msgid "New file version {name}"
-msgstr "Nowa wersja pliku (name)"
+#: rcgcdw.py:84
+msgid "(N!) "
+msgstr "(N!) "
 
-#: rcgcdw.py:91
+#: rcgcdw.py:84
+msgid "m "
+msgstr "d "
+
+#: rcgcdw.py:98
+msgid "Uploaded a new version of {name}"
+msgstr "Przesłał(a) nową wersję {name}"
+
+#: rcgcdw.py:99
 msgid "([preview]({link}) | [undo]({undolink}))"
 msgstr "([podgląd]({link}) | [wycofaj]({undolink}))"
 
-#: rcgcdw.py:91 rcgcdw.py:107
+#: rcgcdw.py:99 rcgcdw.py:115
 msgid "Options"
 msgstr "Opcje"
 
-#: rcgcdw.py:93
-msgid "New file {name}"
-msgstr "Nowy plik {name}"
+#: rcgcdw.py:101
+msgid "Uploaded {name}"
+msgstr "Przesłał(a) {name}"
 
-#: rcgcdw.py:107
+#: rcgcdw.py:108
+msgid "**No license!**"
+msgstr "**Brak licencji!**"
+
+#: rcgcdw.py:115
 msgid "([preview]({link}))"
 msgstr "([podgląd]({link})"
 
-#: rcgcdw.py:108
+#: rcgcdw.py:116
 msgid ""
 "{desc}\n"
 "License: {license}"
@@ -46,209 +58,275 @@ msgstr ""
 "{desc}\n"
 "Licencja: {license}"
 
-#: rcgcdw.py:113
-msgid "Deleted {article}"
-msgstr "Usunięto {article}"
+#: rcgcdw.py:121
+msgid "Deleted page {article}"
+msgstr "Usunął/usunęła {article}"
 
-#: rcgcdw.py:118
-msgid "Deleted redirect ({article}) to make space for moved page"
+#: rcgcdw.py:126
+msgid "Deleted redirect {article} by overwriting"
 msgstr ""
-"Usunięto przekierowanie ({article}) aby utworzyć miejsce dla przenoszonej "
-"strony"
+"Usunął/usunęła przekierowanie ({article}) aby utworzyć miejsce dla "
+"przenoszonej strony"
 
-#: rcgcdw.py:122
+#: rcgcdw.py:130
 msgid "A redirect has been made"
 msgstr "Zostało utworzone przekierowanie"
 
-#: rcgcdw.py:122
+#: rcgcdw.py:130
 msgid "No redirect has been made"
 msgstr "Nie utworzono przekierowania"
 
-#: rcgcdw.py:123
-msgid "Moved \"{article}\" to \"{target}\""
-msgstr "Przeniesiono \"{article}\" do \"{target}\""
+#: rcgcdw.py:131
+msgid "Moved {article} to {target}"
+msgstr "Przeniósł/przeniosła {article} do {target}"
 
-#: rcgcdw.py:126
-msgid "Moved {article} to redirect page ({title})"
-msgstr "Przeniesiono {article} do przekierowania ({title})"
+#: rcgcdw.py:134
+msgid "Moved {article} to {title} over redirect"
+msgstr "Przeniósł/przeniosła {article} do strony przekierowującej {target}"
 
-#: rcgcdw.py:130
+#: rcgcdw.py:138
 msgid "Moved protection settings from {article} to {title}"
 msgstr "Przeniesiono ustawienia zabezpieczeń z {article} do {title}"
 
-#: rcgcdw.py:135
+#: rcgcdw.py:143
 msgid "infinity and beyond"
 msgstr "wieczność"
 
-#: rcgcdw.py:136
+#: rcgcdw.py:144
 msgid "Blocked {blocked_user} for {time}"
 msgstr "Zablokowano {blocked_user} na {time}"
 
-#: rcgcdw.py:142
-msgid "Reapplied the block on {blocked_user}"
-msgstr "Ponownie nałożono blokadę na {blocked_user}"
+#: rcgcdw.py:150
+msgid "Changed block settings for {blocked_user}"
+msgstr "Zmienił ustawienia blokady {blocked_user}"
 
-#: rcgcdw.py:148
-msgid "Removed the block on {blocked_user}"
-msgstr "Usunięto blokadę na {blocked_user}"
+#: rcgcdw.py:156
+msgid "Unblocked {blocked_user}"
+msgstr "Zablokował {blocked_user} na {time}"
 
-#: rcgcdw.py:153
+#: rcgcdw.py:161
 msgid "Left a comment on {target}'s profile"
 msgstr "Pozostawiono komentarz na profilu użytkownika {target}"
 
-#: rcgcdw.py:156
+#: rcgcdw.py:164
 msgid "Replied to a comment on {target}'s profile"
 msgstr "Odpowiedziano na komentarz na profilu użytkownika {target}"
 
-#: rcgcdw.py:159
+#: rcgcdw.py:167
 msgid "Edited a comment on {target}'s profile"
 msgstr "Edytowano komentarz na profilu użytkownika {target}"
 
-#: rcgcdw.py:163
+#: rcgcdw.py:171
 msgid "Location"
 msgstr "Lokacja"
 
-#: rcgcdw.py:165
+#: rcgcdw.py:173
 msgid "About me"
 msgstr "O mnie"
 
+#: rcgcdw.py:175
+msgid "Google link"
+msgstr "link Google"
+
+#: rcgcdw.py:177
+msgid "Facebook link"
+msgstr "link Facebook"
+
+#: rcgcdw.py:179
+msgid "Twitter link"
+msgstr "link Twitter"
+
+#: rcgcdw.py:181
+msgid "Reddit link"
+msgstr "link Reddit"
+
+#: rcgcdw.py:183
+msgid "Twitch link"
+msgstr "link Twitch"
+
 #: rcgcdw.py:185
+msgid "PSN link"
+msgstr "link PSN"
+
+#: rcgcdw.py:187
+msgid "VK link"
+msgstr "link VK"
+
+#: rcgcdw.py:189
+msgid "XVL link"
+msgstr "link XVL"
+
+#: rcgcdw.py:191
+msgid "Steam link"
+msgstr "link Steam"
+
+#: rcgcdw.py:193
 msgid "Unknown"
 msgstr "Nieznana"
 
-#: rcgcdw.py:186
+#: rcgcdw.py:194
 msgid "Edited {target}'s profile"
 msgstr "Edytowano profil użytkownika {target}"
 
-#: rcgcdw.py:187
+#: rcgcdw.py:195
 msgid "{field} field changed to: {desc}"
 msgstr "pole {field} zostało zmienione na: {desc}"
 
-#: rcgcdw.py:190
-msgid "Removed a comment on {target}'s profile"
-msgstr "Usunięto komentarz na profilu użytkownika {target}"
+#: rcgcdw.py:198
+msgid "Deleted a comment on {target}'s profile"
+msgstr "Usunął komentarz na profilu użytkownika {target}"
 
-#: rcgcdw.py:193
-msgid "Changed {target}'s user groups"
-msgstr "Zmieniono grupy użytkownika {target}"
+#: rcgcdw.py:201
+msgid "Changed group membership for {target}"
+msgstr "Zmieniono przynależność do grup dla {target}"
 
-#: rcgcdw.py:197 rcgcdw.py:199
+#: rcgcdw.py:205 rcgcdw.py:207
 msgid "none"
 msgstr "brak"
 
-#: rcgcdw.py:200
-msgid ""
-"Groups changed from {old_groups} to {new_groups} with reason given: {desc}"
-msgstr "Grupy zmienione z {old_groups} do {new_groups} z powodu: {desc}"
-
-#: rcgcdw.py:203
-msgid "Protected the page {target}"
-msgstr "Zabezpieczono stronę: {target}"
-
-#: rcgcdw.py:208
-msgid "Modified protection settings for {article}"
-msgstr "Zmodyfikowano ustawienia zabezpieczeń dla {article}"
-
-#: rcgcdw.py:213
-msgid "Removed protection for {article}"
-msgstr "Usunięto zabezpieczenia dla {article}"
-
-#: rcgcdw.py:217
-msgid "Removed revision(s) from public view for {article}"
-msgstr "Usunięto edycje z widoku publicznego dla {article}"
-
-#: rcgcdw.py:220
-msgid "Imported {article} with {count} revision(s)"
-msgstr "Zaimportowano {article} z {count} wersjami"
-
-#: rcgcdw.py:223
-msgid "Restored {article}"
-msgstr "Przywrócono {article)"
-
-#: rcgcdw.py:226
-msgid "Removed events"
-msgstr "Usunięto wydarzenia"
-
-#: rcgcdw.py:229
-msgid "Imported interwiki"
-msgstr "Zaimportowano interwiki"
-
-#: rcgcdw.py:232
-msgid "Edited abuse filter number {number}"
-msgstr "Edytowano filtr nadużyć numer (number)"
-
-#: rcgcdw.py:235
-msgid "Merged revision histories for {article}"
-msgstr "Połączono historie artykułu dla {article}"
-
-#: rcgcdw.py:238
-msgid "Added interwiki entry"
-msgstr "Dodano intwrwiki"
-
-#: rcgcdw.py:239 rcgcdw.py:243
-msgid "Prefix: {prefix}, website: {website} | {desc}"
-msgstr "Prefix: {prefix}, strona: {website} | desc"
-
-#: rcgcdw.py:242
-msgid "Edited interwiki entry"
-msgstr "Edytowano interwiki"
-
-#: rcgcdw.py:246
-msgid "Deleted interwiki entry"
-msgstr "Usunięto interwiki"
-
-#: rcgcdw.py:247
-msgid "Prefix: {prefix} | {desc}"
-msgstr "Prefix: {prefix} | {desc}"
-
-#: rcgcdw.py:250
-msgid "Changed content model of {article}"
-msgstr "Zmieniono model zawartości {article}"
-
-#: rcgcdw.py:251
-msgid "Model changed from {old} to {new}: {reason}"
-msgstr "Model został zmieniony z {old} na {new}: reason"
-
-#: rcgcdw.py:254
-msgid "Edited the sprite for {article}"
-msgstr "Edytowano sprite dla {article}"
-
-#: rcgcdw.py:257
-msgid "Created the sprite sheet for {article}"
-msgstr "Utworzono sprite sheet dla {article}"
-
-#: rcgcdw.py:260
-msgid "Edited the slice for {article}"
-msgstr "Edytowano część sprite dla {article}"
-
-#: rcgcdw.py:263
-msgid "Created a tag \"{tag}\""
-msgstr "Utworzono tag \"{tag}\""
-
-#: rcgcdw.py:266
-msgid "Deleted a tag \"{tag}\""
-msgstr "Usunięto tag \"{tag}\""
-
-#: rcgcdw.py:285
+#: rcgcdw.py:208 rcgcdw.py:302
 msgid "No description provided"
 msgstr "Nie podano opisu zmian"
 
-#: rcgcdw.py:366
+#: rcgcdw.py:209
+msgid "Groups changed from {old_groups} to {new_groups} {reason}"
+msgstr "Grupy zmienione z {old_groups} do {new_groups} {desc}"
+
+#: rcgcdw.py:212
+msgid "Protected {target}"
+msgstr "Zabezpieczono {target}"
+
+#: rcgcdw.py:217
+msgid "Changed protection level for {article}"
+msgstr "Zmieniono poziom zabezpieczeń {article}"
+
+#: rcgcdw.py:222
+msgid "Removed protection from {article}"
+msgstr "Usunięto zabezpieczenie {article}"
+
+#: rcgcdw.py:226
+msgid "Changed visibility of revision(s) on page {article} "
+msgstr "Zmieniono widoczność wersji na stroni {article}"
+
+#: rcgcdw.py:229
+msgid "Imported {article} with {count} revision(s)"
+msgstr "Zaimportowano {article} z {count} wersjami"
+
+#: rcgcdw.py:232
+msgid "Restored {article}"
+msgstr "Przywrócono {article)"
+
+#: rcgcdw.py:235
+msgid "Changed visibility of log events"
+msgstr "Zmieniono widoczność logów"
+
+#: rcgcdw.py:238
+msgid "Imported interwiki"
+msgstr "Zaimportowano interwiki"
+
+#: rcgcdw.py:241
+msgid "Edited abuse filter number {number}"
+msgstr "Edytowano filtr nadużyć numer (number)"
+
+#: rcgcdw.py:244
+msgid "Merged revision histories of {article} into {dest}"
+msgstr "Połączono historie {article} z {dest}"
+
+#: rcgcdw.py:247
+msgid "Added an entry to the interwiki table"
+msgstr "Dodano wpis do tabeli interwiki"
+
+#: rcgcdw.py:248 rcgcdw.py:252
+msgid "Prefix: {prefix}, website: {website} | {desc}"
+msgstr "Prefix: {prefix}, strona: {website} | desc"
+
+#: rcgcdw.py:251
+msgid "Edited an entry in interwiki table"
+msgstr "Edytowano wpis interwiki"
+
+#: rcgcdw.py:255
+msgid "Deleted an entry in interwiki table"
+msgstr "Usunięto wpis interwiki"
+
+#: rcgcdw.py:256
+msgid "Prefix: {prefix} | {desc}"
+msgstr "Prefix: {prefix} | {desc}"
+
+#: rcgcdw.py:259
+msgid "Changed the content model of the page {article}"
+msgstr "Zmieniono model zawartości {article}"
+
+#: rcgcdw.py:260
+msgid "Model changed from {old} to {new}: {reason}"
+msgstr "Model został zmieniony z {old} na {new}: reason"
+
+#: rcgcdw.py:263
+msgid "Edited the sprite for {article}"
+msgstr "Edytowano sprite dla {article}"
+
+#: rcgcdw.py:266
+msgid "Created the sprite sheet for {article}"
+msgstr "Utworzono sprite sheet dla {article}"
+
+#: rcgcdw.py:269
+msgid "Edited the slice for {article}"
+msgstr "Edytowano część sprite dla {article}"
+
+#: rcgcdw.py:272
+msgid "Created a tag \"{tag}\""
+msgstr "Utworzono tag \"{tag}\""
+
+#: rcgcdw.py:275
+msgid "Deleted a tag \"{tag}\""
+msgstr "Usunięto tag \"{tag}\""
+
+#: rcgcdw.py:278
+msgid "Activated a tag \"{tag}\""
+msgstr "Aktywowano tag \"{tag}\""
+
+#: rcgcdw.py:281
+msgid "Deactivated a tag \"{tag}\""
+msgstr "Dezaktywowano tag \"{tag}\""
+
+#: rcgcdw.py:387
 msgid "Unable to process the event"
 msgstr "Nie udało się odczytać wydarzenia"
 
-#: rcgcdw.py:366
+#: rcgcdw.py:387
 msgid "error"
 msgstr "błąd"
 
-#: rcgcdw.py:451
+#: rcgcdw.py:485
 msgid "Connection status"
 msgstr "Problem z połączeniem"
 
-#: rcgcdw.py:451
-msgid "https://i.imgur.com/2jWQEt1.png"
-msgstr "https://i.imgur.com/2jWQEt1.png"
-
-#: rcgcdw.py:451
+#: rcgcdw.py:485
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} nie działa lub jest nieosiągalna."
+
+#~ msgid "Moved {article} to redirect page ({title})"
+#~ msgstr "Przeniesiono {article} do przekierowania ({title})"
+
+#~ msgid "Removed the block on {blocked_user}"
+#~ msgstr "Usunięto blokadę na {blocked_user}"
+
+#~ msgid "Removed a comment on {target}'s profile"
+#~ msgstr "Usunięto komentarz na profilu użytkownika {target}"
+
+#~ msgid "Changed {target}'s user groups"
+#~ msgstr "Zmieniono grupy użytkownika {target}"
+
+#~ msgid "Modified protection settings for {article}"
+#~ msgstr "Zmodyfikowano ustawienia zabezpieczeń dla {article}"
+
+#~ msgid "Removed revision(s) from public view for {article}"
+#~ msgstr "Usunięto edycje z widoku publicznego dla {article}"
+
+#~ msgid "Removed events"
+#~ msgstr "Usunięto wydarzenia"
+
+#~ msgid "Added interwiki entry"
+#~ msgstr "Dodano intwrwiki"
+
+#~ msgid "https://i.imgur.com/2jWQEt1.png"
+#~ msgstr "https://i.imgur.com/2jWQEt1.png"

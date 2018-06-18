@@ -8,10 +8,6 @@ from urllib.parse import quote_plus
 logging.basicConfig(level=logging.DEBUG)
 #logging.warning('Watch out!')
 #DEBUG, INFO, WARNING, ERROR, CRITICAL
-pl = gettext.translation('rcgcdw', localedir='locale', languages=['pl'])
-pl.install()
-_ = lambda s: s
-
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
 	if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"]!=-1:
@@ -20,6 +16,10 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("")
 logging.info("Current settings: {settings}".format(settings=settings))
+lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
+lang.install()
+#_ = lambda s: s
+
 
 def send(message, name, avatar):
 	req = requests.post(settings["webhookURL"], data={"content": message, "avatar_url": avatar, "username": name}, timeout=10)
@@ -81,7 +81,7 @@ def webhook_formatter(action, timestamp, **params):
 			embed["author"]["icon_url"] = "https://d1u5p3l4wpay3k.cloudfront.net/minecraft_pl_gamepedia/d/df/Ksi%C4%85%C5%BCka_z_pi%C3%B3rem.png?version=d2b085f15fb5713091ed06f92f81c360"
 		else:
 			embed["author"]["icon_url"] = "https://framapic.org/VBVcOznftNsV/4a0fbBL7wkUo.png"
-		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+"+str(editsize) if editsize>0 else editsize, new= "(N!) " if action == 37 else "", minor="m " if action == 1 and params["minor"] else "")
+		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+"+str(editsize) if editsize>0 else editsize, new= _("(N!) ") if action == 37 else "", minor=_("m ") if action == 1 and params["minor"] else "")
 	elif action == 5: #sending files
 		urls = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(wiki=settings["wiki"], filename=params["title"])), "query", "pages")
 		undolink = ""
@@ -95,17 +95,17 @@ def webhook_formatter(action, timestamp, **params):
 			colornumber = 12390624
 			img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 			undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp), filenamewon = article_encoded[5:])
-			embed["title"] = _("New file version {name}").format(name=params["title"])
+			embed["title"] = _("Uploaded a new version of {name}").format(name=params["title"])
 			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(link=embed["image"]["url"], undolink=undolink)}]
 		else:
-			embed["title"] = _("New file {name}").format(name=params["title"])
+			embed["title"] = _("Uploaded {name}").format(name=params["title"])
 			article_content = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(wiki=settings["wiki"], article=quote_plus(params["title"], safe=''))), "query", "pages")
 			if article_content is None:
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
 			content = list(article_content.values())[0]['revisions'][0]['*'].lower()
 			if "{{license" not in content:
-				license = "**No license!**"
+				license = _("**No license!**")
 			else:
 				matches = re.search(r"\{\{license\ (.*?)\}\}", content)
 				if matches is not None:
@@ -118,20 +118,20 @@ def webhook_formatter(action, timestamp, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["author"]["icon_url"] = "https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png"
 		colornumber = 1
-		embed["title"] = _("Deleted {article}").format(article=params["title"])
+		embed["title"] = _("Deleted page {article}").format(article=params["title"])
 	elif action == 7:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["author"]["icon_url"] = "https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png"
 		colornumber = 1
-		embed["title"] = _("Deleted redirect ({article}) to make space for moved page").format(article=params["title"])
+		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=params["title"])
 	elif action == 14:
 		link = params["targetlink"]
 		embed["author"]["icon_url"] = "https://i.imgur.com/ZX02KBf.png"
 		params["desc"] = "{supress}. {desc}".format(desc=params["desc"], supress=_("No redirect has been made") if params["supress"] == True else _("A redirect has been made"))
-		embed["title"] = _("Moved \"{article}\" to \"{target}\"").format(article = params["title"], target=params["target"])
+		embed["title"] = _("Moved {article} to {target}").format(article = params["title"], target=params["target"])
 	elif action == 15:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Moved {article} to redirect page ({title})").format(article=params["title"], title=params["target"])
+		embed["title"] = _("Moved {article} to {title} over redirect").format(article=params["title"], title=params["target"])
 		embed["author"]["icon_url"]= "https://i.imgur.com/ZX02KBf.png"
 	elif action == 16:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
@@ -147,13 +147,13 @@ def webhook_formatter(action, timestamp, **params):
 	elif action == 19:
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"], user=params["blocked_user"].replace(" ", "_").replace(')', '\)'))
 		user = params["blocked_user"].split(':')[1]
-		embed["title"] = _("Reapplied the block on {blocked_user}").format(blocked_user=user)
+		embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=user)
 		colornumber = 1
 		embed["author"]["icon_url"] = "https://i.imgur.com/g7KgZHf.png"
 	elif action == 18:
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"], user=params["blocked_user"].replace(" ", "_").replace(')', '\)'))
 		user = params["blocked_user"].split(':')[1]
-		embed["title"] = _("Removed the block on {blocked_user}").format(blocked_user=user)
+		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
 		colornumber = 1
 		embed["author"]["icon_url"] = "https://i.imgur.com/g7KgZHf.png"
 	elif action == 25:
@@ -172,57 +172,58 @@ def webhook_formatter(action, timestamp, **params):
 		elif params["field"] == "profile-aboutme":
 			field = _("About me")
 		elif params["field"] == "profile-link-google":
-			field = "Google link"
+			field = _("Google link")
 		elif params["field"] == "profile-link-facebook":
-			field = "Facebook link"
+			field = _("Facebook link")
 		elif params["field"] == "profile-link-twitter":
-			field = "Twitter link"
+			field = _("Twitter link")
 		elif params["field"] == "profile-link-reddit":
-			field = "Reddit link"
+			field = _("Reddit link")
 		elif params["field"] == "profile-link-twitch":
-			field = "Twitch link"
+			field = _("Twitch link")
 		elif params["field"] == "profile-link-psn":
-			field = "PSN link"
+			field = _("PSN link")
 		elif params["field"] == "profile-link-vk":
-			field = "VK link"
+			field = _("VK link")
 		elif params["field"] == "profile-link-xbl":
-			field = "XVL link"
+			field = _("XVL link")
 		elif params["field"] == "profile-link-steam":
-			field = "Steam link"
+			field = _("Steam link")
 		else:
 			field = _("Unknown")
 		embed["title"] = _("Edited {target}'s profile").format(target=params["target"])
 		params["desc"] = _("{field} field changed to: {desc}").format(field=field, desc=params["desc"])
 	elif action == 27:
 		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
-		embed["title"] = _("Removed a comment on {target}'s profile").format(target=params["target"])
+		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=params["target"])
 	elif action == 20:
 		link = "https://{wiki}.gamepedia.com/"+params["user"].replace(" ", "_").replace(')', '\)')
-		embed["title"] = _("Changed {target}'s user groups").format(target=params["user"])
+		embed["title"] = _("Changed group membership for {target}").format(target=params["user"])
 		if params["old_groups"].count(' ') < params["new_groups"].count(' '):
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
 		if len(params["old_groups"]) < 4:
 			params["old_groups"] = _("none")
 		if len(params["new_groups"]) < 4:
 			params["new_groups"] = _("none")
-		params["desc"] = _("Groups changed from {old_groups} to {new_groups} with reason given: {desc}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], desc=params["desc"])
+		reason = "| {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
+		params["desc"] = _("Groups changed from {old_groups} to {new_groups} {reason}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], reason=reason)
 	elif action == 2:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Protected the page {target}").format(target=params["title"])
+		embed["title"] = _("Protected {target}").format(target=params["title"])
 		embed["author"]["icon_url"] ="https://i.imgur.com/Lfk0wuw.png"
 		params["desc"] = params["settings"] + " | " + params["desc"]
 	elif action == 3:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Modified protection settings for {article}").format(article=params["title"])
+		embed["title"] = _("Changed protection level for {article}").format(article=params["title"])
 		params["desc"] = params["settings"] + " | " + params["desc"]
 		embed["author"]["icon_url"] ="https://i.imgur.com/Lfk0wuw.png"
 	elif action == 4:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Removed protection for {article}").format(article=params["title"])
+		embed["title"] = _("Removed protection from {article}").format(article=params["title"])
 		embed["author"]["icon_url"] ="https://i.imgur.com/Lfk0wuw.png"
 	elif action == 9:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Removed revision(s) from public view for {article}").format(article=params["title"])
+		embed["title"] = _("Changed visibility of revision(s) on page {article} ").format(article=params["title"])
 	elif action == 11:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Imported {article} with {count} revision(s)").format(article=params["title"], count=params["amount"])
@@ -231,31 +232,31 @@ def webhook_formatter(action, timestamp, **params):
 		embed["title"] = _("Restored {article}").format(article=params["title"])
 	elif action == 10:
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
-		embed["title"] = _("Removed events")
+		embed["title"] = _("Changed visibility of log events")
 	elif action == 12:
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
 		embed["title"] = _("Imported interwiki")
 	elif action == 21:
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
 		embed["title"] = _("Edited abuse filter number {number}").format(number=params["filternr"])
-	elif action == 8:
+	elif action == 13:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Merged revision histories for {article}").format(article=params["title"])
+		embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=params["title"], dest=params["destination"])
 	elif action == 22:
 		link = "https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"])
-		embed["title"] = _("Added interwiki entry")
+		embed["title"] = _("Added an entry to the interwiki table")
 		params["desc"] =_("Prefix: {prefix}, website: {website} | {desc}").format(desc=params["desc"], prefix=params["prefix"], website=params["website"])
 	elif action == 23:
 		link = "https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"])
-		embed["title"] = _("Edited interwiki entry")
+		embed["title"] = _("Edited an entry in interwiki table")
 		params["desc"] =_("Prefix: {prefix}, website: {website} | {desc}").format(desc=params["desc"], prefix=params["prefix"], website=params["website"])
 	elif action == 24:
 		link = "https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"])
-		embed["title"] = _("Deleted interwiki entry")
+		embed["title"] = _("Deleted an entry in interwiki table")
 		params["desc"] =_("Prefix: {prefix} | {desc}").format(desc=params["desc"], prefix=params["prefix"])
 	elif action == 30:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Changed content model of {article}").format(article=params["title"])
+		embed["title"] = _("Changed the content model of the page {article}").format(article=params["title"])
 		params["desc"] = _("Model changed from {old} to {new}: {reason}").format(old=params["oldmodel"], new=params["newmodel"], reason=params["desc"])
 	elif action == 31:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
@@ -272,6 +273,12 @@ def webhook_formatter(action, timestamp, **params):
 	elif action == 35:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(article=params["additional"]["tag"])
+	elif action == 36:
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		embed["title"] = _("Activated a tag \"{tag}\"").format(article=params["additional"]["tag"])
+	elif action == 38:
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		embed["title"] = _("Deactivated a tag \"{tag}\"").format(article=params["additional"]["tag"])
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
@@ -283,6 +290,7 @@ def webhook_formatter(action, timestamp, **params):
 	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
 	embed["timestamp"] = timestamp
 	data["embeds"].append(dict(embed))
+	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
 	headers = {'Content-Type': 'application/json'}
 	#logging.debug(data)
@@ -322,7 +330,7 @@ def first_pass(change):
 		elif logtype=="import" and logaction=="interwiki":
 			webhook_formatter(12, change["timestamp"], user=change["user"], desc=parsedcomment)
 		elif logtype=="merge" :
-			webhook_formatter(13, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(13, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, destination=change["logparams"]["dest_title"])
 		elif logtype=="move" and logaction=="move":
 			webhook_formatter(14, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, supress=True if "suppressredirect" in change["logparams"] else False, target=change["logparams"]['target_title'], targetlink="https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"]) + change["logparams"]['target_title'].replace(" ", "_")) #TODO Remove the link making in here
 		elif logtype=="move" and logaction=="move_redir":
@@ -367,12 +375,16 @@ def first_pass(change):
 			webhook_formatter(34, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
 		elif logtype=="managetags" and logaction=="delete":
 			webhook_formatter(35, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
+		elif logtype=="managetags" and logaction=="activate":
+			webhook_formatter(36, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
+		elif logtype=="managetags" and logaction=="deactivate":
+			webhook_formatter(38, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
 		elif logtype=="tag" and logaction=="update":
-			webhook_formatter(36, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(39, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
 		else:
 			logging.warning("No entry matches given change!")
 			print (change)
-			send(_("Unable to process the event"), _("error"), "")
+			send(_("Unable to process the event"), _("error"), settings["avatars"]["no_event"])
 			return
 	if change["type"] == "external": #not sure what happens then, but it's listed as possible type
 		logging.warning("External event happened, ignoring.")
@@ -395,7 +407,7 @@ class recent_changes(object):
 			file_id = int(record.read().strip())
 			logging.debug("File_id is {val}".format(val=file_id))
 	else:
-		file_id = 9999999
+		file_id = 999999999
 	def add_cache(self, change):
 		self.cache.append(change)
 		self.ids.append(change["rcid"])
@@ -426,6 +438,8 @@ class recent_changes(object):
 				logging.warning("Wiki returned %s" % (request.json()))
 				return None
 			else:
+				if self.downtimecredibility > 0:
+					self.downtimecredibility -= 1
 				for change in changes:
 					if change["rcid"] in self.ids:
 						continue
@@ -468,7 +482,7 @@ class recent_changes(object):
 			self.downtimecredibility+=15
 		else:
 			if (time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
-				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wiki"]), _("Connection status"), _("https://i.imgur.com/2jWQEt1.png"))
+				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wiki"]), _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
 	
 recent_changes = recent_changes()
@@ -476,9 +490,7 @@ recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"
 	
 while 1:
 	time.sleep(float(settings["cooldown"]))
-	logging.debug(time.time())
 	recent_changes.fetch()
-	logging.debug(time.time())
 	if (recent_changes.day != datetime.date.fromtimestamp(time.time()).day):
 		logging.info("A brand new day! Printing the summary and clearing the cache")
 		#recent_changes.summary()
