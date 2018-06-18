@@ -2,9 +2,9 @@
 Recent changes Gamepedia compatible Discord webhook is a project made from earlier recent changes module of FriskBot. It has been remade as independent script for public usage. 
 
 ### Dependencies ###
-* **Python3 3.6>**
+* **Python 3.6>**
 * requests 2.18.4>
-* beautifulsoup4 4.6.0>
+* beautifulsoup 4.6.0>
 * lxml 4.2.1>
 
 ### Features ###
@@ -26,7 +26,8 @@ Explanation for settings:
 `avatars` – this section makes specific types of messages overwrite the default webhook avatar    
 * `connection_failed` – message printed when script fails connection with the wiki several times    
 * `no_event` – error message when the event couldn't be recognized by the script    
-* `embed` – every embed message showing changes     
+* `embed` – every embed message showing changes
+
 `verbose_level` – a number (min 0, max 50) identifying the type of messages that will be written into the console. (CRITICAL 50, ERROR 40, WARNING 30, INFO 20, DEBUG 10)    
 `show_updown_messages` – bool value, depending on this settings the messages whenever the wiki goes up and down will be sent to the channel
 
@@ -37,6 +38,7 @@ When you are sure, use `python rcgcdw.py` command to run the script.
 ### Credits ###
 Translators: 
 * MarkusRost for German translation
+* Minecraft Wiki English Discord server community, most notably Jack McKalling for input on how the script should work, especially formatting and what information should be there
 
 ### Other ###
 Script seem to use about 17MB of RAM and negligible amount of CPU when fetching changes.

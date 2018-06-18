@@ -44,8 +44,9 @@ def safe_read(request, *keys):
 		return None
 	return request
 	
-def webhook_formatter(action, timestamp, **params):
-	colornumber = None
+def webhook_formatter(action, STATIC, **params):
+	logging.debug("Received things: {thing}".format(thing=params))
+	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
 	data = {}
 	data["embeds"] = []
 	embed = defaultdict(dict)
@@ -82,10 +83,6 @@ def webhook_formatter(action, timestamp, **params):
 		elif editsize == 0:
 			colornumber = 8750469
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"], article=article_encoded)
-		if action == 1:
-			embed["author"]["icon_url"] = "https://d1u5p3l4wpay3k.cloudfront.net/minecraft_pl_gamepedia/d/df/Ksi%C4%85%C5%BCka_z_pi%C3%B3rem.png?version=d2b085f15fb5713091ed06f92f81c360"
-		else:
-			embed["author"]["icon_url"] = "https://framapic.org/VBVcOznftNsV/4a0fbBL7wkUo.png"
 		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+"+str(editsize) if editsize>0 else editsize, new= _("(N!) ") if action == 37 else "", minor=_("m ") if action == 1 and params["minor"] else "")
 	elif action == 5: #sending files
 		urls = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(wiki=settings["wiki"], filename=params["title"])), "query", "pages")
@@ -97,7 +94,6 @@ def webhook_formatter(action, timestamp, **params):
 		else:
 			return
 		if params["overwrite"]:
-			colornumber = 12390624
 			img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 			undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp), filenamewon = article_encoded[5:])
 			embed["title"] = _("Uploaded a new version of {name}").format(name=params["title"])
@@ -121,46 +117,33 @@ def webhook_formatter(action, timestamp, **params):
 			params["desc"] = _("{desc}\nLicense: {license}").format(desc=params["desc"], license=license)
 	elif action == 6:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["author"]["icon_url"] = "https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png"
-		colornumber = 1
 		embed["title"] = _("Deleted page {article}").format(article=params["title"])
 	elif action == 7:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["author"]["icon_url"] = "https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png"
-		colornumber = 1
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=params["title"])
 	elif action == 14:
 		link = params["targetlink"]
-		embed["author"]["icon_url"] = "https://i.imgur.com/ZX02KBf.png"
 		params["desc"] = "{supress}. {desc}".format(desc=params["desc"], supress=_("No redirect has been made") if params["supress"] == True else _("A redirect has been made"))
 		embed["title"] = _("Moved {article} to {target}").format(article = params["title"], target=params["target"])
 	elif action == 15:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Moved {article} to {title} over redirect").format(article=params["title"], title=params["target"])
-		embed["author"]["icon_url"]= "https://i.imgur.com/ZX02KBf.png"
 	elif action == 16:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Moved protection settings from {article} to {title}").format(article=params["title"], title=params["target"])
-		embed["author"]["icon_url"]= "https://i.imgur.com/ZX02KBf.png"
 	elif action == 17:
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"], user=params["blocked_user"].replace(" ", "_").replace(')', '\)'))
 		user = params["blocked_user"].split(':')[1]
 		time =_( "infinity and beyond") if params["duration"] == "infinite" else params["duration"] 
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=time)
-		colornumber = 1
-		embed["author"]["icon_url"] = "https://i.imgur.com/g7KgZHf.png"
 	elif action == 19:
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"], user=params["blocked_user"].replace(" ", "_").replace(')', '\)'))
 		user = params["blocked_user"].split(':')[1]
 		embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=user)
-		colornumber = 1
-		embed["author"]["icon_url"] = "https://i.imgur.com/g7KgZHf.png"
 	elif action == 18:
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"], user=params["blocked_user"].replace(" ", "_").replace(')', '\)'))
 		user = params["blocked_user"].split(':')[1]
 		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
-		colornumber = 1
-		embed["author"]["icon_url"] = "https://i.imgur.com/g7KgZHf.png"
 	elif action == 25:
 		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Left a comment on {target}'s profile").format(target=params["target"])
@@ -215,17 +198,14 @@ def webhook_formatter(action, timestamp, **params):
 	elif action == 2:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Protected {target}").format(target=params["title"])
-		embed["author"]["icon_url"] ="https://i.imgur.com/Lfk0wuw.png"
 		params["desc"] = params["settings"] + " | " + params["desc"]
 	elif action == 3:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Changed protection level for {article}").format(article=params["title"])
 		params["desc"] = params["settings"] + " | " + params["desc"]
-		embed["author"]["icon_url"] ="https://i.imgur.com/Lfk0wuw.png"
 	elif action == 4:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Removed protection from {article}").format(article=params["title"])
-		embed["author"]["icon_url"] ="https://i.imgur.com/Lfk0wuw.png"
 	elif action == 9:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Changed visibility of revision(s) on page {article} ").format(article=params["title"])
@@ -288,12 +268,13 @@ def webhook_formatter(action, timestamp, **params):
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
 	embed["author"]["url"] = author_url
+	embed["auther"]["icon"] = STATIC["icon"]
 	embed["url"] = link
 	if "desc" not in params:
 		params["desc"] = ""
 	embed["description"] = params["desc"]
 	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
-	embed["timestamp"] = timestamp
+	embed["timestamp"] = STATIC["timestamp"]
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -301,92 +282,102 @@ def webhook_formatter(action, timestamp, **params):
 	#logging.debug(data)
 	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
 		
-def first_pass(change):
+def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
 	logging.debug(change)
+	STATIC_VARS = {"timestamp": change["timestamp"]}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit":
-		webhook_formatter(1,  change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"]-change["oldlen"], minor= True if "minor" in change else False)
+		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"]["edit"]["color"], "icon": settings["appearance"]["edit"]["icon"]}}
+		webhook_formatter(1,  STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"]-change["oldlen"], minor= True if "minor" in change else False)
 	elif change["type"] == "log":
 		logtype = change["logtype"]
 		logaction = change["logaction"]
+		combination = "{logtype}/{logaction}".format(logtype=logtype, logaction=logaction)
+		logging.debug("combination is {}".format(combination))
+		try:
+			settings["appearance"][combination]
+		except KeyError:
+			STATIC_VARS = {**STATIC_VARS ,**{"color": "", "icon": ""}}
+			logging.error("No value in the settings has been given for {}".format(combination))
+		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
 		if logtype=="protect" and logaction=="protect":
-			webhook_formatter(2, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
+			webhook_formatter(2, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
 		elif logtype=="protect" and logaction=="modify":
-			webhook_formatter(3, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
+			webhook_formatter(3, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
 		elif logtype=="protect" and logaction=="unprotect":
-			webhook_formatter(4, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(4, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="upload" and logaction=="overwrite":
-			webhook_formatter(5, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment,  overwrite=True)
+			webhook_formatter(5, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,  overwrite=True)
 		elif logtype=="upload":
-			webhook_formatter(5, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment,  overwrite=False)
+			webhook_formatter(5, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,  overwrite=False)
 		elif logtype=="delete" and logaction=="delete":
-			webhook_formatter(6, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(6, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="delete" and logaction=="delete_redir":
-			webhook_formatter(7, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(7, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="delete" and logaction=="restore":
-			webhook_formatter(8, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(8, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="delete" and logaction=="revision":
-			webhook_formatter(9, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(9, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="delete" and logaction=="event":
-			webhook_formatter(10, change["timestamp"], user=change["user"], desc=parsedcomment)
+			webhook_formatter(10, STATIC_VARS, user=change["user"], desc=parsedcomment)
 		elif logtype=="import" and logaction=="upload":
-			webhook_formatter(11, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, amount=change["logparams"]["count"])
+			webhook_formatter(11, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, amount=change["logparams"]["count"])
 		elif logtype=="import" and logaction=="interwiki":
-			webhook_formatter(12, change["timestamp"], user=change["user"], desc=parsedcomment)
+			webhook_formatter(12, STATIC_VARS, user=change["user"], desc=parsedcomment)
 		elif logtype=="merge" :
-			webhook_formatter(13, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, destination=change["logparams"]["dest_title"])
+			webhook_formatter(13, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, destination=change["logparams"]["dest_title"])
 		elif logtype=="move" and logaction=="move":
-			webhook_formatter(14, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, supress=True if "suppressredirect" in change["logparams"] else False, target=change["logparams"]['target_title'], targetlink="https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"]) + change["logparams"]['target_title'].replace(" ", "_")) #TODO Remove the link making in here
+			webhook_formatter(14, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, supress=True if "suppressredirect" in change["logparams"] else False, target=change["logparams"]['target_title'], targetlink="https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"]) + change["logparams"]['target_title'].replace(" ", "_")) #TODO Remove the link making in here
 		elif logtype=="move" and logaction=="move_redir":
-			webhook_formatter(15, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, target=change["logparams"]["target_title"])
+			webhook_formatter(15, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, target=change["logparams"]["target_title"])
 		elif logtype=="protect" and logaction=="move_prot":
-			webhook_formatter(16, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, target=change["logparams"]["oldtitle_title"])
+			webhook_formatter(16, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, target=change["logparams"]["oldtitle_title"])
 		elif logtype=="block" and logaction=="block":
-			webhook_formatter(17, change["timestamp"], user=change["user"], blocked_user=change["title"], desc=parsedcomment, duration=change["logparams"]["duration"])
+			webhook_formatter(17, STATIC_VARS, user=change["user"], blocked_user=change["title"], desc=parsedcomment, duration=change["logparams"]["duration"])
 		elif logtype=="block" and logaction=="unblock":
-			webhook_formatter(18, change["timestamp"], user=change["user"], blocked_user=change["title"], desc=parsedcomment)
+			webhook_formatter(18, STATIC_VARS, user=change["user"], blocked_user=change["title"], desc=parsedcomment)
 		elif logtype=="block":
-			webhook_formatter(19, change["timestamp"], user=change["user"], blocked_user=change["title"], desc=parsedcomment)
+			webhook_formatter(19, STATIC_VARS, user=change["user"], blocked_user=change["title"], desc=parsedcomment)
 		elif logtype=="rights":
-			webhook_formatter(20, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, old_groups=' '.join(change["logparams"]["oldgroups"]), new_groups=' '.join(change["logparams"]["newgroups"]))
+			webhook_formatter(20, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, old_groups=' '.join(change["logparams"]["oldgroups"]), new_groups=' '.join(change["logparams"]["newgroups"]))
 		elif logtype=="abusefilter":
-			webhook_formatter(21, change["timestamp"], user=change["user"], desc=parsedcomment, filternr=change["logparams"]['1'])
+			webhook_formatter(21, STATIC_VARS, user=change["user"], desc=parsedcomment, filternr=change["logparams"]['1'])
 		elif logtype=="interwiki" and logaction=="iw_add":
-			webhook_formatter(22, change["timestamp"], user=change["user"], desc=parsedcomment, prefix=change["logparams"]['0'], website=change["logparams"]['1'])
+			webhook_formatter(22, STATIC_VARS, user=change["user"], desc=parsedcomment, prefix=change["logparams"]['0'], website=change["logparams"]['1'])
 		elif logtype=="interwiki" and logaction=="iw_edit":
-			webhook_formatter(23, change["timestamp"], user=change["user"], desc=parsedcomment, prefix=change["logparams"]['0'], website=change["logparams"]['1'])
+			webhook_formatter(23, STATIC_VARS, user=change["user"], desc=parsedcomment, prefix=change["logparams"]['0'], website=change["logparams"]['1'])
 		elif logtype=="interwiki" and logaction=="iw_delete":
-			webhook_formatter(24, change["timestamp"], user=change["user"], desc=parsedcomment, prefix=change["logparams"]['0'])
+			webhook_formatter(24, STATIC_VARS, user=change["user"], desc=parsedcomment, prefix=change["logparams"]['0'])
 		elif logtype=="curseprofile" and logaction=="comment-created":
-			webhook_formatter(25, change["timestamp"], user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(25, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
 		elif logtype=="curseprofile" and logaction=="comment-edited":
-			webhook_formatter(26, change["timestamp"], user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(26, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
 		elif logtype=="curseprofile" and logaction=="comment-deleted":
-			webhook_formatter(27, change["timestamp"], user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(27, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
 		elif logtype=="curseprofile" and logaction=="profile-edited":
-			webhook_formatter(28, change["timestamp"], user=change["user"], target=change["title"].split(':')[1], field=change["logparams"]['0'], desc=change["parsedcomment"])
+			webhook_formatter(28, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1], field=change["logparams"]['0'], desc=change["parsedcomment"])
 		elif logtype=="curseprofile" and logaction=="comment-replied":
-			webhook_formatter(29, change["timestamp"], user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(29, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
 		elif logtype=="contentmodel" and logaction=="change":
-			webhook_formatter(30, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, oldmodel=change["logparams" ]["oldmodel"], newmodel=change["logparams" ]["newmodel"])
-		elif logtype=="sprite" and logaction=="sprite": #spritesheet extension present on English Minecraft Wiki
-			webhook_formatter(31, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(30, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, oldmodel=change["logparams" ]["oldmodel"], newmodel=change["logparams" ]["newmodel"])
+		elif logtype=="sprite" and logaction=="sprite":
+			webhook_formatter(31, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="sprite" and logaction=="sheet":
-			webhook_formatter(32, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(32, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="sprite" and logaction=="slice":
-			webhook_formatter(33, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(33, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="managetags" and logaction=="create":
-			webhook_formatter(34, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
+			webhook_formatter(34, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="managetags" and logaction=="delete":
-			webhook_formatter(35, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
+			webhook_formatter(35, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="managetags" and logaction=="activate":
-			webhook_formatter(36, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
+			webhook_formatter(36, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="managetags" and logaction=="deactivate":
-			webhook_formatter(38, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
+			webhook_formatter(38, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="tag" and logaction=="update":
-			webhook_formatter(39, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(39, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		else:
 			logging.warning("No entry matches given change!")
 			print (change)
@@ -397,7 +388,8 @@ def first_pass(change):
 		print (change)
 		return
 	elif change["type"] == "new": #new page
-		webhook_formatter(37, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"])
+		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"]["new"]["color"], "icon": settings["appearance"]["new"]["icon"]}}
+		webhook_formatter(37, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"])
 
 class recent_changes(object):
 	starttime = time.time()
@@ -412,7 +404,7 @@ class recent_changes(object):
 			file_id = int(record.read().strip())
 			logging.debug("File_id is {val}".format(val=file_id))
 	else:
-		file_id = 999999999
+		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happens
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
 		#self.recent_id = change["rcid"]

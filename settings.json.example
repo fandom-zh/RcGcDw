@@ -1,19 +1,181 @@
 {
-	"cooldown": 30,
-	"wiki": "minecraft",
-	"lang": "en",
-	"header": {
-		"user-agent": "FrisksRcGcDw/0.5"
-		},
-	"limit": 11,
-	"webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"limitrefetch": 28,
-	"wikiname": "Minecraft Wiki",
-	"avatars": {
-		"connection_failed": "https://i.imgur.com/2jWQEt1.png",
-		"no_event": "",
-		"embed": ""
-	},
-	"verbose_level": 0,
-	"show_updown_messages": true
+   "cooldown": 30,
+   "wiki": "minecraft",
+   "lang": "en",
+   "header": {
+      "user-agent": "FrisksRcGcDw/0.5"
+      },
+   "limit": 11,
+   "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "limitrefetch": 28,
+   "wikiname": "Minecraft Wiki",
+   "avatars": {
+      "connection_failed": "https://i.imgur.com/2jWQEt1.png",
+      "no_event": "",
+      "embed": ""
+   },
+   "verbose_level": 0,
+   "show_updown_messages": true,
+   "appearance":{
+      "new":{
+         "icon":"https://framapic.org/VBVcOznftNsV/4a0fbBL7wkUo.png",
+         "color":"THIS COLOR DEPENDS ON EDIT SIZE, PLEASE DON'T CHANGE"
+      },
+      "edit":{
+         "icon":"https://d1u5p3l4wpay3k.cloudfront.net/minecraft_pl_gamepedia/d/df/Ksi%C4%85%C5%BCka_z_pi%C3%B3rem.png?version=d2b085f15fb5713091ed06f92f81c360",
+         "color":"THIS COLOR DEPENDS ON EDIT SIZE, PLEASE DON'T CHANGE"
+      },
+      "upload/overwrite":{
+         "icon":"",
+         "color":12390624
+      },
+      "upload/upload":{
+         "icon":"",
+         "color":null
+      },
+      "delete/delete":{
+         "icon":"https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png",
+         "color":1
+      },
+      "delete/delete_redir":{
+         "icon":"https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png",
+         "color":1
+      },
+      "delete/restore":{
+         "icon":"",
+         "color":null
+      },
+      "delete/revision":{
+         "icon":"",
+         "color":null
+      },
+      "delete/event":{
+         "icon":"",
+         "color":null
+      },
+      "merge/merge":{
+         "icon":"",
+         "color":null
+      },
+      "move/move":{
+         "icon":"https://i.imgur.com/ZX02KBf.png",
+         "color":null
+      },
+      "move/move_redir":{
+         "icon":"https://i.imgur.com/ZX02KBf.png",
+         "color":null
+      },
+      "block/block":{
+         "icon":"https://i.imgur.com/g7KgZHf.png",
+         "color":1
+      },
+      "block/unblock":{
+         "icon":"https://i.imgur.com/g7KgZHf.png",
+         "color":1
+      },
+      "block/reblock":{
+         "icon":"https://i.imgur.com/g7KgZHf.png",
+         "color":1
+      },
+      "protect/protect":{
+         "icon":"https://i.imgur.com/Lfk0wuw.png",
+         "color":null
+      },
+      "protect/modify":{
+         "icon":"https://i.imgur.com/Lfk0wuw.png",
+         "color":null
+      },
+      "protect/move_prot":{
+         "icon":"https://i.imgur.com/ZX02KBf.png",
+         "color":null
+      },
+      "protect/unprotect":{
+         "icon":"https://i.imgur.com/Lfk0wuw.png",
+         "color":null
+      },
+      "import/upload":{
+         "icon":"",
+         "color":null
+      },
+      "import/interwiki":{
+         "icon":"",
+         "color":null
+      },
+      "rights/rights":{
+         "icon":"",
+         "color":null
+      },
+      "abusefilter/abusefilter":{
+         "icon":"",
+         "color":null
+      },
+      "interwiki/iw_add":{
+         "icon":"",
+         "color":null
+      },
+      "interwiki/iw_edit":{
+         "icon":"",
+         "color":null
+      },
+      "interwiki/iw_delete":{
+         "icon":"",
+         "color":null
+      },
+      "curseprofile/comment-created":{
+         "icon":"",
+         "color":null
+      },
+      "curseprofile/comment-edited":{
+         "icon":"",
+         "color":null
+      },
+      "curseprofile/comment-deleted":{
+         "icon":"",
+         "color":null
+      },
+      "curseprofile/comment-replied":{
+         "icon":"",
+         "color":null
+      },
+      "curseprofile/profile-edited":{
+         "icon":"",
+         "color":null
+      },
+      "contentmodel/change":{
+         "icon":"",
+         "color":null
+      },
+      "sprite/sprite":{
+         "icon":"",
+         "color":null
+      },
+      "sprite/sheet":{
+         "icon":"",
+         "color":null
+      },
+      "sprite/slice":{
+         "icon":"",
+         "color":null
+      },
+      "managetags/create":{
+         "icon":"",
+         "color":null
+      },
+      "managetags/delete":{
+         "icon":"",
+         "color":null
+      },
+      "managetags/activate":{
+         "icon":"",
+         "color":null
+      },
+      "managetags/deactivate":{
+         "icon":"",
+         "color":null
+      },
+      "tag/update":{
+         "icon":"",
+         "color":null
+      }
+   }
 } 
