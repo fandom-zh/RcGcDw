@@ -24,13 +24,19 @@ Explanation for settings:
 `limitrefetch` – limit of how many changes can be retrieved when refetch happens, cannot be lower than limit. -1 if you want to disable auto-refetch    
 `wikiname` – a name of the wiki the bot will work on, required in some messages    
 `avatars` – this section makes specific types of messages overwrite the default webhook avatar    
-`connection_failed` – message printed when script fails connection with the wiki several times    
-`no_event` – error message when the event couldn't be recognized by the script    
-`embed` – every embed message showing changes     
+* `connection_failed` – message printed when script fails connection with the wiki several times    
+* `no_event` – error message when the event couldn't be recognized by the script    
+* `embed` – every embed message showing changes     
+`verbose_level` – a number (min 0, max 50) identifying the type of messages that will be written into the console. (CRITICAL 50, ERROR 40, WARNING 30, INFO 20, DEBUG 10)    
+`show_updown_messages` – bool value, depending on this settings the messages whenever the wiki goes up and down will be sent to the channel
 
 ### How to use ###
 Make sure you have installed all of dependencies and filled settings.json properly.
 When you are sure, use `python rcgcdw.py` command to run the script.
+
+### Credits ###
+Translators: 
+* MarkusRost for German translation
 
 ### Other ###
 Script seem to use about 17MB of RAM and negligible amount of CPU when fetching changes.

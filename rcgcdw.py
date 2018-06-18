@@ -274,16 +274,16 @@ def webhook_formatter(action, timestamp, **params):
 		embed["title"] = _("Edited the slice for {article}").format(article=params["title"])
 	elif action == 34:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Created a tag \"{tag}\"").format(article=params["additional"]["tag"])
+		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == 35:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Deleted a tag \"{tag}\"").format(article=params["additional"]["tag"])
+		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == 36:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Activated a tag \"{tag}\"").format(article=params["additional"]["tag"])
+		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == 38:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
-		embed["title"] = _("Deactivated a tag \"{tag}\"").format(article=params["additional"]["tag"])
+		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
@@ -303,6 +303,7 @@ def webhook_formatter(action, timestamp, **params):
 		
 def first_pass(change):
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
+	logging.debug(change)
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit":
@@ -370,20 +371,20 @@ def first_pass(change):
 			webhook_formatter(29, change["timestamp"], user=change["user"], target=change["title"].split(':')[1])
 		elif logtype=="contentmodel" and logaction=="change":
 			webhook_formatter(30, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, oldmodel=change["logparams" ]["oldmodel"], newmodel=change["logparams" ]["newmodel"])
-		elif logtype=="sprite" and logaction=="sprite":
+		elif logtype=="sprite" and logaction=="sprite": #spritesheet extension present on English Minecraft Wiki
 			webhook_formatter(31, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="sprite" and logaction=="sheet":
 			webhook_formatter(32, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="sprite" and logaction=="slice":
 			webhook_formatter(33, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
 		elif logtype=="managetags" and logaction=="create":
-			webhook_formatter(34, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
+			webhook_formatter(34, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="managetags" and logaction=="delete":
-			webhook_formatter(35, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
+			webhook_formatter(35, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="managetags" and logaction=="activate":
-			webhook_formatter(36, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
+			webhook_formatter(36, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="managetags" and logaction=="deactivate":
-			webhook_formatter(38, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["params"])
+			webhook_formatter(38, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment, additional=change["logparams"])
 		elif logtype=="tag" and logaction=="update":
 			webhook_formatter(39, change["timestamp"], user=change["user"], title=change["title"], desc=parsedcomment)
 		else:
@@ -401,7 +402,6 @@ def first_pass(change):
 class recent_changes(object):
 	starttime = time.time()
 	day = datetime.date.fromtimestamp(time.time()).day
-	cache = []
 	ids = []
 	map_ips = {}
 	recent_id = 0
@@ -414,7 +414,6 @@ class recent_changes(object):
 	else:
 		file_id = 999999999
 	def add_cache(self, change):
-		self.cache.append(change)
 		self.ids.append(change["rcid"])
 		#self.recent_id = change["rcid"]
 		if len(self.ids) > settings["limit"]+5:
@@ -428,8 +427,8 @@ class recent_changes(object):
 				record.write(str(self.file_id))
 		logging.debug("Most recent rcid is: {}".format(self.recent_id))
 	def fetch_changes(self, amount, clean=False):
-		if len(self.cache) == 0:
-			logging.debug("cache is empty, triggering clean fetch")
+		if len(self.ids) == 0:
+			logging.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal".format(wiki=settings["wiki"], amount=amount))
 		if changes:
@@ -501,6 +500,10 @@ class recent_changes(object):
 	
 recent_changes = recent_changes()
 recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
+
+if 1 == 2:
+	#some translations for later use in different places
+	print ([_("{wiki} is back up!"), _("Most active user"), _("Edits made"), _("New files"), _("Admin actions"), _("Unique contributors"), _("Bytes changed"), _("Day score"), _("New articles")])
 	
 while 1:
 	time.sleep(float(settings["cooldown"]))

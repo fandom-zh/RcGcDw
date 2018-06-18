@@ -1,10 +1,19 @@
 {
 	"cooldown": 30,
 	"wiki": "minecraft",
+	"lang": "en",
 	"header": {
-		"user-agent": "FrisksRcGcDw/0.1"
+		"user-agent": "FrisksRcGcDw/0.5"
 		},
 	"limit": 11,
-	"webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	"webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+	"limitrefetch": 28,
+	"wikiname": "Minecraft Wiki",
+	"avatars": {
+		"connection_failed": "https://i.imgur.com/2jWQEt1.png",
+		"no_event": "",
+		"embed": ""
+	},
+	"verbose_level": 0,
+	"show_updown_messages": true
 } 
-	
