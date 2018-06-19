@@ -268,7 +268,7 @@ def webhook_formatter(action, STATIC, **params):
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
 	embed["author"]["url"] = author_url
-	embed["auther"]["icon"] = STATIC["icon"]
+	embed["author"]["icon"] = STATIC["icon"]
 	embed["url"] = link
 	if "desc" not in params:
 		params["desc"] = ""
