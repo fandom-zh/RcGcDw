@@ -4,6 +4,22 @@
 #WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 #You have been warned
 
+#Recent changes Gamepedia compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
+#Copyright (C) 2018 Frisk
+
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU Affero General Public License as published
+#by the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU Affero General Public License for more details.
+
+#You should have received a copy of the GNU Affero General Public License
+#along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter

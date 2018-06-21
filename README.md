@@ -45,6 +45,7 @@ If you want I can host the script for you for free. Just [contact me](https://mi
 
 Translators: 
 * MarkusRost for German translation
+* JSBM for French translation
 
 ### Other ###
 Script seem to use about 17MB of RAM and negligible amount of CPU when fetching changes.    
