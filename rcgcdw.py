@@ -1,9 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path
+#WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
+#You have been warned
+
+import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
 from bs4 import BeautifulSoup
-from collections import defaultdict
+from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 #logging.warning('Watch out!')
 #DEBUG, INFO, WARNING, ERROR, CRITICAL
@@ -21,7 +24,6 @@ if settings["lang"] != "en" or settings["lang"] == "":
 	lang.install()
 else:
 	_ = lambda s: s
-
 
 def send(message, name, avatar):
 	try:
@@ -105,10 +107,10 @@ def webhook_formatter(action, STATIC, **params):
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
 			content = list(article_content.values())[0]['revisions'][0]['*'].lower()
-			if "{{license" not in content:
+			if "{{license" not in content and "{{lizenz" not in content: #de-mcw
 				license = _("**No license!**")
 			else:
-				matches = re.search(r"\{\{license\ (.*?)\}\}", content)
+				matches = re.search(r"\{\{(license|lizenz)(\ |\|)(.*?)\}\}", content)
 				if matches is not None:
 					license = matches.group(1)
 				else:
@@ -268,7 +270,7 @@ def webhook_formatter(action, STATIC, **params):
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
 	embed["author"]["url"] = author_url
-	embed["author"]["icon"] = STATIC["icon"]
+	embed["author"]["icon_url"] = STATIC["icon"]
 	embed["url"] = link
 	if "desc" not in params:
 		params["desc"] = ""
@@ -390,15 +392,122 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 	elif change["type"] == "new": #new page
 		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"]["new"]["color"], "icon": settings["appearance"]["new"]["icon"]}}
 		webhook_formatter(37, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"])
+		
+def day_overview_request():
+	logging.info("Fetching daily overview... This may take up to 30 seconds!")
+	timestamp = (datetime.datetime.utcnow()-datetime.timedelta(hours=24)).isoformat(timespec='milliseconds')
+	logging.debug("timestamp is {}".format(timestamp))
+	complete = False
+	result = []
+	passes = 0
+	continuearg = ""
+	while not complete and passes < 10:
+		request = recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcend={timestamp}Z&rcprop=title%7Ctimestamp%7Csizes%7Cloginfo%7Cuser&rcshow=!bot&rclimit=500&rctype=edit%7Cnew%7Clog%7Ccategorize{continuearg}".format(wiki=settings["wiki"], timestamp=timestamp, continuearg=continuearg))
+		if request:	
+			try:
+				request = request.json()
+				rc = request['query']['recentchanges']
+				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
+			except ValueError:
+				logging.warning("ValueError in fetching changes")
+				self.downtime_controller()
+				complete = 2
+			except KeyError:
+				logging.warning("Wiki returned %s" % (request.json()))
+				complete = 2
+			else:
+				result+= rc
+				if continuearg:
+					continuearg = "&rccontinue={}".format(continuearg)
+					passes+=1
+					logging.debug("continuing requesting next pages of recent changes with {} passes and continuearg being {}".format(passes, continuearg))
+					time.sleep(3.0)
+				else:
+					complete = 1
+		else:
+			complete = 2
+	if passes == 10:
+		logging.debug("quit the loop because there been too many passes")
+	return (result, complete)
 
-class recent_changes(object):
+def add_to_dict(dictionary, key):
+	if key in dictionary:
+		dictionary[key]+=1
+	else:
+		dictionary[key]=1
+	return dictionary
+
+def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.time()))
+	#(datetime.datetime.utcnow()+datetime.timedelta(hours=0)).isoformat(timespec='milliseconds')+'Z'
+	result = day_overview_request()
+	if result[1] == 1:
+		activity = defaultdict(dict)
+		hours = defaultdict(dict)
+		edits = 0
+		files = 0
+		admin = 0
+		changed_bytes = 0
+		new_articles = 0
+		for item in result[0]:
+			activity = add_to_dict(activity, item["user"])
+			hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
+			if item["type"]=="edit":
+				edits += 1
+				changed_bytes += item["newlen"]-item["oldlen"]
+			if item["type"] == "new":
+				if item["ns"] == 0:
+					new_articles+=1
+				changed_bytes += item["newlen"]
+			if item["type"] == "log":
+				files = files+1 if item["logtype"] == item["logaction"] == "upload" else files
+				admin = admin+1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights", "abusefilter", "interwiki", "managetags"] else admin
+		overall = new_articles+edits*0.1+files*0.3+admin*0.1+changed_bytes*0.01
+		embed = defaultdict(dict)
+		embed["title"] = _("Daily overview")
+		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
+		embed["color"] = settings["appearance"]["daily_overview"]["color"]
+		if activity:
+			v = activity.values()
+			active_users = []
+			for user, numberu in Counter(activity).most_common(list(v).count(max(v))): #find most active users
+				active_users.append(user)
+			the_one = random.choice(active_users)
+			embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
+			embed["author"]["name"] = the_one
+			if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", the_one) is not None:
+				author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"], user=the_one)
+			else:
+				author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=the_one)
+			embed["author"]["url"] = author_url
+			v = hours.values()
+			active_hours = []
+			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))): #find most active users
+				active_hours.append(str(hour))
+		else:
+			active_users = [_("But nobody came")] #a reference to my favorite game of all the time, sorry ^_^
+			active_hours = [_("But nobody came")]
+			numberu, numberh = (0, 0)
+		embed["fields"] = []
+		fields = ((_("Most active users"), ', '.join(active_users) + "({})".format(numberu)), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + "({})".format(numberh)), (_("Day score"), str(overall)))
+		for name, value in fields:
+			embed["fields"].append({"name": name, "value": value})
+		data = {}
+		data["embeds"] = [dict(embed)]
+		formatted_embed = json.dumps(data, indent=4)
+		headers = {'Content-Type': 'application/json'}
+		logging.debug(formatted_embed)
+		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+	else:
+		logging.debug("function requesting changes for day overview returned with error code")
+
+class recent_changes_class(object):
 	starttime = time.time()
-	day = datetime.date.fromtimestamp(time.time()).day
 	ids = []
 	map_ips = {}
 	recent_id = 0
 	downtimecredibility = 0
 	last_downtime = 0
+	clock = 0
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_id = int(record.read().strip())
@@ -432,7 +541,7 @@ class recent_changes(object):
 				self.downtime_controller()
 				return None
 			except KeyError:
-				logging.warning("Wiki returned %s" % (request.json()))
+				logging.warning("Wiki returned %s" % (changes.json()))
 				return None
 			else:
 				if self.downtimecredibility > 0:
@@ -489,19 +598,24 @@ class recent_changes(object):
 			if(time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
 				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
-	
-recent_changes = recent_changes()
-recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
 
-if 1 == 2:
-	#some translations for later use in different places
-	print ([_("{wiki} is back up!"), _("Most active user"), _("Edits made"), _("New files"), _("Admin actions"), _("Unique contributors"), _("Bytes changed"), _("Day score"), _("New articles")])
+recent_changes = recent_changes_class()
+recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
+	
+schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
+if 1==2: #dummy for future translations
+	print (_("{wiki} is back up!"))
+
+if settings["overview"]:
+	ovUTC_time = (time.strptime(settings["overview_UTC_time"], '%H:%M').tm_hour, time.strptime(settings["overview_UTC_time"], '%H:%M').tm_min) #i don't know what I did there
+	diff = (datetime.datetime.now().hour - datetime.datetime.utcnow().hour, datetime.datetime.now().minute - datetime.datetime.utcnow().minute)
+	tim = (ovUTC_time[0]+diff[0], ovUTC_time[1]+diff[1])
+	schedule.every().day.at("{}:{}".format(int(math.fabs(tim[0])), int(math.fabs(tim[1])))).do(day_overview)
 	
 while 1:
-	time.sleep(float(settings["cooldown"]))
-	recent_changes.fetch()
-	if (recent_changes.day != datetime.date.fromtimestamp(time.time()).day):
-		logging.info("A brand new day! Printing the summary and clearing the cache")
-		#recent_changes.summary()
-		#recent_changes.clear_cache()
-		recent_changes.day = datetime.date.fromtimestamp(time.time()).day
+	time.sleep(1.0)
+	schedule.run_pending()
+	#if (recent_changes.day != ):
+		#logging.info("A brand new day! Printing the summary and clearing the cache")
+		##recent_changes.clear_cache()
+		#recent_changes.day = datetime.datetime.now().day

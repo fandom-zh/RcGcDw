@@ -6,6 +6,7 @@ Recent changes Gamepedia compatible Discord webhook is a project made from earli
 * requests 2.18.4>
 * beautifulsoup 4.6.0>
 * lxml 4.2.1>
+* schedule 0.5.0>
 
 ### Features ###
 * Fetch recent changes from Gamepedia wiki and send them to Discord channel using a webhook

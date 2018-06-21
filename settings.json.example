@@ -17,6 +17,10 @@
    "verbose_level": 0,
    "show_updown_messages": true,
    "appearance":{
+       "daily_overview": {
+         "color": 16312092,
+         "icon":""
+      },
       "new":{
          "icon":"https://framapic.org/VBVcOznftNsV/4a0fbBL7wkUo.png",
          "color":"THIS COLOR DEPENDS ON EDIT SIZE, PLEASE DON'T CHANGE"

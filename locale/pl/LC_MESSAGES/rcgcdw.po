@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
-"POT-Creation-Date: 2018-06-18 16:13+0200\n"
-"PO-Revision-Date: 2018-06-19 14:46+0200\n"
+"POT-Creation-Date: 2018-06-21 23:24+0200\n"
+"PO-Revision-Date: 2018-06-21 23:40+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -228,11 +228,11 @@ msgstr "Nie udało się odczytać wydarzenia"
 msgid "error"
 msgstr "błąd"
 
-msgid "Connection status"
-msgstr "Problem z połączeniem"
+msgid "Daily overview"
+msgstr "Podsumowanie dnia"
 
-msgid "{wiki} seems to be down or unreachable."
-msgstr "{wiki} nie działa lub jest nieosiągalna."
+msgid "But nobody came"
+msgstr "Ale nikt nie przyszedł"
 
 msgid "Admin actions"
 msgstr "Akcji administratorskich"
@@ -246,8 +246,11 @@ msgstr "Wynik dnia"
 msgid "Edits made"
 msgstr "Zrobionych edycji"
 
-msgid "Most active user"
-msgstr "Najbardziej aktywny użytkownik"
+msgid "Most active hours"
+msgstr "Najbardziej aktywne godziny"
+
+msgid "Most active users"
+msgstr "Najbardziej aktywni użytkownicy"
 
 msgid "New articles"
 msgstr "Nowych artykułów"
@@ -257,6 +260,12 @@ msgstr "Nowych plików"
 
 msgid "Unique contributors"
 msgstr "Unikalnych edytujących"
+
+msgid "Connection status"
+msgstr "Problem z połączeniem"
+
+msgid "{wiki} seems to be down or unreachable."
+msgstr "{wiki} nie działa lub jest nieosiągalna."
 
 msgid "{wiki} is back up!"
 msgstr "{wiki} jest ponownie osiągalna!"

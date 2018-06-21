@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-18 16:13+0200\n"
+"POT-Creation-Date: 2018-06-21 23:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,10 +221,10 @@ msgstr ""
 msgid "error"
 msgstr ""
 
-msgid "Connection status"
+msgid "Daily overview"
 msgstr ""
 
-msgid "{wiki} seems to be down or unreachable."
+msgid "But nobody came"
 msgstr ""
 
 msgid "Admin actions"
@@ -239,7 +239,10 @@ msgstr ""
 msgid "Edits made"
 msgstr ""
 
-msgid "Most active user"
+msgid "Most active hours"
+msgstr ""
+
+msgid "Most active users"
 msgstr ""
 
 msgid "New articles"
@@ -249,6 +252,12 @@ msgid "New files"
 msgstr ""
 
 msgid "Unique contributors"
+msgstr ""
+
+msgid "Connection status"
+msgstr ""
+
+msgid "{wiki} seems to be down or unreachable."
 msgstr ""
 
 msgid "{wiki} is back up!"

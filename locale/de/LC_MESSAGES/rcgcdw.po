@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-06-18 16:13+0200\n"
-"PO-Revision-Date: 2018-06-18 16:27+0200\n"
-"Last-Translator: MarkusRost\n"
+"POT-Creation-Date: 2018-06-21 23:24+0200\n"
+"PO-Revision-Date: 2018-06-21 23:39+0200\n"
+"Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -224,11 +224,11 @@ msgstr "Ereignis kann nicht verabreitet werden"
 msgid "error"
 msgstr "Fehler"
 
-msgid "Connection status"
-msgstr "Verbindungsstatus"
+msgid "Daily overview"
+msgstr ""
 
-msgid "{wiki} seems to be down or unreachable."
-msgstr "Das {wiki} scheint unerreichbar zu sein."
+msgid "But nobody came"
+msgstr ""
 
 msgid "Admin actions"
 msgstr "Adminaktionen"
@@ -242,7 +242,14 @@ msgstr "Tageswert"
 msgid "Edits made"
 msgstr "Bearbeitungen"
 
-msgid "Most active user"
+#, fuzzy
+#| msgid "Most active user"
+msgid "Most active hours"
+msgstr "Aktivster Benutzer"
+
+#, fuzzy
+#| msgid "Most active user"
+msgid "Most active users"
 msgstr "Aktivster Benutzer"
 
 #, fuzzy
@@ -255,6 +262,12 @@ msgstr "Neue Dateien"
 
 msgid "Unique contributors"
 msgstr "Einzelne Autoren"
+
+msgid "Connection status"
+msgstr "Verbindungsstatus"
+
+msgid "{wiki} seems to be down or unreachable."
+msgstr "Das {wiki} scheint unerreichbar zu sein."
 
 msgid "{wiki} is back up!"
 msgstr "Das {wiki} ist wieder erreichbar."

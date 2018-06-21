@@ -1,0 +1,269 @@
+# UN TITRE MERVEILLEUSEMENT DESCRIPTIF
+# COPYRIGHT HAHAHAHA I WISH J'AI PAS DE COPYRIGHT
+# AUTEUR #1 C'EST MOI MWAHAHAHAHAHA
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-06-21 23:24+0200\n"
+"PO-Revision-Date: 2018-06-21 23:38+0200\n"
+"Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: rcgcdw.pot\n"
+
+msgid "(N!) "
+msgstr "(N!) "
+
+msgid "m "
+msgstr "m "
+
+msgid "Uploaded a new version of {name}"
+msgstr "Téléversement d'une nouvelle version de {name}"
+
+msgid "([preview]({link}) | [undo]({undolink}))"
+msgstr "([Aperçu]({link}) | [Annuler]({undolink}))"
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Uploaded {name}"
+msgstr "Téléversement de {name}"
+
+msgid "**No license!**"
+msgstr "**Aucune license!**"
+
+msgid "([preview]({link}))"
+msgstr "([Aperçu]({link}))"
+
+msgid ""
+"{desc}\n"
+"License: {license}"
+msgstr ""
+"{desc}\n"
+"License: {license}"
+
+msgid "Deleted page {article}"
+msgstr "Suppresion de la page {article}"
+
+msgid "Deleted redirect {article} by overwriting"
+msgstr "Suppresion par écrasement de la redirection {article}"
+
+msgid "A redirect has been made"
+msgstr "Une redirection a été créée"
+
+msgid "No redirect has been made"
+msgstr "Aucune redirection créée"
+
+msgid "Moved {article} to {target}"
+msgstr "Déplacement de {article} vers {target}"
+
+msgid "Moved {article} to {title} over redirect"
+msgstr "Déplacement de {article} vers {title} par redirection"
+
+msgid "Moved protection settings from {article} to {title}"
+msgstr "Transfert des paramètres de protection de {article} vers {title}"
+
+msgid "infinity and beyond"
+msgstr "toujours"
+
+msgid "Blocked {blocked_user} for {time}"
+msgstr "{blocked user} a été bloqué pour {time}"
+
+msgid "Changed block settings for {blocked_user}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+msgid "Unblocked {blocked_user}"
+msgstr "{blocked_user} a été débloqué"
+
+msgid "Left a comment on {target}'s profile"
+msgstr "Ajout d'un commentaire sur le profil de {target}"
+
+msgid "Replied to a comment on {target}'s profile"
+msgstr "Réponse à un commentaire sur le profil de {target}"
+
+msgid "Edited a comment on {target}'s profile"
+msgstr "Édition d'un commentaire sur le profil de {target}"
+
+msgid "Location"
+msgstr "Emplacement"
+
+msgid "About me"
+msgstr "À propos de moi"
+
+msgid "Google link"
+msgstr "Lien Google"
+
+msgid "Facebook link"
+msgstr "Lien Facebook"
+
+msgid "Twitter link"
+msgstr "Lien Twitter"
+
+msgid "Reddit link"
+msgstr "Lien Reddit"
+
+msgid "Twitch link"
+msgstr "Lien Twitch"
+
+msgid "PSN link"
+msgstr "Lien PSN"
+
+msgid "VK link"
+msgstr "Lien VK"
+
+msgid "XVL link"
+msgstr "Lien XVL"
+
+msgid "Steam link"
+msgstr "Lien Steam"
+
+msgid "Unknown"
+msgstr "Inconnu"
+
+msgid "Edited {target}'s profile"
+msgstr "Modification du profil de {target}"
+
+msgid "{field} field changed to: {desc}"
+msgstr "{field} modifié pour: {desc}"
+
+msgid "Deleted a comment on {target}'s profile"
+msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+msgid "Changed group membership for {target}"
+msgstr "Modification des groupes pour {target}"
+
+msgid "none"
+msgstr "aucun"
+
+msgid "No description provided"
+msgstr "Aucune description"
+
+msgid "Groups changed from {old_groups} to {new_groups} {reason}"
+msgstr "Groupe modifié de {old_groups} vers {new_groups}: {reason}"
+
+msgid "Protected {target}"
+msgstr "Protection de {target}"
+
+msgid "Changed protection level for {article}"
+msgstr "Modification du niveau de protection de {article}"
+
+msgid "Removed protection from {article}"
+msgstr "Retrait de la protection de {article}"
+
+msgid "Changed visibility of revision(s) on page {article} "
+msgstr "Modification de la visibilité de révision(s) sur la page {article} "
+
+msgid "Imported {article} with {count} revision(s)"
+msgstr "Article {article} importé avec {count} révision(s)"
+
+msgid "Restored {article}"
+msgstr "Restauration de {article}"
+
+msgid "Changed visibility of log events"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+msgid "Imported interwiki"
+msgstr "Importation d'interwiki"
+
+msgid "Edited abuse filter number {number}"
+msgstr "Édition de la règle {number} du filtre anti-abus"
+
+msgid "Merged revision histories of {article} into {dest}"
+msgstr "Fusion de l'historique de {article} vers {dest}"
+
+msgid "Added an entry to the interwiki table"
+msgstr "Ajout d'une entrée à la table interwiki"
+
+msgid "Prefix: {prefix}, website: {website} | {desc}"
+msgstr "Préfixe: {prefix}, site: {website} | {desc}"
+
+msgid "Edited an entry in interwiki table"
+msgstr "Modification d'une entrée de la table interwiki"
+
+msgid "Deleted an entry in interwiki table"
+msgstr "Retrait d'une entrée de la table interwiki"
+
+msgid "Prefix: {prefix} | {desc}"
+msgstr "Préfixe: {prefix} | {desc}"
+
+msgid "Changed the content model of the page {article}"
+msgstr "Modification du modèle de contenu de l'article {article}"
+
+msgid "Model changed from {old} to {new}: {reason}"
+msgstr "Modèle changé de {old} à {new}: {reason}"
+
+msgid "Edited the sprite for {article}"
+msgstr "Édition du sprite de {article}"
+
+msgid "Created the sprite sheet for {article}"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+msgid "Edited the slice for {article}"
+msgstr ""
+
+msgid "Created a tag \"{tag}\""
+msgstr "Création du tag « {tag} »"
+
+msgid "Deleted a tag \"{tag}\""
+msgstr "Suppression du tag « {tag} »"
+
+msgid "Activated a tag \"{tag}\""
+msgstr "Activation du tag « {tag} »"
+
+msgid "Deactivated a tag \"{tag}\""
+msgstr "Désactivation du tag « {tag} »"
+
+msgid "Unable to process the event"
+msgstr "Impossible d'analyser l'évènement"
+
+msgid "error"
+msgstr "erreur"
+
+msgid "Daily overview"
+msgstr ""
+
+msgid "But nobody came"
+msgstr ""
+
+msgid "Admin actions"
+msgstr "Actions d'administrateur"
+
+msgid "Bytes changed"
+msgstr "Octet modifié"
+
+msgid "Day score"
+msgstr "Score du jour"
+
+msgid "Edits made"
+msgstr "Modifications effectuées"
+
+msgid "Most active hours"
+msgstr "-"
+
+msgid "Most active users"
+msgstr "-"
+
+msgid "New articles"
+msgstr "Nouveaux articles"
+
+msgid "New files"
+msgstr "Nouveaux fichiers"
+
+msgid "Unique contributors"
+msgstr "Contributeurs uniques"
+
+msgid "Connection status"
+msgstr "Statut de connexion"
+
+msgid "{wiki} seems to be down or unreachable."
+msgstr "{wiki} semble être down ou inatteignable."
+
+msgid "{wiki} is back up!"
+msgstr "{wiki} est de retour!"
