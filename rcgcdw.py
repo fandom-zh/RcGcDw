@@ -140,7 +140,7 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=params["title"])
 	elif action == 14:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["targetlink"].replace(" ", "_"))
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["target"].replace(" ", "_"))
 		params["desc"] = "{supress}. {desc}".format(desc=params["desc"], supress=_("No redirect has been made") if params["supress"] == True else _("A redirect has been made"))
 		embed["title"] = _("Moved {article} to {target}").format(article = params["title"], target=params["target"])
 	elif action == 15:
@@ -629,10 +629,7 @@ if 1==2: #dummy for future translations
 	print (_("{wiki} is back up!"))
 
 if settings["overview"]:
-	ovUTC_time = (time.strptime(settings["overview_UTC_time"], '%H:%M').tm_hour, time.strptime(settings["overview_UTC_time"], '%H:%M').tm_min) #i don't know what I did there
-	diff = (datetime.datetime.now().hour - datetime.datetime.utcnow().hour, datetime.datetime.now().minute - datetime.datetime.utcnow().minute)
-	tim = (ovUTC_time[0]+diff[0], ovUTC_time[1]+diff[1])
-	schedule.every().day.at("{}:{}".format(int(math.fabs(tim[0])), int(math.fabs(tim[1])))).do(day_overview)
+	schedule.every().day.at("{}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour, time.strptime(settings["overview_time"], '%H:%M').tm_min)).do(day_overview)
 schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 	
 while 1:

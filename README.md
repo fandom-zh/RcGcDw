@@ -32,7 +32,7 @@ Explanation for settings:
 `show_updown_messages` – bool value, depending on this settings the messages whenever the wiki goes up and down will be sent to the channel    
 `appearience` – section with different types of actions and logs, and corresponding to them colors/icons. In here you can set custom icon or color!    
 `overview` – bool value, sends a day overview to the channel if true    
-`overview_UTC_time` – UTC time at which the day overview will be sent    
+`overview_time` – **local machine time** at which the day overview will be sent    
 
 ### How to use ###
 Make sure you have installed all of dependencies and **filled settings.json properly**. You can also use `pip install -r requirements.txt` to install dependencies automatically. If you are using Raspberry Pi you won't have newest Python version installed, you can use [this guide](https://gist.github.com/dschep/24aa61672a2092246eaca2824400d37f).
