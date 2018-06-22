@@ -30,7 +30,9 @@ Explanation for settings:
 
 `verbose_level` – a number (min 0, max 50) identifying the type of messages that will be written into the console. (CRITICAL 50, ERROR 40, WARNING 30, INFO 20, DEBUG 10)    
 `show_updown_messages` – bool value, depending on this settings the messages whenever the wiki goes up and down will be sent to the channel    
-`appearience` – section with different types of actions and logs, and corresponding to them colors/icons. In here you can set custom icon or color!
+`appearience` – section with different types of actions and logs, and corresponding to them colors/icons. In here you can set custom icon or color!    
+`overview` – bool value, sends a day overview to the channel if true    
+`overview_UTC_time` – UTC time at which the day overview will be sent    
 
 ### How to use ###
 Make sure you have installed all of dependencies and **filled settings.json properly**. You can also use `pip install -r requirements.txt` to install dependencies automatically. If you are using Raspberry Pi you won't have newest Python version installed, you can use [this guide](https://gist.github.com/dschep/24aa61672a2092246eaca2824400d37f).
@@ -51,6 +53,7 @@ Translators:
 Script seem to use about 17MB of RAM and negligible amount of CPU when fetching changes.    
 Script does not log bot actions by default.    
 "I GoT "Unable to process the event" mESSage!!! WHaT HApND?" - it means there is some kind of action that does not have a template in the script, please [create a ticket](https://gitlab.com/piotrex43/RcGcDw/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=) with information on what wiki this error ocurred and when.
+[Here](https://framapic.org/rVFQD0NQVcok/Ue1SVHHM0e4V.png) is a screenshot of how few embeds look like.
 
 ### License ###
 Everything except the locale directory is under GNU Affero General Public License v3.0 license. The translations are used with allowance of translators, and all rights to them are owned by their respective authors.
