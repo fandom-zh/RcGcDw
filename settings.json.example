@@ -16,6 +16,8 @@
    },
    "verbose_level": 0,
    "show_updown_messages": true,
+   "overview": false,
+   "overview_UTC_time": "00:00",
    "appearance":{
        "daily_overview": {
          "color": 16312092,

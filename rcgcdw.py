@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
-#You have been warned
-
 #Recent changes Gamepedia compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
 #Copyright (C) 2018 Frisk
 
@@ -19,6 +16,9 @@
 
 #You should have received a copy of the GNU Affero General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
+#You have been warned
 
 import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
 from bs4 import BeautifulSoup
@@ -163,13 +163,16 @@ def webhook_formatter(action, STATIC, **params):
 		user = params["blocked_user"].split(':')[1]
 		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
 	elif action == 25:
-		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"], commentid=params["commentid"])
+		#link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)')) old way of linking
 		embed["title"] = _("Left a comment on {target}'s profile").format(target=params["target"])
 	elif action == 29:
-		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		#link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"], commentid=params["commentid"])
 		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=params["target"])
 	elif action == 26:
-		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		#link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"], commentid=params["commentid"])
 		embed["title"] = _("Edited a comment on {target}'s profile").format(target=params["target"])
 	elif action == 28:
 		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
@@ -200,7 +203,8 @@ def webhook_formatter(action, STATIC, **params):
 		embed["title"] = _("Edited {target}'s profile").format(target=params["target"])
 		params["desc"] = _("{field} field changed to: {desc}").format(field=field, desc=params["desc"])
 	elif action == 27:
-		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"], commentid=params["commentid"])
+		#link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=params["target"])
 	elif action == 20:
 		link = "https://{wiki}.gamepedia.com/"+params["user"].replace(" ", "_").replace(')', '\)')
@@ -369,15 +373,15 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		elif logtype=="interwiki" and logaction=="iw_delete":
 			webhook_formatter(24, STATIC_VARS, user=change["user"], desc=parsedcomment, prefix=change["logparams"]['0'])
 		elif logtype=="curseprofile" and logaction=="comment-created":
-			webhook_formatter(25, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(25, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1], commentid=change["logparams"]["0"])
 		elif logtype=="curseprofile" and logaction=="comment-edited":
-			webhook_formatter(26, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(26, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1], commentid=change["logparams"]["0"])
 		elif logtype=="curseprofile" and logaction=="comment-deleted":
-			webhook_formatter(27, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(27, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1], commentid=change["logparams"]["0"])
 		elif logtype=="curseprofile" and logaction=="profile-edited":
 			webhook_formatter(28, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1], field=change["logparams"]['0'], desc=change["parsedcomment"])
 		elif logtype=="curseprofile" and logaction=="comment-replied":
-			webhook_formatter(29, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1])
+			webhook_formatter(29, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1], commentid=change["logparams"]["0"])
 		elif logtype=="contentmodel" and logaction=="change":
 			webhook_formatter(30, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, oldmodel=change["logparams" ]["oldmodel"], newmodel=change["logparams" ]["newmodel"])
 		elif logtype=="sprite" and logaction=="sprite":
