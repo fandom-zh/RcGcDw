@@ -508,7 +508,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 			active_hours = [_("But nobody came")]
 			numberu, numberh = (0, 0)
 		embed["fields"] = []
-		fields = ((_("Most active users"), ', '.join(active_users) + "({})".format(numberu)), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + "({})".format(numberh)), (_("Day score"), str(overall)))
+		fields = ((_("Most active users"), ', '.join(active_users) + " ({})".format(numberu)), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + "UTC ({})".format(numberh)), (_("Day score"), str(overall)))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
 		data = {}
