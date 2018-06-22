@@ -618,6 +618,8 @@ class recent_changes_class(object):
 			if(time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
 				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
+	def clear_cache(self):
+		self.map_ips = {}
 
 recent_changes = recent_changes_class()
 recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
@@ -631,11 +633,8 @@ if settings["overview"]:
 	diff = (datetime.datetime.now().hour - datetime.datetime.utcnow().hour, datetime.datetime.now().minute - datetime.datetime.utcnow().minute)
 	tim = (ovUTC_time[0]+diff[0], ovUTC_time[1]+diff[1])
 	schedule.every().day.at("{}:{}".format(int(math.fabs(tim[0])), int(math.fabs(tim[1])))).do(day_overview)
+schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 	
 while 1:
 	time.sleep(1.0)
 	schedule.run_pending()
-	#if (recent_changes.day != ):
-		#logging.info("A brand new day! Printing the summary and clearing the cache")
-		##recent_changes.clear_cache()
-		#recent_changes.day = datetime.datetime.now().day

@@ -50,7 +50,7 @@ Translators:
 * JSBM for French translation
 
 ### Other ###
-Script seem to use about 17MB of RAM and negligible amount of CPU when fetching changes.    
+Script seem to use about 10-17MB of RAM and negligible amount of CPU when fetching changes.    
 Script does not log bot actions by default.    
 "I GoT "Unable to process the event" mESSage!!! WHaT HApND?" - it means there is some kind of action that does not have a template in the script, please [create a ticket](https://gitlab.com/piotrex43/RcGcDw/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=) with information on what wiki this error ocurred and when.    
 [Here](https://framapic.org/rVFQD0NQVcok/Ue1SVHHM0e4V.png) is a screenshot of how few embeds look like.
