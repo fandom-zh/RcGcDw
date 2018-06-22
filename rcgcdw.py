@@ -140,7 +140,7 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=params["title"])
 	elif action == 14:
-		link = params["targetlink"]
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["targetlink"].replace(" ", "_"))
 		params["desc"] = "{supress}. {desc}".format(desc=params["desc"], supress=_("No redirect has been made") if params["supress"] == True else _("A redirect has been made"))
 		embed["title"] = _("Moved {article} to {target}").format(article = params["title"], target=params["target"])
 	elif action == 15:
@@ -351,7 +351,7 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		elif logtype=="merge" :
 			webhook_formatter(13, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, destination=change["logparams"]["dest_title"])
 		elif logtype=="move" and logaction=="move":
-			webhook_formatter(14, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, supress=True if "suppressredirect" in change["logparams"] else False, target=change["logparams"]['target_title'], targetlink="https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"]) + change["logparams"]['target_title'].replace(" ", "_")) #TODO Remove the link making in here
+			webhook_formatter(14, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, supress=True if "suppressredirect" in change["logparams"] else False, target=change["logparams"]['target_title'])
 		elif logtype=="move" and logaction=="move_redir":
 			webhook_formatter(15, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, target=change["logparams"]["target_title"])
 		elif logtype=="protect" and logaction=="move_prot":
