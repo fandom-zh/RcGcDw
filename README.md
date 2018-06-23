@@ -38,9 +38,18 @@ Explanation for settings:
 ### How to use ###
 Make sure you have installed all of dependencies and **filled settings.json properly**. You can also use `pip install -r requirements.txt` to install dependencies automatically. If you are using Raspberry Pi you won't have newest Python version installed, you can use [this guide](https://gist.github.com/dschep/24aa61672a2092246eaca2824400d37f).
 When you are sure everything is fine, go to root directory with all of script files and use `python rcgcdw.py` or `python3 rcgcdw.py`command to run the script. 
+Here is how you can setup the script in just few commands on a Linux distribution.
+```bash
+$ git clone https://gitlab.com/piotrex43/RcGcDw.git
+$ cd RcGcDw
+$ pip3 install -r requirements.txt
+$ nano config.json.example
+$ mv config.json.example config.json
+$ python3 rcgcdw.py
+```
 
 #### Free (?) hosting ####
-If you want I can host the script for you for free. Just [contact me](https://minecraft.gamepedia.com/User:Frisk#Contact). If you want to go with this option, be aware that this is far from the best option, I host all of the scripts on my Raspberry PI, it can go down at any moment, I try to keep every script running, but obviously sometimes it's just not possible. So, choosing this option, don't expect 100% uptime.
+If you want I can host the script for you for free. Just [contact me](https://minecraft.gamepedia.com/User:Frisk#Contact). If you want to go with this option, be aware that this is far from the best option, I host all of the scripts on my Raspberry PI, it can go down at any moment, I try to keep every script running, but obviously sometimes it's just not possible. So, choosing this option, don't expect 100% uptime. The only requirement if you want to go with this option, is that the wiki is somewhat active.
 
 ### Credits ###
 * I'd like to thank Minecraft Wiki English Discord server community, most notably Jack McKalling for input on how the script should work, especially formatting and what information should be there.
@@ -58,3 +67,10 @@ Script does not log bot actions by default.
 
 ### License ###
 Everything except the locale directory is under GNU Affero General Public License v3.0 license. The translations are used with allowance of translators, and all rights to them are owned by their respective authors.
+
+### Currently running on ###
+There are several Discord server, the script is already running on, you can join them and see it working.     
+[Minecraft Wiki English](https://discord.gg/fGdE5ZE)    
+[Minecraft Wiki (DE)](https://discord.gg/F75vfpd) (on a hidden channel)    
+[Minecraft Wiki Polska](https://discord.gg/9ZCcTnT)    
+
