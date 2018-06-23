@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
-"POT-Creation-Date: 2018-06-21 23:24+0200\n"
-"PO-Revision-Date: 2018-06-21 23:40+0200\n"
+"POT-Creation-Date: 2018-06-23 17:32+0200\n"
+"PO-Revision-Date: 2018-06-23 17:33+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -234,6 +234,9 @@ msgstr "Podsumowanie dnia"
 msgid "But nobody came"
 msgstr "Ale nikt nie przyszedł"
 
+msgid " ({} actions)"
+msgstr "({} akcji)"
+
 msgid "Admin actions"
 msgstr "Akcji administratorskich"
 
@@ -257,6 +260,9 @@ msgstr "Nowych artykułów"
 
 msgid "New files"
 msgstr "Nowych plików"
+
+msgid "UTC ({} actions)"
+msgstr "UTC ({} akcji)"
 
 msgid "Unique contributors"
 msgstr "Unikalnych edytujących"
