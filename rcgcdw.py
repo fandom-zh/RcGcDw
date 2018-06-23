@@ -20,12 +20,11 @@
 #WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 #You have been warned
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
+import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
-#logging.warning('Watch out!')
-#DEBUG, INFO, WARNING, ERROR, CRITICAL
+
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
 	if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"]!=-1:
@@ -481,7 +480,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 			if item["type"] == "log":
 				files = files+1 if item["logtype"] == item["logaction"] == "upload" else files
 				admin = admin+1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights", "abusefilter", "interwiki", "managetags"] else admin
-		overall = new_articles+edits*0.1+files*0.3+admin*0.1+changed_bytes*0.01
+		overall = round(new_articles+edits*0.1+files*0.3+admin*0.1+changed_bytes*0.01, 2)
 		embed = defaultdict(dict)
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
@@ -493,12 +492,14 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 				active_users.append(user)
 			the_one = random.choice(active_users)
 			embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
-			embed["author"]["name"] = the_one
-			if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", the_one) is not None:
-				author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"], user=the_one)
-			else:
-				author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=the_one)
-			embed["author"]["url"] = author_url
+			embed["author"]["name"] = settings["wikiname"]
+			embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
+			#embed["author"]["name"] = the_one
+			#if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", the_one) is not None:
+				#author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"], user=the_one)
+			#else:
+				#author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=the_one)
+			#embed["author"]["url"] = author_url
 			v = hours.values()
 			active_hours = []
 			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))): #find most active users
@@ -508,7 +509,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 			active_hours = [_("But nobody came")]
 			numberu, numberh = (0, 0)
 		embed["fields"] = []
-		fields = ((_("Most active users"), ', '.join(active_users) + " ({})".format(numberu)), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + "UTC ({})".format(numberh)), (_("Day score"), str(overall)))
+		fields = ((_("Most active users"), ', '.join(active_users) + _(" ({} actions)").format(numberu)), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + _("UTC ({} actions)").format(numberh)), (_("Day score"), str(overall)))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
 		data = {}
