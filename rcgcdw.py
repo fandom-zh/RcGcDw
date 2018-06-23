@@ -32,7 +32,7 @@ with open("settings.json") as sfile:
 logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
-		sfile.write("")
+		sfile.write("99999999999")
 logging.info("Current settings: {settings}".format(settings=settings))
 if settings["lang"] != "en" or settings["lang"] == "":
 	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
@@ -531,8 +531,13 @@ class recent_changes_class(object):
 	clock = 0
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
-			file_id = int(record.read().strip())
-			logging.debug("File_id is {val}".format(val=file_id))
+			file_content = record.read().strip()
+			if file_content:
+				file_id = int(file_content)
+				logging.debug("File_id is {val}".format(val=file_id))
+			else:
+				logging.debug("File is empty")
+				file_id = 999999999 
 	else:
 		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happens
 	def add_cache(self, change):
@@ -575,7 +580,7 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-					time.sleep(1.0)
+					time.sleep(3.0) #sadly, the time here needs to be quite high, otherwise we are being rate-limited by the Discord, especially during re-fetch
 				return change["rcid"]
 	def safe_request(self, url):
 		try:
