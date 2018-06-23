@@ -127,7 +127,7 @@ def webhook_formatter(action, STATIC, **params):
 			else:
 				matches = re.search(r"\{\{(license|lizenz)(\ |\|)(.*?)\}\}", content)
 				if matches is not None:
-					license = matches.group(1)
+					license = matches.group(3)
 				else:
 					license = "?"
 			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
