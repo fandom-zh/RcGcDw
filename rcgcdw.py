@@ -580,7 +580,7 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-					time.sleep(1.0)
+					time.sleep(3.0) #sadly, the time here needs to be quite high, otherwise we are being rate-limited by the Discord, especially during re-fetch
 				return change["rcid"]
 	def safe_request(self, url):
 		try:
