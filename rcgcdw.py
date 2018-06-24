@@ -121,15 +121,22 @@ def webhook_formatter(action, STATIC, **params):
 			if article_content is None:
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
-			content = list(article_content.values())[0]['revisions'][0]['*'].lower()
-			if "{{license" not in content and "{{lizenz" not in content and "{{licence" not in content:
-				license = _("**No license!**")
-			else:
-				matches = re.search(r"\{\{(license|lizenz|licence)(\ |\|)(.*?)\}\}", content)
+			content = list(article_content.values())[0]['revisions'][0]['*']
+			try:
+				matches = re.search(re.compile(settings["license_regex"]), content, re.IGNORECASE)
 				if matches is not None:
-					license = matches.group(3)
+					license = matches.group("license")
 				else:
-					license = "?"
+					if re.search(re.compile(settings["license_regex_detect"]), content, re.IGNORECASE) is None:
+						license = _("**No license!**")
+					else:
+						license = "?"
+			except sre_constants.error:
+				logging.error("Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
+				license = "?"
+			except IndexError:
+				logging.error("Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
+				license = "?"
 			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
 			params["desc"] = _("{desc}\nLicense: {license}").format(desc=params["desc"], license=license)
 	elif action == 6:
