@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2018-06-23 17:33+0200\n"
-"PO-Revision-Date: 2018-06-24 02:12+0200\n"
-"Last-Translator: JSBM\n"
+"PO-Revision-Date: 2018-06-24 11:03+0200\n"
+"Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -313,7 +313,7 @@ msgstr "Actions d'administrateur"
 
 #: rcgcdw.py:512
 msgid "Bytes changed"
-msgstr "Octet modifié"
+msgstr "Octets modifiés"
 
 #: rcgcdw.py:512
 msgid "Day score"
