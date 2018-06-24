@@ -506,7 +506,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 			if item["type"] == "log":
 				files = files+1 if item["logtype"] == item["logaction"] == "upload" else files
 				admin = admin+1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights", "abusefilter", "interwiki", "managetags"] else admin
-		overall = round(new_articles+edits*0.1+files*0.3+admin*0.1+math.abs(changed_bytes*0.001), 2)
+		overall = round(new_articles+edits*0.1+files*0.3+admin*0.1+math.fabs(changed_bytes*0.001), 2)
 		embed = defaultdict(dict)
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
