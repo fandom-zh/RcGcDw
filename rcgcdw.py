@@ -309,6 +309,25 @@ def webhook_formatter(action, STATIC, **params):
 	headers = {'Content-Type': 'application/json'}
 	#logging.debug(data)
 	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+	if result.status_code != requests.codes.ok:
+		handle_discord_http(result.status_code, formatted_embed, headers)
+		
+def handle_discord_http(code, formatted_embed, headers):
+	if code == 204: #message went through
+		return
+	elif code == 400: #HTTP BAD REQUEST
+		logging.error("Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
+		logging.error(formatted_embed)
+	elif code == 401: #HTTP UNAUTHORIZED
+		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
+	elif code == 429:
+		logging.error("We are sending too many requests to the Discord, slowing down...")
+		time.sleep(20.0)
+		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers) #TODO Replace this solution with less obscure one
+	elif code > 500 and code < 600:
+		logging.error("Discord have trouble processing the event, and because the HTTP code returned is 500> it means we blame them.")
+		time.sleep(20.0)
+		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
