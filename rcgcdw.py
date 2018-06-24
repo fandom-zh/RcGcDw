@@ -121,29 +121,36 @@ def webhook_formatter(action, STATIC, **params):
 			if article_content is None:
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
-			content = list(article_content.values())[0]['revisions'][0]['*'].lower()
-			if "{{license" not in content and "{{lizenz" not in content: #de-mcw
-				license = _("**No license!**")
-			else:
-				matches = re.search(r"\{\{(license|lizenz)(\ |\|)(.*?)\}\}", content)
+			content = list(article_content.values())[0]['revisions'][0]['*']
+			try:
+				matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
 				if matches is not None:
-					license = matches.group(3)
+					license = matches.group("license")
 				else:
-					license = "?"
+					if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
+						license = _("**No license!**")
+					else:
+						license = "?"
+			except IndexError:
+				logging.error("Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
+				license = "?"
+			except re.error:
+				logging.error("Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
+				license = "?"
 			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
 			params["desc"] = _("{desc}\nLicense: {license}").format(desc=params["desc"], license=license)
 	elif action == 6:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Deleted page {article}").format(article=params["title"])
 	elif action == 7:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=params["title"])
 	elif action == 14:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["target"].replace(" ", "_"))
 		params["desc"] = "{supress}. {desc}".format(desc=params["desc"], supress=_("No redirect has been made") if params["supress"] == True else _("A redirect has been made"))
 		embed["title"] = _("Moved {article} to {target}").format(article = params["title"], target=params["target"])
 	elif action == 15:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["target"].replace(" ", "_"))
 		embed["title"] = _("Moved {article} to {title} over redirect").format(article=params["title"], title=params["target"])
 	elif action == 16:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
@@ -302,6 +309,25 @@ def webhook_formatter(action, STATIC, **params):
 	headers = {'Content-Type': 'application/json'}
 	#logging.debug(data)
 	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+	if result.status_code != requests.codes.ok:
+		handle_discord_http(result.status_code, formatted_embed, headers)
+		
+def handle_discord_http(code, formatted_embed, headers):
+	if code == 204: #message went through
+		return
+	elif code == 400: #HTTP BAD REQUEST
+		logging.error("Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
+		logging.error(formatted_embed)
+	elif code == 401: #HTTP UNAUTHORIZED
+		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
+	elif code == 429:
+		logging.error("We are sending too many requests to the Discord, slowing down...")
+		time.sleep(20.0)
+		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers) #TODO Replace this solution with less obscure one
+	elif code > 500 and code < 600:
+		logging.error("Discord have trouble processing the event, and because the HTTP code returned is 500> it means we blame them.")
+		time.sleep(20.0)
+		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
@@ -480,7 +506,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 			if item["type"] == "log":
 				files = files+1 if item["logtype"] == item["logaction"] == "upload" else files
 				admin = admin+1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights", "abusefilter", "interwiki", "managetags"] else admin
-		overall = round(new_articles+edits*0.1+files*0.3+admin*0.1+changed_bytes*0.01, 2)
+		overall = round(new_articles+edits*0.1+files*0.3+admin*0.1+math.fabs(changed_bytes*0.001), 2)
 		embed = defaultdict(dict)
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])

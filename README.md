@@ -34,6 +34,8 @@ Explanation for settings:
 `appearience` – section with different types of actions and logs, and corresponding to them colors/icons. In here you can set custom icon or color!    
 `overview` – bool value, sends a day overview to the channel if true.    
 `overview_time` – **local machine time** at which the day overview will be sent.    
+`license_regex` – if you have an unusual or translated template for applying licenses to images, you can modify this value with proper regex expression. The capturing group for license name should be named "license". **remember about double escaping the backslashes**    
+`license_regex_detect` – a regex detecting a license, it differs from `license_regex` by the fact that it has to match only the beginning of license template. **remember about double escaping the backslashes**     
 
 ### How to use ###
 Make sure you have installed all of dependencies and **filled settings.json properly**. You can also use `pip install -r requirements.txt` to install dependencies automatically. If you are using Raspberry Pi you won't have newest Python version installed, you can use [this guide](https://gist.github.com/dschep/24aa61672a2092246eaca2824400d37f).
