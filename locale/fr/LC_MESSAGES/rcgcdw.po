@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2018-06-23 17:33+0200\n"
-"PO-Revision-Date: 2018-06-23 20:24+0200\n"
+"PO-Revision-Date: 2018-06-24 02:12+0200\n"
 "Last-Translator: JSBM\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -61,11 +61,11 @@ msgstr ""
 
 #: rcgcdw.py:137
 msgid "Deleted page {article}"
-msgstr "Suppresion de la page {article}"
+msgstr "Suppression de la page {article}"
 
 #: rcgcdw.py:140
 msgid "Deleted redirect {article} by overwriting"
-msgstr "Suppresion par écrasement de la redirection {article}"
+msgstr "Suppression par écrasement de la redirection {article}"
 
 #: rcgcdw.py:143
 msgid "A redirect has been made"
@@ -305,7 +305,7 @@ msgstr "Aucune activité"
 
 #: rcgcdw.py:512
 msgid " ({} actions)"
-msgstr "({} actions)"
+msgstr " ({} actions)"
 
 #: rcgcdw.py:512
 msgid "Admin actions"
