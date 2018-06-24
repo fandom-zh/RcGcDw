@@ -122,10 +122,10 @@ def webhook_formatter(action, STATIC, **params):
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
 			content = list(article_content.values())[0]['revisions'][0]['*'].lower()
-			if "{{license" not in content and "{{lizenz" not in content: #de-mcw
+			if "{{license" not in content and "{{lizenz" not in content and "{{licence" not in content:
 				license = _("**No license!**")
 			else:
-				matches = re.search(r"\{\{(license|lizenz)(\ |\|)(.*?)\}\}", content)
+				matches = re.search(r"\{\{(license|lizenz|licence)(\ |\|)(.*?)\}\}", content)
 				if matches is not None:
 					license = matches.group(3)
 				else:
@@ -480,7 +480,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 			if item["type"] == "log":
 				files = files+1 if item["logtype"] == item["logaction"] == "upload" else files
 				admin = admin+1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights", "abusefilter", "interwiki", "managetags"] else admin
-		overall = round(new_articles+edits*0.1+files*0.3+admin*0.1+changed_bytes*0.01, 2)
+		overall = round(new_articles+edits*0.1+files*0.3+admin*0.1+math.abs(changed_bytes*0.001), 2)
 		embed = defaultdict(dict)
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
