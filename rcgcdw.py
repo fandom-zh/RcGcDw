@@ -20,7 +20,7 @@
 #WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 #You have been warned
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule
+import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
@@ -57,7 +57,7 @@ def safe_read(request, *keys):
 		logging.warning("Failure while extracting data from request on key {key} in {change}".format(key=item, change=request))
 		return None
 	except ValueError:
-		logging.warning("Failure while extracting data from request in {change}".format(key=item, change=request))
+		logging.warning("Failure while extracting data from request in {change}".format(change=request))
 		return None
 	return request
 	
@@ -600,6 +600,9 @@ class recent_changes_class(object):
 				changes.reverse()
 			except ValueError:
 				logging.warning("ValueError in fetching changes")
+				if changes.url == "https://www.gamepedia.com":
+					logging.critical("The wiki specified in the settings most probably doesn't exist, got redirected to gamepedia.com")
+					sys.exit(1)
 				self.downtime_controller()
 				return None
 			except KeyError:
