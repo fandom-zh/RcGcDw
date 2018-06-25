@@ -283,9 +283,11 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == 34:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		recent_changes.update_tags()
 	elif action == 35:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		recent_changes.update_tags()
 	elif action == 36:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
@@ -304,9 +306,15 @@ def webhook_formatter(action, STATIC, **params):
 	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
 	embed["timestamp"] = STATIC["timestamp"]
 	if STATIC["tags"]:
+		tag_displayname = []
 		if "fields" not in embed:
 			embed["fields"] = []
-		embed["fields"].append({"name": "Tags", "value": ", ".join(STATIC["tags"])})
+		for tag in STATIC["tags"]:
+			if tag in recent_changes.tags:
+				tag_displayname.append(recent_changes.tags[tag])
+			else:
+				tag_displayname.append(tag)
+		embed["fields"].append({"name": "Tags", "value": ", ".join(tag_displayname)})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -556,6 +564,7 @@ class recent_changes_class(object):
 	downtimecredibility = 0
 	last_downtime = 0
 	clock = 0
+	tags = {}
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -653,8 +662,17 @@ class recent_changes_class(object):
 				self.last_downtime = time.time()
 	def clear_cache(self):
 		self.map_ips = {}
+	def update_tags(self):
+		tags_read = safe_read(self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=tags&tgprop=name%7Cdisplayname".format(wiki=settings["wiki"])), "query", "tags")
+		if tags_read:
+			for tag in tags_read:
+				self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+		else:
+			logging.warning("Could not retrive tags. Internal names will be used!")
 
 recent_changes = recent_changes_class()
+recent_changes.update_tags()
+time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
 	
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)

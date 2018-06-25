@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-25 11:08+0200\n"
+"POT-Creation-Date: 2018-06-25 12:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,7 @@ msgstr ""
 msgid "none"
 msgstr ""
 
-#: rcgcdw.py:224 rcgcdw.py:337
+#: rcgcdw.py:224 rcgcdw.py:349
 msgid "No description provided"
 msgstr ""
 
@@ -269,87 +269,87 @@ msgstr ""
 msgid "Created a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:288
+#: rcgcdw.py:289
 msgid "Deleted a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:291
+#: rcgcdw.py:293
 msgid "Activated a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:294
+#: rcgcdw.py:296
 msgid "Deactivated a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:431
+#: rcgcdw.py:443
 msgid "Unable to process the event"
 msgstr ""
 
-#: rcgcdw.py:431
+#: rcgcdw.py:443
 msgid "error"
 msgstr ""
 
-#: rcgcdw.py:511
+#: rcgcdw.py:523
 msgid "Daily overview"
 msgstr ""
 
-#: rcgcdw.py:527
+#: rcgcdw.py:539
 msgid " ({} actions)"
 msgstr ""
 
-#: rcgcdw.py:528
+#: rcgcdw.py:540
 msgid " UTC ({} actions)"
 msgstr ""
 
-#: rcgcdw.py:530 rcgcdw.py:531
+#: rcgcdw.py:542 rcgcdw.py:543
 msgid "But nobody came"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Admin actions"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Bytes changed"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Day score"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Edits made"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Most active hours"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Most active users"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "New articles"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "New files"
 msgstr ""
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Unique contributors"
 msgstr ""
 
-#: rcgcdw.py:649
+#: rcgcdw.py:661
 msgid "Connection status"
 msgstr ""
 
-#: rcgcdw.py:649
+#: rcgcdw.py:661
 msgid "{wiki} seems to be down or unreachable."
 msgstr ""
 
-#: rcgcdw.py:659
+#: rcgcdw.py:680
 msgid "{wiki} is back up!"
 msgstr ""
 
