@@ -20,7 +20,7 @@
 #WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 #You have been warned
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule
+import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
@@ -57,7 +57,7 @@ def safe_read(request, *keys):
 		logging.warning("Failure while extracting data from request on key {key} in {change}".format(key=item, change=request))
 		return None
 	except ValueError:
-		logging.warning("Failure while extracting data from request in {change}".format(key=item, change=request))
+		logging.warning("Failure while extracting data from request in {change}".format(change=request))
 		return None
 	return request
 	
@@ -283,9 +283,11 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == 34:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		recent_changes.update_tags()
 	elif action == 35:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		recent_changes.update_tags()
 	elif action == 36:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
 		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
@@ -303,6 +305,16 @@ def webhook_formatter(action, STATIC, **params):
 	embed["description"] = params["desc"]
 	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
 	embed["timestamp"] = STATIC["timestamp"]
+	if STATIC["tags"]:
+		tag_displayname = []
+		if "fields" not in embed:
+			embed["fields"] = []
+		for tag in STATIC["tags"]:
+			if tag in recent_changes.tags:
+				tag_displayname.append(recent_changes.tags[tag])
+			else:
+				tag_displayname.append(tag)
+		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -332,7 +344,7 @@ def handle_discord_http(code, formatted_embed, headers):
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
 	logging.debug(change)
-	STATIC_VARS = {"timestamp": change["timestamp"]}
+	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"]}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit":
@@ -511,31 +523,28 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
 		embed["color"] = settings["appearance"]["daily_overview"]["color"]
+		embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
+		embed["author"]["name"] = settings["wikiname"]
+		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
 			v = activity.values()
 			active_users = []
 			for user, numberu in Counter(activity).most_common(list(v).count(max(v))): #find most active users
 				active_users.append(user)
 			the_one = random.choice(active_users)
-			embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
-			embed["author"]["name"] = settings["wikiname"]
-			embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
-			#embed["author"]["name"] = the_one
-			#if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", the_one) is not None:
-				#author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"], user=the_one)
-			#else:
-				#author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=the_one)
-			#embed["author"]["url"] = author_url
 			v = hours.values()
 			active_hours = []
 			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))): #find most active users
 				active_hours.append(str(hour))
+			usramount = _(" ({} actions)").format(numberu)
+			houramount = _(" UTC ({} actions)").format(numberh)
 		else:
 			active_users = [_("But nobody came")] #a reference to my favorite game of all the time, sorry ^_^
 			active_hours = [_("But nobody came")]
-			numberu, numberh = (0, 0)
+			usramount = ""
+			houramount = ""
 		embed["fields"] = []
-		fields = ((_("Most active users"), ', '.join(active_users) + _(" ({} actions)").format(numberu)), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + _("UTC ({} actions)").format(numberh)), (_("Day score"), str(overall)))
+		fields = ((_("Most active users"), ', '.join(active_users) + usramount), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + houramount), (_("Day score"), str(overall)))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
 		data = {}
@@ -555,6 +564,7 @@ class recent_changes_class(object):
 	downtimecredibility = 0
 	last_downtime = 0
 	clock = 0
+	tags = {}
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -590,6 +600,9 @@ class recent_changes_class(object):
 				changes.reverse()
 			except ValueError:
 				logging.warning("ValueError in fetching changes")
+				if changes.url == "https://www.gamepedia.com":
+					logging.critical("The wiki specified in the settings most probably doesn't exist, got redirected to gamepedia.com")
+					sys.exit(1)
 				self.downtime_controller()
 				return None
 			except KeyError:
@@ -652,8 +665,17 @@ class recent_changes_class(object):
 				self.last_downtime = time.time()
 	def clear_cache(self):
 		self.map_ips = {}
+	def update_tags(self):
+		tags_read = safe_read(self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=tags&tgprop=name%7Cdisplayname".format(wiki=settings["wiki"])), "query", "tags")
+		if tags_read:
+			for tag in tags_read:
+				self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+		else:
+			logging.warning("Could not retrive tags. Internal names will be used!")
 
 recent_changes = recent_changes_class()
+recent_changes.update_tags()
+time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
 	
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
