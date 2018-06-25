@@ -511,31 +511,28 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
 		embed["color"] = settings["appearance"]["daily_overview"]["color"]
+		embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
+		embed["author"]["name"] = settings["wikiname"]
+		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
 			v = activity.values()
 			active_users = []
 			for user, numberu in Counter(activity).most_common(list(v).count(max(v))): #find most active users
 				active_users.append(user)
 			the_one = random.choice(active_users)
-			embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
-			embed["author"]["name"] = settings["wikiname"]
-			embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
-			#embed["author"]["name"] = the_one
-			#if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", the_one) is not None:
-				#author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"], user=the_one)
-			#else:
-				#author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=the_one)
-			#embed["author"]["url"] = author_url
 			v = hours.values()
 			active_hours = []
 			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))): #find most active users
 				active_hours.append(str(hour))
+			usramount = _(" ({} actions)").format(numberu)
+			houramount = _(" UTC ({} actions)").format(numberh)
 		else:
 			active_users = [_("But nobody came")] #a reference to my favorite game of all the time, sorry ^_^
 			active_hours = [_("But nobody came")]
-			numberu, numberh = (0, 0)
+			usramount = ""
+			houramount = ""
 		embed["fields"] = []
-		fields = ((_("Most active users"), ', '.join(active_users) + _(" ({} actions)").format(numberu)), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + _("UTC ({} actions)").format(numberh)), (_("Day score"), str(overall)))
+		fields = ((_("Most active users"), ', '.join(active_users) + usramount), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + houramount), (_("Day score"), str(overall)))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
 		data = {}
