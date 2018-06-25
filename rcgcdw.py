@@ -303,6 +303,10 @@ def webhook_formatter(action, STATIC, **params):
 	embed["description"] = params["desc"]
 	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
 	embed["timestamp"] = STATIC["timestamp"]
+	if STATIC["tags"]:
+		if "fields" not in embed:
+			embed["fields"] = []
+		embed["fields"].append({"name": "Tags", "value": ", ".join(STATIC["tags"])})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -332,7 +336,7 @@ def handle_discord_http(code, formatted_embed, headers):
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
 	logging.debug(change)
-	STATIC_VARS = {"timestamp": change["timestamp"]}
+	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"]}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit":
