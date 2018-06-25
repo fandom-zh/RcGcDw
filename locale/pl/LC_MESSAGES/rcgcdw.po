@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
-"POT-Creation-Date: 2018-06-25 11:08+0200\n"
-"PO-Revision-Date: 2018-06-25 11:09+0200\n"
+"POT-Creation-Date: 2018-06-25 18:01+0200\n"
+"PO-Revision-Date: 2018-06-25 18:02+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -102,7 +102,7 @@ msgstr "Zmienił ustawienia blokady {blocked_user}"
 
 #: rcgcdw.py:170
 msgid "Unblocked {blocked_user}"
-msgstr "Zablokował {blocked_user} na {time}"
+msgstr "Odblokował {blocked_user}"
 
 #: rcgcdw.py:174
 msgid "Left a comment on {target}'s profile"
@@ -184,7 +184,7 @@ msgstr "Zmieniono przynależność do grup dla {target}"
 msgid "none"
 msgstr "brak"
 
-#: rcgcdw.py:224 rcgcdw.py:337
+#: rcgcdw.py:224 rcgcdw.py:349
 msgid "No description provided"
 msgstr "Nie podano opisu zmian"
 
@@ -276,87 +276,91 @@ msgstr "Edytowano część sprite dla {article}"
 msgid "Created a tag \"{tag}\""
 msgstr "Utworzono tag \"{tag}\""
 
-#: rcgcdw.py:288
+#: rcgcdw.py:289
 msgid "Deleted a tag \"{tag}\""
 msgstr "Usunięto tag \"{tag}\""
 
-#: rcgcdw.py:291
+#: rcgcdw.py:293
 msgid "Activated a tag \"{tag}\""
 msgstr "Aktywowano tag \"{tag}\""
 
-#: rcgcdw.py:294
+#: rcgcdw.py:296
 msgid "Deactivated a tag \"{tag}\""
 msgstr "Dezaktywowano tag \"{tag}\""
 
-#: rcgcdw.py:431
+#: rcgcdw.py:317
+msgid "Tags"
+msgstr "Tagi"
+
+#: rcgcdw.py:443
 msgid "Unable to process the event"
 msgstr "Nie udało się odczytać wydarzenia"
 
-#: rcgcdw.py:431
+#: rcgcdw.py:443
 msgid "error"
 msgstr "błąd"
 
-#: rcgcdw.py:511
+#: rcgcdw.py:523
 msgid "Daily overview"
 msgstr "Podsumowanie dnia"
 
-#: rcgcdw.py:527
+#: rcgcdw.py:539
 msgid " ({} actions)"
 msgstr "({} akcji)"
 
-#: rcgcdw.py:528
+#: rcgcdw.py:540
 msgid " UTC ({} actions)"
 msgstr " UTC ({} akcji)"
 
-#: rcgcdw.py:530 rcgcdw.py:531
+#: rcgcdw.py:542 rcgcdw.py:543
 msgid "But nobody came"
 msgstr "Ale nikt nie przyszedł"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Admin actions"
 msgstr "Akcji administratorskich"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Bytes changed"
 msgstr "Zmienionych bajtów"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Day score"
 msgstr "Wynik dnia"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Edits made"
 msgstr "Zrobionych edycji"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Most active hours"
 msgstr "Najbardziej aktywne godziny"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Most active users"
 msgstr "Najbardziej aktywni użytkownicy"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "New articles"
 msgstr "Nowych artykułów"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "New files"
 msgstr "Nowych plików"
 
-#: rcgcdw.py:536
+#: rcgcdw.py:547
 msgid "Unique contributors"
 msgstr "Unikalnych edytujących"
 
-#: rcgcdw.py:649
+#: rcgcdw.py:664
 msgid "Connection status"
 msgstr "Problem z połączeniem"
 
-#: rcgcdw.py:649
+#: rcgcdw.py:664
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} nie działa lub jest nieosiągalna."
 
-#: rcgcdw.py:659
+#: rcgcdw.py:683
 msgid "{wiki} is back up!"
 msgstr "{wiki} jest ponownie osiągalna!"
 

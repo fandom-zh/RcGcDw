@@ -314,7 +314,7 @@ def webhook_formatter(action, STATIC, **params):
 				tag_displayname.append(recent_changes.tags[tag])
 			else:
 				tag_displayname.append(tag)
-		embed["fields"].append({"name": "Tags", "value": ", ".join(tag_displayname)})
+		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)

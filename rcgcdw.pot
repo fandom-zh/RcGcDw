@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-25 12:45+0200\n"
+"POT-Creation-Date: 2018-06-25 18:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -281,6 +281,10 @@ msgstr ""
 msgid "Deactivated a tag \"{tag}\""
 msgstr ""
 
+#: rcgcdw.py:317
+msgid "Tags"
+msgstr ""
+
 #: rcgcdw.py:443
 msgid "Unable to process the event"
 msgstr ""
@@ -341,15 +345,15 @@ msgstr ""
 msgid "Unique contributors"
 msgstr ""
 
-#: rcgcdw.py:661
+#: rcgcdw.py:664
 msgid "Connection status"
 msgstr ""
 
-#: rcgcdw.py:661
+#: rcgcdw.py:664
 msgid "{wiki} seems to be down or unreachable."
 msgstr ""
 
-#: rcgcdw.py:680
+#: rcgcdw.py:683
 msgid "{wiki} is back up!"
 msgstr ""
 
