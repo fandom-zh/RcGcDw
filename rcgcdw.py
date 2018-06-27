@@ -41,10 +41,7 @@ else:
 	_ = lambda s: s
 
 def send(message, name, avatar):
-	try:
-		req = requests.post(settings["webhookURL"], data={"content": message, "avatar_url": avatar, "username": name}, timeout=10)
-	except:
-		pass
+	recent_changes.discord_message_query.append({"content": message, "avatar_url": avatar, "username": name})
 	
 def safe_read(request, *keys):
 	if request is None:
@@ -318,28 +315,25 @@ def webhook_formatter(action, STATIC, **params):
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
-	headers = {'Content-Type': 'application/json'}
-	#logging.debug(data)
-	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
-	if result.status_code != requests.codes.ok:
-		handle_discord_http(result.status_code, formatted_embed, headers)
+	recent_changes.discord_message_query.append(formatted_embed)
 		
-def handle_discord_http(code, formatted_embed, headers):
-	if code == 204: #message went through
-		return
+def handle_discord_http(code, formatted_embed):
+	if 300 > code > 199: #message went through
+		return 0
 	elif code == 400: #HTTP BAD REQUEST
 		logging.error("Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
 		logging.error(formatted_embed)
+		return 0
 	elif code == 401: #HTTP UNAUTHORIZED
-		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
+		logging.critical("Webhook URL is invalid or no longer in use, please replace it with proper one. Use Ctrl-C to leave the script.")
+		sys.exit(1)
 	elif code == 429:
 		logging.error("We are sending too many requests to the Discord, slowing down...")
-		time.sleep(20.0)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers) #TODO Replace this solution with less obscure one
-	elif code > 500 and code < 600:
+		time.sleep(15.0)
+		return 1
+	elif 600 > code > 499:
 		logging.error("Discord have trouble processing the event, and because the HTTP code returned is 500> it means we blame them.")
-		time.sleep(20.0)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+		return 2
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
@@ -356,11 +350,10 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		combination = "{logtype}/{logaction}".format(logtype=logtype, logaction=logaction)
 		logging.debug("combination is {}".format(combination))
 		try:
-			settings["appearance"][combination]
+			STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
 		except KeyError:
 			STATIC_VARS = {**STATIC_VARS ,**{"color": "", "icon": ""}}
 			logging.error("No value in the settings has been given for {}".format(combination))
-		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
 		if logtype=="protect" and logaction=="protect":
 			webhook_formatter(2, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
 		elif logtype=="protect" and logaction=="modify":
@@ -550,9 +543,8 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 		data = {}
 		data["embeds"] = [dict(embed)]
 		formatted_embed = json.dumps(data, indent=4)
-		headers = {'Content-Type': 'application/json'}
 		logging.debug(formatted_embed)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+		recent_changes.discord_message_query.append(formatted_embed)
 	else:
 		logging.debug("function requesting changes for day overview returned with error code")
 
@@ -565,6 +557,7 @@ class recent_changes_class(object):
 	last_downtime = 0
 	clock = 0
 	tags = {}
+	discord_message_query = []
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -576,6 +569,27 @@ class recent_changes_class(object):
 				file_id = 999999999 
 	else:
 		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happens
+	def send_from_query(self):
+		for num, item in enumerate(self.discord_message_query):
+			try:
+				result = requests.post(settings["webhookURL"], data=item, headers={**{'Content-Type': 'application/json'}, **settings["header"]}, timeout=10)
+			except requests.exceptions.Timeout:
+				logging.warning("Timeouted while sending data to the webhook.")
+				break
+			except requests.exceptions.ConnectionError:
+				logging.warning("Connection error while sending the data to a webhook")
+				break
+			else:
+				code = handle_discord_http(result.status_code, item)
+				if code == 0:
+					pass
+				elif code == 1:
+					self.send_from_query()
+					break
+				elif code == 2:
+					break
+			time.sleep(3.0) #sadly, the time here needs to be quite high, otherwise we are being rate-limited by the Discord, especially during re-fetch
+		self.discord_message_query = self.discord_message_query[num:]
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
 		#self.recent_id = change["rcid"]
@@ -619,7 +633,6 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-					time.sleep(3.0) #sadly, the time here needs to be quite high, otherwise we are being rate-limited by the Discord, especially during re-fetch
 				return change["rcid"]
 	def safe_request(self, url):
 		try:
@@ -689,3 +702,4 @@ schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 while 1:
 	time.sleep(1.0)
 	schedule.run_pending()
+	recent_changes.send_from_query()
