@@ -356,11 +356,10 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		combination = "{logtype}/{logaction}".format(logtype=logtype, logaction=logaction)
 		logging.debug("combination is {}".format(combination))
 		try:
-			settings["appearance"][combination]
+			STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
 		except KeyError:
 			STATIC_VARS = {**STATIC_VARS ,**{"color": "", "icon": ""}}
 			logging.error("No value in the settings has been given for {}".format(combination))
-		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
 		if logtype=="protect" and logaction=="protect":
 			webhook_formatter(2, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
 		elif logtype=="protect" and logaction=="modify":

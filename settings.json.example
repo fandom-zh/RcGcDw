@@ -117,6 +117,10 @@
          "icon":"",
          "color":null
       },
+      "abusefilter/modify":{
+         "icon":"",
+         "color":null
+      },
       "interwiki/iw_add":{
          "icon":"",
          "color":null
