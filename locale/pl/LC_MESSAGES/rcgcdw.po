@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "POT-Creation-Date: 2018-06-25 18:01+0200\n"
-"PO-Revision-Date: 2018-06-25 18:02+0200\n"
+"PO-Revision-Date: 2018-06-27 18:32+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -226,7 +226,7 @@ msgstr "Zaimportowano interwiki"
 
 #: rcgcdw.py:254
 msgid "Edited abuse filter number {number}"
-msgstr "Edytowano filtr nadużyć numer (number)"
+msgstr "Edytowano filtr nadużyć numer {number}"
 
 #: rcgcdw.py:257
 msgid "Merged revision histories of {article} into {dest}"

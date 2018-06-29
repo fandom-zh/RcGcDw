@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2018-06-25 18:01+0200\n"
-"PO-Revision-Date: 2018-06-25 18:02+0200\n"
+"PO-Revision-Date: 2018-06-30 00:01+0200\n"
 "Last-Translator: MarkusRost\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -78,7 +78,7 @@ msgstr "Verschob {article} nach {target}"
 
 #: rcgcdw.py:154
 msgid "Moved {article} to {title} over redirect"
-msgstr "Verschob {article} nach {target} und überschrieb eine Weiterleitung\""
+msgstr "Verschob {article} nach {title} und überschrieb eine Weiterleitung"
 
 #: rcgcdw.py:157
 msgid "Moved protection settings from {article} to {title}"
