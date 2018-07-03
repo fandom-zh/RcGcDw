@@ -220,7 +220,7 @@ def webhook_formatter(action, STATIC, **params):
 		#link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=params["target"])
 	elif action == 20:
-		link = "https://{wiki}.gamepedia.com/"+params["user"].replace(" ", "_").replace(')', '\)')
+		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])+params["user"].replace(" ", "_").replace(')', '\)')
 		embed["title"] = _("Changed group membership for {target}").format(target=params["user"])
 		if params["old_groups"].count(' ') < params["new_groups"].count(' '):
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
