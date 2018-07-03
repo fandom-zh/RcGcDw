@@ -102,43 +102,50 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"], article=article_encoded)
 		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+"+str(editsize) if editsize>0 else editsize, new= _("(N!) ") if action == 37 else "", minor=_("m ") if action == 1 and params["minor"] else "")
 	elif action == 5: #sending files
+		license = None
 		urls = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(wiki=settings["wiki"], filename=params["title"])), "query", "pages")
 		undolink = ""
 		link ="https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		additional_info_retrieved = False
 		if urls is not None:
-			img_info = next(iter(urls.values()))["imageinfo"]
-			embed["image"]["url"] = img_info[0]["url"]
+			if "-1" not in urls: #oage removed before we asked for it
+				img_info = next(iter(urls.values()))["imageinfo"]
+				embed["image"]["url"] = img_info[0]["url"]
+				additional_info_retrieved = True
 		else:
-			return
+			pass
 		if params["overwrite"]:
-			img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
-			undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp), filenamewon = article_encoded[5:])
+			if additional_info_retrieved:
+				img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
+				undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp), filenamewon = article_encoded[5:])
+				embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(link=embed["image"]["url"], undolink=undolink)}]
 			embed["title"] = _("Uploaded a new version of {name}").format(name=params["title"])
-			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(link=embed["image"]["url"], undolink=undolink)}]
 		else:
 			embed["title"] = _("Uploaded {name}").format(name=params["title"])
 			article_content = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(wiki=settings["wiki"], article=quote_plus(params["title"], safe=''))), "query", "pages")
 			if article_content is None:
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
-			content = list(article_content.values())[0]['revisions'][0]['*']
-			try:
-				matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
-				if matches is not None:
-					license = matches.group("license")
-				else:
-					if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
-						license = _("**No license!**")
+			if "-1" not in article_content:
+				content = list(article_content.values())[0]['revisions'][0]['*']
+				try:
+					matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
+					if matches is not None:
+						license = matches.group("license")
 					else:
-						license = "?"
-			except IndexError:
-				logging.error("Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
-				license = "?"
-			except re.error:
-				logging.error("Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
-				license = "?"
-			embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
-			params["desc"] = _("{desc}\nLicense: {license}").format(desc=params["desc"], license=license)
+						if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
+							license = _("**No license!**")
+						else:
+							license = "?"
+				except IndexError:
+					logging.error("Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
+					license = "?"
+				except re.error:
+					logging.error("Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
+					license = "?"
+			if additional_info_retrieved:
+				embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
+			params["desc"] = _("{desc}\nLicense: {license}").format(desc=params["desc"], license=license if license is not None else "?")
 	elif action == 6:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Deleted page {article}").format(article=params["title"])
@@ -213,7 +220,7 @@ def webhook_formatter(action, STATIC, **params):
 		#link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=params["target"])
 	elif action == 20:
-		link = "https://{wiki}.gamepedia.com/"+params["user"].replace(" ", "_").replace(')', '\)')
+		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])+params["user"].replace(" ", "_").replace(')', '\)')
 		embed["title"] = _("Changed group membership for {target}").format(target=params["user"])
 		if params["old_groups"].count(' ') < params["new_groups"].count(' '):
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
@@ -224,24 +231,24 @@ def webhook_formatter(action, STATIC, **params):
 		reason = "| {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
 		params["desc"] = _("Groups changed from {old_groups} to {new_groups} {reason}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], reason=reason)
 	elif action == 2:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Protected {target}").format(target=params["title"])
 		params["desc"] = params["settings"] + " | " + params["desc"]
 	elif action == 3:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Changed protection level for {article}").format(article=params["title"])
 		params["desc"] = params["settings"] + " | " + params["desc"]
 	elif action == 4:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Removed protection from {article}").format(article=params["title"])
 	elif action == 9:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Changed visibility of revision(s) on page {article} ").format(article=params["title"])
 	elif action == 11:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Imported {article} with {count} revision(s)").format(article=params["title"], count=params["amount"])
 	elif action == 8:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Restored {article}").format(article=params["title"])
 	elif action == 10:
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
@@ -253,7 +260,7 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
 		embed["title"] = _("Edited abuse filter number {number}").format(number=params["filternr"])
 	elif action == 13:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=params["title"], dest=params["destination"])
 	elif action == 22:
 		link = "https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"])
@@ -268,31 +275,31 @@ def webhook_formatter(action, STATIC, **params):
 		embed["title"] = _("Deleted an entry in interwiki table")
 		params["desc"] =_("Prefix: {prefix} | {desc}").format(desc=params["desc"], prefix=params["prefix"])
 	elif action == 30:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Changed the content model of the page {article}").format(article=params["title"])
 		params["desc"] = _("Model changed from {old} to {new}: {reason}").format(old=params["oldmodel"], new=params["newmodel"], reason=params["desc"])
 	elif action == 31:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Edited the sprite for {article}").format(article=params["title"])
 	elif action == 32:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Created the sprite sheet for {article}").format(article=params["title"])
 	elif action == 33:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Edited the slice for {article}").format(article=params["title"])
 	elif action == 34:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/Special:Tags"
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 		recent_changes.update_tags()
 	elif action == 35:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/Special:Tags"
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 		recent_changes.update_tags()
 	elif action == 36:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/Special:Tags"
 		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == 38:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/Special:Tags"
 		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
@@ -356,11 +363,10 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		combination = "{logtype}/{logaction}".format(logtype=logtype, logaction=logaction)
 		logging.debug("combination is {}".format(combination))
 		try:
-			settings["appearance"][combination]
+			STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
 		except KeyError:
 			STATIC_VARS = {**STATIC_VARS ,**{"color": "", "icon": ""}}
 			logging.error("No value in the settings has been given for {}".format(combination))
-		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
 		if logtype=="protect" and logaction=="protect":
 			webhook_formatter(2, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
 		elif logtype=="protect" and logaction=="modify":
