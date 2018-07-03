@@ -406,7 +406,7 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		elif logtype=="block":
 			webhook_formatter(19, STATIC_VARS, user=change["user"], blocked_user=change["title"], desc=parsedcomment)
 		elif logtype=="rights":
-			webhook_formatter(20, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, old_groups=' '.join(change["logparams"]["oldgroups"]), new_groups=' '.join(change["logparams"]["newgroups"]))
+			webhook_formatter(20, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, old_groups=', '.join(change["logparams"]["oldgroups"]), new_groups=', '.join(change["logparams"]["newgroups"]))
 		elif logtype=="abusefilter":
 			webhook_formatter(21, STATIC_VARS, user=change["user"], desc=parsedcomment, filternr=change["logparams"]['1'])
 		elif logtype=="interwiki" and logaction=="iw_add":
