@@ -41,10 +41,7 @@ else:
 	_ = lambda s: s
 
 def send(message, name, avatar):
-	try:
-		req = requests.post(settings["webhookURL"], data={"content": message, "avatar_url": avatar, "username": name}, timeout=10)
-	except:
-		pass
+	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
 	
 def safe_read(request, *keys):
 	if request is None:
@@ -60,7 +57,33 @@ def safe_read(request, *keys):
 		logging.warning("Failure while extracting data from request in {change}".format(change=request))
 		return None
 	return request
+
+def send_to_discord_webhook(data):
+	try:
+		result = requests.post(settings["webhookURL"], data=data, headers={'Content-Type': 'application/json'}, timeout=10)
+	except requests.exceptions.Timeout:
+		logging.warning("Timeouted while sending data to the webhook.")
+		return 3
+	except requests.exceptions.ConnectionError:
+		logging.warning("Connection error while sending the data to a webhook")
+		return 3
+	else:
+		return handle_discord_http(result.status_code, data)
 	
+def send_to_discord(data):
+	if recent_changes.unsent_messages:
+		recent_changes.unsent_messages.append(data)
+	else:
+		code = send_to_discord_webhook(data)
+		if code == 3:
+			recent_changes.unsent_messages.append(data)
+		elif code == 2:
+			time.sleep(5.0)
+			recent_changes.unsent_messages.append(data)
+		elif code < 2:
+			time.sleep(2.5)
+			pass
+			
 def webhook_formatter(action, STATIC, **params):
 	logging.debug("Received things: {thing}".format(thing=params))
 	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
@@ -325,28 +348,27 @@ def webhook_formatter(action, STATIC, **params):
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
-	headers = {'Content-Type': 'application/json'}
-	#logging.debug(data)
-	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
-	if result.status_code != requests.codes.ok:
-		handle_discord_http(result.status_code, formatted_embed, headers)
+	send_to_discord(formatted_embed)
 		
-def handle_discord_http(code, formatted_embed, headers):
-	if code == 204: #message went through
-		return
+def handle_discord_http(code, formatted_embed):
+	if code <300 and code > 199: #message went through
+		return 0
 	elif code == 400: #HTTP BAD REQUEST
 		logging.error("Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
 		logging.error(formatted_embed)
+		return 1
 	elif code == 401: #HTTP UNAUTHORIZED
 		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
+		sys.exit(1)
+		return 1
 	elif code == 429:
 		logging.error("We are sending too many requests to the Discord, slowing down...")
 		time.sleep(20.0)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers) #TODO Replace this solution with less obscure one
+		return 2
 	elif code > 500 and code < 600:
 		logging.error("Discord have trouble processing the event, and because the HTTP code returned is 500> it means we blame them.")
 		time.sleep(20.0)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+		return 3
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
@@ -556,9 +578,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 		data = {}
 		data["embeds"] = [dict(embed)]
 		formatted_embed = json.dumps(data, indent=4)
-		headers = {'Content-Type': 'application/json'}
-		logging.debug(formatted_embed)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+		send_to_discord(formatted_embed)
 	else:
 		logging.debug("function requesting changes for day overview returned with error code")
 
@@ -571,6 +591,7 @@ class recent_changes_class(object):
 	last_downtime = 0
 	clock = 0
 	tags = {}
+	unsent_messages = []
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -588,6 +609,13 @@ class recent_changes_class(object):
 		if len(self.ids) > settings["limit"]+5:
 			self.ids.pop(0)
 	def fetch(self, amount=settings["limit"]):
+		if self.unsent_messages:
+			for num, item in enumerate(self.unsent_messages):
+				if send_to_discord_webhook(item) < 2:
+					time.sleep(2.5)
+				else:
+					break
+			self.unsent_messages = self.unsent_messages[num-1:]
 		last_check = self.fetch_changes(amount=amount)
 		self.recent_id = last_check if last_check is not None else self.recent_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
@@ -625,7 +653,6 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-					time.sleep(3.0) #sadly, the time here needs to be quite high, otherwise we are being rate-limited by the Discord, especially during re-fetch
 				return change["rcid"]
 	def safe_request(self, url):
 		try:
