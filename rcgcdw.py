@@ -41,10 +41,7 @@ else:
 	_ = lambda s: s
 
 def send(message, name, avatar):
-	try:
-		req = requests.post(settings["webhookURL"], data={"content": message, "avatar_url": avatar, "username": name}, timeout=10)
-	except:
-		pass
+	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
 	
 def safe_read(request, *keys):
 	if request is None:
@@ -351,11 +348,7 @@ def webhook_formatter(action, STATIC, **params):
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
-	headers = {'Content-Type': 'application/json'}
-	#logging.debug(data)
-	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
-	if result.status_code != requests.codes.ok:
-		handle_discord_http(result.status_code, formatted_embed, headers)
+	send_to_discord(formatted_embed)
 		
 def handle_discord_http(code, formatted_embed):
 	if code <300 and code > 199: #message went through
@@ -619,7 +612,7 @@ class recent_changes_class(object):
 		if self.unsent_messages:
 			for num, item in enumerate(self.unsent_messages):
 				if send_to_discord_webhook(item) < 2:
-					pass
+					time.sleep(2.5)
 				else:
 					break
 			self.unsent_messages = self.unsent_messages[num-1:]
