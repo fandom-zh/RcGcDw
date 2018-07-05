@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-07-05 14:52+0200\n"
-"PO-Revision-Date: 2018-07-05 19:09+0200\n"
-"Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
+"POT-Creation-Date: 2018-07-05 20:21+0200\n"
+"PO-Revision-Date: 2018-07-05 20:22+0200\n"
+"Last-Translator: JSBM\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -188,8 +188,8 @@ msgid "No description provided"
 msgstr "Aucune description"
 
 #: rcgcdw.py:255
-msgid "Groups changed from {old_groups} to {new_groups}{is_reason} {reason}"
-msgstr "Groupe modifié de {old_groups} vers {new_groups}{is_reason} {reason}"
+msgid "Groups changed from {old_groups} to {new_groups}{reason}"
+msgstr "Groupe modifié de {old_groups} vers {new_groups}{reason}"
 
 #: rcgcdw.py:258
 msgid "Protected {target}"
