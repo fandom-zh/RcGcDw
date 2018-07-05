@@ -610,12 +610,19 @@ class recent_changes_class(object):
 			self.ids.pop(0)
 	def fetch(self, amount=settings["limit"]):
 		if self.unsent_messages:
+			logging.debug(self.unsent_messages)
 			for num, item in enumerate(self.unsent_messages):
+				sent = False
+				logging.debug(str(num) + str(item))
 				if send_to_discord_webhook(item) < 2:
+					sent = True
 					time.sleep(2.5)
 				else:
 					break
-			self.unsent_messages = self.unsent_messages[num-1:]
+			if len(self.unsent_messages)-1 == num and sent:
+				self.unsent_messages = []
+			self.unsent_messages = self.unsent_messages[num:]
+			logging.debug(self.unsent_messages)
 		last_check = self.fetch_changes(amount=amount)
 		self.recent_id = last_check if last_check is not None else self.recent_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
