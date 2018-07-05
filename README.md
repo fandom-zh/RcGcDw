@@ -72,7 +72,9 @@ Everything except the locale directory is under GNU Affero General Public Licens
 
 ### Currently running on ###
 There are several Discord server, the script is already running on, you can join them and see it working.     
+[Conan Exiles](https://discord.gg/5252dZh)    
 [Minecraft Wiki English](https://discord.gg/fGdE5ZE)    
 [Minecraft Wiki (DE)](https://discord.gg/F75vfpd) (on a hidden channel)    
 [Minecraft Wiki Polska](https://discord.gg/9ZCcTnT)    
+[Minecraft Wiki FR](https://discord.gg/PSK48k7) (temporarily)    
 

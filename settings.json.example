@@ -10,7 +10,8 @@
    "limitrefetch": 28,
    "wikiname": "Minecraft Wiki",
    "avatars": {
-      "connection_failed": "https://i.imgur.com/2jWQEt1.png",
+       "connection_failed": "https://i.imgur.com/2jWQEt1.png",
+       "connection_restored": "",
       "no_event": "",
       "embed": ""
    },

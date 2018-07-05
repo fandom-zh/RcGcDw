@@ -122,13 +122,13 @@ def webhook_formatter(action, STATIC, **params):
 				colornumber = 9175040 + (math.floor((editsize*-1)/(52)))*65536
 		elif editsize == 0:
 			colornumber = 8750469
-		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"], article=params["title"].replace(" ", "_"))
 		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+"+str(editsize) if editsize>0 else editsize, new= _("(N!) ") if action == 37 else "", minor=_("m ") if action == 1 and params["minor"] else "")
 	elif action == 5: #sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(wiki=settings["wiki"], filename=params["title"])), "query", "pages")
 		undolink = ""
-		link ="https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link ="https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		additional_info_retrieved = False
 		if urls is not None:
 			if "-1" not in urls: #oage removed before we asked for it
@@ -183,7 +183,7 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["target"].replace(" ", "_"))
 		embed["title"] = _("Moved {article} to {title} over redirect").format(article=params["title"], title=params["target"])
 	elif action == 16:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Moved protection settings from {article} to {title}").format(article=params["title"], title=params["target"])
 	elif action == 17:
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"], user=params["blocked_user"].replace(" ", "_").replace(')', '\)'))
@@ -590,6 +590,7 @@ class recent_changes_class(object):
 	clock = 0
 	tags = {}
 	unsent_messages = []
+	streak = -1
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -654,6 +655,11 @@ class recent_changes_class(object):
 			else:
 				if self.downtimecredibility > 0:
 					self.downtimecredibility -= 1
+					if self.streak > -1:
+						self.streak+=1
+					if self.streak > 8:
+						self.streak = -1
+						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_restored"])
 				for change in changes:
 					if change["rcid"] in self.ids:
 						continue
@@ -708,6 +714,7 @@ class recent_changes_class(object):
 			if(time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
 				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
+				self.streak = 0
 				
 	def clear_cache(self):
 		self.map_ips = {}
