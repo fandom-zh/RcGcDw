@@ -619,7 +619,7 @@ class recent_changes_class(object):
 					time.sleep(2.5)
 				else:
 					break
-			if len(self.unsent_messages)-1 == num and sent:
+			else:
 				self.unsent_messages = []
 			self.unsent_messages = self.unsent_messages[num:]
 			logging.debug(self.unsent_messages)
