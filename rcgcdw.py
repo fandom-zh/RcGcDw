@@ -603,24 +603,27 @@ class recent_changes_class(object):
 				file_id = 999999999 
 	else:
 		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happens
+		
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
 		#self.recent_id = change["rcid"]
 		if len(self.ids) > settings["limit"]+5:
 			self.ids.pop(0)
+			
 	def fetch(self, amount=settings["limit"]):
 		if self.unsent_messages:
-			logging.debug(self.unsent_messages)
+			logging.info("{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(len(self.unsent_messages)))
 			for num, item in enumerate(self.unsent_messages):
-				sent = False
-				logging.debug(str(num) + str(item))
+				logging.debug("Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num), str(item)))
 				if send_to_discord_webhook(item) < 2:
-					sent = True
+					logging.debug("Sending message succeeded")
 					time.sleep(2.5)
 				else:
+					logging.debug("Sending message failed")
 					break
 			else:
 				self.unsent_messages = []
+				logging.debug("Queue emptied, all messages delivered")
 			self.unsent_messages = self.unsent_messages[num:]
 			logging.debug(self.unsent_messages)
 		last_check = self.fetch_changes(amount=amount)
@@ -630,6 +633,7 @@ class recent_changes_class(object):
 			with open("lastchange.txt", "w") as record:
 				record.write(str(self.file_id))
 		logging.debug("Most recent rcid is: {}".format(self.recent_id))
+		
 	def fetch_changes(self, amount, clean=False):
 		if len(self.ids) == 0:
 			logging.debug("ids is empty, triggering clean fetch")
@@ -661,6 +665,7 @@ class recent_changes_class(object):
 						continue
 					first_pass(change)
 				return change["rcid"]
+			
 	def safe_request(self, url):
 		try:
 			request = requests.get(url, timeout=10, headers=settings["header"])
@@ -674,6 +679,7 @@ class recent_changes_class(object):
 			return None
 		else:
 			return request
+		
 	def check_connection(self, looped=False):
 		online = 0
 		for website in ["https://google.com", "https://instagram.com", "https://steamcommunity.com"]:
@@ -694,6 +700,7 @@ class recent_changes_class(object):
 					time.sleep(10)
 			return False
 		return True
+	
 	def downtime_controller(self):
 		if settings["show_updown_messages"] == False:
 			return
@@ -703,8 +710,10 @@ class recent_changes_class(object):
 			if(time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
 				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
+				
 	def clear_cache(self):
 		self.map_ips = {}
+		
 	def update_tags(self):
 		tags_read = safe_read(self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=tags&tgprop=name%7Cdisplayname".format(wiki=settings["wiki"])), "query", "tags")
 		if tags_read:
