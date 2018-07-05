@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2018-07-05 14:52+0200\n"
-"PO-Revision-Date: 2018-07-05 18:37+0200\n"
+"PO-Revision-Date: 2018-07-05 19:09+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -352,9 +352,8 @@ msgid "Unique contributors"
 msgstr "Contributeurs uniques"
 
 #: rcgcdw.py:662
-#, fuzzy
 msgid "Connection to {wiki} seems to be stable now."
-msgstr "Connection to {wiki} seems to be stable now."
+msgstr "La connexion avec {wiki} semble stable maintenant."
 
 #: rcgcdw.py:662 rcgcdw.py:715
 msgid "Connection status"
