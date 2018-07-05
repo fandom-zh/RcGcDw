@@ -60,7 +60,7 @@ def safe_read(request, *keys):
 
 def send_to_discord_webhook(data):
 	try:
-		result = requests.post(settings["webhookURL"], data=data, headers={'Content-Type': 'application/json'}, timeout=10)
+		result = requests.post(settings["webhookURL"], data=data, headers={**{'Content-Type': 'application/json'}, **settings["header"]}, timeout=10)
 	except requests.exceptions.Timeout:
 		logging.warning("Timeouted while sending data to the webhook.")
 		return 3
@@ -107,7 +107,7 @@ def webhook_formatter(action, STATIC, **params):
 			params["user"] = "{author} ({amount})".format(author=params["user"], amount=recent_changes.map_ips[params["user"]])
 	else:
 		author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=params["user"].replace(" ", "_"))
-	if action in [1, 37]: #edit or new page
+	if action in (1, 37): #edit or new page
 		editsize = params["size"]
 		print (editsize)
 		if editsize > 0:
@@ -357,17 +357,15 @@ def handle_discord_http(code, formatted_embed):
 		logging.error("Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
 		logging.error(formatted_embed)
 		return 1
-	elif code == 401: #HTTP UNAUTHORIZED
+	elif code == 401 or code == 404: #HTTP UNAUTHORIZED AND NOT FOUND
 		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
 		sys.exit(1)
 		return 1
 	elif code == 429:
 		logging.error("We are sending too many requests to the Discord, slowing down...")
-		time.sleep(20.0)
 		return 2
 	elif code > 500 and code < 600:
-		logging.error("Discord have trouble processing the event, and because the HTTP code returned is 500> it means we blame them.")
-		time.sleep(20.0)
+		logging.error("Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(code))
 		return 3
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
