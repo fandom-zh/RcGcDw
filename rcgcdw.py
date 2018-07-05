@@ -251,8 +251,8 @@ def webhook_formatter(action, STATIC, **params):
 			params["old_groups"] = _("none")
 		if len(params["new_groups"]) < 4:
 			params["new_groups"] = _("none")
-		reason = "| {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
-		params["desc"] = _("Groups changed from {old_groups} to {new_groups}{is_reason} {reason}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], is_reason = ":" if reason else "", reason=reason)
+		reason = ": {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
+		params["desc"] = _("Groups changed from {old_groups} to {new_groups} {reason}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], reason=reason)
 	elif action == 2:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Protected {target}").format(target=params["title"])
