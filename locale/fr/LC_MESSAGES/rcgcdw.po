@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2018-07-05 20:21+0200\n"
-"PO-Revision-Date: 2018-07-05 20:22+0200\n"
+"PO-Revision-Date: 2018-07-06 10:44+0200\n"
 "Last-Translator: JSBM\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -93,7 +93,7 @@ msgstr "toujours"
 
 #: rcgcdw.py:192
 msgid "Blocked {blocked_user} for {time}"
-msgstr "{blocked user} a été bloqué pour {time}"
+msgstr "{blocked_user} a été bloqué pour {time}"
 
 #: rcgcdw.py:196
 msgid "Changed block settings for {blocked_user}"
