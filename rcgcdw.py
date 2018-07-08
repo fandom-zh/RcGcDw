@@ -41,10 +41,7 @@ else:
 	_ = lambda s: s
 
 def send(message, name, avatar):
-	try:
-		req = requests.post(settings["webhookURL"], data={"content": message, "avatar_url": avatar, "username": name}, timeout=10)
-	except:
-		pass
+	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
 	
 def safe_read(request, *keys):
 	if request is None:
@@ -60,7 +57,33 @@ def safe_read(request, *keys):
 		logging.warning("Failure while extracting data from request in {change}".format(change=request))
 		return None
 	return request
+
+def send_to_discord_webhook(data):
+	try:
+		result = requests.post(settings["webhookURL"], data=data, headers={**{'Content-Type': 'application/json'}, **settings["header"]}, timeout=10)
+	except requests.exceptions.Timeout:
+		logging.warning("Timeouted while sending data to the webhook.")
+		return 3
+	except requests.exceptions.ConnectionError:
+		logging.warning("Connection error while sending the data to a webhook")
+		return 3
+	else:
+		return handle_discord_http(result.status_code, data)
 	
+def send_to_discord(data):
+	if recent_changes.unsent_messages:
+		recent_changes.unsent_messages.append(data)
+	else:
+		code = send_to_discord_webhook(data)
+		if code == 3:
+			recent_changes.unsent_messages.append(data)
+		elif code == 2:
+			time.sleep(5.0)
+			recent_changes.unsent_messages.append(data)
+		elif code < 2:
+			time.sleep(2.5)
+			pass
+			
 def webhook_formatter(action, STATIC, **params):
 	logging.debug("Received things: {thing}".format(thing=params))
 	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
@@ -84,7 +107,7 @@ def webhook_formatter(action, STATIC, **params):
 			params["user"] = "{author} ({amount})".format(author=params["user"], amount=recent_changes.map_ips[params["user"]])
 	else:
 		author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=params["user"].replace(" ", "_"))
-	if action in [1, 37]: #edit or new page
+	if action in (1, 37): #edit or new page
 		editsize = params["size"]
 		print (editsize)
 		if editsize > 0:
@@ -99,13 +122,13 @@ def webhook_formatter(action, STATIC, **params):
 				colornumber = 9175040 + (math.floor((editsize*-1)/(52)))*65536
 		elif editsize == 0:
 			colornumber = 8750469
-		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"], article=params["title"].replace(" ", "_"))
 		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+"+str(editsize) if editsize>0 else editsize, new= _("(N!) ") if action == 37 else "", minor=_("m ") if action == 1 and params["minor"] else "")
 	elif action == 5: #sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(wiki=settings["wiki"], filename=params["title"])), "query", "pages")
 		undolink = ""
-		link ="https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link ="https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		additional_info_retrieved = False
 		if urls is not None:
 			if "-1" not in urls: #oage removed before we asked for it
@@ -160,7 +183,7 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["target"].replace(" ", "_"))
 		embed["title"] = _("Moved {article} to {title} over redirect").format(article=params["title"], title=params["target"])
 	elif action == 16:
-		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=article_encoded)
+		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Moved protection settings from {article} to {title}").format(article=params["title"], title=params["target"])
 	elif action == 17:
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"], user=params["blocked_user"].replace(" ", "_").replace(')', '\)'))
@@ -222,14 +245,14 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == 20:
 		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"])+params["title"].split(":")[1]
 		embed["title"] = _("Changed group membership for {target}").format(target=params["title"].split(":")[1])
-		if params["old_groups"].count(' ') < params["new_groups"].count(' '):
+		if params["old_groups"].count(' ') < params["new_groups"].count(' ') or params["old_groups"] == "none": #TODO Hardcoded value, depends on translation
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
 		if len(params["old_groups"]) < 4:
 			params["old_groups"] = _("none")
 		if len(params["new_groups"]) < 4:
 			params["new_groups"] = _("none")
-		reason = "| {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
-		params["desc"] = _("Groups changed from {old_groups} to {new_groups} {reason}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], reason=reason)
+		reason = ": {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
+		params["desc"] = _("Groups changed from {old_groups} to {new_groups}{reason}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], reason=reason)
 	elif action == 2:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Protected {target}").format(target=params["title"])
@@ -325,28 +348,24 @@ def webhook_formatter(action, STATIC, **params):
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
-	headers = {'Content-Type': 'application/json'}
-	#logging.debug(data)
-	result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
-	if result.status_code != requests.codes.ok:
-		handle_discord_http(result.status_code, formatted_embed, headers)
+	send_to_discord(formatted_embed)
 		
-def handle_discord_http(code, formatted_embed, headers):
-	if code == 204: #message went through
-		return
+def handle_discord_http(code, formatted_embed):
+	if 300 > code > 199: #message went through
+		return 0
 	elif code == 400: #HTTP BAD REQUEST
 		logging.error("Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
 		logging.error(formatted_embed)
-	elif code == 401: #HTTP UNAUTHORIZED
+		return 1
+	elif code == 401 or code == 404: #HTTP UNAUTHORIZED AND NOT FOUND
 		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
+		sys.exit(1)
 	elif code == 429:
 		logging.error("We are sending too many requests to the Discord, slowing down...")
-		time.sleep(20.0)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers) #TODO Replace this solution with less obscure one
-	elif code > 500 and code < 600:
-		logging.error("Discord have trouble processing the event, and because the HTTP code returned is 500> it means we blame them.")
-		time.sleep(20.0)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+		return 2
+	elif 499 < code < 600:
+		logging.error("Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(code))
+		return 3
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
@@ -406,7 +425,7 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		elif logtype=="block":
 			webhook_formatter(19, STATIC_VARS, user=change["user"], blocked_user=change["title"], desc=parsedcomment)
 		elif logtype=="rights":
-			webhook_formatter(20, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, old_groups=' '.join(change["logparams"]["oldgroups"]), new_groups=' '.join(change["logparams"]["newgroups"]))
+			webhook_formatter(20, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, old_groups=', '.join(change["logparams"]["oldgroups"]), new_groups=', '.join(change["logparams"]["newgroups"]))
 		elif logtype=="abusefilter":
 			webhook_formatter(21, STATIC_VARS, user=change["user"], desc=parsedcomment, filternr=change["logparams"]['1'])
 		elif logtype=="interwiki" and logaction=="iw_add":
@@ -556,9 +575,7 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 		data = {}
 		data["embeds"] = [dict(embed)]
 		formatted_embed = json.dumps(data, indent=4)
-		headers = {'Content-Type': 'application/json'}
-		logging.debug(formatted_embed)
-		result = requests.post(settings["webhookURL"], data=formatted_embed, headers=headers)
+		send_to_discord(formatted_embed)
 	else:
 		logging.debug("function requesting changes for day overview returned with error code")
 
@@ -571,6 +588,8 @@ class recent_changes_class(object):
 	last_downtime = 0
 	clock = 0
 	tags = {}
+	unsent_messages = []
+	streak = -1
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -582,12 +601,29 @@ class recent_changes_class(object):
 				file_id = 999999999 
 	else:
 		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happens
+		
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
 		#self.recent_id = change["rcid"]
 		if len(self.ids) > settings["limit"]+5:
 			self.ids.pop(0)
+			
 	def fetch(self, amount=settings["limit"]):
+		if self.unsent_messages:
+			logging.info("{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(len(self.unsent_messages)))
+			for num, item in enumerate(self.unsent_messages):
+				logging.debug("Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num), str(item)))
+				if send_to_discord_webhook(item) < 2:
+					logging.debug("Sending message succeeded")
+					time.sleep(2.5)
+				else:
+					logging.debug("Sending message failed")
+					break
+			else:
+				self.unsent_messages = []
+				logging.debug("Queue emptied, all messages delivered")
+			self.unsent_messages = self.unsent_messages[num:]
+			logging.debug(self.unsent_messages)
 		last_check = self.fetch_changes(amount=amount)
 		self.recent_id = last_check if last_check is not None else self.recent_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
@@ -595,6 +631,7 @@ class recent_changes_class(object):
 			with open("lastchange.txt", "w") as record:
 				record.write(str(self.file_id))
 		logging.debug("Most recent rcid is: {}".format(self.recent_id))
+		
 	def fetch_changes(self, amount, clean=False):
 		if len(self.ids) == 0:
 			logging.debug("ids is empty, triggering clean fetch")
@@ -617,6 +654,11 @@ class recent_changes_class(object):
 			else:
 				if self.downtimecredibility > 0:
 					self.downtimecredibility -= 1
+					if self.streak > -1:
+						self.streak+=1
+					if self.streak > 8:
+						self.streak = -1
+						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_restored"])
 				for change in changes:
 					if change["rcid"] in self.ids:
 						continue
@@ -625,8 +667,8 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-					time.sleep(3.0) #sadly, the time here needs to be quite high, otherwise we are being rate-limited by the Discord, especially during re-fetch
 				return change["rcid"]
+			
 	def safe_request(self, url):
 		try:
 			request = requests.get(url, timeout=10, headers=settings["header"])
@@ -640,6 +682,7 @@ class recent_changes_class(object):
 			return None
 		else:
 			return request
+		
 	def check_connection(self, looped=False):
 		online = 0
 		for website in ["https://google.com", "https://instagram.com", "https://steamcommunity.com"]:
@@ -660,17 +703,23 @@ class recent_changes_class(object):
 					time.sleep(10)
 			return False
 		return True
+	
 	def downtime_controller(self):
 		if settings["show_updown_messages"] == False:
 			return
+		if self.streak > -1: #reset the streak of successful connections when bad one happens
+			self.streak = 0
 		if self.downtimecredibility<60:
 			self.downtimecredibility+=15
 		else:
 			if(time.time() - self.last_downtime)>1800 and self.check_connection(): #check if last downtime happened within 30 minutes, if yes, don't send a message
 				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
+				self.streak = 0
+				
 	def clear_cache(self):
 		self.map_ips = {}
+		
 	def update_tags(self):
 		tags_read = safe_read(self.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=tags&tgprop=name%7Cdisplayname".format(wiki=settings["wiki"])), "query", "tags")
 		if tags_read:

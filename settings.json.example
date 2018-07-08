@@ -3,14 +3,15 @@
    "wiki": "minecraft",
    "lang": "en",
    "header": {
-      "user-agent": "FrisksRcGcDw/1.1"
+      "user-agent": "FrisksRcGcDw/1.2"
       },
    "limit": 11,
    "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
    "limitrefetch": 28,
    "wikiname": "Minecraft Wiki",
    "avatars": {
-      "connection_failed": "https://i.imgur.com/2jWQEt1.png",
+       "connection_failed": "https://i.imgur.com/2jWQEt1.png",
+       "connection_restored": "",
       "no_event": "",
       "embed": ""
    },
