@@ -269,7 +269,7 @@ msgstr "Création d'une feuille de sprite pour {article}"
 
 #: rcgcdw.py:312
 msgid "Edited the slice for {article}"
-msgstr ""
+msgstr "Edited the slice for {article}"
 
 #: rcgcdw.py:315
 msgid "Created a tag \"{tag}\""

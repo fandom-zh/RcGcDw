@@ -245,7 +245,7 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == 20:
 		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"])+params["title"].split(":")[1]
 		embed["title"] = _("Changed group membership for {target}").format(target=params["title"].split(":")[1])
-		if params["old_groups"].count(' ') < params["new_groups"].count(' '):
+		if params["old_groups"].count(' ') < params["new_groups"].count(' ') or params["old_groups"] == "none": #TODO Hardcoded value, depends on translation
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
 		if len(params["old_groups"]) < 4:
 			params["old_groups"] = _("none")
@@ -351,7 +351,7 @@ def webhook_formatter(action, STATIC, **params):
 	send_to_discord(formatted_embed)
 		
 def handle_discord_http(code, formatted_embed):
-	if code <300 and code > 199: #message went through
+	if 300 > code > 199: #message went through
 		return 0
 	elif code == 400: #HTTP BAD REQUEST
 		logging.error("Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
@@ -360,11 +360,10 @@ def handle_discord_http(code, formatted_embed):
 	elif code == 401 or code == 404: #HTTP UNAUTHORIZED AND NOT FOUND
 		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
 		sys.exit(1)
-		return 1
 	elif code == 429:
 		logging.error("We are sending too many requests to the Discord, slowing down...")
 		return 2
-	elif code > 500 and code < 600:
+	elif 499 < code < 600:
 		logging.error("Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(code))
 		return 3
 		
@@ -708,6 +707,8 @@ class recent_changes_class(object):
 	def downtime_controller(self):
 		if settings["show_updown_messages"] == False:
 			return
+		if self.streak > -1: #reset the streak of successful connections when bad one happens
+			self.streak = 0
 		if self.downtimecredibility<60:
 			self.downtimecredibility+=15
 		else:
