@@ -245,14 +245,20 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == 20:
 		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"])+params["title"].split(":")[1]
 		embed["title"] = _("Changed group membership for {target}").format(target=params["title"].split(":")[1])
-		if params["old_groups"].count(' ') < params["new_groups"].count(' ') or params["old_groups"] == "none": #TODO Hardcoded value, depends on translation
+		if len(params["old_groups"]) < len(params["new_groups"]):
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
-		if len(params["old_groups"]) < 4:
-			params["old_groups"] = _("none")
-		if len(params["new_groups"]) < 4:
-			params["new_groups"] = _("none")
+		old_groups = []
+		new_groups = []
+		for name in params["old_groups"]:
+			old_groups.append(_(name))
+		for name in params["new_groups"]:
+			new_groups.append(_(name))
+		if len(old_groups) == 0:
+			old_groups = _("none")
+		if len(new_groups) == 0:
+			new_groups = _("none")
 		reason = ": {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
-		params["desc"] = _("Groups changed from {old_groups} to {new_groups}{reason}").format(old_groups=params["old_groups"], new_groups=params["new_groups"], reason=reason)
+		params["desc"] = _("Groups changed from {old_groups} to {new_groups}{reason}").format(old_groups=", ".join(old_groups), new_groups=', '.join(new_groups), reason=reason)
 	elif action == 2:
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Protected {target}").format(target=params["title"])
@@ -425,7 +431,7 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		elif logtype=="block":
 			webhook_formatter(19, STATIC_VARS, user=change["user"], blocked_user=change["title"], desc=parsedcomment)
 		elif logtype=="rights":
-			webhook_formatter(20, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, old_groups=', '.join(change["logparams"]["oldgroups"]), new_groups=', '.join(change["logparams"]["newgroups"]))
+			webhook_formatter(20, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, old_groups=change["logparams"]["oldgroups"], new_groups=change["logparams"]["newgroups"])
 		elif logtype=="abusefilter":
 			webhook_formatter(21, STATIC_VARS, user=change["user"], desc=parsedcomment, filternr=change["logparams"]['1'])
 		elif logtype=="interwiki" and logaction=="iw_add":
@@ -588,6 +594,7 @@ class recent_changes_class(object):
 	last_downtime = 0
 	clock = 0
 	tags = {}
+	groups = {}
 	unsent_messages = []
 	streak = -1
 	if settings["limitrefetch"] != -1:
@@ -727,7 +734,7 @@ class recent_changes_class(object):
 				self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
 		else:
 			logging.warning("Could not retrive tags. Internal names will be used!")
-
+		
 recent_changes = recent_changes_class()
 recent_changes.update_tags()
 time.sleep(1.0)
@@ -735,7 +742,7 @@ recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"
 	
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
 if 1==2: #dummy for future translations
-	print (_("{wiki} is back up!"))
+	print (_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"), _("autoreview"), _("autopatrol"), _("wiki_guardian"))
 
 if settings["overview"]:
 	schedule.every().day.at("{}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour, time.strptime(settings["overview_time"], '%H:%M').tm_min)).do(day_overview)
