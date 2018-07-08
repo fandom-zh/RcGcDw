@@ -245,7 +245,7 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == 20:
 		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"])+params["title"].split(":")[1]
 		embed["title"] = _("Changed group membership for {target}").format(target=params["title"].split(":")[1])
-		if params["old_groups"].count(' ') < params["new_groups"].count(' '):
+		if params["old_groups"].count(' ') < params["new_groups"].count(' ') or params["old_groups"] == "none": #TODO Hardcoded value, depends on translation
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
 		if len(params["old_groups"]) < 4:
 			params["old_groups"] = _("none")
