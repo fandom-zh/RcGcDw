@@ -2,3 +2,4 @@ settings.json
 pygettext.py
 lastchange.txt
 .directory
+/debug

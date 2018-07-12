@@ -34,11 +34,8 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("99999999999")
 logging.info("Current settings: {settings}".format(settings=settings))
-if settings["lang"] != "en" or settings["lang"] == "":
-	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
-	lang.install()
-else:
-	_ = lambda s: s
+lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
+lang.install()
 
 def send(message, name, avatar):
 	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
@@ -254,9 +251,9 @@ def webhook_formatter(action, STATIC, **params):
 		for name in params["new_groups"]:
 			new_groups.append(_(name))
 		if len(old_groups) == 0:
-			old_groups = _("none")
+			old_groups = [_("none")]
 		if len(new_groups) == 0:
-			new_groups = _("none")
+			new_groups = [_("none")]
 		reason = ": {desc}".format(desc=params["desc"]) if params["desc"]!=_("No description provided") else ""
 		params["desc"] = _("Groups changed from {old_groups} to {new_groups}{reason}").format(old_groups=", ".join(old_groups), new_groups=', '.join(new_groups), reason=reason)
 	elif action == 2:

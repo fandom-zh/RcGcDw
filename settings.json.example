@@ -19,8 +19,8 @@
    "show_updown_messages": true,
    "overview": false,
    "overview_time": "00:00",
-   "license_regex_detect": "\\{\\{(license|lizenz|licence)",
-   "license_regex": "\\{\\{(license|lizenz|licence)(\\ |\\|)(?P<license>.*?)\\}\\}",
+   "license_regex_detect": "\\{\\{(license|lizenz|licence|copyright)",
+   "license_regex": "\\{\\{(license|lizenz|licence|copyright)(\\ |\\|)(?P<license>.*?)\\}\\}",
    "appearance":{
        "daily_overview": {
          "color": 16312092,
