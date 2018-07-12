@@ -638,7 +638,7 @@ class recent_changes_class(object):
 			self.unsent_messages = self.unsent_messages[num:]
 			logging.debug(self.unsent_messages)
 		last_check = self.fetch_changes(amount=amount)
-		self.recent_id = last_check if last_check is not None else self.recent_id
+		self.recent_id = last_check if last_check is not None else self.file_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
 			self.file_id = self.recent_id
 			with open("lastchange.txt", "w") as record:
