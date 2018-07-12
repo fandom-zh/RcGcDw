@@ -712,6 +712,7 @@ class recent_changes_class(object):
 			if looped == False:
 				while 1: #recursed loop, check for connection (every 10 seconds) as long as three services are down, don't do anything else
 					if self.check_connection(looped=True):
+						recent_changes.fetch(amount=settings["limitrefetch"])
 						break
 					time.sleep(10)
 			return False
