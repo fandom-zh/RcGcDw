@@ -36,6 +36,7 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 logging.info("Current settings: {settings}".format(settings=settings))
 lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 lang.install()
+ngettext = lang.ngettext
 
 def send(message, name, avatar):
 	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
@@ -273,11 +274,12 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Removed protection from {article}").format(article=params["title"])
 	elif action == "delete/revision":
+		amount = len(params["amount"])
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Changed visibility of revision(s) on page {article} ").format(article=params["title"])
+		embed["title"] = ngettext("Changed visibility of revision on page {article} ", "Changed visibility of {amount} revisions on page {article} ", amount).format(article=params["title"], amount=amount)
 	elif action == "import/upload":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Imported {article} with {count} revision(s)").format(article=params["title"], count=params["amount"])
+		embed["title"] = ngettext("Imported {article} with {count} revision", "Imported {article} with {count} revisions", params["amount"]).format(article=params["title"], count=params["amount"])
 	elif action == "delete/restore":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Restored {article}").format(article=params["title"])
@@ -394,7 +396,7 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		except KeyError:
 			STATIC_VARS = {**STATIC_VARS ,**{"color": "", "icon": ""}}
 			logging.error("No value in the settings has been given for {}".format(combination))
-		if combination == "protect/protect"
+		if combination == "protect/protect":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
 		elif combination=="protect/modify":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, settings=change["logparams"]["description"])
@@ -411,7 +413,7 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		elif combination=="delete/restore":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif combination=="delete/revision":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
+			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, amount=change["logparams"]["ids"])
 		elif combination=="delete/event":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment)
 		elif combination=="import/upload":
@@ -571,15 +573,15 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 			active_hours = []
 			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))): #find most active users
 				active_hours.append(str(hour))
-			usramount = _(" ({} actions)").format(numberu)
-			houramount = _(" UTC ({} actions)").format(numberh)
+			usramount = ngettext(" ({} action)", " ({} actions)", numberu).format(numberu)
+			houramount = ngettext(" UTC ({} action)", " UTC ({} actions)", numberh).format(numberh)
 		else:
 			active_users = [_("But nobody came")] #a reference to my favorite game of all the time, sorry ^_^
 			active_hours = [_("But nobody came")]
 			usramount = ""
 			houramount = ""
 		embed["fields"] = []
-		fields = ((_("Most active users"), ', '.join(active_users) + usramount), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (_("Most active hours"), ', '.join(active_hours) + houramount), (_("Day score"), str(overall)))
+		fields = ((ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users) + usramount), (_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin), (_("Bytes changed"), changed_bytes), (_("New articles"), new_articles), (_("Unique contributors"), str(len(activity))), (ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount), (_("Day score"), str(overall)))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
 		data = {}
