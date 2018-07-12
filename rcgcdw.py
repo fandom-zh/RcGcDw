@@ -376,13 +376,15 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"]}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
-	if change["type"] == "edit":
+	if change["type"] == "edit" and "edit" not in settings["ignored"]:
 		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"]["edit"]["color"], "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter(1,  STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"]-change["oldlen"], minor= True if "minor" in change else False)
 	elif change["type"] == "log":
 		logtype = change["logtype"]
 		logaction = change["logaction"]
 		combination = "{logtype}/{logaction}".format(logtype=logtype, logaction=logaction)
+		if combination in settings["ignored"]:
+			return
 		logging.debug("combination is {}".format(combination))
 		try:
 			STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"][combination]["color"], "icon": settings["appearance"][combination]["icon"]}}
@@ -474,7 +476,7 @@ def first_pass(change): #I've decided to split the embed formatter and change ha
 		logging.warning("External event happened, ignoring.")
 		print (change)
 		return
-	elif change["type"] == "new": #new page
+	elif change["type"] == "new" and "new" not in settings["ignored"]: #new page
 		STATIC_VARS = {**STATIC_VARS ,**{"color": settings["appearance"]["new"]["color"], "icon": settings["appearance"]["new"]["icon"]}}
 		webhook_formatter(37, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment, oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"], size=change["newlen"])
 		
