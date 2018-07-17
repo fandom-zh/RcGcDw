@@ -15,7 +15,7 @@ Recent changes Gamepedia compatible Discord webhook is a project made from earli
 * Re-sends edits after down-time
 
 ### settings.json ###
-[Explanation for settings](/Settings.json)    
+[Explanation for settings](https://gitlab.com/piotrex43/RcGcDw/wikis/settings.json)    
 
 ### How to use ###
 Make sure you have installed all of dependencies and **filled settings.json properly**. You can also use `pip install -r requirements.txt` to install dependencies automatically. If you are using Raspberry Pi you won't have newest Python version installed, you can use [this guide](https://gist.github.com/dschep/24aa61672a2092246eaca2824400d37f).
