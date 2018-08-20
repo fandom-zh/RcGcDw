@@ -32,6 +32,7 @@ Translators:
 * MarkusRost for German translation
 * JSBM for French translation
 * Eduaddad for Brazilian Portuguese translation
+* BabylonAS for Russian translation
 
 ### Support ###
 The script does have [its own channel](https://discord.gg/pFDZrnE) on MarkusRost's Discord server. All updates will be announced there. If you need help feel free to hop there.    
