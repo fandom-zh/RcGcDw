@@ -675,7 +675,7 @@ class recent_changes_class(object):
 						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_restored"])
 				for change in changes:
 					if change["rcid"] in self.ids or change["rcid"] < self.recent_id or datetime.datetime.fromisoformat(change["timestamp"][0:19]) < self.last_datetime:
-						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"]), self.recent_id)
+						logging.debug("Change ({}) is in ids or is lower than recent_id {} or date {} is earlier than {}".format(change["rcid"], self.recent_id, change["timestamp"], self.last_datetime))
 						continue
 					logging.debug(self.ids)
 					logging.debug(self.recent_id)
@@ -684,7 +684,7 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-				self.last_datetime = change["timestamp"]
+				self.last_datetime = datetime.datetime.fromisoformat(change["timestamp"][0:19])
 				return change["rcid"]
 			
 	def safe_request(self, url):
