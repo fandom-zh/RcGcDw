@@ -603,6 +603,24 @@ class recent_changes_class(object):
 	groups = {}
 	unsent_messages = []
 	streak = -1
+	session = requests.Session()
+	session.headers.update(headers=settings["header"])
+	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
+		#session.cookies.clear()
+		logging.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
+		try:
+			response = data.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'query', 'format': 'json', 'utf8': '', 'meta': 'tokens', 'type': 'login'})
+			response = data.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'login', 'format': 'json', 'utf8': '', 'lgname': settings["wiki_bot_login"], 'lgpassword':settings["wiki_bot_password"], 'lgtoken': response.json()['query']['tokens']['logintoken']})
+		except ValueError:
+			logging.error("Logging in have not succeeded")
+		try:
+			if response.json()['login']['result']=="Success":
+				logging.info("Logging to the wiki succeeded")
+			else:
+				logging.error("Logging in have not succeeded")
+		except:
+			logging.error("Logging in have not succeeded")
+
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -684,7 +702,7 @@ class recent_changes_class(object):
 			
 	def safe_request(self, url):
 		try:
-			request = requests.get(url, timeout=10, headers=settings["header"])
+			request = self.session.get(url, timeout=10)
 		except requests.exceptions.Timeout:
 			logging.warning("Reached timeout error for request on link {url}".format(url=url))
 			self.downtime_controller()
