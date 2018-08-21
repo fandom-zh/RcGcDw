@@ -31,6 +31,8 @@ If you want I can host the script for you for free. Just [contact me](https://mi
 Translators: 
 * MarkusRost for German translation
 * JSBM for French translation
+* Eduaddad for Brazilian Portuguese translation
+* BabylonAS for Russian translation
 
 ### Support ###
 The script does have [its own channel](https://discord.gg/pFDZrnE) on MarkusRost's Discord server. All updates will be announced there. If you need help feel free to hop there.    
@@ -49,5 +51,6 @@ There are several Discord server, the script is already running on, you can join
 [Minecraft Wiki (DE)](https://discord.gg/F75vfpd) (on a hidden channel)    
 [Minecraft Wiki Polska](https://discord.gg/9ZCcTnT)    
 [Minecraft Wiki FR](https://discord.gg/PSK48k7) (temporarily)    
+Minecraft Wiki BR    
 Survived By Wiki    
 

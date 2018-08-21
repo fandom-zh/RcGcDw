@@ -496,7 +496,7 @@ def day_overview_request():
 	passes = 0
 	continuearg = ""
 	while not complete and passes < 10:
-		request = recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcend={timestamp}Z&rcprop=title%7Ctimestamp%7Csizes%7Cloginfo%7Cuser&rcshow=!bot&rclimit=500&rctype=edit%7Cnew%7Clog%7Ccategorize{continuearg}".format(wiki=settings["wiki"], timestamp=timestamp, continuearg=continuearg))
+		request = recent_changes.safe_request("https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcend={timestamp}Z&rcprop=title%7Ctimestamp%7Csizes%7Cloginfo%7Cuser&rcshow=!bot&rclimit=500&rctype=edit%7Cnew%7Clog{continuearg}".format(wiki=settings["wiki"], timestamp=timestamp, continuearg=continuearg))
 		if request:	
 			try:
 				request = request.json()

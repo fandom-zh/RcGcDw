@@ -3,7 +3,7 @@
    "wiki": "minecraft",
    "lang": "en",
    "header": {
-      "user-agent": "FrisksRcGcDw/1.1"
+      "user-agent": "FrisksRcGcDw/1.2"
       },
    "limit": 11,
    "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -28,7 +28,7 @@
          "icon":""
       },
       "new":{
-         "icon":"https://framapic.org/VBVcOznftNsV/4a0fbBL7wkUo.png",
+         "icon":"https://i.imgur.com/6HIbEq8.png",
          "color":"THIS COLOR DEPENDS ON EDIT SIZE, PLEASE DON'T CHANGE"
       },
       "edit":{
@@ -44,11 +44,11 @@
          "color":null
       },
       "delete/delete":{
-         "icon":"https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png",
+         "icon":"https://i.imgur.com/C4H84Kp.jpg",
          "color":1
       },
       "delete/delete_redir":{
-         "icon":"https://framapic.org/9Rgw6Vkx1L1b/R9WrMWJ6umeX.png",
+         "icon":"https://i.imgur.com/C4H84Kp.jpg",
          "color":1
       },
       "delete/restore":{
