@@ -619,7 +619,7 @@ class recent_changes_class(object):
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
 		#self.recent_id = change["rcid"]
-		if len(self.ids) > settings["limit"]+5:
+		if len(self.ids) > settings["limitrefetch"]+5:
 			self.ids.pop(0)
 			
 	def fetch(self, amount=settings["limit"]):
@@ -684,7 +684,6 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-				#self.last_datetime = datetime.datetime.fromisoformat(change["timestamp"][0:19])
 				return change["rcid"]
 			
 	def safe_request(self, url):
