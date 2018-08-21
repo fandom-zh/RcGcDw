@@ -603,6 +603,7 @@ class recent_changes_class(object):
 	groups = {}
 	unsent_messages = []
 	streak = -1
+	#last_datetime = datetime.datetime.fromisoformat("1999-01-01T00:00:00")
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -618,7 +619,7 @@ class recent_changes_class(object):
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
 		#self.recent_id = change["rcid"]
-		if len(self.ids) > settings["limit"]+5:
+		if len(self.ids) > settings["limitrefetch"]+5:
 			self.ids.pop(0)
 			
 	def fetch(self, amount=settings["limit"]):
@@ -673,8 +674,11 @@ class recent_changes_class(object):
 						self.streak = -1
 						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_restored"])
 				for change in changes:
-					if change["rcid"] in self.ids:
+					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
+						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"], self.recent_id))
 						continue
+					logging.debug(self.ids)
+					logging.debug(self.recent_id)
 					self.add_cache(change)
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
