@@ -603,7 +603,7 @@ class recent_changes_class(object):
 	groups = {}
 	unsent_messages = []
 	streak = -1
-	last_datetime = datetime.datetime.fromisoformat("1999-01-01T00:00:00")
+	#last_datetime = datetime.datetime.fromisoformat("1999-01-01T00:00:00")
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -674,8 +674,8 @@ class recent_changes_class(object):
 						self.streak = -1
 						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]), _("Connection status"), settings["avatars"]["connection_restored"])
 				for change in changes:
-					if change["rcid"] in self.ids or change["rcid"] < self.recent_id or datetime.datetime.fromisoformat(change["timestamp"][0:19]) < self.last_datetime:
-						logging.debug("Change ({}) is in ids or is lower than recent_id {} or date {} is earlier than {}".format(change["rcid"], self.recent_id, change["timestamp"], self.last_datetime))
+					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
+						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"], self.recent_id))
 						continue
 					logging.debug(self.ids)
 					logging.debug(self.recent_id)
@@ -684,7 +684,7 @@ class recent_changes_class(object):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					first_pass(change)
-				self.last_datetime = datetime.datetime.fromisoformat(change["timestamp"][0:19])
+				#self.last_datetime = datetime.datetime.fromisoformat(change["timestamp"][0:19])
 				return change["rcid"]
 			
 	def safe_request(self, url):
