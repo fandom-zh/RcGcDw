@@ -38,6 +38,9 @@ lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["la
 lang.install()
 ngettext = lang.ngettext
 
+class MWError(Exception):
+    pass
+
 def send(message, name, avatar):
 	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
 	
@@ -604,23 +607,7 @@ class recent_changes_class(object):
 	unsent_messages = []
 	streak = -1
 	session = requests.Session()
-	session.headers.update(headers=settings["header"])
-	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
-		#session.cookies.clear()
-		logging.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
-		try:
-			response = data.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'query', 'format': 'json', 'utf8': '', 'meta': 'tokens', 'type': 'login'})
-			response = data.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'login', 'format': 'json', 'utf8': '', 'lgname': settings["wiki_bot_login"], 'lgpassword':settings["wiki_bot_password"], 'lgtoken': response.json()['query']['tokens']['logintoken']})
-		except ValueError:
-			logging.error("Logging in have not succeeded")
-		try:
-			if response.json()['login']['result']=="Success":
-				logging.info("Logging to the wiki succeeded")
-			else:
-				logging.error("Logging in have not succeeded")
-		except:
-			logging.error("Logging in have not succeeded")
-
+	session.headers.update(settings["header"])
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -631,7 +618,37 @@ class recent_changes_class(object):
 				logging.debug("File is empty")
 				file_id = 999999999 
 	else:
-		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happens
+		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happen
+	def handle_mw_errors(self, request):
+		if "errors" in request:
+			print(request["errors"])
+			raise MWError
+		return request
+	def log_in(self):
+		#session.cookies.clear()
+		if '@' not in settings["wiki_bot_login"]:
+			logging.error("Please provide proper nickname for login from https://{wiki}.gamepedia.com/Special:BotPasswords".format(wiki=settings["wiki"]))
+			return
+		if len(settings["wiki_bot_password"]) != 32:
+			logging.error("Password seems incorrect. It should be 32 characters long! Grab it from https://{wiki}.gamepedia.com/Special:BotPasswords".format(wiki=settings["wiki"]))
+			return
+		logging.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
+		try:
+			response = self.handle_mw_errors(self.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'query', 'format': 'json', 'utf8': '', 'meta': 'tokens', 'type': 'login'}))
+			response = self.handle_mw_errors(self.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'login', 'format': 'json', 'utf8': '', 'lgname': settings["wiki_bot_login"], 'lgpassword':settings["wiki_bot_password"], 'lgtoken': response.json()['query']['tokens']['logintoken']}))
+		except ValueError:
+			logging.error("Logging in have not succeeded")
+			return
+		except MWError:
+			logging.error("Logging in have not succeeded")
+			return
+		try:
+			if response.json()['login']['result']=="Success":
+				logging.info("Logging to the wiki succeeded")
+			else:
+				logging.error("Logging in have not succeeded")
+		except:
+			logging.error("Logging in have not succeeded")
 		
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
@@ -761,6 +778,8 @@ class recent_changes_class(object):
 			logging.warning("Could not retrive tags. Internal names will be used!")
 		
 recent_changes = recent_changes_class()
+if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
+	recent_changes.log_in()
 recent_changes.update_tags()
 time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
