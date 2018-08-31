@@ -24,6 +24,7 @@ import time, logging, json, requests, datetime, re, gettext, math, random, os.pa
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
+from html.parser import HTMLParser
 
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
@@ -40,6 +41,28 @@ ngettext = lang.ngettext
 
 class MWError(Exception):
     pass
+
+class MyHTMLParser(HTMLParser):
+	new_string = ""
+	recent_href = ""
+	def handle_starttag(self, tag, attrs):
+		for attr in attrs:
+			if attr[0] == 'href':
+				self.recent_href=attr[1]
+				if not self.recent_href.startswith("https"):
+					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
+	def handle_data(self, data):
+		if self.recent_href:
+			self.new_string = self.new_string+"[{}]({})".format(data, self.recent_href)
+			self.recent_href = ""
+		else:
+			self.new_string = self.new_string+data
+	def handle_comment(self, data):
+		self.new_string = self.new_string+data
+	def handle_endtag(self, tag):
+		print (self.new_string)
+		
+HTMLParse = MyHTMLParser()
 
 def send(message, name, avatar):
 	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
@@ -381,7 +404,10 @@ def handle_discord_http(code, formatted_embed):
 		return 3
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
-	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
+	parse_output = HTMLParse.feed(change["parsedcomment"])
+	#parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
+	parsedcomment = HTMLParse.new_string
+	HTMLParse.new_string = ""
 	logging.debug(change)
 	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"]}
 	if not parsedcomment:
@@ -619,11 +645,13 @@ class recent_changes_class(object):
 				file_id = 999999999 
 	else:
 		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happen
+		
 	def handle_mw_errors(self, request):
 		if "errors" in request:
 			print(request["errors"])
 			raise MWError
 		return request
+
 	def log_in(self):
 		#session.cookies.clear()
 		if '@' not in settings["wiki_bot_login"]:
@@ -785,7 +813,7 @@ time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
 	
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
-if 1==2: #dummy for future translations
+if 1==2:
 	print (_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"), _("autoreview"), _("autopatrol"), _("wiki_guardian"))
 
 if settings["overview"]:
