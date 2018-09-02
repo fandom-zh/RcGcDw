@@ -192,6 +192,10 @@
       "tag/update":{
          "icon":"",
          "color":null
+      },
+      "suppressed":{
+          "icon": "",
+          "color": 8092539
       }
    }
 } 
