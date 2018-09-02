@@ -347,19 +347,22 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Edited the slice for {article}").format(article=params["title"])
 	elif action == "managetags/create":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 		recent_changes.update_tags()
 	elif action == "managetags/delete":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 		recent_changes.update_tags()
 	elif action == "managetags/activate":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == "managetags/deactivate":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+	elif action == "suppressed":
+		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
+		embed["title"] = _("Action has been hidden by Gamepedia staff.")
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
@@ -404,6 +407,9 @@ def handle_discord_http(code, formatted_embed):
 		return 3
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
+	if "actionhidden" in change or "suppressed" in change and "suppressed" not in settings["ignored"]:
+		webhook_formatter("suppressed", {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"], "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
+		return
 	parse_output = HTMLParse.feed(change["parsedcomment"])
 	#parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
 	parsedcomment = HTMLParse.new_string
@@ -574,6 +580,8 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 		for item in result[0]:
 			activity = add_to_dict(activity, item["user"])
 			hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
+			if "actionhidden" in item or "suppressed" in item:
+				continue #while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
 			if item["type"]=="edit":
 				edits += 1
 				changed_bytes += item["newlen"]-item["oldlen"]
