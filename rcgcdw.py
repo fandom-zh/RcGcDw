@@ -49,7 +49,9 @@ class MyHTMLParser(HTMLParser):
 		for attr in attrs:
 			if attr[0] == 'href':
 				self.recent_href=attr[1]
-				if not self.recent_href.startswith("https"):
+				if self.recent_href.startswith("//"):
+					self.recent_href = "https:{rest}".format(rest=self.recent_href)
+				elif not self.recent_href.startswith("https"):
 					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
 	def handle_data(self, data):
 		if self.recent_href:
