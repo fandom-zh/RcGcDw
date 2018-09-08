@@ -24,6 +24,7 @@ import time, logging, json, requests, datetime, re, gettext, math, random, os.pa
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
+from html.parser import HTMLParser
 
 with open("settings.json") as sfile:
 	settings = json.load(sfile)
@@ -37,6 +38,33 @@ logging.info("Current settings: {settings}".format(settings=settings))
 lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 lang.install()
 ngettext = lang.ngettext
+
+class MWError(Exception):
+    pass
+
+class MyHTMLParser(HTMLParser):
+	new_string = ""
+	recent_href = ""
+	def handle_starttag(self, tag, attrs):
+		for attr in attrs:
+			if attr[0] == 'href':
+				self.recent_href=attr[1]
+				if self.recent_href.startswith("//"):
+					self.recent_href = "https:{rest}".format(rest=self.recent_href)
+				elif not self.recent_href.startswith("https"):
+					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
+	def handle_data(self, data):
+		if self.recent_href:
+			self.new_string = self.new_string+"[{}]({})".format(data, self.recent_href)
+			self.recent_href = ""
+		else:
+			self.new_string = self.new_string+data
+	def handle_comment(self, data):
+		self.new_string = self.new_string+data
+	def handle_endtag(self, tag):
+		print (self.new_string)
+		
+HTMLParse = MyHTMLParser()
 
 def send(message, name, avatar):
 	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
@@ -321,19 +349,22 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"], article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Edited the slice for {article}").format(article=params["title"])
 	elif action == "managetags/create":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 		recent_changes.update_tags()
 	elif action == "managetags/delete":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 		recent_changes.update_tags()
 	elif action == "managetags/activate":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == "managetags/deactivate":
-		link = "https://{wiki}.gamepedia.com/Special:Tags"
+		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+	elif action == "suppressed":
+		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
+		embed["title"] = _("Action has been hidden by Gamepedia staff.")
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
@@ -378,7 +409,13 @@ def handle_discord_http(code, formatted_embed):
 		return 3
 		
 def first_pass(change): #I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
-	parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
+	if "actionhidden" in change or "suppressed" in change and "suppressed" not in settings["ignored"]:
+		webhook_formatter("suppressed", {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"], "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
+		return
+	parse_output = HTMLParse.feed(change["parsedcomment"])
+	#parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
+	parsedcomment = HTMLParse.new_string
+	HTMLParse.new_string = ""
 	logging.debug(change)
 	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"]}
 	if not parsedcomment:
@@ -545,6 +582,8 @@ def day_overview(): #time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.ti
 		for item in result[0]:
 			activity = add_to_dict(activity, item["user"])
 			hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
+			if "actionhidden" in item or "suppressed" in item:
+				continue #while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
 			if item["type"]=="edit":
 				edits += 1
 				changed_bytes += item["newlen"]-item["oldlen"]
@@ -603,7 +642,8 @@ class recent_changes_class(object):
 	groups = {}
 	unsent_messages = []
 	streak = -1
-	#last_datetime = datetime.datetime.fromisoformat("1999-01-01T00:00:00")
+	session = requests.Session()
+	session.headers.update(settings["header"])
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
@@ -614,7 +654,39 @@ class recent_changes_class(object):
 				logging.debug("File is empty")
 				file_id = 999999999 
 	else:
-		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happens
+		file_id = 999999999 #such value won't cause trouble, and it will make sure no refetch happen
+		
+	def handle_mw_errors(self, request):
+		if "errors" in request:
+			print(request["errors"])
+			raise MWError
+		return request
+
+	def log_in(self):
+		#session.cookies.clear()
+		if '@' not in settings["wiki_bot_login"]:
+			logging.error("Please provide proper nickname for login from https://{wiki}.gamepedia.com/Special:BotPasswords".format(wiki=settings["wiki"]))
+			return
+		if len(settings["wiki_bot_password"]) != 32:
+			logging.error("Password seems incorrect. It should be 32 characters long! Grab it from https://{wiki}.gamepedia.com/Special:BotPasswords".format(wiki=settings["wiki"]))
+			return
+		logging.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
+		try:
+			response = self.handle_mw_errors(self.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'query', 'format': 'json', 'utf8': '', 'meta': 'tokens', 'type': 'login'}))
+			response = self.handle_mw_errors(self.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]), data={'action': 'login', 'format': 'json', 'utf8': '', 'lgname': settings["wiki_bot_login"], 'lgpassword':settings["wiki_bot_password"], 'lgtoken': response.json()['query']['tokens']['logintoken']}))
+		except ValueError:
+			logging.error("Logging in have not succeeded")
+			return
+		except MWError:
+			logging.error("Logging in have not succeeded")
+			return
+		try:
+			if response.json()['login']['result']=="Success":
+				logging.info("Logging to the wiki succeeded")
+			else:
+				logging.error("Logging in have not succeeded")
+		except:
+			logging.error("Logging in have not succeeded")
 		
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
@@ -688,7 +760,7 @@ class recent_changes_class(object):
 			
 	def safe_request(self, url):
 		try:
-			request = requests.get(url, timeout=10, headers=settings["header"])
+			request = self.session.get(url, timeout=10)
 		except requests.exceptions.Timeout:
 			logging.warning("Reached timeout error for request on link {url}".format(url=url))
 			self.downtime_controller()
@@ -747,12 +819,14 @@ class recent_changes_class(object):
 			logging.warning("Could not retrive tags. Internal names will be used!")
 		
 recent_changes = recent_changes_class()
+if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
+	recent_changes.log_in()
 recent_changes.update_tags()
 time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch" ] if settings["limitrefetch"] != -1 else settings["limit"])
 	
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
-if 1==2: #dummy for future translations
+if 1==2:
 	print (_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"), _("autoreview"), _("autopatrol"), _("wiki_guardian"))
 
 if settings["overview"]:

@@ -3,7 +3,7 @@
    "wiki": "minecraft",
    "lang": "en",
    "header": {
-      "user-agent": "FrisksRcGcDw/1.2"
+      "user-agent": "FrisksRcGcDw/1.3"
       },
    "limit": 11,
    "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -22,6 +22,8 @@
    "overview_time": "00:00",
    "license_regex_detect": "\\{\\{(license|lizenz|licence|copyright)",
    "license_regex": "\\{\\{(license|lizenz|licence|copyright)(\\ |\\|)(?P<license>.*?)\\}\\}",
+   "wiki_bot_login": "",
+   "wiki_bot_password": "",
    "appearance":{
        "daily_overview": {
          "color": 16312092,
@@ -190,6 +192,10 @@
       "tag/update":{
          "icon":"",
          "color":null
+      },
+      "suppressed":{
+          "icon": "",
+          "color": 8092539
       }
    }
 } 
