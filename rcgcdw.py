@@ -53,6 +53,7 @@ class MyHTMLParser(HTMLParser):
 					self.recent_href = "https:{rest}".format(rest=self.recent_href)
 				elif not self.recent_href.startswith("https"):
 					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
+				self.recent_href = self.recent_href.replace(")", "\)")
 	def handle_data(self, data):
 		if self.recent_href:
 			self.new_string = self.new_string+"[{}]({})".format(data, self.recent_href)
