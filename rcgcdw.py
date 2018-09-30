@@ -128,8 +128,7 @@ def send_to_discord(data):
 def webhook_formatter(action, STATIC, **params):
 	logging.debug("Received things: {thing}".format(thing=params))
 	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
-	data = {}
-	data["embeds"] = []
+	data = {"embeds": []}
 	embed = defaultdict(dict)
 	if "title" in params:
 		article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
@@ -161,7 +160,7 @@ def webhook_formatter(action, STATIC, **params):
 			if editsize > 6032:
 				colornumber = 65280
 			else:
-				colornumber = 35840 + (math.floor(editsize / (52))) * 256
+				colornumber = 35840 + (math.floor(editsize / 52)) * 256
 		elif editsize < 0:
 			if editsize < -6032:
 				colornumber = 16711680
@@ -264,8 +263,8 @@ def webhook_formatter(action, STATIC, **params):
 		                                                    user=params["blocked_user"].replace(" ", "_").replace(')',
 		                                                                                                          '\)'))
 		user = params["blocked_user"].split(':')[1]
-		time = _("infinity and beyond") if params["duration"] == "infinite" else params["duration"]
-		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=time)
+		block_time = _("infinity and beyond") if params["duration"] == "infinite" else params["duration"]
+		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
 		                                                    user=params["blocked_user"].replace(" ", "_").replace(')',
@@ -505,7 +504,7 @@ def first_pass(
 		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
 		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
 		return
-	parse_output = HTMLParse.feed(change["parsedcomment"])
+	HTMLParse.feed(change["parsedcomment"])
 	# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
 	parsedcomment = HTMLParse.new_string
 	HTMLParse.new_string = ""
@@ -674,7 +673,7 @@ def day_overview_request():
 				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
 			except ValueError:
 				logging.warning("ValueError in fetching changes")
-				self.downtime_controller()
+				recent_changes.downtime_controller()
 				complete = 2
 			except KeyError:
 				logging.warning("Wiki returned %s" % (request.json()))
@@ -747,7 +746,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 			active_users = []
 			for user, numberu in Counter(activity).most_common(list(v).count(max(v))):  # find most active users
 				active_users.append(user)
-			the_one = random.choice(active_users)
+			# the_one = random.choice(active_users)
 			v = hours.values()
 			active_hours = []
 			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active users
@@ -769,8 +768,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		(_("Day score"), str(overall)))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
-		data = {}
-		data["embeds"] = [dict(embed)]
+		data = {"embeds": [dict(embed)]}
 		formatted_embed = json.dumps(data, indent=4)
 		send_to_discord(formatted_embed)
 	else:
@@ -954,7 +952,7 @@ class recent_changes_class(object):
 			logging.error("Failure when checking Internet connection at {time}".format(
 				time=time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())))
 			self.downtimecredibility = 0
-			if looped == False:
+			if not looped:
 				while 1:  # recursed loop, check for connection (every 10 seconds) as long as three services are down, don't do anything else
 					if self.check_connection(looped=True):
 						recent_changes.fetch(amount=settings["limitrefetch"])
@@ -964,7 +962,7 @@ class recent_changes_class(object):
 		return True
 
 	def downtime_controller(self):
-		if settings["show_updown_messages"] == False:
+		if not settings["show_updown_messages"]:
 			return
 		if self.streak > -1:  # reset the streak of successful connections when bad one happens
 			self.streak = 0
