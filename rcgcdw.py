@@ -716,6 +716,8 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		admin = 0
 		changed_bytes = 0
 		new_articles = 0
+		if not result[0] and not settings["send_empty_overview"]:
+			return  # no changes in this day
 		for item in result[0]:
 			activity = add_to_dict(activity, item["user"])
 			hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
