@@ -334,7 +334,7 @@ def webhook_formatter(action, STATIC, **params):
 		else:
 			field = _("Unknown")
 		embed["title"] = _("Edited {target}'s profile").format(target=params["target"]) if params["user"] != params[
-			"target"] else _("Left a comment on their own profile")
+			"target"] else _("Edited their own profile")
 		params["desc"] = _("{field} field changed to: {desc}").format(field=field, desc=params["desc"])
 	elif action == "curseprofile/comment-deleted":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
