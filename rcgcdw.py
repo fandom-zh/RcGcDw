@@ -281,17 +281,29 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=params["commentid"])
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)')) old way of linking
-		embed["title"] = _("Left a comment on {target}'s profile").format(target=params["target"])
+		embed["title"] = _("Left a comment on {target}'s profile").format(target=params["target"]) if params[
+			                                                                                              "target"] != \
+		                                                                                              params[
+			                                                                                              "user"] else _(
+			"Left a comment on their own profile")
 	elif action == "curseprofile/comment-replied":
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=params["commentid"])
-		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=params["target"])
+		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=params["target"]) if params[
+			                                                                                                    "target"] != \
+		                                                                                                    params[
+			                                                                                                    "user"] else _(
+			"Replied to a comment on their own profile")
 	elif action == "curseprofile/comment-edited":
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=params["commentid"])
-		embed["title"] = _("Edited a comment on {target}'s profile").format(target=params["target"])
+		embed["title"] = _("Edited a comment on {target}'s profile").format(target=params["target"]) if params[
+			                                                                                                "target"] != \
+		                                                                                                params[
+			                                                                                                "user"] else _(
+			"Edited a comment on their own profile")
 	elif action == "curseprofile/profile-edited":
 		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"],
 		                                                                  target=params["target"].replace(" ",
@@ -321,7 +333,8 @@ def webhook_formatter(action, STATIC, **params):
 			field = _("Steam link")
 		else:
 			field = _("Unknown")
-		embed["title"] = _("Edited {target}'s profile").format(target=params["target"])
+		embed["title"] = _("Edited {target}'s profile").format(target=params["target"]) if params["user"] != params[
+			"target"] else _("Left a comment on their own profile")
 		params["desc"] = _("{field} field changed to: {desc}").format(field=field, desc=params["desc"])
 	elif action == "curseprofile/comment-deleted":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
