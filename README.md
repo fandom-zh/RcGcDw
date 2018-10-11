@@ -6,7 +6,6 @@ Presentation on how it looks on the Discord can be found [on the wiki](https://g
 * **Python 3.6>**
 * requests 2.18.4>
 * beautifulsoup 4.6.0>
-* lxml 4.2.1>
 * schedule 0.5.0>
 
 ### Features ###
