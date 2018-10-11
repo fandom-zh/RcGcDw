@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-02 01:22+0200\n"
-"PO-Revision-Date: 2018-10-02 01:25+0200\n"
+"PO-Revision-Date: 2018-10-03 18:11+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -205,7 +205,7 @@ msgstr "Edytował(a) swój profil"
 #: rcgcdw.py:338
 #, python-brace-format
 msgid "{field} field changed to: {desc}"
-msgstr "pole {field} zostało zmienione na: {desc}"
+msgstr "pole \"{field}\" zostało zmienione na: {desc}"
 
 #: rcgcdw.py:343
 #, python-brace-format
