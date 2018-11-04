@@ -583,8 +583,8 @@ def first_pass(
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 			                  target=change["logparams"]["target_title"])
 		elif combination == "protect/move_prot":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  target=change["logparams"]["oldtitle_title"])
+			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["logparams"]["oldtitle_title"], desc=parsedcomment,
+			                  target=change["title"])
 		elif combination == "block/block":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], blocked_user=change["title"],
 			                  desc=parsedcomment, duration=change["logparams"]["duration"])
