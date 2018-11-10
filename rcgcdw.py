@@ -484,9 +484,11 @@ def webhook_formatter(action, STATIC, **params):
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
+	logging.debug("Current params in edit action: {}".format(params))
 	if "new_categories" in params and params["new_categories"]:
-		embed["categories"] = []
-		embed["categories"].append({"name": _("Added categories"), "value": ", ".join(params["new_categories"][0:15]) + "" if len(params["new_categories"]) < 15 else _(" and {} more").format(len(params["new_categories"])-14)})
+		if "fields" not in embed:
+			embed["fields"] = []
+		embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -530,6 +532,7 @@ def first_pass(
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit" and "edit" not in settings["ignored"]:
+		logging.debug("List of categories in first_pass: {}".format(added_categories))
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
 		                                 "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
@@ -936,8 +939,10 @@ class recent_changes_class(object):
 				categorize_events = {}
 				new_events = 0
 				for change in changes:
-					if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id):
+					if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id) and not clean:
 						new_events += 1
+						logging.debug(
+							"New event: {}".format(change["rcid"]))
 						if new_events == settings["limit"]:
 							if amount < 500:
 							# call the function again with max limit for more results, ignore the ones in this request
@@ -946,11 +951,13 @@ class recent_changes_class(object):
 							else:
 								logging.debug(
 									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
-					if change["type"] == "categorize":
+					if settings["show_added_categories"] and change["type"] == "categorize":
+						cat_title = change["title"].split(':', 1)[1]
 						if change["revid"] in categorize_events:
-							categorize_events[change["revid"]].append(change["title"])
+							categorize_events[change["revid"]].append(cat_title)
 						else:
-							categorize_events[change["revid"]] = [change["title"]]
+							logging.debug("New category '{}' for {}".format(cat_title, change["revid"]))
+							categorize_events[change["revid"]] = [cat_title]
 				for change in changes:
 					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
 						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
