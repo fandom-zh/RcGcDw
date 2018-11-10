@@ -30,6 +30,7 @@ with open("settings.json") as sfile:
 	settings = json.load(sfile)
 	if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
 		settings["limitrefetch"] = settings["limit"]
+logged_in = False
 logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
@@ -483,6 +484,9 @@ def webhook_formatter(action, STATIC, **params):
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
+	if params["new_categories"]:
+		embed["categories"] = []
+		embed["categories"].append({"name": _("Added categories"), "value": ", ".join(params["new_categories"][0:15]) + "" if len(params["new_categories"]) < 15 else _(" and {} more").format(len(params["new_categories"])-14)})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -511,7 +515,7 @@ def handle_discord_http(code, formatted_embed):
 
 
 def first_pass(
-		change):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
+		change, added_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	if "actionhidden" in change or "suppressed" in change and "suppressed" not in settings["ignored"]:
 		webhook_formatter("suppressed",
 		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
@@ -530,7 +534,7 @@ def first_pass(
 		                                 "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
-		                  size=change["newlen"] - change["oldlen"], minor=True if "minor" in change else False)
+		                  size=change["newlen"] - change["oldlen"], minor=True if "minor" in change else False, new_categories=added_categories)
 	elif change["type"] == "log":
 		combination = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
 		if combination in settings["ignored"]:
@@ -821,6 +825,7 @@ class recent_changes_class(object):
 		return request
 
 	def log_in(self):
+		global logged_in
 		# session.cookies.clear()
 		if '@' not in settings["wiki_bot_login"]:
 			logging.error(
@@ -853,6 +858,7 @@ class recent_changes_class(object):
 		try:
 			if response.json()['login']['result'] == "Success":
 				logging.info("Logging to the wiki succeeded")
+				logged_in = True
 			else:
 				logging.error("Logging in have not succeeded")
 		except:
@@ -891,13 +897,15 @@ class recent_changes_class(object):
 			with open("lastchange.txt", "w") as record:
 				record.write(str(self.file_id))
 		logging.debug("Most recent rcid is: {}".format(self.recent_id))
+		return self.recent_id
 
 	def fetch_changes(self, amount, clean=False):
+		global logged_in
 		if len(self.ids) == 0:
 			logging.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal".format(
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal%7Ccategorize".format(
 				wiki=settings["wiki"], amount=amount))
 		if changes:
 			try:
@@ -923,6 +931,26 @@ class recent_changes_class(object):
 						self.streak = -1
 						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]),
 						     _("Connection status"), settings["avatars"]["connection_restored"])
+				# In the first for loop we analize the categorize events and figure if we will need more changes to fetch
+				# in order to cover all of the edits
+				categorize_events = {}
+				new_events = 0
+				for change in changes:
+					if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id):
+						new_events += 1
+						if new_events == settings["limit"]:
+							if amount < 500:
+							# call the function again with max limit for more results, ignore the ones in this request
+								logging.debug("There were too many new events, requesting max amount of events from the wiki.")
+								return self.fetch(amount=5000 if logged_in else 500)
+							else:
+								logging.debug(
+									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
+					if change["type"] == "categorize":
+						if change["revid"] in categorize_events:
+							categorize_events[change["revid"]].append(change["title"])
+						else:
+							categorize_events[change["revid"]] = [change["title"]]
 				for change in changes:
 					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
 						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
@@ -934,7 +962,7 @@ class recent_changes_class(object):
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
-					first_pass(change)
+					first_pass(change, categorize_events.get(change.get("revid"), []))
 				return change["rcid"]
 
 	def safe_request(self, url):
