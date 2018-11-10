@@ -484,7 +484,7 @@ def webhook_formatter(action, STATIC, **params):
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
-	if params["new_categories"]:
+	if "new_categories" in params and params["new_categories"]:
 		embed["categories"] = []
 		embed["categories"].append({"name": _("Added categories"), "value": ", ".join(params["new_categories"][0:15]) + "" if len(params["new_categories"]) < 15 else _(" and {} more").format(len(params["new_categories"])-14)})
 	data["embeds"].append(dict(embed))
