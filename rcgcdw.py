@@ -147,8 +147,8 @@ def webhook_formatter(action, STATIC, **params):
 					"WARNING: Something went wrong when checking amount of contributions for given IP address")
 				params["user"] = params["user"] + "(?)"
 			else:
-				params["user"] = "{author} ({contribs})".format(author=params["user"], contribs=len(contibs))
 				recent_changes.map_ips[params["user"]] = len(contibs)
+				params["user"] = "{author} ({contribs})".format(author=params["user"], contribs=len(contibs))
 		else:
 			recent_changes.map_ips[params["user"]] += 1
 			params["user"] = "{author} ({amount})".format(author=params["user"],
