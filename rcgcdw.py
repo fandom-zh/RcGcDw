@@ -136,6 +136,7 @@ def webhook_formatter(action, STATIC, **params):
 	if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", params["user"]) is not None:
 		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
 		                                                                                user=params["user"])
+		logging.debug("current user: {} with cache of IPs: {}".format(params["user"], recent_changes.map_ips.keys()))
 		if params["user"] not in list(recent_changes.map_ips.keys()):
 			contibs = safe_read(recent_changes.safe_request(
 				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucprop=".format(
