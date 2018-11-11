@@ -133,6 +133,8 @@ def webhook_formatter(action, STATIC, **params):
 	embed = defaultdict(dict)
 	if "title" in params:
 		article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
+		if STATIC["redirect"]:
+			params["title"] = "⤷ " + params["title"]
 	if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", params["user"]) is not None:
 		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
 		                                                                                user=params["user"])
@@ -535,7 +537,7 @@ def first_pass(
 	if change["type"] == "edit" and "edit" not in settings["ignored"]:
 		logging.debug("List of categories in first_pass: {}".format(added_categories))
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
-		                                 "icon": settings["appearance"]["edit"]["icon"]}}
+						  "icon": settings["appearance"]["edit"]["icon"], "redirect": (True if "redirect" in change else False)}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
 		                  size=change["newlen"] - change["oldlen"], minor=True if "minor" in change else False, new_categories=added_categories)
@@ -909,7 +911,7 @@ class recent_changes_class(object):
 			logging.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal%7Ccategorize".format(
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal%7Ccategorize".format(
 				wiki=settings["wiki"], amount=amount))
 		if changes:
 			try:
