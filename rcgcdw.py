@@ -45,7 +45,7 @@ class MWError(Exception):
 	pass
 
 
-class MyHTMLParser(HTMLParser):
+class LinkParser(HTMLParser):
 	new_string = ""
 	recent_href = ""
 
@@ -72,8 +72,7 @@ class MyHTMLParser(HTMLParser):
 	def handle_endtag(self, tag):
 		print(self.new_string)
 
-
-HTMLParse = MyHTMLParser()
+LinkParser = LinkParser()
 
 
 def send(message, name, avatar):
@@ -488,10 +487,13 @@ def webhook_formatter(action, STATIC, **params):
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
 	logging.debug("Current params in edit action: {}".format(params))
-	if "new_categories" in params and params["new_categories"]:
+	if "changed_categories" in STATIC and STATIC["changed_categories"] is not None:
 		if "fields" not in embed:
 			embed["fields"] = []
-		embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
+		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
+		new_cat = ("**Added**:" + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<15 else " and {} more\n".format(len(STATIC["changed_categories"]["new"])-15) ) ) if STATIC["changed_categories"]["new"] else ""
+		del_cat = ("**Removed**:" + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<15 else " and {} more".format(len(STATIC["changed_categories"]["removed"])-15) ) ) if STATIC["changed_categories"]["removed"] else ""
+		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -520,27 +522,27 @@ def handle_discord_http(code, formatted_embed):
 
 
 def first_pass(
-		change, added_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
+		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	if "actionhidden" in change or "suppressed" in change and "suppressed" not in settings["ignored"]:
 		webhook_formatter("suppressed",
 		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
 		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
 		return
-	HTMLParse.feed(change["parsedcomment"])
+	LinkParser.feed(change["parsedcomment"])
 	# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
-	parsedcomment = HTMLParse.new_string
-	HTMLParse.new_string = ""
+	parsedcomment = LinkParser.new_string
+	LinkParser.new_string = ""
 	logging.debug(change)
-	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"]}
+	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit" and "edit" not in settings["ignored"]:
-		logging.debug("List of categories in first_pass: {}".format(added_categories))
+		logging.debug("List of categories in first_pass: {}".format(changed_categories))
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
-						  "icon": settings["appearance"]["edit"]["icon"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False)}}
+						  "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
-		                  size=change["newlen"] - change["oldlen"], minor=True if "minor" in change else False, new_categories=added_categories)
+		                  size=change["newlen"] - change["oldlen"], minor=True if "minor" in change else False)
 	elif change["type"] == "log":
 		combination = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
 		if combination in settings["ignored"]:
@@ -665,16 +667,20 @@ def first_pass(
 			print(change)
 			send(_("Unable to process the event"), _("error"), settings["avatars"]["no_event"])
 			return
-	if change["type"] == "external":  # not sure what happens then, but it's listed as possible type
-		logging.warning("External event happened, ignoring.")
-		print(change)
-		return
+	# elif change["type"] == "external":  # not sure what happens then, but it's listed as possible type
+	# 	logging.warning("External event happened, ignoring.")
+	# 	print(change)
+	# 	return
 	elif change["type"] == "new" and "new" not in settings["ignored"]:  # new page
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["new"]["color"],
 		                                 "icon": settings["appearance"]["new"]["icon"]}}
 		webhook_formatter("new", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
 		                  size=change["newlen"])
+	else:
+		logging.warning("This event is not implemented in the bot.")
+		logging.debug("Cannot process event {}".format(change))
+		return
 
 
 def day_overview_request():
@@ -810,6 +816,7 @@ class recent_changes_class(object):
 	groups = {}
 	unsent_messages = []
 	streak = -1
+	mw_messages = {}
 	session = requests.Session()
 	session.headers.update(settings["header"])
 	if settings["limitrefetch"] != -1:
@@ -956,11 +963,23 @@ class recent_changes_class(object):
 									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
 					if settings["show_added_categories"] and change["type"] == "categorize":
 						cat_title = change["title"].split(':', 1)[1]
-						if change["revid"] in categorize_events:
-							categorize_events[change["revid"]].append(cat_title)
+						# I so much hate this, blame Markus for making me do this
+						if change["revid"] not in categorize_events:
+							categorize_events[change["revid"]] = {"new": [], "removed": []}
+						comment_to_match = re.sub('<.*>', '', change["parsedcomment"])
+						if recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", "") in comment_to_match:
+							categorize_events[change["revid"]]["new"].append(cat_title)
+							logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
+						elif recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", "") in comment_to_match:
+							categorize_events[change["revid"]]["removed"].append(cat_title)
+							logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
 						else:
-							logging.debug("New category '{}' for {}".format(cat_title, change["revid"]))
-							categorize_events[change["revid"]] = [cat_title]
+							logging.debug("Unknown match for category change with messages {} and {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", ""), recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", ""), comment_to_match))
+				# if change["revid"] in categorize_events:
+						# 	categorize_events[change["revid"]].append(cat_title)
+						# else:
+						# 	logging.debug("New category '{}' for {}".format(cat_title, change["revid"]))
+						# 	categorize_events[change["revid"]] = {cat_title: }
 				for change in changes:
 					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
 						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
@@ -972,7 +991,7 @@ class recent_changes_class(object):
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
-					first_pass(change, categorize_events.get(change.get("revid"), []))
+					first_pass(change, categorize_events.get(change.get("revid"), None))
 				return change["rcid"]
 
 	def safe_request(self, url):
@@ -1030,21 +1049,24 @@ class recent_changes_class(object):
 	def clear_cache(self):
 		self.map_ips = {}
 
-	def update_tags(self):
-		tags_read = safe_read(self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=tags&tglimit=max&tgprop=name|displayname".format(
-				wiki=settings["wiki"])), "query", "tags")
-		if tags_read:
-			for tag in tags_read:
+	def init_info(self):
+		startup_info = safe_read(self.safe_request(
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&uselang=content&list=tags|recentchanges&meta=allmessages&utf8=1&tglimit=max&tgprop=name|displayname&ammessages=recentchanges-page-added-to-category|recentchanges-page-removed-from-category&amenableparser=1&amincludelocal=1".format(
+				wiki=settings["wiki"])), "query")
+		if "tags" in startup_info and "allmessages" in startup_info:
+			for tag in startup_info["tags"]:
 				self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+			for message in startup_info["allmessages"]:
+				self.mw_messages[message["name"]] = message["*"]
 		else:
-			logging.warning("Could not retrive tags. Internal names will be used!")
+			logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
+			logging.debug(startup_info)
 
 
 recent_changes = recent_changes_class()
 if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
 	recent_changes.log_in()
-recent_changes.update_tags()
+recent_changes.init_info()
 time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
