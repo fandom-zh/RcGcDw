@@ -491,8 +491,8 @@ def webhook_formatter(action, STATIC, **params):
 		if "fields" not in embed:
 			embed["fields"] = []
 		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
-		new_cat = (_("**Added**:") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15) ) ) if STATIC["changed_categories"]["new"] else ""
-		del_cat = (_("**Removed**:") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15) ) ) if STATIC["changed_categories"]["removed"] else ""
+		new_cat = (_("**Added**:") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15) ) ) if STATIC["changed_categories"]["new"] else ""
+		del_cat = (_("**Removed**:") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15) ) ) if STATIC["changed_categories"]["removed"] else ""
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
