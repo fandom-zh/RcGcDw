@@ -70,7 +70,7 @@ class LinkParser(HTMLParser):
 		self.new_string = self.new_string + data
 
 	def handle_endtag(self, tag):
-		print(self.new_string)
+		logging.debug(self.new_string)
 
 LinkParser = LinkParser()
 
@@ -130,10 +130,6 @@ def webhook_formatter(action, STATIC, **params):
 	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
 	data = {"embeds": []}
 	embed = defaultdict(dict)
-	if "title" in params:
-		article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
-		if STATIC["redirect"]:
-			params["title"] = "⤷ " + params["title"]
 	if STATIC["ipaction"]:
 		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
 		                                                                                user=params["user"])
@@ -148,8 +144,11 @@ def webhook_formatter(action, STATIC, **params):
 				params["user"] = params["user"] + "(?)"
 			else:
 				recent_changes.map_ips[params["user"]] = len(contibs)
+				logging.debug("1Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
 				params["user"] = "{author} ({contribs})".format(author=params["user"], contribs=len(contibs))
 		else:
+			logging.debug(
+				"2Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
 			recent_changes.map_ips[params["user"]] += 1
 			params["user"] = "{author} ({amount})".format(author=params["user"],
 			                                              amount=recent_changes.map_ips[params["user"]])
@@ -158,7 +157,6 @@ def webhook_formatter(action, STATIC, **params):
 		                                                               user=params["user"].replace(" ", "_"))
 	if action in ("edit", "new"):  # edit or new page
 		editsize = params["size"]
-		print(editsize)
 		if editsize > 0:
 			if editsize > 6032:
 				colornumber = 65280
@@ -174,7 +172,7 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"],
 			article=params["title"].replace(" ", "_"))
-		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+" + str(
+		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if STATIC["redirect"] else "",article=params["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
 		                                                             minor=_("m ") if action == "edit" and params[
 			                                                             "minor"] else "")
@@ -196,6 +194,7 @@ def webhook_formatter(action, STATIC, **params):
 			pass
 		if params["overwrite"]:
 			if additional_info_retrieved:
+				article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
 				img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 				undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
 					wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp),
@@ -250,16 +249,16 @@ def webhook_formatter(action, STATIC, **params):
 		                                            supress=_("No redirect has been made") if params[
 			                                                                                      "supress"] == True else _(
 			                                            "A redirect has been made"))
-		embed["title"] = _("Moved {article} to {target}").format(article=params["title"], target=params["target"])
+		embed["title"] = _("Moved {redirect}{article} to {target}").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"], target=params["target"])
 	elif action == "move/move_redir":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["target"].replace(" ", "_"))
-		embed["title"] = _("Moved {article} to {title} over redirect").format(article=params["title"],
+		embed["title"] = _("Moved {redirect}{article} to {title} over redirect").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"],
 		                                                                      title=params["target"])
 	elif action == "protect/move_prot":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Moved protection settings from {article} to {title}").format(article=params["title"],
+		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"],
 		                                                                                 title=params["target"])
 	elif action == "block/block":
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
@@ -491,8 +490,8 @@ def webhook_formatter(action, STATIC, **params):
 		if "fields" not in embed:
 			embed["fields"] = []
 		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
-		new_cat = (_("**Added**:") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15) ) ) if STATIC["changed_categories"]["new"] else ""
-		del_cat = (_("**Removed**:") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15) ) ) if STATIC["changed_categories"]["removed"] else ""
+		new_cat = (_("**Added**: ") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15) ) ) if STATIC["changed_categories"]["new"] else ""
+		del_cat = (_("**Removed**: ") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15) ) ) if STATIC["changed_categories"]["removed"] else ""
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
@@ -664,7 +663,7 @@ def first_pass(
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		else:
 			logging.warning("No entry matches given change!")
-			print(change)
+			logging.warning("Entry: {}".format(change))
 			send(_("Unable to process the event"), _("error"), settings["avatars"]["no_event"])
 			return
 	# elif change["type"] == "external":  # not sure what happens then, but it's listed as possible type
@@ -833,7 +832,7 @@ class recent_changes_class(object):
 
 	def handle_mw_errors(self, request):
 		if "errors" in request:
-			print(request["errors"])
+			logging.error(request["errors"])
 			raise MWError
 		return request
 
