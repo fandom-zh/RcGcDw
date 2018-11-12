@@ -966,7 +966,7 @@ class recent_changes_class(object):
 						# I so much hate this, blame Markus for making me do this
 						if change["revid"] not in categorize_events:
 							categorize_events[change["revid"]] = {"new": [], "removed": []}
-						comment_to_match = re.sub('<.*>', '', change["parsedcomment"])
+						comment_to_match = re.sub('<.*?>', '', change["parsedcomment"])
 						if recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", "") in comment_to_match:
 							categorize_events[change["revid"]]["new"].append(cat_title)
 							logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
