@@ -676,6 +676,8 @@ def first_pass(
 		webhook_formatter("new", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
 		                  size=change["newlen"])
+	elif change["type"] == "categorize":
+		return
 	else:
 		logging.warning("This event is not implemented in the bot.")
 		logging.debug("Cannot process event {}".format(change))
@@ -917,8 +919,8 @@ class recent_changes_class(object):
 			logging.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal%7Ccategorize".format(
-				wiki=settings["wiki"], amount=amount))
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal{categorize}".format(
+				wiki=settings["wiki"], amount=amount, categorize="%7Ccategorize" if settings["show_added_categories"] else ""))
 		if changes:
 			try:
 				changes = changes.json()['query']['recentchanges']
@@ -960,7 +962,7 @@ class recent_changes_class(object):
 							else:
 								logging.debug(
 									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
-					if settings["show_added_categories"] and change["type"] == "categorize":
+					if change["type"] == "categorize":
 						cat_title = change["title"].split(':', 1)[1]
 						# I so much hate this, blame Markus for making me do this
 						if change["revid"] not in categorize_events:
