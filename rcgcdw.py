@@ -774,14 +774,13 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		if activity:
 			v = activity.values()
 			active_users = []
-			for user, numberu in Counter(activity).most_common(list(v).count(max(v))):  # find most active users
-				active_users.append(user)
+			for user, numberu in Counter(activity).most_common(3):  # find most active users
+				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
 			# the_one = random.choice(active_users)
 			v = hours.values()
 			active_hours = []
-			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active users
+			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active hours
 				active_hours.append(str(hour))
-			usramount = ngettext(" ({} action)", " ({} actions)", numberu).format(numberu)
 			houramount = ngettext(" UTC ({} action)", " UTC ({} actions)", numberh).format(numberh)
 		else:
 			active_users = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
