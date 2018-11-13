@@ -136,8 +136,8 @@ def webhook_formatter(action, STATIC, **params):
 		logging.debug("current user: {} with cache of IPs: {}".format(params["user"], recent_changes.map_ips.keys()))
 		if params["user"] not in list(recent_changes.map_ips.keys()):
 			contibs = safe_read(recent_changes.safe_request(
-				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucprop=".format(
-					wiki=settings["wiki"], user=params["user"])), "query", "usercontribs")
+				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+					wiki=settings["wiki"], user=params["user"], timestamp=STATIC["timestamp"])), "query", "usercontribs")
 			if contibs is None:
 				logging.warning(
 					"WARNING: Something went wrong when checking amount of contributions for given IP address")
