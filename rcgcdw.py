@@ -450,11 +450,11 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == "managetags/create":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
-		recent_changes.update_tags()
+		recent_changes.init_info()
 	elif action == "managetags/delete":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
-		recent_changes.update_tags()
+		recent_changes.init_info()
 	elif action == "managetags/activate":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
