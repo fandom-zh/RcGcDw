@@ -789,7 +789,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 			houramount = ""
 		embed["fields"] = []
 		fields = (
-		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users) + usramount),
+		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
 		(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
 		(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
 		(_("Unique contributors"), str(len(activity))),
