@@ -602,7 +602,7 @@ def first_pass(
 			                  old_groups=change["logparams"]["oldgroups"], new_groups=change["logparams"]["newgroups"])
 		elif combination == "abusefilter/modify":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
-			                  filternr=change["logparams"]['1'])
+			                  filternr=change["logparams"]['newId'])
 		elif combination == "interwiki/iw_add":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
 			                  prefix=change["logparams"]['0'], website=change["logparams"]['1'])
