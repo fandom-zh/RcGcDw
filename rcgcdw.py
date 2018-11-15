@@ -625,19 +625,19 @@ def first_pass(
 			                  prefix=change["logparams"]['0'])
 		elif combination == "curseprofile/comment-created":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["0"])
+			                  commentid=change["logparams"]["4:comment_id"])
 		elif combination == "curseprofile/comment-edited":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["0"])
+			                  commentid=change["logparams"]["4:comment_id"])
 		elif combination == "curseprofile/comment-deleted":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["0"])
+			                  commentid=change["logparams"]["4:comment_id"])
 		elif combination == "curseprofile/profile-edited":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  field=change["logparams"]['0'], desc=change["parsedcomment"])
+			                  field=change["logparams"]['4:section'], desc=change["parsedcomment"])
 		elif combination == "curseprofile/comment-replied":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["0"])
+			                  commentid=change["logparams"]["4:section"])
 		elif combination == "contentmodel/change":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 			                  oldmodel=change["logparams"]["oldmodel"], newmodel=change["logparams"]["newmodel"])
