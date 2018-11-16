@@ -637,7 +637,7 @@ def first_pass(
 			                  field=change["logparams"]['4:section'], desc=change["parsedcomment"])
 		elif combination == "curseprofile/comment-replied":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["4:section"])
+			                  commentid=change["logparams"]["4:comment_id"])
 		elif combination == "contentmodel/change":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 			                  oldmodel=change["logparams"]["oldmodel"], newmodel=change["logparams"]["newmodel"])
