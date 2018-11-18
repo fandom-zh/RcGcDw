@@ -35,7 +35,7 @@ logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("99999999999")
-logging.info("Current settings: {settings}".format(settings=settings))
+logging.debug("Current settings: {settings}".format(settings=settings))
 lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 lang.install()
 ngettext = lang.ngettext
@@ -1068,9 +1068,13 @@ class recent_changes_class(object):
 
 
 recent_changes = recent_changes_class()
-if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
-	recent_changes.log_in()
-recent_changes.init_info()
+try:
+	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
+		recent_changes.log_in()
+	recent_changes.init_info()
+except requests.exceptions.ConnectionError:
+	logging.critical("A connection can't be established with the wiki. Exiting...")
+	sys.exit(1)
 time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
