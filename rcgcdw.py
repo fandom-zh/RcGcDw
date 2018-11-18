@@ -39,7 +39,8 @@ logging.info("Current settings: {settings}".format(settings=settings))
 lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 lang.install()
 ngettext = lang.ngettext
-
+version = "1.5"
+print("RcGcDw version {} is starting...".format(version))
 
 class MWError(Exception):
 	pass
@@ -97,9 +98,12 @@ def safe_read(request, *keys):
 
 
 def send_to_discord_webhook(data):
+	header = settings["header"]
+	if "content" not in data:
+		header['Content-Type'] = 'application/json'
 	try:
 		result = requests.post(settings["webhookURL"], data=data,
-		                       headers={**{'Content-Type': 'application/json'}, **settings["header"]}, timeout=10)
+		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
 		logging.warning("Timeouted while sending data to the webhook.")
 		return 3
