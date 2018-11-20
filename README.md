@@ -7,6 +7,7 @@ Presentation on how it looks on the Discord can be found [on the wiki](https://g
 * requests 2.18.4>
 * beautifulsoup 4.6.0>
 * schedule 0.5.0>
+* lxml 4.2.1>
 
 ### Features ###
 * Fetch recent changes from Gamepedia wiki and send them to Discord channel using a webhook
