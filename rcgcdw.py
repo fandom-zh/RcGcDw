@@ -30,11 +30,12 @@ with open("settings.json") as sfile:
 	settings = json.load(sfile)
 	if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
 		settings["limitrefetch"] = settings["limit"]
+logged_in = False
 logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("99999999999")
-logging.info("Current settings: {settings}".format(settings=settings))
+logging.debug("Current settings: {settings}".format(settings=settings))
 lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 lang.install()
 ngettext = lang.ngettext
@@ -44,7 +45,7 @@ class MWError(Exception):
 	pass
 
 
-class MyHTMLParser(HTMLParser):
+class LinkParser(HTMLParser):
 	new_string = ""
 	recent_href = ""
 
@@ -69,10 +70,10 @@ class MyHTMLParser(HTMLParser):
 		self.new_string = self.new_string + data
 
 	def handle_endtag(self, tag):
-		print(self.new_string)
+		logging.debug(self.new_string)
 
 
-HTMLParse = MyHTMLParser()
+LinkParser = LinkParser()
 
 
 def send(message, name, avatar):
@@ -97,9 +98,12 @@ def safe_read(request, *keys):
 
 
 def send_to_discord_webhook(data):
+	header = settings["header"]
+	if "content" not in data:
+		header['Content-Type'] = 'application/json'
 	try:
 		result = requests.post(settings["webhookURL"], data=data,
-		                       headers={**{'Content-Type': 'application/json'}, **settings["header"]}, timeout=10)
+		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
 		logging.warning("Timeouted while sending data to the webhook.")
 		return 3
@@ -130,23 +134,25 @@ def webhook_formatter(action, STATIC, **params):
 	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
 	data = {"embeds": []}
 	embed = defaultdict(dict)
-	if "title" in params:
-		article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
-	if re.match(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", params["user"]) is not None:
+	if STATIC["ipaction"]:
 		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
 		                                                                                user=params["user"])
+		logging.debug("current user: {} with cache of IPs: {}".format(params["user"], recent_changes.map_ips.keys()))
 		if params["user"] not in list(recent_changes.map_ips.keys()):
 			contibs = safe_read(recent_changes.safe_request(
-				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucprop=".format(
-					wiki=settings["wiki"], user=params["user"])), "query", "usercontribs")
+				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+					wiki=settings["wiki"], user=params["user"], timestamp=STATIC["timestamp"])), "query", "usercontribs")
 			if contibs is None:
 				logging.warning(
 					"WARNING: Something went wrong when checking amount of contributions for given IP address")
 				params["user"] = params["user"] + "(?)"
 			else:
-				params["user"] = "{author} ({contribs})".format(author=params["user"], contribs=len(contibs))
 				recent_changes.map_ips[params["user"]] = len(contibs)
+				logging.debug("1Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
+				params["user"] = "{author} ({contribs})".format(author=params["user"], contribs=len(contibs))
 		else:
+			logging.debug(
+				"2Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
 			recent_changes.map_ips[params["user"]] += 1
 			params["user"] = "{author} ({amount})".format(author=params["user"],
 			                                              amount=recent_changes.map_ips[params["user"]])
@@ -155,7 +161,6 @@ def webhook_formatter(action, STATIC, **params):
 		                                                               user=params["user"].replace(" ", "_"))
 	if action in ("edit", "new"):  # edit or new page
 		editsize = params["size"]
-		print(editsize)
 		if editsize > 0:
 			if editsize > 6032:
 				colornumber = 65280
@@ -171,7 +176,7 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"],
 			article=params["title"].replace(" ", "_"))
-		embed["title"] = "{article} ({new}{minor}{editsize})".format(article=params["title"], editsize="+" + str(
+		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if STATIC["redirect"] else "",article=params["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
 		                                                             minor=_("m ") if action == "edit" and params[
 			                                                             "minor"] else "")
@@ -193,6 +198,7 @@ def webhook_formatter(action, STATIC, **params):
 			pass
 		if params["overwrite"]:
 			if additional_info_retrieved:
+				article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
 				img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 				undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
 					wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp),
@@ -247,16 +253,16 @@ def webhook_formatter(action, STATIC, **params):
 		                                            supress=_("No redirect has been made") if params[
 			                                                                                      "supress"] == True else _(
 			                                            "A redirect has been made"))
-		embed["title"] = _("Moved {article} to {target}").format(article=params["title"], target=params["target"])
+		embed["title"] = _("Moved {redirect}{article} to {target}").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"], target=params["target"])
 	elif action == "move/move_redir":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["target"].replace(" ", "_"))
-		embed["title"] = _("Moved {article} to {title} over redirect").format(article=params["title"],
+		embed["title"] = _("Moved {redirect}{article} to {title} over redirect").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"],
 		                                                                      title=params["target"])
 	elif action == "protect/move_prot":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Moved protection settings from {article} to {title}").format(article=params["title"],
+		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"],
 		                                                                                 title=params["target"])
 	elif action == "block/block":
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
@@ -448,11 +454,11 @@ def webhook_formatter(action, STATIC, **params):
 	elif action == "managetags/create":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
-		recent_changes.update_tags()
+		recent_changes.init_info()
 	elif action == "managetags/delete":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
-		recent_changes.update_tags()
+		recent_changes.init_info()
 	elif action == "managetags/activate":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
@@ -483,6 +489,14 @@ def webhook_formatter(action, STATIC, **params):
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
+	logging.debug("Current params in edit action: {}".format(params))
+	if "changed_categories" in STATIC and STATIC["changed_categories"] is not None:
+		if "fields" not in embed:
+			embed["fields"] = []
+		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
+		new_cat = (_("**Added**: ") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15) ) ) if STATIC["changed_categories"]["new"] else ""
+		del_cat = (_("**Removed**: ") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15) ) ) if STATIC["changed_categories"]["removed"] else ""
+		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	formatted_embed = json.dumps(data, indent=4)
@@ -511,23 +525,24 @@ def handle_discord_http(code, formatted_embed):
 
 
 def first_pass(
-		change):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
+		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
 	if "actionhidden" in change or "suppressed" in change and "suppressed" not in settings["ignored"]:
 		webhook_formatter("suppressed",
 		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
 		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
 		return
-	HTMLParse.feed(change["parsedcomment"])
+	LinkParser.feed(change["parsedcomment"])
 	# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
-	parsedcomment = HTMLParse.new_string
-	HTMLParse.new_string = ""
+	parsedcomment = LinkParser.new_string
+	LinkParser.new_string = ""
 	logging.debug(change)
-	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"]}
+	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit" and "edit" not in settings["ignored"]:
+		logging.debug("List of categories in first_pass: {}".format(changed_categories))
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
-		                                 "icon": settings["appearance"]["edit"]["icon"]}}
+						  "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
 		                  size=change["newlen"] - change["oldlen"], minor=True if "minor" in change else False)
@@ -583,8 +598,8 @@ def first_pass(
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 			                  target=change["logparams"]["target_title"])
 		elif combination == "protect/move_prot":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  target=change["logparams"]["oldtitle_title"])
+			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["logparams"]["oldtitle_title"], desc=parsedcomment,
+			                  target=change["title"])
 		elif combination == "block/block":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], blocked_user=change["title"],
 			                  desc=parsedcomment, duration=change["logparams"]["duration"])
@@ -626,7 +641,7 @@ def first_pass(
 			                  field=change["logparams"]['4:section'], desc=change["parsedcomment"])
 		elif combination == "curseprofile/comment-replied":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["4:section"])
+			                  commentid=change["logparams"]["4:comment_id"])
 		elif combination == "contentmodel/change":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 			                  oldmodel=change["logparams"]["oldmodel"], newmodel=change["logparams"]["newmodel"])
@@ -652,19 +667,25 @@ def first_pass(
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		else:
 			logging.warning("No entry matches given change!")
-			print(change)
+			logging.warning("Entry: {}".format(change))
 			send(_("Unable to process the event"), _("error"), settings["avatars"]["no_event"])
 			return
-	if change["type"] == "external":  # not sure what happens then, but it's listed as possible type
-		logging.warning("External event happened, ignoring.")
-		print(change)
-		return
+	# elif change["type"] == "external":  # not sure what happens then, but it's listed as possible type
+	# 	logging.warning("External event happened, ignoring.")
+	# 	print(change)
+	# 	return
 	elif change["type"] == "new" and "new" not in settings["ignored"]:  # new page
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["new"]["color"],
 		                                 "icon": settings["appearance"]["new"]["icon"]}}
 		webhook_formatter("new", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
 		                  size=change["newlen"])
+	elif change["type"] == "categorize":
+		return
+	else:
+		logging.warning("This event is not implemented in the bot.")
+		logging.debug("Cannot process event {}".format(change))
+		return
 
 
 def day_overview_request():
@@ -757,14 +778,13 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		if activity:
 			v = activity.values()
 			active_users = []
-			for user, numberu in Counter(activity).most_common(list(v).count(max(v))):  # find most active users
-				active_users.append(user)
+			for user, numberu in Counter(activity).most_common(3):  # find most active users
+				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
 			# the_one = random.choice(active_users)
 			v = hours.values()
 			active_hours = []
-			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active users
+			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active hours
 				active_hours.append(str(hour))
-			usramount = ngettext(" ({} action)", " ({} actions)", numberu).format(numberu)
 			houramount = ngettext(" UTC ({} action)", " UTC ({} actions)", numberh).format(numberh)
 		else:
 			active_users = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
@@ -773,7 +793,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 			houramount = ""
 		embed["fields"] = []
 		fields = (
-		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users) + usramount),
+		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
 		(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
 		(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
 		(_("Unique contributors"), str(len(activity))),
@@ -800,6 +820,7 @@ class recent_changes_class(object):
 	groups = {}
 	unsent_messages = []
 	streak = -1
+	mw_messages = {}
 	session = requests.Session()
 	session.headers.update(settings["header"])
 	if settings["limitrefetch"] != -1:
@@ -816,11 +837,12 @@ class recent_changes_class(object):
 
 	def handle_mw_errors(self, request):
 		if "errors" in request:
-			print(request["errors"])
+			logging.error(request["errors"])
 			raise MWError
 		return request
 
 	def log_in(self):
+		global logged_in
 		# session.cookies.clear()
 		if '@' not in settings["wiki_bot_login"]:
 			logging.error(
@@ -853,6 +875,7 @@ class recent_changes_class(object):
 		try:
 			if response.json()['login']['result'] == "Success":
 				logging.info("Logging to the wiki succeeded")
+				logged_in = True
 			else:
 				logging.error("Logging in have not succeeded")
 		except:
@@ -891,14 +914,16 @@ class recent_changes_class(object):
 			with open("lastchange.txt", "w") as record:
 				record.write(str(self.file_id))
 		logging.debug("Most recent rcid is: {}".format(self.recent_id))
+		return self.recent_id
 
 	def fetch_changes(self, amount, clean=False):
+		global logged_in
 		if len(self.ids) == 0:
 			logging.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal".format(
-				wiki=settings["wiki"], amount=amount))
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal{categorize}".format(
+				wiki=settings["wiki"], amount=amount, categorize="%7Ccategorize" if settings["show_added_categories"] else ""))
 		if changes:
 			try:
 				changes = changes.json()['query']['recentchanges']
@@ -923,6 +948,45 @@ class recent_changes_class(object):
 						self.streak = -1
 						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]),
 						     _("Connection status"), settings["avatars"]["connection_restored"])
+				# In the first for loop we analize the categorize events and figure if we will need more changes to fetch
+				# in order to cover all of the edits
+				categorize_events = {}
+				new_events = 0
+				for change in changes:
+					if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id) and not clean:
+						new_events += 1
+						logging.debug(
+							"New event: {}".format(change["rcid"]))
+						if new_events == settings["limit"]:
+							if amount < 500:
+							# call the function again with max limit for more results, ignore the ones in this request
+								logging.debug("There were too many new events, requesting max amount of events from the wiki.")
+								return self.fetch(amount=5000 if logged_in else 500)
+							else:
+								logging.debug(
+									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
+					if change["type"] == "categorize":
+						if "commenthidden" not in change:
+							cat_title = change["title"].split(':', 1)[1]
+							# I so much hate this, blame Markus for making me do this
+							if change["revid"] not in categorize_events:
+								categorize_events[change["revid"]] = {"new": [], "removed": []}
+							comment_to_match = re.sub('<.*?a>', '', change["parsedcomment"])
+							if recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", "") in comment_to_match:
+								categorize_events[change["revid"]]["new"].append(cat_title)
+								logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
+							elif recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", "") in comment_to_match:
+								categorize_events[change["revid"]]["removed"].append(cat_title)
+								logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+							else:
+								logging.debug("Unknown match for category change with messages {} and {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", ""), recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", ""), comment_to_match))
+						else:
+							logging.debug("Log entry got suppressed, ignoring entry.")
+				# if change["revid"] in categorize_events:
+						# 	categorize_events[change["revid"]].append(cat_title)
+						# else:
+						# 	logging.debug("New category '{}' for {}".format(cat_title, change["revid"]))
+						# 	categorize_events[change["revid"]] = {cat_title: }
 				for change in changes:
 					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
 						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
@@ -934,7 +998,7 @@ class recent_changes_class(object):
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
-					first_pass(change)
+					first_pass(change, categorize_events.get(change.get("revid"), None))
 				return change["rcid"]
 
 	def safe_request(self, url):
@@ -992,21 +1056,28 @@ class recent_changes_class(object):
 	def clear_cache(self):
 		self.map_ips = {}
 
-	def update_tags(self):
-		tags_read = safe_read(self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=tags&tglimit=max&tgprop=name|displayname".format(
-				wiki=settings["wiki"])), "query", "tags")
-		if tags_read:
-			for tag in tags_read:
+	def init_info(self):
+		startup_info = safe_read(self.safe_request(
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&uselang=content&list=tags|recentchanges&meta=allmessages&utf8=1&tglimit=max&tgprop=name|displayname&ammessages=recentchanges-page-added-to-category|recentchanges-page-removed-from-category&amenableparser=1&amincludelocal=1".format(
+				wiki=settings["wiki"])), "query")
+		if "tags" in startup_info and "allmessages" in startup_info:
+			for tag in startup_info["tags"]:
 				self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+			for message in startup_info["allmessages"]:
+				self.mw_messages[message["name"]] = message["*"]
 		else:
-			logging.warning("Could not retrive tags. Internal names will be used!")
+			logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
+			logging.debug(startup_info)
 
 
-recent_changes = recent_changes_class()
-if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
-	recent_changes.log_in()
-recent_changes.update_tags()
+recent_changes = Recent_Changes_Class()
+try:
+	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
+		recent_changes.log_in()
+	recent_changes.init_info()
+except requests.exceptions.ConnectionError:
+	logging.critical("A connection can't be established with the wiki. Exiting...")
+	sys.exit(1)
 time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
