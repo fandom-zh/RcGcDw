@@ -35,7 +35,7 @@ logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("99999999999")
-logging.info("Current settings: {settings}".format(settings=settings))
+logging.debug("Current settings: {settings}".format(settings=settings))
 lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 lang.install()
 ngettext = lang.ngettext
@@ -72,6 +72,7 @@ class LinkParser(HTMLParser):
 	def handle_endtag(self, tag):
 		logging.debug(self.new_string)
 
+
 LinkParser = LinkParser()
 
 
@@ -97,9 +98,12 @@ def safe_read(request, *keys):
 
 
 def send_to_discord_webhook(data):
+	header = settings["header"]
+	if "content" not in data:
+		header['Content-Type'] = 'application/json'
 	try:
 		result = requests.post(settings["webhookURL"], data=data,
-		                       headers={**{'Content-Type': 'application/json'}, **settings["header"]}, timeout=10)
+		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
 		logging.warning("Timeouted while sending data to the webhook.")
 		return 3
@@ -962,19 +966,22 @@ class recent_changes_class(object):
 								logging.debug(
 									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
 					if change["type"] == "categorize":
-						cat_title = change["title"].split(':', 1)[1]
-						# I so much hate this, blame Markus for making me do this
-						if change["revid"] not in categorize_events:
-							categorize_events[change["revid"]] = {"new": [], "removed": []}
-						comment_to_match = re.sub('<.*?a>', '', change["parsedcomment"])
-						if recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", "") in comment_to_match:
-							categorize_events[change["revid"]]["new"].append(cat_title)
-							logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
-						elif recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", "") in comment_to_match:
-							categorize_events[change["revid"]]["removed"].append(cat_title)
-							logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+						if "commenthidden" not in change:
+							cat_title = change["title"].split(':', 1)[1]
+							# I so much hate this, blame Markus for making me do this
+							if change["revid"] not in categorize_events:
+								categorize_events[change["revid"]] = {"new": [], "removed": []}
+							comment_to_match = re.sub('<.*?a>', '', change["parsedcomment"])
+							if recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", "") in comment_to_match:
+								categorize_events[change["revid"]]["new"].append(cat_title)
+								logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
+							elif recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", "") in comment_to_match:
+								categorize_events[change["revid"]]["removed"].append(cat_title)
+								logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+							else:
+								logging.debug("Unknown match for category change with messages {} and {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", ""), recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", ""), comment_to_match))
 						else:
-							logging.debug("Unknown match for category change with messages {} and {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", ""), recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", ""), comment_to_match))
+							logging.debug("Log entry got suppressed, ignoring entry.")
 				# if change["revid"] in categorize_events:
 						# 	categorize_events[change["revid"]].append(cat_title)
 						# else:
@@ -1063,10 +1070,14 @@ class recent_changes_class(object):
 			logging.debug(startup_info)
 
 
-recent_changes = recent_changes_class()
-if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
-	recent_changes.log_in()
-recent_changes.init_info()
+recent_changes = Recent_Changes_Class()
+try:
+	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
+		recent_changes.log_in()
+	recent_changes.init_info()
+except requests.exceptions.ConnectionError:
+	logging.critical("A connection can't be established with the wiki. Exiting...")
+	sys.exit(1)
 time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
