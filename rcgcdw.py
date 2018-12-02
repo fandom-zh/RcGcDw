@@ -808,7 +808,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		logging.debug("function requesting changes for day overview returned with error code")
 
 
-class recent_changes_class(object):
+class Recent_Changes_Class(object):
 	starttime = time.time()
 	ids = []
 	map_ips = {}
