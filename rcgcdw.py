@@ -526,7 +526,7 @@ def handle_discord_http(code, formatted_embed):
 
 def first_pass(
 		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
-	if "actionhidden" in change or "suppressed" in change and "suppressed" not in settings["ignored"]:
+	if "actionhidden" in change or "suppressed" in change or "userhidden" in change or "commenthidden" in change and "suppressed" not in settings["ignored"]:
 		webhook_formatter("suppressed",
 		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
 		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
@@ -752,10 +752,10 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		if not result[0] and not settings["send_empty_overview"]:
 			return  # no changes in this day
 		for item in result[0]:
+			if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
+				continue  # while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
 			activity = add_to_dict(activity, item["user"])
 			hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
-			if "actionhidden" in item or "suppressed" in item:
-				continue  # while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
 			if item["type"] == "edit":
 				edits += 1
 				changed_bytes += item["newlen"] - item["oldlen"]
