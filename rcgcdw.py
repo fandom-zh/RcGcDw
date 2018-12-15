@@ -467,7 +467,7 @@ def webhook_formatter(action, STATIC, **params):
 		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == "suppressed":
 		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
-		embed["title"] = _("Action has been hidden by Gamepedia staff.")
+		embed["title"] = _("Action has been hidden by administration.")
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
@@ -809,17 +809,14 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 
 
 class Recent_Changes_Class(object):
-	starttime = time.time()
 	ids = []
 	map_ips = {}
 	recent_id = 0
 	downtimecredibility = 0
 	last_downtime = 0
-	clock = 0
 	tags = {}
 	groups = {}
 	unsent_messages = []
-	streak = -1
 	mw_messages = {}
 	session = requests.Session()
 	session.headers.update(settings["header"])
@@ -835,7 +832,7 @@ class Recent_Changes_Class(object):
 	else:
 		file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
 
-	def handle_mw_errors(self, request):
+	def handle_mw_errors(request):
 		if "errors" in request:
 			logging.error(request["errors"])
 			raise MWError
@@ -1013,6 +1010,9 @@ class Recent_Changes_Class(object):
 			self.downtime_controller()
 			return None
 		else:
+			if 499 < request.status_code < 600:
+				self.downtime_controller()
+				return None
 			return request
 
 	def check_connection(self, looped=False):
