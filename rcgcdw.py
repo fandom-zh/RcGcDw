@@ -526,21 +526,26 @@ def handle_discord_http(code, formatted_embed):
 
 def first_pass(
 		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
-	if "actionhidden" in change or "suppressed" in change or "userhidden" in change or "commenthidden" in change and "suppressed" not in settings["ignored"]:
+	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:
 		webhook_formatter("suppressed",
 		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
 		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
 		return
-	LinkParser.feed(change["parsedcomment"])
-	# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
-	parsedcomment = LinkParser.new_string
-	LinkParser.new_string = ""
+	if "commenthidden" not in change:
+		LinkParser.feed(change["parsedcomment"])
+		# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
+		parsedcomment = LinkParser.new_string
+		LinkParser.new_string = ""
+	else:
+		parsedcomment = _("~~hidden~~")
 	logging.debug(change)
 	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	if change["type"] == "edit" and "edit" not in settings["ignored"]:
 		logging.debug("List of categories in first_pass: {}".format(changed_categories))
+		if "userhidden" in change:
+			change["user"] = _("hidden")
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
 						  "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
