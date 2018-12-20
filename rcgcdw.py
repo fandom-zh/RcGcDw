@@ -409,8 +409,11 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
 		embed["title"] = _("Imported interwiki")
 	elif action == "abusefilter/modify":
-		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
+		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(wiki=settings["wiki"], number=params["filternr"], historyid=params["historyid"])
 		embed["title"] = _("Edited abuse filter number {number}").format(number=params["filternr"])
+	elif action == "abusefilter/create":
+		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/{number}".format(wiki=settings["wiki"], number=params["filternr"])
+		embed["title"] = _("Created abuse filter number {number}").format(number=params["filternr"])
 	elif action == "merge/merge":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
@@ -621,6 +624,9 @@ def first_pass(
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 			                  old_groups=change["logparams"]["oldgroups"], new_groups=change["logparams"]["newgroups"])
 		elif combination == "abusefilter/modify":
+			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
+			                  filternr=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])
+		elif combination == "abusefilter/create":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
 			                  filternr=change["logparams"]['newId'])
 		elif combination == "interwiki/iw_add":
