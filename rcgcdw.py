@@ -843,7 +843,7 @@ class Recent_Changes_Class(object):
 	else:
 		file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
 
-	def handle_mw_errors(request):
+	def handle_mw_errors(self, request):
 		if "errors" in request:
 			logging.error(request["errors"])
 			raise MWError
