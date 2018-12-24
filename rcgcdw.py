@@ -153,7 +153,8 @@ def webhook_formatter(action, STATIC, **params):
 		else:
 			logging.debug(
 				"2Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
-			recent_changes.map_ips[params["user"]] += 1
+			if action in ("edit", "new"):
+				recent_changes.map_ips[params["user"]] += 1
 			params["user"] = "{author} ({amount})".format(author=params["user"],
 			                                              amount=recent_changes.map_ips[params["user"]])
 	else:
