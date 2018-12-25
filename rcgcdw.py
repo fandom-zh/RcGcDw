@@ -55,7 +55,7 @@ class LinkParser(HTMLParser):
 				self.recent_href = attr[1]
 				if self.recent_href.startswith("//"):
 					self.recent_href = "https:{rest}".format(rest=self.recent_href)
-				elif not self.recent_href.startswith("https"):
+				elif not self.recent_href.startswith("http"):
 					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
 				self.recent_href = self.recent_href.replace(")", "\\)")
 
@@ -191,6 +191,7 @@ def webhook_formatter(action, STATIC, **params):
 		                                                       article=params["title"].replace(" ", "_"))
 		additional_info_retrieved = False
 		if urls is not None:
+			logging.debug(urls)
 			if "-1" not in urls:  # oage removed before we asked for it
 				img_info = next(iter(urls.values()))["imageinfo"]
 				embed["image"]["url"] = img_info[0]["url"]
