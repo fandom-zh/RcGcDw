@@ -481,7 +481,7 @@ def webhook_formatter(action, STATIC, **params):
 	embed["url"] = link
 	if "desc" not in params:
 		params["desc"] = ""
-	embed["description"] = params["desc"]
+	embed["description"] = re.sub(r"(`|_|\*|~|<|>|{|})", "\\\\\\1", params["desc"], 0)
 	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
 	embed["timestamp"] = STATIC["timestamp"]
 	if STATIC["tags"]:
