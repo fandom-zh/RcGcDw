@@ -556,6 +556,7 @@ def first_pass(
 	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
+	parsedcomment = re.sub(r"(`|_|\*|~|<|>|{|})", "\\\\\\1", parsedcomment, 0)
 	if change["type"] == "edit" and "edit" not in settings["ignored"]:
 		logging.debug("List of categories in first_pass: {}".format(changed_categories))
 		if "userhidden" in change:
