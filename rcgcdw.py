@@ -111,7 +111,7 @@ def send_to_discord_webhook(data):
 		logging.warning("Connection error while sending the data to a webhook")
 		return 3
 	else:
-		return handle_discord_http(result.status_code, data)
+		return handle_discord_http(result.status_code, data, result)
 
 
 def send_to_discord(data):
@@ -508,13 +508,14 @@ def webhook_formatter(action, STATIC, **params):
 	send_to_discord(formatted_embed)
 
 
-def handle_discord_http(code, formatted_embed):
+def handle_discord_http(code, formatted_embed, result):
 	if 300 > code > 199:  # message went through
 		return 0
 	elif code == 400:  # HTTP BAD REQUEST
 		logging.error(
 			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
 		logging.error(formatted_embed)
+		logging.error(result.text)
 		return 1
 	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
 		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
