@@ -77,7 +77,13 @@ LinkParser = LinkParser()
 
 
 def send(message, name, avatar):
-	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
+	dictionary_creator = {}
+	dictionary_creator["content"] = message
+	if name:
+		dictionary_creator["username"] = name
+	if avatar:
+		dictionary_creator["avatar_url"] = avatar
+	send_to_discord(dictionary_creator)
 
 
 def safe_read(request, *keys):
@@ -101,6 +107,8 @@ def send_to_discord_webhook(data):
 	header = settings["header"]
 	if "content" not in data:
 		header['Content-Type'] = 'application/json'
+	else:
+		header['Content-Type'] = 'application/x-www-form-urlencoded'
 	try:
 		result = requests.post(settings["webhookURL"], data=data,
 		                       headers=header, timeout=10)
@@ -511,7 +519,7 @@ def webhook_formatter(action, STATIC, **params):
 def handle_discord_http(code, formatted_embed, result):
 	if 300 > code > 199:  # message went through
 		return 0
-	elif code == 400:  # HTTP BAD REQUEST
+	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
 		logging.error(
 			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
 		logging.error(formatted_embed)
