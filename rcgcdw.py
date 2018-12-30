@@ -1084,14 +1084,17 @@ class Recent_Changes_Class(object):
 		startup_info = safe_read(self.safe_request(
 			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&uselang=content&list=tags|recentchanges&meta=allmessages&utf8=1&tglimit=max&tgprop=name|displayname&ammessages=recentchanges-page-added-to-category|recentchanges-page-removed-from-category&amenableparser=1&amincludelocal=1".format(
 				wiki=settings["wiki"])), "query")
-		if "tags" in startup_info and "allmessages" in startup_info:
-			for tag in startup_info["tags"]:
-				self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
-			for message in startup_info["allmessages"]:
-				self.mw_messages[message["name"]] = message["*"]
+		if startup_info:
+			if "tags" in startup_info and "allmessages" in startup_info:
+				for tag in startup_info["tags"]:
+					self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+				for message in startup_info["allmessages"]:
+					self.mw_messages[message["name"]] = message["*"]
+			else:
+				logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
+				logging.debug(startup_info)
 		else:
-			logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
-			logging.debug(startup_info)
+			logging.error("Could not retrieve initial wiki information. Possibly internet connection issue?")
 
 
 recent_changes = Recent_Changes_Class()
