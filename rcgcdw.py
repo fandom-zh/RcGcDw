@@ -839,7 +839,7 @@ class Recent_Changes_Class(object):
 	last_downtime = 0
 	tags = {}
 	groups = {}
-	streak = 0
+	streak = -1
 	unsent_messages = []
 	mw_messages = {}
 	session = requests.Session()
