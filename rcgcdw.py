@@ -385,12 +385,16 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Protected {target}").format(target=params["title"])
-		params["desc"] = params["settings"] + " | " + params["desc"]
+		params["desc"] = "{settings}{cascade} | {reason}".format(settings=params["settings"],
+		                                                         cascade=_(" [cascading]") if params["cascade"] else "",
+		                                                         reason=params["desc"])
 	elif action == "protect/modify":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Changed protection level for {article}").format(article=params["title"])
-		params["desc"] = params["settings"] + " | " + params["desc"]
+		params["desc"] = "{settings}{cascade} | {reason}".format(settings=params["settings"],
+		                                                         cascade=_(" [cascading]") if params["cascade"] else "",
+		                                                         reason=params["desc"])
 	elif action == "protect/unprotect":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
@@ -579,10 +583,10 @@ def first_pass(
 			logging.error("No value in the settings has been given for {}".format(combination))
 		if combination == "protect/protect":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  settings=change["logparams"]["description"])
+			                  settings=change["logparams"]["description"], cascade=True if "cascade" in change["logparams"] else False)
 		elif combination == "protect/modify":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  settings=change["logparams"]["description"])
+			                  settings=change["logparams"]["description"], cascade=True if "cascade" in change["logparams"] else False)
 		elif combination == "protect/unprotect":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif combination == "upload/overwrite":
