@@ -767,6 +767,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 	if result[1] == 1:
 		activity = defaultdict(dict)
 		hours = defaultdict(dict)
+		articles = defaultdict(dict)
 		edits = 0
 		files = 0
 		admin = 0
@@ -782,6 +783,8 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 			if item["type"] == "edit":
 				edits += 1
 				changed_bytes += item["newlen"] - item["oldlen"]
+				if item["ns"] == 0:
+					articles = add_to_dict(articles, item["title"])
 			if item["type"] == "new":
 				if item["ns"] == 0:
 					new_articles += 1
@@ -799,11 +802,15 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
-			v = activity.values()
+			#v = activity.values()
 			active_users = []
 			for user, numberu in Counter(activity).most_common(3):  # find most active users
 				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
 			# the_one = random.choice(active_users)
+			#v = articles.values()
+			active_articles = []
+			for article, numbere in Counter(articles).most_common(3):  # find most active users
+				active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
 			v = hours.values()
 			active_hours = []
 			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active hours
@@ -817,6 +824,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed["fields"] = []
 		fields = (
 		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
+		(ngettext("Most edited article", "Most edited articles", len(active_articles)), ', '.join(active_articles)),
 		(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
 		(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
 		(_("Unique contributors"), str(len(activity))),
