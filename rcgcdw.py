@@ -212,7 +212,7 @@ def webhook_formatter(action, STATIC, **params):
 				img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 				undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
 					wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp),
-					filenamewon=article_encoded[5:])
+					filenamewon=article_encoded.split(":", 1)[1])
 				embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
 					link=embed["image"]["url"], undolink=undolink)}]
 			embed["title"] = _("Uploaded a new version of {name}").format(name=params["title"])
@@ -489,7 +489,7 @@ def webhook_formatter(action, STATIC, **params):
 	embed["url"] = link
 	if "desc" not in params:
 		params["desc"] = ""
-	embed["description"] = re.sub(r"(`|_|\*|~|<|>|{|})", "\\\\\\1", params["desc"], 0)
+	embed["description"] = params["desc"]
 	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
 	embed["timestamp"] = STATIC["timestamp"]
 	if STATIC["tags"]:
