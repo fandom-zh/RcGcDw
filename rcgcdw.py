@@ -823,6 +823,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		else:
 			active_users = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
 			active_hours = [_("But nobody came")]
+			active_articles = [_("But nobody came")]
 			usramount = ""
 			houramount = ""
 		embed["fields"] = []
