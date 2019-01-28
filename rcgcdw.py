@@ -777,6 +777,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		admin = 0
 		changed_bytes = 0
 		new_articles = 0
+		active_articles = []
 		if not result[0] and not settings["send_empty_overview"]:
 			return  # no changes in this day
 		for item in result[0]:
@@ -812,7 +813,6 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
 			# the_one = random.choice(active_users)
 			#v = articles.values()
-			active_articles = []
 			for article, numbere in Counter(articles).most_common(3):  # find most active users
 				active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
 			v = hours.values()
@@ -823,9 +823,10 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		else:
 			active_users = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
 			active_hours = [_("But nobody came")]
-			active_articles = [_("But nobody came")]
 			usramount = ""
 			houramount = ""
+		if not active_articles:
+			active_articles = [_("But nobody came")]
 		embed["fields"] = []
 		fields = (
 		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
