@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-26 19:51+0100\n"
-"PO-Revision-Date: 2019-01-26 19:59+0100\n"
+"PO-Revision-Date: 2019-01-28 16:38+0100\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -419,13 +419,10 @@ msgstr[0] " ({} açao)"
 msgstr[1] " ({} ações)"
 
 #: rcgcdw.py:817
-#, fuzzy
-#| msgid " ({} action)"
-#| msgid_plural " ({} actions)"
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
-msgstr[0] " ({} açao)"
-msgstr[1] " ({} ações)"
+msgstr[0] " ({} editado)"
+msgstr[1] " ({} edições)"
 
 #: rcgcdw.py:822
 msgid " UTC ({} action)"
@@ -444,12 +441,10 @@ msgstr[0] "Usuário mais ativo"
 msgstr[1] "Usuários mais ativos"
 
 #: rcgcdw.py:831
-#, fuzzy
-#| msgid "Restored {article}"
 msgid "Most edited article"
 msgid_plural "Most edited articles"
-msgstr[0] "Página {article} excluída"
-msgstr[1] "Página {article} excluída"
+msgstr[0] "Artigo mais editado"
+msgstr[1] "Artigos mais editados"
 
 #: rcgcdw.py:832
 msgid "Edits made"
