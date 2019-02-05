@@ -202,7 +202,7 @@ def webhook_formatter(action, STATIC, **params):
 			logging.debug(urls)
 			if "-1" not in urls:  # oage removed before we asked for it
 				img_info = next(iter(urls.values()))["imageinfo"]
-				embed["image"]["url"] = img_info[0]["url"]
+				embed["image"]["url"] = img_info[0]["url"] + "?version=" + "".join([x for x in img_info[0]["timestamp"] if x.isdigit()])
 				additional_info_retrieved = True
 		else:
 			pass
