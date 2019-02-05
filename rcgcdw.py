@@ -55,7 +55,7 @@ class LinkParser(HTMLParser):
 				self.recent_href = attr[1]
 				if self.recent_href.startswith("//"):
 					self.recent_href = "https:{rest}".format(rest=self.recent_href)
-				elif not self.recent_href.startswith("https"):
+				elif not self.recent_href.startswith("http"):
 					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
 				self.recent_href = self.recent_href.replace(")", "\\)")
 
@@ -77,7 +77,13 @@ LinkParser = LinkParser()
 
 
 def send(message, name, avatar):
-	send_to_discord({"content": message, "avatar_url": avatar, "username": name})
+	dictionary_creator = {}
+	dictionary_creator["content"] = message
+	if name:
+		dictionary_creator["username"] = name
+	if avatar:
+		dictionary_creator["avatar_url"] = avatar
+	send_to_discord(dictionary_creator)
 
 
 def safe_read(request, *keys):
@@ -101,6 +107,8 @@ def send_to_discord_webhook(data):
 	header = settings["header"]
 	if "content" not in data:
 		header['Content-Type'] = 'application/json'
+	else:
+		header['Content-Type'] = 'application/x-www-form-urlencoded'
 	try:
 		result = requests.post(settings["webhookURL"], data=data,
 		                       headers=header, timeout=10)
@@ -111,7 +119,7 @@ def send_to_discord_webhook(data):
 		logging.warning("Connection error while sending the data to a webhook")
 		return 3
 	else:
-		return handle_discord_http(result.status_code, data)
+		return handle_discord_http(result.status_code, data, result)
 
 
 def send_to_discord(data):
@@ -153,7 +161,8 @@ def webhook_formatter(action, STATIC, **params):
 		else:
 			logging.debug(
 				"2Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
-			recent_changes.map_ips[params["user"]] += 1
+			if action in ("edit", "new"):
+				recent_changes.map_ips[params["user"]] += 1
 			params["user"] = "{author} ({amount})".format(author=params["user"],
 			                                              amount=recent_changes.map_ips[params["user"]])
 	else:
@@ -190,6 +199,7 @@ def webhook_formatter(action, STATIC, **params):
 		                                                       article=params["title"].replace(" ", "_"))
 		additional_info_retrieved = False
 		if urls is not None:
+			logging.debug(urls)
 			if "-1" not in urls:  # oage removed before we asked for it
 				img_info = next(iter(urls.values()))["imageinfo"]
 				embed["image"]["url"] = img_info[0]["url"]
@@ -202,7 +212,7 @@ def webhook_formatter(action, STATIC, **params):
 				img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 				undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
 					wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp),
-					filenamewon=article_encoded[5:])
+					filenamewon=article_encoded.split(":", 1)[1])
 				embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
 					link=embed["image"]["url"], undolink=undolink)}]
 			embed["title"] = _("Uploaded a new version of {name}").format(name=params["title"])
@@ -375,12 +385,16 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Protected {target}").format(target=params["title"])
-		params["desc"] = params["settings"] + " | " + params["desc"]
+		params["desc"] = "{settings}{cascade} | {reason}".format(settings=params["settings"],
+		                                                         cascade=_(" [cascading]") if params["cascade"] else "",
+		                                                         reason=params["desc"])
 	elif action == "protect/modify":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
 		embed["title"] = _("Changed protection level for {article}").format(article=params["title"])
-		params["desc"] = params["settings"] + " | " + params["desc"]
+		params["desc"] = "{settings}{cascade} | {reason}".format(settings=params["settings"],
+		                                                         cascade=_(" [cascading]") if params["cascade"] else "",
+		                                                         reason=params["desc"])
 	elif action == "protect/unprotect":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
@@ -409,8 +423,11 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
 		embed["title"] = _("Imported interwiki")
 	elif action == "abusefilter/modify":
-		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
+		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(wiki=settings["wiki"], number=params["filternr"], historyid=params["historyid"])
 		embed["title"] = _("Edited abuse filter number {number}").format(number=params["filternr"])
+	elif action == "abusefilter/create":
+		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/{number}".format(wiki=settings["wiki"], number=params["filternr"])
+		embed["title"] = _("Created abuse filter number {number}").format(number=params["filternr"])
 	elif action == "merge/merge":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
@@ -467,7 +484,7 @@ def webhook_formatter(action, STATIC, **params):
 		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
 	elif action == "suppressed":
 		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
-		embed["title"] = _("Action has been hidden by Gamepedia staff.")
+		embed["title"] = _("Action has been hidden by administration.")
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
 	embed["author"]["name"] = params["user"]
@@ -490,7 +507,7 @@ def webhook_formatter(action, STATIC, **params):
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
 	logging.debug("Current params in edit action: {}".format(params))
-	if "changed_categories" in STATIC and STATIC["changed_categories"] is not None:
+	if "changed_categories" in STATIC and STATIC["changed_categories"] is not None and not (len(STATIC["changed_categories"]["new"]) == 0 and len(STATIC["changed_categories"]["removed"]) == 0):
 		if "fields" not in embed:
 			embed["fields"] = []
 		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
@@ -503,13 +520,14 @@ def webhook_formatter(action, STATIC, **params):
 	send_to_discord(formatted_embed)
 
 
-def handle_discord_http(code, formatted_embed):
+def handle_discord_http(code, formatted_embed, result):
 	if 300 > code > 199:  # message went through
 		return 0
-	elif code == 400:  # HTTP BAD REQUEST
+	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
 		logging.error(
 			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
 		logging.error(formatted_embed)
+		logging.error(result.text)
 		return 1
 	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
 		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
@@ -526,21 +544,27 @@ def handle_discord_http(code, formatted_embed):
 
 def first_pass(
 		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
-	if "actionhidden" in change or "suppressed" in change and "suppressed" not in settings["ignored"]:
+	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:
 		webhook_formatter("suppressed",
 		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
 		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
 		return
-	LinkParser.feed(change["parsedcomment"])
-	# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
-	parsedcomment = LinkParser.new_string
-	LinkParser.new_string = ""
+	if "commenthidden" not in change:
+		LinkParser.feed(change["parsedcomment"])
+		# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
+		parsedcomment = LinkParser.new_string
+		LinkParser.new_string = ""
+	else:
+		parsedcomment = _("~~hidden~~")
 	logging.debug(change)
 	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
+	parsedcomment = re.sub(r"(`|_|\*|~|<|>|{|})", "\\\\\\1", parsedcomment, 0)
 	if change["type"] == "edit" and "edit" not in settings["ignored"]:
 		logging.debug("List of categories in first_pass: {}".format(changed_categories))
+		if "userhidden" in change:
+			change["user"] = _("hidden")
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
 						  "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
@@ -559,10 +583,10 @@ def first_pass(
 			logging.error("No value in the settings has been given for {}".format(combination))
 		if combination == "protect/protect":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  settings=change["logparams"]["description"])
+			                  settings=change["logparams"]["description"], cascade=True if "cascade" in change["logparams"] else False)
 		elif combination == "protect/modify":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  settings=change["logparams"]["description"])
+			                  settings=change["logparams"]["description"], cascade=True if "cascade" in change["logparams"] else False)
 		elif combination == "protect/unprotect":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
 		elif combination == "upload/overwrite":
@@ -616,6 +640,9 @@ def first_pass(
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
 			                  old_groups=change["logparams"]["oldgroups"], new_groups=change["logparams"]["newgroups"])
 		elif combination == "abusefilter/modify":
+			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
+			                  filternr=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])
+		elif combination == "abusefilter/create":
 			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
 			                  filternr=change["logparams"]['newId'])
 		elif combination == "interwiki/iw_add":
@@ -744,21 +771,25 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 	if result[1] == 1:
 		activity = defaultdict(dict)
 		hours = defaultdict(dict)
+		articles = defaultdict(dict)
 		edits = 0
 		files = 0
 		admin = 0
 		changed_bytes = 0
 		new_articles = 0
+		active_articles = []
 		if not result[0] and not settings["send_empty_overview"]:
 			return  # no changes in this day
 		for item in result[0]:
+			if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
+				continue  # while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
 			activity = add_to_dict(activity, item["user"])
 			hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
-			if "actionhidden" in item or "suppressed" in item:
-				continue  # while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
 			if item["type"] == "edit":
 				edits += 1
 				changed_bytes += item["newlen"] - item["oldlen"]
+				if item["ns"] == 0:
+					articles = add_to_dict(articles, item["title"])
 			if item["type"] == "new":
 				if item["ns"] == 0:
 					new_articles += 1
@@ -776,11 +807,14 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
-			v = activity.values()
+			#v = activity.values()
 			active_users = []
 			for user, numberu in Counter(activity).most_common(3):  # find most active users
 				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
 			# the_one = random.choice(active_users)
+			#v = articles.values()
+			for article, numbere in Counter(articles).most_common(3):  # find most active users
+				active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
 			v = hours.values()
 			active_hours = []
 			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active hours
@@ -791,9 +825,12 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 			active_hours = [_("But nobody came")]
 			usramount = ""
 			houramount = ""
+		if not active_articles:
+			active_articles = [_("But nobody came")]
 		embed["fields"] = []
 		fields = (
 		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
+		(ngettext("Most edited article", "Most edited articles", len(active_articles)), ', '.join(active_articles)),
 		(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
 		(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
 		(_("Unique contributors"), str(len(activity))),
@@ -809,17 +846,15 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 
 
 class Recent_Changes_Class(object):
-	starttime = time.time()
 	ids = []
 	map_ips = {}
 	recent_id = 0
 	downtimecredibility = 0
 	last_downtime = 0
-	clock = 0
 	tags = {}
 	groups = {}
-	unsent_messages = []
 	streak = -1
+	unsent_messages = []
 	mw_messages = {}
 	session = requests.Session()
 	session.headers.update(settings["header"])
@@ -1013,6 +1048,9 @@ class Recent_Changes_Class(object):
 			self.downtime_controller()
 			return None
 		else:
+			if 499 < request.status_code < 600:
+				self.downtime_controller()
+				return None
 			return request
 
 	def check_connection(self, looped=False):
@@ -1060,14 +1098,17 @@ class Recent_Changes_Class(object):
 		startup_info = safe_read(self.safe_request(
 			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&uselang=content&list=tags|recentchanges&meta=allmessages&utf8=1&tglimit=max&tgprop=name|displayname&ammessages=recentchanges-page-added-to-category|recentchanges-page-removed-from-category&amenableparser=1&amincludelocal=1".format(
 				wiki=settings["wiki"])), "query")
-		if "tags" in startup_info and "allmessages" in startup_info:
-			for tag in startup_info["tags"]:
-				self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
-			for message in startup_info["allmessages"]:
-				self.mw_messages[message["name"]] = message["*"]
+		if startup_info:
+			if "tags" in startup_info and "allmessages" in startup_info:
+				for tag in startup_info["tags"]:
+					self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+				for message in startup_info["allmessages"]:
+					self.mw_messages[message["name"]] = message["*"]
+			else:
+				logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
+				logging.debug(startup_info)
 		else:
-			logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
-			logging.debug(startup_info)
+			logging.error("Could not retrieve initial wiki information. Possibly internet connection issue?")
 
 
 recent_changes = Recent_Changes_Class()
