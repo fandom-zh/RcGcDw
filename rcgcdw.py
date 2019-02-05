@@ -200,9 +200,9 @@ def webhook_formatter(action, STATIC, **params):
 		additional_info_retrieved = False
 		if urls is not None:
 			logging.debug(urls)
-			if "-1" not in urls:  # oage removed before we asked for it
+			if "-1" not in urls:  # page removed before we asked for it
 				img_info = next(iter(urls.values()))["imageinfo"]
-				embed["image"]["url"] = img_info[0]["url"]
+				embed["image"]["url"] = img_info[0]["url"] + "?version=" + "".join([x for x in img_info[0]["timestamp"] if x.isdigit()]) # prevent image from being cached
 				additional_info_retrieved = True
 		else:
 			pass
