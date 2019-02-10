@@ -358,7 +358,7 @@ def webhook_formatter(action, STATIC, **params):
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=params["target"])
 	elif action in ("rights/rights", "rights/autopromote"):
-		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"]) + params["title"].split(":")[1]
+		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"]) + params["title"].split(":")[1].replace(" ", "_")
 		if action == "rights/rights":
 			embed["title"] = _("Changed group membership for {target}").format(target=params["title"].split(":")[1])
 		else:
