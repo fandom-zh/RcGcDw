@@ -1,5 +1,5 @@
 ## Overview ##
-*Recent changes Gamepedia compatible Discord webhook* is a project made from earlier recent changes module of IRC bot. It has been remade as independent script for public usage.    
+*Recent changes Gamepedia compatible Discord webhook* is a project made from earlier recent changes module of IRC bot. It has been remade as independent script for public use.    
 Screenshots of the script can be found [on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation).
 
 ### Features ###
