@@ -41,7 +41,12 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("99999999999")
 logging.debug("Current settings: {settings}".format(settings=settings))
-lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
+try:
+	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
+except FileNotFoundError:
+	logging.critical("No language files have been found. Make sure locale folder is located in the directory.")
+	sys.exit(1)
+
 lang.install()
 ngettext = lang.ngettext
 
