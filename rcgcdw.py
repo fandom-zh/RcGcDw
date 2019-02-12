@@ -1149,6 +1149,6 @@ if settings["overview"]:
 		logging.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
 schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 
-while 1:
+while 1: 
 	time.sleep(1.0)
 	schedule.run_pending()
