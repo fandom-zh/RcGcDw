@@ -26,6 +26,10 @@ from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from html.parser import HTMLParser
 
+if __name__ != "__main__":
+	logging.critical("The file is being executed as a module. Please execute the script using the console.")
+	sys.exit(1)
+
 try:
 	with open("settings.json") as sfile:
 		settings = json.load(sfile)
