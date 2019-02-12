@@ -26,10 +26,15 @@ from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from html.parser import HTMLParser
 
-with open("settings.json") as sfile:
-	settings = json.load(sfile)
-	if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
-		settings["limitrefetch"] = settings["limit"]
+try:
+	with open("settings.json") as sfile:
+		settings = json.load(sfile)
+		if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
+			settings["limitrefetch"] = settings["limit"]
+except FileNotFoundError:
+	logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
+	sys.exit(1)
+
 logged_in = False
 logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
@@ -1128,8 +1133,15 @@ if 1 == 2:
 	      _("autoreview"), _("autopatrol"), _("wiki_guardian"))
 
 if settings["overview"]:
-	schedule.every().day.at("{}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour,
-	                                       time.strptime(settings["overview_time"], '%H:%M').tm_min)).do(day_overview)
+	try:
+		overview_time=time.strptime(settings["overview_time"], '%H:%M')
+		schedule.every().day.at("{}:{}".format(str(overview_time.tm_hour).zfill(2),
+	                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
+		del overview_time
+	except schedule.ScheduleValueError:
+		logging.error("Invalid time format! Currently: {}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour,  time.strptime(settings["overview_time"], '%H:%M').tm_min))
+	except ValueError:
+		logging.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
 schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 
 while 1:
