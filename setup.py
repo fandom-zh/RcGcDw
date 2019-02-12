@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name='RcGcDw',
-	version='1.5.1.1',
+	version='1.5.1.2',
 	packages=['venv.lib.python3.7.site-packages.bs4', 'venv.lib.python3.7.site-packages.bs4.tests',
 	          'venv.lib.python3.7.site-packages.bs4.builder', 'venv.lib.python3.7.site-packages.idna',
 	          'venv.lib.python3.7.site-packages.lxml', 'venv.lib.python3.7.site-packages.lxml.html',
