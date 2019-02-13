@@ -1,10 +1,8 @@
+image: python:3.6-alpine
+
 test:
   type: test
   script:
-    - wget https://github.com/chriskuehl/python3.6-debian-stretch/releases/download/v3.6.3-1-deb9u1/{python3.6_3.6.3-1.deb9u1_amd64,python3.6-minimal_3.6.3-1.deb9u1_amd64,python3.6-dev_3.6.3-1.deb9u1_amd64,libpython3.6_3.6.3-1.deb9u1_amd64,libpython3.6-minimal_3.6.3-1.deb9u1_amd64,libpython3.6-stdlib_3.6.3-1.deb9u1_amd64,libpython3.6-dev_3.6.3-1.deb9u1_amd64}.deb
-    - dpkg -i *.deb
-    - apt-get update -qy
-    - apt-get install -y python-dev python-pip
     - pip3.6 install -r requirements.txt
     - sed -i -e 's/https:\/\/discordapp.com\/api\/webhooks\/111111111111111111\/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$DISCORD/g' settings.json.example
     - mv settings.json.example settings.json
