@@ -43,7 +43,7 @@ except FileNotFoundError:
 
 logged_in = False
 logging.basicConfig(level=settings["verbose_level"])
-if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") == False:
+if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is False:
 	with open("lastchange.txt", 'w') as sfile:
 		sfile.write("99999999999")
 logging.debug("Current settings: {settings}".format(settings=settings))
@@ -93,8 +93,7 @@ LinkParser = LinkParser()
 
 
 def send(message, name, avatar):
-	dictionary_creator = {}
-	dictionary_creator["content"] = message
+	dictionary_creator = {"content": message}
 	if name:
 		dictionary_creator["username"] = name
 	if avatar:
@@ -195,13 +194,13 @@ def webhook_formatter(action, STATIC, **params):
 			if editsize < -6032:
 				colornumber = 16711680
 			else:
-				colornumber = 9175040 + (math.floor((editsize * -1) / (52))) * 65536
+				colornumber = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
 		elif editsize == 0:
 			colornumber = 8750469
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"],
 			article=params["title"].replace(" ", "_"))
-		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if STATIC["redirect"] else "",article=params["title"], editsize="+" + str(
+		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
 		                                                             minor=_("m ") if action == "edit" and params[
 			                                                             "minor"] else "")
@@ -210,7 +209,6 @@ def webhook_formatter(action, STATIC, **params):
 		urls = safe_read(recent_changes.safe_request(
 			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(
 				wiki=settings["wiki"], filename=params["title"])), "query", "pages")
-		undolink = ""
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=params["title"].replace(" ", "_"))
 		additional_info_retrieved = False
@@ -277,7 +275,7 @@ def webhook_formatter(action, STATIC, **params):
 		                                                       article=params["target"].replace(" ", "_"))
 		params["desc"] = "{supress}. {desc}".format(desc=params["desc"],
 		                                            supress=_("No redirect has been made") if params[
-			                                                                                      "supress"] == True else _(
+			                                                                                      "supress"] is True else _(
 			                                            "A redirect has been made"))
 		embed["title"] = _("Moved {redirect}{article} to {target}").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"], target=params["target"])
 	elif action == "move/move_redir":
@@ -527,8 +525,8 @@ def webhook_formatter(action, STATIC, **params):
 		if "fields" not in embed:
 			embed["fields"] = []
 		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
-		new_cat = (_("**Added**: ") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15) ) ) if STATIC["changed_categories"]["new"] else ""
-		del_cat = (_("**Removed**: ") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15) ) ) if STATIC["changed_categories"]["removed"] else ""
+		new_cat = (_("**Added**: ") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15))) if STATIC["changed_categories"]["new"] else ""
+		del_cat = (_("**Removed**: ") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15))) if STATIC["changed_categories"]["removed"] else ""
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
@@ -823,12 +821,12 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
-			#v = activity.values()
+			# v = activity.values()
 			active_users = []
 			for user, numberu in Counter(activity).most_common(3):  # find most active users
 				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
 			# the_one = random.choice(active_users)
-			#v = articles.values()
+			# v = articles.values()
 			for article, numbere in Counter(articles).most_common(3):  # find most active users
 				active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
 			v = hours.values()
@@ -886,7 +884,8 @@ class Recent_Changes_Class(object):
 	else:
 		file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
 
-	def handle_mw_errors(self, request):
+	@staticmethod
+	def handle_mw_errors(request):
 		if "errors" in request:
 			logging.error(request["errors"])
 			raise MWError
@@ -1010,7 +1009,7 @@ class Recent_Changes_Class(object):
 							"New event: {}".format(change["rcid"]))
 						if new_events == settings["limit"]:
 							if amount < 500:
-							# call the function again with max limit for more results, ignore the ones in this request
+								# call the function again with max limit for more results, ignore the ones in this request
 								logging.debug("There were too many new events, requesting max amount of events from the wiki.")
 								return self.fetch(amount=5000 if logged_in else 500)
 							else:
@@ -1139,13 +1138,13 @@ time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
-if 1 == 2:
+if 1 == 2: # additional translation strings in unreachable code
 	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
 	      _("autoreview"), _("autopatrol"), _("wiki_guardian"))
 
 if settings["overview"]:
 	try:
-		overview_time=time.strptime(settings["overview_time"], '%H:%M')
+		overview_time = time.strptime(settings["overview_time"], '%H:%M')
 		schedule.every().day.at("{}:{}".format(str(overview_time.tm_hour).zfill(2),
 	                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
 		del overview_time
