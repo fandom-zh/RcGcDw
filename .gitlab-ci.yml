@@ -3,7 +3,7 @@ image: python:3.6-alpine
 test:
   type: test
   script:
-    - apk add libxml2-dev libxslt-dev libxml2
+    - apk add libxml2-dev libxslt-dev libxml2 gcc
     - pip3.6 install -r requirements.txt
     - sed -i -e 's/https:\/\/discordapp.com\/api\/webhooks\/111111111111111111\/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$DISCORD/g' settings.json.example
     - mv settings.json.example settings.json
