@@ -5,7 +5,7 @@ test:
     - dpkg -i *.deb
     - apt-get update -qy
     - apt-get install -y python-dev python-pip
-    - pip install -r requirements.txt
+    - pip3.6 install -r requirements.txt
     - sed -i -e 's/https:\/\/discordapp.com\/api\/webhooks\/111111111111111111\/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$DISCORD/g' settings.json.example
     - mv settings.json.example settings.json
     - python3.6 rcgcdw.py
