@@ -30,6 +30,8 @@ if __name__ != "__main__":
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
 	sys.exit(1)
 
+TESTING = True if "--test" in sys.argv else False
+
 try:
 	with open("settings.json") as sfile:
 		settings = json.load(sfile)
@@ -1152,6 +1154,15 @@ if settings["overview"]:
 	except ValueError:
 		logging.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
 schedule.every().day.at("00:00").do(recent_changes.clear_cache)
+
+if TESTING:
+	logging.debug("DEBUGGING")
+	recent_changes.recent_id -= 5
+	recent_changes.file_id -= 5
+	recent_changes.ids = [1]
+	recent_changes.fetch(amount=5)
+	day_overview()
+	sys.exit(0)
 
 while 1: 
 	time.sleep(1.0)
