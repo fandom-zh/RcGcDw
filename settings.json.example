@@ -3,7 +3,7 @@
    "wiki": "minecraft",
    "lang": "en",
    "header": {
-      "user-agent": "FrisksRcGcDw/1.5.1.2"
+      "user-agent": "FrisksRcGcDw/1.5.2"
       },
    "limit": 11,
    "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -36,15 +36,15 @@
          "color":"THIS COLOR DEPENDS ON EDIT SIZE, PLEASE DON'T CHANGE"
       },
       "edit":{
-         "icon":"https://d1u5p3l4wpay3k.cloudfront.net/minecraft_pl_gamepedia/d/df/Ksi%C4%85%C5%BCka_z_pi%C3%B3rem.png?version=d2b085f15fb5713091ed06f92f81c360",
+         "icon":"",
          "color":"THIS COLOR DEPENDS ON EDIT SIZE, PLEASE DON'T CHANGE"
       },
       "upload/overwrite":{
-         "icon":"",
+         "icon":"https://i.imgur.com/egJpa81.png",
          "color":12390624
       },
       "upload/upload":{
-         "icon":"",
+         "icon":"https://i.imgur.com/egJpa81.png",
          "color":null
       },
       "delete/delete":{
@@ -56,27 +56,27 @@
          "color":1
       },
       "delete/restore":{
-         "icon":"",
+         "icon":"https://i.imgur.com/9MnROIU.png",
          "color":null
       },
       "delete/revision":{
-         "icon":"",
+         "icon":"https://i.imgur.com/1gps6EZ.png",
          "color":null
       },
       "delete/event":{
-         "icon":"",
+         "icon":"https://i.imgur.com/1gps6EZ.png",
          "color":null
       },
       "merge/merge":{
-         "icon":"",
+         "icon":"https://i.imgur.com/uQMK9XK.png",
          "color":null
       },
       "move/move":{
-         "icon":"https://i.imgur.com/ZX02KBf.png",
+         "icon":"https://i.imgur.com/eXz9dog.png",
          "color":null
       },
       "move/move_redir":{
-         "icon":"https://i.imgur.com/ZX02KBf.png",
+         "icon":"https://i.imgur.com/UtC3YX2.png",
          "color":null
       },
       "block/block":{
@@ -84,7 +84,7 @@
          "color":1
       },
       "block/unblock":{
-         "icon":"https://i.imgur.com/g7KgZHf.png",
+         "icon":"https://i.imgur.com/bvtBJ8o.png",
          "color":1
       },
       "block/reblock":{
@@ -92,19 +92,19 @@
          "color":1
       },
       "protect/protect":{
-         "icon":"https://i.imgur.com/Lfk0wuw.png",
+         "icon":"https://i.imgur.com/bzPt89Z.png",
          "color":null
       },
       "protect/modify":{
-         "icon":"https://i.imgur.com/Lfk0wuw.png",
+         "icon":"https://i.imgur.com/bzPt89Z.png",
          "color":null
       },
       "protect/move_prot":{
-         "icon":"https://i.imgur.com/ZX02KBf.png",
+         "icon":"https://i.imgur.com/bzPt89Z.png",
          "color":null
       },
       "protect/unprotect":{
-         "icon":"https://i.imgur.com/Lfk0wuw.png",
+         "icon":"https://i.imgur.com/2wN3Qcq.png",
          "color":null
       },
       "import/upload":{
@@ -112,7 +112,7 @@
          "color":null
       },
       "import/interwiki":{
-         "icon":"",
+         "icon":"https://i.imgur.com/sFkhghb.png",
          "color":null
       },
       "rights/rights":{
@@ -120,35 +120,35 @@
          "color":null
       },
       "abusefilter/abusefilter":{
-         "icon":"",
+         "icon":"https://i.imgur.com/Sn2NzRJ.png",
          "color":null
       },
       "abusefilter/modify":{
-         "icon":"",
+         "icon":"https://i.imgur.com/Sn2NzRJ.png",
          "color":null
       },
       "abusefilter/create": {
-         "icon":"",
+         "icon":"https://i.imgur.com/Sn2NzRJ.png",
          "color":null
       },
       "interwiki/iw_add":{
-         "icon":"",
+         "icon":"https://i.imgur.com/sFkhghb.png",
          "color":null
       },
       "interwiki/iw_edit":{
-         "icon":"",
+         "icon":"https://i.imgur.com/sFkhghb.png",
          "color":null
       },
       "interwiki/iw_delete":{
-         "icon":"",
+         "icon":"https://i.imgur.com/sFkhghb.png",
          "color":null
       },
       "curseprofile/comment-created":{
-         "icon":"",
+         "icon":"https://i.imgur.com/Lvy5E32.png",
          "color":null
       },
       "curseprofile/comment-edited":{
-         "icon":"",
+         "icon":"https://i.imgur.com/Lvy5E32.png",
          "color":null
       },
       "curseprofile/comment-deleted":{
@@ -156,7 +156,7 @@
          "color":null
       },
       "curseprofile/comment-replied":{
-         "icon":"",
+         "icon":"https://i.imgur.com/hkyYsI1.png",
          "color":null
       },
       "curseprofile/profile-edited":{
@@ -200,7 +200,7 @@
          "color":null
       },
       "suppressed":{
-          "icon": "",
+          "icon": "https://i.imgur.com/1gps6EZ.png",
           "color": 8092539
       }
    }
