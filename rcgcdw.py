@@ -1063,7 +1063,7 @@ class Recent_Changes_Class(object):
 
 	def safe_request(self, url):
 		try:
-			request = self.session.get(url, timeout=10)
+			request = self.session.get(url, timeout=10, allow_redirects=False)
 		except requests.exceptions.Timeout:
 			logging.warning("Reached timeout error for request on link {url}".format(url=url))
 			self.downtime_controller()
@@ -1076,6 +1076,9 @@ class Recent_Changes_Class(object):
 			if 499 < request.status_code < 600:
 				self.downtime_controller()
 				return None
+			elif request.status_code == 302:
+				logging.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or Gamepedia is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
+				sys.exit(0)
 			return request
 
 	def check_connection(self, looped=False):
