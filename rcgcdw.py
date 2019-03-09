@@ -293,7 +293,17 @@ def webhook_formatter(action, STATIC, **params):
 		                                                    user=params["blocked_user"].replace(" ", "_").replace(')',
 		                                                                                                          '\)'))
 		user = params["blocked_user"].split(':')[1]
-		block_time = _("infinity and beyond") if params["duration"] == "infinite" else params["duration"]
+		if params["duration"] == "infinite":
+			block_time = _("infinity and beyond")
+		else:
+			english_length = re.sub(r"(\d+)", "", params["duration"]) #note that translation won't work for millenia and century yet
+			english_length_num = re.sub(r"(\D+)", "", params["duration"])
+			try:
+				english_length = english_length.rstrip("s").strip()
+				block_time = "{num} {translated_length}".format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
+			except AttributeError:
+				logging.error("Could not strip s from the block event, seems like the regex didn't work?")
+				return
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
@@ -1140,7 +1150,7 @@ recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"]
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
 if 1 == 2: # additional translation strings in unreachable code
 	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
-	      _("autoreview"), _("autopatrol"), _("wiki_guardian"))
+	      _("autoreview"), _("autopatrol"), _("wiki_guardian"), ngettext("second", "seconds", 1), ngettext("minute", "minutes", 1), ngettext("hour", "hours", 1), ngettext("day", "days", 1), ngettext("week", "weeks", 1), ngettext("month", "months",1), ngettext("year", "years", 1), ngettext("millennium", "millennia", 1), ngettext("decade", "decades", 1), ngettext("century", "centuries", 1))
 
 if settings["overview"]:
 	try:

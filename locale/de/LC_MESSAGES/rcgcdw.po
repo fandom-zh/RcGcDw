@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-26 19:51+0100\n"
-"PO-Revision-Date: 2019-01-26 19:56+0100\n"
+"PO-Revision-Date: 2019-03-06 18:46+0100\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -197,7 +197,7 @@ msgstr "Bearbeitete das Profil von {target}"
 
 #: rcgcdw.py:353
 msgid "Edited their own profile"
-msgstr "Bearbeitete sein eigenes Profil"
+msgstr "Bearbeitete das eigene Profil"
 
 #: rcgcdw.py:354
 #, python-brace-format
