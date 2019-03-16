@@ -37,11 +37,12 @@ try:  # load settings
 		settings = json.load(sfile)
 		if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
 			settings["limitrefetch"] = settings["limit"]
+		if "user-agent" in settings["header"]:
+			settings["header"]["user-agent"] = settings["header"]["user-agent"].format(version="1.5.3")  # set the version in the useragent
 except FileNotFoundError:
 	logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
 	sys.exit(1)
 
-VERSION = "1.5.3"
 logged_in = False
 logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is False:
@@ -120,7 +121,7 @@ def safe_read(request, *keys):
 
 
 def send_to_discord_webhook(data):
-	header = settings["header"].format(version=VERSION)
+	header = settings["header"]
 	if "content" not in data:
 		header['Content-Type'] = 'application/json'
 	else:
@@ -882,7 +883,7 @@ class Recent_Changes_Class(object):
 	unsent_messages = []
 	mw_messages = {}
 	session = requests.Session()
-	session.headers.update(settings["header"].format(version=VERSION))
+	session.headers.update(settings["header"])
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
