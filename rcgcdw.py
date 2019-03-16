@@ -26,13 +26,13 @@ from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from html.parser import HTMLParser
 
-if __name__ != "__main__":
+if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
 	sys.exit(1)
 
-TESTING = True if "--test" in sys.argv else False
+TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
 
-try:
+try:  # load settings
 	with open("settings.json") as sfile:
 		settings = json.load(sfile)
 		if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
@@ -41,6 +41,7 @@ except FileNotFoundError:
 	logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
 	sys.exit(1)
 
+VERSION = "1.5.3"
 logged_in = False
 logging.basicConfig(level=settings["verbose_level"])
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is False:
@@ -119,7 +120,7 @@ def safe_read(request, *keys):
 
 
 def send_to_discord_webhook(data):
-	header = settings["header"]
+	header = settings["header"].format(version=VERSION)
 	if "content" not in data:
 		header['Content-Type'] = 'application/json'
 	else:
@@ -881,7 +882,7 @@ class Recent_Changes_Class(object):
 	unsent_messages = []
 	mw_messages = {}
 	session = requests.Session()
-	session.headers.update(settings["header"])
+	session.headers.update(settings["header"].format(version=VERSION))
 	if settings["limitrefetch"] != -1:
 		with open("lastchange.txt", "r") as record:
 			file_content = record.read().strip()
