@@ -1029,19 +1029,22 @@ class Recent_Changes_Class(object):
 									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
 					if change["type"] == "categorize":
 						if "commenthidden" not in change:
-							cat_title = change["title"].split(':', 1)[1]
-							# I so much hate this, blame Markus for making me do this
-							if change["revid"] not in categorize_events:
-								categorize_events[change["revid"]] = {"new": [], "removed": []}
-							comment_to_match = re.sub('<.*?a>', '', change["parsedcomment"])
-							if recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", "") in comment_to_match:
-								categorize_events[change["revid"]]["new"].append(cat_title)
-								logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
-							elif recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", "") in comment_to_match:
-								categorize_events[change["revid"]]["removed"].append(cat_title)
-								logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+							if len(recent_changes.mw_messages.keys()) > 0:
+								cat_title = change["title"].split(':', 1)[1]
+								# I so much hate this, blame Markus for making me do this
+								if change["revid"] not in categorize_events:
+									categorize_events[change["revid"]] = {"new": [], "removed": []}
+								comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
+								if recent_changes.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"] in comment_to_match:
+									categorize_events[change["revid"]]["new"].append(cat_title)
+									logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
+								elif recent_changes.mw_messages["recentchanges-page-removed-from-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"] in comment_to_match:
+									categorize_events[change["revid"]]["removed"].append(cat_title)
+									logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+								else:
+									logging.debug("Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"], recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"], comment_to_match))
 							else:
-								logging.debug("Unknown match for category change with messages {} and {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"].replace("[[:$1]]", ""), recent_changes.mw_messages["recentchanges-page-removed-from-category"].replace("[[:$1]]", ""), comment_to_match))
+								logging.warning("Init information not available, could not read category information. Please restart the bot.")
 						else:
 							logging.debug("Log entry got suppressed, ignoring entry.")
 				# if change["revid"] in categorize_events:
@@ -1126,7 +1129,7 @@ class Recent_Changes_Class(object):
 
 	def init_info(self):
 		startup_info = safe_read(self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&uselang=content&list=tags|recentchanges&meta=allmessages&utf8=1&tglimit=max&tgprop=name|displayname&ammessages=recentchanges-page-added-to-category|recentchanges-page-removed-from-category&amenableparser=1&amincludelocal=1".format(
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&uselang=content&list=tags&meta=allmessages&utf8=1&tglimit=max&tgprop=displayname&ammessages=recentchanges-page-added-to-category|recentchanges-page-removed-from-category|recentchanges-page-added-to-category-bundled|recentchanges-page-removed-from-category-bundled&amenableparser=1&amincludelocal=1".format(
 				wiki=settings["wiki"])), "query")
 		if startup_info:
 			if "tags" in startup_info and "allmessages" in startup_info:
@@ -1134,6 +1137,9 @@ class Recent_Changes_Class(object):
 					self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
 				for message in startup_info["allmessages"]:
 					self.mw_messages[message["name"]] = message["*"]
+				for key, message in self.mw_messages.items():
+					if key.startswith("recentchanges-page-"):
+						self.mw_messages[key] = re.sub(r'\[\[.*?\]\]', '', message)
 			else:
 				logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
 				logging.debug(startup_info)
