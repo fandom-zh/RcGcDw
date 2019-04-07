@@ -528,7 +528,10 @@ def webhook_formatter(action, STATIC, **params):
 			embed["fields"] = []
 		for tag in STATIC["tags"]:
 			if tag in recent_changes.tags:
-				tag_displayname.append(recent_changes.tags[tag])
+				if recent_changes.tags[tag] is None:
+					continue  # Ignore hidden tags
+				else:
+					tag_displayname.append(recent_changes.tags[tag])
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
@@ -1134,7 +1137,10 @@ class Recent_Changes_Class(object):
 		if startup_info:
 			if "tags" in startup_info and "allmessages" in startup_info:
 				for tag in startup_info["tags"]:
-					self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+					try:
+						self.tags[tag["name"]] = (BeautifulSoup(tag["displayname"], "lxml")).get_text()
+					except KeyError:
+						self.tags[tag["name"]] = None  # Tags with no display name are hidden and should not appear on RC as well
 				for message in startup_info["allmessages"]:
 					self.mw_messages[message["name"]] = message["*"]
 				for key, message in self.mw_messages.items():
