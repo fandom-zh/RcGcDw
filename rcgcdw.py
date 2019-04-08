@@ -540,8 +540,8 @@ def webhook_formatter(action, STATIC, **params):
 		if "fields" not in embed:
 			embed["fields"] = []
 		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
-		new_cat = (_("**Added**: ") + ", ".join(STATIC["changed_categories"]["new"][0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15))) if STATIC["changed_categories"]["new"] else ""
-		del_cat = (_("**Removed**: ") + ", ".join(STATIC["changed_categories"]["removed"][0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15))) if STATIC["changed_categories"]["removed"] else ""
+		new_cat = (_("**Added**: ") + ", ".join(list(STATIC["changed_categories"]["new"])[0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15))) if STATIC["changed_categories"]["new"] else ""
+		del_cat = (_("**Removed**: ") + ", ".join(list(STATIC["changed_categories"]["removed"])[0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15))) if STATIC["changed_categories"]["removed"] else ""
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
@@ -1036,13 +1036,13 @@ class Recent_Changes_Class(object):
 								cat_title = change["title"].split(':', 1)[1]
 								# I so much hate this, blame Markus for making me do this
 								if change["revid"] not in categorize_events:
-									categorize_events[change["revid"]] = {"new": [], "removed": []}
+									categorize_events[change["revid"]] = {"new": set(), "removed": set()}
 								comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
 								if recent_changes.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"] in comment_to_match:
-									categorize_events[change["revid"]]["new"].append(cat_title)
+									categorize_events[change["revid"]]["new"].add(cat_title)
 									logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
 								elif recent_changes.mw_messages["recentchanges-page-removed-from-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"] in comment_to_match:
-									categorize_events[change["revid"]]["removed"].append(cat_title)
+									categorize_events[change["revid"]]["removed"].add(cat_title)
 									logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
 								else:
 									logging.debug("Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"], recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"], comment_to_match))
