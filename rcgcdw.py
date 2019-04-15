@@ -154,7 +154,7 @@ def send_to_discord(data):
 			pass
 
 
-def webhook_formatter(action, STATIC, **params):
+def webhook_formatter(change, parseddomment, **params):
 	logging.debug("Received things: {thing}".format(thing=params))
 	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
 	data = {"embeds": []}
@@ -571,22 +571,20 @@ def handle_discord_http(code, formatted_embed, result):
 		return 3
 
 
-def first_pass(
-		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
-	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:
-		webhook_formatter("suppressed",
-		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
-		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
+def essential_info(change, changed_categories):
+	"""Prepares essential information for both embed and compact message format."""
+	logging.debug(change)
+	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using supression
+		# webhook_formatter("suppressed",
+		#                   {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
+		#                    "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
 		return
 	if "commenthidden" not in change:
 		LinkParser.feed(change["parsedcomment"])
-		# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
 		parsedcomment = LinkParser.new_string
 		LinkParser.new_string = ""
 	else:
 		parsedcomment = _("~~hidden~~")
-	logging.debug(change)
-	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
 	if not parsedcomment:
 		parsedcomment = _("No description provided")
 	parsedcomment = re.sub(r"(`|_|\*|~|<|>|{|}|\|\|)", "\\\\\\1", parsedcomment, 0)
@@ -594,6 +592,24 @@ def first_pass(
 		logging.debug("List of categories in first_pass: {}".format(changed_categories))
 		if "userhidden" in change:
 			change["user"] = _("hidden")
+	elif change["type"] == "categorize":
+		return
+	if settings["appearance"]["mode"] == "webhook":
+		webhook_formatter(change, parsedcomment, changed_categories)
+	elif settings["appearance"]["mode"] == "compact":
+		compact_formatter(change, parsedcomment, changed_categories)
+	else:
+		logging.critical("Unknown formatter!")
+		sys.exit(1)
+
+def first_pass(
+		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
+
+
+	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
+
+
+
 		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
 						  "icon": settings["appearance"]["edit"]["icon"]}}
 		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
