@@ -27,6 +27,7 @@
    "wiki_bot_password": "",
    "show_added_categories": true,
    "appearance":{
+      "mode": "compact",
        "daily_overview": {
          "color": 16312092,
          "icon":""
