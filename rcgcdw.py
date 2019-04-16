@@ -155,12 +155,44 @@ def send_to_discord(data):
 			pass
 
 def compact_formatter(action, change, parsed_comment, categories):
-	pass
+	author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["user"].replace(" ", "_"))
+	author = change["user"]
+	parsed_comment = "" if parsed_comment is None else " (*"+parsed_comment+"*)"
+	content = "[{author}]({author_url}) {action} ".format(author=author, author_url=author_url, action=action_list[action])
+	if action in ["edit", "new"]:
+		edit_link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
+			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
+			article=change["title"].replace(" ", "_"))
+		edit_size = change["newlen"] - change["oldlen"]
+		if edit_size > 0:
+			sign = "+"
+		elif edit_size == 0:
+			sign = ""
+		else:
+			sign = "-"
+		content += "[{article}]({edit_link}){comment} ({sign}{edit_size})".format(article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size)
+	elif action in ("upload/overwrite", "upload/upload"):
+		file_link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"].replace(" ", "_"))
+		content += "[{file}]({file_link}){comment}".format(file=change["title"], file_link=file_link, comment=parsed_comment)
+	elif action == "delete/delete":
+		page_link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                            article=change["title"].replace(" ", "_"))
+		content += "[{page}]({page_link}){comment}".format(page=change["title"], page_link=page_link,
+		                                                  comment=parsed_comment)
+	elif action == "delete/delete_redir":
+		page_link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                            article=change["title"].replace(" ", "_"))
+		content += "[{page}]({page_link}){comment}".format(page=change["title"], page_link=page_link,
+		                                                   comment=parsed_comment)
 
 
-def webhook_formatter(action, change, parsed_comment, categories):
+def embed_formatter(action, change, parsed_comment, categories):
 	data = {"embeds": []}
 	embed = defaultdict(dict)
+	colornumber = None
+	if parsed_comment is None:
+		parsed_comment = _("No description provided")
 	if "anon" in change:
 		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
 		                                                                                user=change["user"])
@@ -275,7 +307,7 @@ def webhook_formatter(action, change, parsed_comment, categories):
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=change["title"])
 	elif action == "move/move":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["target"].replace(" ", "_"))
+		                                                       article=change["logparams"]['target_title'].replace(" ", "_"))
 		parsed_comment = "{supress}. {desc}".format(desc=parsed_comment,
 		                                            supress=_("No redirect has been made") if "suppressredirect" in change["logparams"] else _(
 			                                            "A redirect has been made"))
@@ -572,19 +604,16 @@ def essential_info(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
 	logging.debug(change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
-		# webhook_formatter("suppressed",
-		#                   {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
-		#                    "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
 		appearance_mode("supressed", change, "", [])
 	if "commenthidden" not in change:
 		LinkParser.feed(change["parsedcomment"])
 		parsed_comment = LinkParser.new_string
 		LinkParser.new_string = ""
+		parsed_comment = re.sub(r"(`|_|\*|~|<|>|{|}|\|\|)", "\\\\\\1", parsed_comment, 0)
 	else:
 		parsed_comment = _("~~hidden~~")
 	if not parsed_comment:
-		parsed_comment = _("No description provided")
-	parsed_comment = re.sub(r"(`|_|\*|~|<|>|{|}|\|\|)", "\\\\\\1", parsed_comment, 0)
+		parsed_comment = None
 	if change["type"] in ["edit", "new"]:
 		logging.debug("List of categories in essential_info: {}".format(changed_categories))
 		if "userhidden" in change:
@@ -1018,9 +1047,10 @@ class Recent_Changes_Class(object):
 recent_changes = Recent_Changes_Class()
 # Set the proper formatter
 if settings["appearance"]["mode"] == "embed":
-	appearance_mode = webhook_formatter
+	appearance_mode = embed_formatter
 elif settings["appearance"]["mode"] == "compact":
 	appearance_mode = compact_formatter
+	action_list = {"edit": _("edited"), "new": _("created"), "upload/upload": _("uploaded"), "upload/overwrite": _("uploaded a new version of"), "delete/delete": _("deleted"), "delete/delete_redir": _("deleted redirect by overwriting")}
 else:
 	logging.critical("Unknown formatter!")
 	sys.exit(1)
