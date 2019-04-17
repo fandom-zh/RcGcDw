@@ -787,14 +787,14 @@ def embed_formatter(action, change, parsed_comment, categories):
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=change))
 	embed["author"]["name"] = change["user"]
 	embed["author"]["url"] = author_url
-	embed["author"]["icon_url"] = settings["appearance"]["webhook"][action]["icon"]
+	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
 	embed["url"] = link
 	embed["description"] = parsed_comment
 	if colornumber is None:
-		if settings["appearance"]["webhook"][action]["color"] is None:
+		if settings["appearance"]["embed"][action]["color"] is None:
 			embed["color"] = random.randrange(1, 16777215)
 		else:
-			embed["color"] = settings["appearance"]["webhook"][action]["color"]
+			embed["color"] = settings["appearance"]["embed"][action]["color"]
 	else:
 		embed["color"] = math.floor(colornumber)
 	embed["timestamp"] = change["timestamp"]
@@ -970,7 +970,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
 		embed["color"] = settings["appearance"]["daily_overview"]["color"]
-		embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
+		embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:

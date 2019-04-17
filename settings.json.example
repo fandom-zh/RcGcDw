@@ -28,7 +28,7 @@
    "show_added_categories": true,
    "appearance":{
       "mode": "embed",
-      "webhook": {
+      "embed": {
           "daily_overview": {
             "color": 16312092,
             "icon":""
