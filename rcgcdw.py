@@ -299,7 +299,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 			field = _("Steam link")
 		else:
 			field = _("Unknown")
-		content = _("[{author}]({author_url}) edited {field} of [{target}]({target_url}) profile to {desc}").format(author=author,
+		content = _("[{author}]({author_url}) edited {field} of [{target}]({target_url}) profile to *{desc}*").format(author=author,
 		                                                                        author_url=author_url,
 		                                                                        target=change["title"].split(':')[1]+"'s" if change["title"].split(':')[1] != author else _("their own"),
 		                                                                        target_url=link,
