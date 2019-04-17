@@ -160,7 +160,7 @@ def link_formatter(link):
 def compact_formatter(action, change, parsed_comment, categories):
 	author_url = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["user"]))
 	author = change["user"]
-	parsed_comment = "" if parsed_comment is None else " (*"+parsed_comment+"*)"
+	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
 	if action in ["edit", "new"]:
 		edit_link = link_formatter("https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
