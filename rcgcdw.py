@@ -80,7 +80,7 @@ class LinkParser(HTMLParser):
 
 	def handle_data(self, data):
 		if self.recent_href:
-			self.new_string = self.new_string + "[{}]({})".format(data, self.recent_href)
+			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
 			self.recent_href = ""
 		else:
 			self.new_string = self.new_string + data
@@ -162,9 +162,9 @@ def compact_formatter(action, change, parsed_comment, categories):
 	author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " (*"+parsed_comment+"*)"
 	if action in ["edit", "new"]:
-		edit_link = "<https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}>".format(
+		edit_link = link_formatter("https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
-			article=change["title"].replace(" ", "_"))
+			article=change["title"]))
 		edit_size = change["newlen"] - change["oldlen"]
 		if edit_size > 0:
 			sign = "+"
@@ -428,6 +428,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 	elif action == "suppressed":
 		link = "<https://{wiki}.gamepedia.com/>".format(wiki=settings["wiki"])
 		content = _("An action has been hidden by administration.")
+	print(content)
 	send_to_discord({'content': content})
 
 def embed_formatter(action, change, parsed_comment, categories):
@@ -852,7 +853,7 @@ def essential_info(change, changed_categories):
 		LinkParser.feed(change["parsedcomment"])
 		parsed_comment = LinkParser.new_string
 		LinkParser.new_string = ""
-		parsed_comment = re.sub(r"(`|_|\*|~|<|>|{|}|\|\|)", "\\\\\\1", parsed_comment, 0)
+		parsed_comment = re.sub(r"(`|_|\*|~|{|}|\|\|)", "\\\\\\1", parsed_comment, 0)
 	else:
 		parsed_comment = _("~~hidden~~")
 	if not parsed_comment:
