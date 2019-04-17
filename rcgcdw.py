@@ -646,7 +646,10 @@ def embed_formatter(action, change, parsed_comment, categories):
 		else:
 			field = _("Unknown")
 		embed["title"] = _("Edited {target}'s profile").format(target=change["title"].split(':')[1]) if change["user"] != change["title"].split(':')[1] else _("Edited their own profile")
-		parsed_comment = _("{field} field changed to: {desc}").format(field=field, desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
+		if not change["parsedcomment"]:  # If the field is empty
+			parsed_comment = _("Cleared the {field} field").format(field=field)
+		else:
+			parsed_comment = _("{field} field changed to: {desc}").format(field=field, desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action == "curseprofile/comment-deleted":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
