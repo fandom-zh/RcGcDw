@@ -969,7 +969,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed = defaultdict(dict)
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
-		embed["color"] = settings["appearance"]["daily_overview"]["color"]
+		embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
 		embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
