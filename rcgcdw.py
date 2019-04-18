@@ -158,8 +158,9 @@ def link_formatter(link):
 	return "<"+re.sub(r"([ \)])", "\\\\\\1", link)+">"
 
 def compact_formatter(action, change, parsed_comment, categories):
-	author_url = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["user"]))
-	author = change["user"]
+	if action != "suppressed":
+		author_url = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["user"]))
+		author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
 	if action in ["edit", "new"]:
 		edit_link = link_formatter("https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
@@ -428,7 +429,6 @@ def compact_formatter(action, change, parsed_comment, categories):
 	elif action == "suppressed":
 		link = "<https://{wiki}.gamepedia.com/>".format(wiki=settings["wiki"])
 		content = _("An action has been hidden by administration.")
-	print(content)
 	send_to_discord({'content': content})
 
 def embed_formatter(action, change, parsed_comment, categories):
@@ -437,32 +437,35 @@ def embed_formatter(action, change, parsed_comment, categories):
 	colornumber = None
 	if parsed_comment is None:
 		parsed_comment = _("No description provided")
-	if "anon" in change:
-		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
-		                                                                                user=change["user"])
-		logging.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
-		if change["user"] not in list(recent_changes.map_ips.keys()):
-			contibs = safe_read(recent_changes.safe_request(
-				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
-					wiki=settings["wiki"], user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
-			if contibs is None:
-				logging.warning(
-					"WARNING: Something went wrong when checking amount of contributions for given IP address")
-				change["user"] = change["user"] + "(?)"
+	if action != "suppressed":
+		if "anon" in change:
+			author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
+			                                                                                user=change["user"])
+			logging.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
+			if change["user"] not in list(recent_changes.map_ips.keys()):
+				contibs = safe_read(recent_changes.safe_request(
+					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+						wiki=settings["wiki"], user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
+				if contibs is None:
+					logging.warning(
+						"WARNING: Something went wrong when checking amount of contributions for given IP address")
+					change["user"] = change["user"] + "(?)"
+				else:
+					recent_changes.map_ips[change["user"]] = len(contibs)
+					logging.debug("1Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 			else:
-				recent_changes.map_ips[change["user"]] = len(contibs)
-				logging.debug("1Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
-				change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
+				logging.debug(
+					"2Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+				if action in ("edit", "new"):
+					recent_changes.map_ips[change["user"]] += 1
+				change["user"] = "{author} ({amount})".format(author=change["user"],
+				                                              amount=recent_changes.map_ips[change["user"]])
 		else:
-			logging.debug(
-				"2Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
-			if action in ("edit", "new"):
-				recent_changes.map_ips[change["user"]] += 1
-			change["user"] = "{author} ({amount})".format(author=change["user"],
-			                                              amount=recent_changes.map_ips[change["user"]])
-	else:
-		author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"],
-		                                                               user=change["user"].replace(" ", "_"))
+			author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"],
+			                                                               user=change["user"].replace(" ", "_"))
+		embed["author"]["name"] = change["user"]
+		embed["author"]["url"] = author_url
 	if action in ("edit", "new"):  # edit or new page
 		editsize = change["newlen"] - change["oldlen"]
 		if editsize > 0:
@@ -783,10 +786,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action == "suppressed":
 		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		embed["title"] = _("Action has been hidden by administration.")
+		embed["author"]["name"] = _("Unknown")
 	else:
 		logging.warning("No entry for {event} with params: {params}".format(event=action, params=change))
-	embed["author"]["name"] = change["user"]
-	embed["author"]["url"] = author_url
 	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
 	embed["url"] = link
 	embed["description"] = parsed_comment
@@ -851,7 +853,8 @@ def essential_info(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
 	logging.debug(change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
-		appearance_mode("supressed", change, "", [])
+		appearance_mode("suppressed", change, "", changed_categories)
+		return
 	if "commenthidden" not in change:
 		LinkParser.feed(change["parsedcomment"])
 		parsed_comment = LinkParser.new_string
