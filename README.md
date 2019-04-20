@@ -1,12 +1,13 @@
 ## Overview ##
 *Recent changes Gamepedia compatible Discord webhook* is a project made from earlier recent changes module of IRC bot. It has been remade as independent script for public use.    
-Screenshots of the script can be found [on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation).
+Screenshots of the script in action can be found [on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation).
 
 ### Features ###
 * Fetch recent changes from Gamepedia wiki and send them to Discord channel using a webhook
+* Two appearance modes - embed and compact
 * Send daily overviews, that show general information about wiki activity
 * Supports multiple languages (included EN, PL, BR, RU, FR)
-* Re-sends missed edits after down-time
+* Re-sends missed edits after start
 
 ### Dependencies ###
 * **Python 3.6>**
@@ -15,11 +16,11 @@ Screenshots of the script can be found [on the wiki](https://gitlab.com/piotrex4
 * schedule 0.5.0>
 * lxml 4.2.1>
 
-### Settings.json ###
+### settings.json ###
 [Explanation for settings](https://gitlab.com/piotrex43/RcGcDw/wikis/settings.json)    
 
 ### How to use ###
-[Refer to the guide on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Guide)
+[Refer to the guide on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Guide). If you don't have the means to host it you can request me to host it for you.
 
 ### Contributors ###
 * MarkusRost for enormous help with pointing out bugs, space for improvements and contributing to the code.
