@@ -206,8 +206,10 @@ def compact_formatter(action, change, parsed_comment, categories):
 	elif action == "move/move_redir":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=change["logparams"]["target_title"]))
-		content = _("[{author}]({author_url}) moved {redirect}*{article}* over redirect to [{target}]({target_url}){comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
-			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment)
+		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _(
+			"with a redirect")
+		content = _("[{author}]({author_url}) moved {redirect}*{article}* over redirect to [{target}]({target_url}) {made_a_redirect}{comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
+			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment, made_a_redirect=redirect_status)
 	elif action == "protect/move_prot":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=change["logparams"]["oldtitle_title"]))
@@ -256,7 +258,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) replied to a [comment]({comment}) on {target} profile").format(author=author,
 		                                                                                               author_url=author_url,
 		                                                                                               comment=link,
-		                                                                                               target=change["title"].split(':')[1] + "'s" if change["title"].split(':')[1] !=change["user"] else _("their own profile"))
+		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
 	elif action == "curseprofile/comment-edited":
 		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"][
@@ -264,14 +266,14 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) edited a [comment]({comment}) on {target} profile").format(author=author,
 		                                                                                               author_url=author_url,
 		                                                                                               comment=link,
-		                                                                                               target=change["title"].split(':')[1] + "'s" if change["title"].split(':')[1] !=change["user"] else _("their own profile"))
+		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
 	elif action == "curseprofile/comment-deleted":
 		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"]))
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		content = _("[{author}]({author_url}) deleted a comment on {target} profile").format(author=author,
 		                                                                                    author_url=author_url,
-		                                                                                     target=change["title"].split(':')[1] + "'s" if change["title"].split(':')[1] !=change["user"] else _("their own profile"))
+		                                                                                     target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
 
 	elif action == "curseprofile/profile-edited":
 		link = link_formatter("https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"],
@@ -299,8 +301,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 		elif change["logparams"]['4:section'] == "profile-link-steam":
 			field = _("Steam link")
 		else:
-			field = _("Unknown")
-		content = _("[{author}]({author_url}) edited {field} of [{target}]({target_url}) profile to *{desc}*").format(author=author,
+			field = _("unknown")
+		content = _("[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s profile. *({desc})*").format(author=author,
 		                                                                        author_url=author_url,
 		                                                                        target=change["title"].split(':')[1]+"'s" if change["title"].split(':')[1] != author else _("their own"),
 		                                                                        target_url=link,
