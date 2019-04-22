@@ -38,7 +38,7 @@ try:  # load settings
 		if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
 			settings["limitrefetch"] = settings["limit"]
 		if "user-agent" in settings["header"]:
-			settings["header"]["user-agent"] = settings["header"]["user-agent"].format(version="1.5.3.2")  # set the version in the useragent
+			settings["header"]["user-agent"] = settings["header"]["user-agent"].format(version="1.6")  # set the version in the useragent
 except FileNotFoundError:
 	logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
 	sys.exit(1)
@@ -58,6 +58,7 @@ except FileNotFoundError:
 lang.install()
 ngettext = lang.ngettext
 
+supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update"]
 
 class MWError(Exception):
 	pass
@@ -79,7 +80,7 @@ class LinkParser(HTMLParser):
 
 	def handle_data(self, data):
 		if self.recent_href:
-			self.new_string = self.new_string + "[{}]({})".format(data, self.recent_href)
+			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
 			self.recent_href = ""
 		else:
 			self.new_string = self.new_string + data
@@ -153,40 +154,322 @@ def send_to_discord(data):
 			time.sleep(2.5)
 			pass
 
+def link_formatter(link):
+	return "<"+re.sub(r"([ \)])", "\\\\\\1", link)+">"
 
-def webhook_formatter(action, STATIC, **params):
-	logging.debug("Received things: {thing}".format(thing=params))
-	colornumber = None if isinstance(STATIC["color"], str) else STATIC["color"]
+def compact_formatter(action, change, parsed_comment, categories):
+	if action != "suppressed":
+		author_url = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["user"]))
+		author = change["user"]
+	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
+	if action in ["edit", "new"]:
+		edit_link = link_formatter("https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
+			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
+			article=change["title"]))
+		edit_size = change["newlen"] - change["oldlen"]
+		if edit_size > 0:
+			sign = "+"
+		else:
+			sign = ""
+		if action == "edit":
+			content = _("[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({sign}{edit_size})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign)
+		else:
+			content = _("[{author}]({author_url}) created [{article}]({edit_link}){comment} ({sign}{edit_size})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign)
+	elif action =="upload/upload":
+		file_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                            article=change["title"]))
+		content = _("[{author}]({author_url}) uploaded [{file}]({file_link}){comment}").format(author=author,
+		                                                                                    author_url=author_url,
+		                                                                                    file=change["title"],
+		                                                                                    file_link=file_link,
+		                                                                                    comment=parsed_comment)
+	elif action == "upload/overwrite":
+		file_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                            article=change["title"]))
+		content = _("[{author}]({author_url}) uploaded a new version of [{file}]({file_link}){comment}").format(author=author, author_url=author_url, file=change["title"], file_link=file_link, comment=parsed_comment)
+	elif action == "delete/delete":
+		page_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                            article=change["title"]))
+		content = _("[{author}]({author_url}) deleted [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
+		                                                  comment=parsed_comment)
+	elif action == "delete/delete_redir":
+		page_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                            article=change["title"]))
+		content = _("[{author}]({author_url}) deleted redirect by overwriting [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
+		                                                   comment=parsed_comment)
+	elif action == "move/move":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["logparams"]['target_title']))
+		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _("with a redirect")
+		content = _("[{author}]({author_url}) moved {redirect}*{article}* to [{target}]({target_url}) {made_a_redirect}{comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
+			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment, made_a_redirect=redirect_status)
+	elif action == "move/move_redir":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["logparams"]["target_title"]))
+		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _(
+			"with a redirect")
+		content = _("[{author}]({author_url}) moved {redirect}*{article}* over redirect to [{target}]({target_url}) {made_a_redirect}{comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
+			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment, made_a_redirect=redirect_status)
+	elif action == "protect/move_prot":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["logparams"]["oldtitle_title"]))
+		content = _(
+			"[{author}]({author_url}) moved protection settings from {redirect}*{article}* to [{target}]({target_url}){comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
+			target=change["title"], target_url=link, comment=parsed_comment)
+	elif action == "block/block":
+		link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
+		                                                    user=change["title"]))
+		user = change["title"].split(':')[1]
+		if change["logparams"]["duration"] == "infinite":
+			block_time = _("infinity and beyond")
+		else:
+			english_length = re.sub(r"(\d+)", "", change["logparams"][
+				"duration"])  # note that translation won't work for millenia and century yet
+			english_length_num = re.sub(r"(\D+)", "", change["logparams"]["duration"])
+			try:
+				english_length = english_length.rstrip("s").strip()
+				block_time = "{num} {translated_length}".format(num=english_length_num,
+				                                                translated_length=ngettext(english_length,
+				                                                                           english_length + "s",
+				                                                                           int(english_length_num)))
+			except AttributeError:
+				logging.error("Could not strip s from the block event, seems like the regex didn't work?")
+				return
+		content = _(
+			"[{author}]({author_url}) blocked [{user}]({user_url}) for {time}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, comment=parsed_comment)
+	elif action == "block/reblock":
+		link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
+		                                                    user=change["title"]))
+		user = change["title"].split(':')[1]
+		content = _("[{author}]({author_url}) changed block settings for [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
+	elif action == "block/unblock":
+		link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
+		                                                    user=change["title"]))
+		user = change["title"].split(':')[1]
+		content = _("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
+	elif action == "curseprofile/comment-created":
+		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
+		                                                                                  commentid=change["logparams"]["4:comment_id"]))
+		content = _("[{author}]({author_url}) left a [comment]({comment}) on {target} profile").format(author=author, author_url=author_url, comment=link, target=change["title"].split(':')[1]+"'s" if change["title"].split(':')[1] != change["user"] else _("their own profile"))
+	elif action == "curseprofile/comment-replied":
+		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
+		                                                                                  commentid=change["logparams"][
+			                                                                                  "4:comment_id"]))
+		content = _("[{author}]({author_url}) replied to a [comment]({comment}) on {target} profile").format(author=author,
+		                                                                                               author_url=author_url,
+		                                                                                               comment=link,
+		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
+	elif action == "curseprofile/comment-edited":
+		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
+		                                                                                  commentid=change["logparams"][
+			                                                                                  "4:comment_id"]))
+		content = _("[{author}]({author_url}) edited a [comment]({comment}) on {target} profile").format(author=author,
+		                                                                                               author_url=author_url,
+		                                                                                               comment=link,
+		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
+	elif action == "curseprofile/comment-deleted":
+		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
+		                                                                                  commentid=change["logparams"]["4:comment_id"]))
+		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		content = _("[{author}]({author_url}) deleted a comment on {target} profile").format(author=author,
+		                                                                                    author_url=author_url,
+		                                                                                     target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
+
+	elif action == "curseprofile/profile-edited":
+		link = link_formatter("https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"],
+		                                                                  target=change["title"].split(':')[1]))
+		if change["logparams"]['4:section'] == "profile-location":
+			field = _("Location")
+		elif change["logparams"]['4:section'] == "profile-aboutme":
+			field = _("About me")
+		elif change["logparams"]['4:section'] == "profile-link-google":
+			field = _("Google link")
+		elif change["logparams"]['4:section'] == "profile-link-facebook":
+			field = _("Facebook link")
+		elif change["logparams"]['4:section'] == "profile-link-twitter":
+			field = _("Twitter link")
+		elif change["logparams"]['4:section'] == "profile-link-reddit":
+			field = _("Reddit link")
+		elif change["logparams"]['4:section'] == "profile-link-twitch":
+			field = _("Twitch link")
+		elif change["logparams"]['4:section'] == "profile-link-psn":
+			field = _("PSN link")
+		elif change["logparams"]['4:section'] == "profile-link-vk":
+			field = _("VK link")
+		elif change["logparams"]['4:section'] == "profile-link-xbl":
+			field = _("XVL link")
+		elif change["logparams"]['4:section'] == "profile-link-steam":
+			field = _("Steam link")
+		else:
+			field = _("unknown")
+		content = _("[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s profile. *({desc})*").format(author=author,
+		                                                                        author_url=author_url,
+		                                                                        target=change["title"].split(':')[1]+"'s" if change["title"].split(':')[1] != author else _("their own"),
+		                                                                        target_url=link,
+		                                                                        field=field,
+		                                                                        desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
+	elif action in ("rights/rights", "rights/autopromote"):
+		link = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["title"].split(":")[1]))
+		old_groups = []
+		new_groups = []
+		for name in change["logparams"]["oldgroups"]:
+			old_groups.append(_(name))
+		for name in change["logparams"]["newgroups"]:
+			new_groups.append(_(name))
+		if len(old_groups) == 0:
+			old_groups = [_("none")]
+		if len(new_groups) == 0:
+			new_groups = [_("none")]
+
+		if action == "rights/rights":
+			content = "[{author}]({author_url}) changed group membership for [{target}]({target_url}) from {old_groups} to {new_groups}{comment}".format(author=author, author_url=author_url, target=change["title"].split(":")[1], target_url=link, old_groups=", ".join(old_groups), new_groups=', '.join(new_groups), comment=parsed_comment)
+		else:  # TODO Check what happens with author when the system autopromotes
+			content = "{author} autopromoted [{target}]({target_url}) from {old_groups} to {new_groups}{comment}".format(
+				author=_("System"), author_url=author_url, target=change["title"].split(":")[1], target_url=link,
+				old_groups=", ".join(old_groups), new_groups=', '.join(new_groups),
+				comment=parsed_comment)
+	elif action == "protect/protect":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _("[{author}]({author_url}) protected [{article}]({article_url}) with the following settings: {settings}{comment}").format(author=author, author_url=author_url,
+		                                                                                                                                     article=change["title"], article_url=link,
+		                                                                                                                                     settings=change["logparams"]["description"]+_(" [cascading]") if "cascade" in change["logparams"] else "",
+		                                                                                                                                     comment=parsed_comment)
+	elif action == "protect/modify":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _(
+			"[{author}]({author_url}) modified protection settings of [{article}]({article_url}) to: {settings}{comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			settings=change["logparams"]["description"] + _(" [cascading]") if "cascade" in change["logparams"] else "",
+			comment=parsed_comment)
+	elif action == "protect/unprotect":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _("[{author}]({author_url}) removed protection from [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
+	elif action == "delete/revision":
+		amount = len(change["logparams"]["ids"])
+		link = link_formatter("<https://{wiki}.gamepedia.com/{article}>".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = ngettext("[{author}]({author_url}) changed visibility of revision on page [{article}]({article_url}){comment}",
+		                          "[{author}]({author_url}) changed visibility of {amount} revisions on page [{article}]({article_url}){comment}", amount).format(author=author, author_url=author_url,
+			article=change["title"], article_url=link, amount=amount, comment=parsed_comment)
+	elif action == "import/upload":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = ngettext("[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision{comment}",
+		                          "[{author}]({author_url}) imported [{article}]({article_url}) with {count} revisions{comment}", change["logparams"]["count"]).format(
+			author=author, author_url=author_url, article=change["title"], article_url=link, count=change["logparams"]["count"], comment=parsed_comment)
+	elif action == "delete/restore":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _("[{author}]({author_url}) restored [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
+	elif action == "delete/event":
+		content = _("[{author}]({author_url}) changed visibility of log events{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
+	elif action == "import/interwiki":
+		content = _("[{author}]({author_url}) imported interwiki{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
+	elif action == "abusefilter/modify":
+		link = "<https://{wiki}.gamepedia.com/Special:AbuseFilter/history/{number}/diff/prev/{historyid}>".format(wiki=settings["wiki"], number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])
+		content = _("[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
+	elif action == "abusefilter/create":
+		link = "<https://{wiki}.gamepedia.com/Special:AbuseFilter/{number}>".format(wiki=settings["wiki"], number=change["logparams"]['newId'])
+		content = _("[{author}]({author_url}) created abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
+	elif action == "merge/merge":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		link_dest = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["logparams"]["dest_title"]))
+		content = _("[{author}]({author_url}) merged revision histories of [{article}]({article_url}) into [{dest}]({dest_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, dest_url=link_dest,
+		                                                                                dest=change["logparams"]["dest_title"], comment=parsed_comment)
+	elif action == "interwiki/iw_add":
+		link = link_formatter("https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"]))
+		content = _("[{author}]({author_url}) added an entry to the [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(author=author, author_url=author_url, desc=parsed_comment,
+		                                                                           prefix=change["logparams"]['0'],
+		                                                                           website=change["logparams"]['1'],
+		                                                                            table_url=link)
+	elif action == "interwiki/iw_edit":
+		link = link_formatter("https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"]))
+		content = _("[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(author=author, author_url=author_url, desc=parsed_comment,
+		                                                                           prefix=change["logparams"]['0'],
+		                                                                           website=change["logparams"]['1'],
+		                                                                            table_url=link)
+	elif action == "interwiki/iw_delete":
+		link = link_formatter("https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"]))
+		content = _("[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})").format(author=author, author_url=author_url, table_url=link)
+	elif action == "contentmodel/change":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _("[{author}]({author_url}) changed the content model of the page [{article}]({article_url}) from {old} to {new}{comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, old=change["logparams"]["oldmodel"],
+		                                                                         new=change["logparams"]["newmodel"], comment=parsed_comment)
+	elif action == "sprite/sprite":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _("[{author}]({author_url}) edited the sprite for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
+	elif action == "sprite/sheet":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _("[{author}]({author_url}) created the sprite sheet for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
+	elif action == "sprite/slice":
+		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
+		                                                       article=change["title"]))
+		content = _("[{author}]({author_url}) edited the slice for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
+	elif action == "managetags/create":
+		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
+		content = _("[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+		recent_changes.init_info()
+	elif action == "managetags/delete":
+		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
+		content = _("[{author}]({author_url}) deleted a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+		recent_changes.init_info()
+	elif action == "managetags/activate":
+		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
+		content = _("[{author}]({author_url}) activated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+	elif action == "managetags/deactivate":
+		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
+		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+	elif action == "suppressed":
+		link = "<https://{wiki}.gamepedia.com/>".format(wiki=settings["wiki"])
+		content = _("An action has been hidden by administration.")
+	send_to_discord({'content': content})
+
+def embed_formatter(action, change, parsed_comment, categories):
 	data = {"embeds": []}
 	embed = defaultdict(dict)
-	if STATIC["ipaction"]:
-		author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
-		                                                                                user=params["user"])
-		logging.debug("current user: {} with cache of IPs: {}".format(params["user"], recent_changes.map_ips.keys()))
-		if params["user"] not in list(recent_changes.map_ips.keys()):
-			contibs = safe_read(recent_changes.safe_request(
-				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
-					wiki=settings["wiki"], user=params["user"], timestamp=STATIC["timestamp"])), "query", "usercontribs")
-			if contibs is None:
-				logging.warning(
-					"WARNING: Something went wrong when checking amount of contributions for given IP address")
-				params["user"] = params["user"] + "(?)"
+	colornumber = None
+	if parsed_comment is None:
+		parsed_comment = _("No description provided")
+	if action != "suppressed":
+		if "anon" in change:
+			author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
+			                                                                                user=change["user"])
+			logging.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
+			if change["user"] not in list(recent_changes.map_ips.keys()):
+				contibs = safe_read(recent_changes.safe_request(
+					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+						wiki=settings["wiki"], user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
+				if contibs is None:
+					logging.warning(
+						"WARNING: Something went wrong when checking amount of contributions for given IP address")
+					change["user"] = change["user"] + "(?)"
+				else:
+					recent_changes.map_ips[change["user"]] = len(contibs)
+					logging.debug("1Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 			else:
-				recent_changes.map_ips[params["user"]] = len(contibs)
-				logging.debug("1Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
-				params["user"] = "{author} ({contribs})".format(author=params["user"], contribs=len(contibs))
+				logging.debug(
+					"2Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+				if action in ("edit", "new"):
+					recent_changes.map_ips[change["user"]] += 1
+				change["user"] = "{author} ({amount})".format(author=change["user"],
+				                                              amount=recent_changes.map_ips[change["user"]])
 		else:
-			logging.debug(
-				"2Current params user {} and state of map_ips {}".format(params["user"], recent_changes.map_ips))
-			if action in ("edit", "new"):
-				recent_changes.map_ips[params["user"]] += 1
-			params["user"] = "{author} ({amount})".format(author=params["user"],
-			                                              amount=recent_changes.map_ips[params["user"]])
-	else:
-		author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"],
-		                                                               user=params["user"].replace(" ", "_"))
+			author_url = "https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"],
+			                                                               user=change["user"].replace(" ", "_"))
+		embed["author"]["name"] = change["user"]
+		embed["author"]["url"] = author_url
 	if action in ("edit", "new"):  # edit or new page
-		editsize = params["size"]
+		editsize = change["newlen"] - change["oldlen"]
 		if editsize > 0:
 			if editsize > 6032:
 				colornumber = 65280
@@ -200,19 +483,18 @@ def webhook_formatter(action, STATIC, **params):
 		elif editsize == 0:
 			colornumber = 8750469
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
-			wiki=settings["wiki"], pageid=params["pageid"], diff=params["diff"], oldrev=params["oldrev"],
-			article=params["title"].replace(" ", "_"))
-		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"], editsize="+" + str(
+			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
+			article=change["title"].replace(" ", "_"))
+		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
-		                                                             minor=_("m ") if action == "edit" and params[
-			                                                             "minor"] else "")
+		                                                             minor=_("m ") if action == "edit" and "minor" in change else "")
 	elif action in ("upload/overwrite", "upload/upload"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(
 			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(
-				wiki=settings["wiki"], filename=params["title"])), "query", "pages")
+				wiki=settings["wiki"], filename=change["title"])), "query", "pages")
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
+		                                                       article=change["title"].replace(" ", "_"))
 		additional_info_retrieved = False
 		if urls is not None:
 			logging.debug(urls)
@@ -222,21 +504,21 @@ def webhook_formatter(action, STATIC, **params):
 				additional_info_retrieved = True
 		else:
 			pass
-		if params["overwrite"]:
+		if action == "upload/overwrite":
 			if additional_info_retrieved:
-				article_encoded = params["title"].replace(" ", "_").replace(')', '\)')
+				article_encoded = change["title"].replace(" ", "_").replace(')', '\)')
 				img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
 				undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
 					wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp),
 					filenamewon=article_encoded.split(":", 1)[1])
 				embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
 					link=embed["image"]["url"], undolink=undolink)}]
-			embed["title"] = _("Uploaded a new version of {name}").format(name=params["title"])
+			embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
 		else:
-			embed["title"] = _("Uploaded {name}").format(name=params["title"])
+			embed["title"] = _("Uploaded {name}").format(name=change["title"])
 			article_content = safe_read(recent_changes.safe_request(
 				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
-					wiki=settings["wiki"], article=quote_plus(params["title"], safe=''))), "query", "pages")
+					wiki=settings["wiki"], article=quote_plus(change["title"], safe=''))), "query", "pages")
 			if article_content is None:
 				logging.warning("Something went wrong when getting license for the image")
 				return 0
@@ -262,44 +544,43 @@ def webhook_formatter(action, STATIC, **params):
 			if additional_info_retrieved:
 				embed["fields"] = [
 					{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
-			params["desc"] = _("{desc}\nLicense: {license}").format(desc=params["desc"],
+			parsed_comment = _("{desc}\nLicense: {license}").format(desc=parsed_comment,
 			                                                        license=license if license is not None else "?")
 	elif action == "delete/delete":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Deleted page {article}").format(article=params["title"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Deleted page {article}").format(article=change["title"])
 	elif action == "delete/delete_redir":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=params["title"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=change["title"])
 	elif action == "move/move":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["target"].replace(" ", "_"))
-		params["desc"] = "{supress}. {desc}".format(desc=params["desc"],
-		                                            supress=_("No redirect has been made") if params[
-			                                                                                      "supress"] is True else _(
+		                                                       article=change["logparams"]['target_title'].replace(" ", "_"))
+		parsed_comment = "{supress}. {desc}".format(desc=parsed_comment,
+		                                            supress=_("No redirect has been made") if "suppressredirect" in change["logparams"] else _(
 			                                            "A redirect has been made"))
-		embed["title"] = _("Moved {redirect}{article} to {target}").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"], target=params["target"])
+		embed["title"] = _("Moved {redirect}{article} to {target}").format(redirect="⤷ " if "redirect" in change else "", article=change["title"], target=change["logparams"]['target_title'])
 	elif action == "move/move_redir":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["target"].replace(" ", "_"))
-		embed["title"] = _("Moved {redirect}{article} to {title} over redirect").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"],
-		                                                                      title=params["target"])
+		                                                       article=change["logparams"]["target_title"].replace(" ", "_"))
+		embed["title"] = _("Moved {redirect}{article} to {title} over redirect").format(redirect="⤷ " if "redirect" in change else "", article=change["title"],
+		                                                                      title=change["logparams"]["target_title"])
 	elif action == "protect/move_prot":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if STATIC["redirect"] else "", article=params["title"],
-		                                                                                 title=params["target"])
+		                                                       article=change["logparams"]["oldtitle_title"].replace(" ", "_"))
+		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
+		                                                                                 title=change["title"])
 	elif action == "block/block":
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=params["blocked_user"].replace(" ", "_").replace(')',
+		                                                    user=change["title"].replace(" ", "_").replace(')',
 		                                                                                                          '\)'))
-		user = params["blocked_user"].split(':')[1]
-		if params["duration"] == "infinite":
+		user = change["title"].split(':')[1]
+		if change["logparams"]["duration"] == "infinite":
 			block_time = _("infinity and beyond")
 		else:
-			english_length = re.sub(r"(\d+)", "", params["duration"]) #note that translation won't work for millenia and century yet
-			english_length_num = re.sub(r"(\D+)", "", params["duration"])
+			english_length = re.sub(r"(\d+)", "", change["logparams"]["duration"]) #note that translation won't work for millenia and century yet
+			english_length_num = re.sub(r"(\D+)", "", change["logparams"]["duration"])
 			try:
 				english_length = english_length.rstrip("s").strip()
 				block_time = "{num} {translated_length}".format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
@@ -309,139 +590,135 @@ def webhook_formatter(action, STATIC, **params):
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=params["blocked_user"].replace(" ", "_").replace(')',
+		                                                    user=change["title"].replace(" ", "_").replace(')',
 		                                                                                                          '\)'))
-		user = params["blocked_user"].split(':')[1]
+		user = change["title"].split(':')[1]
 		embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=user)
 	elif action == "block/unblock":
 		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=params["blocked_user"].replace(" ", "_").replace(')',
+		                                                    user=change["title"].replace(" ", "_").replace(')',
 		                                                                                                          '\)'))
-		user = params["blocked_user"].split(':')[1]
+		user = change["title"].split(':')[1]
 		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
 	elif action == "curseprofile/comment-created":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=params["commentid"])
+		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)')) old way of linking
-		embed["title"] = _("Left a comment on {target}'s profile").format(target=params["target"]) if params[
-			                                                                                              "target"] != \
-		                                                                                              params[
-			                                                                                              "user"] else _(
+		embed["title"] = _("Left a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
+		                                                                                              change["user"] else _(
 			"Left a comment on their own profile")
 	elif action == "curseprofile/comment-replied":
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=params["commentid"])
-		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=params["target"]) if params[
-			                                                                                                    "target"] != \
-		                                                                                                    params[
-			                                                                                                    "user"] else _(
+		                                                                                  commentid=change["logparams"]["4:comment_id"])
+		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
+		                                                                                                    change["user"] else _(
 			"Replied to a comment on their own profile")
 	elif action == "curseprofile/comment-edited":
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=params["commentid"])
-		embed["title"] = _("Edited a comment on {target}'s profile").format(target=params["target"]) if params[
-			                                                                                                "target"] != \
-		                                                                                                params[
-			                                                                                                "user"] else _(
+		                                                                                  commentid=change["logparams"]["4:comment_id"])
+		embed["title"] = _("Edited a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
+		                                                                                                change["user"] else _(
 			"Edited a comment on their own profile")
 	elif action == "curseprofile/profile-edited":
 		link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"],
-		                                                                  target=params["target"].replace(" ",
+		                                                                  target=change["title"].split(':')[1].replace(" ",
 		                                                                                                  "_").replace(
 			                                                                  ')', '\)'))
-		if params["field"] == "profile-location":
+		if change["logparams"]['4:section'] == "profile-location":
 			field = _("Location")
-		elif params["field"] == "profile-aboutme":
+		elif change["logparams"]['4:section'] == "profile-aboutme":
 			field = _("About me")
-		elif params["field"] == "profile-link-google":
+		elif change["logparams"]['4:section'] == "profile-link-google":
 			field = _("Google link")
-		elif params["field"] == "profile-link-facebook":
+		elif change["logparams"]['4:section'] == "profile-link-facebook":
 			field = _("Facebook link")
-		elif params["field"] == "profile-link-twitter":
+		elif change["logparams"]['4:section'] == "profile-link-twitter":
 			field = _("Twitter link")
-		elif params["field"] == "profile-link-reddit":
+		elif change["logparams"]['4:section'] == "profile-link-reddit":
 			field = _("Reddit link")
-		elif params["field"] == "profile-link-twitch":
+		elif change["logparams"]['4:section'] == "profile-link-twitch":
 			field = _("Twitch link")
-		elif params["field"] == "profile-link-psn":
+		elif change["logparams"]['4:section'] == "profile-link-psn":
 			field = _("PSN link")
-		elif params["field"] == "profile-link-vk":
+		elif change["logparams"]['4:section'] == "profile-link-vk":
 			field = _("VK link")
-		elif params["field"] == "profile-link-xbl":
+		elif change["logparams"]['4:section'] == "profile-link-xbl":
 			field = _("XVL link")
-		elif params["field"] == "profile-link-steam":
+		elif change["logparams"]['4:section'] == "profile-link-steam":
 			field = _("Steam link")
 		else:
 			field = _("Unknown")
-		embed["title"] = _("Edited {target}'s profile").format(target=params["target"]) if params["user"] != params[
-			"target"] else _("Edited their own profile")
-		params["desc"] = _("{field} field changed to: {desc}").format(field=field, desc=BeautifulSoup(params["desc"], "lxml").get_text())
+		embed["title"] = _("Edited {target}'s profile").format(target=change["title"].split(':')[1]) if change["user"] != change["title"].split(':')[1] else _("Edited their own profile")
+		if not change["parsedcomment"]:  # If the field is empty
+			parsed_comment = _("Cleared the {field} field").format(field=field)
+		else:
+			parsed_comment = _("{field} field changed to: {desc}").format(field=field, desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action == "curseprofile/comment-deleted":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=params["commentid"])
+		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
-		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=params["target"])
+		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=change["title"].split(':')[1])
 	elif action in ("rights/rights", "rights/autopromote"):
-		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"]) + params["title"].split(":")[1].replace(" ", "_")
+		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"]) + change["title"].split(":")[1].replace(" ", "_")
 		if action == "rights/rights":
-			embed["title"] = _("Changed group membership for {target}").format(target=params["title"].split(":")[1])
+			embed["title"] = _("Changed group membership for {target}").format(target=change["title"].split(":")[1])
 		else:
-			params["user"] = _("System")
+			change["user"] = _("System")
 			author_url = ""
 			embed["title"] = _("{target} got autopromoted to a new usergroup").format(
-				target=params["title"].split(":")[1])
-		if len(params["old_groups"]) < len(params["new_groups"]):
+				target=change["title"].split(":")[1])
+		if len(change["logparams"]["oldgroups"]) < len(change["logparams"]["newgroups"]):
 			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
 		old_groups = []
 		new_groups = []
-		for name in params["old_groups"]:
+		for name in change["logparams"]["oldgroups"]:
 			old_groups.append(_(name))
-		for name in params["new_groups"]:
+		for name in change["logparams"]["newgroups"]:
 			new_groups.append(_(name))
 		if len(old_groups) == 0:
 			old_groups = [_("none")]
 		if len(new_groups) == 0:
 			new_groups = [_("none")]
-		reason = ": {desc}".format(desc=params["desc"]) if params["desc"] != _("No description provided") else ""
-		params["desc"] = _("Groups changed from {old_groups} to {new_groups}{reason}").format(
+		reason = ": {desc}".format(desc=parsed_comment) if parsed_comment != _("No description provided") else ""
+		parsed_comment = _("Groups changed from {old_groups} to {new_groups}{reason}").format(
 			old_groups=", ".join(old_groups), new_groups=', '.join(new_groups), reason=reason)
 	elif action == "protect/protect":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Protected {target}").format(target=params["title"])
-		params["desc"] = "{settings}{cascade} | {reason}".format(settings=params["settings"],
-		                                                         cascade=_(" [cascading]") if params["cascade"] else "",
-		                                                         reason=params["desc"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Protected {target}").format(target=change["title"])
+		parsed_comment = "{settings}{cascade} | {reason}".format(settings=change["logparams"]["description"],
+		                                                         cascade=_(" [cascading]") if "cascade" in change["logparams"] else "",
+		                                                         reason=parsed_comment)
 	elif action == "protect/modify":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Changed protection level for {article}").format(article=params["title"])
-		params["desc"] = "{settings}{cascade} | {reason}".format(settings=params["settings"],
-		                                                         cascade=_(" [cascading]") if params["cascade"] else "",
-		                                                         reason=params["desc"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Changed protection level for {article}").format(article=change["title"])
+		parsed_comment = "{settings}{cascade} | {reason}".format(settings=change["logparams"]["description"],
+		                                                         cascade=_(" [cascading]") if "cascade" in change["logparams"] else "",
+		                                                         reason=parsed_comment)
 	elif action == "protect/unprotect":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Removed protection from {article}").format(article=params["title"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Removed protection from {article}").format(article=change["title"])
 	elif action == "delete/revision":
-		amount = len(params["amount"])
+		amount = len(change["logparams"]["ids"])
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
+		                                                       article=change["title"].replace(" ", "_"))
 		embed["title"] = ngettext("Changed visibility of revision on page {article} ",
 		                          "Changed visibility of {amount} revisions on page {article} ", amount).format(
-			article=params["title"], amount=amount)
+			article=change["title"], amount=amount)
 	elif action == "import/upload":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
+		                                                       article=change["title"].replace(" ", "_"))
 		embed["title"] = ngettext("Imported {article} with {count} revision",
-		                          "Imported {article} with {count} revisions", params["amount"]).format(
-			article=params["title"], count=params["amount"])
+		                          "Imported {article} with {count} revisions", change["logparams"]["count"]).format(
+			article=change["title"], count=change["logparams"]["count"])
 	elif action == "delete/restore":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Restored {article}").format(article=params["title"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Restored {article}").format(article=change["title"])
 	elif action == "delete/event":
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
 		embed["title"] = _("Changed visibility of log events")
@@ -449,84 +726,87 @@ def webhook_formatter(action, STATIC, **params):
 		link = "https://{wiki}.gamepedia.com/Special:RecentChanges".format(wiki=settings["wiki"])
 		embed["title"] = _("Imported interwiki")
 	elif action == "abusefilter/modify":
-		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(wiki=settings["wiki"], number=params["filternr"], historyid=params["historyid"])
-		embed["title"] = _("Edited abuse filter number {number}").format(number=params["filternr"])
+		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(wiki=settings["wiki"], number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])
+		embed["title"] = _("Edited abuse filter number {number}").format(number=change["logparams"]['newId'])
 	elif action == "abusefilter/create":
-		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/{number}".format(wiki=settings["wiki"], number=params["filternr"])
-		embed["title"] = _("Created abuse filter number {number}").format(number=params["filternr"])
+		link = "https://{wiki}.gamepedia.com/Special:AbuseFilter/{number}".format(wiki=settings["wiki"], number=change["logparams"]['newId'])
+		embed["title"] = _("Created abuse filter number {number}").format(number=change["logparams"]['newId'])
 	elif action == "merge/merge":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=params["title"],
-		                                                                                dest=params["destination"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=change["title"],
+		                                                                                dest=change["logparams"]["dest_title"])
 	elif action == "interwiki/iw_add":
 		link = "https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"])
 		embed["title"] = _("Added an entry to the interwiki table")
-		params["desc"] = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=params["desc"],
-		                                                                           prefix=params["prefix"],
-		                                                                           website=params["website"])
+		parsed_comment = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=parsed_comment,
+		                                                                           prefix=change["logparams"]['0'],
+		                                                                           website=change["logparams"]['1'])
 	elif action == "interwiki/iw_edit":
 		link = "https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"])
 		embed["title"] = _("Edited an entry in interwiki table")
-		params["desc"] = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=params["desc"],
-		                                                                           prefix=params["prefix"],
-		                                                                           website=params["website"])
+		parsed_comment = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=parsed_comment,
+		                                                                           prefix=change["logparams"]['0'],
+		                                                                           website=change["logparams"]['1'])
 	elif action == "interwiki/iw_delete":
 		link = "https://{wiki}.gamepedia.com/Special:Interwiki".format(wiki=settings["wiki"])
 		embed["title"] = _("Deleted an entry in interwiki table")
-		params["desc"] = _("Prefix: {prefix} | {desc}").format(desc=params["desc"], prefix=params["prefix"])
+		parsed_comment = _("Prefix: {prefix} | {desc}").format(desc=parsed_comment, prefix=change["logparams"]['0'])
 	elif action == "contentmodel/change":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Changed the content model of the page {article}").format(article=params["title"])
-		params["desc"] = _("Model changed from {old} to {new}: {reason}").format(old=params["oldmodel"],
-		                                                                         new=params["newmodel"],
-		                                                                         reason=params["desc"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Changed the content model of the page {article}").format(article=change["title"])
+		parsed_comment = _("Model changed from {old} to {new}: {reason}").format(old=change["logparams"]["oldmodel"],
+		                                                                         new=change["logparams"]["newmodel"],
+		                                                                         reason=parsed_comment)
 	elif action == "sprite/sprite":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Edited the sprite for {article}").format(article=params["title"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Edited the sprite for {article}").format(article=change["title"])
 	elif action == "sprite/sheet":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Created the sprite sheet for {article}").format(article=params["title"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Created the sprite sheet for {article}").format(article=change["title"])
 	elif action == "sprite/slice":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=params["title"].replace(" ", "_"))
-		embed["title"] = _("Edited the slice for {article}").format(article=params["title"])
+		                                                       article=change["title"].replace(" ", "_"))
+		embed["title"] = _("Edited the slice for {article}").format(article=change["title"])
 	elif action == "managetags/create":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
-		embed["title"] = _("Created a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		embed["title"] = _("Created a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 		recent_changes.init_info()
 	elif action == "managetags/delete":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
-		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 		recent_changes.init_info()
 	elif action == "managetags/activate":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
-		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 	elif action == "managetags/deactivate":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
-		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=params["additional"]["tag"])
+		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 	elif action == "suppressed":
 		link = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		embed["title"] = _("Action has been hidden by administration.")
+		embed["author"]["name"] = _("Unknown")
 	else:
-		logging.warning("No entry for {event} with params: {params}".format(event=action, params=params))
-	embed["author"]["name"] = params["user"]
-	embed["author"]["url"] = author_url
-	embed["author"]["icon_url"] = STATIC["icon"]
+		logging.warning("No entry for {event} with params: {params}".format(event=action, params=change))
+	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
 	embed["url"] = link
-	if "desc" not in params:
-		params["desc"] = ""
-	embed["description"] = params["desc"]
-	embed["color"] = random.randrange(1, 16777215) if colornumber is None else math.floor(colornumber)
-	embed["timestamp"] = STATIC["timestamp"]
-	if STATIC["tags"]:
+	embed["description"] = parsed_comment
+	if colornumber is None:
+		if settings["appearance"]["embed"][action]["color"] is None:
+			embed["color"] = random.randrange(1, 16777215)
+		else:
+			embed["color"] = settings["appearance"]["embed"][action]["color"]
+	else:
+		embed["color"] = math.floor(colornumber)
+	embed["timestamp"] = change["timestamp"]
+	if "tags" in change and change["tags"]:
 		tag_displayname = []
 		if "fields" not in embed:
 			embed["fields"] = []
-		for tag in STATIC["tags"]:
+		for tag in change["tags"]:
 			if tag in recent_changes.tags:
 				if recent_changes.tags[tag] is None:
 					continue  # Ignore hidden tags
@@ -535,13 +815,13 @@ def webhook_formatter(action, STATIC, **params):
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
-	logging.debug("Current params in edit action: {}".format(params))
-	if "changed_categories" in STATIC and STATIC["changed_categories"] is not None and not (len(STATIC["changed_categories"]["new"]) == 0 and len(STATIC["changed_categories"]["removed"]) == 0):
+	logging.debug("Current params in edit action: {}".format(change))
+	if categories is not None and not (len(categories["new"]) == 0 and len(categories["removed"]) == 0):
 		if "fields" not in embed:
 			embed["fields"] = []
 		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
-		new_cat = (_("**Added**: ") + ", ".join(list(STATIC["changed_categories"]["new"])[0:16]) + ("\n" if len(STATIC["changed_categories"]["new"])<=15 else _(" and {} more\n").format(len(STATIC["changed_categories"]["new"])-15))) if STATIC["changed_categories"]["new"] else ""
-		del_cat = (_("**Removed**: ") + ", ".join(list(STATIC["changed_categories"]["removed"])[0:16]) + ("" if len(STATIC["changed_categories"]["removed"])<=15 else _(" and {} more").format(len(STATIC["changed_categories"]["removed"])-15))) if STATIC["changed_categories"]["removed"] else ""
+		new_cat = (_("**Added**: ") + ", ".join(list(categories["new"])[0:16]) + ("\n" if len(categories["new"])<=15 else _(" and {} more\n").format(len(categories["new"])-15))) if categories["new"] else ""
+		del_cat = (_("**Removed**: ") + ", ".join(list(categories["removed"])[0:16]) + ("" if len(categories["removed"])<=15 else _(" and {} more").format(len(categories["removed"])-15))) if categories["removed"] else ""
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
@@ -571,178 +851,41 @@ def handle_discord_http(code, formatted_embed, result):
 		return 3
 
 
-def first_pass(
-		change, changed_categories):  # I've decided to split the embed formatter and change handler, maybe it's more messy this way, I don't know
-	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:
-		webhook_formatter("suppressed",
-		                  {"timestamp": change["timestamp"], "color": settings["appearance"]["suppressed"]["color"],
-		                   "icon": settings["appearance"]["suppressed"]["icon"]}, user=change["user"])
+def essential_info(change, changed_categories):
+	"""Prepares essential information for both embed and compact message format."""
+	logging.debug(change)
+	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
+		appearance_mode("suppressed", change, "", changed_categories)
 		return
 	if "commenthidden" not in change:
 		LinkParser.feed(change["parsedcomment"])
-		# parsedcomment = (BeautifulSoup(change["parsedcomment"], "lxml")).get_text()
-		parsedcomment = LinkParser.new_string
+		parsed_comment = LinkParser.new_string
 		LinkParser.new_string = ""
+		parsed_comment = re.sub(r"(`|_|\*|~|{|}|\|\|)", "\\\\\\1", parsed_comment, 0)
 	else:
-		parsedcomment = _("~~hidden~~")
-	logging.debug(change)
-	STATIC_VARS = {"timestamp": change["timestamp"], "tags": change["tags"], "redirect": (True if "redirect" in change else False), "ipaction": (True if "anon" in change else False), "changed_categories": changed_categories}
-	if not parsedcomment:
-		parsedcomment = _("No description provided")
-	parsedcomment = re.sub(r"(`|_|\*|~|<|>|{|}|\|\|)", "\\\\\\1", parsedcomment, 0)
-	if change["type"] == "edit" and "edit" not in settings["ignored"]:
-		logging.debug("List of categories in first_pass: {}".format(changed_categories))
+		parsed_comment = _("~~hidden~~")
+	if not parsed_comment:
+		parsed_comment = None
+	if change["type"] in ["edit", "new"]:
+		logging.debug("List of categories in essential_info: {}".format(changed_categories))
 		if "userhidden" in change:
 			change["user"] = _("hidden")
-		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["edit"]["color"],
-						  "icon": settings["appearance"]["edit"]["icon"]}}
-		webhook_formatter("edit", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
-		                  size=change["newlen"] - change["oldlen"], minor=True if "minor" in change else False)
+		identification_string = change["type"]
 	elif change["type"] == "log":
-		combination = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
-		if combination in settings["ignored"]:
+		identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
+		if identification_string not in supported_logs:
+			logging.warning(
+				"This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(
+					change))
 			return
-		logging.debug("combination is {}".format(combination))
-		try:
-			STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"][combination]["color"],
-			                                 "icon": settings["appearance"][combination]["icon"]}}
-		except KeyError:
-			STATIC_VARS = {**STATIC_VARS, **{"color": "", "icon": ""}}
-			logging.error("No value in the settings has been given for {}".format(combination))
-		if combination == "protect/protect":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  settings=change["logparams"]["description"], cascade=True if "cascade" in change["logparams"] else False)
-		elif combination == "protect/modify":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  settings=change["logparams"]["description"], cascade=True if "cascade" in change["logparams"] else False)
-		elif combination == "protect/unprotect":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		elif combination == "upload/overwrite":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  overwrite=True)
-		elif combination == "upload/upload":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  overwrite=False)
-		elif combination == "delete/delete":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		elif combination == "delete/delete_redir":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		elif combination == "delete/restore":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		elif combination == "delete/revision":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  amount=change["logparams"]["ids"])
-		elif combination == "delete/event":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment)
-		elif combination == "import/upload":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  amount=change["logparams"]["count"])
-		elif combination == "import/interwiki":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment)
-		elif combination == "merge/merge":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  destination=change["logparams"]["dest_title"])
-		elif combination == "move/move":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  supress=True if "suppressredirect" in change["logparams"] else False,
-			                  target=change["logparams"]['target_title'])
-		elif combination == "move/move_redir":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  target=change["logparams"]["target_title"])
-		elif combination == "protect/move_prot":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["logparams"]["oldtitle_title"], desc=parsedcomment,
-			                  target=change["title"])
-		elif combination == "block/block":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], blocked_user=change["title"],
-			                  desc=parsedcomment, duration=change["logparams"]["duration"])
-		elif combination == "block/unblock":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], blocked_user=change["title"],
-			                  desc=parsedcomment)
-		elif combination == "block/reblock":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], blocked_user=change["title"],
-			                  desc=parsedcomment)
-		elif combination == "rights/rights":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  old_groups=change["logparams"]["oldgroups"], new_groups=change["logparams"]["newgroups"])
-		elif combination == "rights/autopromote":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  old_groups=change["logparams"]["oldgroups"], new_groups=change["logparams"]["newgroups"])
-		elif combination == "abusefilter/modify":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
-			                  filternr=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])
-		elif combination == "abusefilter/create":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
-			                  filternr=change["logparams"]['newId'])
-		elif combination == "interwiki/iw_add":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
-			                  prefix=change["logparams"]['0'], website=change["logparams"]['1'])
-		elif combination == "interwiki/iw_edit":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
-			                  prefix=change["logparams"]['0'], website=change["logparams"]['1'])
-		elif combination == "interwiki/iw_delete":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], desc=parsedcomment,
-			                  prefix=change["logparams"]['0'])
-		elif combination == "curseprofile/comment-created":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["4:comment_id"])
-		elif combination == "curseprofile/comment-edited":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["4:comment_id"])
-		elif combination == "curseprofile/comment-deleted":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["4:comment_id"])
-		elif combination == "curseprofile/profile-edited":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  field=change["logparams"]['4:section'], desc=change["parsedcomment"])
-		elif combination == "curseprofile/comment-replied":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], target=change["title"].split(':')[1],
-			                  commentid=change["logparams"]["4:comment_id"])
-		elif combination == "contentmodel/change":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  oldmodel=change["logparams"]["oldmodel"], newmodel=change["logparams"]["newmodel"])
-		elif combination == "sprite/sprite":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		elif combination == "sprite/sheet":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		elif combination == "sprite/slice":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		elif combination == "managetags/create":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  additional=change["logparams"])
-		elif combination == "managetags/delete":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  additional=change["logparams"])
-		elif combination == "managetags/activate":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  additional=change["logparams"])
-		elif combination == "managetags/deactivate":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-			                  additional=change["logparams"])
-		elif combination == "tag/update":
-			webhook_formatter(combination, STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment)
-		else:
-			logging.warning("No entry matches given change!")
-			logging.warning("Entry: {}".format(change))
-			send(_("Unable to process the event"), _("error"), settings["avatars"]["no_event"])
-			return
-	# elif change["type"] == "external":  # not sure what happens then, but it's listed as possible type
-	# 	logging.warning("External event happened, ignoring.")
-	# 	print(change)
-	# 	return
-	elif change["type"] == "new" and "new" not in settings["ignored"]:  # new page
-		STATIC_VARS = {**STATIC_VARS, **{"color": settings["appearance"]["new"]["color"],
-		                                 "icon": settings["appearance"]["new"]["icon"]}}
-		webhook_formatter("new", STATIC_VARS, user=change["user"], title=change["title"], desc=parsedcomment,
-		                  oldrev=change["old_revid"], pageid=change["pageid"], diff=change["revid"],
-		                  size=change["newlen"])
 	elif change["type"] == "categorize":
 		return
 	else:
-		logging.warning("This event is not implemented in the bot.")
-		logging.debug("Cannot process event {}".format(change))
+		logging.warning("This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(change))
 		return
-
+	if identification_string in settings["ignored"]:
+		return
+	appearance_mode(identification_string, change, parsed_comment, changed_categories)
 
 def day_overview_request():
 	logging.info("Fetching daily overview... This may take up to 30 seconds!")
@@ -831,8 +974,8 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed = defaultdict(dict)
 		embed["title"] = _("Daily overview")
 		embed["url"] = "https://{wiki}.gamepedia.com/Special:Statistics".format(wiki=settings["wiki"])
-		embed["color"] = settings["appearance"]["daily_overview"]["color"]
-		embed["author"]["icon_url"] = settings["appearance"]["daily_overview"]["icon"]
+		embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
+		embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
@@ -1066,7 +1209,7 @@ class Recent_Changes_Class(object):
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
 						logging.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
-					first_pass(change, categorize_events.get(change.get("revid"), None))
+					essential_info(change, categorize_events.get(change.get("revid"), None))
 				return change["rcid"]
 
 	def safe_request(self, url):
@@ -1154,6 +1297,16 @@ class Recent_Changes_Class(object):
 
 
 recent_changes = Recent_Changes_Class()
+# Set the proper formatter
+if settings["appearance"]["mode"] == "embed":
+	appearance_mode = embed_formatter
+elif settings["appearance"]["mode"] == "compact":
+	appearance_mode = compact_formatter
+else:
+	logging.critical("Unknown formatter!")
+	sys.exit(1)
+
+# Log in and download wiki information
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
 		recent_changes.log_in()
