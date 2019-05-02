@@ -516,36 +516,38 @@ def embed_formatter(action, change, parsed_comment, categories):
 			embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
 		else:
 			embed["title"] = _("Uploaded {name}").format(name=change["title"])
-			article_content = safe_read(recent_changes.safe_request(
-				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
-					wiki=settings["wiki"], article=quote_plus(change["title"], safe=''))), "query", "pages")
-			if article_content is None:
-				logging.warning("Something went wrong when getting license for the image")
-				return 0
-			if "-1" not in article_content:
-				content = list(article_content.values())[0]['revisions'][0]['*']
-				try:
-					matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
-					if matches is not None:
-						license = matches.group("license")
-					else:
-						if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
-							license = _("**No license!**")
+			if settings["license_detection"]:
+				article_content = safe_read(recent_changes.safe_request(
+					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
+						wiki=settings["wiki"], article=quote_plus(change["title"], safe=''))), "query", "pages")
+				if article_content is None:
+					logging.warning("Something went wrong when getting license for the image")
+					return 0
+				if "-1" not in article_content:
+					content = list(article_content.values())[0]['revisions'][0]['*']
+					try:
+						matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
+						if matches is not None:
+							license = matches.group("license")
 						else:
-							license = "?"
-				except IndexError:
-					logging.error(
-						"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
-					license = "?"
-				except re.error:
-					logging.error(
-						"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
-					license = "?"
+							if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
+								license = _("**No license!**")
+							else:
+								license = "?"
+					except IndexError:
+						logging.error(
+							"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
+						license = "?"
+					except re.error:
+						logging.error(
+							"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
+						license = "?"
+			if license is not None:
+				parsed_comment += "\n{}".format(license)
 			if additional_info_retrieved:
 				embed["fields"] = [
 					{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
-			parsed_comment = _("{desc}\nLicense: {license}").format(desc=parsed_comment,
-			                                                        license=license if license is not None else "?")
+
 	elif action == "delete/delete":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=change["title"].replace(" ", "_"))
