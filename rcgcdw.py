@@ -442,7 +442,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 	if action != "suppressed":
 		if "anon" in change:
 			author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
-			                                                                                user=change["user"])
+			                                                                                user=change["user"].replace(" ", "_"))  # Replace here needed in case of #75
 			logging.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
 			if change["user"] not in list(recent_changes.map_ips.keys()):
 				contibs = safe_read(recent_changes.safe_request(
