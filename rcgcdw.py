@@ -171,6 +171,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 			sign = "+"
 		else:
 			sign = ""
+		if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
+			recent_changes.init_info()
 		if action == "edit":
 			content = _("[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({sign}{edit_size})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign)
 		else:
@@ -482,6 +484,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 				colornumber = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
 		elif editsize == 0:
 			colornumber = 8750469
+		if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
+			recent_changes.init_info()
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
 			article=change["title"].replace(" ", "_"))
