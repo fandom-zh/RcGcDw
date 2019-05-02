@@ -307,6 +307,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 			field = _("XVL link")
 		elif change["logparams"]['4:section'] == "profile-link-steam":
 			field = _("Steam link")
+		elif change["logparams"]['4:section'] == "profile-link-discord":
+			field = _("Discord handle")
 		else:
 			field = _("unknown")
 		content = _("[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s profile. *({desc})*").format(author=author,
