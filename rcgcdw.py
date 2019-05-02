@@ -498,9 +498,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 		additional_info_retrieved = False
 		if urls is not None:
 			logging.debug(urls)
-			if "-1" not in urls:  # page removed before we asked for it
+			if "-1" not in urls:  # image still exists and not removed
 				img_info = next(iter(urls.values()))["imageinfo"]
-				embed["image"]["url"] = img_info[0]["url"] + "?version=" + "".join([x for x in img_info[0]["timestamp"] if x.isdigit()]) # prevent image from being cached
+				embed["image"]["url"] = img_info[0]["url"]
 				additional_info_retrieved = True
 		else:
 			pass
