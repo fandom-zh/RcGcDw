@@ -219,9 +219,14 @@ def compact_formatter(action, change, parsed_comment, categories):
 			"[{author}]({author_url}) moved protection settings from {redirect}*{article}* to [{target}]({target_url}){comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
 			target=change["title"], target_url=link, comment=parsed_comment)
 	elif action == "block/block":
-		link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=change["title"]))
 		user = change["title"].split(':')[1]
+		try:
+			ipaddress.ip_address(user)
+			link = link_formatter("https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
+			                                                                          user=user))
+		except ValueError:
+			link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
+		                                                    user=change["title"]))
 		if change["logparams"]["duration"] == "infinite":
 			block_time = _("infinity and beyond")
 		else:
