@@ -20,7 +20,7 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
+import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
@@ -574,10 +574,15 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
 		                                                                                 title=change["title"])
 	elif action == "block/block":
-		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=change["title"].replace(" ", "_").replace(')',
-		                                                                                                          '\)'))
 		user = change["title"].split(':')[1]
+		try:
+			ipaddress.ip_address(user)
+			link = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
+			                                                                          user=user)
+		except ValueError:
+			link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
+			                                                    user=change["title"].replace(" ", "_").replace(')',
+			                                                                                                   '\)'))
 		if change["logparams"]["duration"] == "infinite":
 			block_time = _("infinity and beyond")
 		else:
