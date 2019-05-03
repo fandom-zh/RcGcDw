@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-02 19:00+0200\n"
-"PO-Revision-Date: 2019-05-02 19:02+0200\n"
+"POT-Creation-Date: 2019-05-03 11:33+0200\n"
+"PO-Revision-Date: 2019-05-03 11:34+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -463,6 +463,14 @@ msgstr "Przesłał(a) {name}"
 #: rcgcdw.py:545
 msgid "**No license!**"
 msgstr "**Brak licencji!**"
+
+#: rcgcdw.py:557
+msgid ""
+"\n"
+"License: {}"
+msgstr ""
+"\n"
+"Licencja: {}"
 
 #: rcgcdw.py:560
 #, python-brace-format
@@ -953,13 +961,6 @@ msgid_plural "centuries"
 msgstr[0] "stulecie"
 msgstr[1] "stulecia"
 msgstr[2] "stuleci"
-
-#~ msgid ""
-#~ "{desc}\n"
-#~ "License: {license}"
-#~ msgstr ""
-#~ "{desc}\n"
-#~ "Licencja: {license}"
 
 #~ msgid ""
 #~ "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-02 19:00+0200\n"
-"PO-Revision-Date: 2019-05-02 19:03+0200\n"
+"POT-Creation-Date: 2019-05-03 11:33+0200\n"
+"PO-Revision-Date: 2019-05-03 11:38+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: en\n"
@@ -226,9 +226,6 @@ msgstr "[their own]({target_url})"
 
 #: rcgcdw.py:315
 #, python-brace-format
-#| msgid ""
-#| "[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
-#| "profile. *({desc})*"
 msgid ""
 "[{author}]({author_url}) edited the {field} on {target} profile. *({desc})*"
 msgstr ""
@@ -456,6 +453,14 @@ msgstr "Uploaded {name}"
 #: rcgcdw.py:545
 msgid "**No license!**"
 msgstr "**No license!**"
+
+#: rcgcdw.py:557
+msgid ""
+"\n"
+"License: {}"
+msgstr ""
+"\n"
+"License: {}"
 
 #: rcgcdw.py:560
 #, python-brace-format
@@ -925,13 +930,6 @@ msgid "century"
 msgid_plural "centuries"
 msgstr[0] "century"
 msgstr[1] "centuries"
-
-#~ msgid ""
-#~ "{desc}\n"
-#~ "License: {license}"
-#~ msgstr ""
-#~ "{desc}\n"
-#~ "License: {license}"
 
 #~ msgid ""
 #~ "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "

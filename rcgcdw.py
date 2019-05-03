@@ -554,7 +554,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 							"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
 						license = "?"
 			if license is not None:
-				parsed_comment += "\nLicense: {}".format(license)
+				parsed_comment += _("\nLicense: {}").format(license)
 			if additional_info_retrieved:
 				embed["fields"] = [
 					{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-02 19:00+0200\n"
+"POT-Creation-Date: 2019-05-03 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -400,6 +400,12 @@ msgstr ""
 
 #: rcgcdw.py:545
 msgid "**No license!**"
+msgstr ""
+
+#: rcgcdw.py:557
+msgid ""
+"\n"
+"License: {}"
 msgstr ""
 
 #: rcgcdw.py:560

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-02 19:00+0200\n"
-"PO-Revision-Date: 2019-05-02 19:24+0200\n"
+"POT-Creation-Date: 2019-05-03 11:33+0200\n"
+"PO-Revision-Date: 2019-05-03 11:34+0200\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -462,6 +462,14 @@ msgstr "Neue Datei {name}"
 #: rcgcdw.py:545
 msgid "**No license!**"
 msgstr "**Keine Lizenz!**"
+
+#: rcgcdw.py:557
+msgid ""
+"\n"
+"License: {}"
+msgstr ""
+"\n"
+"Lizenz: {}"
 
 #: rcgcdw.py:560
 #, python-brace-format
@@ -933,13 +941,6 @@ msgid "century"
 msgid_plural "centuries"
 msgstr[0] "Jahrhundert"
 msgstr[1] "Jahrhunderte"
-
-#~ msgid ""
-#~ "{desc}\n"
-#~ "License: {license}"
-#~ msgstr ""
-#~ "{desc}\n"
-#~ "Lizenz: {license}"
 
 #~ msgid ""
 #~ "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
