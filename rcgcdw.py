@@ -20,7 +20,7 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys
+import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
@@ -171,6 +171,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 			sign = "+"
 		else:
 			sign = ""
+		if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
+			recent_changes.init_info()
 		if action == "edit":
 			content = _("[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({sign}{edit_size})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign)
 		else:
@@ -217,9 +219,14 @@ def compact_formatter(action, change, parsed_comment, categories):
 			"[{author}]({author_url}) moved protection settings from {redirect}*{article}* to [{target}]({target_url}){comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
 			target=change["title"], target_url=link, comment=parsed_comment)
 	elif action == "block/block":
-		link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=change["title"]))
 		user = change["title"].split(':')[1]
+		try:
+			ipaddress.ip_address(user)
+			link = link_formatter("https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
+			                                                                          user=user))
+		except ValueError:
+			link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
+		                                                    user=change["title"]))
 		if change["logparams"]["duration"] == "infinite":
 			block_time = _("infinity and beyond")
 		else:
@@ -300,12 +307,14 @@ def compact_formatter(action, change, parsed_comment, categories):
 			field = _("XVL link")
 		elif change["logparams"]['4:section'] == "profile-link-steam":
 			field = _("Steam link")
+		elif change["logparams"]['4:section'] == "profile-link-discord":
+			field = _("Discord handle")
 		else:
 			field = _("unknown")
-		content = _("[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s profile. *({desc})*").format(author=author,
+		target = _("[{target}]({target_url})'s").format(target=change["title"].split(':')[1], target_url=link) if change["title"].split(':')[1] != author else _("[their own]({target_url})").format(target_url=link)
+		content = _("[{author}]({author_url}) edited the {field} on {target} profile. *({desc})*").format(author=author,
 		                                                                        author_url=author_url,
-		                                                                        target=change["title"].split(':')[1]+"'s" if change["title"].split(':')[1] != author else _("their own"),
-		                                                                        target_url=link,
+		                                                                        target=target,
 		                                                                        field=field,
 		                                                                        desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action in ("rights/rights", "rights/autopromote"):
@@ -442,7 +451,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 	if action != "suppressed":
 		if "anon" in change:
 			author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
-			                                                                                user=change["user"])
+			                                                                                user=change["user"].replace(" ", "_"))  # Replace here needed in case of #75
 			logging.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
 			if change["user"] not in list(recent_changes.map_ips.keys()):
 				contibs = safe_read(recent_changes.safe_request(
@@ -482,6 +491,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 				colornumber = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
 		elif editsize == 0:
 			colornumber = 8750469
+		if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
+			recent_changes.init_info()
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
 			article=change["title"].replace(" ", "_"))
@@ -498,9 +509,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 		additional_info_retrieved = False
 		if urls is not None:
 			logging.debug(urls)
-			if "-1" not in urls:  # page removed before we asked for it
+			if "-1" not in urls:  # image still exists and not removed
 				img_info = next(iter(urls.values()))["imageinfo"]
-				embed["image"]["url"] = img_info[0]["url"] + "?version=" + "".join([x for x in img_info[0]["timestamp"] if x.isdigit()]) # prevent image from being cached
+				embed["image"]["url"] = img_info[0]["url"]
 				additional_info_retrieved = True
 		else:
 			pass
@@ -516,36 +527,38 @@ def embed_formatter(action, change, parsed_comment, categories):
 			embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
 		else:
 			embed["title"] = _("Uploaded {name}").format(name=change["title"])
-			article_content = safe_read(recent_changes.safe_request(
-				"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
-					wiki=settings["wiki"], article=quote_plus(change["title"], safe=''))), "query", "pages")
-			if article_content is None:
-				logging.warning("Something went wrong when getting license for the image")
-				return 0
-			if "-1" not in article_content:
-				content = list(article_content.values())[0]['revisions'][0]['*']
-				try:
-					matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
-					if matches is not None:
-						license = matches.group("license")
-					else:
-						if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
-							license = _("**No license!**")
+			if settings["license_detection"]:
+				article_content = safe_read(recent_changes.safe_request(
+					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
+						wiki=settings["wiki"], article=quote_plus(change["title"], safe=''))), "query", "pages")
+				if article_content is None:
+					logging.warning("Something went wrong when getting license for the image")
+					return 0
+				if "-1" not in article_content:
+					content = list(article_content.values())[0]['revisions'][0]['*']
+					try:
+						matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
+						if matches is not None:
+							license = matches.group("license")
 						else:
-							license = "?"
-				except IndexError:
-					logging.error(
-						"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
-					license = "?"
-				except re.error:
-					logging.error(
-						"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
-					license = "?"
+							if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
+								license = _("**No license!**")
+							else:
+								license = "?"
+					except IndexError:
+						logging.error(
+							"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
+						license = "?"
+					except re.error:
+						logging.error(
+							"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
+						license = "?"
+			if license is not None:
+				parsed_comment += _("\nLicense: {}").format(license)
 			if additional_info_retrieved:
 				embed["fields"] = [
 					{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
-			parsed_comment = _("{desc}\nLicense: {license}").format(desc=parsed_comment,
-			                                                        license=license if license is not None else "?")
+
 	elif action == "delete/delete":
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=change["title"].replace(" ", "_"))
@@ -572,10 +585,15 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
 		                                                                                 title=change["title"])
 	elif action == "block/block":
-		link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=change["title"].replace(" ", "_").replace(')',
-		                                                                                                          '\)'))
 		user = change["title"].split(':')[1]
+		try:
+			ipaddress.ip_address(user)
+			link = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
+			                                                                          user=user)
+		except ValueError:
+			link = "https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
+			                                                    user=change["title"].replace(" ", "_").replace(')',
+			                                                                                                   '\)'))
 		if change["logparams"]["duration"] == "infinite":
 			block_time = _("infinity and beyond")
 		else:
