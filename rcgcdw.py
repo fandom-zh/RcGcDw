@@ -151,7 +151,7 @@ def send_to_discord(data):
 			time.sleep(5.0)
 			recent_changes.unsent_messages.append(data)
 		elif code < 2:
-			time.sleep(2.5)
+			time.sleep(2.0)
 			pass
 
 def link_formatter(link):
