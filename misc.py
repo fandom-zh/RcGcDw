@@ -5,7 +5,7 @@ misc_logger = logging.getLogger("rcgcdw.misc")
 
 data_template = {"rcid": 99999999999,
                  "daily_overview": {"edits": None, "new_files": None, "admin_actions": None, "bytes_changed": None,
-                                    "new_articles": None, "unique_editors": None, "day_score": None}}
+                                    "new_articles": None, "unique_editors": None, "day_score": None, "days_tracked": 0}}
 
 
 def generate_datafile():
@@ -39,3 +39,8 @@ def save_datafile(data):
 	except PermissionError:
 		misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
 		sys.exit(1)
+
+
+def weighted_average(value, weight, new_value):
+	"""Calculates weighted average of value number with weight weight and new_value with weight 1"""
+	return round(((value * weight) + new_value) / (weight + 1), 2)

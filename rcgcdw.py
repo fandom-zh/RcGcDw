@@ -1002,6 +1002,31 @@ def add_to_dict(dictionary, key):
 		dictionary[key] = 1
 	return dictionary
 
+def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score):
+	weight = data["daily_overview"]["days_tracked"]
+	if weight == 0:
+		data["daily_overview"].update({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed": changed_bytes, "new_articles": new_articles, "unique_editors": unique_contributors, "day_score": day_score})
+		edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score = str(edits), str(files), str(admin), str(changed_bytes), str(new_articles), str(unique_contributors), str(day_score)
+	else:
+		edits_avg = misc.weighted_average(data["daily_overview"]["edits"], weight, edits)
+		edits = _("{value} (avg. {avg})").format(value=edits, avg=edits_avg)
+		files_avg = misc.weighted_average(data["daily_overview"]["new_files"], weight, files)
+		files = _("{value} (avg. {avg})").format(value=files, avg=files_avg)
+		admin_avg = misc.weighted_average(data["daily_overview"]["admin_actions"], weight, admin)
+		admin = _("{value} (avg. {avg})").format(value=admin, avg=admin_avg)
+		changed_bytes_avg = misc.weighted_average(data["daily_overview"]["bytes_changed"], weight, changed_bytes)
+		changed_bytes = _("{value} (avg. {avg})").format(value=changed_bytes, avg=changed_bytes_avg)
+		new_articles_avg = misc.weighted_average(data["daily_overview"]["new_articles"], weight, new_articles)
+		new_articles = _("{value} (avg. {avg})").format(value=new_articles, avg=new_articles_avg)
+		unique_contributors_avg = misc.weighted_average(data["daily_overview"]["unique_editors"], weight, unique_contributors)
+		unique_contributors = _("{value} (avg. {avg})").format(value=unique_contributors, avg=unique_contributors_avg)
+		day_score_avg = misc.weighted_average(data["daily_overview"]["day_score"], weight, day_score)
+		day_score = _("{value} (avg. {avg})").format(value=day_score, avg=day_score_avg)
+		data["daily_overview"].update({"edits": edits_avg, "new_files": files_avg, "admin_actions": admin_avg, "bytes_changed": changed_bytes_avg,
+		             "new_articles": new_articles_avg, "unique_editors": unique_contributors_avg, "day_score": day_score_avg})
+	data["daily_overview"]["days_tracked"] += 1
+	misc.save_datafile(data)
+	return edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score
 
 def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.time()))
 	# (datetime.datetime.utcnow()+datetime.timedelta(hours=0)).isoformat(timespec='milliseconds')+'Z'
@@ -1066,14 +1091,15 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		if not active_articles:
 			active_articles = [_("But nobody came")]
 		embed["fields"] = []
+		edits, files, admin, changed_bytes, new_articles, unique_contributors, overall = daily_overview_sync(edits, files, admin, changed_bytes, new_articles, len(activity), overall)
 		fields = (
 		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
 		(ngettext("Most edited article", "Most edited articles", len(active_articles)), ', '.join(active_articles)),
 		(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
 		(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
-		(_("Unique contributors"), str(len(activity))),
+		(_("Unique contributors"), unique_contributors),
 		(ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount),
-		(_("Day score"), str(overall)))
+		(_("Day score"), overall))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
 		data = {"embeds": [dict(embed)]}
