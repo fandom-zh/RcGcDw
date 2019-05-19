@@ -20,7 +20,7 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
+import time, logging, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress, misc
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
@@ -43,26 +43,72 @@ except FileNotFoundError:
 	logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
 	sys.exit(1)
 
-logged_in = False
-logging.basicConfig(level=settings["verbose_level"])
-if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is False:
-	with open("lastchange.txt", 'w') as sfile:
-		sfile.write("99999999999")
 logging.debug("Current settings: {settings}".format(settings=settings))
+
+# Prepare logging
+
+logging_config = {'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(name)s - %(levelname)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'default': {
+            'level': 0,
+            'formatter': 'standard',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stdout'
+        },
+    },
+	'loggers': {
+        '': {
+            'level': 0,
+            'handlers': ['default']
+        },
+        'rcgcdw': {
+            'level': 0
+        },
+        'rcgcdw.misc': {
+            'level': 0
+        },
+    }
+}
+
+logging.config.dictConfig(logging_config)
+logger = logging.getLogger("rcgcdw")
+
+
+data = misc.load_datafile()
+
+# Remove previous data holding file if exists and limitfetch allows
+
+if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
+	with open("lastchange.txt", 'r') as sfile:
+		logger.info("Converting old lastchange.txt file into new data storage data.json...")
+		data["rcid"] = int(sfile.read().strip())
+		misc.save_datafile(data)
+		os.remove("lastchange.txt")
+
+# Setup translation
+
 try:
 	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 except FileNotFoundError:
-	logging.critical("No language files have been found. Make sure locale folder is located in the directory.")
+	logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
 	sys.exit(1)
 
 lang.install()
 ngettext = lang.ngettext
 
+# A few initial vars
+
+logged_in = False
 supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update"]
 
 class MWError(Exception):
 	pass
-
 
 class LinkParser(HTMLParser):
 	new_string = ""
@@ -89,7 +135,7 @@ class LinkParser(HTMLParser):
 		self.new_string = self.new_string + data
 
 	def handle_endtag(self, tag):
-		logging.debug(self.new_string)
+		logger.debug(self.new_string)
 
 
 LinkParser = LinkParser()
@@ -112,11 +158,11 @@ def safe_read(request, *keys):
 		for item in keys:
 			request = request[item]
 	except KeyError:
-		logging.warning(
+		logger.warning(
 			"Failure while extracting data from request on key {key} in {change}".format(key=item, change=request))
 		return None
 	except ValueError:
-		logging.warning("Failure while extracting data from request in {change}".format(change=request))
+		logger.warning("Failure while extracting data from request in {change}".format(change=request))
 		return None
 	return request
 
@@ -131,10 +177,10 @@ def send_to_discord_webhook(data):
 		result = requests.post(settings["webhookURL"], data=data,
 		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
-		logging.warning("Timeouted while sending data to the webhook.")
+		logger.warning("Timeouted while sending data to the webhook.")
 		return 3
 	except requests.exceptions.ConnectionError:
-		logging.warning("Connection error while sending the data to a webhook")
+		logger.warning("Connection error while sending the data to a webhook")
 		return 3
 	else:
 		return handle_discord_http(result.status_code, data, result)
@@ -240,7 +286,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 				                                                                           english_length + "s",
 				                                                                           int(english_length_num)))
 			except AttributeError:
-				logging.error("Could not strip s from the block event, seems like the regex didn't work?")
+				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
 				return
 		content = _(
 			"[{author}]({author_url}) blocked [{user}]({user_url}) for {time}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, comment=parsed_comment)
@@ -452,21 +498,21 @@ def embed_formatter(action, change, parsed_comment, categories):
 		if "anon" in change:
 			author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
 			                                                                                user=change["user"].replace(" ", "_"))  # Replace here needed in case of #75
-			logging.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
+			logger.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
 			if change["user"] not in list(recent_changes.map_ips.keys()):
 				contibs = safe_read(recent_changes.safe_request(
 					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
 						wiki=settings["wiki"], user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
 				if contibs is None:
-					logging.warning(
+					logger.warning(
 						"WARNING: Something went wrong when checking amount of contributions for given IP address")
 					change["user"] = change["user"] + "(?)"
 				else:
 					recent_changes.map_ips[change["user"]] = len(contibs)
-					logging.debug("1Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+					logger.debug("1Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 			else:
-				logging.debug(
+				logger.debug(
 					"2Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 				if action in ("edit", "new"):
 					recent_changes.map_ips[change["user"]] += 1
@@ -508,7 +554,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		                                                       article=change["title"].replace(" ", "_"))
 		additional_info_retrieved = False
 		if urls is not None:
-			logging.debug(urls)
+			logger.debug(urls)
 			if "-1" not in urls:  # image still exists and not removed
 				img_info = next(iter(urls.values()))["imageinfo"]
 				embed["image"]["url"] = img_info[0]["url"]
@@ -532,7 +578,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
 						wiki=settings["wiki"], article=quote_plus(change["title"], safe=''))), "query", "pages")
 				if article_content is None:
-					logging.warning("Something went wrong when getting license for the image")
+					logger.warning("Something went wrong when getting license for the image")
 					return 0
 				if "-1" not in article_content:
 					content = list(article_content.values())[0]['revisions'][0]['*']
@@ -546,11 +592,11 @@ def embed_formatter(action, change, parsed_comment, categories):
 							else:
 								license = "?"
 					except IndexError:
-						logging.error(
+						logger.error(
 							"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
 						license = "?"
 					except re.error:
-						logging.error(
+						logger.error(
 							"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
 						license = "?"
 			if license is not None:
@@ -603,7 +649,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 				english_length = english_length.rstrip("s").strip()
 				block_time = "{num} {translated_length}".format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
 			except AttributeError:
-				logging.error("Could not strip s from the block event, seems like the regex didn't work?")
+				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
 				return
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
@@ -810,7 +856,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = _("Action has been hidden by administration.")
 		embed["author"]["name"] = _("Unknown")
 	else:
-		logging.warning("No entry for {event} with params: {params}".format(event=action, params=change))
+		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
 	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
 	embed["url"] = link
 	embed["description"] = parsed_comment
@@ -835,7 +881,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
-	logging.debug("Current params in edit action: {}".format(change))
+	logger.debug("Current params in edit action: {}".format(change))
 	if categories is not None and not (len(categories["new"]) == 0 and len(categories["removed"]) == 0):
 		if "fields" not in embed:
 			embed["fields"] = []
@@ -853,19 +899,19 @@ def handle_discord_http(code, formatted_embed, result):
 	if 300 > code > 199:  # message went through
 		return 0
 	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
-		logging.error(
+		logger.error(
 			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
-		logging.error(formatted_embed)
-		logging.error(result.text)
+		logger.error(formatted_embed)
+		logger.error(result.text)
 		return 1
 	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
-		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
+		logger.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
 		sys.exit(1)
 	elif code == 429:
-		logging.error("We are sending too many requests to the Discord, slowing down...")
+		logger.error("We are sending too many requests to the Discord, slowing down...")
 		return 2
 	elif 499 < code < 600:
-		logging.error(
+		logger.error(
 			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
 				code))
 		return 3
@@ -873,7 +919,7 @@ def handle_discord_http(code, formatted_embed, result):
 
 def essential_info(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
-	logging.debug(change)
+	logger.debug(change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		appearance_mode("suppressed", change, "", changed_categories)
 		return
@@ -887,30 +933,30 @@ def essential_info(change, changed_categories):
 	if not parsed_comment:
 		parsed_comment = None
 	if change["type"] in ["edit", "new"]:
-		logging.debug("List of categories in essential_info: {}".format(changed_categories))
+		logger.debug("List of categories in essential_info: {}".format(changed_categories))
 		if "userhidden" in change:
 			change["user"] = _("hidden")
 		identification_string = change["type"]
 	elif change["type"] == "log":
 		identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
 		if identification_string not in supported_logs:
-			logging.warning(
+			logger.warning(
 				"This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(
 					change))
 			return
 	elif change["type"] == "categorize":
 		return
 	else:
-		logging.warning("This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(change))
+		logger.warning("This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(change))
 		return
 	if identification_string in settings["ignored"]:
 		return
 	appearance_mode(identification_string, change, parsed_comment, changed_categories)
 
 def day_overview_request():
-	logging.info("Fetching daily overview... This may take up to 30 seconds!")
+	logger.info("Fetching daily overview... This may take up to 30 seconds!")
 	timestamp = (datetime.datetime.utcnow() - datetime.timedelta(hours=24)).isoformat(timespec='milliseconds')
-	logging.debug("timestamp is {}".format(timestamp))
+	logger.debug("timestamp is {}".format(timestamp))
 	complete = False
 	result = []
 	passes = 0
@@ -925,18 +971,18 @@ def day_overview_request():
 				rc = request['query']['recentchanges']
 				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
 			except ValueError:
-				logging.warning("ValueError in fetching changes")
+				logger.warning("ValueError in fetching changes")
 				recent_changes.downtime_controller()
 				complete = 2
 			except KeyError:
-				logging.warning("Wiki returned %s" % (request.json()))
+				logger.warning("Wiki returned %s" % (request.json()))
 				complete = 2
 			else:
 				result += rc
 				if continuearg:
 					continuearg = "&rccontinue={}".format(continuearg)
 					passes += 1
-					logging.debug(
+					logger.debug(
 						"continuing requesting next pages of recent changes with {} passes and continuearg being {}".format(
 							passes, continuearg))
 					time.sleep(3.0)
@@ -945,7 +991,7 @@ def day_overview_request():
 		else:
 			complete = 2
 	if passes == 10:
-		logging.debug("quit the loop because there been too many passes")
+		logger.debug("quit the loop because there been too many passes")
 	return (result, complete)
 
 
@@ -1034,7 +1080,7 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		formatted_embed = json.dumps(data, indent=4)
 		send_to_discord(formatted_embed)
 	else:
-		logging.debug("function requesting changes for day overview returned with error code")
+		logger.debug("function requesting changes for day overview returned with error code")
 
 
 class Recent_Changes_Class(object):
@@ -1051,21 +1097,14 @@ class Recent_Changes_Class(object):
 	session = requests.Session()
 	session.headers.update(settings["header"])
 	if settings["limitrefetch"] != -1:
-		with open("lastchange.txt", "r") as record:
-			file_content = record.read().strip()
-			if file_content:
-				file_id = int(file_content)
-				logging.debug("File_id is {val}".format(val=file_id))
-			else:
-				logging.debug("File is empty")
-				file_id = 999999999
+		file_id = data["rcid"]
 	else:
 		file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
 
 	@staticmethod
 	def handle_mw_errors(request):
 		if "errors" in request:
-			logging.error(request["errors"])
+			logger.error(request["errors"])
 			raise MWError
 		return request
 
@@ -1073,16 +1112,16 @@ class Recent_Changes_Class(object):
 		global logged_in
 		# session.cookies.clear()
 		if '@' not in settings["wiki_bot_login"]:
-			logging.error(
+			logger.error(
 				"Please provide proper nickname for login from https://{wiki}.gamepedia.com/Special:BotPasswords".format(
 					wiki=settings["wiki"]))
 			return
 		if len(settings["wiki_bot_password"]) != 32:
-			logging.error(
+			logger.error(
 				"Password seems incorrect. It should be 32 characters long! Grab it from https://{wiki}.gamepedia.com/Special:BotPasswords".format(
 					wiki=settings["wiki"]))
 			return
-		logging.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
+		logger.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
 		try:
 			response = self.handle_mw_errors(
 				self.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]),
@@ -1095,19 +1134,19 @@ class Recent_Changes_Class(object):
 				                        'lgpassword': settings["wiki_bot_password"],
 				                        'lgtoken': response.json()['query']['tokens']['logintoken']}))
 		except ValueError:
-			logging.error("Logging in have not succeeded")
+			logger.error("Logging in have not succeeded")
 			return
 		except MWError:
-			logging.error("Logging in have not succeeded")
+			logger.error("Logging in have not succeeded")
 			return
 		try:
 			if response.json()['login']['result'] == "Success":
-				logging.info("Logging to the wiki succeeded")
+				logger.info("Successfully logged in")
 				logged_in = True
 			else:
-				logging.error("Logging in have not succeeded")
+				logger.error("Logging in have not succeeded")
 		except:
-			logging.error("Logging in have not succeeded")
+			logger.error("Logging in have not succeeded")
 
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
@@ -1117,37 +1156,37 @@ class Recent_Changes_Class(object):
 
 	def fetch(self, amount=settings["limit"]):
 		if self.unsent_messages:
-			logging.info(
+			logger.info(
 				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
 					len(self.unsent_messages)))
 			for num, item in enumerate(self.unsent_messages):
-				logging.debug(
+				logger.debug(
 					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
 					                                                                                         str(item)))
 				if send_to_discord_webhook(item) < 2:
-					logging.debug("Sending message succeeded")
+					logger.debug("Sending message succeeded")
 					time.sleep(2.5)
 				else:
-					logging.debug("Sending message failed")
+					logger.debug("Sending message failed")
 					break
 			else:
 				self.unsent_messages = []
-				logging.debug("Queue emptied, all messages delivered")
+				logger.debug("Queue emptied, all messages delivered")
 			self.unsent_messages = self.unsent_messages[num:]
-			logging.debug(self.unsent_messages)
+			logger.debug(self.unsent_messages)
 		last_check = self.fetch_changes(amount=amount)
 		self.recent_id = last_check if last_check is not None else self.file_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
 			self.file_id = self.recent_id
-			with open("lastchange.txt", "w") as record:
-				record.write(str(self.file_id))
-		logging.debug("Most recent rcid is: {}".format(self.recent_id))
+			data["rcid"] = self.recent_id
+			misc.save_datafile(data)
+		logger.debug("Most recent rcid is: {}".format(self.recent_id))
 		return self.recent_id
 
 	def fetch_changes(self, amount, clean=False):
 		global logged_in
 		if len(self.ids) == 0:
-			logging.debug("ids is empty, triggering clean fetch")
+			logger.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request(
 			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal{categorize}".format(
@@ -1157,15 +1196,15 @@ class Recent_Changes_Class(object):
 				changes = changes.json()['query']['recentchanges']
 				changes.reverse()
 			except ValueError:
-				logging.warning("ValueError in fetching changes")
+				logger.warning("ValueError in fetching changes")
 				if changes.url == "https://www.gamepedia.com":
-					logging.critical(
+					logger.critical(
 						"The wiki specified in the settings most probably doesn't exist, got redirected to gamepedia.com")
 					sys.exit(1)
 				self.downtime_controller()
 				return None
 			except KeyError:
-				logging.warning("Wiki returned %s" % (changes.json()))
+				logger.warning("Wiki returned %s" % (changes.json()))
 				return None
 			else:
 				if self.downtimecredibility > 0:
@@ -1183,15 +1222,15 @@ class Recent_Changes_Class(object):
 				for change in changes:
 					if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id) and not clean:
 						new_events += 1
-						logging.debug(
+						logger.debug(
 							"New event: {}".format(change["rcid"]))
 						if new_events == settings["limit"]:
 							if amount < 500:
 								# call the function again with max limit for more results, ignore the ones in this request
-								logging.debug("There were too many new events, requesting max amount of events from the wiki.")
+								logger.debug("There were too many new events, requesting max amount of events from the wiki.")
 								return self.fetch(amount=5000 if logged_in else 500)
 							else:
-								logging.debug(
+								logger.debug(
 									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
 					if change["type"] == "categorize":
 						if "commenthidden" not in change:
@@ -1203,31 +1242,31 @@ class Recent_Changes_Class(object):
 								comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
 								if recent_changes.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"] in comment_to_match:
 									categorize_events[change["revid"]]["new"].add(cat_title)
-									logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
+									logger.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
 								elif recent_changes.mw_messages["recentchanges-page-removed-from-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"] in comment_to_match:
 									categorize_events[change["revid"]]["removed"].add(cat_title)
-									logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+									logger.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
 								else:
-									logging.debug("Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"], recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"], comment_to_match))
+									logger.debug("Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"], recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"], comment_to_match))
 							else:
-								logging.warning("Init information not available, could not read category information. Please restart the bot.")
+								logger.warning("Init information not available, could not read category information. Please restart the bot.")
 						else:
-							logging.debug("Log entry got suppressed, ignoring entry.")
+							logger.debug("Log entry got suppressed, ignoring entry.")
 				# if change["revid"] in categorize_events:
 						# 	categorize_events[change["revid"]].append(cat_title)
 						# else:
-						# 	logging.debug("New category '{}' for {}".format(cat_title, change["revid"]))
+						# 	logger.debug("New category '{}' for {}".format(cat_title, change["revid"]))
 						# 	categorize_events[change["revid"]] = {cat_title: }
 				for change in changes:
 					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
-						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
+						logger.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
 						                                                                           self.recent_id))
 						continue
-					logging.debug(self.ids)
-					logging.debug(self.recent_id)
+					logger.debug(self.ids)
+					logger.debug(self.recent_id)
 					self.add_cache(change)
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
-						logging.debug("Rejected {val}".format(val=change["rcid"]))
+						logger.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					essential_info(change, categorize_events.get(change.get("revid"), None))
 				return change["rcid"]
@@ -1236,11 +1275,11 @@ class Recent_Changes_Class(object):
 		try:
 			request = self.session.get(url, timeout=10, allow_redirects=False)
 		except requests.exceptions.Timeout:
-			logging.warning("Reached timeout error for request on link {url}".format(url=url))
+			logger.warning("Reached timeout error for request on link {url}".format(url=url))
 			self.downtime_controller()
 			return None
 		except requests.exceptions.ConnectionError:
-			logging.warning("Reached connection error for request on link {url}".format(url=url))
+			logger.warning("Reached connection error for request on link {url}".format(url=url))
 			self.downtime_controller()
 			return None
 		else:
@@ -1248,7 +1287,7 @@ class Recent_Changes_Class(object):
 				self.downtime_controller()
 				return None
 			elif request.status_code == 302:
-				logging.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or Gamepedia is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
+				logger.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or Gamepedia is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
 				sys.exit(0)
 			return request
 
@@ -1263,7 +1302,7 @@ class Recent_Changes_Class(object):
 			except requests.exceptions.Timeout:
 				pass
 		if online < 1:
-			logging.error("Failure when checking Internet connection at {time}".format(
+			logger.error("Failure when checking Internet connection at {time}".format(
 				time=time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())))
 			self.downtimecredibility = 0
 			if not looped:
@@ -1310,10 +1349,10 @@ class Recent_Changes_Class(object):
 					if key.startswith("recentchanges-page-"):
 						self.mw_messages[key] = re.sub(r'\[\[.*?\]\]', '', message)
 			else:
-				logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
-				logging.debug(startup_info)
+				logger.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
+				logger.debug(startup_info)
 		else:
-			logging.error("Could not retrieve initial wiki information. Possibly internet connection issue?")
+			logger.error("Could not retrieve initial wiki information. Possibly internet connection issue?")
 
 
 recent_changes = Recent_Changes_Class()
@@ -1323,7 +1362,7 @@ if settings["appearance"]["mode"] == "embed":
 elif settings["appearance"]["mode"] == "compact":
 	appearance_mode = compact_formatter
 else:
-	logging.critical("Unknown formatter!")
+	logger.critical("Unknown formatter!")
 	sys.exit(1)
 
 # Log in and download wiki information
@@ -1332,7 +1371,7 @@ try:
 		recent_changes.log_in()
 	recent_changes.init_info()
 except requests.exceptions.ConnectionError:
-	logging.critical("A connection can't be established with the wiki. Exiting...")
+	logger.critical("A connection can't be established with the wiki. Exiting...")
 	sys.exit(1)
 time.sleep(1.0)
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
@@ -1349,13 +1388,13 @@ if settings["overview"]:
 	                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
 		del overview_time
 	except schedule.ScheduleValueError:
-		logging.error("Invalid time format! Currently: {}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour,  time.strptime(settings["overview_time"], '%H:%M').tm_min))
+		logger.error("Invalid time format! Currently: {}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour,  time.strptime(settings["overview_time"], '%H:%M').tm_min))
 	except ValueError:
-		logging.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
+		logger.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
 schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 
 if TESTING:
-	logging.debug("DEBUGGING")
+	logger.debug("DEBUGGING")
 	recent_changes.recent_id -= 5
 	recent_changes.file_id -= 5
 	recent_changes.ids = [1]
