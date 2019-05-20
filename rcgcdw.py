@@ -515,10 +515,16 @@ def embed_formatter(action, change, parsed_comment, categories):
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
 		                                                             minor=_("m ") if action == "edit" and "minor" in change else "")
 		if settings["appearance"]["embed"]["show_edit_changes"]:
-			changed_content = safe_read(recent_changes.safe_request(
+			if action == "new":
+				changed_content = safe_read(recent_changes.safe_request(
 				"https://{wiki}.gamepedia.com/api.php?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
 					wiki=settings["wiki"], diff=change["revid"]
 				)), "compare", "*")
+			else:
+				changed_content = safe_read(recent_changes.safe_request(
+					"https://{wiki}.gamepedia.com/api.php?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
+						wiki=settings["wiki"], diff=change["revid"],oldrev=change["old_revid"]
+					)), "compare", "*")
 			if changed_content:
 				if "fields" not in embed:
 					embed["fields"] = []
