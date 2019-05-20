@@ -21,11 +21,14 @@
 # You have been warned
 
 import time, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
+import misc
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from html.parser import HTMLParser
 from configloader import settings
+from misc import link_formatter
+from misc import ContentParser
 
 if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
@@ -49,11 +52,6 @@ except FileNotFoundError:
 
 lang.install()
 ngettext = lang.ngettext
-
-import misc
-
-from misc import link_formatter
-from misc import ContentParser
 
 storage = misc.load_datafile()
 

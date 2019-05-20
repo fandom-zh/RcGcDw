@@ -19,6 +19,11 @@
 import json, logging, sys, re
 from html.parser import HTMLParser
 from configloader import settings
+import gettext
+
+# Initialize translation
+t = gettext.translation('misc', localedir='locale', languages=[settings["lang"]])
+_ = t.gettext
 
 # Create a custom logger
 
