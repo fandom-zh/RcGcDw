@@ -51,15 +51,15 @@ logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 
 
-data = misc.load_datafile()
+storage = misc.load_datafile()
 
 # Remove previous data holding file if exists and limitfetch allows
 
 if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 	with open("lastchange.txt", 'r') as sfile:
 		logger.info("Converting old lastchange.txt file into new data storage data.json...")
-		data["rcid"] = int(sfile.read().strip())
-		misc.save_datafile(data)
+		storage["rcid"] = int(sfile.read().strip())
+		misc.save_datafile(storage)
 		os.remove("lastchange.txt")
 
 # Setup translation
@@ -292,9 +292,6 @@ def compact_formatter(action, change, parsed_comment, categories):
 		                                                                                               comment=link,
 		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
 	elif action == "curseprofile/comment-deleted":
-		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=change["logparams"]["4:comment_id"]))
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		content = _("[{author}]({author_url}) deleted a comment on {target} profile").format(author=author,
 		                                                                                    author_url=author_url,
 		                                                                                     target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
@@ -455,7 +452,6 @@ def compact_formatter(action, change, parsed_comment, categories):
 		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
 		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
 	elif action == "suppressed":
-		link = "<https://{wiki}.gamepedia.com/>".format(wiki=settings["wiki"])
 		content = _("An action has been hidden by administration.")
 	send_to_discord({'content': content})
 
@@ -639,19 +635,16 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action == "curseprofile/comment-created":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)')) old way of linking
 		embed["title"] = _("Left a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
 		                                                                                              change["user"] else _(
 			"Left a comment on their own profile")
 	elif action == "curseprofile/comment-replied":
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
 		                                                                                                    change["user"] else _(
 			"Replied to a comment on their own profile")
 	elif action == "curseprofile/comment-edited":
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Edited a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
@@ -696,7 +689,6 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action == "curseprofile/comment-deleted":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=change["title"].split(':')[1])
 	elif action in ("rights/rights", "rights/autopromote"):
 		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"]) + change["title"].split(":")[1].replace(" ", "_")
@@ -857,7 +849,6 @@ def embed_formatter(action, change, parsed_comment, categories):
 	if categories is not None and not (len(categories["new"]) == 0 and len(categories["removed"]) == 0):
 		if "fields" not in embed:
 			embed["fields"] = []
-		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
 		new_cat = (_("**Added**: ") + ", ".join(list(categories["new"])[0:16]) + ("\n" if len(categories["new"])<=15 else _(" and {} more\n").format(len(categories["new"])-15))) if categories["new"] else ""
 		del_cat = (_("**Removed**: ") + ", ".join(list(categories["removed"])[0:16]) + ("" if len(categories["removed"])<=15 else _(" and {} more").format(len(categories["removed"])-15))) if categories["removed"] else ""
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
@@ -964,7 +955,7 @@ def day_overview_request():
 			complete = 2
 	if passes == 10:
 		logger.debug("quit the loop because there been too many passes")
-	return (result, complete)
+	return result, complete
 
 
 def add_to_dict(dictionary, key):
@@ -975,33 +966,32 @@ def add_to_dict(dictionary, key):
 	return dictionary
 
 def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score):
-	weight = data["daily_overview"]["days_tracked"]
+	weight = storage["daily_overview"]["days_tracked"]
 	if weight == 0:
-		data["daily_overview"].update({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed": changed_bytes, "new_articles": new_articles, "unique_editors": unique_contributors, "day_score": day_score})
+		storage["daily_overview"].update({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed": changed_bytes, "new_articles": new_articles, "unique_editors": unique_contributors, "day_score": day_score})
 		edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score = str(edits), str(files), str(admin), str(changed_bytes), str(new_articles), str(unique_contributors), str(day_score)
 	else:
-		edits_avg = misc.weighted_average(data["daily_overview"]["edits"], weight, edits)
+		edits_avg = misc.weighted_average(storage["daily_overview"]["edits"], weight, edits)
 		edits = _("{value} (avg. {avg})").format(value=edits, avg=edits_avg)
-		files_avg = misc.weighted_average(data["daily_overview"]["new_files"], weight, files)
+		files_avg = misc.weighted_average(storage["daily_overview"]["new_files"], weight, files)
 		files = _("{value} (avg. {avg})").format(value=files, avg=files_avg)
-		admin_avg = misc.weighted_average(data["daily_overview"]["admin_actions"], weight, admin)
+		admin_avg = misc.weighted_average(storage["daily_overview"]["admin_actions"], weight, admin)
 		admin = _("{value} (avg. {avg})").format(value=admin, avg=admin_avg)
-		changed_bytes_avg = misc.weighted_average(data["daily_overview"]["bytes_changed"], weight, changed_bytes)
+		changed_bytes_avg = misc.weighted_average(storage["daily_overview"]["bytes_changed"], weight, changed_bytes)
 		changed_bytes = _("{value} (avg. {avg})").format(value=changed_bytes, avg=changed_bytes_avg)
-		new_articles_avg = misc.weighted_average(data["daily_overview"]["new_articles"], weight, new_articles)
+		new_articles_avg = misc.weighted_average(storage["daily_overview"]["new_articles"], weight, new_articles)
 		new_articles = _("{value} (avg. {avg})").format(value=new_articles, avg=new_articles_avg)
-		unique_contributors_avg = misc.weighted_average(data["daily_overview"]["unique_editors"], weight, unique_contributors)
+		unique_contributors_avg = misc.weighted_average(storage["daily_overview"]["unique_editors"], weight, unique_contributors)
 		unique_contributors = _("{value} (avg. {avg})").format(value=unique_contributors, avg=unique_contributors_avg)
-		day_score_avg = misc.weighted_average(data["daily_overview"]["day_score"], weight, day_score)
+		day_score_avg = misc.weighted_average(storage["daily_overview"]["day_score"], weight, day_score)
 		day_score = _("{value} (avg. {avg})").format(value=day_score, avg=day_score_avg)
-		data["daily_overview"].update({"edits": edits_avg, "new_files": files_avg, "admin_actions": admin_avg, "bytes_changed": changed_bytes_avg,
+		storage["daily_overview"].update({"edits": edits_avg, "new_files": files_avg, "admin_actions": admin_avg, "bytes_changed": changed_bytes_avg,
 		             "new_articles": new_articles_avg, "unique_editors": unique_contributors_avg, "day_score": day_score_avg})
-	data["daily_overview"]["days_tracked"] += 1
-	misc.save_datafile(data)
+	storage["daily_overview"]["days_tracked"] += 1
+	misc.save_datafile(storage)
 	return edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score
 
-def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.time()))
-	# (datetime.datetime.utcnow()+datetime.timedelta(hours=0)).isoformat(timespec='milliseconds')+'Z'
+def day_overview():
 	result = day_overview_request()
 	if result[1] == 1:
 		activity = defaultdict(dict)
@@ -1042,12 +1032,9 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
-			# v = activity.values()
 			active_users = []
 			for user, numberu in Counter(activity).most_common(3):  # find most active users
 				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
-			# the_one = random.choice(active_users)
-			# v = articles.values()
 			for article, numbere in Counter(articles).most_common(3):  # find most active users
 				active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
 			v = hours.values()
@@ -1082,22 +1069,23 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 
 
 class Recent_Changes_Class(object):
-	ids = []
-	map_ips = {}
-	recent_id = 0
-	downtimecredibility = 0
-	last_downtime = 0
-	tags = {}
-	groups = {}
-	streak = -1
-	unsent_messages = []
-	mw_messages = {}
-	session = requests.Session()
-	session.headers.update(settings["header"])
-	if settings["limitrefetch"] != -1:
-		file_id = data["rcid"]
-	else:
-		file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
+	def __init__(self):
+		self.ids = []
+		self.map_ips = {}
+		self.recent_id = 0
+		self.downtimecredibility = 0
+		self.last_downtime = 0
+		self.tags = {}
+		self.groups = {}
+		self.streak = -1
+		self.unsent_messages = []
+		self.mw_messages = {}
+		self.session = requests.Session()
+		self.session.headers.update(settings["header"])
+		if settings["limitrefetch"] != -1:
+			self.file_id = storage["rcid"]
+		else:
+			self.file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
 
 	@staticmethod
 	def handle_mw_errors(request):
@@ -1176,8 +1164,8 @@ class Recent_Changes_Class(object):
 		self.recent_id = last_check if last_check is not None else self.file_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
 			self.file_id = self.recent_id
-			data["rcid"] = self.recent_id
-			misc.save_datafile(data)
+			storage["rcid"] = self.recent_id
+			misc.save_datafile(storage)
 		logger.debug("Most recent rcid is: {}".format(self.recent_id))
 		return self.recent_id
 
@@ -1346,6 +1334,7 @@ class Recent_Changes_Class(object):
 				for key, message in self.mw_messages.items():
 					if key.startswith("recentchanges-page-"):
 						self.mw_messages[key] = re.sub(r'\[\[.*?\]\]', '', message)
+				logger.info("Gathered information about the tags and interface messages.")
 			else:
 				logger.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
 				logger.debug(startup_info)
@@ -1372,6 +1361,7 @@ except requests.exceptions.ConnectionError:
 	logger.critical("A connection can't be established with the wiki. Exiting...")
 	sys.exit(1)
 time.sleep(1.0)
+logger.info("Script started! Fetching newest changes...")
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
