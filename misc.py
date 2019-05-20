@@ -1,6 +1,7 @@
-import json, logging, sys
+import json, logging, sys, re
 
 # Create a custom logger
+
 misc_logger = logging.getLogger("rcgcdw.misc")
 
 data_template = {"rcid": 99999999999,
@@ -44,3 +45,8 @@ def save_datafile(data):
 def weighted_average(value, weight, new_value):
 	"""Calculates weighted average of value number with weight weight and new_value with weight 1"""
 	return round(((value * weight) + new_value) / (weight + 1), 2)
+
+
+def link_formatter(link):
+	"""Formats a link to not embed it"""
+	return "<"+re.sub(r"([ \)])", "\\\\\\1", link)+">"
