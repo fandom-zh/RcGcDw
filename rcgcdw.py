@@ -521,23 +521,23 @@ def embed_formatter(action, change, parsed_comment, categories):
 				EditDiff.feed(changed_content)
 				if EditDiff.small_prev_del:
 					if EditDiff.small_prev_del.replace("~~", "").isspace():
-						EditDiff.small_prev_del = '__Only whitespace__'
+						EditDiff.small_prev_del = _('__Only whitespace__')
 					else:
 						EditDiff.small_prev_del = EditDiff.small_prev_del.replace("~~~~", "")
 				if EditDiff.small_prev_ins:
 					if EditDiff.small_prev_ins.replace("**", "").isspace():
-						EditDiff.small_prev_ins = '__Only whitespace__'
+						EditDiff.small_prev_ins = _('__Only whitespace__')
 					else:
 						EditDiff.small_prev_ins = EditDiff.small_prev_ins.replace("****", "")
 				logger.debug("Changed content: {}".format(EditDiff.small_prev_ins))
 				if EditDiff.small_prev_del and not action == "new":
 					embed["fields"].append(
-						{"name": "Removed", "value": "{data}".format(data=EditDiff.small_prev_del), "inline": True})
+						{"name": _("Removed"), "value": "{data}".format(data=EditDiff.small_prev_del), "inline": True})
 				if EditDiff.small_prev_ins:
 					embed["fields"].append(
-						{"name": "Added", "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
+						{"name": _("Added"), "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
 			else:
-				logging.warning("Unabled to download data on the edit content!")
+				logging.warning("Unable to download data on the edit content!")
 	elif action in ("upload/overwrite", "upload/upload"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(
