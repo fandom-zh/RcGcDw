@@ -16,7 +16,6 @@
       "embed": ""
    },
    "ignored": ["external"],
-   "verbose_level": 0,
    "show_updown_messages": true,
    "overview": false,
    "overview_time": "00:00",
@@ -27,6 +26,32 @@
    "wiki_bot_login": "",
    "wiki_bot_password": "",
    "show_added_categories": true,
+   "logging": {
+       "version": 1,
+       "disable_existing_loggers": false,
+       "formatters": {
+           "standard": {
+               "format": "%(name)s - %(levelname)s: %(message)s"
+           }
+       },
+       "handlers": {
+           "default": {
+               "formatter": "standard",
+               "class": "logging.StreamHandler",
+               "stream": "ext://sys.stdout"
+           }
+       },
+       "loggers": {
+           "": {
+               "level": 0,
+               "handlers": ["default"]
+           },
+           "rcgcdw": {
+           },
+           "rcgcdw.misc": {
+           }
+       }
+   },
    "appearance":{
       "mode": "embed",
       "embed": {

@@ -47,36 +47,7 @@ logging.debug("Current settings: {settings}".format(settings=settings))
 
 # Prepare logging
 
-logging_config = {'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'standard': {
-            'format': '%(name)s - %(levelname)s: %(message)s'
-        },
-    },
-    'handlers': {
-        'default': {
-            'level': 0,
-            'formatter': 'standard',
-            'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stdout'
-        },
-    },
-	'loggers': {
-        '': {
-            'level': 0,
-            'handlers': ['default']
-        },
-        'rcgcdw': {
-            'level': 0
-        },
-        'rcgcdw.misc': {
-            'level': 0
-        },
-    }
-}
-
-logging.config.dictConfig(logging_config)
+logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 
 
@@ -488,6 +459,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("An action has been hidden by administration.")
 	send_to_discord({'content': content})
 
+
 def embed_formatter(action, change, parsed_comment, categories):
 	data = {"embeds": []}
 	embed = defaultdict(dict)
@@ -509,11 +481,11 @@ def embed_formatter(action, change, parsed_comment, categories):
 					change["user"] = change["user"] + "(?)"
 				else:
 					recent_changes.map_ips[change["user"]] = len(contibs)
-					logger.debug("1Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+					logger.debug("Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 			else:
 				logger.debug(
-					"2Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+					"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 				if action in ("edit", "new"):
 					recent_changes.map_ips[change["user"]] += 1
 				change["user"] = "{author} ({amount})".format(author=change["user"],
