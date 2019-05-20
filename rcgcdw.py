@@ -20,13 +20,11 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress, misc
+import time, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from html.parser import HTMLParser
-
-from misc import link_formatter
 
 if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
@@ -52,6 +50,21 @@ logging.debug("Current settings: {settings}".format(settings=settings))
 logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 
+# Setup translation
+
+try:
+	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
+except FileNotFoundError:
+	logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
+	sys.exit(1)
+
+lang.install()
+ngettext = lang.ngettext
+
+import misc
+
+from misc import link_formatter
+from misc import ContentParser
 
 storage = misc.load_datafile()
 
@@ -63,17 +76,6 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 		storage["rcid"] = int(sfile.read().strip())
 		misc.save_datafile(storage)
 		os.remove("lastchange.txt")
-
-# Setup translation
-
-try:
-	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
-except FileNotFoundError:
-	logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
-	sys.exit(1)
-
-lang.install()
-ngettext = lang.ngettext
 
 # A few initial vars
 
@@ -512,6 +514,35 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
 		                                                             minor=_("m ") if action == "edit" and "minor" in change else "")
+		if settings["appearance"]["embed"]["show_edit_changes"]:
+			changed_content = safe_read(recent_changes.safe_request(
+				"https://{wiki}.gamepedia.com/api.php?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
+					wiki=settings["wiki"], diff=change["revid"]
+				)), "compare", "*")
+			if changed_content:
+				if "fields" not in embed:
+					embed["fields"] = []
+				EditDiff = ContentParser()
+				EditDiff.feed(changed_content)
+				if EditDiff.small_prev_del:
+					if EditDiff.small_prev_del.replace("~~", "").isspace():
+						EditDiff.small_prev_del = '__Only whitespace__'
+					else:
+						EditDiff.small_prev_del = EditDiff.small_prev_del.replace("~~~~", "")
+				if EditDiff.small_prev_ins:
+					if EditDiff.small_prev_ins.replace("**", "").isspace():
+						EditDiff.small_prev_ins = '__Only whitespace__'
+					else:
+						EditDiff.small_prev_ins = EditDiff.small_prev_ins.replace("****", "")
+				logger.debug("Changed content: {}".format(EditDiff.small_prev_ins))
+				if EditDiff.small_prev_del and not action == "new":
+					embed["fields"].append(
+						{"name": "Removed", "value": "{data}".format(data=EditDiff.small_prev_del), "inline": True})
+				if EditDiff.small_prev_ins:
+					embed["fields"].append(
+						{"name": "Added", "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
+			else:
+				logging.warning("Unabled to download data on the edit content!")
 	elif action in ("upload/overwrite", "upload/upload"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(

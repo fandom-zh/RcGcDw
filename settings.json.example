@@ -55,7 +55,8 @@
    "appearance":{
       "mode": "embed",
       "embed": {
-          "daily_overview": {
+         "show_edit_changes": false,
+         "daily_overview": {
             "color": 16312092,
             "icon":""
          },
