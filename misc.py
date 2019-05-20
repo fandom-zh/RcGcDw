@@ -22,6 +22,7 @@ from configloader import settings
 import gettext
 
 # Initialize translation
+
 t = gettext.translation('misc', localedir='locale', languages=[settings["lang"]])
 _ = t.gettext
 
@@ -144,3 +145,78 @@ class ContentParser(HTMLParser):
 			self.current_tag = "afterdel"
 		else:
 			self.current_tag = ""
+
+
+class LinkParser(HTMLParser):
+	new_string = ""
+	recent_href = ""
+
+	def handle_starttag(self, tag, attrs):
+		for attr in attrs:
+			if attr[0] == 'href':
+				self.recent_href = attr[1]
+				if self.recent_href.startswith("//"):
+					self.recent_href = "https:{rest}".format(rest=self.recent_href)
+				elif not self.recent_href.startswith("http"):
+					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
+				self.recent_href = self.recent_href.replace(")", "\\)")
+
+	def handle_data(self, data):
+		if self.recent_href:
+			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
+			self.recent_href = ""
+		else:
+			self.new_string = self.new_string + data
+
+	def handle_comment(self, data):
+		self.new_string = self.new_string + data
+
+	def handle_endtag(self, tag):
+		misc_logger.debug(self.new_string)
+
+
+def safe_read(request, *keys):
+	if request is None:
+		return None
+	try:
+		request = request.json()
+		for item in keys:
+			request = request[item]
+	except KeyError:
+		misc_logger.warning(
+			"Failure while extracting data from request on key {key} in {change}".format(key=item, change=request))
+		return None
+	except ValueError:
+		misc_logger.warning("Failure while extracting data from request in {change}".format(change=request))
+		return None
+	return request
+
+
+def handle_discord_http(code, formatted_embed, result):
+	if 300 > code > 199:  # message went through
+		return 0
+	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
+		misc_logger.error(
+			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
+		misc_logger.error(formatted_embed)
+		misc_logger.error(result.text)
+		return 1
+	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
+		misc_logger.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
+		sys.exit(1)
+	elif code == 429:
+		misc_logger.error("We are sending too many requests to the Discord, slowing down...")
+		return 2
+	elif 499 < code < 600:
+		misc_logger.error(
+			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
+				code))
+		return 3
+
+
+def add_to_dict(dictionary, key):
+	if key in dictionary:
+		dictionary[key] += 1
+	else:
+		dictionary[key] = 1
+	return dictionary

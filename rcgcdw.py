@@ -25,10 +25,8 @@ import misc
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
-from html.parser import HTMLParser
 from configloader import settings
-from misc import link_formatter
-from misc import ContentParser
+from misc import link_formatter, LinkParser, ContentParser, safe_read, handle_discord_http, add_to_dict
 
 if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
@@ -68,40 +66,10 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 
 logged_in = False
 supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update"]
+LinkParser = LinkParser()
 
 class MWError(Exception):
 	pass
-
-class LinkParser(HTMLParser):
-	new_string = ""
-	recent_href = ""
-
-	def handle_starttag(self, tag, attrs):
-		for attr in attrs:
-			if attr[0] == 'href':
-				self.recent_href = attr[1]
-				if self.recent_href.startswith("//"):
-					self.recent_href = "https:{rest}".format(rest=self.recent_href)
-				elif not self.recent_href.startswith("http"):
-					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
-				self.recent_href = self.recent_href.replace(")", "\\)")
-
-	def handle_data(self, data):
-		if self.recent_href:
-			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
-			self.recent_href = ""
-		else:
-			self.new_string = self.new_string + data
-
-	def handle_comment(self, data):
-		self.new_string = self.new_string + data
-
-	def handle_endtag(self, tag):
-		logger.debug(self.new_string)
-
-
-LinkParser = LinkParser()
-
 
 def send(message, name, avatar):
 	dictionary_creator = {"content": message}
@@ -110,23 +78,6 @@ def send(message, name, avatar):
 	if avatar:
 		dictionary_creator["avatar_url"] = avatar
 	send_to_discord(dictionary_creator)
-
-
-def safe_read(request, *keys):
-	if request is None:
-		return None
-	try:
-		request = request.json()
-		for item in keys:
-			request = request[item]
-	except KeyError:
-		logger.warning(
-			"Failure while extracting data from request on key {key} in {change}".format(key=item, change=request))
-		return None
-	except ValueError:
-		logger.warning("Failure while extracting data from request in {change}".format(change=request))
-		return None
-	return request
 
 
 def send_to_discord_webhook(data):
@@ -881,28 +832,6 @@ def embed_formatter(action, change, parsed_comment, categories):
 	send_to_discord(formatted_embed)
 
 
-def handle_discord_http(code, formatted_embed, result):
-	if 300 > code > 199:  # message went through
-		return 0
-	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
-		logger.error(
-			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
-		logger.error(formatted_embed)
-		logger.error(result.text)
-		return 1
-	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
-		logger.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
-		sys.exit(1)
-	elif code == 429:
-		logger.error("We are sending too many requests to the Discord, slowing down...")
-		return 2
-	elif 499 < code < 600:
-		logger.error(
-			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
-				code))
-		return 3
-
-
 def essential_info(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
 	logger.debug(change)
@@ -980,13 +909,6 @@ def day_overview_request():
 		logger.debug("quit the loop because there been too many passes")
 	return result, complete
 
-
-def add_to_dict(dictionary, key):
-	if key in dictionary:
-		dictionary[key] += 1
-	else:
-		dictionary[key] = 1
-	return dictionary
 
 def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score):
 	weight = storage["daily_overview"]["days_tracked"]
