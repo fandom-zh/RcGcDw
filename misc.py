@@ -16,6 +16,7 @@
 
 import json, logging, sys, re
 from html.parser import HTMLParser
+from configloader import settings
 
 # Create a custom logger
 
