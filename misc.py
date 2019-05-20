@@ -1,4 +1,5 @@
 import json, logging, sys, re
+from html.parser import HTMLParser
 
 # Create a custom logger
 
@@ -49,4 +50,73 @@ def weighted_average(value, weight, new_value):
 
 def link_formatter(link):
 	"""Formats a link to not embed it"""
-	return "<"+re.sub(r"([ \)])", "\\\\\\1", link)+">"
+	return "<" + re.sub(r"([ \)])", "\\\\\\1", link) + ">"
+
+
+class ContentParser(HTMLParser):
+	more = _("\n__And more__")
+	current_tag = ""
+	small_prev_ins = ""
+	small_prev_del = ""
+	ins_length = len(more)
+	del_length = len(more)
+	added = False
+
+	def handle_starttag(self, tagname, attribs):
+		if tagname == "ins" or tagname == "del":
+			self.current_tag = tagname
+		if tagname == "td" and 'diff-addedline' in attribs[0]:
+			self.current_tag = tagname + "a"
+		if tagname == "td" and 'diff-deletedline' in attribs[0]:
+			self.current_tag = tagname + "d"
+		if tagname == "td" and 'diff-marker' in attribs[0]:
+			self.added = True
+
+	def handle_data(self, data):
+		data = re.sub(r"(`|_|\*|~|<|>|{|}|@|/|\|)", "\\\\\\1", data, 0)
+		if self.current_tag == "ins" and self.ins_length <= 1000:
+			self.ins_length += len("**" + data + '**')
+			if self.ins_length <= 1000:
+				self.small_prev_ins = self.small_prev_ins + "**" + data + '**'
+			else:
+				self.small_prev_ins = self.small_prev_ins + self.more
+		if self.current_tag == "del" and self.del_length <= 1000:
+			self.del_length += len("~~" + data + '~~')
+			if self.del_length <= 1000:
+				self.small_prev_del = self.small_prev_del + "~~" + data + '~~'
+			else:
+				self.small_prev_del = self.small_prev_del + self.more
+		if (self.current_tag == "afterins" or self.current_tag == "tda") and self.ins_length <= 1000:
+			self.ins_length += len(data)
+			if self.ins_length <= 1000:
+				self.small_prev_ins = self.small_prev_ins + data
+			else:
+				self.small_prev_ins = self.small_prev_ins + self.more
+		if (self.current_tag == "afterdel" or self.current_tag == "tdd") and self.del_length <= 1000:
+			self.del_length += len(data)
+			if self.del_length <= 1000:
+				self.small_prev_del = self.small_prev_del + data
+			else:
+				self.small_prev_del = self.small_prev_del + self.more
+		if self.added:
+			if data == '+' and self.ins_length <= 1000:
+				self.ins_length += 1
+				if self.ins_length <= 1000:
+					self.small_prev_ins = self.small_prev_ins + '\n'
+				else:
+					self.small_prev_ins = self.small_prev_ins + self.more
+			if data == '−' and self.del_length <= 1000:
+				self.del_length += 1
+				if self.del_length <= 1000:
+					self.small_prev_del = self.small_prev_del + '\n'
+				else:
+					self.small_prev_del = self.small_prev_del + self.more
+			self.added = False
+
+	def handle_endtag(self, tagname):
+		if tagname == "ins":
+			self.current_tag = "afterins"
+		elif tagname == "del":
+			self.current_tag = "afterdel"
+		else:
+			self.current_tag = ""
