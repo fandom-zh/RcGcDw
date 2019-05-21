@@ -653,6 +653,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 			field = _("Steam link")
 		elif change["logparams"]['4:section'] == "profile-link-discord":
 			field = _("Discord handle")
+		elif change["logparams"]['4:section'] == "profile-link-battlenet":
+			field = _("Battle.net handle")
 		else:
 			field = _("Unknown")
 		embed["title"] = _("Edited {target}'s profile").format(target=change["title"].split(':')[1]) if change["user"] != change["title"].split(':')[1] else _("Edited their own profile")
