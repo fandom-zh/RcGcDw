@@ -262,6 +262,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 			field = _("Steam link")
 		elif change["logparams"]['4:section'] == "profile-link-discord":
 			field = _("Discord handle")
+		elif change["logparams"]['4:section'] == "profile-link-battlenet":
+			field = _("Battle.net handle")
 		else:
 			field = _("unknown")
 		target = _("[{target}]({target_url})'s").format(target=change["title"].split(':')[1], target_url=link) if change["title"].split(':')[1] != author else _("[their own]({target_url})").format(target_url=link)
