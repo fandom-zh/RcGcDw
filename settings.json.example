@@ -5,7 +5,7 @@
    "header": {
       "user-agent": "RcGcDw/{version}"
       },
-   "limit": 11,
+   "limit": 10,
    "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
    "limitrefetch": 28,
    "wikiname": "Minecraft Wiki",

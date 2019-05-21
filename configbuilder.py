@@ -22,7 +22,7 @@ import json, time, sys, re
 try:
 	import requests
 except ModuleNotFoundError:
-	print("The requests module couldn't be found. Please install requests library.")
+	print("The requests module couldn't be found. Please install requests library using pip install requests.")
 	sys.exit(0)
 
 if "--help" in sys.argv:
@@ -43,8 +43,10 @@ def default_or_custom(answer, default):
 def yes_no(answer):
 	if answer.lower() == "y":
 		return True
-	if answer.lower() == "n":
+	elif answer.lower() == "n":
 		return False
+	else:
+		raise ValueError
 
 print("Welcome in RcGcDw config builder! You can accept the default value if provided in the question by using Enter key without providing any other input.\nWARNING! Your current settings.json will be overwritten if you continue!")
 
@@ -74,9 +76,9 @@ def basic():
 	while True:
 		if set_displaymode():
 			break
-	with open("settings.json", "w") as settings_file:
-		settings_file.write(json.dumps(settings, indent=4))
-	print("Responses has been saved! Your settings.json should be now valid and bot ready to run.")
+
+def advanced():
+
 
 def set_cooldown():
 	option = default_or_custom(input("Interval for fetching recent changes in seconds (min. 10, default 30).\n"), 30)
@@ -108,8 +110,8 @@ def set_wiki():
 
 def set_lang():
 	option = default_or_custom(input(
-		"Please provide a language code for translation of the script. Translations available: en, de, ru, pt-br, fr. (default en)\n"), "en")
-	if option in ["en", "de", "ru", "pt-br", "fr"]:
+		"Please provide a language code for translation of the script. Translations available: en, de, ru, pt-br, fr, pl. (default en)\n"), "en")
+	if option in ["en", "de", "ru", "pt-br", "fr", "pl"]:
 		settings["lang"] = option
 		return True
 	return False
@@ -143,9 +145,87 @@ def set_displaymode():
 	print("Invalid mode selected!")
 	return False
 
+def set_limit():
+	option = default_or_custom(input("Limit for amount of changes fetched every {} seconds. (default: 10, minimum: 1, the less active wiki is the lower the value should be)\n".format(settings["cooldown"])), 10)
+	try:
+		option = int(option)
+		if option < 2:
+			print("Please give a value higher than 1!")
+			return False
+		else:
+			settings["limit"] = option
+			return True
+	except ValueError:
+		print("Please give a valid number.")
+		return False
+
+def set_refetch_limit():
+	option = default_or_custom(input("Limit for amount of changes fetched every time the script starts. (default: 28, minimum: {})\n".format(settings["limit"])), 28)
+	try:
+		option = int(option)
+		if option < settings["limit"]:
+			print("Please give a value higher than {}!".format(settings["limit"]))
+			return False
+		else:
+			settings["limit"] = option
+			return True
+	except ValueError:
+		print("Please give a valid number.")
+		return False
+
+def set_updown_messages():
+	try:
+		option = yes_no(default_or_custom(input("Should the script send messages when the wiki becomes unavailable? (Y/n)"), "y"))
+		settings["show_updown_messages"] = option
+		return True
+	except ValueError:
+		print("Response not valid, please use y (yes) or n (no)")
+		return False
+
+def set_downup_avatars():
+	option = default_or_custom(input("Provide a link for a custom webhook avatar when the wiki goes DOWN. (default: no avatar)"), "")  #TODO Add a check for the image
+	settings["avatars"]["connection_failed"] = option
+	option = default_or_custom(
+		input("Provide a link for a custom webhook avatar when the connection to the wiki is RESTORED. (default: no avatar)"),
+		"")  # TODO Add a check for the image
+	settings["avatars"]["connection_failed"] = option
+	return True
+
+def set_ignored_events():
+	option = default_or_custom(
+		input("Provide a list of entry types that are supposed to be ignored. Separate them using commas. Example: external, edit, upload/overwrite. (default: external)"), "external")  # TODO Add a check for the image
+	entry_types = []
+	for etype in option.split(","):
+		entry_types.append(etype.strip())
+	settings["ignored"] = entry_types
+
+def set_overview():
+	try:
+		option = yes_no(default_or_custom(input("Should the script send daily overviews of the actions done on the wiki for past 24 hours? (y/N)"), "n"))
+		settings["overview"] = option
+		return True
+	except ValueError:
+		print("Response not valid, please use y (yes) or n (no)")
+		return False
+
+def set_overview_time():
+	try:
+		option = default_or_custom(input("At what time should the daily overviews be sent? (script uses local machine time, the format of the time should be HH:MM, default is 00:00)"), "00:00")
+		re.match(r"$\d{2}:\d{2}^")
+		settings["overview"] = option
+		return True
+	except ValueError:
+		print("Response not valid, please use y (yes) or n (no)")
+		return False
 
 try:
 	basic()
+	with open("settings.json", "w") as settings_file:
+		settings_file.write(json.dumps(settings, indent=4))
+	if "--advanced" in sys.argv:
+		print("Basic part of the config has been completed. Starting the advanced part...")
+		advanced()
+	print("Responses has been saved! Your settings.json should be now valid and bot ready to run.")
 except KeyboardInterrupt:
 	if not yes_no(default_or_custom(input("\nSave the config before exiting? (y/N)"),"n")):
 		sys.exit(0)
