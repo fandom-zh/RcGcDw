@@ -665,6 +665,11 @@ def embed_formatter(action, change, parsed_comment, categories):
 		else:
 			parsed_comment = _("{field} field changed to: {desc}").format(field=field, desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action == "curseprofile/comment-deleted":
+		if "4:comment_id" in change["logparams"]:
+			link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
+		                                                                                  commentid=change["logparams"]["4:comment_id"])
+		else:
+			link = "https://{wiki}.gamepedia.com/{profile}".format(wiki=settings["wiki"], profile=change["title"])
 		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=change["title"].split(':')[1])
 	elif action in ("rights/rights", "rights/autopromote"):
 		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"]) + change["title"].split(":")[1].replace(" ", "_")
