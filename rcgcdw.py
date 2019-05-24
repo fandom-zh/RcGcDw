@@ -20,11 +20,13 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
+import time, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
+import misc
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
-from html.parser import HTMLParser
+from configloader import settings
+from misc import link_formatter, LinkParser, ContentParser, safe_read, handle_discord_http, add_to_dict
 
 if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
@@ -32,68 +34,42 @@ if __name__ != "__main__":  # return if called as a module
 
 TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
 
-try:  # load settings
-	with open("settings.json") as sfile:
-		settings = json.load(sfile)
-		if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
-			settings["limitrefetch"] = settings["limit"]
-		if "user-agent" in settings["header"]:
-			settings["header"]["user-agent"] = settings["header"]["user-agent"].format(version="1.6.0.1")  # set the version in the useragent
-except FileNotFoundError:
-	logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
-	sys.exit(1)
+# Prepare logging
 
-logged_in = False
-logging.basicConfig(level=settings["verbose_level"])
-if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is False:
-	with open("lastchange.txt", 'w') as sfile:
-		sfile.write("99999999999")
-logging.debug("Current settings: {settings}".format(settings=settings))
+logging.config.dictConfig(settings["logging"])
+logger = logging.getLogger("rcgcdw")
+logger.debug("Current settings: {settings}".format(settings=settings))
+
+# Setup translation
+
 try:
 	lang = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
 except FileNotFoundError:
-	logging.critical("No language files have been found. Make sure locale folder is located in the directory.")
+	logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
 	sys.exit(1)
 
 lang.install()
 ngettext = lang.ngettext
 
+storage = misc.load_datafile()
+
+# Remove previous data holding file if exists and limitfetch allows
+
+if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
+	with open("lastchange.txt", 'r') as sfile:
+		logger.info("Converting old lastchange.txt file into new data storage data.json...")
+		storage["rcid"] = int(sfile.read().strip())
+		misc.save_datafile(storage)
+		os.remove("lastchange.txt")
+
+# A few initial vars
+
+logged_in = False
 supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update"]
+LinkParser = LinkParser()
 
 class MWError(Exception):
 	pass
-
-
-class LinkParser(HTMLParser):
-	new_string = ""
-	recent_href = ""
-
-	def handle_starttag(self, tag, attrs):
-		for attr in attrs:
-			if attr[0] == 'href':
-				self.recent_href = attr[1]
-				if self.recent_href.startswith("//"):
-					self.recent_href = "https:{rest}".format(rest=self.recent_href)
-				elif not self.recent_href.startswith("http"):
-					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
-				self.recent_href = self.recent_href.replace(")", "\\)")
-
-	def handle_data(self, data):
-		if self.recent_href:
-			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
-			self.recent_href = ""
-		else:
-			self.new_string = self.new_string + data
-
-	def handle_comment(self, data):
-		self.new_string = self.new_string + data
-
-	def handle_endtag(self, tag):
-		logging.debug(self.new_string)
-
-
-LinkParser = LinkParser()
-
 
 def send(message, name, avatar):
 	dictionary_creator = {"content": message}
@@ -102,23 +78,6 @@ def send(message, name, avatar):
 	if avatar:
 		dictionary_creator["avatar_url"] = avatar
 	send_to_discord(dictionary_creator)
-
-
-def safe_read(request, *keys):
-	if request is None:
-		return None
-	try:
-		request = request.json()
-		for item in keys:
-			request = request[item]
-	except KeyError:
-		logging.warning(
-			"Failure while extracting data from request on key {key} in {change}".format(key=item, change=request))
-		return None
-	except ValueError:
-		logging.warning("Failure while extracting data from request in {change}".format(change=request))
-		return None
-	return request
 
 
 def send_to_discord_webhook(data):
@@ -131,10 +90,10 @@ def send_to_discord_webhook(data):
 		result = requests.post(settings["webhookURL"], data=data,
 		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
-		logging.warning("Timeouted while sending data to the webhook.")
+		logger.warning("Timeouted while sending data to the webhook.")
 		return 3
 	except requests.exceptions.ConnectionError:
-		logging.warning("Connection error while sending the data to a webhook")
+		logger.warning("Connection error while sending the data to a webhook")
 		return 3
 	else:
 		return handle_discord_http(result.status_code, data, result)
@@ -151,11 +110,8 @@ def send_to_discord(data):
 			time.sleep(5.0)
 			recent_changes.unsent_messages.append(data)
 		elif code < 2:
-			time.sleep(2.5)
+			time.sleep(2.0)
 			pass
-
-def link_formatter(link):
-	return "<"+re.sub(r"([ \)])", "\\\\\\1", link)+">"
 
 def compact_formatter(action, change, parsed_comment, categories):
 	if action != "suppressed":
@@ -179,7 +135,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 			content = _("[{author}]({author_url}) created [{article}]({edit_link}){comment} ({sign}{edit_size})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign)
 	elif action =="upload/upload":
 		file_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                            article=change["title"]))
+		                                                                           article=change["title"]))
 		content = _("[{author}]({author_url}) uploaded [{file}]({file_link}){comment}").format(author=author,
 		                                                                                    author_url=author_url,
 		                                                                                    file=change["title"],
@@ -187,34 +143,34 @@ def compact_formatter(action, change, parsed_comment, categories):
 		                                                                                    comment=parsed_comment)
 	elif action == "upload/overwrite":
 		file_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                            article=change["title"]))
+		                                                                           article=change["title"]))
 		content = _("[{author}]({author_url}) uploaded a new version of [{file}]({file_link}){comment}").format(author=author, author_url=author_url, file=change["title"], file_link=file_link, comment=parsed_comment)
 	elif action == "delete/delete":
 		page_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                            article=change["title"]))
+		                                                                           article=change["title"]))
 		content = _("[{author}]({author_url}) deleted [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                  comment=parsed_comment)
 	elif action == "delete/delete_redir":
 		page_link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                            article=change["title"]))
+		                                                                           article=change["title"]))
 		content = _("[{author}]({author_url}) deleted redirect by overwriting [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                   comment=parsed_comment)
 	elif action == "move/move":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["logparams"]['target_title']))
+		                                                                      article=change["logparams"]['target_title']))
 		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _("with a redirect")
 		content = _("[{author}]({author_url}) moved {redirect}*{article}* to [{target}]({target_url}) {made_a_redirect}{comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
 			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment, made_a_redirect=redirect_status)
 	elif action == "move/move_redir":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["logparams"]["target_title"]))
+		                                                                      article=change["logparams"]["target_title"]))
 		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _(
 			"with a redirect")
 		content = _("[{author}]({author_url}) moved {redirect}*{article}* over redirect to [{target}]({target_url}) {made_a_redirect}{comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
 			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment, made_a_redirect=redirect_status)
 	elif action == "protect/move_prot":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["logparams"]["oldtitle_title"]))
+		                                                                      article=change["logparams"]["oldtitle_title"]))
 		content = _(
 			"[{author}]({author_url}) moved protection settings from {redirect}*{article}* to [{target}]({target_url}){comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
 			target=change["title"], target_url=link, comment=parsed_comment)
@@ -223,10 +179,10 @@ def compact_formatter(action, change, parsed_comment, categories):
 		try:
 			ipaddress.ip_address(user)
 			link = link_formatter("https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
-			                                                                          user=user))
+			                                                                                         user=user))
 		except ValueError:
 			link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=change["title"]))
+			                                                                   user=change["title"]))
 		if change["logparams"]["duration"] == "infinite":
 			block_time = _("infinity and beyond")
 		else:
@@ -240,27 +196,27 @@ def compact_formatter(action, change, parsed_comment, categories):
 				                                                                           english_length + "s",
 				                                                                           int(english_length_num)))
 			except AttributeError:
-				logging.error("Could not strip s from the block event, seems like the regex didn't work?")
+				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
 				return
 		content = _(
 			"[{author}]({author_url}) blocked [{user}]({user_url}) for {time}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, comment=parsed_comment)
 	elif action == "block/reblock":
 		link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=change["title"]))
+		                                                                   user=change["title"]))
 		user = change["title"].split(':')[1]
 		content = _("[{author}]({author_url}) changed block settings for [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
 	elif action == "block/unblock":
 		link = link_formatter("https://{wiki}.gamepedia.com/{user}".format(wiki=settings["wiki"],
-		                                                    user=change["title"]))
+		                                                                   user=change["title"]))
 		user = change["title"].split(':')[1]
 		content = _("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
 	elif action == "curseprofile/comment-created":
 		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=change["logparams"]["4:comment_id"]))
+		                                                                                                 commentid=change["logparams"]["4:comment_id"]))
 		content = _("[{author}]({author_url}) left a [comment]({comment}) on {target} profile").format(author=author, author_url=author_url, comment=link, target=change["title"].split(':')[1]+"'s" if change["title"].split(':')[1] != change["user"] else _("their own profile"))
 	elif action == "curseprofile/comment-replied":
 		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=change["logparams"][
+		                                                                                                 commentid=change["logparams"][
 			                                                                                  "4:comment_id"]))
 		content = _("[{author}]({author_url}) replied to a [comment]({comment}) on {target} profile").format(author=author,
 		                                                                                               author_url=author_url,
@@ -268,23 +224,20 @@ def compact_formatter(action, change, parsed_comment, categories):
 		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
 	elif action == "curseprofile/comment-edited":
 		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=change["logparams"][
+		                                                                                                 commentid=change["logparams"][
 			                                                                                  "4:comment_id"]))
 		content = _("[{author}]({author_url}) edited a [comment]({comment}) on {target} profile").format(author=author,
 		                                                                                               author_url=author_url,
 		                                                                                               comment=link,
 		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
 	elif action == "curseprofile/comment-deleted":
-		link = link_formatter("https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
-		                                                                                  commentid=change["logparams"]["4:comment_id"]))
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		content = _("[{author}]({author_url}) deleted a comment on {target} profile").format(author=author,
 		                                                                                    author_url=author_url,
 		                                                                                     target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
 
 	elif action == "curseprofile/profile-edited":
 		link = link_formatter("https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"],
-		                                                                  target=change["title"].split(':')[1]))
+		                                                                                 target=change["title"].split(':')[1]))
 		if change["logparams"]['4:section'] == "profile-location":
 			field = _("Location")
 		elif change["logparams"]['4:section'] == "profile-aboutme":
@@ -309,6 +262,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 			field = _("Steam link")
 		elif change["logparams"]['4:section'] == "profile-link-discord":
 			field = _("Discord handle")
+		elif change["logparams"]['4:section'] == "profile-link-battlenet":
+			field = _("Battle.net handle")
 		else:
 			field = _("unknown")
 		target = _("[{target}]({target_url})'s").format(target=change["title"].split(':')[1], target_url=link) if change["title"].split(':')[1] != author else _("[their own]({target_url})").format(target_url=link)
@@ -339,14 +294,14 @@ def compact_formatter(action, change, parsed_comment, categories):
 				comment=parsed_comment)
 	elif action == "protect/protect":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) protected [{article}]({article_url}) with the following settings: {settings}{comment}").format(author=author, author_url=author_url,
 		                                                                                                                                     article=change["title"], article_url=link,
 		                                                                                                                                     settings=change["logparams"]["description"]+_(" [cascading]") if "cascade" in change["logparams"] else "",
 		                                                                                                                                     comment=parsed_comment)
 	elif action == "protect/modify":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _(
 			"[{author}]({author_url}) modified protection settings of [{article}]({article_url}) to: {settings}{comment}").format(
 			author=author, author_url=author_url,
@@ -355,24 +310,24 @@ def compact_formatter(action, change, parsed_comment, categories):
 			comment=parsed_comment)
 	elif action == "protect/unprotect":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) removed protection from [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
 	elif action == "delete/revision":
 		amount = len(change["logparams"]["ids"])
 		link = link_formatter("<https://{wiki}.gamepedia.com/{article}>".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                        article=change["title"]))
 		content = ngettext("[{author}]({author_url}) changed visibility of revision on page [{article}]({article_url}){comment}",
 		                          "[{author}]({author_url}) changed visibility of {amount} revisions on page [{article}]({article_url}){comment}", amount).format(author=author, author_url=author_url,
 			article=change["title"], article_url=link, amount=amount, comment=parsed_comment)
 	elif action == "import/upload":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = ngettext("[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision{comment}",
 		                          "[{author}]({author_url}) imported [{article}]({article_url}) with {count} revisions{comment}", change["logparams"]["count"]).format(
 			author=author, author_url=author_url, article=change["title"], article_url=link, count=change["logparams"]["count"], comment=parsed_comment)
 	elif action == "delete/restore":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) restored [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
 	elif action == "delete/event":
 		content = _("[{author}]({author_url}) changed visibility of log events{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
@@ -386,9 +341,9 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) created abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
 	elif action == "merge/merge":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		link_dest = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["logparams"]["dest_title"]))
+		                                                                           article=change["logparams"]["dest_title"]))
 		content = _("[{author}]({author_url}) merged revision histories of [{article}]({article_url}) into [{dest}]({dest_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, dest_url=link_dest,
 		                                                                                dest=change["logparams"]["dest_title"], comment=parsed_comment)
 	elif action == "interwiki/iw_add":
@@ -408,20 +363,20 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})").format(author=author, author_url=author_url, table_url=link)
 	elif action == "contentmodel/change":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) changed the content model of the page [{article}]({article_url}) from {old} to {new}{comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, old=change["logparams"]["oldmodel"],
 		                                                                         new=change["logparams"]["newmodel"], comment=parsed_comment)
 	elif action == "sprite/sprite":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) edited the sprite for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
 	elif action == "sprite/sheet":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) created the sprite sheet for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
 	elif action == "sprite/slice":
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
-		                                                       article=change["title"]))
+		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) edited the slice for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
 	elif action == "managetags/create":
 		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
@@ -438,9 +393,9 @@ def compact_formatter(action, change, parsed_comment, categories):
 		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
 		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
 	elif action == "suppressed":
-		link = "<https://{wiki}.gamepedia.com/>".format(wiki=settings["wiki"])
 		content = _("An action has been hidden by administration.")
 	send_to_discord({'content': content})
+
 
 def embed_formatter(action, change, parsed_comment, categories):
 	data = {"embeds": []}
@@ -452,22 +407,22 @@ def embed_formatter(action, change, parsed_comment, categories):
 		if "anon" in change:
 			author_url = "https://{wiki}.gamepedia.com/Special:Contributions/{user}".format(wiki=settings["wiki"],
 			                                                                                user=change["user"].replace(" ", "_"))  # Replace here needed in case of #75
-			logging.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
+			logger.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
 			if change["user"] not in list(recent_changes.map_ips.keys()):
 				contibs = safe_read(recent_changes.safe_request(
 					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
 						wiki=settings["wiki"], user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
 				if contibs is None:
-					logging.warning(
+					logger.warning(
 						"WARNING: Something went wrong when checking amount of contributions for given IP address")
 					change["user"] = change["user"] + "(?)"
 				else:
 					recent_changes.map_ips[change["user"]] = len(contibs)
-					logging.debug("1Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+					logger.debug("Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 			else:
-				logging.debug(
-					"2Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+				logger.debug(
+					"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 				if action in ("edit", "new"):
 					recent_changes.map_ips[change["user"]] += 1
 				change["user"] = "{author} ({amount})".format(author=change["user"],
@@ -499,6 +454,41 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
 		                                                             minor=_("m ") if action == "edit" and "minor" in change else "")
+		if settings["appearance"]["embed"]["show_edit_changes"]:
+			if action == "new":
+				changed_content = safe_read(recent_changes.safe_request(
+				"https://{wiki}.gamepedia.com/api.php?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
+					wiki=settings["wiki"], diff=change["revid"]
+				)), "compare", "*")
+			else:
+				changed_content = safe_read(recent_changes.safe_request(
+					"https://{wiki}.gamepedia.com/api.php?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
+						wiki=settings["wiki"], diff=change["revid"],oldrev=change["old_revid"]
+					)), "compare", "*")
+			if changed_content:
+				if "fields" not in embed:
+					embed["fields"] = []
+				EditDiff = ContentParser()
+				EditDiff.feed(changed_content)
+				if EditDiff.small_prev_del:
+					if EditDiff.small_prev_del.replace("~~", "").isspace():
+						EditDiff.small_prev_del = _('__Only whitespace__')
+					else:
+						EditDiff.small_prev_del = EditDiff.small_prev_del.replace("~~~~", "")
+				if EditDiff.small_prev_ins:
+					if EditDiff.small_prev_ins.replace("**", "").isspace():
+						EditDiff.small_prev_ins = _('__Only whitespace__')
+					else:
+						EditDiff.small_prev_ins = EditDiff.small_prev_ins.replace("****", "")
+				logger.debug("Changed content: {}".format(EditDiff.small_prev_ins))
+				if EditDiff.small_prev_del and not action == "new":
+					embed["fields"].append(
+						{"name": _("Removed"), "value": "{data}".format(data=EditDiff.small_prev_del), "inline": True})
+				if EditDiff.small_prev_ins:
+					embed["fields"].append(
+						{"name": _("Added"), "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
+			else:
+				logging.warning("Unable to download data on the edit content!")
 	elif action in ("upload/overwrite", "upload/upload"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(
@@ -508,7 +498,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		                                                       article=change["title"].replace(" ", "_"))
 		additional_info_retrieved = False
 		if urls is not None:
-			logging.debug(urls)
+			logger.debug(urls)
 			if "-1" not in urls:  # image still exists and not removed
 				img_info = next(iter(urls.values()))["imageinfo"]
 				embed["image"]["url"] = img_info[0]["url"]
@@ -532,7 +522,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 					"https://{wiki}.gamepedia.com/api.php?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
 						wiki=settings["wiki"], article=quote_plus(change["title"], safe=''))), "query", "pages")
 				if article_content is None:
-					logging.warning("Something went wrong when getting license for the image")
+					logger.warning("Something went wrong when getting license for the image")
 					return 0
 				if "-1" not in article_content:
 					content = list(article_content.values())[0]['revisions'][0]['*']
@@ -546,11 +536,11 @@ def embed_formatter(action, change, parsed_comment, categories):
 							else:
 								license = "?"
 					except IndexError:
-						logging.error(
+						logger.error(
 							"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
 						license = "?"
 					except re.error:
-						logging.error(
+						logger.error(
 							"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
 						license = "?"
 			if license is not None:
@@ -603,7 +593,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 				english_length = english_length.rstrip("s").strip()
 				block_time = "{num} {translated_length}".format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
 			except AttributeError:
-				logging.error("Could not strip s from the block event, seems like the regex didn't work?")
+				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
 				return
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
@@ -621,19 +611,16 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action == "curseprofile/comment-created":
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)')) old way of linking
 		embed["title"] = _("Left a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
 		                                                                                              change["user"] else _(
 			"Left a comment on their own profile")
 	elif action == "curseprofile/comment-replied":
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
 		                                                                                                    change["user"] else _(
 			"Replied to a comment on their own profile")
 	elif action == "curseprofile/comment-edited":
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Edited a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
@@ -668,6 +655,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 			field = _("Steam link")
 		elif change["logparams"]['4:section'] == "profile-link-discord":
 			field = _("Discord handle")
+		elif change["logparams"]['4:section'] == "profile-link-battlenet":
+			field = _("Battle.net handle")
 		else:
 			field = _("Unknown")
 		embed["title"] = _("Edited {target}'s profile").format(target=change["title"].split(':')[1]) if change["user"] != change["title"].split(':')[1] else _("Edited their own profile")
@@ -676,9 +665,11 @@ def embed_formatter(action, change, parsed_comment, categories):
 		else:
 			parsed_comment = _("{field} field changed to: {desc}").format(field=field, desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action == "curseprofile/comment-deleted":
-		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
+		if "4:comment_id" in change["logparams"]:
+			link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
-		# link = "https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"], target=params["target"].replace(" ", "_").replace(')', '\)'))
+		else:
+			link = "https://{wiki}.gamepedia.com/{profile}".format(wiki=settings["wiki"], profile=change["title"])
 		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=change["title"].split(':')[1])
 	elif action in ("rights/rights", "rights/autopromote"):
 		link = "https://{wiki}.gamepedia.com/User:".format(wiki=settings["wiki"]) + change["title"].split(":")[1].replace(" ", "_")
@@ -810,7 +801,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = _("Action has been hidden by administration.")
 		embed["author"]["name"] = _("Unknown")
 	else:
-		logging.warning("No entry for {event} with params: {params}".format(event=action, params=change))
+		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
 	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
 	embed["url"] = link
 	embed["description"] = parsed_comment
@@ -835,11 +826,10 @@ def embed_formatter(action, change, parsed_comment, categories):
 			else:
 				tag_displayname.append(tag)
 		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
-	logging.debug("Current params in edit action: {}".format(change))
+	logger.debug("Current params in edit action: {}".format(change))
 	if categories is not None and not (len(categories["new"]) == 0 and len(categories["removed"]) == 0):
 		if "fields" not in embed:
 			embed["fields"] = []
-		# embed["fields"].append({"name": _("Changed categories"), "value": ", ".join(params["new_categories"][0:15]) + ("" if (len(params["new_categories"]) < 15) else _(" and {} more").format(len(params["new_categories"])-14))})
 		new_cat = (_("**Added**: ") + ", ".join(list(categories["new"])[0:16]) + ("\n" if len(categories["new"])<=15 else _(" and {} more\n").format(len(categories["new"])-15))) if categories["new"] else ""
 		del_cat = (_("**Removed**: ") + ", ".join(list(categories["removed"])[0:16]) + ("" if len(categories["removed"])<=15 else _(" and {} more").format(len(categories["removed"])-15))) if categories["removed"] else ""
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
@@ -849,31 +839,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 	send_to_discord(formatted_embed)
 
 
-def handle_discord_http(code, formatted_embed, result):
-	if 300 > code > 199:  # message went through
-		return 0
-	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
-		logging.error(
-			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
-		logging.error(formatted_embed)
-		logging.error(result.text)
-		return 1
-	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
-		logging.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
-		sys.exit(1)
-	elif code == 429:
-		logging.error("We are sending too many requests to the Discord, slowing down...")
-		return 2
-	elif 499 < code < 600:
-		logging.error(
-			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
-				code))
-		return 3
-
-
 def essential_info(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
-	logging.debug(change)
+	logger.debug(change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		appearance_mode("suppressed", change, "", changed_categories)
 		return
@@ -887,30 +855,30 @@ def essential_info(change, changed_categories):
 	if not parsed_comment:
 		parsed_comment = None
 	if change["type"] in ["edit", "new"]:
-		logging.debug("List of categories in essential_info: {}".format(changed_categories))
+		logger.debug("List of categories in essential_info: {}".format(changed_categories))
 		if "userhidden" in change:
 			change["user"] = _("hidden")
 		identification_string = change["type"]
 	elif change["type"] == "log":
 		identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
 		if identification_string not in supported_logs:
-			logging.warning(
+			logger.warning(
 				"This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(
 					change))
 			return
 	elif change["type"] == "categorize":
 		return
 	else:
-		logging.warning("This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(change))
+		logger.warning("This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(change))
 		return
 	if identification_string in settings["ignored"]:
 		return
 	appearance_mode(identification_string, change, parsed_comment, changed_categories)
 
 def day_overview_request():
-	logging.info("Fetching daily overview... This may take up to 30 seconds!")
+	logger.info("Fetching daily overview... This may take up to 30 seconds!")
 	timestamp = (datetime.datetime.utcnow() - datetime.timedelta(hours=24)).isoformat(timespec='milliseconds')
-	logging.debug("timestamp is {}".format(timestamp))
+	logger.debug("timestamp is {}".format(timestamp))
 	complete = False
 	result = []
 	passes = 0
@@ -925,18 +893,18 @@ def day_overview_request():
 				rc = request['query']['recentchanges']
 				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
 			except ValueError:
-				logging.warning("ValueError in fetching changes")
+				logger.warning("ValueError in fetching changes")
 				recent_changes.downtime_controller()
 				complete = 2
 			except KeyError:
-				logging.warning("Wiki returned %s" % (request.json()))
+				logger.warning("Wiki returned %s" % (request.json()))
 				complete = 2
 			else:
 				result += rc
 				if continuearg:
 					continuearg = "&rccontinue={}".format(continuearg)
 					passes += 1
-					logging.debug(
+					logger.debug(
 						"continuing requesting next pages of recent changes with {} passes and continuearg being {}".format(
 							passes, continuearg))
 					time.sleep(3.0)
@@ -945,20 +913,37 @@ def day_overview_request():
 		else:
 			complete = 2
 	if passes == 10:
-		logging.debug("quit the loop because there been too many passes")
-	return (result, complete)
+		logger.debug("quit the loop because there been too many passes")
+	return result, complete
 
 
-def add_to_dict(dictionary, key):
-	if key in dictionary:
-		dictionary[key] += 1
+def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score):
+	weight = storage["daily_overview"]["days_tracked"]
+	if weight == 0:
+		storage["daily_overview"].update({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed": changed_bytes, "new_articles": new_articles, "unique_editors": unique_contributors, "day_score": day_score})
+		edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score = str(edits), str(files), str(admin), str(changed_bytes), str(new_articles), str(unique_contributors), str(day_score)
 	else:
-		dictionary[key] = 1
-	return dictionary
+		edits_avg = misc.weighted_average(storage["daily_overview"]["edits"], weight, edits)
+		edits = _("{value} (avg. {avg})").format(value=edits, avg=edits_avg)
+		files_avg = misc.weighted_average(storage["daily_overview"]["new_files"], weight, files)
+		files = _("{value} (avg. {avg})").format(value=files, avg=files_avg)
+		admin_avg = misc.weighted_average(storage["daily_overview"]["admin_actions"], weight, admin)
+		admin = _("{value} (avg. {avg})").format(value=admin, avg=admin_avg)
+		changed_bytes_avg = misc.weighted_average(storage["daily_overview"]["bytes_changed"], weight, changed_bytes)
+		changed_bytes = _("{value} (avg. {avg})").format(value=changed_bytes, avg=changed_bytes_avg)
+		new_articles_avg = misc.weighted_average(storage["daily_overview"]["new_articles"], weight, new_articles)
+		new_articles = _("{value} (avg. {avg})").format(value=new_articles, avg=new_articles_avg)
+		unique_contributors_avg = misc.weighted_average(storage["daily_overview"]["unique_editors"], weight, unique_contributors)
+		unique_contributors = _("{value} (avg. {avg})").format(value=unique_contributors, avg=unique_contributors_avg)
+		day_score_avg = misc.weighted_average(storage["daily_overview"]["day_score"], weight, day_score)
+		day_score = _("{value} (avg. {avg})").format(value=day_score, avg=day_score_avg)
+		storage["daily_overview"].update({"edits": edits_avg, "new_files": files_avg, "admin_actions": admin_avg, "bytes_changed": changed_bytes_avg,
+		             "new_articles": new_articles_avg, "unique_editors": unique_contributors_avg, "day_score": day_score_avg})
+	storage["daily_overview"]["days_tracked"] += 1
+	misc.save_datafile(storage)
+	return edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score
 
-
-def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.time()))
-	# (datetime.datetime.utcnow()+datetime.timedelta(hours=0)).isoformat(timespec='milliseconds')+'Z'
+def day_overview():
 	result = day_overview_request()
 	if result[1] == 1:
 		activity = defaultdict(dict)
@@ -999,12 +984,9 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		embed["author"]["name"] = settings["wikiname"]
 		embed["author"]["url"] = "https://{wiki}.gamepedia.com/".format(wiki=settings["wiki"])
 		if activity:
-			# v = activity.values()
 			active_users = []
 			for user, numberu in Counter(activity).most_common(3):  # find most active users
 				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
-			# the_one = random.choice(active_users)
-			# v = articles.values()
 			for article, numbere in Counter(articles).most_common(3):  # find most active users
 				active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
 			v = hours.values()
@@ -1020,52 +1002,47 @@ def day_overview():  # time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.
 		if not active_articles:
 			active_articles = [_("But nobody came")]
 		embed["fields"] = []
+		edits, files, admin, changed_bytes, new_articles, unique_contributors, overall = daily_overview_sync(edits, files, admin, changed_bytes, new_articles, len(activity), overall)
 		fields = (
 		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
 		(ngettext("Most edited article", "Most edited articles", len(active_articles)), ', '.join(active_articles)),
 		(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
 		(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
-		(_("Unique contributors"), str(len(activity))),
+		(_("Unique contributors"), unique_contributors),
 		(ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount),
-		(_("Day score"), str(overall)))
+		(_("Day score"), overall))
 		for name, value in fields:
 			embed["fields"].append({"name": name, "value": value})
 		data = {"embeds": [dict(embed)]}
 		formatted_embed = json.dumps(data, indent=4)
 		send_to_discord(formatted_embed)
 	else:
-		logging.debug("function requesting changes for day overview returned with error code")
+		logger.debug("function requesting changes for day overview returned with error code")
 
 
 class Recent_Changes_Class(object):
-	ids = []
-	map_ips = {}
-	recent_id = 0
-	downtimecredibility = 0
-	last_downtime = 0
-	tags = {}
-	groups = {}
-	streak = -1
-	unsent_messages = []
-	mw_messages = {}
-	session = requests.Session()
-	session.headers.update(settings["header"])
-	if settings["limitrefetch"] != -1:
-		with open("lastchange.txt", "r") as record:
-			file_content = record.read().strip()
-			if file_content:
-				file_id = int(file_content)
-				logging.debug("File_id is {val}".format(val=file_id))
-			else:
-				logging.debug("File is empty")
-				file_id = 999999999
-	else:
-		file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
+	def __init__(self):
+		self.ids = []
+		self.map_ips = {}
+		self.recent_id = 0
+		self.downtimecredibility = 0
+		self.last_downtime = 0
+		self.tags = {}
+		self.groups = {}
+		self.streak = -1
+		self.unsent_messages = []
+		self.mw_messages = {}
+		self.session = requests.Session()
+		self.session.headers.update(settings["header"])
+		if settings["limitrefetch"] != -1:
+			self.file_id = storage["rcid"]
+		else:
+			self.file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
 
 	@staticmethod
 	def handle_mw_errors(request):
 		if "errors" in request:
-			logging.error(request["errors"])
+			logger.error(request["errors"])
 			raise MWError
 		return request
 
@@ -1073,16 +1050,16 @@ class Recent_Changes_Class(object):
 		global logged_in
 		# session.cookies.clear()
 		if '@' not in settings["wiki_bot_login"]:
-			logging.error(
+			logger.error(
 				"Please provide proper nickname for login from https://{wiki}.gamepedia.com/Special:BotPasswords".format(
 					wiki=settings["wiki"]))
 			return
 		if len(settings["wiki_bot_password"]) != 32:
-			logging.error(
+			logger.error(
 				"Password seems incorrect. It should be 32 characters long! Grab it from https://{wiki}.gamepedia.com/Special:BotPasswords".format(
 					wiki=settings["wiki"]))
 			return
-		logging.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
+		logger.info("Trying to log in to https://{wiki}.gamepedia.com...".format(wiki=settings["wiki"]))
 		try:
 			response = self.handle_mw_errors(
 				self.session.post("https://{wiki}.gamepedia.com/api.php".format(wiki=settings["wiki"]),
@@ -1095,19 +1072,19 @@ class Recent_Changes_Class(object):
 				                        'lgpassword': settings["wiki_bot_password"],
 				                        'lgtoken': response.json()['query']['tokens']['logintoken']}))
 		except ValueError:
-			logging.error("Logging in have not succeeded")
+			logger.error("Logging in have not succeeded")
 			return
 		except MWError:
-			logging.error("Logging in have not succeeded")
+			logger.error("Logging in have not succeeded")
 			return
 		try:
 			if response.json()['login']['result'] == "Success":
-				logging.info("Logging to the wiki succeeded")
+				logger.info("Successfully logged in")
 				logged_in = True
 			else:
-				logging.error("Logging in have not succeeded")
+				logger.error("Logging in have not succeeded")
 		except:
-			logging.error("Logging in have not succeeded")
+			logger.error("Logging in have not succeeded")
 
 	def add_cache(self, change):
 		self.ids.append(change["rcid"])
@@ -1117,37 +1094,37 @@ class Recent_Changes_Class(object):
 
 	def fetch(self, amount=settings["limit"]):
 		if self.unsent_messages:
-			logging.info(
+			logger.info(
 				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
 					len(self.unsent_messages)))
 			for num, item in enumerate(self.unsent_messages):
-				logging.debug(
+				logger.debug(
 					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
 					                                                                                         str(item)))
 				if send_to_discord_webhook(item) < 2:
-					logging.debug("Sending message succeeded")
+					logger.debug("Sending message succeeded")
 					time.sleep(2.5)
 				else:
-					logging.debug("Sending message failed")
+					logger.debug("Sending message failed")
 					break
 			else:
 				self.unsent_messages = []
-				logging.debug("Queue emptied, all messages delivered")
+				logger.debug("Queue emptied, all messages delivered")
 			self.unsent_messages = self.unsent_messages[num:]
-			logging.debug(self.unsent_messages)
+			logger.debug(self.unsent_messages)
 		last_check = self.fetch_changes(amount=amount)
 		self.recent_id = last_check if last_check is not None else self.file_id
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
 			self.file_id = self.recent_id
-			with open("lastchange.txt", "w") as record:
-				record.write(str(self.file_id))
-		logging.debug("Most recent rcid is: {}".format(self.recent_id))
+			storage["rcid"] = self.recent_id
+			misc.save_datafile(storage)
+		logger.debug("Most recent rcid is: {}".format(self.recent_id))
 		return self.recent_id
 
 	def fetch_changes(self, amount, clean=False):
 		global logged_in
 		if len(self.ids) == 0:
-			logging.debug("ids is empty, triggering clean fetch")
+			logger.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request(
 			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal{categorize}".format(
@@ -1157,15 +1134,15 @@ class Recent_Changes_Class(object):
 				changes = changes.json()['query']['recentchanges']
 				changes.reverse()
 			except ValueError:
-				logging.warning("ValueError in fetching changes")
+				logger.warning("ValueError in fetching changes")
 				if changes.url == "https://www.gamepedia.com":
-					logging.critical(
+					logger.critical(
 						"The wiki specified in the settings most probably doesn't exist, got redirected to gamepedia.com")
 					sys.exit(1)
 				self.downtime_controller()
 				return None
 			except KeyError:
-				logging.warning("Wiki returned %s" % (changes.json()))
+				logger.warning("Wiki returned %s" % (changes.json()))
 				return None
 			else:
 				if self.downtimecredibility > 0:
@@ -1183,15 +1160,15 @@ class Recent_Changes_Class(object):
 				for change in changes:
 					if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id) and not clean:
 						new_events += 1
-						logging.debug(
+						logger.debug(
 							"New event: {}".format(change["rcid"]))
 						if new_events == settings["limit"]:
 							if amount < 500:
 								# call the function again with max limit for more results, ignore the ones in this request
-								logging.debug("There were too many new events, requesting max amount of events from the wiki.")
+								logger.debug("There were too many new events, requesting max amount of events from the wiki.")
 								return self.fetch(amount=5000 if logged_in else 500)
 							else:
-								logging.debug(
+								logger.debug(
 									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
 					if change["type"] == "categorize":
 						if "commenthidden" not in change:
@@ -1203,31 +1180,31 @@ class Recent_Changes_Class(object):
 								comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
 								if recent_changes.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"] in comment_to_match:
 									categorize_events[change["revid"]]["new"].add(cat_title)
-									logging.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
+									logger.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
 								elif recent_changes.mw_messages["recentchanges-page-removed-from-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"] in comment_to_match:
 									categorize_events[change["revid"]]["removed"].add(cat_title)
-									logging.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+									logger.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
 								else:
-									logging.debug("Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"], recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"], comment_to_match))
+									logger.debug("Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"], recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"], comment_to_match))
 							else:
-								logging.warning("Init information not available, could not read category information. Please restart the bot.")
+								logger.warning("Init information not available, could not read category information. Please restart the bot.")
 						else:
-							logging.debug("Log entry got suppressed, ignoring entry.")
+							logger.debug("Log entry got suppressed, ignoring entry.")
 				# if change["revid"] in categorize_events:
 						# 	categorize_events[change["revid"]].append(cat_title)
 						# else:
-						# 	logging.debug("New category '{}' for {}".format(cat_title, change["revid"]))
+						# 	logger.debug("New category '{}' for {}".format(cat_title, change["revid"]))
 						# 	categorize_events[change["revid"]] = {cat_title: }
 				for change in changes:
 					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
-						logging.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
+						logger.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
 						                                                                           self.recent_id))
 						continue
-					logging.debug(self.ids)
-					logging.debug(self.recent_id)
+					logger.debug(self.ids)
+					logger.debug(self.recent_id)
 					self.add_cache(change)
 					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
-						logging.debug("Rejected {val}".format(val=change["rcid"]))
+						logger.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					essential_info(change, categorize_events.get(change.get("revid"), None))
 				return change["rcid"]
@@ -1236,11 +1213,11 @@ class Recent_Changes_Class(object):
 		try:
 			request = self.session.get(url, timeout=10, allow_redirects=False)
 		except requests.exceptions.Timeout:
-			logging.warning("Reached timeout error for request on link {url}".format(url=url))
+			logger.warning("Reached timeout error for request on link {url}".format(url=url))
 			self.downtime_controller()
 			return None
 		except requests.exceptions.ConnectionError:
-			logging.warning("Reached connection error for request on link {url}".format(url=url))
+			logger.warning("Reached connection error for request on link {url}".format(url=url))
 			self.downtime_controller()
 			return None
 		else:
@@ -1248,7 +1225,7 @@ class Recent_Changes_Class(object):
 				self.downtime_controller()
 				return None
 			elif request.status_code == 302:
-				logging.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or Gamepedia is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
+				logger.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or Gamepedia is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
 				sys.exit(0)
 			return request
 
@@ -1263,7 +1240,7 @@ class Recent_Changes_Class(object):
 			except requests.exceptions.Timeout:
 				pass
 		if online < 1:
-			logging.error("Failure when checking Internet connection at {time}".format(
+			logger.error("Failure when checking Internet connection at {time}".format(
 				time=time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())))
 			self.downtimecredibility = 0
 			if not looped:
@@ -1309,11 +1286,12 @@ class Recent_Changes_Class(object):
 				for key, message in self.mw_messages.items():
 					if key.startswith("recentchanges-page-"):
 						self.mw_messages[key] = re.sub(r'\[\[.*?\]\]', '', message)
+				logger.info("Gathered information about the tags and interface messages.")
 			else:
-				logging.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
-				logging.debug(startup_info)
+				logger.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
+				logger.debug(startup_info)
 		else:
-			logging.error("Could not retrieve initial wiki information. Possibly internet connection issue?")
+			logger.error("Could not retrieve initial wiki information. Possibly internet connection issue?")
 
 
 recent_changes = Recent_Changes_Class()
@@ -1323,7 +1301,7 @@ if settings["appearance"]["mode"] == "embed":
 elif settings["appearance"]["mode"] == "compact":
 	appearance_mode = compact_formatter
 else:
-	logging.critical("Unknown formatter!")
+	logger.critical("Unknown formatter!")
 	sys.exit(1)
 
 # Log in and download wiki information
@@ -1332,9 +1310,10 @@ try:
 		recent_changes.log_in()
 	recent_changes.init_info()
 except requests.exceptions.ConnectionError:
-	logging.critical("A connection can't be established with the wiki. Exiting...")
+	logger.critical("A connection can't be established with the wiki. Exiting...")
 	sys.exit(1)
 time.sleep(1.0)
+logger.info("Script started! Fetching newest changes...")
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
@@ -1349,13 +1328,13 @@ if settings["overview"]:
 	                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
 		del overview_time
 	except schedule.ScheduleValueError:
-		logging.error("Invalid time format! Currently: {}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour,  time.strptime(settings["overview_time"], '%H:%M').tm_min))
+		logger.error("Invalid time format! Currently: {}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour,  time.strptime(settings["overview_time"], '%H:%M').tm_min))
 	except ValueError:
-		logging.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
+		logger.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
 schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 
 if TESTING:
-	logging.debug("DEBUGGING")
+	logger.debug("DEBUGGING")
 	recent_changes.recent_id -= 5
 	recent_changes.file_id -= 5
 	recent_changes.ids = [1]
