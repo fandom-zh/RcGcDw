@@ -621,7 +621,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action == "curseprofile/comment-created":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			comment_content = pull_comment(change["logparams"]["4:comment_id"])
-			if comment_content is not None:
+			if comment_content is not None and comment_content:
 				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
@@ -631,7 +631,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action == "curseprofile/comment-replied":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			comment_content = pull_comment(change["logparams"]["4:comment_id"])
-			if comment_content is not None:
+			if comment_content is not None and comment_content:
 				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
@@ -641,7 +641,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action == "curseprofile/comment-edited":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			comment_content = pull_comment(change["logparams"]["4:comment_id"])
-			if comment_content is not None:
+			if comment_content is not None and comment_content:
 				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
