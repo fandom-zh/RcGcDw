@@ -113,6 +113,16 @@ def send_to_discord(data):
 			time.sleep(2.0)
 			pass
 
+
+def pull_comment(comment_id):
+	comment = None
+	try:
+		comment = recent_changes.handle_mw_errors(recent_changes.safe_request("https://{}.gamepedia.com/api.php?action=comment&do=getRaw&comment_id={}&format=json".format(settings["wiki"], comment_id)).json())
+	except MWError:
+		pass
+	return comment
+
+
 def compact_formatter(action, change, parsed_comment, categories):
 	if action != "suppressed":
 		author_url = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["user"]))
@@ -609,18 +619,30 @@ def embed_formatter(action, change, parsed_comment, categories):
 		user = change["title"].split(':')[1]
 		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
 	elif action == "curseprofile/comment-created":
+		if settings["appearance"]["embed"]["show_edit_changes"]:
+			comment_content = pull_comment(change["logparams"]["4:comment_id"])
+			if comment_content is not None:
+				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Left a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
 		                                                                                              change["user"] else _(
 			"Left a comment on their own profile")
 	elif action == "curseprofile/comment-replied":
+		if settings["appearance"]["embed"]["show_edit_changes"]:
+			comment_content = pull_comment(change["logparams"]["4:comment_id"])
+			if comment_content is not None:
+				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
 		                                                                                                    change["user"] else _(
 			"Replied to a comment on their own profile")
 	elif action == "curseprofile/comment-edited":
+		if settings["appearance"]["embed"]["show_edit_changes"]:
+			comment_content = pull_comment(change["logparams"]["4:comment_id"])
+			if comment_content is not None:
+				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Edited a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
