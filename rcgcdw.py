@@ -508,12 +508,16 @@ def embed_formatter(action, change, parsed_comment, categories):
 		if action == "upload/overwrite":
 			if additional_info_retrieved:
 				article_encoded = change["title"].replace(" ", "_").replace(')', '\)')
-				img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
-				undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
-					wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp),
-					filenamewon=article_encoded.split(":", 1)[1])
-				embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
-					link=embed["image"]["url"], undolink=undolink)}]
+				try:
+					img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
+				except IndexError:
+					logger.exception("Could not analize the information about the image (does it have only one version when expected more in overwrite?) which resulted in no Options field: {}".format(img_info))
+				else:
+					undolink = "https://{wiki}.gamepedia.com/index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
+						wiki=settings["wiki"], filename=article_encoded, timestamp="".join(img_timestamp),
+						filenamewon=article_encoded.split(":", 1)[1])
+					embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
+						link=embed["image"]["url"], undolink=undolink)}]
 			embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
 		else:
 			embed["title"] = _("Uploaded {name}").format(name=change["title"])
