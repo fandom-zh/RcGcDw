@@ -66,6 +66,8 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 
 logged_in = False
 supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update"]
+profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XVL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
+
 LinkParser = LinkParser()
 
 class MWError(Exception):
@@ -79,6 +81,12 @@ def send(message, name, avatar):
 		dictionary_creator["avatar_url"] = avatar
 	send_to_discord(dictionary_creator)
 
+
+def profile_field_name(name):
+	try:
+		return profile_fields[name]
+	except KeyError:
+		return _("unknown")
 
 def send_to_discord_webhook(data):
 	header = settings["header"]
@@ -256,39 +264,11 @@ def compact_formatter(action, change, parsed_comment, categories):
 	elif action == "curseprofile/profile-edited":
 		link = link_formatter("https://{wiki}.gamepedia.com/UserProfile:{target}".format(wiki=settings["wiki"],
 		                                                                                 target=change["title"].split(':')[1]))
-		if change["logparams"]['4:section'] == "profile-location":
-			field = _("Location")
-		elif change["logparams"]['4:section'] == "profile-aboutme":
-			field = _("About me")
-		elif change["logparams"]['4:section'] == "profile-link-google":
-			field = _("Google link")
-		elif change["logparams"]['4:section'] == "profile-link-facebook":
-			field = _("Facebook link")
-		elif change["logparams"]['4:section'] == "profile-link-twitter":
-			field = _("Twitter link")
-		elif change["logparams"]['4:section'] == "profile-link-reddit":
-			field = _("Reddit link")
-		elif change["logparams"]['4:section'] == "profile-link-twitch":
-			field = _("Twitch link")
-		elif change["logparams"]['4:section'] == "profile-link-psn":
-			field = _("PSN link")
-		elif change["logparams"]['4:section'] == "profile-link-vk":
-			field = _("VK link")
-		elif change["logparams"]['4:section'] == "profile-link-xbl":
-			field = _("XVL link")
-		elif change["logparams"]['4:section'] == "profile-link-steam":
-			field = _("Steam link")
-		elif change["logparams"]['4:section'] == "profile-link-discord":
-			field = _("Discord handle")
-		elif change["logparams"]['4:section'] == "profile-link-battlenet":
-			field = _("Battle.net handle")
-		else:
-			field = _("unknown")
 		target = _("[{target}]({target_url})'s").format(target=change["title"].split(':')[1], target_url=link) if change["title"].split(':')[1] != author else _("[their own]({target_url})").format(target_url=link)
 		content = _("[{author}]({author_url}) edited the {field} on {target} profile. *({desc})*").format(author=author,
 		                                                                        author_url=author_url,
 		                                                                        target=target,
-		                                                                        field=field,
+		                                                                        field=profile_field_name(change["logparams"]['4:section']),
 		                                                                        desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action in ("rights/rights", "rights/autopromote"):
 		link = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["title"].split(":")[1]))
@@ -659,39 +639,11 @@ def embed_formatter(action, change, parsed_comment, categories):
 		                                                                  target=change["title"].split(':')[1].replace(" ",
 		                                                                                                  "_").replace(
 			                                                                  ')', '\)'))
-		if change["logparams"]['4:section'] == "profile-location":
-			field = _("Location")
-		elif change["logparams"]['4:section'] == "profile-aboutme":
-			field = _("About me")
-		elif change["logparams"]['4:section'] == "profile-link-google":
-			field = _("Google link")
-		elif change["logparams"]['4:section'] == "profile-link-facebook":
-			field = _("Facebook link")
-		elif change["logparams"]['4:section'] == "profile-link-twitter":
-			field = _("Twitter link")
-		elif change["logparams"]['4:section'] == "profile-link-reddit":
-			field = _("Reddit link")
-		elif change["logparams"]['4:section'] == "profile-link-twitch":
-			field = _("Twitch link")
-		elif change["logparams"]['4:section'] == "profile-link-psn":
-			field = _("PSN link")
-		elif change["logparams"]['4:section'] == "profile-link-vk":
-			field = _("VK link")
-		elif change["logparams"]['4:section'] == "profile-link-xbl":
-			field = _("XVL link")
-		elif change["logparams"]['4:section'] == "profile-link-steam":
-			field = _("Steam link")
-		elif change["logparams"]['4:section'] == "profile-link-discord":
-			field = _("Discord handle")
-		elif change["logparams"]['4:section'] == "profile-link-battlenet":
-			field = _("Battle.net handle")
-		else:
-			field = _("Unknown")
 		embed["title"] = _("Edited {target}'s profile").format(target=change["title"].split(':')[1]) if change["user"] != change["title"].split(':')[1] else _("Edited their own profile")
 		if not change["parsedcomment"]:  # If the field is empty
-			parsed_comment = _("Cleared the {field} field").format(field=field)
+			parsed_comment = _("Cleared the {field} field").format(field=profile_field_name(change["logparams"]['4:section']))
 		else:
-			parsed_comment = _("{field} field changed to: {desc}").format(field=field, desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
+			parsed_comment = _("{field} field changed to: {desc}").format(field=profile_field_name(change["logparams"]['4:section']), desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action == "curseprofile/comment-deleted":
 		if "4:comment_id" in change["logparams"]:
 			link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
