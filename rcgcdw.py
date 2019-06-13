@@ -115,12 +115,20 @@ def send_to_discord(data):
 
 
 def pull_comment(comment_id):
-	comment = None
 	try:
-		comment = recent_changes.handle_mw_errors(recent_changes.safe_request("https://{}.gamepedia.com/api.php?action=comment&do=getRaw&comment_id={}&format=json".format(settings["wiki"], comment_id)).json())
+		comment = recent_changes.handle_mw_errors(recent_changes.safe_request("https://{}.gamepedia.com/api.php?action=comment&do=getRaw&comment_id={}&format=json".format(settings["wiki"], comment_id)).json())["text"]
+		logger.debug("Got the following comment from the API: {}".format(comment))
 	except MWError:
 		pass
-	return comment
+	except TypeError:
+		logger.exception("Could not resolve the comment text.")
+	except KeyError:
+		logger.exception("CurseProfile extension API did not respond with a valid comment content.")
+	else:
+		if len(comment) > 1000:
+			comment = comment[0:1000] + "…"
+		return comment
+	return ""
 
 
 def compact_formatter(action, change, parsed_comment, categories):
@@ -624,9 +632,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
 	elif action == "curseprofile/comment-created":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
-			comment_content = pull_comment(change["logparams"]["4:comment_id"])
-			if comment_content is not None and comment_content["text"]:
-				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
+			parsed_comment = pull_comment(change["logparams"]["4:comment_id"])
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Left a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
@@ -634,9 +640,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 			"Left a comment on their own profile")
 	elif action == "curseprofile/comment-replied":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
-			comment_content = pull_comment(change["logparams"]["4:comment_id"])
-			if comment_content is not None and comment_content["text"]:
-				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
+			parsed_comment = pull_comment(change["logparams"]["4:comment_id"])
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
@@ -644,9 +648,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 			"Replied to a comment on their own profile")
 	elif action == "curseprofile/comment-edited":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
-			comment_content = pull_comment(change["logparams"]["4:comment_id"])
-			if comment_content is not None and comment_content["text"]:
-				embed["fields"] = [{"name": _("Comment content"), "value": comment_content["text"]}]
+			parsed_comment = pull_comment(change["logparams"]["4:comment_id"])
 		link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
 		                                                                                  commentid=change["logparams"]["4:comment_id"])
 		embed["title"] = _("Edited a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
