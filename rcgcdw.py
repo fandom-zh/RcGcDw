@@ -82,11 +82,14 @@ def send(message, name, avatar):
 	send_to_discord(dictionary_creator)
 
 
-def profile_field_name(name):
+def profile_field_name(name, embed):
 	try:
 		return profile_fields[name]
 	except KeyError:
-		return _("unknown")
+		if embed:
+			return _("Unknown")
+		else:
+			return _("unknown")
 
 def send_to_discord_webhook(data):
 	header = settings["header"]
@@ -268,7 +271,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) edited the {field} on {target} profile. *({desc})*").format(author=author,
 		                                                                        author_url=author_url,
 		                                                                        target=target,
-		                                                                        field=profile_field_name(change["logparams"]['4:section']),
+		                                                                        field=profile_field_name(change["logparams"]['4:section'], False),
 		                                                                        desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action in ("rights/rights", "rights/autopromote"):
 		link = link_formatter("https://{wiki}.gamepedia.com/User:{user}".format(wiki=settings["wiki"], user=change["title"].split(":")[1]))
@@ -641,9 +644,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 			                                                                  ')', '\)'))
 		embed["title"] = _("Edited {target}'s profile").format(target=change["title"].split(':')[1]) if change["user"] != change["title"].split(':')[1] else _("Edited their own profile")
 		if not change["parsedcomment"]:  # If the field is empty
-			parsed_comment = _("Cleared the {field} field").format(field=profile_field_name(change["logparams"]['4:section']))
+			parsed_comment = _("Cleared the {field} field").format(field=profile_field_name(change["logparams"]['4:section'], True))
 		else:
-			parsed_comment = _("{field} field changed to: {desc}").format(field=profile_field_name(change["logparams"]['4:section']), desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
+			parsed_comment = _("{field} field changed to: {desc}").format(field=profile_field_name(change["logparams"]['4:section'], True), desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action == "curseprofile/comment-deleted":
 		if "4:comment_id" in change["logparams"]:
 			link = "https://{wiki}.gamepedia.com/Special:CommentPermalink/{commentid}".format(wiki=settings["wiki"],
