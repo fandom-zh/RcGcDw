@@ -48,7 +48,7 @@ def yes_no(answer):
 	else:
 		raise ValueError
 
-print("Welcome in RcGcDw config builder! You can accept the default value if provided in the question by using Enter key without providing any other input.\nWARNING! Your current settings.json will be overwritten if you continue!")
+print("Welcome in RcGcDw config builder! This script is still work in progress so beware! You can accept the default value if provided in the question by using Enter key without providing any other input.\nWARNING! Your current settings.json will be overwritten if you continue!")
 
 try:  # load settings
 	with open("settings.json.example") as sfile:
@@ -78,6 +78,49 @@ def basic():
 			break
 
 def advanced():
+	while True:
+		if set_limit():
+			break
+	while True:
+		if set_refetch_limit():
+			break
+	while True:
+		if set_updown_messages():
+			break
+	if settings["show_updown_messages"]:
+		while True:
+			if set_downup_avatars():
+				break
+	while True:
+		if set_ignored_events():
+			break
+	while True:
+		if set_overview():
+			break
+	if settings["overview"]:
+		while True:
+			if set_overview_time():
+				break
+		while True:
+			if set_empty_overview():
+				break
+	while True:
+		if set_license_detection():
+			break
+	if settings["license_detection"]:
+		while True:
+			if set_license_detection_regex():
+				break
+		while True:
+			if set_license_classification_regex():
+				break
+	while True:
+		if set_login():
+			break
+	if settings["wiki_bot_login"]:
+		while True:
+			if set_password():
+				break
 
 
 def set_cooldown():
@@ -100,7 +143,8 @@ def set_wiki():
 		regex = re.search(r"http(?:s|):\/\/(.*?)\.gamepedia.com", option)
 		if regex.group(1):
 			option = regex.group(1)
-	wiki_request = requests.get("https://{}.gamepedia.com".format(option), timeout=10, allow_redirects=False)
+	print("Checking the wiki...")
+	wiki_request = requests.get("https://{}.gamepedia.com".format(option), timeout=10, allow_redirects=False)  # TODO Actually check the API endpoint
 	if wiki_request.status_code == 404 or wiki_request.status_code == 302:
 		print("Wiki at https://{}.gamepedia.com does not exist, are you sure you have entered the wiki correctly?".format(option))
 		return False
@@ -175,7 +219,7 @@ def set_refetch_limit():
 
 def set_updown_messages():
 	try:
-		option = yes_no(default_or_custom(input("Should the script send messages when the wiki becomes unavailable? (Y/n)"), "y"))
+		option = yes_no(default_or_custom(input("Should the script send messages when the wiki becomes unavailable? (Y/n)\n"), "y"))
 		settings["show_updown_messages"] = option
 		return True
 	except ValueError:
@@ -183,25 +227,26 @@ def set_updown_messages():
 		return False
 
 def set_downup_avatars():
-	option = default_or_custom(input("Provide a link for a custom webhook avatar when the wiki goes DOWN. (default: no avatar)"), "")  #TODO Add a check for the image
+	option = default_or_custom(input("Provide a link for a custom webhook avatar when the wiki goes DOWN. (default: no avatar)\n"), "")  #TODO Add a check for the image
 	settings["avatars"]["connection_failed"] = option
 	option = default_or_custom(
-		input("Provide a link for a custom webhook avatar when the connection to the wiki is RESTORED. (default: no avatar)"),
+		input("Provide a link for a custom webhook avatar when the connection to the wiki is RESTORED. (default: no avatar)\n"),
 		"")  # TODO Add a check for the image
 	settings["avatars"]["connection_failed"] = option
 	return True
 
 def set_ignored_events():
 	option = default_or_custom(
-		input("Provide a list of entry types that are supposed to be ignored. Separate them using commas. Example: external, edit, upload/overwrite. (default: external)"), "external")  # TODO Add a check for the image
+		input("Provide a list of entry types that are supposed to be ignored. Separate them using commas. Example: external, edit, upload/overwrite. (default: external)\n"), "external")  # TODO Add a check for the image
 	entry_types = []
 	for etype in option.split(","):
 		entry_types.append(etype.strip())
 	settings["ignored"] = entry_types
+	return True
 
 def set_overview():
 	try:
-		option = yes_no(default_or_custom(input("Should the script send daily overviews of the actions done on the wiki for past 24 hours? (y/N)"), "n"))
+		option = yes_no(default_or_custom(input("Should the script send daily overviews of the actions done on the wiki for past 24 hours? (y/N)\n"), "n"))
 		settings["overview"] = option
 		return True
 	except ValueError:
@@ -209,14 +254,63 @@ def set_overview():
 		return False
 
 def set_overview_time():
+	option = default_or_custom(input("At what time should the daily overviews be sent? (script uses local machine time, the format of the time should be HH:MM, default is 00:00)\n"), "00:00")
+	check = re.match(r"^\d{2}:\d{2}$", option)
+	if check is not None:
+		settings["overview_time"] = option
+		return True
+	else:
+		print("Response not valid, please enter a time in format HH:MM like for example 00:00 or 15:21!")
+		return False
+
+def set_empty_overview():
 	try:
-		option = default_or_custom(input("At what time should the daily overviews be sent? (script uses local machine time, the format of the time should be HH:MM, default is 00:00)"), "00:00")
-		re.match(r"$\d{2}:\d{2}^")
-		settings["overview"] = option
+		option = yes_no(default_or_custom(input("Should the script send empty overviews in case nothing happens during the day? (y/N)\n"), "n"))
+		settings["send_empty_overview"] = option
 		return True
 	except ValueError:
 		print("Response not valid, please use y (yes) or n (no)")
 		return False
+
+def set_license_detection():
+	try:
+		option = yes_no(default_or_custom(input("Should the script detect licenses in the newly uploaded images? (Y/n)\n"), "y"))
+		settings["license_detection"] = option
+		return True
+	except ValueError:
+		print("Response not valid, please use y (yes) or n (no)")
+		return False
+
+def set_license_detection_regex():
+	try:
+		option = default_or_custom(input("Please provide regex for license detection (only to find it, the next step will be a regex to determine the type of the license). Default: \{\{(license|lizenz|licence|copyright)\n"), "\{\{(license|lizenz|licence|copyright)")
+		re.compile(option)
+		settings["license_regex_detect"] = option
+		return True
+	except re.error:
+		print("Given regex expression could not be compiled. Please provide a proper regex expression in Python.")
+		return False
+
+def set_license_classification_regex():
+	try:
+		option = default_or_custom(input("Please provide regex for license classification where named capture group \"license\" is used as a license type for the image. Default: \{\{(license|lizenz|licence|copyright)(\ |\|)(?P<license>.*?)\}\}\n"), "\{\{(license|lizenz|licence|copyright)(\ |\|)(?P<license>.*?)\}\}")
+		re.compile(option)
+		settings["license_regex"] = option
+		return True
+	except re.error:
+		print("Given regex expression could not be compiled. Please provide a proper regex expression in Python.")
+		return False
+
+def set_login():
+	option = default_or_custom(input("You can provide bot credentials if you want the script to use higher limits than usual. If that's the case, please provide the login. If not, just skip this option \n"), "")
+	settings["wiki_bot_login"] = option
+	return True
+
+def set_password():
+	option = default_or_custom(input("Please give bot password now.\n"), "")
+	settings["wiki_bot_password"] = option
+	return True
+
 
 try:
 	basic()
