@@ -505,7 +505,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 				embed["image"]["url"] = img_info[0]["url"]
 				additional_info_retrieved = True
 		else:
-			pass
+			logging.warning("Request for additional image information have failed. The preview will not be shown.")
 		if action == "upload/overwrite":
 			if additional_info_retrieved:
 				article_encoded = change["title"].replace(" ", "_").replace(')', '\)')
