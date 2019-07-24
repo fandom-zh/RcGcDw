@@ -170,7 +170,7 @@ msgstr "Wohnort"
 
 #: rcgcdw.py:254 rcgcdw.py:659
 msgid "About me"
-msgstr "\"Über mich\"-Abschnitt"
+msgstr "„Über mich“-Abschnitt"
 
 #: rcgcdw.py:256 rcgcdw.py:661
 msgid "Google link"
@@ -408,25 +408,25 @@ msgstr ""
 #, python-brace-format
 msgid "[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\""
 msgstr ""
-"[{author}]({author_url}) erstellte eine [Markierung]({tag_url}) \"{tag}\""
+"[{author}]({author_url}) erstellte eine [Markierung]({tag_url}) „{tag}“"
 
 #: rcgcdw.py:397
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a [tag]({tag_url}) \"{tag}\""
 msgstr ""
-"[{author}]({author_url}) löschte eine [Markierung]({tag_url}) \"{tag}\""
+"[{author}]({author_url}) löschte eine [Markierung]({tag_url}) „{tag}“"
 
 #: rcgcdw.py:401
 #, python-brace-format
 msgid "[{author}]({author_url}) activated a [tag]({tag_url}) \"{tag}\""
 msgstr ""
-"[{author}]({author_url}) aktivierte eine [Markierung]({tag_url}) \"{tag}\""
+"[{author}]({author_url}) aktivierte eine [Markierung]({tag_url}) „{tag}“"
 
 #: rcgcdw.py:404
 #, python-brace-format
 msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
 msgstr ""
-"[{author}]({author_url}) deaktivierte eine [Markierung]({tag_url}) \"{tag}\""
+"[{author}]({author_url}) deaktivierte eine [Markierung]({tag_url}) „{tag}“"
 
 #: rcgcdw.py:406
 msgid "An action has been hidden by administration."
@@ -723,22 +723,22 @@ msgstr "Edited the slice for {article}"
 #: rcgcdw.py:809
 #, python-brace-format
 msgid "Created a tag \"{tag}\""
-msgstr "Erstellte die Markierung \"{tag}\""
+msgstr "Erstellte die Markierung „{tag}“"
 
 #: rcgcdw.py:813
 #, python-brace-format
 msgid "Deleted a tag \"{tag}\""
-msgstr "Löschte die Markierung \"{tag}\""
+msgstr "Löschte die Markierung „{tag}“"
 
 #: rcgcdw.py:817
 #, python-brace-format
 msgid "Activated a tag \"{tag}\""
-msgstr "Aktivierte die Markierung \"{tag}\""
+msgstr "Aktivierte die Markierung „{tag}“"
 
 #: rcgcdw.py:820
 #, python-brace-format
 msgid "Deactivated a tag \"{tag}\""
-msgstr "Deaktivierte die Markierung \"{tag}\""
+msgstr "Deaktivierte die Markierung „{tag}“"
 
 #: rcgcdw.py:823
 msgid "Action has been hidden by administration."
