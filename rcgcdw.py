@@ -489,7 +489,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 					embed["fields"].append(
 						{"name": _("Added"), "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
 			else:
-				logging.warning("Unable to download data on the edit content!")
+				logger.warning("Unable to download data on the edit content!")
 	elif action in ("upload/overwrite", "upload/upload"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(
@@ -505,7 +505,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 				embed["image"]["url"] = img_info[0]["url"]
 				additional_info_retrieved = True
 		else:
-			logging.warning("Request for additional image information have failed. The preview will not be shown.")
+			logger.warning("Request for additional image information have failed. The preview will not be shown.")
 		if action == "upload/overwrite":
 			if additional_info_retrieved:
 				article_encoded = change["title"].replace(" ", "_").replace(')', '\)')
