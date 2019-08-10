@@ -1317,7 +1317,7 @@ if settings["overview"]:
 schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 
 if TESTING:
-	logger.debug("DEBUGGING")
+	logger.debug("DEBUGGING ")
 	recent_changes.recent_id -= 5
 	recent_changes.file_id -= 5
 	recent_changes.ids = [1]
