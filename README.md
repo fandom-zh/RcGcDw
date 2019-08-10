@@ -30,7 +30,7 @@ Screenshots of the script in action can be found [on the wiki](https://gitlab.co
 * MarkusRost – German translation
 * JSBM – French translation
 * Eduaddad – Brazilian Portuguese translation
-* BabylonAS – Russian translation
+* BabylonAS and Russian Minecraft Wiki community – Russian translation
 * Mak_and_Iv – Ukrainian translation
 
 Thank you!
