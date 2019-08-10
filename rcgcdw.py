@@ -452,9 +452,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 		link = "https://{wiki}.gamepedia.com/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=settings["wiki"], pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
 			article=change["title"].replace(" ", "_"))
-		embed["title"] = "{redirect}{article} ({new}{minor}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
+		embed["title"] = "{redirect}{article} ({new}{minor}{bot} {editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
-		                                                             minor=_("m ") if action == "edit" and "minor" in change else "")
+		                                                             minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "")
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			if action == "new":
 				changed_content = safe_read(recent_changes.safe_request(
@@ -1110,8 +1110,8 @@ class Recent_Changes_Class(object):
 			logger.debug("ids is empty, triggering clean fetch")
 			clean = True
 		changes = self.safe_request(
-			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges&rcshow=!bot&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal{categorize}".format(
-				wiki=settings["wiki"], amount=amount, categorize="%7Ccategorize" if settings["show_added_categories"] else ""))
+			"https://{wiki}.gamepedia.com/api.php?action=query&format=json&list=recentchanges{show_bots}&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal{categorize}".format(
+				wiki=settings["wiki"], amount=amount, categorize="%7Ccategorize" if settings["show_added_categories"] else "", show_bots="&rcshow=!bot" if settings["show_bots"] is False else ""))
 		if changes:
 			try:
 				changes = changes.json()['query']['recentchanges']
