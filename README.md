@@ -6,7 +6,7 @@ Screenshots of the script in action can be found [on the wiki](https://gitlab.co
 * Fetch recent changes from Gamepedia wiki and send them to Discord channel using a webhook
 * Two appearance modes - embed and compact
 * Send daily overviews, that show general information about wiki activity
-* Supports multiple languages (included EN, PL, BR, RU, FR)
+* Supports multiple languages (included EN, PL, BR, RU, FR, UK)
 * Re-sends missed edits after start
 
 ### Dependencies ###
@@ -27,10 +27,13 @@ Screenshots of the script in action can be found [on the wiki](https://gitlab.co
 * I'd like to thank Minecraft Wiki English Discord server community, most notably Jack McKalling for input on how the script should work, especially formatting and what information should be there.
 
 #### Translators #### 
-* MarkusRost for German translation
-* JSBM for French translation
-* Eduaddad for Brazilian Portuguese translation
-* BabylonAS for Russian translation
+* MarkusRost – German translation
+* JSBM – French translation
+* Eduaddad – Brazilian Portuguese translation
+* BabylonAS and Russian Minecraft Wiki community – Russian translation
+* Mak_and_Iv – Ukrainian translation
+
+Thank you!
 
 ### Wiki ###
 For more information, check the [wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Home)!
