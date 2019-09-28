@@ -75,7 +75,7 @@ def weighted_average(value, weight, new_value):
 
 def link_formatter(link):
 	"""Formats a link to not embed it"""
-	return "<" + re.sub(r"([ \)])", "\\\\\\1", link) + ">"
+	return "<" + re.sub(r"([ )])", "\\\\\\1", link) + ">"
 
 
 class ContentParser(HTMLParser):
@@ -98,7 +98,7 @@ class ContentParser(HTMLParser):
 			self.added = True
 
 	def handle_data(self, data):
-		data = re.sub(r"(`|_|\*|~|<|>|{|}|@|/|\|)", "\\\\\\1", data, 0)
+		data = re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
 		if self.current_tag == "ins" and self.ins_length <= 1000:
 			self.ins_length += len("**" + data + '**')
 			if self.ins_length <= 1000:
