@@ -149,6 +149,10 @@
             "icon":"",
             "color":null
          },
+         "rights/autopromote": {
+            "icon":"",
+            "color":null
+         },
          "abusefilter/abusefilter":{
             "icon":"https://i.imgur.com/Sn2NzRJ.png",
             "color":null

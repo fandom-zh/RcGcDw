@@ -131,7 +131,7 @@ def pull_comment(comment_id):
 		logger.debug("Got the following comment from the API: {}".format(comment))
 	except MWError:
 		pass
-	except TypeError:
+	except (TypeError, AttributeError):
 		logger.exception("Could not resolve the comment text.")
 	except KeyError:
 		logger.exception("CurseProfile extension API did not respond with a valid comment content.")
