@@ -1203,6 +1203,10 @@ class Recent_Changes_Class(object):
 			logger.warning("Reached connection error for request on link {url}".format(url=url))
 			self.downtime_controller()
 			return None
+		except requests.exceptions.ChunkedEncodingError:
+			logger.warning("Detected faulty response from the web server for request on link {url}".format(url=url))
+			self.downtime_controller()
+			return None
 		else:
 			if 499 < request.status_code < 600:
 				self.downtime_controller()
