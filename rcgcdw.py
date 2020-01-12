@@ -93,7 +93,7 @@ def profile_field_name(name, embed):
 
 def send_to_discord_webhook(data):
 	header = settings["header"]
-	if "content" not in data:
+	if isinstance(data, str):
 		header['Content-Type'] = 'application/json'
 	else:
 		header['Content-Type'] = 'application/x-www-form-urlencoded'
