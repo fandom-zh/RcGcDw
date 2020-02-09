@@ -65,7 +65,7 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 # A few initial vars
 
 logged_in = False
-supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update"]
+supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable", "cargo/recreatetable", "cargo/replacetable"]
 profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XVL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
 
 LinkParser = LinkParser()
@@ -379,6 +379,23 @@ def compact_formatter(action, change, parsed_comment, categories):
 		link = link_formatter("https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                                      article=change["title"]))
 		content = _("[{author}]({author_url}) edited the slice for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
+	elif action == "cargo/createtable":
+		LinkParser.feed(change["logparams"]["0"])
+		table = LinkParser.new_string
+		LinkParser.new_string = ""
+		content = _("[{author}]({author_url}) created the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=table)
+	elif action == "cargo/deletetable":
+		content = _("[{author}]({author_url}) deleted the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=change["logparams"]["0"])
+	elif action == "cargo/recreatetable":
+		LinkParser.feed(change["logparams"]["0"])
+		table = LinkParser.new_string
+		LinkParser.new_string = ""
+		content = _("[{author}]({author_url}) recreated the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=table)
+	elif action == "cargo/replacetable":
+		LinkParser.feed(change["logparams"]["0"])
+		table = LinkParser.new_string
+		LinkParser.new_string = ""
+		content = _("[{author}]({author_url}) replaced the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=table)
 	elif action == "managetags/create":
 		link = "<https://{wiki}.gamepedia.com/Special:Tags>".format(wiki=settings["wiki"])
 		content = _("[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
@@ -765,6 +782,27 @@ def embed_formatter(action, change, parsed_comment, categories):
 		link = "https://{wiki}.gamepedia.com/{article}".format(wiki=settings["wiki"],
 		                                                       article=change["title"].replace(" ", "_"))
 		embed["title"] = _("Edited the slice for {article}").format(article=change["title"])
+	elif action == "cargo/createtable":
+		LinkParser.feed(change["logparams"]["0"])
+		table = LinkParser.new_string
+		LinkParser.new_string = ""
+		link = table.replace(r"\[(.*)\]\(<(.*)>\)", "\2")
+		embed["title"] = _("Created the Cargo table \"{table}\"").format(table=table.replace(r"\[(.*)\]\(<(.*)>\)", "\1"))
+	elif action == "cargo/deletetable":
+		link = "https://{wiki}.gamepedia.com/Special:CargoTables".format(wiki=settings["wiki"])
+		embed["title"] = _("Deleted the Cargo table \"{table}\"").format(table=change["logparams"]["0"])
+	elif action == "cargo/recreatetable":
+		LinkParser.feed(change["logparams"]["0"])
+		table = LinkParser.new_string
+		LinkParser.new_string = ""
+		link = table.replace(r"\[(.*)\]\(<(.*)>\)", "\2")
+		embed["title"] = _("Recreated the Cargo table \"{table}\"").format(table=table.replace(r"\[(.*)\]\(<(.*)>\)", "\1"))
+	elif action == "cargo/replacetable":
+		LinkParser.feed(change["logparams"]["0"])
+		table = LinkParser.new_string
+		LinkParser.new_string = ""
+		link = table.replace(r"\[(.*)\]\(<(.*)>\)", "\2")
+		embed["title"] = _("Replaced the Cargo table \"{table}\"").format(table=table.replace(r"\[(.*)\]\(<(.*)>\)", "\1"))
 	elif action == "managetags/create":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
