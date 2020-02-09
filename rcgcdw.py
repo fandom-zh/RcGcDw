@@ -784,25 +784,25 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["title"] = _("Edited the slice for {article}").format(article=change["title"])
 	elif action == "cargo/createtable":
 		LinkParser.feed(change["logparams"]["0"])
-		table = LinkParser.new_string
+		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
 		LinkParser.new_string = ""
-		link = table.replace(r"\[(.*)\]\(<(.*)>\)", "\2")
-		embed["title"] = _("Created the Cargo table \"{table}\"").format(table=table.replace(r"\[(.*)\]\(<(.*)>\)", "\1"))
+		link = table.group(2)
+		embed["title"] = _("Created the Cargo table \"{table}\"").format(table=table.group(1))
 	elif action == "cargo/deletetable":
 		link = "https://{wiki}.gamepedia.com/Special:CargoTables".format(wiki=settings["wiki"])
 		embed["title"] = _("Deleted the Cargo table \"{table}\"").format(table=change["logparams"]["0"])
 	elif action == "cargo/recreatetable":
 		LinkParser.feed(change["logparams"]["0"])
-		table = LinkParser.new_string
+		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
 		LinkParser.new_string = ""
-		link = table.replace(r"\[(.*)\]\(<(.*)>\)", "\2")
-		embed["title"] = _("Recreated the Cargo table \"{table}\"").format(table=table.replace(r"\[(.*)\]\(<(.*)>\)", "\1"))
+		link = table.group(2)
+		embed["title"] = _("Recreated the Cargo table \"{table}\"").format(table=table.group(1))
 	elif action == "cargo/replacetable":
 		LinkParser.feed(change["logparams"]["0"])
-		table = LinkParser.new_string
+		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
 		LinkParser.new_string = ""
-		link = table.replace(r"\[(.*)\]\(<(.*)>\)", "\2")
-		embed["title"] = _("Replaced the Cargo table \"{table}\"").format(table=table.replace(r"\[(.*)\]\(<(.*)>\)", "\1"))
+		link = table.group(2)
+		embed["title"] = _("Replaced the Cargo table \"{table}\"").format(table=table.group(1))
 	elif action == "managetags/create":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
