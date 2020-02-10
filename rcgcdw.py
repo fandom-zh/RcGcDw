@@ -788,21 +788,25 @@ def embed_formatter(action, change, parsed_comment, categories):
 		LinkParser.new_string = ""
 		link = table.group(2)
 		embed["title"] = _("Created the Cargo table \"{table}\"").format(table=table.group(1))
+		parsed_comment = None
 	elif action == "cargo/deletetable":
 		link = "https://{wiki}.gamepedia.com/Special:CargoTables".format(wiki=settings["wiki"])
 		embed["title"] = _("Deleted the Cargo table \"{table}\"").format(table=change["logparams"]["0"])
+		parsed_comment = None
 	elif action == "cargo/recreatetable":
 		LinkParser.feed(change["logparams"]["0"])
 		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
 		LinkParser.new_string = ""
 		link = table.group(2)
 		embed["title"] = _("Recreated the Cargo table \"{table}\"").format(table=table.group(1))
+		parsed_comment = None
 	elif action == "cargo/replacetable":
 		LinkParser.feed(change["logparams"]["0"])
 		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
 		LinkParser.new_string = ""
 		link = table.group(2)
 		embed["title"] = _("Replaced the Cargo table \"{table}\"").format(table=table.group(1))
+		parsed_comment = None
 	elif action == "managetags/create":
 		link = "https://{wiki}.gamepedia.com/Special:Tags".format(wiki=settings["wiki"])
 		embed["title"] = _("Created a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
@@ -825,7 +829,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
 	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
 	embed["url"] = link
-	embed["description"] = parsed_comment
+	if parsed_comment is not None:
+		embed["description"] = parsed_comment
 	if colornumber is None:
 		if settings["appearance"]["embed"][action]["color"] is None:
 			embed["color"] = random.randrange(1, 16777215)
