@@ -201,6 +201,22 @@
             "icon":"",
             "color":null
          },
+         "cargo/deletetable": {
+            "icon": "",
+            "color": null
+         },
+         "cargo/createtable": {
+            "icon": "",
+            "color": null
+         },
+         "cargo/replacetable": {
+            "icon": "",
+            "color": null
+         },
+         "cargo/recreatetable": {
+            "icon": "",
+            "color": null
+         },
          "sprite/sprite":{
             "icon":"",
             "color":null
