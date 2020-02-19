@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-10 13:14+0100\n"
-"PO-Revision-Date: 2020-02-10 13:18+0100\n"
+"POT-Creation-Date: 2020-02-19 16:31+0100\n"
+"PO-Revision-Date: 2020-02-19 16:46+0100\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -56,8 +56,8 @@ msgid "VK link"
 msgstr "link VK"
 
 #: rcgcdw.py:69
-msgid "XVL link"
-msgstr "link XVL"
+msgid "XBL link"
+msgstr "link XBL"
 
 #: rcgcdw.py:69
 msgid "Steam link"
@@ -71,7 +71,7 @@ msgstr "konto Discord"
 msgid "Battle.net handle"
 msgstr "konto Battle.net"
 
-#: rcgcdw.py:90 rcgcdw.py:823
+#: rcgcdw.py:90 rcgcdw.py:827
 msgid "Unknown"
 msgstr "Nieznana"
 
@@ -750,279 +750,279 @@ msgstr "Edytowano część sprite dla {article}"
 msgid "Created the Cargo table \"{table}\""
 msgstr "Utworzono tabelę Cargo \"{table}\""
 
-#: rcgcdw.py:793
+#: rcgcdw.py:794
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
 msgstr "Usunięto tabelę Cargo \"{table}\""
 
-#: rcgcdw.py:799
+#: rcgcdw.py:801
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
 msgstr "Utworzono ponownie tabelę Cargo \"{table}\""
 
-#: rcgcdw.py:805
+#: rcgcdw.py:808
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
 msgstr "Zastąpiono tabelę Cargo \"{table}\""
 
-#: rcgcdw.py:808
+#: rcgcdw.py:812
 #, python-brace-format
 msgid "Created a tag \"{tag}\""
 msgstr "Utworzono tag \"{tag}\""
 
-#: rcgcdw.py:812
+#: rcgcdw.py:816
 #, python-brace-format
 msgid "Deleted a tag \"{tag}\""
 msgstr "Usunięto tag \"{tag}\""
 
-#: rcgcdw.py:816
+#: rcgcdw.py:820
 #, python-brace-format
 msgid "Activated a tag \"{tag}\""
 msgstr "Aktywowano tag \"{tag}\""
 
-#: rcgcdw.py:819
+#: rcgcdw.py:823
 #, python-brace-format
 msgid "Deactivated a tag \"{tag}\""
 msgstr "Dezaktywowano tag \"{tag}\""
 
-#: rcgcdw.py:822
+#: rcgcdw.py:826
 msgid "Action has been hidden by administration."
 msgstr "Akcja została ukryta przez administrację."
 
-#: rcgcdw.py:849
+#: rcgcdw.py:854
 msgid "Tags"
 msgstr "Tagi"
 
-#: rcgcdw.py:854
+#: rcgcdw.py:859
 msgid "**Added**: "
 msgstr "**Dodane**: "
 
-#: rcgcdw.py:854
+#: rcgcdw.py:859
 msgid " and {} more\n"
 msgstr " oraz {} innych\n"
 
-#: rcgcdw.py:855
+#: rcgcdw.py:860
 msgid "**Removed**: "
 msgstr "**Usunięte**: "
 
-#: rcgcdw.py:855
+#: rcgcdw.py:860
 msgid " and {} more"
 msgstr " oraz {} innych"
 
-#: rcgcdw.py:856
+#: rcgcdw.py:861
 msgid "Changed categories"
 msgstr "Zmienione kategorie"
 
-#: rcgcdw.py:875
+#: rcgcdw.py:880
 msgid "~~hidden~~"
 msgstr "~~ukryte~~"
 
-#: rcgcdw.py:881
+#: rcgcdw.py:886
 msgid "hidden"
 msgstr "ukryte"
 
-#: rcgcdw.py:948 rcgcdw.py:950 rcgcdw.py:952 rcgcdw.py:954 rcgcdw.py:956
-#: rcgcdw.py:958 rcgcdw.py:960
+#: rcgcdw.py:953 rcgcdw.py:955 rcgcdw.py:957 rcgcdw.py:959 rcgcdw.py:961
+#: rcgcdw.py:963 rcgcdw.py:965
 #, python-brace-format
 msgid "{value} (avg. {avg})"
 msgstr "{value} (średnio {avg})"
 
-#: rcgcdw.py:1001
+#: rcgcdw.py:1006
 msgid "Daily overview"
 msgstr "Podsumowanie dnia"
 
-#: rcgcdw.py:1010
+#: rcgcdw.py:1015
 msgid " ({} action)"
 msgid_plural " ({} actions)"
 msgstr[0] " ({} akcja)"
 msgstr[1] " ({} akcje)"
 msgstr[2] " ({} akcji)"
 
-#: rcgcdw.py:1012
+#: rcgcdw.py:1017
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] " ({} edycja)"
 msgstr[1] " ({} edycje)"
 msgstr[2] " ({} edycji)"
 
-#: rcgcdw.py:1017
+#: rcgcdw.py:1022
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] " UTC ({} akcja)"
 msgstr[1] " UTC ({} akcje)"
 msgstr[2] " UTC ({} akcji)"
 
-#: rcgcdw.py:1019 rcgcdw.py:1020 rcgcdw.py:1024
+#: rcgcdw.py:1024 rcgcdw.py:1025 rcgcdw.py:1029
 msgid "But nobody came"
 msgstr "Ale nikt nie przyszedł"
 
-#: rcgcdw.py:1028
+#: rcgcdw.py:1033
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] "Najbardziej aktywny użytkownik"
 msgstr[1] "Najbardziej aktywni użytkownicy"
 msgstr[2] "Najbardziej aktywni użytkownicy"
 
-#: rcgcdw.py:1029
+#: rcgcdw.py:1034
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] "Najczęściej edytowany artykuł"
 msgstr[1] "Najczęściej edytowane artykuły"
 msgstr[2] "Najczęściej edytowane artykuły"
 
-#: rcgcdw.py:1030
+#: rcgcdw.py:1035
 msgid "Edits made"
 msgstr "Zrobionych edycji"
 
-#: rcgcdw.py:1030
+#: rcgcdw.py:1035
 msgid "New files"
 msgstr "Nowych plików"
 
-#: rcgcdw.py:1030
+#: rcgcdw.py:1035
 msgid "Admin actions"
 msgstr "Akcji administratorskich"
 
-#: rcgcdw.py:1031
+#: rcgcdw.py:1036
 msgid "Bytes changed"
 msgstr "Zmienionych bajtów"
 
-#: rcgcdw.py:1031
+#: rcgcdw.py:1036
 msgid "New articles"
 msgstr "Nowych artykułów"
 
-#: rcgcdw.py:1032
+#: rcgcdw.py:1037
 msgid "Unique contributors"
 msgstr "Unikalnych edytujących"
 
-#: rcgcdw.py:1033
+#: rcgcdw.py:1038
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] "Najbardziej aktywna godzina"
 msgstr[1] "Najbardziej aktywne godziny"
 msgstr[2] "Najbardziej aktywne godziny"
 
-#: rcgcdw.py:1034
+#: rcgcdw.py:1039
 msgid "Day score"
 msgstr "Wynik dnia"
 
-#: rcgcdw.py:1175
+#: rcgcdw.py:1180
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr "Połączenie z {wiki} wygląda na stabilne."
 
-#: rcgcdw.py:1176 rcgcdw.py:1291
+#: rcgcdw.py:1181 rcgcdw.py:1296
 msgid "Connection status"
 msgstr "Problem z połączeniem"
 
-#: rcgcdw.py:1290
+#: rcgcdw.py:1295
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} nie działa lub jest nieosiągalna."
 
-#: rcgcdw.py:1346
+#: rcgcdw.py:1351
 msgid "director"
 msgstr "Dyrektor"
 
-#: rcgcdw.py:1346
+#: rcgcdw.py:1351
 msgid "bot"
 msgstr "Bot"
 
-#: rcgcdw.py:1346
+#: rcgcdw.py:1351
 msgid "editor"
 msgstr "Redaktor"
 
-#: rcgcdw.py:1346
+#: rcgcdw.py:1351
 msgid "directors"
 msgstr "Dyrektorzy"
 
-#: rcgcdw.py:1346
+#: rcgcdw.py:1351
 msgid "sysop"
 msgstr "Administrator"
 
-#: rcgcdw.py:1346
+#: rcgcdw.py:1351
 msgid "bureaucrat"
 msgstr "Biurokrata"
 
-#: rcgcdw.py:1346
+#: rcgcdw.py:1351
 msgid "reviewer"
 msgstr "Przeglądający"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "autoreview"
 msgstr "Automatycznie przeglądający"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "autopatrol"
 msgstr "Automatycznie zatwierdzający"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "wiki_guardian"
 msgstr "Strażnik wiki"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunda"
 msgstr[1] "sekundy"
 msgstr[2] "sekund"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuta"
 msgstr[1] "minuty"
 msgstr[2] "minut"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "godzina"
 msgstr[1] "godziny"
 msgstr[2] "godzin"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dzień"
 msgstr[1] "dni"
 msgstr[2] "dni"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] "tydzień"
 msgstr[1] "tygodnie"
 msgstr[2] "tygodni"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "month"
 msgid_plural "months"
 msgstr[0] "miesiąc"
 msgstr[1] "miesiące"
 msgstr[2] "miesięcy"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "year"
 msgid_plural "years"
 msgstr[0] "rok"
 msgstr[1] "lata"
 msgstr[2] "lat"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "millennium"
 msgid_plural "millennia"
 msgstr[0] "tysiąclecie"
 msgstr[1] "tysiąclecia"
 msgstr[2] "tysiącleci"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "decade"
 msgid_plural "decades"
 msgstr[0] "dekada"
 msgstr[1] "dekady"
 msgstr[2] "dekad"
 
-#: rcgcdw.py:1347
+#: rcgcdw.py:1352
 msgid "century"
 msgid_plural "centuries"
 msgstr[0] "stulecie"
