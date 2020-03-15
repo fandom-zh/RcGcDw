@@ -276,6 +276,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 			target=change["title"], target_url=link, comment=parsed_comment)
 	elif action == "block/block":
 		user = change["title"].split(':')[1]
+		restriction_description = ""
 		try:
 			ipaddress.ip_address(user)
 			link = link_formatter(create_article_path("Special:Contributions/{user}".format(user=user)))
@@ -296,8 +297,31 @@ def compact_formatter(action, change, parsed_comment, categories):
 			except AttributeError:
 				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
 				return
+			if "sitewide" not in change["logparams"]:
+				restriction_description = ""
+				if change["logparams"]["restrictions"]["pages"]:
+					restriction_description = _(" on pages: *")
+					for page in change["logparams"]["restrictions"]["pages"]:
+						restricted_pages = [i["page_title"] for i in change["logparams"]["restrictions"]["pages"]]
+					restriction_description = restriction_description + "*, *".join(restricted_pages)
+				if change["logparams"]["restrictions"]["namespaces"]:
+					namespaces = []
+					if restriction_description:
+						restriction_description = restriction_description + _("* and namespaces: *")
+					else:
+						restriction_description = _(" on namespaces: *")
+					for namespace in change["logparams"]["restrictions"]["namespaces"]:
+						if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
+							namespaces.append(recent_changes.namespaces[str(namespace)]["*"])
+						else:
+							namespaces.append(namespace)
+					restriction_description = restriction_description + "*, *".join(namespaces)
+				restriction_description = restriction_description + "*."
+				if len(restriction_description) > 1020:
+					logger.debug(restriction_description)
+					restriction_description = restriction_description[:1020] + "…"
 		content = _(
-			"[{author}]({author_url}) blocked [{user}]({user_url}) for {time}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, comment=parsed_comment)
+			"[{author}]({author_url}) blocked [{user}]({user_url}) for {time}{restriction_desc}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, restriction_desc=restriction_description, comment=parsed_comment)
 	elif action == "block/reblock":
 		link = link_formatter(create_article_path(change["title"]))
 		user = change["title"].split(':')[1]
@@ -669,6 +693,33 @@ def embed_formatter(action, change, parsed_comment, categories):
 			except AttributeError:
 				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
 				return
+		if "sitewide" not in change["logparams"]:
+			restriction_description = ""
+			if change["logparams"]["restrictions"]["pages"]:
+				restriction_description = _("Block from editing the following pages: ")
+				for page in change["logparams"]["restrictions"]["pages"]:
+					restricted_pages = ["*"+i["page_title"]+"*" for i in change["logparams"]["restrictions"]["pages"]]
+				restriction_description = restriction_description + ", ".join(restricted_pages)
+			if change["logparams"]["restrictions"]["namespaces"]:
+				namespaces = []
+				if restriction_description:
+					restriction_description = restriction_description + _(" and namespaces: ")
+				else:
+					restriction_description = _("Block from editing pages on following namespaces: ")
+				for namespace in change["logparams"]["restrictions"]["namespaces"]:
+					if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
+						namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
+					else:
+						namespaces.append("*{ns}*".format(ns=namespace))
+				restriction_description = restriction_description + ", ".join(namespaces)
+			restriction_description = restriction_description + "."
+			if len(restriction_description) > 1020:
+				logger.debug(restriction_description)
+				restriction_description = restriction_description[:1020]+"…"
+			if "fields" not in embed:
+				embed["fields"] = []
+			embed["fields"].append(
+				{"name": _("Partial block details"), "value": restriction_description, "inline": True})
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
@@ -1091,6 +1142,7 @@ class Recent_Changes_Class(object):
 		self.streak = -1
 		self.unsent_messages = []
 		self.mw_messages = {}
+		self.namespaces = None
 		self.session = requests.Session()
 		self.session.headers.update(settings["header"])
 		if settings["limitrefetch"] != -1:
@@ -1332,7 +1384,7 @@ class Recent_Changes_Class(object):
 
 	def init_info(self):
 		startup_info = safe_read(self.safe_request(
-			"{wiki}?action=query&format=json&uselang=content&list=tags&meta=allmessages&utf8=1&tglimit=max&tgprop=displayname&ammessages=recentchanges-page-added-to-category|recentchanges-page-removed-from-category|recentchanges-page-added-to-category-bundled|recentchanges-page-removed-from-category-bundled&amenableparser=1&amincludelocal=1".format(
+			"{wiki}?action=query&format=json&uselang=content&list=tags&meta=allmessages%7Csiteinfo&utf8=1&tglimit=max&tgprop=displayname&ammessages=recentchanges-page-added-to-category%7Crecentchanges-page-removed-from-category%7Crecentchanges-page-added-to-category-bundled%7Crecentchanges-page-removed-from-category-bundled&amenableparser=1&amincludelocal=1&siprop=namespaces".format(
 				wiki=WIKI_API_PATH)), "query")
 		if startup_info:
 			if "tags" in startup_info and "allmessages" in startup_info:
@@ -1346,6 +1398,7 @@ class Recent_Changes_Class(object):
 				for key, message in self.mw_messages.items():
 					if key.startswith("recentchanges-page-"):
 						self.mw_messages[key] = re.sub(r'\[\[.*?\]\]', '', message)
+				self.namespaces = startup_info["namespaces"]
 				logger.info("Gathered information about the tags and interface messages.")
 			else:
 				logger.warning("Could not retrieve initial wiki information. Some features may not work correctly!")
