@@ -147,34 +147,6 @@ class ContentParser(HTMLParser):
 			self.current_tag = ""
 
 
-class LinkParser(HTMLParser):
-	new_string = ""
-	recent_href = ""
-
-	def handle_starttag(self, tag, attrs):
-		for attr in attrs:
-			if attr[0] == 'href':
-				self.recent_href = attr[1]
-				if self.recent_href.startswith("//"):
-					self.recent_href = "https:{rest}".format(rest=self.recent_href)
-				elif not self.recent_href.startswith("http"):
-					self.recent_href = "https://{wiki}.gamepedia.com".format(wiki=settings["wiki"]) + self.recent_href
-				self.recent_href = self.recent_href.replace(")", "\\)")
-
-	def handle_data(self, data):
-		if self.recent_href:
-			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
-			self.recent_href = ""
-		else:
-			self.new_string = self.new_string + data
-
-	def handle_comment(self, data):
-		self.new_string = self.new_string + data
-
-	def handle_endtag(self, tag):
-		misc_logger.debug(self.new_string)
-
-
 def safe_read(request, *keys):
 	if request is None:
 		return None

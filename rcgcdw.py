@@ -20,13 +20,15 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress
+import time, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress, base64
+from html.parser import HTMLParser
+
 import misc
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus, urlparse, urlunparse
 from configloader import settings
-from misc import link_formatter, LinkParser, ContentParser, safe_read, handle_discord_http, add_to_dict
+from misc import link_formatter, ContentParser, safe_read, handle_discord_http, add_to_dict, misc_logger
 
 if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
@@ -70,6 +72,41 @@ profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About
 WIKI_API_PATH: str = ""
 WIKI_ARTICLE_PATH: str = ""
 WIKI_SCRIPT_PATH: str = ""
+WIKI_JUST_DOMAIN: str = ""
+
+
+class LinkParser(HTMLParser):
+	new_string = ""
+	recent_href = ""
+
+	def handle_starttag(self, tag, attrs):
+		for attr in attrs:
+			if attr[0] == 'href':
+				self.recent_href = attr[1]
+				if self.recent_href.startswith("//"):
+					self.recent_href = "https:{rest}".format(rest=self.recent_href)
+				elif not self.recent_href.startswith("http"):
+					self.recent_href = WIKI_JUST_DOMAIN + self.recent_href
+				self.recent_href = self.recent_href.replace(")", "\\)")
+			elif attr[0] == 'data-uncrawlable-url':
+				self.recent_href = attr[1].encode('ascii')
+				self.recent_href = base64.b64decode(self.recent_href)
+				self.recent_href = WIKI_JUST_DOMAIN + self.recent_href.decode('ascii')
+
+	def handle_data(self, data):
+		if self.recent_href:
+			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
+			self.recent_href = ""
+		else:
+			self.new_string = self.new_string + data
+
+	def handle_comment(self, data):
+		self.new_string = self.new_string + data
+
+	def handle_endtag(self, tag):
+		logger.debug(self.new_string)
+
+
 LinkParser = LinkParser()
 
 class MWError(Exception):
@@ -79,6 +116,7 @@ def prepare_paths():
 	global WIKI_API_PATH
 	global WIKI_ARTICLE_PATH
 	global WIKI_SCRIPT_PATH
+	global WIKI_JUST_DOMAIN
 	"""Set the URL paths for article namespace and script namespace
 	WIKI_API_PATH will be: WIKI_DOMAIN/api.php
 	WIKI_ARTICLE_PATH will be: WIKI_DOMAIN/articlepath/$1 where $1 is the replaced string
@@ -103,6 +141,7 @@ def prepare_paths():
 			WIKI_API_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/api.php"
 			WIKI_SCRIPT_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/"
 			WIKI_ARTICLE_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["articlepath"]
+			WIKI_JUST_DOMAIN = urlunparse((*parsed_url[0:2], "", "", "", ""))
 			break
 	else:
 		logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URL in settings.json.")
@@ -536,9 +575,12 @@ def embed_formatter(action, change, parsed_comment, categories):
 		if urls is not None:
 			logger.debug(urls)
 			if "-1" not in urls:  # image still exists and not removed
-				img_info = next(iter(urls.values()))["imageinfo"]
-				embed["image"]["url"] = img_info[0]["url"]
-				additional_info_retrieved = True
+				try:
+					img_info = next(iter(urls.values()))["imageinfo"]
+					embed["image"]["url"] = img_info[0]["url"]
+					additional_info_retrieved = True
+				except KeyError:
+					logger.warning("Wiki did not respond with extended information about file. The preview will not be shown.")
 		else:
 			logger.warning("Request for additional image information have failed. The preview will not be shown.")
 		if action == "upload/overwrite":
