@@ -1065,64 +1065,75 @@ def day_overview():
 		changed_bytes = 0
 		new_articles = 0
 		active_articles = []
-		if not result[0] and not settings["send_empty_overview"]:
-			return  # no changes in this day
-		for item in result[0]:
-			if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
-				continue  # while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
-			activity = add_to_dict(activity, item["user"])
-			hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
-			if item["type"] == "edit":
-				edits += 1
-				changed_bytes += item["newlen"] - item["oldlen"]
-				if item["ns"] == 0:
-					articles = add_to_dict(articles, item["title"])
-			if item["type"] == "new":
-				if item["ns"] == 0:
-					new_articles += 1
-				changed_bytes += item["newlen"]
-			if item["type"] == "log":
-				files = files + 1 if item["logtype"] == item["logaction"] == "upload" else files
-				admin = admin + 1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights",
-				                                         "abusefilter", "interwiki", "managetags"] else admin
-		overall = round(new_articles + edits * 0.1 + files * 0.3 + admin * 0.1 + math.fabs(changed_bytes * 0.001), 2)
-		embed = defaultdict(dict)
-		embed["title"] = _("Daily overview")
-		embed["url"] = create_article_path("Special:Statistics")
-		embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
-		embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
-		embed["author"]["name"] = settings["wikiname"]
-		embed["author"]["url"] = create_article_path("")
-		if activity:
-			active_users = []
-			for user, numberu in Counter(activity).most_common(3):  # find most active users
-				active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
-			for article, numbere in Counter(articles).most_common(3):  # find most active users
-				active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
-			v = hours.values()
-			active_hours = []
-			for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active hours
-				active_hours.append(str(hour))
-			houramount = ngettext(" UTC ({} action)", " UTC ({} actions)", numberh).format(numberh)
+		if not result[0]:
+			if not settings["send_empty_overview"]:
+				return  # no changes in this day
+			else:
+				embed = defaultdict(dict)
+				embed["title"] = _("Daily overview")
+				embed["url"] = create_article_path("Special:Statistics")
+				embed["description"] = _("No activity")
+				embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
+				embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
+				embed["author"]["name"] = settings["wikiname"]
+				embed["author"]["url"] = create_article_path("")
 		else:
-			active_users = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
-			active_hours = [_("But nobody came")]
-			usramount = ""
-			houramount = ""
-		if not active_articles:
-			active_articles = [_("But nobody came")]
-		embed["fields"] = []
-		edits, files, admin, changed_bytes, new_articles, unique_contributors, overall = daily_overview_sync(edits, files, admin, changed_bytes, new_articles, len(activity), overall)
-		fields = (
-		(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
-		(ngettext("Most edited article", "Most edited articles", len(active_articles)), ', '.join(active_articles)),
-		(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
-		(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
-		(_("Unique contributors"), unique_contributors),
-		(ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount),
-		(_("Day score"), overall))
-		for name, value in fields:
-			embed["fields"].append({"name": name, "value": value})
+			for item in result[0]:
+				if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
+					continue  # while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
+				activity = add_to_dict(activity, item["user"])
+				hours = add_to_dict(hours, datetime.datetime.strptime(item["timestamp"], "%Y-%m-%dT%H:%M:%SZ").hour)
+				if item["type"] == "edit":
+					edits += 1
+					changed_bytes += item["newlen"] - item["oldlen"]
+					if item["ns"] == 0:
+						articles = add_to_dict(articles, item["title"])
+				if item["type"] == "new":
+					if item["ns"] == 0:
+						new_articles += 1
+					changed_bytes += item["newlen"]
+				if item["type"] == "log":
+					files = files + 1 if item["logtype"] == item["logaction"] == "upload" else files
+					admin = admin + 1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights",
+					                                         "abusefilter", "interwiki", "managetags"] else admin
+			overall = round(new_articles + edits * 0.1 + files * 0.3 + admin * 0.1 + math.fabs(changed_bytes * 0.001), 2)
+			embed = defaultdict(dict)
+			embed["title"] = _("Daily overview")
+			embed["url"] = create_article_path("Special:Statistics")
+			embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
+			embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
+			embed["author"]["name"] = settings["wikiname"]
+			embed["author"]["url"] = create_article_path("")
+			if activity:
+				active_users = []
+				for user, numberu in Counter(activity).most_common(3):  # find most active users
+					active_users.append(user + ngettext(" ({} action)", " ({} actions)", numberu).format(numberu))
+				for article, numbere in Counter(articles).most_common(3):  # find most active users
+					active_articles.append(article + ngettext(" ({} edit)", " ({} edits)", numbere).format(numbere))
+				v = hours.values()
+				active_hours = []
+				for hour, numberh in Counter(hours).most_common(list(v).count(max(v))):  # find most active hours
+					active_hours.append(str(hour))
+				houramount = ngettext(" UTC ({} action)", " UTC ({} actions)", numberh).format(numberh)
+			else:
+				active_users = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
+				active_hours = [_("But nobody came")]
+				usramount = ""
+				houramount = ""
+			if not active_articles:
+				active_articles = [_("But nobody came")]
+			embed["fields"] = []
+			edits, files, admin, changed_bytes, new_articles, unique_contributors, overall = daily_overview_sync(edits, files, admin, changed_bytes, new_articles, len(activity), overall)
+			fields = (
+			(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
+			(ngettext("Most edited article", "Most edited articles", len(active_articles)), ', '.join(active_articles)),
+			(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
+			(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
+			(_("Unique contributors"), unique_contributors),
+			(ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount),
+			(_("Day score"), overall))
+			for name, value in fields:
+				embed["fields"].append({"name": name, "value": value, "inline": True})
 		data = {"embeds": [dict(embed)]}
 		formatted_embed = json.dumps(data, indent=4)
 		send_to_discord(formatted_embed)
