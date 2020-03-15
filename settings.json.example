@@ -1,6 +1,6 @@
 {
-   "cooldown": 30,
-   "wiki": "minecraft",
+   "cooldown": 60,
+   "wiki_url": "https://ucp-rail-test.fandom.com/pl/",
    "lang": "en",
    "header": {
       "user-agent": "RcGcDw/{version}"
