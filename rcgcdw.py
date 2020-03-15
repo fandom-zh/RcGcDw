@@ -1433,11 +1433,12 @@ prepare_paths()
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
 		recent_changes.log_in()
+	time.sleep(2.0)
 	recent_changes.init_info()
 except requests.exceptions.ConnectionError:
 	logger.critical("A connection can't be established with the wiki. Exiting...")
 	sys.exit(1)
-time.sleep(1.0)
+time.sleep(3.0)  # this timeout is to prevent timeouts. It seems Fandom does not like our ~2-3 request in under a second
 logger.info("Script started! Fetching newest changes...")
 recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
 
