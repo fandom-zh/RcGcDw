@@ -75,7 +75,7 @@ def weighted_average(value, weight, new_value):
 
 def link_formatter(link):
 	"""Formats a link to not embed it"""
-	return "<" + re.sub(r"([ )])", "\\\\\\1", link) + ">"
+	return "<" + re.sub(r"([)])", "\\\\\\1", link).replace(" ", "_") + ">"
 
 
 class ContentParser(HTMLParser):

@@ -226,7 +226,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 		author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
 	if action in ["edit", "new"]:
-		edit_link = link_formatter("{wiki}/index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
+		edit_link = link_formatter("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
 			article=change["title"]))
 		edit_size = change["newlen"] - change["oldlen"]
@@ -300,23 +300,23 @@ def compact_formatter(action, change, parsed_comment, categories):
 			if "sitewide" not in change["logparams"]:
 				restriction_description = ""
 				if change["logparams"]["restrictions"]["pages"]:
-					restriction_description = _(" on pages: *")
+					restriction_description = _(" on pages: ")
 					for page in change["logparams"]["restrictions"]["pages"]:
-						restricted_pages = [i["page_title"] for i in change["logparams"]["restrictions"]["pages"]]
-					restriction_description = restriction_description + "*, *".join(restricted_pages)
+						restricted_pages = ["*{page}*".format(page=i["page_title"]) for i in change["logparams"]["restrictions"]["pages"]]
+					restriction_description = restriction_description + ", ".join(restricted_pages)
 				if change["logparams"]["restrictions"]["namespaces"]:
 					namespaces = []
 					if restriction_description:
-						restriction_description = restriction_description + _("* and namespaces: *")
+						restriction_description = restriction_description + _(" and namespaces: ")
 					else:
-						restriction_description = _(" on namespaces: *")
+						restriction_description = _(" on namespaces: ")
 					for namespace in change["logparams"]["restrictions"]["namespaces"]:
 						if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
-							namespaces.append(recent_changes.namespaces[str(namespace)]["*"])
+							namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
 						else:
-							namespaces.append(namespace)
-					restriction_description = restriction_description + "*, *".join(namespaces)
-				restriction_description = restriction_description + "*."
+							namespaces.append("*{ns}*".format(ns=namespace))
+					restriction_description = restriction_description + ", ".join(namespaces)
+				restriction_description = restriction_description + "."
 				if len(restriction_description) > 1020:
 					logger.debug(restriction_description)
 					restriction_description = restriction_description[:1020] + "…"
@@ -696,7 +696,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		if "sitewide" not in change["logparams"]:
 			restriction_description = ""
 			if change["logparams"]["restrictions"]["pages"]:
-				restriction_description = _("Block from editing the following pages: ")
+				restriction_description = _("Blocked from editing the following pages: ")
 				for page in change["logparams"]["restrictions"]["pages"]:
 					restricted_pages = ["*"+i["page_title"]+"*" for i in change["logparams"]["restrictions"]["pages"]]
 				restriction_description = restriction_description + ", ".join(restricted_pages)
@@ -705,7 +705,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 				if restriction_description:
 					restriction_description = restriction_description + _(" and namespaces: ")
 				else:
-					restriction_description = _("Block from editing pages on following namespaces: ")
+					restriction_description = _("Blocked from editing pages on following namespaces: ")
 				for namespace in change["logparams"]["restrictions"]["namespaces"]:
 					if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
 						namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
