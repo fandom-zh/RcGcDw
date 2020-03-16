@@ -1,9 +1,9 @@
 ## Overview ##
-*Recent changes Gamepedia compatible Discord webhook* is a project made from earlier recent changes module of IRC bot. It has been remade as independent script for public use.    
+*Recent changes Goat compatible Discord webhook* is a project made from earlier recent changes module of IRC bot. It has been remade as independent script for public use.    
 Screenshots of the script in action can be found [on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation).
 
 ### Features ###
-* Fetch recent changes from Gamepedia wiki and send them to Discord channel using a webhook
+* Fetch recent changes from MediaWiki wiki and send them to Discord channel using a webhook
 * Two appearance modes - embed and compact
 * Send daily overviews, that show general information about wiki activity
 * Supports multiple languages (included EN, PL, BR, RU, FR, UK)
