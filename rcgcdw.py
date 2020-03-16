@@ -120,7 +120,8 @@ def prepare_paths():
 	"""Set the URL paths for article namespace and script namespace
 	WIKI_API_PATH will be: WIKI_DOMAIN/api.php
 	WIKI_ARTICLE_PATH will be: WIKI_DOMAIN/articlepath/$1 where $1 is the replaced string
-	WIKI_SCRIPT_PATH will be: WIKI_DOMAIN/"""
+	WIKI_SCRIPT_PATH will be: WIKI_DOMAIN/
+	WIKI_JUST_DOMAIN will be: WIKI_DOMAIN"""
 	def quick_try_url(url):
 		"""Quickly test if URL is the proper script path,
 		False if it appears invalid
@@ -133,9 +134,12 @@ def prepare_paths():
 			return False
 		except (KeyError, requests.exceptions.ConnectionError):
 			return False
-
-	parsed_url = urlparse(settings["wiki_url"])
-	for url_scheme in (settings["wiki_url"], settings["wiki_url"].split("wiki")[0]):
+	try:
+		parsed_url = urlparse(settings["wiki_url"])
+	except KeyError:
+		logger.critical("wiki_url is not specified in the settings. Please provide the wiki url in the settings and start the script again.")
+		sys.exit(1)
+	for url_scheme in (settings["wiki_url"], settings["wiki_url"].split("wiki")[0], urlunparse((*parsed_url[0:2], "", "", "", ""))):  # check different combinations, it's supposed to be idiot-proof
 		tested = quick_try_url(url_scheme + "/api.php?action=query&format=json&meta=siteinfo")
 		if tested:
 			WIKI_API_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/api.php"
