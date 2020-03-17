@@ -596,7 +596,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 	elif action in ("upload/overwrite", "upload/upload"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(
-			"{wiki}?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl&iilimit=2".format(
+			"{wiki}?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl%7Carchivename&iilimit=5".format(
 				wiki=WIKI_API_PATH, filename=change["title"])), "query", "pages")
 		link = create_article_path(change["title"].replace(" ", "_"))
 		additional_info_retrieved = False
@@ -605,8 +605,11 @@ def embed_formatter(action, change, parsed_comment, categories):
 			if "-1" not in urls:  # image still exists and not removed
 				try:
 					img_info = next(iter(urls.values()))["imageinfo"]
-					embed["image"]["url"] = img_info[0]["url"]
-					additional_info_retrieved = True
+					for num, revision in enumerate(img_info):
+						if revision["timestamp"] == change["logparams"]["img_timestamp"]:  # find the correct revision corresponding for this log entry
+							embed["image"]["url"] = "{rev}?{cache}".format(rev=revision["url"], cache=time.time_ns())  # cachebusting
+							additional_info_retrieved = True
+							break
 				except KeyError:
 					logger.warning("Wiki did not respond with extended information about file. The preview will not be shown.")
 		else:
@@ -615,13 +618,12 @@ def embed_formatter(action, change, parsed_comment, categories):
 			if additional_info_retrieved:
 				article_encoded = change["title"].replace(" ", "_").replace(')', '\)')
 				try:
-					img_timestamp = [x for x in img_info[1]["timestamp"] if x.isdigit()]
+					revision = img_info[num+1]
 				except IndexError:
 					logger.exception("Could not analize the information about the image (does it have only one version when expected more in overwrite?) which resulted in no Options field: {}".format(img_info))
 				else:
-					undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={timestamp}%21{filenamewon}".format(
-						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, timestamp="".join(img_timestamp),
-						filenamewon=article_encoded.split(":", 1)[1])
+					undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={archiveid}".format(
+						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, archiveid=revision["archivename"])
 					embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
 						link=embed["image"]["url"], undolink=undolink)}]
 			embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
