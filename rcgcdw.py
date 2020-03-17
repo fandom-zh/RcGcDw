@@ -1241,8 +1241,11 @@ class Recent_Changes_Class(object):
 			self.unsent_messages = self.unsent_messages[num:]
 			logger.debug(self.unsent_messages)
 		last_check = self.fetch_changes(amount=amount)
-		self.recent_id = last_check if last_check is not None else self.file_id
-		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id:
+		# If the request succeeds the last_check will be the last rcid from recentchanges query
+		if last_check is not None:
+			self.recent_id = last_check
+		# Assigns self.recent_id the last rcid if request succeeded, otherwise set the id from the file
+		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id and self.recent_id != 0:  # if saving to database is disabled, don't save the recent_id
 			self.file_id = self.recent_id
 			storage["rcid"] = self.recent_id
 			misc.save_datafile(storage)
@@ -1250,6 +1253,8 @@ class Recent_Changes_Class(object):
 		return self.recent_id
 
 	def fetch_changes(self, amount, clean=False):
+		"""Fetches the :amount: of changes from the wiki.
+		Returns None on error and int of rcid of latest change if succeeded"""
 		global logged_in
 		if len(self.ids) == 0:
 			logger.debug("ids is empty, triggering clean fetch")

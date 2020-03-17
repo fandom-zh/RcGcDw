@@ -45,9 +45,9 @@ def generate_datafile():
 		sys.exit(1)
 
 
-def load_datafile() -> object:
+def load_datafile() -> dict:
 	"""Read a data.json file and return a dictionary with contents
-	:rtype: object
+	:rtype: dict
 	"""
 	try:
 		with open("data.json") as data:
