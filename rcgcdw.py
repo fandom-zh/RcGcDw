@@ -607,7 +607,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 					img_info = next(iter(urls.values()))["imageinfo"]
 					for num, revision in enumerate(img_info):
 						if revision["timestamp"] == change["logparams"]["img_timestamp"]:  # find the correct revision corresponding for this log entry
-							embed["image"]["url"] = "{rev}?{cache}".format(rev=revision["url"], cache=time.time_ns())  # cachebusting
+							embed["image"]["url"] = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time()*5))  # cachebusting
 							additional_info_retrieved = True
 							break
 				except KeyError:
