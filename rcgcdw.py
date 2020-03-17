@@ -67,7 +67,7 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 # A few initial vars
 
 logged_in = False
-supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable", "cargo/recreatetable", "cargo/replacetable"]
+supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable", "cargo/recreatetable", "cargo/replacetable", "upload/revert"]
 profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XBL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
 WIKI_API_PATH: str = ""
 WIKI_ARTICLE_PATH: str = ""
@@ -251,6 +251,10 @@ def compact_formatter(action, change, parsed_comment, categories):
 		                                                                                    file=change["title"],
 		                                                                                    file_link=file_link,
 		                                                                                    comment=parsed_comment)
+	elif action == "upload/revert":
+		file_link = link_formatter(create_article_path(change["title"]))
+		content = _("[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}").format(
+			author=author, author_url=author_url, file=change["title"], file_link=file_link, comment=parsed_comment)
 	elif action == "upload/overwrite":
 		file_link = link_formatter(create_article_path(change["title"]))
 		content = _("[{author}]({author_url}) uploaded a new version of [{file}]({file_link}){comment}").format(author=author, author_url=author_url, file=change["title"], file_link=file_link, comment=parsed_comment)
@@ -593,7 +597,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 						{"name": _("Added"), "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
 			else:
 				logger.warning("Unable to download data on the edit content!")
-	elif action in ("upload/overwrite", "upload/upload"):  # sending files
+	elif action in ("upload/overwrite", "upload/upload", "upload/revert"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(
 			"{wiki}?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl%7Carchivename&iilimit=5".format(
@@ -614,7 +618,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 					logger.warning("Wiki did not respond with extended information about file. The preview will not be shown.")
 		else:
 			logger.warning("Request for additional image information have failed. The preview will not be shown.")
-		if action == "upload/overwrite":
+		if action in ("upload/overwrite", "upload/revert"):
 			if additional_info_retrieved:
 				article_encoded = change["title"].replace(" ", "_").replace(')', '\)')
 				try:
@@ -626,7 +630,10 @@ def embed_formatter(action, change, parsed_comment, categories):
 						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, archiveid=revision["archivename"])
 					embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
 						link=embed["image"]["url"], undolink=undolink)}]
-			embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
+			if action == "upload/overwrite":
+				embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
+			elif action == "upload/revert":
+				embed["title"] = _("Reverted a version of {name}").format(name=change["title"])
 		else:
 			embed["title"] = _("Uploaded {name}").format(name=change["title"])
 			if settings["license_detection"]:

@@ -77,6 +77,10 @@
             "icon":"https://i.imgur.com/egJpa81.png",
             "color":null
          },
+         "upload/revert": {
+            "icon": "https://i.imgur.com/egJpa81.png",
+            "color": null
+         },
          "delete/delete":{
             "icon":"https://i.imgur.com/BU77GD3.png",
             "color":1
