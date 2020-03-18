@@ -193,6 +193,10 @@
             "icon":"",
             "color":null
          },
+         "curseprofile/comment-purged":{
+            "icon":"",
+            "color":null
+         },
          "curseprofile/comment-replied":{
             "icon":"https://i.imgur.com/hkyYsI1.png",
             "color":null
