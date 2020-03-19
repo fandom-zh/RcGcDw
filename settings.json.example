@@ -1,6 +1,6 @@
 {
-   "cooldown": 30,
-   "wiki": "minecraft",
+   "cooldown": 60,
+   "wiki_url": "https://ucp-rail-test.fandom.com/pl/",
    "lang": "en",
    "header": {
       "user-agent": "RcGcDw/{version}"
@@ -76,6 +76,10 @@
          "upload/upload":{
             "icon":"https://i.imgur.com/egJpa81.png",
             "color":null
+         },
+         "upload/revert": {
+            "icon": "https://i.imgur.com/egJpa81.png",
+            "color": null
          },
          "delete/delete":{
             "icon":"https://i.imgur.com/BU77GD3.png",
@@ -186,6 +190,10 @@
             "color":null
          },
          "curseprofile/comment-deleted":{
+            "icon":"",
+            "color":null
+         },
+         "curseprofile/comment-purged":{
             "icon":"",
             "color":null
          },
