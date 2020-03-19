@@ -148,7 +148,7 @@ def prepare_paths():
 			WIKI_JUST_DOMAIN = urlunparse((*parsed_url[0:2], "", "", "", ""))
 			break
 	else:
-		logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URL in settings.json.")
+		logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URL in settings.json and your Internet connection is working.")
 		sys.exit(1)
 
 def create_article_path(article: str) -> str:
