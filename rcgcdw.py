@@ -559,9 +559,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 		link = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
 			article=change["title"].replace(" ", "_"))
-		embed["title"] = "{redirect}{article} ({new}{minor}{bot} {editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
+		embed["title"] = "{redirect}{article} ({new}{minor}{bot}{space}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
-		                                                             minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "")
+		                                                             minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "", space=" " if "bot" in change or (action == "edit" and "minor" in change) or action == "new" else "")
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			if action == "new":
 				changed_content = safe_read(recent_changes.safe_request(
@@ -935,7 +935,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 			embed["color"] = settings["appearance"]["embed"][action]["color"]
 	else:
 		embed["color"] = math.floor(colornumber)
-	embed["timestamp"] = change["timestamp"]
+	if settings["appearance"]["embed"]["show_footer"]:
+		embed["timestamp"] = change["timestamp"]
 	if "tags" in change and change["tags"]:
 		tag_displayname = []
 		if "fields" not in embed:
