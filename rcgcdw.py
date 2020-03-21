@@ -504,7 +504,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
 	elif action == "suppressed":
 		content = _("An action has been hidden by administration.")
-	send_to_discord({'content': content})
+	send_to_discord(json.dumps({'content': content, 'allowed_mentions': {'parse': []}}))
 
 
 def embed_formatter(action, change, parsed_comment, categories):
@@ -958,6 +958,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
+	data['allowed_mentions'] = {'parse': []}
 	formatted_embed = json.dumps(data, indent=4)
 	send_to_discord(formatted_embed)
 
