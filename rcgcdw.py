@@ -612,7 +612,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 					img_info = next(iter(urls.values()))["imageinfo"]
 					for num, revision in enumerate(img_info):
 						if revision["timestamp"] == change["logparams"]["img_timestamp"]:  # find the correct revision corresponding for this log entry
-							embed["image"]["url"] = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time()*5))  # cachebusting
+							image_direct_url = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time()*5))  # cachebusting
 							additional_info_retrieved = True
 							break
 				except KeyError:
@@ -630,7 +630,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 					undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={archiveid}".format(
 						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, archiveid=revision["archivename"])
 					embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
-						link=embed["image"]["url"], undolink=undolink)}]
+						link=image_direct_url, undolink=undolink)}]
+				if settings["appearance"]["embed"]["embed_images"]:
+					embed["image"]["url"] = image_direct_url
 			if action == "upload/overwrite":
 				embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
 			elif action == "upload/revert":
@@ -667,8 +669,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 				parsed_comment += _("\nLicense: {}").format(license)
 			if additional_info_retrieved:
 				embed["fields"] = [
-					{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
-
+					{"name": _("Options"), "value": _("([preview]({link}))").format(link=image_direct_url)}]
+				if settings["appearance"]["embed"]["embed_images"]:
+					embed["image"]["url"] = image_direct_url
 	elif action == "delete/delete":
 		link = create_article_path(change["title"].replace(" ", "_"))
 		embed["title"] = _("Deleted page {article}").format(article=change["title"])
