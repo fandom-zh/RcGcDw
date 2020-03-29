@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Recent changes Gamepedia compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
+# Recent changes Goat compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
 # Copyright (C) 2018 Frisk
 
 # This program is free software: you can redistribute it and/or modify
@@ -229,6 +229,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 		author_url = link_formatter(create_article_path("User:{user}".format( user=change["user"])))
 		author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
+	parsed_comment = re.sub(r"([^<]|\A)(http(s)://.*?)( |\Z)", "\\1<\\2>\\4", parsed_comment)  # see #97
 	if action in ["edit", "new"]:
 		edit_link = link_formatter("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
@@ -504,7 +505,7 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
 	elif action == "suppressed":
 		content = _("An action has been hidden by administration.")
-	send_to_discord({'content': content})
+	send_to_discord(json.dumps({'content': content, 'allowed_mentions': {'parse': []}}))
 
 
 def embed_formatter(action, change, parsed_comment, categories):
@@ -559,9 +560,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 		link = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
 			article=change["title"].replace(" ", "_"))
-		embed["title"] = "{redirect}{article} ({new}{minor}{bot} {editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
+		embed["title"] = "{redirect}{article} ({new}{minor}{bot}{space}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
-		                                                             minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "")
+		                                                             minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "", space=" " if "bot" in change or (action == "edit" and "minor" in change) or action == "new" else "")
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			if action == "new":
 				changed_content = safe_read(recent_changes.safe_request(
@@ -611,7 +612,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 					img_info = next(iter(urls.values()))["imageinfo"]
 					for num, revision in enumerate(img_info):
 						if revision["timestamp"] == change["logparams"]["img_timestamp"]:  # find the correct revision corresponding for this log entry
-							embed["image"]["url"] = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time()*5))  # cachebusting
+							image_direct_url = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time()*5))  # cachebusting
 							additional_info_retrieved = True
 							break
 				except KeyError:
@@ -629,7 +630,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 					undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={archiveid}".format(
 						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, archiveid=revision["archivename"])
 					embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
-						link=embed["image"]["url"], undolink=undolink)}]
+						link=image_direct_url, undolink=undolink)}]
+				if settings["appearance"]["embed"]["embed_images"]:
+					embed["image"]["url"] = image_direct_url
 			if action == "upload/overwrite":
 				embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
 			elif action == "upload/revert":
@@ -666,8 +669,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 				parsed_comment += _("\nLicense: {}").format(license)
 			if additional_info_retrieved:
 				embed["fields"] = [
-					{"name": _("Options"), "value": _("([preview]({link}))").format(link=embed["image"]["url"])}]
-
+					{"name": _("Options"), "value": _("([preview]({link}))").format(link=image_direct_url)}]
+				if settings["appearance"]["embed"]["embed_images"]:
+					embed["image"]["url"] = image_direct_url
 	elif action == "delete/delete":
 		link = create_article_path(change["title"].replace(" ", "_"))
 		embed["title"] = _("Deleted page {article}").format(article=change["title"])
@@ -935,7 +939,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 			embed["color"] = settings["appearance"]["embed"][action]["color"]
 	else:
 		embed["color"] = math.floor(colornumber)
-	embed["timestamp"] = change["timestamp"]
+	if settings["appearance"]["embed"]["show_footer"]:
+		embed["timestamp"] = change["timestamp"]
 	if "tags" in change and change["tags"]:
 		tag_displayname = []
 		if "fields" not in embed:
@@ -958,6 +963,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
+	data['allowed_mentions'] = {'parse': []}
 	formatted_embed = json.dumps(data, indent=4)
 	send_to_discord(formatted_embed)
 

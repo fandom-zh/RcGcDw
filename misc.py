@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Recent changes Gamepedia compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
+# Recent changes Goat compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
 # Copyright (C) 2018 Frisk
 
 # This program is free software: you can redistribute it and/or modify

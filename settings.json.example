@@ -1,6 +1,6 @@
 {
    "cooldown": 60,
-   "wiki_url": "https://ucp-rail-test.fandom.com/pl/",
+   "wiki_url": "https://wreckit-woodhouse.fandom.com/",
    "lang": "en",
    "header": {
       "user-agent": "RcGcDw/{version}"
@@ -57,6 +57,8 @@
       "mode": "embed",
       "embed": {
          "show_edit_changes": false,
+         "show_footer": true,
+         "embed_images": true,
          "daily_overview": {
             "color": 16312092,
             "icon":""
