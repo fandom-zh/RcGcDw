@@ -18,6 +18,9 @@
 
 import json, logging, sys, re
 from html.parser import HTMLParser
+from urllib.parse import urlparse, urlunparse
+import requests
+
 from configloader import settings
 import gettext
 
@@ -30,43 +33,53 @@ _ = t.gettext
 
 misc_logger = logging.getLogger("rcgcdw.misc")
 
-data_template = {"rcid": 99999999999,
+data_template = {"rcid": 99999999999, "discussion_id": 0,
                  "daily_overview": {"edits": None, "new_files": None, "admin_actions": None, "bytes_changed": None,
                                     "new_articles": None, "unique_editors": None, "day_score": None, "days_tracked": 0}}
 
+WIKI_API_PATH: str = ""
+WIKI_ARTICLE_PATH: str = ""
+WIKI_SCRIPT_PATH: str = ""
+WIKI_JUST_DOMAIN: str = ""
 
-def generate_datafile():
-	"""Generate a data.json file from a template."""
-	try:
-		with open("data.json", 'w') as data:
-			data.write(json.dumps(data_template, indent=4))
-	except PermissionError:
-		misc_logger.critical("Could not create a data file (no permissions). No way to store last edit.")
-		sys.exit(1)
+class DataFile:
+	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
+	def __init__(self):
+		self.data = self.load_datafile()
+
+	@staticmethod
+	def generate_datafile():
+		"""Generate a data.json file from a template."""
+		try:
+			with open("data.json", 'w') as data:
+				data.write(json.dumps(data_template, indent=4))
+		except PermissionError:
+			misc_logger.critical("Could not create a data file (no permissions). No way to store last edit.")
+			sys.exit(1)
+
+	def load_datafile(self) -> dict:
+		"""Read a data.json file and return a dictionary with contents
+		:rtype: dict
+		"""
+		try:
+			with open("data.json") as data:
+				return json.loads(data.read())
+		except FileNotFoundError:
+			self.generate_datafile()
+			misc_logger.info("The data file could not be found. Generating a new one...")
+			return data_template
+
+	def save_datafile(self):
+		"""Overwrites the data.json file with given dictionary"""
+		try:
+			with open("data.json", "w") as data_file:
+				data_file.write(json.dumps(self.data, indent=4))
+		except PermissionError:
+			misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
+			sys.exit(1)
 
 
-def load_datafile() -> dict:
-	"""Read a data.json file and return a dictionary with contents
-	:rtype: dict
-	"""
-	try:
-		with open("data.json") as data:
-			return json.loads(data.read())
-	except FileNotFoundError:
-		generate_datafile()
-		misc_logger.info("The data file could not be found. Generating a new one...")
-		return data_template
-
-
-def save_datafile(data):
-	"""Overwrites the data.json file with given dictionary"""
-	try:
-		with open("data.json", "w") as data_file:
-			data_file.write(json.dumps(data, indent=4))
-	except PermissionError:
-		misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
-		sys.exit(1)
-
+datafile = DataFile()
 
 def weighted_average(value, weight, new_value):
 	"""Calculates weighted average of value number with weight weight and new_value with weight 1"""
@@ -192,3 +205,44 @@ def add_to_dict(dictionary, key):
 	else:
 		dictionary[key] = 1
 	return dictionary
+
+def prepare_paths():
+	global WIKI_API_PATH
+	global WIKI_ARTICLE_PATH
+	global WIKI_SCRIPT_PATH
+	global WIKI_JUST_DOMAIN
+	"""Set the URL paths for article namespace and script namespace
+	WIKI_API_PATH will be: WIKI_DOMAIN/api.php
+	WIKI_ARTICLE_PATH will be: WIKI_DOMAIN/articlepath/$1 where $1 is the replaced string
+	WIKI_SCRIPT_PATH will be: WIKI_DOMAIN/
+	WIKI_JUST_DOMAIN will be: WIKI_DOMAIN"""
+	def quick_try_url(url):
+		"""Quickly test if URL is the proper script path,
+		False if it appears invalid
+		dictionary when it appears valid"""
+		try:
+			request = requests.get(url, timeout=5)
+			if request.status_code == requests.codes.ok:
+				if request.json()["query"]["general"] is not None:
+					return request
+			return False
+		except (KeyError, requests.exceptions.ConnectionError):
+			return False
+	try:
+		parsed_url = urlparse(settings["wiki_url"])
+	except KeyError:
+		misc_logger.critical("wiki_url is not specified in the settings. Please provide the wiki url in the settings and start the script again.")
+		sys.exit(1)
+	for url_scheme in (settings["wiki_url"], settings["wiki_url"].split("wiki")[0], urlunparse((*parsed_url[0:2], "", "", "", ""))):  # check different combinations, it's supposed to be idiot-proof
+		tested = quick_try_url(url_scheme + "/api.php?action=query&format=json&meta=siteinfo")
+		if tested:
+			WIKI_API_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/api.php"
+			WIKI_SCRIPT_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/"
+			WIKI_ARTICLE_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["articlepath"]
+			WIKI_JUST_DOMAIN = urlunparse((*parsed_url[0:2], "", "", "", ""))
+			break
+	else:
+		misc_logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URL in settings.json and your Internet connection is working.")
+		sys.exit(1)
+
+prepare_paths()
