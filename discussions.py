@@ -16,9 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging, gettext
+import logging, gettext, schedule, requests
 from configloader import settings
 from misc import datafile, WIKI_SCRIPT_PATH
+from session import session
 
 # Initialize translation
 
@@ -29,7 +30,70 @@ _ = t.gettext
 
 discussion_logger = logging.getLogger("rcgcdw.disc")
 
+# Create a variable in datafile if it doesn't exist yet (in files <1.10)
+
+if "discussion_id" not in datafile.data:
+	datafile.data["discussion_id"] = 0
+	datafile.save_datafile()
+
+storage = datafile.data
+
 fetch_url = "https://services.fandom.com/discussion/{wikiid}/posts?sortDirection=descending&sortKey=creation_date&limit={limit}".format(wikiid=settings["fandom_discussions"]["wiki_id"], limit=settings["fandom_discussions"]["limit"])
 
-def fetch_discussions():
+
+def embed_formatter(post):
+	"""Embed formatter for Fandom discussions."""
 	pass
+
+
+def compact_formatter(post):
+	"""Compact formatter for Fandom discussions."""
+	message = None
+	if post["isReply"]:
+		pass
+	else:
+		pass
+
+
+def fetch_discussions():
+	request = safe_request(fetch_url)
+	if request:
+		try:
+			request_json = request.json()["_embedded"]["doc:posts"]
+			request_json.reverse()
+		except ValueError:
+			discussion_logger.warning("ValueError in fetching discussions")
+			return None
+		except KeyError:
+			discussion_logger.warning("Wiki returned %s" % (request_json.json()))
+			return None
+		else:
+			if request_json:
+				for post in request_json:
+					if post["id"] > storage["discussion_id"]:
+						formatter(post)
+				if post["id"] > storage["discussion_id"]:
+					storage["discussion_id"] = post["id"]
+					datafile.save_datafile()
+
+def safe_request(url):
+	"""Function to assure safety of request, and do not crash the script on exceptions,"""
+	try:
+		request = session.get(url, timeout=10, allow_redirects=False, header={"Accept": "application/hal+json"})
+	except requests.exceptions.Timeout:
+		discussion_logger.warning("Reached timeout error for request on link {url}".format(url=url))
+		return None
+	except requests.exceptions.ConnectionError:
+		discussion_logger.warning("Reached connection error for request on link {url}".format(url=url))
+		return None
+	except requests.exceptions.ChunkedEncodingError:
+		discussion_logger.warning("Detected faulty response from the web server for request on link {url}".format(url=url))
+		return None
+	else:
+		if 499 < request.status_code < 600:
+			return None
+		return request
+
+formatter = embed_formatter if settings["fandom_discussions"]["appearance"]["mode"] == "embed" else compact_formatter
+
+schedule.every(settings["fandom_discussions"]["cooldown"]).seconds.do(fetch_discussions)

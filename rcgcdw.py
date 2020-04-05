@@ -29,10 +29,11 @@ from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from configloader import settings
 from misc import link_formatter, ContentParser, safe_read, handle_discord_http, add_to_dict, datafile, \
-	WIKI_API_PATH, WIKI_ARTICLE_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN
+	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path
+from session import session
 
 if settings["fandom_discussions"]["enabled"]:
-	pass
+	import discussions
 
 if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
@@ -113,10 +114,6 @@ class MWError(Exception):
 	pass
 
 
-def create_article_path(article: str) -> str:
-	"""Takes the string and creates an URL with it as the article name"""
-	return WIKI_ARTICLE_PATH.replace("$1", article)
-
 def send(message, name, avatar):
 	dictionary_creator = {"content": message}
 	if name:
@@ -188,7 +185,7 @@ def pull_comment(comment_id):
 
 def compact_formatter(action, change, parsed_comment, categories):
 	if action != "suppressed":
-		author_url = link_formatter(create_article_path("User:{user}".format( user=change["user"])))
+		author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
 		author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
 	parsed_comment = re.sub(r"([^<]|\A)(http(s)://.*?)( |\Z)", "\\1<\\2>\\4", parsed_comment)  # see #97
@@ -399,7 +396,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 		link = link_formatter(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
 		content = _("[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
 	elif action == "abusefilter/create":
-		link = link_formatter(create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId'])))
+		link = link_formatter(
+			create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId'])))
 		content = _("[{author}]({author_url}) created abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
 	elif action == "merge/merge":
 		link = link_formatter(create_article_path(change["title"]))
@@ -808,7 +806,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		link = create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"]))
 		embed["title"] = _("Edited abuse filter number {number}").format(number=change["logparams"]['newId'])
 	elif action == "abusefilter/create":
-		link = create_article_path("Special:AbuseFilter/{number}".format( number=change["logparams"]['newId']))
+		link = create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId']))
 		embed["title"] = _("Created abuse filter number {number}").format(number=change["logparams"]['newId'])
 	elif action == "merge/merge":
 		link = create_article_path(change["title"].replace(" ", "_"))
@@ -1135,8 +1133,7 @@ class Recent_Changes_Class(object):
 		self.unsent_messages = []
 		self.mw_messages = {}
 		self.namespaces = None
-		self.session = requests.Session()
-		self.session.headers.update(settings["header"])
+		self.session = session
 		if settings["limitrefetch"] != -1:
 			self.file_id = storage["rcid"]
 		else:

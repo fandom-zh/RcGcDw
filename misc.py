@@ -245,4 +245,10 @@ def prepare_paths():
 		misc_logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URL in settings.json and your Internet connection is working.")
 		sys.exit(1)
 
+
 prepare_paths()
+
+
+def create_article_path(article: str) -> str:
+	"""Takes the string and creates an URL with it as the article name"""
+	return WIKI_ARTICLE_PATH.replace("$1", article)
