@@ -56,9 +56,9 @@ def embed_formatter(post):
 		embed["title"] = _("Created {title}").format(title=post["title"])
 		embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=WIKI_SCRIPT_PATH, threadId=post["threadId"])
 	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
-		embed["description"] = post["rawContent"]
+		embed["description"] = post["rawContent"] if len(post["rawContent"]) < 2000 else post["rawContent"][0:2000] + "…"
 	embed["footer"]["text"] = post["forumName"]
-	embed["timestamp"] = datetime.datetime.fromtimestamp(post["creationDate"]["epochSecond"]).isoformat()+"Z"
+	embed["timestamp"] = datetime.datetime.fromtimestamp(post["creationDate"]["epochSecond"], tz=datetime.timezone.utc).isoformat()
 	data["embeds"].append(dict(embed))
 	data['avatar_url'] = settings["avatars"]["embed"]
 	data['allowed_mentions'] = {'parse': []}
