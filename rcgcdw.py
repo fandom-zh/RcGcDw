@@ -28,8 +28,9 @@ from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from configloader import settings
-from misc import link_formatter, ContentParser, safe_read, handle_discord_http, add_to_dict, datafile, \
-	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue
+from misc import link_formatter, ContentParser, safe_read, add_to_dict, datafile, \
+	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue, send_to_discord_webhook, \
+	send_to_discord
 from session import session
 
 if settings["fandom_discussions"]["enabled"]:
@@ -131,39 +132,6 @@ def profile_field_name(name, embed):
 			return _("Unknown")
 		else:
 			return _("unknown")
-
-def send_to_discord_webhook(data):
-	header = settings["header"]
-	if isinstance(data, str):
-		header['Content-Type'] = 'application/json'
-	else:
-		header['Content-Type'] = 'application/x-www-form-urlencoded'
-	try:
-		result = requests.post(settings["webhookURL"], data=data,
-		                       headers=header, timeout=10)
-	except requests.exceptions.Timeout:
-		logger.warning("Timeouted while sending data to the webhook.")
-		return 3
-	except requests.exceptions.ConnectionError:
-		logger.warning("Connection error while sending the data to a webhook")
-		return 3
-	else:
-		return handle_discord_http(result.status_code, data, result)
-
-
-def send_to_discord(data):
-	if messagequeue:
-		messagequeue.add_message(data)
-	else:
-		code = send_to_discord_webhook(data)
-		if code == 3:
-			messagequeue.add_message(data)
-		elif code == 2:
-			time.sleep(5.0)
-			messagequeue.add_message(data)
-		elif code < 2:
-			time.sleep(2.0)
-			pass
 
 
 def pull_comment(comment_id):

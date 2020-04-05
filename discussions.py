@@ -16,9 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging, gettext, schedule, requests
+import logging, gettext, schedule, requests, json, datetime
+from collections import defaultdict
 from configloader import settings
-from misc import datafile, WIKI_SCRIPT_PATH
+from misc import datafile, WIKI_SCRIPT_PATH, send_to_discord
 from session import session
 
 # Initialize translation
@@ -43,20 +44,38 @@ fetch_url = "https://services.fandom.com/discussion/{wikiid}/posts?sortDirection
 
 def embed_formatter(post):
 	"""Embed formatter for Fandom discussions."""
-	pass
-
+	embed = defaultdict(dict)
+	data = {"embeds": []}
+	embed["author"]["name"] = post["createdBy"]["name"]
+	embed["author"]["icon_url"] = post["createdBy"]["avatarUrl"]
+	embed["author"]["url"] = "{wikiurl}f/u/{creatorId}".format(wikiurl=WIKI_SCRIPT_PATH, creatorId=post["creatorId"])
+	if post["isReply"]:
+		embed["title"] = _("Replied to {title}").format(title=post["_embedded"]["thread"][0]["title"])
+		embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(wikiurl=WIKI_SCRIPT_PATH, threadId=post["threadId"], postId=post["id"])
+	else:
+		embed["title"] = _("Created {title}").format(title=post["title"])
+		embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=WIKI_SCRIPT_PATH, threadId=post["threadId"])
+	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
+		embed["description"] = post["rawContent"]
+	embed["footer"]["text"] = post["forumName"]
+	embed["timestamp"] = datetime.datetime.fromtimestamp(post["creationDate"]["epochSecond"]).isoformat()+"Z"
+	data["embeds"].append(dict(embed))
+	data['avatar_url'] = settings["avatars"]["embed"]
+	data['allowed_mentions'] = {'parse': []}
+	formatted_embed = json.dumps(data, indent=4)
+	send_to_discord(formatted_embed)
 
 def compact_formatter(post):
 	"""Compact formatter for Fandom discussions."""
 	message = None
 	if post["isReply"]:
-		message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in ${forumName}".format(
-			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"]))
+		message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
+			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
 	else:
-		message = _("[${author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}".format(
+		message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
 			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
-		))
-	{"content": message}
+		)
+	send_to_discord(json.dumps({'content': message, 'allowed_mentions': {'parse': []}}))
 
 
 def fetch_discussions():
@@ -74,16 +93,16 @@ def fetch_discussions():
 		else:
 			if request_json:
 				for post in request_json:
-					if post["id"] > storage["discussion_id"]:
+					if int(post["id"]) > storage["discussion_id"]:
 						formatter(post)
-				if post["id"] > storage["discussion_id"]:
-					storage["discussion_id"] = post["id"]
+				if int(post["id"]) > storage["discussion_id"]:
+					storage["discussion_id"] = int(post["id"])
 					datafile.save_datafile()
 
 def safe_request(url):
 	"""Function to assure safety of request, and do not crash the script on exceptions,"""
 	try:
-		request = session.get(url, timeout=10, allow_redirects=False, header={"Accept": "application/hal+json"})
+		request = session.get(url, timeout=10, allow_redirects=False, headers={"Accept": "application/hal+json"})
 	except requests.exceptions.Timeout:
 		discussion_logger.warning("Reached timeout error for request on link {url}".format(url=url))
 		return None

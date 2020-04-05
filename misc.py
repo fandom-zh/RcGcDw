@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json, logging, sys, re
+import json, logging, sys, re, time
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse
 import requests
@@ -277,3 +277,37 @@ prepare_paths()
 def create_article_path(article: str) -> str:
 	"""Takes the string and creates an URL with it as the article name"""
 	return WIKI_ARTICLE_PATH.replace("$1", article)
+
+
+def send_to_discord_webhook(data):
+	header = settings["header"]
+	if isinstance(data, str):
+		header['Content-Type'] = 'application/json'
+	else:
+		header['Content-Type'] = 'application/x-www-form-urlencoded'
+	try:
+		result = requests.post(settings["webhookURL"], data=data,
+		                       headers=header, timeout=10)
+	except requests.exceptions.Timeout:
+		misc_logger.warning("Timeouted while sending data to the webhook.")
+		return 3
+	except requests.exceptions.ConnectionError:
+		misc_logger.warning("Connection error while sending the data to a webhook")
+		return 3
+	else:
+		return handle_discord_http(result.status_code, data, result)
+
+
+def send_to_discord(data):
+	if messagequeue:
+		messagequeue.add_message(data)
+	else:
+		code = send_to_discord_webhook(data)
+		if code == 3:
+			messagequeue.add_message(data)
+		elif code == 2:
+			time.sleep(5.0)
+			messagequeue.add_message(data)
+		elif code < 2:
+			time.sleep(2.0)
+			pass
