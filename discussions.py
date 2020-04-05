@@ -50,9 +50,13 @@ def compact_formatter(post):
 	"""Compact formatter for Fandom discussions."""
 	message = None
 	if post["isReply"]:
-		pass
+		message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in ${forumName}".format(
+			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"]))
 	else:
-		pass
+		message = _("[${author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}".format(
+			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
+		))
+	{"content": message}
 
 
 def fetch_discussions():

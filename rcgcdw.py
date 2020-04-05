@@ -29,7 +29,7 @@ from collections import defaultdict, Counter
 from urllib.parse import quote_plus
 from configloader import settings
 from misc import link_formatter, ContentParser, safe_read, handle_discord_http, add_to_dict, datafile, \
-	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path
+	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue
 from session import session
 
 if settings["fandom_discussions"]["enabled"]:
@@ -152,15 +152,15 @@ def send_to_discord_webhook(data):
 
 
 def send_to_discord(data):
-	if recent_changes.unsent_messages:
-		recent_changes.unsent_messages.append(data)
+	if messagequeue:
+		messagequeue.add_message(data)
 	else:
 		code = send_to_discord_webhook(data)
 		if code == 3:
-			recent_changes.unsent_messages.append(data)
+			messagequeue.add_message(data)
 		elif code == 2:
 			time.sleep(5.0)
-			recent_changes.unsent_messages.append(data)
+			messagequeue.add_message(data)
 		elif code < 2:
 			time.sleep(2.0)
 			pass
@@ -1130,7 +1130,6 @@ class Recent_Changes_Class(object):
 		self.tags = {}
 		self.groups = {}
 		self.streak = -1
-		self.unsent_messages = []
 		self.mw_messages = {}
 		self.namespaces = None
 		self.session = session
@@ -1193,11 +1192,11 @@ class Recent_Changes_Class(object):
 			self.ids.pop(0)
 
 	def fetch(self, amount=settings["limit"]):
-		if self.unsent_messages:
+		if messagequeue:
 			logger.info(
 				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
-					len(self.unsent_messages)))
-			for num, item in enumerate(self.unsent_messages):
+					len(messagequeue)))
+			for num, item in enumerate(messagequeue):
 				logger.debug(
 					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
 					                                                                                         str(item)))
@@ -1208,10 +1207,10 @@ class Recent_Changes_Class(object):
 					logger.debug("Sending message failed")
 					break
 			else:
-				self.unsent_messages = []
+				messagequeue.clear()
 				logger.debug("Queue emptied, all messages delivered")
-			self.unsent_messages = self.unsent_messages[num:]
-			logger.debug(self.unsent_messages)
+			messagequeue.cut_messages(num)
+			logger.debug(messagequeue)
 		last_check = self.fetch_changes(amount=amount)
 		# If the request succeeds the last_check will be the last rcid from recentchanges query
 		if last_check is not None:

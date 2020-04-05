@@ -79,6 +79,31 @@ class DataFile:
 			sys.exit(1)
 
 
+class MessageQueue:
+	"""Message queue class for undelivered messages"""
+	def __init__(self):
+		self._queue = []
+
+	def __repr__(self):
+		return self._queue
+
+	def __len__(self):
+		return len(self._queue)
+
+	def __iter__(self):
+		return self._queue
+
+	def clear(self):
+		self._queue.clear()
+
+	def add_message(self, message):
+		self._queue.append(message)
+
+	def cut_messages(self, item_num):
+		self._queue = self._queue[item_num:]
+
+
+messagequeue = MessageQueue()
 datafile = DataFile()
 
 def weighted_average(value, weight, new_value):
