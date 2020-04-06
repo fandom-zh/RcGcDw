@@ -26,9 +26,15 @@ from html.parser import HTMLParser
 import misc
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
-from urllib.parse import quote_plus, urlparse, urlunparse
+from urllib.parse import quote_plus
 from configloader import settings
-from misc import link_formatter, ContentParser, safe_read, handle_discord_http, add_to_dict, misc_logger
+from misc import link_formatter, ContentParser, safe_read, add_to_dict, datafile, \
+	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue, send_to_discord_webhook, \
+	send_to_discord
+from session import session
+
+if settings["fandom_discussions"]["enabled"]:
+	import discussions
 
 if __name__ != "__main__":  # return if called as a module
 	logging.critical("The file is being executed as a module. Please execute the script using the console.")
@@ -53,7 +59,7 @@ except FileNotFoundError:
 lang.install()
 ngettext = lang.ngettext
 
-storage = misc.load_datafile()
+storage = datafile.data
 
 # Remove previous data holding file if exists and limitfetch allows
 
@@ -61,7 +67,7 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 	with open("lastchange.txt", 'r') as sfile:
 		logger.info("Converting old lastchange.txt file into new data storage data.json...")
 		storage["rcid"] = int(sfile.read().strip())
-		misc.save_datafile(storage)
+		datafile.save_datafile()
 		os.remove("lastchange.txt")
 
 # A few initial vars
@@ -69,10 +75,6 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 logged_in = False
 supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/comment-purged", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable", "cargo/recreatetable", "cargo/replacetable", "upload/revert"]
 profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XBL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
-WIKI_API_PATH: str = ""
-WIKI_ARTICLE_PATH: str = ""
-WIKI_SCRIPT_PATH: str = ""
-WIKI_JUST_DOMAIN: str = ""
 
 
 class LinkParser(HTMLParser):
@@ -112,48 +114,6 @@ LinkParser = LinkParser()
 class MWError(Exception):
 	pass
 
-def prepare_paths():
-	global WIKI_API_PATH
-	global WIKI_ARTICLE_PATH
-	global WIKI_SCRIPT_PATH
-	global WIKI_JUST_DOMAIN
-	"""Set the URL paths for article namespace and script namespace
-	WIKI_API_PATH will be: WIKI_DOMAIN/api.php
-	WIKI_ARTICLE_PATH will be: WIKI_DOMAIN/articlepath/$1 where $1 is the replaced string
-	WIKI_SCRIPT_PATH will be: WIKI_DOMAIN/
-	WIKI_JUST_DOMAIN will be: WIKI_DOMAIN"""
-	def quick_try_url(url):
-		"""Quickly test if URL is the proper script path,
-		False if it appears invalid
-		dictionary when it appears valid"""
-		try:
-			request = requests.get(url, timeout=5)
-			if request.status_code == requests.codes.ok:
-				if request.json()["query"]["general"] is not None:
-					return request
-			return False
-		except (KeyError, requests.exceptions.ConnectionError):
-			return False
-	try:
-		parsed_url = urlparse(settings["wiki_url"])
-	except KeyError:
-		logger.critical("wiki_url is not specified in the settings. Please provide the wiki url in the settings and start the script again.")
-		sys.exit(1)
-	for url_scheme in (settings["wiki_url"], settings["wiki_url"].split("wiki")[0], urlunparse((*parsed_url[0:2], "", "", "", ""))):  # check different combinations, it's supposed to be idiot-proof
-		tested = quick_try_url(url_scheme + "/api.php?action=query&format=json&meta=siteinfo")
-		if tested:
-			WIKI_API_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/api.php"
-			WIKI_SCRIPT_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/"
-			WIKI_ARTICLE_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["articlepath"]
-			WIKI_JUST_DOMAIN = urlunparse((*parsed_url[0:2], "", "", "", ""))
-			break
-	else:
-		logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URL in settings.json and your Internet connection is working.")
-		sys.exit(1)
-
-def create_article_path(article: str) -> str:
-	"""Takes the string and creates an URL with it as the article name"""
-	return WIKI_ARTICLE_PATH.replace("$1", article)
 
 def send(message, name, avatar):
 	dictionary_creator = {"content": message}
@@ -172,39 +132,6 @@ def profile_field_name(name, embed):
 			return _("Unknown")
 		else:
 			return _("unknown")
-
-def send_to_discord_webhook(data):
-	header = settings["header"]
-	if isinstance(data, str):
-		header['Content-Type'] = 'application/json'
-	else:
-		header['Content-Type'] = 'application/x-www-form-urlencoded'
-	try:
-		result = requests.post(settings["webhookURL"], data=data,
-		                       headers=header, timeout=10)
-	except requests.exceptions.Timeout:
-		logger.warning("Timeouted while sending data to the webhook.")
-		return 3
-	except requests.exceptions.ConnectionError:
-		logger.warning("Connection error while sending the data to a webhook")
-		return 3
-	else:
-		return handle_discord_http(result.status_code, data, result)
-
-
-def send_to_discord(data):
-	if recent_changes.unsent_messages:
-		recent_changes.unsent_messages.append(data)
-	else:
-		code = send_to_discord_webhook(data)
-		if code == 3:
-			recent_changes.unsent_messages.append(data)
-		elif code == 2:
-			time.sleep(5.0)
-			recent_changes.unsent_messages.append(data)
-		elif code < 2:
-			time.sleep(2.0)
-			pass
 
 
 def pull_comment(comment_id):
@@ -226,7 +153,7 @@ def pull_comment(comment_id):
 
 def compact_formatter(action, change, parsed_comment, categories):
 	if action != "suppressed":
-		author_url = link_formatter(create_article_path("User:{user}".format( user=change["user"])))
+		author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
 		author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
 	parsed_comment = re.sub(r"([^<]|\A)(http(s)://.*?)( |\Z)", "\\1<\\2>\\4", parsed_comment)  # see #97
@@ -437,7 +364,8 @@ def compact_formatter(action, change, parsed_comment, categories):
 		link = link_formatter(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
 		content = _("[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
 	elif action == "abusefilter/create":
-		link = link_formatter(create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId'])))
+		link = link_formatter(
+			create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId'])))
 		content = _("[{author}]({author_url}) created abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
 	elif action == "merge/merge":
 		link = link_formatter(create_article_path(change["title"]))
@@ -846,7 +774,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 		link = create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"]))
 		embed["title"] = _("Edited abuse filter number {number}").format(number=change["logparams"]['newId'])
 	elif action == "abusefilter/create":
-		link = create_article_path("Special:AbuseFilter/{number}".format( number=change["logparams"]['newId']))
+		link = create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId']))
 		embed["title"] = _("Created abuse filter number {number}").format(number=change["logparams"]['newId'])
 	elif action == "merge/merge":
 		link = create_article_path(change["title"].replace(" ", "_"))
@@ -1069,7 +997,7 @@ def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique
 		storage["daily_overview"].update({"edits": edits_avg, "new_files": files_avg, "admin_actions": admin_avg, "bytes_changed": changed_bytes_avg,
 		             "new_articles": new_articles_avg, "unique_editors": unique_contributors_avg, "day_score": day_score_avg})
 	storage["daily_overview"]["days_tracked"] += 1
-	misc.save_datafile(storage)
+	datafile.save_datafile()
 	return edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score
 
 def day_overview():
@@ -1170,11 +1098,9 @@ class Recent_Changes_Class(object):
 		self.tags = {}
 		self.groups = {}
 		self.streak = -1
-		self.unsent_messages = []
 		self.mw_messages = {}
 		self.namespaces = None
-		self.session = requests.Session()
-		self.session.headers.update(settings["header"])
+		self.session = session
 		if settings["limitrefetch"] != -1:
 			self.file_id = storage["rcid"]
 		else:
@@ -1234,11 +1160,11 @@ class Recent_Changes_Class(object):
 			self.ids.pop(0)
 
 	def fetch(self, amount=settings["limit"]):
-		if self.unsent_messages:
+		if messagequeue:
 			logger.info(
 				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
-					len(self.unsent_messages)))
-			for num, item in enumerate(self.unsent_messages):
+					len(messagequeue)))
+			for num, item in enumerate(messagequeue):
 				logger.debug(
 					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
 					                                                                                         str(item)))
@@ -1249,10 +1175,10 @@ class Recent_Changes_Class(object):
 					logger.debug("Sending message failed")
 					break
 			else:
-				self.unsent_messages = []
+				messagequeue.clear()
 				logger.debug("Queue emptied, all messages delivered")
-			self.unsent_messages = self.unsent_messages[num:]
-			logger.debug(self.unsent_messages)
+			messagequeue.cut_messages(num)
+			logger.debug(messagequeue)
 		last_check = self.fetch_changes(amount=amount)
 		# If the request succeeds the last_check will be the last rcid from recentchanges query
 		if last_check is not None:
@@ -1261,7 +1187,7 @@ class Recent_Changes_Class(object):
 		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id and self.recent_id != 0:  # if saving to database is disabled, don't save the recent_id
 			self.file_id = self.recent_id
 			storage["rcid"] = self.recent_id
-			misc.save_datafile(storage)
+			datafile.save_datafile()
 		logger.debug("Most recent rcid is: {}".format(self.recent_id))
 		return self.recent_id
 
@@ -1453,7 +1379,6 @@ else:
 	sys.exit(1)
 
 # Log in and download wiki information
-prepare_paths()
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
 		recent_changes.log_in()
@@ -1468,6 +1393,7 @@ recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"]
 
 schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
 if 1 == 2: # additional translation strings in unreachable code
+	# noinspection PyUnreachableCode
 	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
 	      _("autoreview"), _("autopatrol"), _("wiki_guardian"), ngettext("second", "seconds", 1), ngettext("minute", "minutes", 1), ngettext("hour", "hours", 1), ngettext("day", "days", 1), ngettext("week", "weeks", 1), ngettext("month", "months",1), ngettext("year", "years", 1), ngettext("millennium", "millennia", 1), ngettext("decade", "decades", 1), ngettext("century", "centuries", 1))
 

@@ -10,3 +10,4 @@ try:  # load settings
 except FileNotFoundError:
 	logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
 	sys.exit(1)
+
