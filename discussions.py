@@ -50,10 +50,10 @@ def embed_formatter(post):
 	embed["author"]["icon_url"] = post["createdBy"]["avatarUrl"]
 	embed["author"]["url"] = "{wikiurl}f/u/{creatorId}".format(wikiurl=WIKI_SCRIPT_PATH, creatorId=post["creatorId"])
 	if post["isReply"]:
-		embed["title"] = _("Replied to {title}").format(title=post["_embedded"]["thread"][0]["title"])
+		embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
 		embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(wikiurl=WIKI_SCRIPT_PATH, threadId=post["threadId"], postId=post["id"])
 	else:
-		embed["title"] = _("Created {title}").format(title=post["title"])
+		embed["title"] = _("Created \"{title}\"").format(title=post["title"])
 		embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=WIKI_SCRIPT_PATH, threadId=post["threadId"])
 	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
 		embed["description"] = post["rawContent"] if len(post["rawContent"]) < 2000 else post["rawContent"][0:2000] + "…"
@@ -65,10 +65,11 @@ def embed_formatter(post):
 	formatted_embed = json.dumps(data, indent=4)
 	send_to_discord(formatted_embed)
 
+
 def compact_formatter(post):
 	"""Compact formatter for Fandom discussions."""
 	message = None
-	if post["isReply"]:
+	if not post["isReply"]:
 		message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
 			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
 	else:
@@ -116,6 +117,7 @@ def safe_request(url):
 		if 499 < request.status_code < 600:
 			return None
 		return request
+
 
 formatter = embed_formatter if settings["fandom_discussions"]["appearance"]["mode"] == "embed" else compact_formatter
 
