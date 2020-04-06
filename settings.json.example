@@ -264,5 +264,18 @@
              "color": 8092539
          }
       }
-   }
+   },
+    "fandom_discussions": {
+        "enabled": false,
+        "wiki_id": 1885853,
+        "cooldown": 60,
+        "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "limit": 5,
+        "appearance": {
+            "mode": "embed",
+            "embed": {
+                "show_content": true
+            }
+        }
+    }
 } 
