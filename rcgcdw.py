@@ -1388,26 +1388,32 @@ except requests.exceptions.ConnectionError:
 	logger.critical("A connection can't be established with the wiki. Exiting...")
 	sys.exit(1)
 time.sleep(3.0)  # this timeout is to prevent timeouts. It seems Fandom does not like our ~2-3 request in under a second
-logger.info("Script started! Fetching newest changes...")
-recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
+if settings["rc_enabled"]:
+	logger.info("Script started! Fetching newest changes...")
+	recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
+	schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
+	if settings["overview"]:
+		try:
+			overview_time = time.strptime(settings["overview_time"], '%H:%M')
+			schedule.every().day.at("{}:{}".format(str(overview_time.tm_hour).zfill(2),
+			                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
+			del overview_time
+		except schedule.ScheduleValueError:
+			logger.error("Invalid time format! Currently: {}:{}".format(
+				time.strptime(settings["overview_time"], '%H:%M').tm_hour,
+				time.strptime(settings["overview_time"], '%H:%M').tm_min))
+		except ValueError:
+			logger.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(
+				settings["overview_time"]))
+	schedule.every().day.at("00:00").do(recent_changes.clear_cache)
+else:
+	logger.info("Script started! RC is disabled however, this means no recent changes will be sent :c")
 
-schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
 if 1 == 2: # additional translation strings in unreachable code
-	# noinspection PyUnreachableCode
 	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
 	      _("autoreview"), _("autopatrol"), _("wiki_guardian"), ngettext("second", "seconds", 1), ngettext("minute", "minutes", 1), ngettext("hour", "hours", 1), ngettext("day", "days", 1), ngettext("week", "weeks", 1), ngettext("month", "months",1), ngettext("year", "years", 1), ngettext("millennium", "millennia", 1), ngettext("decade", "decades", 1), ngettext("century", "centuries", 1))
+# noinspection PyUnreachableCode
 
-if settings["overview"]:
-	try:
-		overview_time = time.strptime(settings["overview_time"], '%H:%M')
-		schedule.every().day.at("{}:{}".format(str(overview_time.tm_hour).zfill(2),
-	                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
-		del overview_time
-	except schedule.ScheduleValueError:
-		logger.error("Invalid time format! Currently: {}:{}".format(time.strptime(settings["overview_time"], '%H:%M').tm_hour,  time.strptime(settings["overview_time"], '%H:%M').tm_min))
-	except ValueError:
-		logger.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(settings["overview_time"]))
-schedule.every().day.at("00:00").do(recent_changes.clear_cache)
 
 if TESTING:
 	logger.debug("DEBUGGING ")

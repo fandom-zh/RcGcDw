@@ -1,6 +1,7 @@
 {
    "cooldown": 60,
    "wiki_url": "https://wreckit-woodhouse.fandom.com/",
+   "rc_enabled": true,
    "lang": "en",
    "header": {
       "user-agent": "RcGcDw/{version}"
