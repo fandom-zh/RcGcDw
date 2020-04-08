@@ -19,7 +19,7 @@
 import logging, gettext, schedule, requests, json, datetime
 from collections import defaultdict
 from configloader import settings
-from misc import datafile, WIKI_SCRIPT_PATH, send_to_discord
+from misc import datafile, send_to_discord
 from session import session
 
 # Initialize translation
@@ -48,13 +48,13 @@ def embed_formatter(post):
 	data = {"embeds": []}
 	embed["author"]["name"] = post["createdBy"]["name"]
 	embed["author"]["icon_url"] = post["createdBy"]["avatarUrl"]
-	embed["author"]["url"] = "{wikiurl}f/u/{creatorId}".format(wikiurl=WIKI_SCRIPT_PATH, creatorId=post["creatorId"])
+	embed["author"]["url"] = "{wikiurl}f/u/{creatorId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
 	if post["isReply"]:
 		embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
-		embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(wikiurl=WIKI_SCRIPT_PATH, threadId=post["threadId"], postId=post["id"])
+		embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
 	else:
 		embed["title"] = _("Created \"{title}\"").format(title=post["title"])
-		embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=WIKI_SCRIPT_PATH, threadId=post["threadId"])
+		embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"])
 	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
 		embed["description"] = post["rawContent"] if len(post["rawContent"]) < 2000 else post["rawContent"][0:2000] + "…"
 	embed["footer"]["text"] = post["forumName"]
@@ -71,10 +71,10 @@ def compact_formatter(post):
 	message = None
 	if not post["isReply"]:
 		message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
-			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
+			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
 	else:
 		message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
-			author=post["createdBy"]["name"], url=WIKI_SCRIPT_PATH, creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
+			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
 		)
 	send_to_discord(json.dumps({'content': message, 'allowed_mentions': {'parse': []}}))
 
@@ -117,7 +117,6 @@ def safe_request(url):
 		if 499 < request.status_code < 600:
 			return None
 		return request
-
 
 formatter = embed_formatter if settings["fandom_discussions"]["appearance"]["mode"] == "embed" else compact_formatter
 
