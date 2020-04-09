@@ -947,6 +947,7 @@ def day_overview_request():
 		if request:
 			try:
 				request = request.json()
+				request = recent_changes.handle_mw_errors(request)
 				rc = request['query']['recentchanges']
 				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
 			except ValueError:
@@ -955,6 +956,8 @@ def day_overview_request():
 				complete = 2
 			except KeyError:
 				logger.warning("Wiki returned %s" % (request.json()))
+				complete = 2
+			except MWError:
 				complete = 2
 			else:
 				result += rc
