@@ -955,7 +955,7 @@ def day_overview_request():
 				recent_changes.downtime_controller()
 				complete = 2
 			except KeyError:
-				logger.warning("Wiki returned %s" % (request.json()))
+				logger.warning("Wiki returned %s" % (request))
 				complete = 2
 			except MWError:
 				complete = 2
