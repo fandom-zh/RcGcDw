@@ -91,7 +91,7 @@ class MessageQueue:
 		return len(self._queue)
 
 	def __iter__(self):
-		return self._queue
+		return iter(self._queue)
 
 	def clear(self):
 		self._queue.clear()
