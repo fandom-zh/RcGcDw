@@ -42,27 +42,40 @@ storage = datafile.data
 fetch_url = "https://services.fandom.com/discussion/{wikiid}/posts?sortDirection=descending&sortKey=creation_date&limit={limit}".format(wikiid=settings["fandom_discussions"]["wiki_id"], limit=settings["fandom_discussions"]["limit"])
 
 
-def embed_formatter(post):
+def embed_formatter(post, post_type):
 	"""Embed formatter for Fandom discussions."""
 	embed = DiscordMessage("embed", "discussion")
-	embed["author"]["name"] = post["createdBy"]["name"]
-	embed["author"]["icon_url"] = post["createdBy"]["avatarUrl"]
-	embed["author"]["url"] = "{wikiurl}f/u/{creatorId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
-	if post["isReply"]:
-		embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
-		embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
-	else:
-		embed["title"] = _("Created \"{title}\"").format(title=post["title"])
-		embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"])
-	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
-		embed["description"] = post["rawContent"] if len(post["rawContent"]) < 2000 else post["rawContent"][0:2000] + "…"
+	embed.set_author(post["createdBy"]["name"], "{wikiurl}f/u/{creatorId}".format(
+		wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
+	if post_type == "TEXT":  # TODO
+		if post["isReply"]:
+			embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
+			embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(
+				wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
+		else:
+			embed["title"] = _("Created \"{title}\"").format(title=post["title"])
+			embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
+			                                                threadId=post["threadId"])
+		if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
+			embed["description"] = post["rawContent"] if len(post["rawContent"]) < 2000 else post["rawContent"][
+			                                                                                 0:2000] + "…"
+	elif post_type == "POLL":
+		poll = post["poll"]
+		embed["title"] = _("Created a poll titled \"{}\"").format(poll["question"])
+		image_type = False
+		if poll["answers"][0]["image"] is not None:
+			image_type = True
+		for num, option in enumerate(poll["answers"]):
+			embed.add_field(option["text"] if image_type is True else _("Option {}").format(num+1),
+			                option["text"] if image_type is False else _("__[View image]({image_url})__").format(image_url=option["image"]["url"]),
+			                inline=True)
 	embed["footer"]["text"] = post["forumName"]
 	embed["timestamp"] = datetime.datetime.fromtimestamp(post["creationDate"]["epochSecond"], tz=datetime.timezone.utc).isoformat()
 	embed.finish_embed()
 	send_to_discord(embed)
 
 
-def compact_formatter(post):
+def compact_formatter(post, post_type):
 	"""Compact formatter for Fandom discussions."""
 	message = None
 	if not post["isReply"]:
@@ -91,12 +104,23 @@ def fetch_discussions():
 			if request_json:
 				for post in request_json:
 					if int(post["id"]) > storage["discussion_id"]:
-						formatter(post)
+						parse_discussion_post(post)
 				if int(post["id"]) > storage["discussion_id"]:
 					storage["discussion_id"] = int(post["id"])
 					datafile.save_datafile()
 
-def format_discussion_post(modal):
+def parse_discussion_post(post):
+	"""Initial post recognition & handling"""
+	post_type = post.get("funnel", "TEXT")
+	if post_type == "TEXT":
+		formatter(post, post_type)
+	elif post_type == "POLL":
+		formatter(post, post_type)
+	else:
+		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.")
+
+
+def format_discussion_text(modal):
 	"""This function converts fairly convoluted Fandom jsonModal of a discussion post into Markdown formatted usable thing. Takes string, returns string.
 	Kudos to MarkusRost for allowing me to implement this formatter based on his code in Wiki-Bot."""
 	description = ""

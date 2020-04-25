@@ -337,8 +337,15 @@ class DiscordMessage():
 
 	def __setup_embed(self):
 		self.embed = defaultdict(dict)
-		self.webhook_object["embeds"] = [self.embed]
+		if "embeds" not in self.webhook_object:
+			self.webhook_object["embeds"] = [self.embed]
+		else:
+			self.webhook_object["embeds"].append(self.embed)
 		self.embed["color"] = None
+
+	def add_embed(self):
+		self.finish_embed()
+		self.__setup_embed()
 
 	def finish_embed(self):
 		if self.embed["color"] is None:
@@ -349,9 +356,10 @@ class DiscordMessage():
 		else:
 			self.embed["color"] = math.floor(self.embed["color"])
 
-	def set_author(self, name, url):
+	def set_author(self, name, url, icon_url=""):
 		self.embed["author"]["name"] = name
 		self.embed["author"]["url"] = url
+		self.embed["author"]["icon_url"] = icon_url
 
 	def add_field(self, name, value, inline=False):
 		if "fields" not in self.embed:
