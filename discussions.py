@@ -19,7 +19,7 @@
 import logging, gettext, schedule, requests, json, datetime
 from collections import defaultdict
 from configloader import settings
-from misc import datafile, send_to_discord
+from misc import datafile, send_to_discord, DiscordMessage
 from session import session
 
 # Initialize translation
@@ -44,8 +44,7 @@ fetch_url = "https://services.fandom.com/discussion/{wikiid}/posts?sortDirection
 
 def embed_formatter(post):
 	"""Embed formatter for Fandom discussions."""
-	embed = defaultdict(dict)
-	data = {"embeds": []}
+	embed = DiscordMessage("embed", "discussion")
 	embed["author"]["name"] = post["createdBy"]["name"]
 	embed["author"]["icon_url"] = post["createdBy"]["avatarUrl"]
 	embed["author"]["url"] = "{wikiurl}f/u/{creatorId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
@@ -59,11 +58,8 @@ def embed_formatter(post):
 		embed["description"] = post["rawContent"] if len(post["rawContent"]) < 2000 else post["rawContent"][0:2000] + "…"
 	embed["footer"]["text"] = post["forumName"]
 	embed["timestamp"] = datetime.datetime.fromtimestamp(post["creationDate"]["epochSecond"], tz=datetime.timezone.utc).isoformat()
-	data["embeds"].append(dict(embed))
-	data['avatar_url'] = settings["avatars"]["embed"]
-	data['allowed_mentions'] = {'parse': []}
-	formatted_embed = json.dumps(data, indent=4)
-	send_to_discord(formatted_embed)
+	embed.finish_embed()
+	send_to_discord(embed)
 
 
 def compact_formatter(post):
@@ -76,7 +72,7 @@ def compact_formatter(post):
 		message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
 			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
 		)
-	send_to_discord(json.dumps({'content': message, 'allowed_mentions': {'parse': []}}))
+	send_to_discord(DiscordMessage("compact", "discussion", content=message))
 
 
 def fetch_discussions():
@@ -99,6 +95,13 @@ def fetch_discussions():
 				if int(post["id"]) > storage["discussion_id"]:
 					storage["discussion_id"] = int(post["id"])
 					datafile.save_datafile()
+
+def format_discussion_post(modal):
+	"""This function converts fairly convoluted Fandom jsonModal of a discussion post into Markdown formatted usable thing. Takes string, returns string.
+	Kudos to MarkusRost for allowing me to implement this formatter based on his code in Wiki-Bot."""
+	description = ""
+	discussion_modal = json.loads(modal)
+
 
 def safe_request(url):
 	"""Function to assure safety of request, and do not crash the script on exceptions,"""

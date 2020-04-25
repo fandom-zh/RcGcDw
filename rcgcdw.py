@@ -30,7 +30,7 @@ from urllib.parse import quote_plus
 from configloader import settings
 from misc import link_formatter, ContentParser, safe_read, add_to_dict, datafile, \
 	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue, send_to_discord_webhook, \
-	send_to_discord
+	send_to_discord, DiscordMessage
 from session import session
 
 if settings["fandom_discussions"]["enabled"]:
@@ -433,13 +433,14 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
 	elif action == "suppressed":
 		content = _("An action has been hidden by administration.")
-	send_to_discord(json.dumps({'content': content, 'allowed_mentions': {'parse': []}}))
+	else:
+		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
+		return
+	send_to_discord(DiscordMessage("compact", action, content=content))
 
 
 def embed_formatter(action, change, parsed_comment, categories):
-	data = {"embeds": []}
-	embed = defaultdict(dict)
-	colornumber = None
+	embed = DiscordMessage("embed", action)
 	if parsed_comment is None:
 		parsed_comment = _("No description provided")
 	if action != "suppressed":
@@ -467,22 +468,21 @@ def embed_formatter(action, change, parsed_comment, categories):
 				                                              amount=recent_changes.map_ips[change["user"]])
 		else:
 			author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
-		embed["author"]["name"] = change["user"]
-		embed["author"]["url"] = author_url
+		embed.set_author(change["user"], author_url)
 	if action in ("edit", "new"):  # edit or new page
 		editsize = change["newlen"] - change["oldlen"]
 		if editsize > 0:
 			if editsize > 6032:
-				colornumber = 65280
+				embed["color"] = 65280
 			else:
-				colornumber = 35840 + (math.floor(editsize / 52)) * 256
+				embed["color"] = 35840 + (math.floor(editsize / 52)) * 256
 		elif editsize < 0:
 			if editsize < -6032:
-				colornumber = 16711680
+				embed["color"] = 16711680
 			else:
-				colornumber = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
+				embed["color"] = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
 		elif editsize == 0:
-			colornumber = 8750469
+			embed["color"] = 8750469
 		if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
 			recent_changes.init_info()
 		link = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
@@ -503,8 +503,6 @@ def embed_formatter(action, change, parsed_comment, categories):
 						wiki=WIKI_API_PATH, diff=change["revid"],oldrev=change["old_revid"]
 					)), "compare", "*")
 			if changed_content:
-				if "fields" not in embed:
-					embed["fields"] = []
 				EditDiff = ContentParser()
 				EditDiff.feed(changed_content)
 				if EditDiff.small_prev_del:
@@ -519,11 +517,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 						EditDiff.small_prev_ins = EditDiff.small_prev_ins.replace("****", "")
 				logger.debug("Changed content: {}".format(EditDiff.small_prev_ins))
 				if EditDiff.small_prev_del and not action == "new":
-					embed["fields"].append(
-						{"name": _("Removed"), "value": "{data}".format(data=EditDiff.small_prev_del), "inline": True})
+					embed.add_field(_("Removed"), "{data}".format(data=EditDiff.small_prev_del), inline=True)
 				if EditDiff.small_prev_ins:
-					embed["fields"].append(
-						{"name": _("Added"), "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
+					embed.add_field(_("Added"), "{data}".format(data=EditDiff.small_prev_ins), inline=True)
 			else:
 				logger.warning("Unable to download data on the edit content!")
 	elif action in ("upload/overwrite", "upload/upload", "upload/revert"):  # sending files
@@ -557,8 +553,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 				else:
 					undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={archiveid}".format(
 						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, archiveid=revision["archivename"])
-					embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
-						link=image_direct_url, undolink=undolink)}]
+					embed.add_field(_("Options"), _("([preview]({link}) | [undo]({undolink}))").format(
+						link=image_direct_url, undolink=undolink))
 				if settings["appearance"]["embed"]["embed_images"]:
 					embed["image"]["url"] = image_direct_url
 			if action == "upload/overwrite":
@@ -596,8 +592,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 			if license is not None:
 				parsed_comment += _("\nLicense: {}").format(license)
 			if additional_info_retrieved:
-				embed["fields"] = [
-					{"name": _("Options"), "value": _("([preview]({link}))").format(link=image_direct_url)}]
+				embed.add_field(_("Options"), _("([preview]({link}))").format(link=image_direct_url))
 				if settings["appearance"]["embed"]["embed_images"]:
 					embed["image"]["url"] = image_direct_url
 	elif action == "delete/delete":
@@ -661,10 +656,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 			if len(restriction_description) > 1020:
 				logger.debug(restriction_description)
 				restriction_description = restriction_description[:1020]+"…"
-			if "fields" not in embed:
-				embed["fields"] = []
-			embed["fields"].append(
-				{"name": _("Partial block details"), "value": restriction_description, "inline": True})
+			embed.add_field(_("Partial block details"), restriction_description, inline=True)
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
@@ -860,19 +852,10 @@ def embed_formatter(action, change, parsed_comment, categories):
 	embed["url"] = link
 	if parsed_comment is not None:
 		embed["description"] = parsed_comment
-	if colornumber is None:
-		if settings["appearance"]["embed"][action]["color"] is None:
-			embed["color"] = random.randrange(1, 16777215)
-		else:
-			embed["color"] = settings["appearance"]["embed"][action]["color"]
-	else:
-		embed["color"] = math.floor(colornumber)
 	if settings["appearance"]["embed"]["show_footer"]:
 		embed["timestamp"] = change["timestamp"]
 	if "tags" in change and change["tags"]:
 		tag_displayname = []
-		if "fields" not in embed:
-			embed["fields"] = []
 		for tag in change["tags"]:
 			if tag in recent_changes.tags:
 				if recent_changes.tags[tag] is None:
@@ -881,19 +864,14 @@ def embed_formatter(action, change, parsed_comment, categories):
 					tag_displayname.append(recent_changes.tags[tag])
 			else:
 				tag_displayname.append(tag)
-		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
+		embed.add_field(_("Tags"), ", ".join(tag_displayname))
 	logger.debug("Current params in edit action: {}".format(change))
 	if categories is not None and not (len(categories["new"]) == 0 and len(categories["removed"]) == 0):
-		if "fields" not in embed:
-			embed["fields"] = []
 		new_cat = (_("**Added**: ") + ", ".join(list(categories["new"])[0:16]) + ("\n" if len(categories["new"])<=15 else _(" and {} more\n").format(len(categories["new"])-15))) if categories["new"] else ""
 		del_cat = (_("**Removed**: ") + ", ".join(list(categories["removed"])[0:16]) + ("" if len(categories["removed"])<=15 else _(" and {} more").format(len(categories["removed"])-15))) if categories["removed"] else ""
-		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
-	data["embeds"].append(dict(embed))
-	data['avatar_url'] = settings["avatars"]["embed"]
-	data['allowed_mentions'] = {'parse': []}
-	formatted_embed = json.dumps(data, indent=4)
-	send_to_discord(formatted_embed)
+		embed.add_field(_("Changed categories"), new_cat + del_cat)
+	embed.finish_embed()
+	send_to_discord(embed)
 
 
 def essential_info(change, changed_categories):

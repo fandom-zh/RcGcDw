@@ -16,11 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json, logging, sys, re, time
+import json, logging, sys, re, time, random, math
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse
 import requests
-
+from collections import defaultdict
 from configloader import settings
 import gettext
 
@@ -281,12 +281,9 @@ def create_article_path(article: str) -> str:
 
 def send_to_discord_webhook(data):
 	header = settings["header"]
-	if isinstance(data, str):
-		header['Content-Type'] = 'application/json'
-	else:
-		header['Content-Type'] = 'application/x-www-form-urlencoded'
+	header['Content-Type'] = 'application/json'
 	try:
-		result = requests.post(settings["webhookURL"], data=data,
+		result = requests.post(settings["webhookURL"], data=repr(data),
 		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
 		misc_logger.warning("Timeouted while sending data to the webhook.")
@@ -311,3 +308,52 @@ def send_to_discord(data):
 		elif code < 2:
 			time.sleep(2.0)
 			pass
+
+class DiscordMessage():
+	"""A class defining a typical Discord JSON representation of webhook payload."""
+	def __init__(self, message_type: str, event_type: str, content=None):
+		self.webhook_object = dict(allowed_mentions={"parse": []}, avatar_url=settings["avatars"].get(message_type, ""))
+
+		if message_type == "embed":
+			self.__setup_embed()
+		elif message_type == "compact":
+			self.webhook_object["content"] = content
+
+		self.event_type = event_type
+
+	def __setitem__(self, key, value):
+		"""Set item is used only in embeds."""
+		try:
+			self.embed[key] = value
+		except NameError:
+			raise TypeError("Tried to assign a value when message type is plain message!")
+
+	def __getitem__(self, item):
+		return self.embed[item]
+
+	def __repr__(self):
+		"""Return the Discord webhook object ready to be sent"""
+		return json.dumps(self.webhook_object)
+
+	def __setup_embed(self):
+		self.embed = defaultdict(dict)
+		self.webhook_object["embeds"] = [self.embed]
+		self.embed["color"] = None
+
+	def finish_embed(self):
+		if self.embed["color"] is None:
+			if settings["appearance"]["embed"].get(self.event_type, {"color": None})["color"] is None:
+				self.embed["color"] = random.randrange(1, 16777215)
+			else:
+				self.embed["color"] = settings["appearance"]["embed"][self.event_type]["color"]
+		else:
+			self.embed["color"] = math.floor(self.embed["color"])
+
+	def set_author(self, name, url):
+		self.embed["author"]["name"] = name
+		self.embed["author"]["url"] = url
+
+	def add_field(self, name, value, inline=False):
+		if "fields" not in self.embed:
+			self.embed["fields"] = []
+		self.embed["fields"].append(dict(name=name, value=value, inline=inline))

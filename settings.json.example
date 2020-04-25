@@ -14,7 +14,8 @@
        "connection_failed": "https://i.imgur.com/2jWQEt1.png",
        "connection_restored": "",
       "no_event": "",
-      "embed": ""
+      "embed": "",
+      "compact": ""
    },
    "ignored": ["external"],
    "show_updown_messages": true,
@@ -263,6 +264,14 @@
          "suppressed":{
              "icon": "https://i.imgur.com/1gps6EZ.png",
              "color": 8092539
+         },
+         "discussion/post": {
+            "icon": "",
+            "color":null
+         },
+         "discussion/reply": {
+            "icon": "",
+            "color":null
          }
       }
    },
