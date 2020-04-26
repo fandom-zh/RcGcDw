@@ -997,14 +997,11 @@ def day_overview():
 			if not settings["send_empty_overview"]:
 				return  # no changes in this day
 			else:
-				embed = defaultdict(dict)
+				embed = DiscordMessage("embed", "daily_overview")
 				embed["title"] = _("Daily overview")
 				embed["url"] = create_article_path("Special:Statistics")
 				embed["description"] = _("No activity")
-				embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
-				embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
-				embed["author"]["name"] = settings["wikiname"]
-				embed["author"]["url"] = create_article_path("")
+				embed.set_author(settings["wikiname"], create_article_path(""), icon_url=settings["appearance"]["embed"]["daily_overview"]["icon"])
 		else:
 			for item in result[0]:
 				if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
@@ -1025,13 +1022,10 @@ def day_overview():
 					admin = admin + 1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights",
 					                                         "abusefilter", "interwiki", "managetags"] else admin
 			overall = round(new_articles + edits * 0.1 + files * 0.3 + admin * 0.1 + math.fabs(changed_bytes * 0.001), 2)
-			embed = defaultdict(dict)
+			embed = DiscordMessage("embed", "daily_overview")
 			embed["title"] = _("Daily overview")
 			embed["url"] = create_article_path("Special:Statistics")
-			embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
-			embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
-			embed["author"]["name"] = settings["wikiname"]
-			embed["author"]["url"] = create_article_path("")
+			embed.set_author(settings["wikiname"], create_article_path(""), icon_url=settings["appearance"]["embed"]["daily_overview"]["icon"])
 			if activity:
 				active_users = []
 				for user, numberu in Counter(activity).most_common(3):  # find most active users
@@ -1050,7 +1044,6 @@ def day_overview():
 				houramount = ""
 			if not active_articles:
 				active_articles = [_("But nobody came")]
-			embed["fields"] = []
 			edits, files, admin, changed_bytes, new_articles, unique_contributors, overall = daily_overview_sync(edits, files, admin, changed_bytes, new_articles, len(activity), overall)
 			fields = (
 			(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
@@ -1061,10 +1054,9 @@ def day_overview():
 			(ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount),
 			(_("Day score"), overall))
 			for name, value in fields:
-				embed["fields"].append({"name": name, "value": value, "inline": True})
-		data = {"embeds": [dict(embed)]}
-		formatted_embed = json.dumps(data, indent=4)
-		send_to_discord(formatted_embed)
+				embed.add_field(name, value, inline=True)
+		embed.finish_embed()
+		send_to_discord(embed)
 	else:
 		logger.debug("function requesting changes for day overview returned with error code")
 

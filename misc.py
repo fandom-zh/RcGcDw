@@ -115,6 +115,9 @@ def link_formatter(link):
 	"""Formats a link to not embed it"""
 	return "<" + re.sub(r"([)])", "\\\\\\1", link).replace(" ", "_") + ">"
 
+def escape_formatting(data):
+	"""Escape Discord formatting"""
+	return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
 
 class ContentParser(HTMLParser):
 	more = _("\n__And more__")

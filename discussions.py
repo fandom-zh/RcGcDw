@@ -19,7 +19,7 @@
 import logging, gettext, schedule, requests, json, datetime
 from collections import defaultdict
 from configloader import settings
-from misc import datafile, send_to_discord, DiscordMessage
+from misc import datafile, send_to_discord, DiscordMessage, WIKI_SCRIPT_PATH, escape_formatting
 from session import session
 
 # Initialize translation
@@ -48,6 +48,7 @@ def embed_formatter(post, post_type):
 	embed.set_author(post["createdBy"]["name"], "{wikiurl}f/u/{creatorId}".format(
 		wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
 	if post_type == "TEXT":  # TODO
+		npost = DiscussionsFromHellParser(post)
 		if post["isReply"]:
 			embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
 			embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(
@@ -57,8 +58,7 @@ def embed_formatter(post, post_type):
 			embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
 			                                                threadId=post["threadId"])
 		if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
-			embed["description"] = post["rawContent"] if len(post["rawContent"]) < 2000 else post["rawContent"][
-			                                                                                 0:2000] + "…"
+			embed["description"] = npost.parse()
 	elif post_type == "POLL":
 		poll = post["poll"]
 		embed["title"] = _("Created a poll titled \"{}\"").format(poll["question"])
@@ -119,12 +119,81 @@ def parse_discussion_post(post):
 	else:
 		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.")
 
+class DiscussionsFromHellParser:
+	"""This class converts fairly convoluted Fandom jsonModal of a discussion post into Markdown formatted usable thing. Takes string, returns string.
+		Kudos to MarkusRost for allowing me to implement this formatter based on his code in Wiki-Bot."""
+	def __init__(self, post):
+		self.post = post
+		self.jsonModal = json.loads(post.get("jsonModel", "{}"))
+		self.markdown_text = ""
+		self.item_num = 1
 
-def format_discussion_text(modal):
-	"""This function converts fairly convoluted Fandom jsonModal of a discussion post into Markdown formatted usable thing. Takes string, returns string.
-	Kudos to MarkusRost for allowing me to implement this formatter based on his code in Wiki-Bot."""
-	description = ""
-	discussion_modal = json.loads(modal)
+	def parse(self):
+		"""Main parsing logic"""
+		for root_item in self.jsonModal["content"]:
+			if "content" in root_item:
+				self.parse_content(root_item["content"])
+			if len(self.markdown_text) > 2000:
+				break
+		images = {}
+		for num, image in enumerate(self.post["_embedded"]["contentImages"]):
+			images["img-{}".format(num)] = image["url"]
+		self.markdown_text = self.markdown_text.format(images)
+		self.markdown_text = self.markdown_text[0:2000] + "…"
+		return self.markdown_text
+
+	def parse_content(self, content, ctype=None):
+		for item in content:
+			if ctype == "bulletList":
+				self.markdown_text += "\t• "
+			if ctype == "orderedList":
+				self.markdown_text += "\t{num}. ".format(num=self.item_num)
+				self.item_num += 1
+			if item["type"] == "text":
+				if "marks" in item:
+					prefix, suffix = self.convert_marks(item["marks"])
+					self.markdown_text = "{old}{pre}{text}{suf}".format(old=self.markdown_text, pre=prefix, text=escape_formatting(item["text"]), suf=suffix)
+				else:
+					self.markdown_text += escape_formatting(item["text"])
+			elif item["type"] == "paragraph":
+				if "content" in item:
+					self.parse_content(item, item["type"])
+				self.markdown_text += "\n"
+			elif item["type"] == "openGraph":
+				if not item["attrs"]["wasAddedWithInlineLink"]:
+					self.markdown_text = "{old}{link}\n".format(old=self.markdown_text, link=item["attrs"]["url"])
+			elif item["type"] == "image":
+				self.markdown_text = "{old}{img-{img}}\n".format(old=self.markdown_text, img=item["attrs"]["id"])
+			elif item["type"] == "code_block":
+				self.markdown_text += "```\n"
+				if "content" in item:
+					self.parse_content(item, item["type"])
+				self.markdown_text += "\n```\n"
+			elif item["type"] == "bulletList":
+				if "content" in item:
+					self.parse_content(item, item["type"])
+			elif item["type"] == "orderedList":
+				self.item_num = 1
+				if "content" in item:
+					self.parse_content(item, item["type"])
+
+	def convert_marks(self, marks):
+		prefix = ""
+		suffix = ""
+		for mark in marks:
+			if mark["type"] == "mention":
+				prefix += "["
+				suffix = "]({wiki}f/u/{userid}){suffix}".format(wiki=WIKI_SCRIPT_PATH, userid=mark["attrs"]["userId"], suffix=suffix)
+			elif mark["type"] == "strong":
+				prefix += "**"
+				suffix = "**{suffix}".format(suffix=suffix)
+			elif mark["type"] == "link":
+				prefix += "["
+				suffix = "]({link}){suffix}".format(link=mark["attrs"]["href"], suffix=suffix)
+			elif mark["type"] == "em":
+				prefix += "_"
+				suffix = "_" + suffix
+		return prefix, suffix
 
 
 def safe_request(url):
