@@ -59,6 +59,9 @@ def embed_formatter(post, post_type):
 		if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
 			npost = DiscussionsFromHellParser(post)
 			embed["description"] = npost.parse()
+			if npost.image_only:
+				embed["image"]["url"] = embed["description"].strip()
+				embed["description"] = ""
 	elif post_type == "POLL":
 		poll = post["poll"]
 		embed["title"] = _("Created a poll titled \"{}\"").format(poll["question"])
@@ -127,6 +130,7 @@ class DiscussionsFromHellParser:
 		self.jsonModal = json.loads(post.get("jsonModel", "{}"))
 		self.markdown_text = ""
 		self.item_num = 1
+		self.image_only = False
 
 	def parse(self):
 		"""Main parsing logic"""
@@ -134,6 +138,8 @@ class DiscussionsFromHellParser:
 		images = {}
 		for num, image in enumerate(self.post["_embedded"]["contentImages"]):
 			images["img-{}".format(num)] = image["url"]
+		if len(images.keys()) == 1 and self.markdown_text.strip() == "{img-0}":
+			self.image_only = True
 		self.markdown_text = self.markdown_text.format(**images)
 		if len(self.markdown_text) > 2000:
 			self.markdown_text = self.markdown_text[0:2000] + "…"
