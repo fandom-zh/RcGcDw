@@ -3,7 +3,7 @@
 **Screenshots** of the script in action can be found [on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation).
 
 ### Features ###
-* Fetch recent changes from MediaWiki wiki and send them to Discord channel using a webhook
+* Fetch recent changes from MediaWiki wiki or/and Discussions from Fandom wikis and send them to Discord channel using a webhook
 * Two appearance modes - embed and compact
 * Send daily overviews, that show general information about wiki activity
 * Supports multiple languages (included EN, PL, BR, RU, FR, UK)
