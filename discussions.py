@@ -47,8 +47,7 @@ def embed_formatter(post, post_type):
 	embed = DiscordMessage("embed", "discussion")
 	embed.set_author(post["createdBy"]["name"], "{wikiurl}f/u/{creatorId}".format(
 		wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
-	if post_type == "TEXT":  # TODO
-		npost = DiscussionsFromHellParser(post)
+	if post_type == "TEXT":
 		if post["isReply"]:
 			embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
 			embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(
@@ -58,6 +57,7 @@ def embed_formatter(post, post_type):
 			embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
 			                                                threadId=post["threadId"])
 		if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
+			npost = DiscussionsFromHellParser(post)
 			embed["description"] = npost.parse()
 	elif post_type == "POLL":
 		poll = post["poll"]
@@ -130,16 +130,13 @@ class DiscussionsFromHellParser:
 
 	def parse(self):
 		"""Main parsing logic"""
-		for root_item in self.jsonModal["content"]:
-			if "content" in root_item:
-				self.parse_content(root_item["content"])
-			if len(self.markdown_text) > 2000:
-				break
+		self.parse_content(self.jsonModal["content"])
 		images = {}
 		for num, image in enumerate(self.post["_embedded"]["contentImages"]):
 			images["img-{}".format(num)] = image["url"]
-		self.markdown_text = self.markdown_text.format(images)
-		self.markdown_text = self.markdown_text[0:2000] + "…"
+		self.markdown_text = self.markdown_text.format(**images)
+		if len(self.markdown_text) > 2000:
+			self.markdown_text = self.markdown_text[0:2000] + "…"
 		return self.markdown_text
 
 	def parse_content(self, content, ctype=None):
@@ -157,25 +154,28 @@ class DiscussionsFromHellParser:
 					self.markdown_text += escape_formatting(item["text"])
 			elif item["type"] == "paragraph":
 				if "content" in item:
-					self.parse_content(item, item["type"])
+					self.parse_content(item["content"], item["type"])
 				self.markdown_text += "\n"
 			elif item["type"] == "openGraph":
 				if not item["attrs"]["wasAddedWithInlineLink"]:
 					self.markdown_text = "{old}{link}\n".format(old=self.markdown_text, link=item["attrs"]["url"])
 			elif item["type"] == "image":
-				self.markdown_text = "{old}{img-{img}}\n".format(old=self.markdown_text, img=item["attrs"]["id"])
+				self.markdown_text = "{old}{{img-{img}}}\n".format(old=self.markdown_text, img=item["attrs"]["id"])
+				discussion_logger.debug(self.markdown_text)
 			elif item["type"] == "code_block":
 				self.markdown_text += "```\n"
 				if "content" in item:
-					self.parse_content(item, item["type"])
+					self.parse_content(item["content"], item["type"])
 				self.markdown_text += "\n```\n"
 			elif item["type"] == "bulletList":
 				if "content" in item:
-					self.parse_content(item, item["type"])
+					self.parse_content(item["content"], item["type"])
 			elif item["type"] == "orderedList":
 				self.item_num = 1
 				if "content" in item:
-					self.parse_content(item, item["type"])
+					self.parse_content(item["content"], item["type"])
+			elif item["type"] == "listItem":
+				self.parse_content(item["content"], item["type"])
 
 	def convert_marks(self, marks):
 		prefix = ""
