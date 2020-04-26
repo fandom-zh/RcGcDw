@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-06 18:55+0200\n"
-"PO-Revision-Date: 2020-04-06 18:56+0200\n"
+"POT-Creation-Date: 2020-04-26 22:05+0200\n"
+"PO-Revision-Date: 2020-04-26 22:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -24,12 +24,26 @@ msgstr ""
 msgid "Replied to \"{title}\""
 msgstr "Odpowiedział(a) w „{title}”"
 
-#: discussions.py:56
+#: discussions.py:58
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "Utworzył(a) „{title}”"
 
-#: discussions.py:73
+#: discussions.py:70
+#, python-brace-format
+msgid "Created a poll titled \"{title}\""
+msgstr "Utworzył(a) ankietę zatytułowaną „{title}”"
+
+#: discussions.py:75
+msgid "Option {}"
+msgstr "Opcja {}"
+
+#: discussions.py:76
+#, python-brace-format
+msgid "__[View image]({image_url})__"
+msgstr "__[Zobacz zdjęcie]({image_url})__"
+
+#: discussions.py:89
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) "
@@ -38,7 +52,7 @@ msgstr ""
 "[{author}](<{url}f/u/{creatorId}>) utworzył(a) [{title}](<{url}f/p/{threadId}"
 ">) w {forumName}"
 
-#: discussions.py:76
+#: discussions.py:92
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/"
@@ -47,3 +61,12 @@ msgstr ""
 "[{author}](<{url}f/u/{creatorId}>) utworzył(a) [odpowiedź](<{url}f/p/"
 "{threadId}/r/{postId}>) pod tematem [{title}](<{url}f/p/{threadId}>) w "
 "{forumName}"
+
+#: discussions.py:97
+#, python-brace-format
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"
+"{threadId}>) in {forumName}"
+msgstr ""
+"[{author}](<{url}f/u/{creatorId}>) utworzył(a) ankietę [{title}](<{url}f/p/"
+"{threadId}>) w {forumName}"

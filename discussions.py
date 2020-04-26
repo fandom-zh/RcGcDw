@@ -49,10 +49,12 @@ def embed_formatter(post, post_type):
 		wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
 	if post_type == "TEXT":
 		if post["isReply"]:
+			embed.event_type = "discussion/reply"
 			embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
 			embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(
 				wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
 		else:
+			embed.event_type = "discussion/post"
 			embed["title"] = _("Created \"{title}\"").format(title=post["title"])
 			embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
 			                                                threadId=post["threadId"])
@@ -63,8 +65,9 @@ def embed_formatter(post, post_type):
 				embed["image"]["url"] = embed["description"].strip()
 				embed["description"] = ""
 	elif post_type == "POLL":
+		embed.event_type = "discussion/poll"
 		poll = post["poll"]
-		embed["title"] = _("Created a poll titled \"{}\"").format(poll["question"])
+		embed["title"] = _("Created a poll titled \"{title}\"").format(title=poll["question"])
 		image_type = False
 		if poll["answers"][0]["image"] is not None:
 			image_type = True
@@ -81,13 +84,19 @@ def embed_formatter(post, post_type):
 def compact_formatter(post, post_type):
 	"""Compact formatter for Fandom discussions."""
 	message = None
-	if not post["isReply"]:
-		message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
-			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
-	else:
-		message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
-			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
-		)
+	if post_type == "TEXT":
+		if not post["isReply"]:
+			message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
+				author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
+		else:
+			message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
+				author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
+			)
+	elif post_type == "POLL":
+		message = _(
+			"[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
+			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"],
+			creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
 	send_to_discord(DiscordMessage("compact", "discussion", content=message))
 
 

@@ -272,6 +272,10 @@
          "discussion/reply": {
             "icon": "",
             "color":null
+         },
+         "discussion/poll": {
+            "icon": "",
+            "color": null
          }
       }
    },

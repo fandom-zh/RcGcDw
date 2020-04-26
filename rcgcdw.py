@@ -1395,6 +1395,8 @@ if TESTING:
 	recent_changes.ids = [1]
 	recent_changes.fetch(amount=5)
 	day_overview()
+	import discussions
+	discussions.fetch_discussions()
 	sys.exit(0)
 
 while 1: 
