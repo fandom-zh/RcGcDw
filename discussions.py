@@ -59,11 +59,14 @@ def embed_formatter(post, post_type):
 			embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
 			                                                threadId=post["threadId"])
 		if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
-			npost = DiscussionsFromHellParser(post)
-			embed["description"] = npost.parse()
-			if npost.image_only:
-				embed["image"]["url"] = embed["description"].strip()
-				embed["description"] = ""
+			if post.get("jsonModel") is not None:
+				npost = DiscussionsFromHellParser(post)
+				embed["description"] = npost.parse()
+				if npost.image_only:
+					embed["image"]["url"] = embed["description"].strip()
+					embed["description"] = ""
+			else:  # Fallback when model is not available
+				embed["description"] = post.get("rawContent", "")
 	elif post_type == "POLL":
 		embed.event_type = "discussion/poll"
 		poll = post["poll"]
@@ -198,7 +201,7 @@ class DiscussionsFromHellParser:
 		for mark in marks:
 			if mark["type"] == "mention":
 				prefix += "["
-				suffix = "]({wiki}f/u/{userid}){suffix}".format(wiki=WIKI_SCRIPT_PATH, userid=mark["attrs"]["userId"], suffix=suffix)
+				suffix = "]({wiki}f/u/{userid}){suffix}".format(wiki=settings["fandom_discussions"]["wiki_url"], userid=mark["attrs"]["userId"], suffix=suffix)
 			elif mark["type"] == "strong":
 				prefix += "**"
 				suffix = "**{suffix}".format(suffix=suffix)
