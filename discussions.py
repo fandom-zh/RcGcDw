@@ -147,12 +147,6 @@ class DiscussionsFromHellParser:
 	def parse(self):
 		"""Main parsing logic"""
 		self.parse_content(self.jsonModal["content"])
-		images = {}
-		for num, image in enumerate(self.post["_embedded"]["contentImages"]):
-			images["img-{}".format(num)] = image["url"]
-		if len(images.keys()) == 1 and self.markdown_text.strip() == "{img-0}":
-			self.image_only = True
-		self.markdown_text = self.markdown_text.format(**images)
 		if len(self.markdown_text) > 2000:
 			self.markdown_text = self.markdown_text[0:2000] + "…"
 		return self.markdown_text
@@ -178,7 +172,11 @@ class DiscussionsFromHellParser:
 				if not item["attrs"]["wasAddedWithInlineLink"]:
 					self.markdown_text = "{old}{link}\n".format(old=self.markdown_text, link=item["attrs"]["url"])
 			elif item["type"] == "image":
-				self.markdown_text = "{old}{{img-{img}}}\n".format(old=self.markdown_text, img=item["attrs"]["id"])
+				try:
+					discussion_logger.debug(item["attrs"]["id"])
+					self.markdown_text = "{old}{img_url}\n".format(old=self.markdown_text, img_url=self.post["_embedded"]["contentImages"][int(item["attrs"]["id"])]["url"])
+				except (IndexError, ValueError):
+					discussion_logger.warning("Image {} not found.".format(item["attrs"]["id"]))
 				discussion_logger.debug(self.markdown_text)
 			elif item["type"] == "code_block":
 				self.markdown_text += "```\n"
