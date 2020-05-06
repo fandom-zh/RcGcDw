@@ -174,7 +174,8 @@ class DiscussionsFromHellParser:
 			elif item["type"] == "image":
 				try:
 					discussion_logger.debug(item["attrs"]["id"])
-					self.markdown_text = "{old}{img_url}\n".format(old=self.markdown_text, img_url=self.post["_embedded"]["contentImages"][int(item["attrs"]["id"])]["url"])
+					if item["attrs"]["id"] is not None:
+						self.markdown_text = "{old}{img_url}\n".format(old=self.markdown_text, img_url=self.post["_embedded"]["contentImages"][int(item["attrs"]["id"])]["url"])
 				except (IndexError, ValueError):
 					discussion_logger.warning("Image {} not found.".format(item["attrs"]["id"]))
 				discussion_logger.debug(self.markdown_text)
