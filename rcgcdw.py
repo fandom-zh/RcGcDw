@@ -635,12 +635,12 @@ def embed_formatter(action, change, parsed_comment, categories):
 				return
 		if "sitewide" not in change["logparams"]:
 			restriction_description = ""
-			if change["logparams"]["restrictions"]["pages"]:
+			if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
 				restriction_description = _("Blocked from editing the following pages: ")
 				for page in change["logparams"]["restrictions"]["pages"]:
 					restricted_pages = ["*"+i["page_title"]+"*" for i in change["logparams"]["restrictions"]["pages"]]
 				restriction_description = restriction_description + ", ".join(restricted_pages)
-			if change["logparams"]["restrictions"]["namespaces"]:
+			if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
 				namespaces = []
 				if restriction_description:
 					restriction_description = restriction_description + _(" and namespaces: ")
