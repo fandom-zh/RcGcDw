@@ -19,7 +19,7 @@
 import logging, gettext, schedule, requests, json, datetime
 from collections import defaultdict
 from configloader import settings
-from misc import datafile, send_to_discord, DiscordMessage, WIKI_SCRIPT_PATH, escape_formatting
+from misc import datafile, send_to_discord, DiscordMessage, WIKI_SCRIPT_PATH, escape_formatting, messagequeue
 from session import session
 
 # Initialize translation
@@ -104,6 +104,7 @@ def compact_formatter(post, post_type):
 
 
 def fetch_discussions():
+	messagequeue.resend_msgs()
 	request = safe_request(fetch_url)
 	if request:
 		try:

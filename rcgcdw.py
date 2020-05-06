@@ -1133,25 +1133,7 @@ class Recent_Changes_Class(object):
 			self.ids.pop(0)
 
 	def fetch(self, amount=settings["limit"]):
-		if messagequeue:
-			logger.info(
-				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
-					len(messagequeue)))
-			for num, item in enumerate(messagequeue):
-				logger.debug(
-					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
-					                                                                                         str(item)))
-				if send_to_discord_webhook(item) < 2:
-					logger.debug("Sending message succeeded")
-					time.sleep(2.5)
-				else:
-					logger.debug("Sending message failed")
-					break
-			else:
-				messagequeue.clear()
-				logger.debug("Queue emptied, all messages delivered")
-			messagequeue.cut_messages(num)
-			logger.debug(messagequeue)
+		messagequeue.resend_msgs()
 		last_check = self.fetch_changes(amount=amount)
 		# If the request succeeds the last_check will be the last rcid from recentchanges query
 		if last_check is not None:

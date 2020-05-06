@@ -102,6 +102,26 @@ class MessageQueue:
 	def cut_messages(self, item_num):
 		self._queue = self._queue[item_num:]
 
+	def resend_msgs(self):
+		if self._queue:
+			misc_logger.info(
+				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
+					len(self._queue)))
+			for num, item in enumerate(self._queue):
+				misc_logger.debug(
+					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
+					                                                                                         str(item)))
+				if send_to_discord_webhook(item) < 2:
+					misc_logger.debug("Sending message succeeded")
+					time.sleep(2.5)
+				else:
+					misc_logger.debug("Sending message failed")
+					break
+			else:
+				self.clear()
+				misc_logger.debug("Queue emptied, all messages delivered")
+			self.cut_messages(num)
+			misc_logger.debug(self._queue)
 
 messagequeue = MessageQueue()
 datafile = DataFile()
