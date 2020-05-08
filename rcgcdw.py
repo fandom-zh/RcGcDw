@@ -30,7 +30,7 @@ from urllib.parse import quote_plus
 from configloader import settings
 from misc import link_formatter, ContentParser, safe_read, add_to_dict, datafile, \
 	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue, send_to_discord_webhook, \
-	send_to_discord, DiscordMessage
+	send_to_discord, DiscordMessage, send_simple
 from session import session
 
 if settings["fandom_discussions"]["enabled"]:
@@ -113,16 +113,6 @@ LinkParser = LinkParser()
 
 class MWError(Exception):
 	pass
-
-
-def send(message, name, avatar):
-	dictionary_creator = {"content": message}
-	if name:
-		dictionary_creator["username"] = name
-	if avatar:
-		dictionary_creator["avatar_url"] = avatar
-	send_to_discord(dictionary_creator)
-
 
 def profile_field_name(name, embed):
 	try:
@@ -1175,7 +1165,7 @@ class Recent_Changes_Class(object):
 						self.streak += 1
 					if self.streak > 8:
 						self.streak = -1
-						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]),
+						send_simple("down_detector", _("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]),
 						     _("Connection status"), settings["avatars"]["connection_restored"])
 				# In the first for loop we analize the categorize events and figure if we will need more changes to fetch
 				# in order to cover all of the edits
@@ -1290,7 +1280,7 @@ class Recent_Changes_Class(object):
 		else:
 			if (
 					time.time() - self.last_downtime) > 1800 and self.check_connection():  # check if last downtime happened within 30 minutes, if yes, don't send a message
-				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]),
+				send_simple("down_detector", _("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]),
 				     _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
 				self.streak = 0

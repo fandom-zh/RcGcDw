@@ -302,6 +302,14 @@ def create_article_path(article: str) -> str:
 	return WIKI_ARTICLE_PATH.replace("$1", article)
 
 
+def send_simple(msgtype, message, name, avatar):
+	discord_msg = DiscordMessage("compact", msgtype, content=message)
+	discord_msg.set_avatar(avatar)
+	discord_msg.set_name(name)
+	messagequeue.resend_msgs()
+	send_to_discord(discord_msg)
+
+
 def send_to_discord_webhook(data):
 	header = settings["header"]
 	header['Content-Type'] = 'application/json'
@@ -388,3 +396,9 @@ class DiscordMessage():
 		if "fields" not in self.embed:
 			self.embed["fields"] = []
 		self.embed["fields"].append(dict(name=name, value=value, inline=inline))
+
+	def set_avatar(self, url):
+		self.webhook_object["avatar_url"] = url
+
+	def set_name(self, name):
+		self.webhook_object["username"] = name
