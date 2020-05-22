@@ -303,7 +303,7 @@ def create_article_path(article: str) -> str:
 
 
 def send_simple(msgtype, message, name, avatar):
-	discord_msg = DiscordMessage("compact", msgtype, content=message)
+	discord_msg = DiscordMessage("compact", msgtype, settings["webhookURL"], content=message)
 	discord_msg.set_avatar(avatar)
 	discord_msg.set_name(name)
 	messagequeue.resend_msgs()
@@ -314,7 +314,7 @@ def send_to_discord_webhook(data):
 	header = settings["header"]
 	header['Content-Type'] = 'application/json'
 	try:
-		result = requests.post(settings["webhookURL"], data=repr(data),
+		result = requests.post(data.webhook_url, data=repr(data),
 		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
 		misc_logger.warning("Timeouted while sending data to the webhook.")
@@ -342,8 +342,9 @@ def send_to_discord(data):
 
 class DiscordMessage():
 	"""A class defining a typical Discord JSON representation of webhook payload."""
-	def __init__(self, message_type: str, event_type: str, content=None):
+	def __init__(self, message_type: str, event_type: str, webhook_url: str, content=None):
 		self.webhook_object = dict(allowed_mentions={"parse": []}, avatar_url=settings["avatars"].get(message_type, ""))
+		self.webhook_url = webhook_url
 
 		if message_type == "embed":
 			self.__setup_embed()

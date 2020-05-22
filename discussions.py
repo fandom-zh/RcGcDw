@@ -44,7 +44,7 @@ fetch_url = "https://services.fandom.com/discussion/{wikiid}/posts?sortDirection
 
 def embed_formatter(post, post_type):
 	"""Embed formatter for Fandom discussions."""
-	embed = DiscordMessage("embed", "discussion")
+	embed = DiscordMessage("embed", "discussion", settings["fandom_discussions"]["webhookURL"])
 	embed.set_author(post["createdBy"]["name"], "{wikiurl}f/u/{creatorId}".format(
 		wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
 	if post_type == "TEXT":
@@ -100,7 +100,7 @@ def compact_formatter(post, post_type):
 			"[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
 			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"],
 			creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
-	send_to_discord(DiscordMessage("compact", "discussion", content=message))
+	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message))
 
 
 def fetch_discussions():

@@ -426,11 +426,11 @@ def compact_formatter(action, change, parsed_comment, categories):
 	else:
 		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
 		return
-	send_to_discord(DiscordMessage("compact", action, content=content))
+	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content))
 
 
 def embed_formatter(action, change, parsed_comment, categories):
-	embed = DiscordMessage("embed", action)
+	embed = DiscordMessage("embed", action, settings["webhookURL"])
 	if parsed_comment is None:
 		parsed_comment = _("No description provided")
 	if action != "suppressed":
@@ -983,15 +983,16 @@ def day_overview():
 		changed_bytes = 0
 		new_articles = 0
 		active_articles = []
+		embed = DiscordMessage("embed", "daily_overview", settings["webhookURL"])
+		embed["title"] = _("Daily overview")
+		embed["url"] = create_article_path("Special:Statistics")
+		embed.set_author(settings["wikiname"], create_article_path(""),
+		                 icon_url=settings["appearance"]["embed"]["daily_overview"]["icon"])
 		if not result[0]:
 			if not settings["send_empty_overview"]:
 				return  # no changes in this day
 			else:
-				embed = DiscordMessage("embed", "daily_overview")
-				embed["title"] = _("Daily overview")
-				embed["url"] = create_article_path("Special:Statistics")
 				embed["description"] = _("No activity")
-				embed.set_author(settings["wikiname"], create_article_path(""), icon_url=settings["appearance"]["embed"]["daily_overview"]["icon"])
 		else:
 			for item in result[0]:
 				if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
@@ -1012,10 +1013,6 @@ def day_overview():
 					admin = admin + 1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights",
 					                                         "abusefilter", "interwiki", "managetags"] else admin
 			overall = round(new_articles + edits * 0.1 + files * 0.3 + admin * 0.1 + math.fabs(changed_bytes * 0.001), 2)
-			embed = DiscordMessage("embed", "daily_overview")
-			embed["title"] = _("Daily overview")
-			embed["url"] = create_article_path("Special:Statistics")
-			embed.set_author(settings["wikiname"], create_article_path(""), icon_url=settings["appearance"]["embed"]["daily_overview"]["icon"])
 			if activity:
 				active_users = []
 				for user, numberu in Counter(activity).most_common(3):  # find most active users
