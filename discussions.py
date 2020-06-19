@@ -165,7 +165,10 @@ class DiscussionsFromHellParser:
 					prefix, suffix = self.convert_marks(item["marks"])
 					self.markdown_text = "{old}{pre}{text}{suf}".format(old=self.markdown_text, pre=prefix, text=escape_formatting(item["text"]), suf=suffix)
 				else:
-					self.markdown_text += escape_formatting(item["text"])
+					if ctype == "code_block":
+						self.markdown_text += item["text"]  # ignore formatting on preformatted text which cannot have additional formatting anyways
+					else:
+						self.markdown_text += escape_formatting(item["text"])
 			elif item["type"] == "paragraph":
 				if "content" in item:
 					self.parse_content(item["content"], item["type"])
