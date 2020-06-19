@@ -62,9 +62,9 @@ def embed_formatter(post, post_type):
 			if post.get("jsonModel") is not None:
 				npost = DiscussionsFromHellParser(post)
 				embed["description"] = npost.parse()
-				if npost.image_only:
-					embed["image"]["url"] = embed["description"].strip()
-					embed["description"] = ""
+				if npost.image_last:
+					embed["image"]["url"] = npost.image_last
+					embed["description"] = embed["description"].replace(npost.image_last, "")
 			else:  # Fallback when model is not available
 				embed["description"] = post.get("rawContent", "")
 	elif post_type == "POLL":
@@ -143,9 +143,9 @@ class DiscussionsFromHellParser:
 		self.jsonModal = json.loads(post.get("jsonModel", "{}"))
 		self.markdown_text = ""
 		self.item_num = 1
-		self.image_only = False
+		self.image_last = None
 
-	def parse(self):
+	def parse(self) -> str:
 		"""Main parsing logic"""
 		self.parse_content(self.jsonModal["content"])
 		if len(self.markdown_text) > 2000:
@@ -153,6 +153,7 @@ class DiscussionsFromHellParser:
 		return self.markdown_text
 
 	def parse_content(self, content, ctype=None):
+		self.image_last = None
 		for item in content:
 			if ctype == "bulletList":
 				self.markdown_text += "\t• "
@@ -177,6 +178,7 @@ class DiscussionsFromHellParser:
 					discussion_logger.debug(item["attrs"]["id"])
 					if item["attrs"]["id"] is not None:
 						self.markdown_text = "{old}{img_url}\n".format(old=self.markdown_text, img_url=self.post["_embedded"]["contentImages"][int(item["attrs"]["id"])]["url"])
+					self.image_last = self.post["_embedded"]["contentImages"][int(item["attrs"]["id"])]["url"]
 				except (IndexError, ValueError):
 					discussion_logger.warning("Image {} not found.".format(item["attrs"]["id"]))
 				discussion_logger.debug(self.markdown_text)
