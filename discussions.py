@@ -19,6 +19,7 @@
 import logging, gettext, schedule, requests, json, datetime
 from collections import defaultdict
 from configloader import settings
+from urllib.parse import quote_plus
 from misc import datafile, send_to_discord, DiscordMessage, WIKI_SCRIPT_PATH, escape_formatting, messagequeue
 from session import session
 
@@ -47,17 +48,42 @@ def embed_formatter(post, post_type):
 	embed = DiscordMessage("embed", "discussion", settings["fandom_discussions"]["webhookURL"])
 	embed.set_author(post["createdBy"]["name"], "{wikiurl}f/u/{creatorId}".format(
 		wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
+	discussion_post_type = post["_embedded"]["thread"][0].get("containerType", "FORUM")  # Can be FORUM, ARTICLE_COMMENT or WALL on UCP
 	if post_type == "TEXT":
 		if post["isReply"]:
-			embed.event_type = "discussion/reply"
-			embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
-			embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(
-				wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
+			if discussion_post_type == "FORUM":
+				embed.event_type = "discussion/forum/reply"
+				embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
+				embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(
+					wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
+			elif discussion_post_type == "ARTICLE_COMMENT":
+				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
+				return
+			elif discussion_post_type == "WALL":
+				user_wall = _("unknown")  # Fail safe
+				embed.event_type = "discussion/wall/reply"
+				if post["forumName"].endswith(' Message Wall'):
+					user_wall = post["forumName"][:-13]
+					embed["url"] = "{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}#{replyId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadid=post["threadId"], replyId=post["id"])
+				embed["title"] = _("Replied to \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
 		else:
-			embed.event_type = "discussion/post"
-			embed["title"] = _("Created \"{title}\"").format(title=post["title"])
-			embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
-			                                                threadId=post["threadId"])
+			if discussion_post_type == "FORUM":
+				embed.event_type = "discussion/forum/post"
+				embed["title"] = _("Created \"{title}\"").format(title=post["title"])
+				embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
+				                                                threadId=post["threadId"])
+			elif discussion_post_type == "ARTICLE_COMMENT":
+				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
+				return
+			elif discussion_post_type == "WALL":
+				user_wall = _("unknown")  # Fail safe
+				embed.event_type = "discussion/wall/post"
+				if post["forumName"].endswith(' Message Wall'):
+					user_wall = post["forumName"][:-13]
+					embed["url"] = "{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}".format(
+						wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")),
+						threadid=post["threadId"])
+				embed["title"] = _("Created \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
 		if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
 			if post.get("jsonModel") is not None:
 				npost = DiscussionsFromHellParser(post)
@@ -68,7 +94,7 @@ def embed_formatter(post, post_type):
 			else:  # Fallback when model is not available
 				embed["description"] = post.get("rawContent", "")
 	elif post_type == "POLL":
-		embed.event_type = "discussion/poll"
+		embed.event_type = "discussion/forum/poll"
 		poll = post["poll"]
 		embed["title"] = _("Created a poll titled \"{title}\"").format(title=poll["question"])
 		image_type = False

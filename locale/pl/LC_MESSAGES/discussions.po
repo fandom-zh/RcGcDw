@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-26 22:05+0200\n"
-"PO-Revision-Date: 2020-04-26 22:15+0200\n"
+"POT-Creation-Date: 2020-06-23 14:54+0200\n"
+"PO-Revision-Date: 2020-06-23 14:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -19,31 +19,48 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
 "|| n%100>14) ? 1 : 2);\n"
 
-#: discussions.py:53
+#: discussions.py:56
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr "Odpowiedział(a) w „{title}”"
 
-#: discussions.py:58
+#: discussions.py:63 discussions.py:79
+msgid "unknown"
+msgstr "nieznany"
+
+#: discussions.py:68
+#, python-brace-format
+msgid "Replied to \"{title}\" on {user}'s Message Wall"
+msgstr ""
+"Odpowiedział(a) na „{title}” z tablicy wiadomości użytkownika/użytkowniczki "
+"{user}"
+
+#: discussions.py:72
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "Utworzył(a) „{title}”"
 
-#: discussions.py:70
+#: discussions.py:86
+#, python-brace-format
+msgid "Created \"{title}\" on {user}'s Message Wall"
+msgstr ""
+"Utworzył(a) „{title}” na tablicy wiadomości użytkownika/użytkowniczki {user}"
+
+#: discussions.py:99
 #, python-brace-format
 msgid "Created a poll titled \"{title}\""
 msgstr "Utworzył(a) ankietę zatytułowaną „{title}”"
 
-#: discussions.py:75
+#: discussions.py:104
 msgid "Option {}"
 msgstr "Opcja {}"
 
-#: discussions.py:76
+#: discussions.py:105
 #, python-brace-format
 msgid "__[View image]({image_url})__"
 msgstr "__[Zobacz zdjęcie]({image_url})__"
 
-#: discussions.py:89
+#: discussions.py:118
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) "
@@ -52,7 +69,7 @@ msgstr ""
 "[{author}](<{url}f/u/{creatorId}>) utworzył(a) [{title}](<{url}f/p/{threadId}"
 ">) w {forumName}"
 
-#: discussions.py:92
+#: discussions.py:121
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/"
@@ -62,7 +79,7 @@ msgstr ""
 "{threadId}/r/{postId}>) pod tematem [{title}](<{url}f/p/{threadId}>) w "
 "{forumName}"
 
-#: discussions.py:97
+#: discussions.py:126
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"

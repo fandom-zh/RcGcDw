@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-26 21:54+0200\n"
+"POT-Creation-Date: 2020-06-23 14:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,210 +70,210 @@ msgstr ""
 msgid "Battle.net handle"
 msgstr ""
 
-#: rcgcdw.py:132 rcgcdw.py:848
+#: rcgcdw.py:122 rcgcdw.py:838
 msgid "Unknown"
 msgstr ""
 
-#: rcgcdw.py:134
+#: rcgcdw.py:124
 msgid "unknown"
 msgstr ""
 
-#: rcgcdw.py:172
+#: rcgcdw.py:162
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({sign}"
 "{edit_size})"
 msgstr ""
 
-#: rcgcdw.py:174
+#: rcgcdw.py:164
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{article}]({edit_link}){comment} ({sign}"
 "{edit_size})"
 msgstr ""
 
-#: rcgcdw.py:177
+#: rcgcdw.py:167
 #, python-brace-format
 msgid "[{author}]({author_url}) uploaded [{file}]({file_link}){comment}"
 msgstr ""
 
-#: rcgcdw.py:184
+#: rcgcdw.py:174
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}"
 msgstr ""
 
-#: rcgcdw.py:188
+#: rcgcdw.py:178
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) uploaded a new version of [{file}]({file_link})"
 "{comment}"
 msgstr ""
 
-#: rcgcdw.py:191
+#: rcgcdw.py:181
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted [{page}]({page_link}){comment}"
 msgstr ""
 
-#: rcgcdw.py:195
+#: rcgcdw.py:185
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted redirect by overwriting [{page}]"
 "({page_link}){comment}"
 msgstr ""
 
-#: rcgcdw.py:199 rcgcdw.py:204
+#: rcgcdw.py:189 rcgcdw.py:194
 msgid "without making a redirect"
 msgstr ""
 
-#: rcgcdw.py:199 rcgcdw.py:205
+#: rcgcdw.py:189 rcgcdw.py:195
 msgid "with a redirect"
 msgstr ""
 
-#: rcgcdw.py:200
+#: rcgcdw.py:190
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* to [{target}]"
 "({target_url}) {made_a_redirect}{comment}"
 msgstr ""
 
-#: rcgcdw.py:206
+#: rcgcdw.py:196
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
 "[{target}]({target_url}) {made_a_redirect}{comment}"
 msgstr ""
 
-#: rcgcdw.py:211
+#: rcgcdw.py:201
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) moved protection settings from {redirect}*{article}"
 "* to [{target}]({target_url}){comment}"
 msgstr ""
 
-#: rcgcdw.py:222 rcgcdw.py:626
+#: rcgcdw.py:212 rcgcdw.py:616
 msgid "infinity and beyond"
 msgstr ""
 
-#: rcgcdw.py:239
+#: rcgcdw.py:229
 msgid " on pages: "
 msgstr ""
 
-#: rcgcdw.py:246 rcgcdw.py:646
+#: rcgcdw.py:236 rcgcdw.py:636
 msgid " and namespaces: "
 msgstr ""
 
-#: rcgcdw.py:248
+#: rcgcdw.py:238
 msgid " on namespaces: "
 msgstr ""
 
-#: rcgcdw.py:260
+#: rcgcdw.py:250
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) for {time}"
 "{restriction_desc}{comment}"
 msgstr ""
 
-#: rcgcdw.py:264
+#: rcgcdw.py:254
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed block settings for [{blocked_user}]"
 "({user_url}){comment}"
 msgstr ""
 
-#: rcgcdw.py:268
+#: rcgcdw.py:258
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
 msgstr ""
 
-#: rcgcdw.py:271
+#: rcgcdw.py:261
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target} profile"
 msgstr ""
 
-#: rcgcdw.py:271
+#: rcgcdw.py:261
 msgid "their own profile"
 msgstr ""
 
-#: rcgcdw.py:274
+#: rcgcdw.py:264
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target} "
 "profile"
 msgstr ""
 
-#: rcgcdw.py:277 rcgcdw.py:283 rcgcdw.py:294 rcgcdw.py:298
+#: rcgcdw.py:267 rcgcdw.py:273 rcgcdw.py:284 rcgcdw.py:288
 msgid "their own"
 msgstr ""
 
-#: rcgcdw.py:280
+#: rcgcdw.py:270
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target} profile"
 msgstr ""
 
-#: rcgcdw.py:286
+#: rcgcdw.py:276
 #, python-brace-format
 msgid "[{author}]({author_url}) purged a comment on {target} profile"
 msgstr ""
 
-#: rcgcdw.py:296
+#: rcgcdw.py:286
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a comment on {target} profile"
 msgstr ""
 
-#: rcgcdw.py:302
+#: rcgcdw.py:292
 #, python-brace-format
 msgid "[{target}]({target_url})'s"
 msgstr ""
 
-#: rcgcdw.py:302
+#: rcgcdw.py:292
 #, python-brace-format
 msgid "[their own]({target_url})"
 msgstr ""
 
-#: rcgcdw.py:303
+#: rcgcdw.py:293
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the {field} on {target} profile. *({desc})*"
 msgstr ""
 
-#: rcgcdw.py:317 rcgcdw.py:319 rcgcdw.py:724 rcgcdw.py:726
+#: rcgcdw.py:307 rcgcdw.py:309 rcgcdw.py:714 rcgcdw.py:716
 msgid "none"
 msgstr ""
 
-#: rcgcdw.py:325 rcgcdw.py:711
+#: rcgcdw.py:315 rcgcdw.py:701
 msgid "System"
 msgstr ""
 
-#: rcgcdw.py:330
+#: rcgcdw.py:320
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) protected [{article}]({article_url}) with the "
 "following settings: {settings}{comment}"
 msgstr ""
 
-#: rcgcdw.py:332 rcgcdw.py:340 rcgcdw.py:734 rcgcdw.py:740
+#: rcgcdw.py:322 rcgcdw.py:330 rcgcdw.py:724 rcgcdw.py:730
 msgid " [cascading]"
 msgstr ""
 
-#: rcgcdw.py:337
+#: rcgcdw.py:327
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified protection settings of [{article}]"
 "({article_url}) to: {settings}{comment}"
 msgstr ""
 
-#: rcgcdw.py:344
+#: rcgcdw.py:334
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed protection from [{article}]({article_url})"
 "{comment}"
 msgstr ""
 
-#: rcgcdw.py:348
+#: rcgcdw.py:338
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed visibility of revision on page [{article}]"
@@ -284,7 +284,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:353
+#: rcgcdw.py:343
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -295,699 +295,699 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:358
+#: rcgcdw.py:348
 #, python-brace-format
 msgid "[{author}]({author_url}) restored [{article}]({article_url}){comment}"
 msgstr ""
 
-#: rcgcdw.py:360
+#: rcgcdw.py:350
 #, python-brace-format
 msgid "[{author}]({author_url}) changed visibility of log events{comment}"
 msgstr ""
 
-#: rcgcdw.py:362
+#: rcgcdw.py:352
 #, python-brace-format
 msgid "[{author}]({author_url}) imported interwiki{comment}"
 msgstr ""
 
-#: rcgcdw.py:365
+#: rcgcdw.py:355
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})"
 msgstr ""
 
-#: rcgcdw.py:369
+#: rcgcdw.py:359
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created abuse filter [number {number}]({filter_url})"
 msgstr ""
 
-#: rcgcdw.py:373
+#: rcgcdw.py:363
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
 "({article_url}) into [{dest}]({dest_url}){comment}"
 msgstr ""
 
-#: rcgcdw.py:377
+#: rcgcdw.py:367
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) added an entry to the [interwiki table]"
 "({table_url}) pointing to {website} with {prefix} prefix"
 msgstr ""
 
-#: rcgcdw.py:383
+#: rcgcdw.py:373
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
 "pointing to {website} with {prefix} prefix"
 msgstr ""
 
-#: rcgcdw.py:389
+#: rcgcdw.py:379
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
 msgstr ""
 
-#: rcgcdw.py:392
+#: rcgcdw.py:382
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
 "({article_url}) from {old} to {new}{comment}"
 msgstr ""
 
-#: rcgcdw.py:396
+#: rcgcdw.py:386
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the sprite for [{article}]({article_url})"
 msgstr ""
 
-#: rcgcdw.py:399
+#: rcgcdw.py:389
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the sprite sheet for [{article}]"
 "({article_url})"
 msgstr ""
 
-#: rcgcdw.py:402
+#: rcgcdw.py:392
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the slice for [{article}]({article_url})"
 msgstr ""
 
-#: rcgcdw.py:407
+#: rcgcdw.py:397
 #, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:409
+#: rcgcdw.py:399
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:414
+#: rcgcdw.py:404
 #, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:419
+#: rcgcdw.py:409
 #, python-brace-format
 msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:422
+#: rcgcdw.py:412
 #, python-brace-format
 msgid "[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:426
+#: rcgcdw.py:416
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a [tag]({tag_url}) \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:430
+#: rcgcdw.py:420
 #, python-brace-format
 msgid "[{author}]({author_url}) activated a [tag]({tag_url}) \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:433
+#: rcgcdw.py:423
 #, python-brace-format
 msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:435
+#: rcgcdw.py:425
 msgid "An action has been hidden by administration."
 msgstr ""
 
-#: rcgcdw.py:445 rcgcdw.py:727
+#: rcgcdw.py:435 rcgcdw.py:717
 msgid "No description provided"
 msgstr ""
 
-#: rcgcdw.py:492
+#: rcgcdw.py:482
 msgid "(N!) "
 msgstr ""
 
-#: rcgcdw.py:493
+#: rcgcdw.py:483
 msgid "m"
 msgstr ""
 
-#: rcgcdw.py:493
+#: rcgcdw.py:483
 msgid "b"
 msgstr ""
 
-#: rcgcdw.py:510 rcgcdw.py:515
+#: rcgcdw.py:500 rcgcdw.py:505
 msgid "__Only whitespace__"
 msgstr ""
 
-#: rcgcdw.py:520
+#: rcgcdw.py:510
 msgid "Removed"
 msgstr ""
 
-#: rcgcdw.py:522
+#: rcgcdw.py:512
 msgid "Added"
 msgstr ""
 
-#: rcgcdw.py:556 rcgcdw.py:595
+#: rcgcdw.py:546 rcgcdw.py:585
 msgid "Options"
 msgstr ""
 
-#: rcgcdw.py:556
+#: rcgcdw.py:546
 #, python-brace-format
 msgid "([preview]({link}) | [undo]({undolink}))"
 msgstr ""
 
-#: rcgcdw.py:561
+#: rcgcdw.py:551
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
 msgstr ""
 
-#: rcgcdw.py:563
+#: rcgcdw.py:553
 #, python-brace-format
 msgid "Reverted a version of {name}"
 msgstr ""
 
-#: rcgcdw.py:565
+#: rcgcdw.py:555
 #, python-brace-format
 msgid "Uploaded {name}"
 msgstr ""
 
-#: rcgcdw.py:581
+#: rcgcdw.py:571
 msgid "**No license!**"
 msgstr ""
 
-#: rcgcdw.py:593
+#: rcgcdw.py:583
 msgid ""
 "\n"
 "License: {}"
 msgstr ""
 
-#: rcgcdw.py:595
+#: rcgcdw.py:585
 #, python-brace-format
 msgid "([preview]({link}))"
 msgstr ""
 
-#: rcgcdw.py:600
+#: rcgcdw.py:590
 #, python-brace-format
 msgid "Deleted page {article}"
 msgstr ""
 
-#: rcgcdw.py:603
+#: rcgcdw.py:593
 #, python-brace-format
 msgid "Deleted redirect {article} by overwriting"
 msgstr ""
 
-#: rcgcdw.py:607
+#: rcgcdw.py:597
 msgid "No redirect has been made"
 msgstr ""
 
-#: rcgcdw.py:608
+#: rcgcdw.py:598
 msgid "A redirect has been made"
 msgstr ""
 
-#: rcgcdw.py:609
+#: rcgcdw.py:599
 #, python-brace-format
 msgid "Moved {redirect}{article} to {target}"
 msgstr ""
 
-#: rcgcdw.py:612
+#: rcgcdw.py:602
 #, python-brace-format
 msgid "Moved {redirect}{article} to {title} over redirect"
 msgstr ""
 
-#: rcgcdw.py:616
+#: rcgcdw.py:606
 #, python-brace-format
 msgid "Moved protection settings from {redirect}{article} to {title}"
 msgstr ""
 
-#: rcgcdw.py:639
+#: rcgcdw.py:629
 msgid "Blocked from editing the following pages: "
 msgstr ""
 
-#: rcgcdw.py:648
+#: rcgcdw.py:638
 msgid "Blocked from editing pages on following namespaces: "
 msgstr ""
 
-#: rcgcdw.py:659
+#: rcgcdw.py:649
 msgid "Partial block details"
 msgstr ""
 
-#: rcgcdw.py:660
+#: rcgcdw.py:650
 #, python-brace-format
 msgid "Blocked {blocked_user} for {time}"
 msgstr ""
 
-#: rcgcdw.py:664
+#: rcgcdw.py:654
 #, python-brace-format
 msgid "Changed block settings for {blocked_user}"
 msgstr ""
 
-#: rcgcdw.py:668
+#: rcgcdw.py:658
 #, python-brace-format
 msgid "Unblocked {blocked_user}"
 msgstr ""
 
-#: rcgcdw.py:673
+#: rcgcdw.py:663
 #, python-brace-format
 msgid "Left a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:675
+#: rcgcdw.py:665
 msgid "Left a comment on their own profile"
 msgstr ""
 
-#: rcgcdw.py:680
+#: rcgcdw.py:670
 #, python-brace-format
 msgid "Replied to a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:682
+#: rcgcdw.py:672
 msgid "Replied to a comment on their own profile"
 msgstr ""
 
-#: rcgcdw.py:687
+#: rcgcdw.py:677
 #, python-brace-format
 msgid "Edited a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:689
+#: rcgcdw.py:679
 msgid "Edited a comment on their own profile"
 msgstr ""
 
-#: rcgcdw.py:692
+#: rcgcdw.py:682
 #, python-brace-format
 msgid "Edited {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:692
+#: rcgcdw.py:682
 msgid "Edited their own profile"
 msgstr ""
 
-#: rcgcdw.py:694
+#: rcgcdw.py:684
 #, python-brace-format
 msgid "Cleared the {field} field"
 msgstr ""
 
-#: rcgcdw.py:696
+#: rcgcdw.py:686
 #, python-brace-format
 msgid "{field} field changed to: {desc}"
 msgstr ""
 
-#: rcgcdw.py:699
+#: rcgcdw.py:689
 #, python-brace-format
 msgid "Purged a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:705
+#: rcgcdw.py:695
 #, python-brace-format
 msgid "Deleted a comment on {target}'s profile"
 msgstr ""
 
-#: rcgcdw.py:709
+#: rcgcdw.py:699
 #, python-brace-format
 msgid "Changed group membership for {target}"
 msgstr ""
 
-#: rcgcdw.py:713
+#: rcgcdw.py:703
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
 msgstr ""
 
-#: rcgcdw.py:728
+#: rcgcdw.py:718
 #, python-brace-format
 msgid "Groups changed from {old_groups} to {new_groups}{reason}"
 msgstr ""
 
-#: rcgcdw.py:732
+#: rcgcdw.py:722
 #, python-brace-format
 msgid "Protected {target}"
 msgstr ""
 
-#: rcgcdw.py:738
+#: rcgcdw.py:728
 #, python-brace-format
 msgid "Changed protection level for {article}"
 msgstr ""
 
-#: rcgcdw.py:744
+#: rcgcdw.py:734
 #, python-brace-format
 msgid "Removed protection from {article}"
 msgstr ""
 
-#: rcgcdw.py:748
+#: rcgcdw.py:738
 #, python-brace-format
 msgid "Changed visibility of revision on page {article} "
 msgid_plural "Changed visibility of {amount} revisions on page {article} "
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:753
+#: rcgcdw.py:743
 #, python-brace-format
 msgid "Imported {article} with {count} revision"
 msgid_plural "Imported {article} with {count} revisions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:758
+#: rcgcdw.py:748
 #, python-brace-format
 msgid "Restored {article}"
 msgstr ""
 
-#: rcgcdw.py:761
+#: rcgcdw.py:751
 msgid "Changed visibility of log events"
 msgstr ""
 
-#: rcgcdw.py:764
+#: rcgcdw.py:754
 msgid "Imported interwiki"
 msgstr ""
 
-#: rcgcdw.py:767
+#: rcgcdw.py:757
 #, python-brace-format
 msgid "Edited abuse filter number {number}"
 msgstr ""
 
-#: rcgcdw.py:770
+#: rcgcdw.py:760
 #, python-brace-format
 msgid "Created abuse filter number {number}"
 msgstr ""
 
-#: rcgcdw.py:773
+#: rcgcdw.py:763
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
 msgstr ""
 
-#: rcgcdw.py:777
+#: rcgcdw.py:767
 msgid "Added an entry to the interwiki table"
 msgstr ""
 
-#: rcgcdw.py:778 rcgcdw.py:784
+#: rcgcdw.py:768 rcgcdw.py:774
 #, python-brace-format
 msgid "Prefix: {prefix}, website: {website} | {desc}"
 msgstr ""
 
-#: rcgcdw.py:783
+#: rcgcdw.py:773
 msgid "Edited an entry in interwiki table"
 msgstr ""
 
-#: rcgcdw.py:789
+#: rcgcdw.py:779
 msgid "Deleted an entry in interwiki table"
 msgstr ""
 
-#: rcgcdw.py:790
+#: rcgcdw.py:780
 #, python-brace-format
 msgid "Prefix: {prefix} | {desc}"
 msgstr ""
 
-#: rcgcdw.py:793
+#: rcgcdw.py:783
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr ""
 
-#: rcgcdw.py:794
+#: rcgcdw.py:784
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr ""
 
-#: rcgcdw.py:799
+#: rcgcdw.py:789
 #, python-brace-format
 msgid "Edited the sprite for {article}"
 msgstr ""
 
-#: rcgcdw.py:802
+#: rcgcdw.py:792
 #, python-brace-format
 msgid "Created the sprite sheet for {article}"
 msgstr ""
 
-#: rcgcdw.py:805
+#: rcgcdw.py:795
 #, python-brace-format
 msgid "Edited the slice for {article}"
 msgstr ""
 
-#: rcgcdw.py:811
+#: rcgcdw.py:801
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:815
+#: rcgcdw.py:805
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:822
+#: rcgcdw.py:812
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:829
+#: rcgcdw.py:819
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
 msgstr ""
 
-#: rcgcdw.py:833
+#: rcgcdw.py:823
 #, python-brace-format
 msgid "Created a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:837
+#: rcgcdw.py:827
 #, python-brace-format
 msgid "Deleted a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:841
+#: rcgcdw.py:831
 #, python-brace-format
 msgid "Activated a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:844
+#: rcgcdw.py:834
 #, python-brace-format
 msgid "Deactivated a tag \"{tag}\""
 msgstr ""
 
-#: rcgcdw.py:847
+#: rcgcdw.py:837
 msgid "Action has been hidden by administration."
 msgstr ""
 
-#: rcgcdw.py:867
+#: rcgcdw.py:857
 msgid "Tags"
 msgstr ""
 
-#: rcgcdw.py:870
+#: rcgcdw.py:860
 msgid "**Added**: "
 msgstr ""
 
-#: rcgcdw.py:870
+#: rcgcdw.py:860
 msgid " and {} more\n"
 msgstr ""
 
-#: rcgcdw.py:871
+#: rcgcdw.py:861
 msgid "**Removed**: "
 msgstr ""
 
-#: rcgcdw.py:871
+#: rcgcdw.py:861
 msgid " and {} more"
 msgstr ""
 
-#: rcgcdw.py:872
+#: rcgcdw.py:862
 msgid "Changed categories"
 msgstr ""
 
-#: rcgcdw.py:889
+#: rcgcdw.py:879
 msgid "~~hidden~~"
 msgstr ""
 
-#: rcgcdw.py:895
+#: rcgcdw.py:885
 msgid "hidden"
 msgstr ""
 
-#: rcgcdw.py:965 rcgcdw.py:967 rcgcdw.py:969 rcgcdw.py:971 rcgcdw.py:973
-#: rcgcdw.py:975 rcgcdw.py:977
+#: rcgcdw.py:955 rcgcdw.py:957 rcgcdw.py:959 rcgcdw.py:961 rcgcdw.py:963
+#: rcgcdw.py:965 rcgcdw.py:967
 #, python-brace-format
 msgid "{value} (avg. {avg})"
 msgstr ""
 
-#: rcgcdw.py:1001 rcgcdw.py:1026
+#: rcgcdw.py:987
 msgid "Daily overview"
 msgstr ""
 
-#: rcgcdw.py:1003
+#: rcgcdw.py:995
 msgid "No activity"
 msgstr ""
 
-#: rcgcdw.py:1032
+#: rcgcdw.py:1019
 msgid " ({} action)"
 msgid_plural " ({} actions)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1034
+#: rcgcdw.py:1021
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1039
+#: rcgcdw.py:1026
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1041 rcgcdw.py:1042 rcgcdw.py:1046
+#: rcgcdw.py:1028 rcgcdw.py:1029 rcgcdw.py:1033
 msgid "But nobody came"
 msgstr ""
 
-#: rcgcdw.py:1049
+#: rcgcdw.py:1036
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1050
+#: rcgcdw.py:1037
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1051
+#: rcgcdw.py:1038
 msgid "Edits made"
 msgstr ""
 
-#: rcgcdw.py:1051
+#: rcgcdw.py:1038
 msgid "New files"
 msgstr ""
 
-#: rcgcdw.py:1051
+#: rcgcdw.py:1038
 msgid "Admin actions"
 msgstr ""
 
-#: rcgcdw.py:1052
+#: rcgcdw.py:1039
 msgid "Bytes changed"
 msgstr ""
 
-#: rcgcdw.py:1052
+#: rcgcdw.py:1039
 msgid "New articles"
 msgstr ""
 
-#: rcgcdw.py:1053
+#: rcgcdw.py:1040
 msgid "Unique contributors"
 msgstr ""
 
-#: rcgcdw.py:1054
+#: rcgcdw.py:1041
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1055
+#: rcgcdw.py:1042
 msgid "Day score"
 msgstr ""
 
-#: rcgcdw.py:1196
+#: rcgcdw.py:1165
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr ""
 
-#: rcgcdw.py:1197 rcgcdw.py:1312
+#: rcgcdw.py:1166 rcgcdw.py:1281
 msgid "Connection status"
 msgstr ""
 
-#: rcgcdw.py:1311
+#: rcgcdw.py:1280
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr ""
 
-#: rcgcdw.py:1386
+#: rcgcdw.py:1355
 msgid "director"
 msgstr ""
 
-#: rcgcdw.py:1386
+#: rcgcdw.py:1355
 msgid "bot"
 msgstr ""
 
-#: rcgcdw.py:1386
+#: rcgcdw.py:1355
 msgid "editor"
 msgstr ""
 
-#: rcgcdw.py:1386
+#: rcgcdw.py:1355
 msgid "directors"
 msgstr ""
 
-#: rcgcdw.py:1386
+#: rcgcdw.py:1355
 msgid "sysop"
 msgstr ""
 
-#: rcgcdw.py:1386
+#: rcgcdw.py:1355
 msgid "bureaucrat"
 msgstr ""
 
-#: rcgcdw.py:1386
+#: rcgcdw.py:1355
 msgid "reviewer"
 msgstr ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "autoreview"
 msgstr ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "autopatrol"
 msgstr ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "wiki_guardian"
 msgstr ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "day"
 msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "month"
 msgid_plural "months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "year"
 msgid_plural "years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "millennium"
 msgid_plural "millennia"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "decade"
 msgid_plural "decades"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rcgcdw.py:1387
+#: rcgcdw.py:1356
 msgid "century"
 msgid_plural "centuries"
 msgstr[0] ""
