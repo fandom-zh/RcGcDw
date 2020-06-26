@@ -265,17 +265,25 @@
              "icon": "https://i.imgur.com/1gps6EZ.png",
              "color": 8092539
          },
-         "discussion/post": {
+          "discussion/forum/post": {
             "icon": "",
             "color":null
          },
-         "discussion/reply": {
-            "icon": "",
-            "color":null
+          "discussion/forum/reply": {
+             "icon": "",
+             "color":null
+          },
+         "discussion/forum/poll": {
+             "icon": "",
+             "color":null
          },
-         "discussion/poll": {
-            "icon": "",
-            "color": null
+         "discussion/wall/post": {
+             "icon": "",
+             "color":null
+         },
+         "discussion/wall/reply": {
+             "icon": "",
+             "color":null
          }
       }
    },
