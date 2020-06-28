@@ -113,14 +113,41 @@ def embed_formatter(post, post_type):
 def compact_formatter(post, post_type):
 	"""Compact formatter for Fandom discussions."""
 	message = None
+	discussion_post_type = post["_embedded"]["thread"][0].get("containerType",
+	                                                          "FORUM")  # Can be FORUM, ARTICLE_COMMENT or WALL on UCP
 	if post_type == "TEXT":
 		if not post["isReply"]:
-			message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
+			if discussion_post_type == "FORUM":
+				message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
 				author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
+			elif discussion_post_type == "ARTICLE_COMMENT":
+				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
+				return
+			elif discussion_post_type == "WALL":
+				user_wall = _("unknown")  # Fail safe
+				if post["forumName"].endswith(' Message Wall'):
+					user_wall = post["forumName"][:-13]
+				message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}>) on {user}'s Message Wall".format(
+					author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["_embedded"]["thread"][0]["title"], user=user_wall,
+					wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadid=post["threadId"]
+				    ))
 		else:
-			message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
+			if discussion_post_type == "FORUM":
+				message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
 				author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
-			)
+				)
+			elif discussion_post_type == "ARTICLE_COMMENT":
+				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
+				return
+			elif discussion_post_type == "WALL":
+				user_wall = _("unknown")  # Fail safe
+				if post["forumName"].endswith(' Message Wall'):
+					user_wall = post["forumName"][:-13]
+				message = _(
+					"[{author}](<{url}f/u/{creatorId}>) replied to [{title}](<{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) on {user}'s Message Wall".format(
+						author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["_embedded"]["thread"][0]["title"], user=user_wall,
+						wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadid=post["threadId"], replyId=post["id"]))
+
 	elif post_type == "POLL":
 		message = _(
 			"[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
