@@ -327,6 +327,17 @@ def send_to_discord_webhook(data):
 
 
 def send_to_discord(data):
+	for regex in settings["disallow_regexes"]:
+		if data.webhook_object.get("content", None):
+			if re.search(re.compile(regex), data.webhook_object["content"]):
+				misc_logger.info("Message {} has been rejected due to matching filter ({}).".format(data.webhook_object["content"], regex))
+				return  # discard the message without anything
+		else:
+			for to_check in [data.webhook_object.get("description", ""), data.webhook_object.get("title", ""), *[x["value"] for x in data["fields"]], data.webhook_object.get("author", {"name": ""}).get("name", "")]:
+				if re.search(re.compile(regex), to_check):
+					misc_logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
+						to_check, regex))
+					return  # discard the message without anything
 	if messagequeue:
 		messagequeue.add_message(data)
 	else:
