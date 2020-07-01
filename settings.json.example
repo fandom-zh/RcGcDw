@@ -25,6 +25,7 @@
    "license_detection": true,
    "license_regex_detect": "\\{\\{(license|lizenz|licence|copyright)",
    "license_regex": "\\{\\{(license|lizenz|licence|copyright)(\\ |\\|)(?P<license>.*?)\\}\\}",
+   "disallow_regexes": [],
    "wiki_bot_login": "",
    "wiki_bot_password": "",
    "show_added_categories": true,
