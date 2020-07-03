@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-26 22:05+0200\n"
-"PO-Revision-Date: 2020-04-27 17:46+0200\n"
+"POT-Creation-Date: 2020-07-04 00:58+0200\n"
+"PO-Revision-Date: 2020-07-04 01:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,31 +18,45 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: discussions.py:53
+#: discussions.py:56
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr "Antwortete auf „{title}“"
 
-#: discussions.py:58
+#: discussions.py:63 discussions.py:79 discussions.py:127 discussions.py:143
+msgid "unknown"
+msgstr "Unbekannt"
+
+#: discussions.py:68
+#, python-brace-format
+msgid "Replied to \"{title}\" on {user}'s Message Wall"
+msgstr "Antwortete auf „{title}“ auf der Nachrichtenseite von {user}"
+
+#: discussions.py:72
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "Erstellte „{title}“"
 
-#: discussions.py:70
+#: discussions.py:86
+#, python-brace-format
+msgid "Created \"{title}\" on {user}'s Message Wall"
+msgstr "Erstellte „{title}“ auf der Nachrichtenseite von {user}"
+
+#: discussions.py:99
 #, python-brace-format
 msgid "Created a poll titled \"{title}\""
 msgstr "Erstellte eine Umfrage „{title}“"
 
-#: discussions.py:75
+#: discussions.py:104
 msgid "Option {}"
 msgstr "Option {}"
 
-#: discussions.py:76
+#: discussions.py:105
 #, python-brace-format
 msgid "__[View image]({image_url})__"
 msgstr "__[Bild öffnen]({image_url})__"
 
-#: discussions.py:89
+#: discussions.py:121
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) "
@@ -51,7 +65,17 @@ msgstr ""
 "[{author}](<{url}f/u/{creatorId}>) erstellte [{title}](<{url}f/p/{threadId}"
 ">) in {forumName}"
 
-#: discussions.py:92
+#: discussions.py:130
+#, python-brace-format
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) created [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}>) on {user}'s Message Wall"
+msgstr ""
+"[{author}](<{url}f/u/{creatorId}>) erstellte [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}>) auf der Nachrichtenseite von "
+"{user}"
+
+#: discussions.py:136
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/"
@@ -60,7 +84,18 @@ msgstr ""
 "[{author}](<{url}f/u/{creatorId}>) erstellte eine [Antwork](<{url}f/p/"
 "{threadId}/r/{postId}>) zu [{title}](<{url}f/p/{threadId}>) in {forumName}"
 
-#: discussions.py:97
+#: discussions.py:147
+#, python-brace-format
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) replied to [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) on {user}'s Message "
+"Wall"
+msgstr ""
+"[{author}](<{url}f/u/{creatorId}>) antwortete auf [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) auf der "
+"Nachrichtenseite von {user}"
+
+#: discussions.py:153
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"

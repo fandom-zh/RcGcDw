@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-23 14:54+0200\n"
-"PO-Revision-Date: 2020-06-23 14:56+0200\n"
+"POT-Creation-Date: 2020-07-04 00:58+0200\n"
+"PO-Revision-Date: 2020-07-04 01:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Replied to \"{title}\""
 msgstr "Odpowiedział(a) w „{title}”"
 
-#: discussions.py:63 discussions.py:79
+#: discussions.py:63 discussions.py:79 discussions.py:127 discussions.py:143
 msgid "unknown"
 msgstr "nieznany"
 
@@ -60,7 +60,7 @@ msgstr "Opcja {}"
 msgid "__[View image]({image_url})__"
 msgstr "__[Zobacz zdjęcie]({image_url})__"
 
-#: discussions.py:118
+#: discussions.py:121
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) "
@@ -69,7 +69,17 @@ msgstr ""
 "[{author}](<{url}f/u/{creatorId}>) utworzył(a) [{title}](<{url}f/p/{threadId}"
 ">) w {forumName}"
 
-#: discussions.py:121
+#: discussions.py:130
+#, python-brace-format
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) created [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}>) on {user}'s Message Wall"
+msgstr ""
+"[{author}](<{url}f/u/{creatorId}>) utworzył(a) [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}>) na tablicy wiadomości "
+"użytkownika/użytkowniczki {user}"
+
+#: discussions.py:136
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/"
@@ -79,7 +89,18 @@ msgstr ""
 "{threadId}/r/{postId}>) pod tematem [{title}](<{url}f/p/{threadId}>) w "
 "{forumName}"
 
-#: discussions.py:126
+#: discussions.py:147
+#, python-brace-format
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) replied to [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) on {user}'s Message "
+"Wall"
+msgstr ""
+"[{author}](<{url}f/u/{creatorId}>) odpowiedział(a) na[{title}](<{wikiurl}"
+"wiki/Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) na tablicy "
+"wiadomości użytkownika/użytkowniczki {user}"
+
+#: discussions.py:153
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"

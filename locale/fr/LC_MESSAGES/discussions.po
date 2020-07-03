@@ -7,28 +7,57 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-06 18:55+0200\n"
-"PO-Revision-Date: 2020-04-22 20:59+0200\n"
+"POT-Creation-Date: 2020-07-04 00:58+0200\n"
+"PO-Revision-Date: 2020-07-04 01:08+0200\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: fr\n"
 
-#: discussions.py:53
+#: discussions.py:56
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr "A répondu à « {title} »"
 
-#: discussions.py:56
+#: discussions.py:63 discussions.py:79 discussions.py:127 discussions.py:143
+msgid "unknown"
+msgstr "inconnu"
+
+#: discussions.py:68
+#, python-brace-format
+msgid "Replied to \"{title}\" on {user}'s Message Wall"
+msgstr "Réponse à « {title} » sur le mur de {user}"
+
+#: discussions.py:72
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "Création de {title}"
 
-#: discussions.py:73
+#: discussions.py:86
+#, python-brace-format
+msgid "Created \"{title}\" on {user}'s Message Wall"
+msgstr "Création de « {title} » sur le mur de {user}"
+
+#: discussions.py:99
+#, fuzzy, python-brace-format
+#| msgid "Created \"{title}\""
+msgid "Created a poll titled \"{title}\""
+msgstr "Création de {title}"
+
+#: discussions.py:104
+msgid "Option {}"
+msgstr ""
+
+#: discussions.py:105
+#, python-brace-format
+msgid "__[View image]({image_url})__"
+msgstr ""
+
+#: discussions.py:121
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) "
@@ -37,7 +66,19 @@ msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
 "{creatorId}>)  dans {forumName}"
 
-#: discussions.py:76
+#: discussions.py:130
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#| ">) in {forumName}"
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) created [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}>) on {user}'s Message Wall"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
+
+#: discussions.py:136
 #, python-brace-format
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/"
@@ -45,3 +86,28 @@ msgid ""
 msgstr ""
 "[Réponse](<{url}f/p/{threadId}/r/{postId}>) de [{author}](<{url}f/u/"
 "{creatorId}>) à [{title}](<{url}f/p/{threadId}>) dans {forumName}"
+
+#: discussions.py:147
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#| ">) in {forumName}"
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) replied to [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) on {user}'s Message "
+"Wall"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
+
+#: discussions.py:153
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#| ">) in {forumName}"
+msgid ""
+"[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"
+"{threadId}>) in {forumName}"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
