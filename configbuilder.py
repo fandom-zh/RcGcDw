@@ -154,8 +154,8 @@ def set_wiki():
 
 def set_lang():
 	option = default_or_custom(input(
-		"Please provide a language code for translation of the script. Translations available: en, de, ru, pt-br, fr, pl. (default en)\n"), "en")
-	if option in ["en", "de", "ru", "pt-br", "fr", "pl"]:
+		"Please provide a language code for translation of the script. Translations available: en, de, ru, pt-br, fr, pl, uk. (default en)\n"), "en")
+	if option in ["en", "de", "ru", "pt-br", "fr", "pl", "uk"]:
 		settings["lang"] = option
 		return True
 	return False
@@ -163,7 +163,7 @@ def set_lang():
 def set_webhook():
 	option = input(
 		"Webhook URL is required. You can get it on Discord by following instructions on this page: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks\n")
-	if option.startswith("https://discordapp.com/api/webhooks/"):
+	if option.startswith("https://discord.com/api/webhooks/") or option.startswith("https://discordapp.com/api/webhooks/"):
 		test_webhook = requests.get(option)
 		if test_webhook.status_code != 200:
 			print("The webhook URL does not seem right. Reason: {}".format(test_webhook.json()["message"]))
@@ -172,7 +172,7 @@ def set_webhook():
 			settings["webhookURL"] = option
 			return True
 	else:
-		print("The webhook URL should start with https://discordapp.com/api/webhooks/, are you sure it's the right URL?")
+		print("The webhook URL should start with https://discord.com/api/webhooks/, are you sure it's the right URL?")
 		return False
 
 def set_wikiname():
