@@ -1,64 +1,59 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Frisk <piotrex43@protonmail.ch>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-04 00:58+0200\n"
-"PO-Revision-Date: 2020-07-04 01:12+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2020-07-04 01:09+0200\n"
+"Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
-"Language: pl\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
-"|| n%100>14) ? 1 : 2);\n"
 
 #: discussions.py:56
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr "Odpowiedział(a) w „{title}”"
+msgstr "Respondido o \"{title}\""
 
 #: discussions.py:63 discussions.py:79 discussions.py:127 discussions.py:143
 msgid "unknown"
-msgstr "nieznany"
+msgstr "desconhecido"
 
 #: discussions.py:68
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr ""
-"Odpowiedział(a) na „{title}” z tablicy wiadomości użytkownika/użytkowniczki "
-"{user}"
+msgstr "Respondeu a \"{title}\" no mural de mensagem de {user}"
 
 #: discussions.py:72
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr "Utworzył(a) „{title}”"
+msgstr "Criado \"{title}\""
 
 #: discussions.py:86
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
-"Utworzył(a) „{title}” na tablicy wiadomości użytkownika/użytkowniczki {user}"
+msgstr "Criado \"{title}\" no mural de mensagem de {user}"
 
 #: discussions.py:99
 #, python-brace-format
 msgid "Created a poll titled \"{title}\""
-msgstr "Utworzył(a) ankietę zatytułowaną „{title}”"
+msgstr ""
 
 #: discussions.py:104
 msgid "Option {}"
-msgstr "Opcja {}"
+msgstr ""
 
 #: discussions.py:105
 #, python-brace-format
 msgid "__[View image]({image_url})__"
-msgstr "__[Zobacz zdjęcie]({image_url})__"
+msgstr ""
 
 #: discussions.py:121
 #, python-brace-format
@@ -66,18 +61,20 @@ msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) "
 "in {forumName}"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>) utworzył(a) [{title}](<{url}f/p/{threadId}"
-">) w {forumName}"
+"Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/{creatorId}"
+">)  no {forumName}"
 
 #: discussions.py:130
-#, python-brace-format
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#| ">) in {forumName}"
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{wikiurl}wiki/"
 "Message_Wall:{user_wall}?threadId={threadid}>) on {user}'s Message Wall"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>) utworzył(a) [{title}](<{wikiurl}wiki/"
-"Message_Wall:{user_wall}?threadId={threadid}>) na tablicy wiadomości "
-"użytkownika/użytkowniczki {user}"
+"Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/{creatorId}"
+">)  no {forumName}"
 
 #: discussions.py:136
 #, python-brace-format
@@ -85,20 +82,21 @@ msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/"
 "{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>) utworzył(a) [odpowiedź](<{url}f/p/"
-"{threadId}/r/{postId}>) pod tematem [{title}](<{url}f/p/{threadId}>) w "
-"{forumName}"
+"[Responder](<{url}f/p/{threadId}/r/{postId}>) por [{author}](<{url}f/u/"
+"{creatorId}>) do [{title}](<{url}f/p/{threadId}>) do {forumName}"
 
 #: discussions.py:147
-#, python-brace-format
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#| ">) in {forumName}"
 msgid ""
 "[{author}](<{url}f/u/{creatorId}>) replied to [{title}](<{wikiurl}wiki/"
 "Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) on {user}'s Message "
 "Wall"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>) odpowiedział(a) na[{title}](<{wikiurl}"
-"wiki/Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) na tablicy "
-"wiadomości użytkownika/użytkowniczki {user}"
+"Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/{creatorId}"
+">)  no {forumName}"
 
 #: discussions.py:153
 #, python-brace-format
@@ -106,5 +104,3 @@ msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"
 "{threadId}>) in {forumName}"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>) utworzył(a) ankietę [{title}](<{url}f/p/"
-"{threadId}>) w {forumName}"

@@ -30,7 +30,7 @@ from urllib.parse import quote_plus
 from configloader import settings
 from misc import link_formatter, ContentParser, safe_read, add_to_dict, datafile, \
 	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue, send_to_discord_webhook, \
-	send_to_discord
+	send_to_discord, DiscordMessage, send_simple
 from session import session
 
 if settings["fandom_discussions"]["enabled"]:
@@ -113,16 +113,6 @@ LinkParser = LinkParser()
 
 class MWError(Exception):
 	pass
-
-
-def send(message, name, avatar):
-	dictionary_creator = {"content": message}
-	if name:
-		dictionary_creator["username"] = name
-	if avatar:
-		dictionary_creator["avatar_url"] = avatar
-	send_to_discord(dictionary_creator)
-
 
 def profile_field_name(name, embed):
 	try:
@@ -235,12 +225,12 @@ def compact_formatter(action, change, parsed_comment, categories):
 				return
 			if "sitewide" not in change["logparams"]:
 				restriction_description = ""
-				if change["logparams"]["restrictions"]["pages"]:
+				if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
 					restriction_description = _(" on pages: ")
 					for page in change["logparams"]["restrictions"]["pages"]:
 						restricted_pages = ["*{page}*".format(page=i["page_title"]) for i in change["logparams"]["restrictions"]["pages"]]
 					restriction_description = restriction_description + ", ".join(restricted_pages)
-				if change["logparams"]["restrictions"]["namespaces"]:
+				if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
 					namespaces = []
 					if restriction_description:
 						restriction_description = restriction_description + _(" and namespaces: ")
@@ -433,13 +423,14 @@ def compact_formatter(action, change, parsed_comment, categories):
 		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
 	elif action == "suppressed":
 		content = _("An action has been hidden by administration.")
-	send_to_discord(json.dumps({'content': content, 'allowed_mentions': {'parse': []}}))
+	else:
+		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
+		return
+	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content))
 
 
 def embed_formatter(action, change, parsed_comment, categories):
-	data = {"embeds": []}
-	embed = defaultdict(dict)
-	colornumber = None
+	embed = DiscordMessage("embed", action, settings["webhookURL"])
 	if parsed_comment is None:
 		parsed_comment = _("No description provided")
 	if action != "suppressed":
@@ -467,22 +458,21 @@ def embed_formatter(action, change, parsed_comment, categories):
 				                                              amount=recent_changes.map_ips[change["user"]])
 		else:
 			author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
-		embed["author"]["name"] = change["user"]
-		embed["author"]["url"] = author_url
+		embed.set_author(change["user"], author_url)
 	if action in ("edit", "new"):  # edit or new page
 		editsize = change["newlen"] - change["oldlen"]
 		if editsize > 0:
 			if editsize > 6032:
-				colornumber = 65280
+				embed["color"] = 65280
 			else:
-				colornumber = 35840 + (math.floor(editsize / 52)) * 256
+				embed["color"] = 35840 + (math.floor(editsize / 52)) * 256
 		elif editsize < 0:
 			if editsize < -6032:
-				colornumber = 16711680
+				embed["color"] = 16711680
 			else:
-				colornumber = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
+				embed["color"] = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
 		elif editsize == 0:
-			colornumber = 8750469
+			embed["color"] = 8750469
 		if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
 			recent_changes.init_info()
 		link = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
@@ -503,8 +493,6 @@ def embed_formatter(action, change, parsed_comment, categories):
 						wiki=WIKI_API_PATH, diff=change["revid"],oldrev=change["old_revid"]
 					)), "compare", "*")
 			if changed_content:
-				if "fields" not in embed:
-					embed["fields"] = []
 				EditDiff = ContentParser()
 				EditDiff.feed(changed_content)
 				if EditDiff.small_prev_del:
@@ -519,11 +507,9 @@ def embed_formatter(action, change, parsed_comment, categories):
 						EditDiff.small_prev_ins = EditDiff.small_prev_ins.replace("****", "")
 				logger.debug("Changed content: {}".format(EditDiff.small_prev_ins))
 				if EditDiff.small_prev_del and not action == "new":
-					embed["fields"].append(
-						{"name": _("Removed"), "value": "{data}".format(data=EditDiff.small_prev_del), "inline": True})
+					embed.add_field(_("Removed"), "{data}".format(data=EditDiff.small_prev_del), inline=True)
 				if EditDiff.small_prev_ins:
-					embed["fields"].append(
-						{"name": _("Added"), "value": "{data}".format(data=EditDiff.small_prev_ins), "inline": True})
+					embed.add_field(_("Added"), "{data}".format(data=EditDiff.small_prev_ins), inline=True)
 			else:
 				logger.warning("Unable to download data on the edit content!")
 	elif action in ("upload/overwrite", "upload/upload", "upload/revert"):  # sending files
@@ -557,8 +543,8 @@ def embed_formatter(action, change, parsed_comment, categories):
 				else:
 					undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={archiveid}".format(
 						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, archiveid=revision["archivename"])
-					embed["fields"] = [{"name": _("Options"), "value": _("([preview]({link}) | [undo]({undolink}))").format(
-						link=image_direct_url, undolink=undolink)}]
+					embed.add_field(_("Options"), _("([preview]({link}) | [undo]({undolink}))").format(
+						link=image_direct_url, undolink=undolink))
 				if settings["appearance"]["embed"]["embed_images"]:
 					embed["image"]["url"] = image_direct_url
 			if action == "upload/overwrite":
@@ -596,8 +582,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 			if license is not None:
 				parsed_comment += _("\nLicense: {}").format(license)
 			if additional_info_retrieved:
-				embed["fields"] = [
-					{"name": _("Options"), "value": _("([preview]({link}))").format(link=image_direct_url)}]
+				embed.add_field(_("Options"), _("([preview]({link}))").format(link=image_direct_url))
 				if settings["appearance"]["embed"]["embed_images"]:
 					embed["image"]["url"] = image_direct_url
 	elif action == "delete/delete":
@@ -640,12 +625,12 @@ def embed_formatter(action, change, parsed_comment, categories):
 				return
 		if "sitewide" not in change["logparams"]:
 			restriction_description = ""
-			if change["logparams"]["restrictions"]["pages"]:
+			if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
 				restriction_description = _("Blocked from editing the following pages: ")
 				for page in change["logparams"]["restrictions"]["pages"]:
 					restricted_pages = ["*"+i["page_title"]+"*" for i in change["logparams"]["restrictions"]["pages"]]
 				restriction_description = restriction_description + ", ".join(restricted_pages)
-			if change["logparams"]["restrictions"]["namespaces"]:
+			if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
 				namespaces = []
 				if restriction_description:
 					restriction_description = restriction_description + _(" and namespaces: ")
@@ -661,10 +646,7 @@ def embed_formatter(action, change, parsed_comment, categories):
 			if len(restriction_description) > 1020:
 				logger.debug(restriction_description)
 				restriction_description = restriction_description[:1020]+"…"
-			if "fields" not in embed:
-				embed["fields"] = []
-			embed["fields"].append(
-				{"name": _("Partial block details"), "value": restriction_description, "inline": True})
+			embed.add_field(_("Partial block details"), restriction_description, inline=True)
 		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
@@ -860,19 +842,10 @@ def embed_formatter(action, change, parsed_comment, categories):
 	embed["url"] = link
 	if parsed_comment is not None:
 		embed["description"] = parsed_comment
-	if colornumber is None:
-		if settings["appearance"]["embed"][action]["color"] is None:
-			embed["color"] = random.randrange(1, 16777215)
-		else:
-			embed["color"] = settings["appearance"]["embed"][action]["color"]
-	else:
-		embed["color"] = math.floor(colornumber)
 	if settings["appearance"]["embed"]["show_footer"]:
 		embed["timestamp"] = change["timestamp"]
 	if "tags" in change and change["tags"]:
 		tag_displayname = []
-		if "fields" not in embed:
-			embed["fields"] = []
 		for tag in change["tags"]:
 			if tag in recent_changes.tags:
 				if recent_changes.tags[tag] is None:
@@ -881,19 +854,14 @@ def embed_formatter(action, change, parsed_comment, categories):
 					tag_displayname.append(recent_changes.tags[tag])
 			else:
 				tag_displayname.append(tag)
-		embed["fields"].append({"name": _("Tags"), "value": ", ".join(tag_displayname)})
+		embed.add_field(_("Tags"), ", ".join(tag_displayname))
 	logger.debug("Current params in edit action: {}".format(change))
 	if categories is not None and not (len(categories["new"]) == 0 and len(categories["removed"]) == 0):
-		if "fields" not in embed:
-			embed["fields"] = []
 		new_cat = (_("**Added**: ") + ", ".join(list(categories["new"])[0:16]) + ("\n" if len(categories["new"])<=15 else _(" and {} more\n").format(len(categories["new"])-15))) if categories["new"] else ""
 		del_cat = (_("**Removed**: ") + ", ".join(list(categories["removed"])[0:16]) + ("" if len(categories["removed"])<=15 else _(" and {} more").format(len(categories["removed"])-15))) if categories["removed"] else ""
-		embed["fields"].append({"name": _("Changed categories"), "value": new_cat + del_cat})
-	data["embeds"].append(dict(embed))
-	data['avatar_url'] = settings["avatars"]["embed"]
-	data['allowed_mentions'] = {'parse': []}
-	formatted_embed = json.dumps(data, indent=4)
-	send_to_discord(formatted_embed)
+		embed.add_field(_("Changed categories"), new_cat + del_cat)
+	embed.finish_embed()
+	send_to_discord(embed)
 
 
 def essential_info(change, changed_categories):
@@ -1015,18 +983,16 @@ def day_overview():
 		changed_bytes = 0
 		new_articles = 0
 		active_articles = []
+		embed = DiscordMessage("embed", "daily_overview", settings["webhookURL"])
+		embed["title"] = _("Daily overview")
+		embed["url"] = create_article_path("Special:Statistics")
+		embed.set_author(settings["wikiname"], create_article_path(""),
+		                 icon_url=settings["appearance"]["embed"]["daily_overview"]["icon"])
 		if not result[0]:
 			if not settings["send_empty_overview"]:
 				return  # no changes in this day
 			else:
-				embed = defaultdict(dict)
-				embed["title"] = _("Daily overview")
-				embed["url"] = create_article_path("Special:Statistics")
 				embed["description"] = _("No activity")
-				embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
-				embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
-				embed["author"]["name"] = settings["wikiname"]
-				embed["author"]["url"] = create_article_path("")
 		else:
 			for item in result[0]:
 				if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
@@ -1047,13 +1013,6 @@ def day_overview():
 					admin = admin + 1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights",
 					                                         "abusefilter", "interwiki", "managetags"] else admin
 			overall = round(new_articles + edits * 0.1 + files * 0.3 + admin * 0.1 + math.fabs(changed_bytes * 0.001), 2)
-			embed = defaultdict(dict)
-			embed["title"] = _("Daily overview")
-			embed["url"] = create_article_path("Special:Statistics")
-			embed["color"] = settings["appearance"]["embed"]["daily_overview"]["color"]
-			embed["author"]["icon_url"] = settings["appearance"]["embed"]["daily_overview"]["icon"]
-			embed["author"]["name"] = settings["wikiname"]
-			embed["author"]["url"] = create_article_path("")
 			if activity:
 				active_users = []
 				for user, numberu in Counter(activity).most_common(3):  # find most active users
@@ -1072,7 +1031,6 @@ def day_overview():
 				houramount = ""
 			if not active_articles:
 				active_articles = [_("But nobody came")]
-			embed["fields"] = []
 			edits, files, admin, changed_bytes, new_articles, unique_contributors, overall = daily_overview_sync(edits, files, admin, changed_bytes, new_articles, len(activity), overall)
 			fields = (
 			(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
@@ -1083,10 +1041,9 @@ def day_overview():
 			(ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount),
 			(_("Day score"), overall))
 			for name, value in fields:
-				embed["fields"].append({"name": name, "value": value, "inline": True})
-		data = {"embeds": [dict(embed)]}
-		formatted_embed = json.dumps(data, indent=4)
-		send_to_discord(formatted_embed)
+				embed.add_field(name, value, inline=True)
+		embed.finish_embed()
+		send_to_discord(embed)
 	else:
 		logger.debug("function requesting changes for day overview returned with error code")
 
@@ -1163,25 +1120,7 @@ class Recent_Changes_Class(object):
 			self.ids.pop(0)
 
 	def fetch(self, amount=settings["limit"]):
-		if messagequeue:
-			logger.info(
-				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
-					len(messagequeue)))
-			for num, item in enumerate(messagequeue):
-				logger.debug(
-					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
-					                                                                                         str(item)))
-				if send_to_discord_webhook(item) < 2:
-					logger.debug("Sending message succeeded")
-					time.sleep(2.5)
-				else:
-					logger.debug("Sending message failed")
-					break
-			else:
-				messagequeue.clear()
-				logger.debug("Queue emptied, all messages delivered")
-			messagequeue.cut_messages(num)
-			logger.debug(messagequeue)
+		messagequeue.resend_msgs()
 		last_check = self.fetch_changes(amount=amount)
 		# If the request succeeds the last_check will be the last rcid from recentchanges query
 		if last_check is not None:
@@ -1223,7 +1162,7 @@ class Recent_Changes_Class(object):
 						self.streak += 1
 					if self.streak > 8:
 						self.streak = -1
-						send(_("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]),
+						send_simple("down_detector", _("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]),
 						     _("Connection status"), settings["avatars"]["connection_restored"])
 				# In the first for loop we analize the categorize events and figure if we will need more changes to fetch
 				# in order to cover all of the edits
@@ -1338,7 +1277,7 @@ class Recent_Changes_Class(object):
 		else:
 			if (
 					time.time() - self.last_downtime) > 1800 and self.check_connection():  # check if last downtime happened within 30 minutes, if yes, don't send a message
-				send(_("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]),
+				send_simple("down_detector", _("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]),
 				     _("Connection status"), settings["avatars"]["connection_failed"])
 				self.last_downtime = time.time()
 				self.streak = 0
@@ -1425,6 +1364,8 @@ if TESTING:
 	recent_changes.ids = [1]
 	recent_changes.fetch(amount=5)
 	day_overview()
+	import discussions
+	discussions.fetch_discussions()
 	sys.exit(0)
 
 while 1: 

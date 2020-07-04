@@ -3,3 +3,9 @@ pygettext.py
 lastchange.txt
 .directory
 /debug
+/index.lokalize
+/data.json
+/main.lqa
+/venv/
+/lokalize-scripts/
+/venvv/

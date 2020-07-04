@@ -14,7 +14,8 @@
        "connection_failed": "https://i.imgur.com/2jWQEt1.png",
        "connection_restored": "",
       "no_event": "",
-      "embed": ""
+      "embed": "",
+      "compact": ""
    },
    "ignored": ["external"],
    "show_updown_messages": true,
@@ -24,6 +25,7 @@
    "license_detection": true,
    "license_regex_detect": "\\{\\{(license|lizenz|licence|copyright)",
    "license_regex": "\\{\\{(license|lizenz|licence|copyright)(\\ |\\|)(?P<license>.*?)\\}\\}",
+   "disallow_regexes": [],
    "wiki_bot_login": "",
    "wiki_bot_password": "",
    "show_added_categories": true,
@@ -263,6 +265,26 @@
          "suppressed":{
              "icon": "https://i.imgur.com/1gps6EZ.png",
              "color": 8092539
+         },
+          "discussion/forum/post": {
+            "icon": "",
+            "color":null
+         },
+          "discussion/forum/reply": {
+             "icon": "",
+             "color":null
+          },
+         "discussion/forum/poll": {
+             "icon": "",
+             "color":null
+         },
+         "discussion/wall/post": {
+             "icon": "",
+             "color":null
+         },
+         "discussion/wall/reply": {
+             "icon": "",
+             "color":null
          }
       }
    },

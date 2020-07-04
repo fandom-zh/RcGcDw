@@ -16,11 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json, logging, sys, re, time
+import json, logging, sys, re, time, random, math
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse
 import requests
-
+from collections import defaultdict
 from configloader import settings
 import gettext
 
@@ -102,6 +102,26 @@ class MessageQueue:
 	def cut_messages(self, item_num):
 		self._queue = self._queue[item_num:]
 
+	def resend_msgs(self):
+		if self._queue:
+			misc_logger.info(
+				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
+					len(self._queue)))
+			for num, item in enumerate(self._queue):
+				misc_logger.debug(
+					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
+					                                                                                         str(item)))
+				if send_to_discord_webhook(item) < 2:
+					misc_logger.debug("Sending message succeeded")
+					time.sleep(2.5)
+				else:
+					misc_logger.debug("Sending message failed")
+					break
+			else:
+				self.clear()
+				misc_logger.debug("Queue emptied, all messages delivered")
+			self.cut_messages(num)
+			misc_logger.debug(self._queue)
 
 messagequeue = MessageQueue()
 datafile = DataFile()
@@ -115,6 +135,9 @@ def link_formatter(link):
 	"""Formats a link to not embed it"""
 	return "<" + re.sub(r"([)])", "\\\\\\1", link).replace(" ", "_") + ">"
 
+def escape_formatting(data):
+	"""Escape Discord formatting"""
+	return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
 
 class ContentParser(HTMLParser):
 	more = _("\n__And more__")
@@ -279,14 +302,19 @@ def create_article_path(article: str) -> str:
 	return WIKI_ARTICLE_PATH.replace("$1", article)
 
 
+def send_simple(msgtype, message, name, avatar):
+	discord_msg = DiscordMessage("compact", msgtype, settings["webhookURL"], content=message)
+	discord_msg.set_avatar(avatar)
+	discord_msg.set_name(name)
+	messagequeue.resend_msgs()
+	send_to_discord(discord_msg)
+
+
 def send_to_discord_webhook(data):
 	header = settings["header"]
-	if isinstance(data, str):
-		header['Content-Type'] = 'application/json'
-	else:
-		header['Content-Type'] = 'application/x-www-form-urlencoded'
+	header['Content-Type'] = 'application/json'
 	try:
-		result = requests.post(settings["webhookURL"], data=data,
+		result = requests.post(data.webhook_url, data=repr(data),
 		                       headers=header, timeout=10)
 	except requests.exceptions.Timeout:
 		misc_logger.warning("Timeouted while sending data to the webhook.")
@@ -299,6 +327,17 @@ def send_to_discord_webhook(data):
 
 
 def send_to_discord(data):
+	for regex in settings["disallow_regexes"]:
+		if data.webhook_object.get("content", None):
+			if re.search(re.compile(regex), data.webhook_object["content"]):
+				misc_logger.info("Message {} has been rejected due to matching filter ({}).".format(data.webhook_object["content"], regex))
+				return  # discard the message without anything
+		else:
+			for to_check in [data.webhook_object.get("description", ""), data.webhook_object.get("title", ""), *[x["value"] for x in data["fields"]], data.webhook_object.get("author", {"name": ""}).get("name", "")]:
+				if re.search(re.compile(regex), to_check):
+					misc_logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
+						to_check, regex))
+					return  # discard the message without anything
 	if messagequeue:
 		messagequeue.add_message(data)
 	else:
@@ -311,3 +350,67 @@ def send_to_discord(data):
 		elif code < 2:
 			time.sleep(2.0)
 			pass
+
+class DiscordMessage():
+	"""A class defining a typical Discord JSON representation of webhook payload."""
+	def __init__(self, message_type: str, event_type: str, webhook_url: str, content=None):
+		self.webhook_object = dict(allowed_mentions={"parse": []}, avatar_url=settings["avatars"].get(message_type, ""))
+		self.webhook_url = webhook_url
+
+		if message_type == "embed":
+			self.__setup_embed()
+		elif message_type == "compact":
+			self.webhook_object["content"] = content
+
+		self.event_type = event_type
+
+	def __setitem__(self, key, value):
+		"""Set item is used only in embeds."""
+		try:
+			self.embed[key] = value
+		except NameError:
+			raise TypeError("Tried to assign a value when message type is plain message!")
+
+	def __getitem__(self, item):
+		return self.embed[item]
+
+	def __repr__(self):
+		"""Return the Discord webhook object ready to be sent"""
+		return json.dumps(self.webhook_object)
+
+	def __setup_embed(self):
+		self.embed = defaultdict(dict)
+		if "embeds" not in self.webhook_object:
+			self.webhook_object["embeds"] = [self.embed]
+		else:
+			self.webhook_object["embeds"].append(self.embed)
+		self.embed["color"] = None
+
+	def add_embed(self):
+		self.finish_embed()
+		self.__setup_embed()
+
+	def finish_embed(self):
+		if self.embed["color"] is None:
+			if settings["appearance"]["embed"].get(self.event_type, {"color": None})["color"] is None:
+				self.embed["color"] = random.randrange(1, 16777215)
+			else:
+				self.embed["color"] = settings["appearance"]["embed"][self.event_type]["color"]
+		else:
+			self.embed["color"] = math.floor(self.embed["color"])
+
+	def set_author(self, name, url, icon_url=""):
+		self.embed["author"]["name"] = name
+		self.embed["author"]["url"] = url
+		self.embed["author"]["icon_url"] = icon_url
+
+	def add_field(self, name, value, inline=False):
+		if "fields" not in self.embed:
+			self.embed["fields"] = []
+		self.embed["fields"].append(dict(name=name, value=value, inline=inline))
+
+	def set_avatar(self, url):
+		self.webhook_object["avatar_url"] = url
+
+	def set_name(self, name):
+		self.webhook_object["username"] = name
