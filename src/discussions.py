@@ -18,10 +18,10 @@
 
 import logging, gettext, schedule, requests, json, datetime
 from collections import defaultdict
-from configloader import settings
+from src.configloader import settings
 from urllib.parse import quote_plus
-from misc import datafile, send_to_discord, DiscordMessage, WIKI_SCRIPT_PATH, escape_formatting, messagequeue
-from session import session
+from src.misc import datafile, send_to_discord, DiscordMessage, WIKI_SCRIPT_PATH, escape_formatting, messagequeue
+from src.session import session
 
 # Initialize translation
 

@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import requests
-from configloader import settings
+from src.configloader import settings
 
 session = requests.Session()
 session.headers.update(settings["header"])

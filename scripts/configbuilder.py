@@ -51,7 +51,7 @@ def yes_no(answer):
 print("Welcome in RcGcDw config builder! This script is still work in progress so beware! You can accept the default value if provided in the question by using Enter key without providing any other input.\nWARNING! Your current settings.json will be overwritten if you continue!")
 
 try:  # load settings
-	with open("settings.json.example") as sfile:
+	with open("../settings.json.example") as sfile:
 		settings = json.load(sfile)
 except FileNotFoundError:
 	if yes_no(default_or_custom(input("Template config (settings.json.example) could not be found. Download the most recent stable one from master branch? (https://gitlab.com/piotrex43/RcGcDw/raw/master/settings.json.example)? (Y/n)"), "y")):

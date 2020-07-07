@@ -8,6 +8,6 @@ test:
     - sed -i -e "s/111111111111111111/$DISCORD1/g" settings.json.example
     - sed -i -e "s/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$DISCORD2/g" settings.json.example
     - mv settings.json.example settings.json
-    - python3.6 rcgcdw.py --test
+    - python3.6 start.py --test
   only:
   - testing

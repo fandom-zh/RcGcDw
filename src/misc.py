@@ -21,7 +21,7 @@ from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse
 import requests
 from collections import defaultdict
-from configloader import settings
+from src.configloader import settings
 import gettext
 
 # Initialize translation

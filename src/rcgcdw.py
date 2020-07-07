@@ -23,22 +23,18 @@
 import time, logging.config, json, requests, datetime, re, gettext, math, random, os.path, schedule, sys, ipaddress, base64
 from html.parser import HTMLParser
 
-import misc
+import src.misc
 from bs4 import BeautifulSoup
 from collections import defaultdict, Counter
 from urllib.parse import quote_plus
-from configloader import settings
-from misc import link_formatter, ContentParser, safe_read, add_to_dict, datafile, \
+from src.configloader import settings
+from src.misc import link_formatter, ContentParser, safe_read, add_to_dict, datafile, \
 	WIKI_API_PATH, WIKI_SCRIPT_PATH, WIKI_JUST_DOMAIN, create_article_path, messagequeue, send_to_discord_webhook, \
 	send_to_discord, DiscordMessage, send_simple
-from session import session
+from src.session import session
 
 if settings["fandom_discussions"]["enabled"]:
 	import discussions
-
-if __name__ != "__main__":  # return if called as a module
-	logging.critical("The file is being executed as a module. Please execute the script using the console.")
-	sys.exit(1)
 
 TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
 
@@ -951,19 +947,19 @@ def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique
 		storage["daily_overview"].update({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed": changed_bytes, "new_articles": new_articles, "unique_editors": unique_contributors, "day_score": day_score})
 		edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score = str(edits), str(files), str(admin), str(changed_bytes), str(new_articles), str(unique_contributors), str(day_score)
 	else:
-		edits_avg = misc.weighted_average(storage["daily_overview"]["edits"], weight, edits)
+		edits_avg = src.misc.weighted_average(storage["daily_overview"]["edits"], weight, edits)
 		edits = _("{value} (avg. {avg})").format(value=edits, avg=edits_avg)
-		files_avg = misc.weighted_average(storage["daily_overview"]["new_files"], weight, files)
+		files_avg = src.misc.weighted_average(storage["daily_overview"]["new_files"], weight, files)
 		files = _("{value} (avg. {avg})").format(value=files, avg=files_avg)
-		admin_avg = misc.weighted_average(storage["daily_overview"]["admin_actions"], weight, admin)
+		admin_avg = src.misc.weighted_average(storage["daily_overview"]["admin_actions"], weight, admin)
 		admin = _("{value} (avg. {avg})").format(value=admin, avg=admin_avg)
-		changed_bytes_avg = misc.weighted_average(storage["daily_overview"]["bytes_changed"], weight, changed_bytes)
+		changed_bytes_avg = src.misc.weighted_average(storage["daily_overview"]["bytes_changed"], weight, changed_bytes)
 		changed_bytes = _("{value} (avg. {avg})").format(value=changed_bytes, avg=changed_bytes_avg)
-		new_articles_avg = misc.weighted_average(storage["daily_overview"]["new_articles"], weight, new_articles)
+		new_articles_avg = src.misc.weighted_average(storage["daily_overview"]["new_articles"], weight, new_articles)
 		new_articles = _("{value} (avg. {avg})").format(value=new_articles, avg=new_articles_avg)
-		unique_contributors_avg = misc.weighted_average(storage["daily_overview"]["unique_editors"], weight, unique_contributors)
+		unique_contributors_avg = src.misc.weighted_average(storage["daily_overview"]["unique_editors"], weight, unique_contributors)
 		unique_contributors = _("{value} (avg. {avg})").format(value=unique_contributors, avg=unique_contributors_avg)
-		day_score_avg = misc.weighted_average(storage["daily_overview"]["day_score"], weight, day_score)
+		day_score_avg = src.misc.weighted_average(storage["daily_overview"]["day_score"], weight, day_score)
 		day_score = _("{value} (avg. {avg})").format(value=day_score, avg=day_score_avg)
 		storage["daily_overview"].update({"edits": edits_avg, "new_files": files_avg, "admin_actions": admin_avg, "bytes_changed": changed_bytes_avg,
 		             "new_articles": new_articles_avg, "unique_editors": unique_contributors_avg, "day_score": day_score_avg})
