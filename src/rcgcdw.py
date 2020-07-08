@@ -34,7 +34,7 @@ from src.misc import link_formatter, ContentParser, safe_read, add_to_dict, data
 from src.session import session
 
 if settings["fandom_discussions"]["enabled"]:
-	import discussions
+	import src.discussions
 
 TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
 
@@ -1363,8 +1363,8 @@ if TESTING:
 	recent_changes.ids = [1]
 	recent_changes.fetch(amount=5)
 	day_overview()
-	import discussions
-	discussions.fetch_discussions()
+	import src.discussions
+	src.discussions.fetch_discussions()
 	sys.exit(0)
 
 while 1: 
