@@ -1,0 +1,2 @@
+class MWError(Exception):
+	pass

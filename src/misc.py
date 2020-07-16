@@ -15,7 +15,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import base64
 import json, logging, sys, re, time, random, math
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse
@@ -41,6 +41,8 @@ WIKI_API_PATH: str = ""
 WIKI_ARTICLE_PATH: str = ""
 WIKI_SCRIPT_PATH: str = ""
 WIKI_JUST_DOMAIN: str = ""
+
+profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XBL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
 
 class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
@@ -414,3 +416,45 @@ class DiscordMessage():
 
 	def set_name(self, name):
 		self.webhook_object["username"] = name
+
+
+def profile_field_name(name, embed):
+	try:
+		return profile_fields[name]
+	except KeyError:
+		if embed:
+			return _("Unknown")
+		else:
+			return _("unknown")
+
+
+class LinkParser(HTMLParser):
+	new_string = ""
+	recent_href = ""
+
+	def handle_starttag(self, tag, attrs):
+		for attr in attrs:
+			if attr[0] == 'href':
+				self.recent_href = attr[1]
+				if self.recent_href.startswith("//"):
+					self.recent_href = "https:{rest}".format(rest=self.recent_href)
+				elif not self.recent_href.startswith("http"):
+					self.recent_href = WIKI_JUST_DOMAIN + self.recent_href
+				self.recent_href = self.recent_href.replace(")", "\\)")
+			elif attr[0] == 'data-uncrawlable-url':
+				self.recent_href = attr[1].encode('ascii')
+				self.recent_href = base64.b64decode(self.recent_href)
+				self.recent_href = WIKI_JUST_DOMAIN + self.recent_href.decode('ascii')
+
+	def handle_data(self, data):
+		if self.recent_href:
+			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
+			self.recent_href = ""
+		else:
+			self.new_string = self.new_string + data
+
+	def handle_comment(self, data):
+		self.new_string = self.new_string + data
+
+	def handle_endtag(self, tag):
+		misc_logger.debug(self.new_string)
