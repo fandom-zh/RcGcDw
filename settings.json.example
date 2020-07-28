@@ -17,7 +17,7 @@
       "embed": "",
       "compact": ""
    },
-   "ignored": ["external"],
+   "ignored": ["external", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers"],
    "show_updown_messages": true,
    "overview": false,
    "overview_time": "00:00",
