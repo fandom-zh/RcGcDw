@@ -240,6 +240,21 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		link_dest = link_formatter(create_article_path(change["logparams"]["dest_title"]))
 		content = _("[{author}]({author_url}) merged revision histories of [{article}]({article_url}) into [{dest}]({dest_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, dest_url=link_dest,
 		                                                                                dest=change["logparams"]["dest_title"], comment=parsed_comment)
+	elif action == "newusers/autocreate":
+		link = link_formatter(create_article_path(change["title"]))
+		content = _("Account [{author}]({author_url}) was created automatically").format(author=author, author_url=author_url)
+	elif action == "newusers/create":
+		link = link_formatter(create_article_path(change["title"]))
+		content = _("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
+	elif action == "newusers/create2":
+		link = link_formatter(create_article_path(change["title"]))
+		content = _("Account [{article}]({article_url}) was created by [{author}]({author_url}){comment}").format(article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
+	elif action == "newusers/byemail":
+		link = link_formatter(create_article_path(change["title"]))
+		content = _("Account [{article}]({article_url}) was created by [{author}]({author_url}) and password was sent by email{comment}").format(article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
+	elif action == "newusers/newusers":
+		link = author_url
+		content = _("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
 	elif action == "interwiki/iw_add":
 		link = link_formatter(create_article_path("Special:Interwiki"))
 		content = _("[{author}]({author_url}) added an entry to the [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(author=author, author_url=author_url, desc=parsed_comment,
@@ -640,6 +655,21 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		link = create_article_path(change["title"].replace(" ", "_"))
 		embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=change["title"],
 		                                                                                dest=change["logparams"]["dest_title"])
+	elif action == "newusers/autocreate":
+		link = create_article_path(change["title"].replace(" ", "_"))
+		embed["title"] = _("Created account automatically")
+	elif action == "newusers/create":
+		link = create_article_path(change["title"].replace(" ", "_"))
+		embed["title"] = _("Created account")
+	elif action == "newusers/create2":
+		link = create_article_path(change["title"].replace(" ", "_"))
+		embed["title"] = _("Created account {article}").format(article=change["title"])
+	elif action == "newusers/byemail":
+		link = create_article_path(change["title"].replace(" ", "_"))
+		embed["title"] = _("Created account {article} and password was sent by email").format(article=change["title"])
+	elif action == "newusers/newusers":
+		link = author_url
+		embed["title"] = _("Created account")
 	elif action == "interwiki/iw_add":
 		link = create_article_path("Special:Interwiki")
 		embed["title"] = _("Added an entry to the interwiki table")
