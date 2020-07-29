@@ -3,6 +3,7 @@ import math
 import re
 import time
 import logging
+import datetime
 from urllib.parse import quote_plus
 
 from bs4 import BeautifulSoup
@@ -87,20 +88,22 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		except ValueError:
 			link = link_formatter(create_article_path(change["title"]))
 		if change["logparams"]["duration"] == "infinite":
-			block_time = _("infinity and beyond")
+			block_time = _("for infinity and beyond")
 		else:
 			english_length = re.sub(r"(\d+)", "", change["logparams"][
 				"duration"])  # note that translation won't work for millenia and century yet
 			english_length_num = re.sub(r"(\D+)", "", change["logparams"]["duration"])
 			try:
+				if "@" in english_length:
+					raise ValueError
 				english_length = english_length.rstrip("s").strip()
-				block_time = "{num} {translated_length}".format(num=english_length_num,
+				block_time = _("for {num} {translated_length}").format(num=english_length_num,
 				                                                translated_length=ngettext(english_length,
 				                                                                           english_length + "s",
 				                                                                           int(english_length_num)))
-			except AttributeError:
-				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
-				return
+			except (AttributeError, ValueError):
+				date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
+				block_time = _("until {}").format(date_time_obj.strftime("%Y-%m-%d %H:%M:%S UTC"))
 			if "sitewide" not in change["logparams"]:
 				restriction_description = ""
 				if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
@@ -125,7 +128,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 					logger.debug(restriction_description)
 					restriction_description = restriction_description[:1020] + "…"
 		content = _(
-			"[{author}]({author_url}) blocked [{user}]({user_url}) for {time}{restriction_desc}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, restriction_desc=restriction_description, comment=parsed_comment)
+			"[{author}]({author_url}) blocked [{user}]({user_url}) {time}{restriction_desc}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, restriction_desc=restriction_description, comment=parsed_comment)
 	elif action == "block/reblock":
 		link = link_formatter(create_article_path(change["title"]))
 		user = change["title"].split(':')[1]
@@ -506,16 +509,18 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		except ValueError:
 			link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
 		if change["logparams"]["duration"] == "infinite":
-			block_time = _("infinity and beyond")
+			block_time = _("for infinity and beyond")
 		else:
-			english_length = re.sub(r"(\d+)", "", change["logparams"]["duration"]) #note that translation won't work for millenia and century yet
+			english_length = re.sub(r"(\d+)", "", change["logparams"]["duration"])  # note that translation won't work for millenia and century yet
 			english_length_num = re.sub(r"(\D+)", "", change["logparams"]["duration"])
 			try:
+				if "@" in english_length:
+					raise ValueError
 				english_length = english_length.rstrip("s").strip()
-				block_time = "{num} {translated_length}".format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
-			except AttributeError:
-				logger.error("Could not strip s from the block event, seems like the regex didn't work?")
-				return
+				block_time = _("for {num} {translated_length}").format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
+			except (AttributeError, ValueError):
+				date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
+				block_time = _("until {}").format(date_time_obj.strftime("%Y-%m-%d %H:%M:%S UTC"))
 		if "sitewide" not in change["logparams"]:
 			restriction_description = ""
 			if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
@@ -540,7 +545,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 				logger.debug(restriction_description)
 				restriction_description = restriction_description[:1020]+"…"
 			embed.add_field(_("Partial block details"), restriction_description, inline=True)
-		embed["title"] = _("Blocked {blocked_user} for {time}").format(blocked_user=user, time=block_time)
+		embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
 		user = change["title"].split(':')[1]

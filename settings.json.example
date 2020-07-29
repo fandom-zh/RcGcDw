@@ -9,7 +9,7 @@
    "limit": 10,
    "webhookURL": "https://discordapp.com/api/webhooks/111111111111111111/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
    "limitrefetch": 28,
-   "wikiname": "Minecraft Wiki",
+   "wikiname": "Wreck It Woodhouse",
    "avatars": {
        "connection_failed": "https://i.imgur.com/2jWQEt1.png",
        "connection_restored": "",
