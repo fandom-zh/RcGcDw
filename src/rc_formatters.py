@@ -80,7 +80,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			"[{author}]({author_url}) moved protection settings from {redirect}*{article}* to [{target}]({target_url}){comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
 			target=change["title"], target_url=link, comment=parsed_comment)
 	elif action == "block/block":
-		user = change["title"].split(':')[1]
+		user = change["title"].split(':', 1)[1]
 		restriction_description = ""
 		try:
 			ipaddress.ip_address(user)
@@ -131,11 +131,11 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			"[{author}]({author_url}) blocked [{user}]({user_url}) {time}{restriction_desc}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, restriction_desc=restriction_description, comment=parsed_comment)
 	elif action == "block/reblock":
 		link = link_formatter(create_article_path(change["title"]))
-		user = change["title"].split(':')[1]
+		user = change["title"].split(':', 1)[1]
 		content = _("[{author}]({author_url}) changed block settings for [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
 	elif action == "block/unblock":
 		link = link_formatter(create_article_path(change["title"]))
-		user = change["title"].split(':')[1]
+		user = change["title"].split(':', 1)[1]
 		content = _("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
 	elif action == "curseprofile/comment-created":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
@@ -502,7 +502,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
 		                                                                                 title=change["title"])
 	elif action == "block/block":
-		user = change["title"].split(':')[1]
+		user = change["title"].split(':', 1)[1]
 		try:
 			ipaddress.ip_address(user)
 			link = create_article_path("Special:Contributions/{user}".format(user=user))
@@ -548,11 +548,11 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
-		user = change["title"].split(':')[1]
+		user = change["title"].split(':', 1)[1]
 		embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=user)
 	elif action == "block/unblock":
 		link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
-		user = change["title"].split(':')[1]
+		user = change["title"].split(':', 1)[1]
 		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
 	elif action == "curseprofile/comment-created":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
