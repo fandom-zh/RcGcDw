@@ -448,13 +448,13 @@ class LinkParser(HTMLParser):
 
 	def handle_data(self, data):
 		if self.recent_href:
-			self.new_string = self.new_string + "[{}](<{}>)".format(data, self.recent_href)
+			self.new_string = self.new_string + "[{}](<{}>)".format(data.replace("//", "/\\/"), self.recent_href)
 			self.recent_href = ""
 		else:
-			self.new_string = self.new_string + data
+			self.new_string = self.new_string + data.replace("//", "/\\/")
 
 	def handle_comment(self, data):
-		self.new_string = self.new_string + data
+		self.new_string = self.new_string + data.replace("//", "/\\/")
 
 	def handle_endtag(self, tag):
 		misc_logger.debug(self.new_string)
