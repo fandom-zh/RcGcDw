@@ -73,7 +73,7 @@ def parse_discussion_post(post):
 	elif post_type == "POLL":
 		formatter(post, post_type)
 	else:
-		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.")
+		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(post_type))
 
 
 def safe_request(url):
