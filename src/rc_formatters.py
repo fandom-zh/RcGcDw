@@ -86,7 +86,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			link = link_formatter(create_article_path("Special:Contributions/{user}".format(user=user)))
 		except ValueError:
 			link = link_formatter(create_article_path(change["title"]))
-		if change["logparams"]["duration"] == "infinite":
+		if change["logparams"]["duration"] in ["infinite", "infinity"]:
 			block_time = _("for infinity and beyond")
 		else:
 			english_length = re.sub(r"(\d+)", "", change["logparams"][
@@ -507,7 +507,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 			link = create_article_path("Special:Contributions/{user}".format(user=user))
 		except ValueError:
 			link = create_article_path(change["title"].replace(" ", "_").replace(')', '\)'))
-		if change["logparams"]["duration"] == "infinite":
+		if change["logparams"]["duration"] in ["infinite", "infinity"]:
 			block_time = _("for infinity and beyond")
 		else:
 			english_length = re.sub(r"(\d+)", "", change["logparams"]["duration"])  # note that translation won't work for millenia and century yet

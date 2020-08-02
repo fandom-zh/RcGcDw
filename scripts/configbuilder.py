@@ -172,7 +172,7 @@ def set_webhook():
 			settings["webhookURL"] = option
 			return True
 	else:
-		print("The webhook URL should start with https://discord.com/api/webhooks/, are you sure it's the right URL?")
+		print("A Discord webhook URL should start with https://discord.com/api/webhooks/, are you sure it's the right URL?")
 		return False
 
 def set_wikiname():
