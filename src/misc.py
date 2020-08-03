@@ -22,12 +22,9 @@ from urllib.parse import urlparse, urlunparse
 import requests
 from collections import defaultdict
 from src.configloader import settings
-import gettext
+from src.i18n import misc
 
-# Initialize translation
-
-t = gettext.translation('misc', localedir='locale', languages=[settings["lang"]])
-_ = t.gettext
+_ = misc.gettext
 
 # Create a custom logger
 

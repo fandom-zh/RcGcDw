@@ -22,11 +22,11 @@ from src.configloader import settings
 from src.discussion_formatters import embed_formatter, compact_formatter
 from src.misc import datafile, messagequeue
 from src.session import session
+from src.i18n import disc
 
 # Initialize translation
 
-t = gettext.translation('discussions', localedir='locale', languages=[settings["lang"]])
-_ = t.gettext
+_ = disc.gettext
 
 # Create a custom logger
 
