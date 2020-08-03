@@ -8,22 +8,24 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-04 00:46+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-08-04 09:51+0000\n"
+"Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
+"Language-Team: Lolcat <https://weblate.frisk.space/projects/rcgcdw/main/lol/>"
+"\n"
 "Language: lol\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #: rcgcdw.py:77
 msgid "Location"
-msgstr ""
+msgstr "Der place"
 
 #: rcgcdw.py:77
 msgid "About me"
-msgstr ""
+msgstr "Abot me"
 
 #: rcgcdw.py:77
 msgid "Google link"
@@ -83,6 +85,8 @@ msgid ""
 "[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({sign}"
 "{edit_size})"
 msgstr ""
+"[{author}]({author_url}) rearranged lettwers of "
+"[{article}]({edit_link}){comment} ({sign}{edit_size})"
 
 #: rcgcdw.py:164
 #, python-brace-format
