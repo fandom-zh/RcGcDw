@@ -8,22 +8,25 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-04 00:58+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-08-04 09:51+0000\n"
+"Last-Translator: Dianliang233 <dianliang233@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://weblate.frisk.space/projects/"
+"rcgcdw/discussions/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #: discussions.py:56
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr ""
+msgstr "回复了“{title}”"
 
 #: discussions.py:63 discussions.py:79 discussions.py:127 discussions.py:143
 msgid "unknown"
-msgstr ""
+msgstr "未知"
 
 #: discussions.py:68
 #, python-brace-format
