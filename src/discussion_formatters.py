@@ -12,117 +12,122 @@ _ = disc.gettext
 
 discussion_logger = logging.getLogger("rcgcdw.discussion_formatter")
 
-def embed_formatter(post, post_type):
-	"""Embed formatter for Fandom discussions."""
-	embed = DiscordMessage("embed", "discussion", settings["fandom_discussions"]["webhookURL"])
-	embed.set_author(post["createdBy"]["name"], "{wikiurl}f/u/{creatorId}".format(
-		wikiurl=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
-	discussion_post_type = post["_embedded"]["thread"][0].get("containerType", "FORUM")  # Can be FORUM, ARTICLE_COMMENT or WALL on UCP
-	if post_type == "TEXT":
-		if post["isReply"]:
-			if discussion_post_type == "FORUM":
-				embed.event_type = "discussion/forum/reply"
-				embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
-				embed["url"] = "{wikiurl}f/p/{threadId}/r/{postId}".format(
-					wikiurl=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
-			elif discussion_post_type == "ARTICLE_COMMENT":
-				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
-				return
-			elif discussion_post_type == "WALL":
-				user_wall = _("unknown")  # Fail safe
-				embed.event_type = "discussion/wall/reply"
-				if post["forumName"].endswith(' Message Wall'):
-					user_wall = post["forumName"][:-13]
-					embed["url"] = "{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}#{replyId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadid=post["threadId"], replyId=post["id"])
-				embed["title"] = _("Replied to \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
-		else:
-			if discussion_post_type == "FORUM":
-				embed.event_type = "discussion/forum/post"
-				embed["title"] = _("Created \"{title}\"").format(title=post["title"])
-				embed["url"] = "{wikiurl}f/p/{threadId}".format(wikiurl=settings["fandom_discussions"]["wiki_url"],
-				                                                threadId=post["threadId"])
-			elif discussion_post_type == "ARTICLE_COMMENT":
-				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
-				return
-			elif discussion_post_type == "WALL":
-				user_wall = _("unknown")  # Fail safe
-				embed.event_type = "discussion/wall/post"
-				if post["forumName"].endswith(' Message Wall'):
-					user_wall = post["forumName"][:-13]
-					embed["url"] = "{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}".format(
-						wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")),
-						threadid=post["threadId"])
-				embed["title"] = _("Created \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
-		if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
-			if post.get("jsonModel") is not None:
-				npost = DiscussionsFromHellParser(post)
-				embed["description"] = npost.parse()
-				if npost.image_last:
-					embed["image"]["url"] = npost.image_last
-					embed["description"] = embed["description"].replace(npost.image_last, "")
-			else:  # Fallback when model is not available
-				embed["description"] = post.get("rawContent", "")
-	elif post_type == "POLL":
-		embed.event_type = "discussion/forum/poll"
-		poll = post["poll"]
-		embed["title"] = _("Created a poll titled \"{title}\"").format(title=poll["question"])
-		image_type = False
-		if poll["answers"][0]["image"] is not None:
-			image_type = True
-		for num, option in enumerate(poll["answers"]):
-			embed.add_field(option["text"] if image_type is True else _("Option {}").format(num+1),
-			                option["text"] if image_type is False else _("__[View image]({image_url})__").format(image_url=option["image"]["url"]),
-			                inline=True)
-	embed["footer"]["text"] = post["forumName"]
-	embed["timestamp"] = datetime.datetime.fromtimestamp(post["creationDate"]["epochSecond"], tz=datetime.timezone.utc).isoformat()
-	embed.finish_embed()
-	send_to_discord(embed)
 
-
-def compact_formatter(post, post_type):
+def compact_formatter(post_type, post):
 	"""Compact formatter for Fandom discussions."""
 	message = None
-	discussion_post_type = post["_embedded"]["thread"][0].get("containerType",
-	                                                          "FORUM")  # Can be FORUM, ARTICLE_COMMENT or WALL on UCP
-	if post_type == "TEXT":
+	if post_type == "FORUM":
+		author = post["createdBy"]["name"]
+		author_url = "<{url}f/u/{creatorId}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
+	elif post["creatorIp"]:
+		author = post["creatorIp"][1:]
+		author_url = "<{url}wiki/Special:Contributions{creatorIp}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"])
+	else:
+		author = post["createdBy"]["name"]
+		author_url = "<{url}wiki/User:{author}>".format(url=settings["fandom_discussions"]["wiki_url"], author=author)
+	if post_type == "FORUM":
 		if not post["isReply"]:
-			if discussion_post_type == "FORUM":
-				message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
-				author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
-			elif discussion_post_type == "ARTICLE_COMMENT":
-				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
-				return
-			elif discussion_post_type == "WALL":
-				user_wall = _("unknown")  # Fail safe
-				if post["forumName"].endswith(' Message Wall'):
-					user_wall = post["forumName"][:-13]
-				message = _("[{author}](<{url}f/u/{creatorId}>) created [{title}](<{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}>) on {user}'s Message Wall").format(
-					author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["_embedded"]["thread"][0]["title"], user=user_wall,
-					wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadid=post["threadId"]
-				    )
+			thread_funnel = post.get("funnel")
+			msg_text = "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in {forumName}"
+			if thread_funnel == "POLL":
+				msg_text = "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in {forumName}"
+			elif thread_funnel != "TEXT":
+				discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(thread_funnel))
+			message = _(msg_text).format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], forumName=post["forumName"])
 		else:
-			if discussion_post_type == "FORUM":
-				message = _("[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
-				author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"]
-				)
-			elif discussion_post_type == "ARTICLE_COMMENT":
-				discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
-				return
-			elif discussion_post_type == "WALL":
-				user_wall = _("unknown")  # Fail safe
-				if post["forumName"].endswith(' Message Wall'):
-					user_wall = post["forumName"][:-13]
-				message = _(
-					"[{author}](<{url}f/u/{creatorId}>) replied to [{title}](<{wikiurl}wiki/Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) on {user}'s Message Wall").format(
-						author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"], title=post["_embedded"]["thread"][0]["title"], user=user_wall,
-						wikiurl=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadid=post["threadId"], replyId=post["id"])
-
-	elif post_type == "POLL":
-		message = _(
-			"[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/{threadId}>) in {forumName}").format(
-			author=post["createdBy"]["name"], url=settings["fandom_discussions"]["wiki_url"],
-			creatorId=post["creatorId"], title=post["title"], threadId=post["threadId"], forumName=post["forumName"])
+			message = _("[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"])
+	elif post_type == "WALL":
+		user_wall = _("unknown")  # Fail safe
+		if post["forumName"].endswith(' Message Wall'):
+			user_wall = post["forumName"][:-13]
+		if not post["isReply"]:
+			message = _("[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"])
+		else:
+			message = _("[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], title=post["_embedded"]["thread"][0]["title"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
+	elif post_type == "ARTICLE_COMMENT":
+		discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
+		article_page = _("unknown")  # No page known
+		if not post["isReply"]:
+			message = _("[{author}]({author_url}) created a [comment](<{url}wiki/{article}?commentId={commentId}>) on [{article}](<{url}wiki/{article}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], article=article_page, commentId=post["threadId"])
+		else:
+			message = _("[{author}]({author_url}) created a [reply](<{url}wiki/{article}?threadId={threadId}) to a [comment](<{url}wiki/{article}?commentId={commentId}&replyId={replyId}>) on [{article}](<{url}wiki/{article}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], article=article_page, commentId=post["threadId"], replyId=post["id"])
+	else:
+		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(post_type))
 	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message))
+
+
+def embed_formatter(post_type, post):
+	"""Embed formatter for Fandom discussions."""
+	embed = DiscordMessage("embed", "discussion", settings["fandom_discussions"]["webhookURL"])
+	if post_type == "FORUM":
+		embed.set_author(post["createdBy"]["name"], "{url}f/u/{creatorId}".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
+	elif post["creatorIp"]:
+		embed.set_author(post["creatorIp"][1:], "{url}wiki/Special:Contributions{creatorIp}".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"]))
+	else:
+		embed.set_author(post["createdBy"]["name"], "{url}wiki/User:{creator}".format(url=settings["fandom_discussions"]["wiki_url"], creator=post["createdBy"]["name"]), icon_url=post["createdBy"]["avatarUrl"])
+	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
+		if post.get("jsonModel") is not None:
+			npost = DiscussionsFromHellParser(post, wiki)
+			embed["description"] = npost.parse()
+			if npost.image_last:
+				embed["image"]["url"] = npost.image_last
+				embed["description"] = embed["description"].replace(npost.image_last, "")
+		else:  # Fallback when model is not available
+			embed["description"] = post.get("rawContent", "")
+	embed["footer"]["text"] = post["forumName"]
+	embed["timestamp"] = datetime.datetime.fromtimestamp(post["creationDate"]["epochSecond"], tz=datetime.timezone.utc).isoformat()
+	if post_type == "FORUM":
+		if not post["isReply"]:
+			embed["url"] = "{url}f/p/{threadId}".format(url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"])
+			embed["title"] = _("Created \"{title}\"").format(title=post["title"])
+			thread_funnel = post.get("funnel")
+			if thread_funnel == "POLL":
+				embed.event_type = "discussion/forum/poll"
+				poll = post["poll"]
+				embed["title"] = _("Created a poll \"{title}\"").format(title=poll["question"])
+				image_type = False
+				if poll["answers"][0]["image"] is not None:
+					image_type = True
+				for num, option in enumerate(poll["answers"]):
+					embed.add_field(option["text"] if image_type is True else _("Option {}").format(num+1),
+					                option["text"] if image_type is False else _("__[View image]({image_url})__").format(image_url=option["image"]["url"]),
+					                inline=True)
+			elif thread_funnel == "TEXT":
+				embed.event_type = "discussion/forum/post"
+			else:
+				discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(thread_funnel))
+		else:
+			embed.event_type = "discussion/forum/reply"
+			embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
+			embed["url"] = "{url}f/p/{threadId}/r/{postId}".format(url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"])
+	elif post_type == "WALL":
+		user_wall = _("unknown")  # Fail safe
+		if post["forumName"].endswith(' Message Wall'):
+			user_wall = post["forumName"][:-13]
+		if not post["isReply"]:
+			embed.event_type = "discussion/wall/post"
+			embed["url"] = "{url}wiki/Message_Wall:{user_wall}?threadId={threadId}".format(url=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"])
+			embed["title"] = _("Created \"{title}\" on {user}'s Message Wall").format(title=post["title"], user=user_wall)
+		else:
+			embed.event_type = "discussion/wall/reply"
+			embed["url"] = "{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}".format(url=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
+			embed["title"] = _("Replied to \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
+	elif post_type == "ARTICLE_COMMENT":
+		discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
+		article_page = _("unknown")  # No page known
+		if not post["isReply"]:
+			embed.event_type = "discussion/comment/post"
+			# embed["url"] = "{url}wiki/{article}?commentId={commentId}".format(url=settings["fandom_discussions"]["wiki_url"], article=quote_plus(article_page.replace(" ", "_")), commentId=post["threadId"])
+			embed["title"] = _("Commented on {article}").format(article=article_page)
+		else:
+			embed.event_type = "discussion/comment/reply"
+			# embed["url"] = "{url}wiki/{article}?commentId={commentId}&replyId={replyId}".format(url=settings["fandom_discussions"]["wiki_url"], article=quote_plus(article_page.replace(" ", "_")), commentId=post["threadId"], replyId=post["id"])
+			embed["title"] = _("Replied to a comment on {article}").format(article=article_page)
+		embed["footer"]["text"] = article_page
+	else:
+		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(post_type))
+	embed.finish_embed()
+	send_to_discord(embed)
 
 
 class DiscussionsFromHellParser:

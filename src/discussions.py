@@ -67,13 +67,8 @@ def fetch_discussions():
 
 def parse_discussion_post(post):
 	"""Initial post recognition & handling"""
-	post_type = post.get("funnel", "TEXT")
-	if post_type == "TEXT":
-		formatter(post, post_type)
-	elif post_type == "POLL":
-		formatter(post, post_type)
-	else:
-		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(post_type))
+	post_type = post["_embedded"]["thread"][0]["containerType"]
+	formatter(post, post_type)
 
 
 def safe_request(url):
