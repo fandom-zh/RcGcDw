@@ -67,7 +67,7 @@ def embed_formatter(post_type, post):
 		embed.set_author(post["createdBy"]["name"], "{url}wiki/User:{creator}".format(url=settings["fandom_discussions"]["wiki_url"], creator=post["createdBy"]["name"]), icon_url=post["createdBy"]["avatarUrl"])
 	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
 		if post.get("jsonModel") is not None:
-			npost = DiscussionsFromHellParser(post, wiki)
+			npost = DiscussionsFromHellParser(post)
 			embed["description"] = npost.parse()
 			if npost.image_last:
 				embed["image"]["url"] = npost.image_last
