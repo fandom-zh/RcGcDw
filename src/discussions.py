@@ -68,7 +68,7 @@ def fetch_discussions():
 def parse_discussion_post(post):
 	"""Initial post recognition & handling"""
 	post_type = post["_embedded"]["thread"][0]["containerType"]
-	formatter(post, post_type)
+	formatter(post_type, post)
 
 
 def safe_request(url):
