@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-04 00:58+0200\n"
-"PO-Revision-Date: 2020-08-04 09:51+0000\n"
-"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
+"PO-Revision-Date: 2020-08-05 22:41+0000\n"
+"Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
 "rcgcdw/discussions/pt_BR/>\n"
 "Language: pt-br\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: discussions.py:56
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr "Respondido o \"{title}\""
+msgstr "\"{title}\" respondido"
 
 #: discussions.py:63 discussions.py:79 discussions.py:127 discussions.py:143
 msgid "unknown"
@@ -30,22 +30,22 @@ msgstr "desconhecido"
 #: discussions.py:68
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr "Respondeu a \"{title}\" no mural de mensagem de {user}"
+msgstr "\"{title}\" respondido no mural de mensagens de {user}"
 
 #: discussions.py:72
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr "Criado \"{title}\""
+msgstr "\"{title}\" criado"
 
 #: discussions.py:86
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr "Criado \"{title}\" no mural de mensagem de {user}"
+msgstr "\"{title}\" criado no mural de mensagens de {user}"
 
 #: discussions.py:99
 #, python-brace-format
 msgid "Created a poll titled \"{title}\""
-msgstr "Criou uma enquete intitulada \"{title}\""
+msgstr "Enquete \"{title}\" criada"
 
 #: discussions.py:104
 msgid "Option {}"
@@ -62,8 +62,8 @@ msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}>) "
 "in {forumName}"
 msgstr ""
-"Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/"
-"{creatorId}>) no {forumName}"
+"[{author}](<{url}f/u/{creatorId}>) criou [{title}](<{url}f/p/{threadId}>) no "
+"{forumName}"
 
 #: discussions.py:130
 #, python-brace-format
@@ -81,8 +81,8 @@ msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a [reply](<{url}f/p/{threadId}/r/"
 "{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
-"[Responder](<{url}f/p/{threadId}/r/{postId}>) por [{author}](<{url}f/u/"
-"{creatorId}>) do [{title}](<{url}f/p/{threadId}>) do {forumName}"
+"[{author}](<{url}f/u/{creatorId}>) [respondeu](<{url}f/p/{threadId}/r/"
+"{postId}>) à [{title}](<{url}f/p/{threadId}>) no {forumName}"
 
 #: discussions.py:147
 #, python-brace-format
@@ -91,7 +91,7 @@ msgid ""
 "Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) on {user}'s Message "
 "Wall"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>) respondeu [{title}](<{wikiurl}wiki/"
+"[{author}](<{url}f/u/{creatorId}>) respondeu à [{title}](<{wikiurl}wiki/"
 "Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) no mural de "
 "mensagens de {user}"
 
@@ -101,5 +101,5 @@ msgid ""
 "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"
 "{threadId}>) in {forumName}"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>)criou uma enquete [{title}](<{url}f/p/"
+"[{author}](<{url}f/u/{creatorId}>) criou a enquete [{title}](<{url}f/p/"
 "{threadId}>) no {forumName}"
