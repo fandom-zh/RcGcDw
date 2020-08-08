@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 22:56+0200\n"
-"PO-Revision-Date: 2020-08-08 20:59+0000\n"
+"PO-Revision-Date: 2020-08-10 00:04+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
@@ -834,9 +834,8 @@ msgid "Deactivated a tag \"{tag}\""
 msgstr "Dezaktywowano tag \"{tag}\""
 
 #: src/rc_formatters.py:750
-#, fuzzy
 msgid "Action has been hidden by administration"
-msgstr "Akcja została ukryta przez administrację."
+msgstr "Akcja została ukryta przez administrację"
 
 #: src/rc_formatters.py:751
 msgid "Unknown"
