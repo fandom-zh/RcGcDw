@@ -30,9 +30,10 @@ from src.misc import add_to_dict, datafile, \
 	DiscordMessage
 from src.rc import recent_changes
 from src.exceptions import MWError
-from src.i18n import ngettext, lang
+from src.i18n import rcgcdw
 
-_ = lang.gettext
+_ = rcgcdw.gettext
+ngettext = rcgcdw.ngettext
 
 if settings["fandom_discussions"]["enabled"]:
 	import src.discussions

@@ -11,9 +11,10 @@ from bs4 import BeautifulSoup
 from src.configloader import settings
 from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, send_to_discord, DiscordMessage, safe_read, \
 	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser
-from src.i18n import lang
+from src.i18n import rc_formatters
 #from src.rc import recent_changes, pull_comment
-ngettext = lang.ngettext
+_ = rc_formatters.gettext
+ngettext = rc_formatters.ngettext
 
 logger = logging.getLogger("rcgcdw.rc_formatters")
 #from src.rcgcdw import recent_changes, ngettext, logger, profile_field_name, LinkParser, pull_comment

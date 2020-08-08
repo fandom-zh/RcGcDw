@@ -5,9 +5,9 @@ from urllib.parse import quote_plus
 
 from src.configloader import settings
 from src.misc import DiscordMessage, send_to_discord, escape_formatting
-from src.i18n import disc
+from src.i18n import discussion_formatters
 
-_ = disc.gettext
+_ = discussion_formatters.gettext
 
 
 discussion_logger = logging.getLogger("rcgcdw.discussion_formatter")

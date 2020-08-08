@@ -10,6 +10,10 @@ from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, messagequeue, datafile, se
 from src.exceptions import MWError
 from src.session import session
 from src.rc_formatters import compact_formatter, embed_formatter
+from src.i18n import rc
+
+_ = rc.gettext
+
 storage = datafile.data
 
 logger = logging.getLogger("rcgcdw.rc")
