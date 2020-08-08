@@ -1,50 +1,59 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the RcGcDw package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is distributed under the same license as the PACKAGE package.
 #
-#, fuzzy
+# Frisk <piotrex43@protonmail.ch>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: RcGcDw\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 14:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-08-04 09:51+0000\n"
+"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
+"rcgcdw/discussions/pt_BR/>\n"
+"Language: pt-br\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #: src/discussion_formatters.py:38
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
+"[Responder](<{url}f/p/{threadId}/r/{postId}>) por [{author}](<{url}f/u/"
+"{creatorId}>) do [{title}](<{url}f/p/{threadId}>) do {forumName}"
 
 #: src/discussion_formatters.py:40 src/discussion_formatters.py:49
 #: src/discussion_formatters.py:104 src/discussion_formatters.py:117
 msgid "unknown"
-msgstr ""
+msgstr "desconhecido"
 
 #: src/discussion_formatters.py:44
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
+"[{author}](<{url}f/u/{creatorId}>) criou [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}>) no mural de mensagens de "
+"{user}"
 
 #: src/discussion_formatters.py:46
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
 "{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/"
 "Message_Wall:{user_wall}?threadId={threadId}) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
+"[{author}](<{url}f/u/{creatorId}>) respondeu [{title}](<{wikiurl}wiki/"
+"Message_Wall:{user_wall}?threadId={threadid}#{replyId}>) no mural de "
+"mensagens de {user}"
 
 #: src/discussion_formatters.py:51
 #, python-brace-format
@@ -65,43 +74,59 @@ msgstr ""
 #: src/discussion_formatters.py:82
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr ""
+msgstr "Criado \"{title}\""
 
 #: src/discussion_formatters.py:87
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Created a poll \"{title}\""
-msgstr ""
+msgstr "Criou uma enquete intitulada \"{title}\""
 
 #: src/discussion_formatters.py:92
 msgid "Option {}"
-msgstr ""
+msgstr "Option {}"
 
 #: src/discussion_formatters.py:93
 #, python-brace-format
 msgid "__[View image]({image_url})__"
-msgstr ""
+msgstr "__[Ver imagem]({image_url})__"
 
 #: src/discussion_formatters.py:101
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr ""
+msgstr "Respondido o \"{title}\""
 
 #: src/discussion_formatters.py:110
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "Criado \"{title}\" no mural de mensagem de {user}"
 
 #: src/discussion_formatters.py:114
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "Respondeu a \"{title}\" no mural de mensagem de {user}"
 
 #: src/discussion_formatters.py:121
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Commented on {article}"
-msgstr ""
+msgstr "Criado \"{title}\""
 
 #: src/discussion_formatters.py:125
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Replied to a comment on {article}"
-msgstr ""
+msgstr "Respondido o \"{title}\""
+
+#, python-brace-format
+#~ msgid ""
+#~ "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#~ ">) in {forumName}"
+#~ msgstr ""
+#~ "Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/"
+#~ "{creatorId}>) no {forumName}"
+
+#, python-brace-format
+#~ msgid ""
+#~ "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"
+#~ "{threadId}>) in {forumName}"
+#~ msgstr ""
+#~ "[{author}](<{url}f/u/{creatorId}>)criou uma enquete [{title}](<{url}f/p/"
+#~ "{threadId}>) no {forumName}"

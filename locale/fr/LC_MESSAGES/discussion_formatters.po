@@ -1,50 +1,57 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the RcGcDw package.
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: RcGcDw\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 14:00+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-07-04 01:08+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/discussion_formatters.py:38
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
+"[Réponse](<{url}f/p/{threadId}/r/{postId}>) de [{author}](<{url}f/u/"
+"{creatorId}>) à [{title}](<{url}f/p/{threadId}>) dans {forumName}"
 
 #: src/discussion_formatters.py:40 src/discussion_formatters.py:49
 #: src/discussion_formatters.py:104 src/discussion_formatters.py:117
 msgid "unknown"
-msgstr ""
+msgstr "inconnu"
 
 #: src/discussion_formatters.py:44
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
 
 #: src/discussion_formatters.py:46
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
 "{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/"
 "Message_Wall:{user_wall}?threadId={threadId}) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
 
 #: src/discussion_formatters.py:51
 #, python-brace-format
@@ -65,12 +72,12 @@ msgstr ""
 #: src/discussion_formatters.py:82
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr ""
+msgstr "Création de {title}"
 
 #: src/discussion_formatters.py:87
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Created a poll \"{title}\""
-msgstr ""
+msgstr "Création de {title}"
 
 #: src/discussion_formatters.py:92
 msgid "Option {}"
@@ -84,24 +91,43 @@ msgstr ""
 #: src/discussion_formatters.py:101
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr ""
+msgstr "A répondu à « {title} »"
 
 #: src/discussion_formatters.py:110
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "Création de « {title} » sur le mur de {user}"
 
 #: src/discussion_formatters.py:114
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "Réponse à « {title} » sur le mur de {user}"
 
 #: src/discussion_formatters.py:121
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Commented on {article}"
-msgstr ""
+msgstr "Création de {title}"
 
 #: src/discussion_formatters.py:125
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Replied to a comment on {article}"
-msgstr ""
+msgstr "A répondu à « {title} »"
+
+#, python-brace-format
+#~ msgid ""
+#~ "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#~ ">) in {forumName}"
+#~ msgstr ""
+#~ "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+#~ "{creatorId}>)  dans {forumName}"
+
+#, fuzzy, python-brace-format
+#~| msgid ""
+#~| "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
+#~| ">) in {forumName}"
+#~ msgid ""
+#~ "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"
+#~ "{threadId}>) in {forumName}"
+#~ msgstr ""
+#~ "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+#~ "{creatorId}>)  dans {forumName}"

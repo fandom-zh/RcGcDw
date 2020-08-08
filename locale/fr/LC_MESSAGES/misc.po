@@ -1,27 +1,90 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# UN TITRE MERVEILLEUSEMENT DESCRIPTIF
+# COPYRIGHT HAHAHAHA I WISH J'AI PAS DE COPYRIGHT
+# AUTEUR #1 C'EST MOI MWAHAHAHAHAHA
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-20 17:18+0200\n"
-"PO-Revision-Date: 2019-05-21 01:24+0200\n"
+"POT-Creation-Date: 2020-08-08 14:00+0200\n"
+"PO-Revision-Date: 2020-03-17 21:40+0100\n"
+"Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
-"Last-Translator: \n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: fr\n"
+"X-Poedit-SearchPath-0: rcgcdw.pot\n"
 
-#: misc.py:76
+#: src/misc.py:42
+msgid "Location"
+msgstr "Emplacement"
+
+#: src/misc.py:42
+msgid "About me"
+msgstr "À propos de moi"
+
+#: src/misc.py:42
+msgid "Google link"
+msgstr "Lien Google"
+
+#: src/misc.py:42
+msgid "Facebook link"
+msgstr "Lien Facebook"
+
+#: src/misc.py:42
+msgid "Twitter link"
+msgstr "Lien Twitter"
+
+#: src/misc.py:42
+msgid "Reddit link"
+msgstr "Lien Reddit"
+
+#: src/misc.py:42
+msgid "Twitch link"
+msgstr "Lien Twitch"
+
+#: src/misc.py:42
+msgid "PSN link"
+msgstr "Lien PSN"
+
+#: src/misc.py:42
+msgid "VK link"
+msgstr "Lien VK"
+
+#: src/misc.py:42
+msgid "XBL link"
+msgstr "Lien XBL"
+
+#: src/misc.py:42
+msgid "Steam link"
+msgstr "Lien Steam"
+
+#: src/misc.py:42
+msgid "Discord handle"
+msgstr ""
+
+#: src/misc.py:42
+msgid "Battle.net handle"
+msgstr ""
+
+#: src/misc.py:142
 msgid ""
 "\n"
 "__And more__"
 msgstr ""
 "\n"
 "__Et plus__"
+
+#: src/misc.py:423
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: src/misc.py:425
+#, fuzzy
+msgid "unknown"
+msgstr "Inconnu"
