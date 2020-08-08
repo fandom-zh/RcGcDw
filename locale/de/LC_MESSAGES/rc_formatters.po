@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 22:56+0200\n"
-"PO-Revision-Date: 2020-08-08 20:59+0000\n"
+"PO-Revision-Date: 2020-08-10 00:04+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/de/>\n"
@@ -830,7 +830,6 @@ msgid "Deactivated a tag \"{tag}\""
 msgstr "Deaktivierte die Markierung „{tag}“"
 
 #: src/rc_formatters.py:750
-#, fuzzy
 msgid "Action has been hidden by administration"
 msgstr "Aktion wurde versteckt"
 
