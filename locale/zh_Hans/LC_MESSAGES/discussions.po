@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-04 00:58+0200\n"
-"PO-Revision-Date: 2020-08-04 09:51+0000\n"
+"PO-Revision-Date: 2020-08-05 22:41+0000\n"
 "Last-Translator: Dianliang233 <dianliang233@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://weblate.frisk.space/projects/"
 "rcgcdw/discussions/zh_Hans/>\n"
@@ -31,31 +31,31 @@ msgstr "未知"
 #: discussions.py:68
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "在 {user} 的留言墙上回复了 “{title}”"
 
 #: discussions.py:72
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr ""
+msgstr "创建了“”"
 
 #: discussions.py:86
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "在 {user} 的留言墙上创建了"
 
 #: discussions.py:99
 #, python-brace-format
 msgid "Created a poll titled \"{title}\""
-msgstr ""
+msgstr "创建了名为“{title}”的投票"
 
 #: discussions.py:104
 msgid "Option {}"
-msgstr ""
+msgstr "选项 {}"
 
 #: discussions.py:105
 #, python-brace-format
 msgid "__[View image]({image_url})__"
-msgstr ""
+msgstr "__[查看图像]()__"
 
 #: discussions.py:121
 #, python-brace-format
