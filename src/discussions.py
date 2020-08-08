@@ -16,17 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging, gettext, schedule, requests
+import logging, schedule, requests
 from src.configloader import settings
 
 from src.discussion_formatters import embed_formatter, compact_formatter
 from src.misc import datafile, messagequeue
 from src.session import session
-from src.i18n import disc
-
-# Initialize translation
-
-_ = disc.gettext
 
 # Create a custom logger
 
