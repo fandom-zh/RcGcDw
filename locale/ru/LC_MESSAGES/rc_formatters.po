@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 14:00+0200\n"
+"POT-Creation-Date: 2020-08-08 22:56+0200\n"
 "PO-Revision-Date: 2020-03-18 13:59+0100\n"
 "Last-Translator: BabylonAS\n"
 "Language-Team: \n"
@@ -837,7 +837,8 @@ msgid "Deactivated a tag \"{tag}\""
 msgstr "Деактивировал метку «{tag}»"
 
 #: src/rc_formatters.py:750
-msgid "Action has been hidden by administration."
+#, fuzzy
+msgid "Action has been hidden by administration"
 msgstr "Действие было скрыто администрацией."
 
 #: src/rc_formatters.py:751

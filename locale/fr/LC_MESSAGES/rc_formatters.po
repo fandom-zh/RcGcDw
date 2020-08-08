@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 14:00+0200\n"
+"POT-Creation-Date: 2020-08-08 22:56+0200\n"
 "PO-Revision-Date: 2020-03-17 21:40+0100\n"
 "Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
 "Language-Team: \n"
@@ -777,7 +777,7 @@ msgstr "Désactivation du tag « {tag} »"
 
 #: src/rc_formatters.py:750
 #, fuzzy
-msgid "Action has been hidden by administration."
+msgid "Action has been hidden by administration"
 msgstr "L'action a été masquée par le personnel de Gamepedia."
 
 #: src/rc_formatters.py:751

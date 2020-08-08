@@ -747,7 +747,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 	elif action == "suppressed":
 		link = create_article_path("")
-		embed["title"] = _("Action has been hidden by administration.")
+		embed["title"] = _("Action has been hidden by administration")
 		embed["author"]["name"] = _("Unknown")
 	else:
 		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
