@@ -31,6 +31,8 @@ def compact_formatter(post_type, post):
 			msg_text = "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in {forumName}"
 			if thread_funnel == "POLL":
 				msg_text = "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in {forumName}"
+			elif thread_funnel == "QUIZ":
+				msg_text = "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in {forumName}"
 			elif thread_funnel != "TEXT":
 				discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(thread_funnel))
 			message = _(msg_text).format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], forumName=post["forumName"])
@@ -83,15 +85,24 @@ def embed_formatter(post_type, post):
 			thread_funnel = post.get("funnel")
 			if thread_funnel == "POLL":
 				embed.event_type = "discussion/forum/poll"
-				poll = post["poll"]
-				embed["title"] = _("Created a poll \"{title}\"").format(title=poll["question"])
-				image_type = False
-				if poll["answers"][0]["image"] is not None:
-					image_type = True
-				for num, option in enumerate(poll["answers"]):
-					embed.add_field(option["text"] if image_type is True else _("Option {}").format(num+1),
-					                option["text"] if image_type is False else _("__[View image]({image_url})__").format(image_url=option["image"]["url"]),
-					                inline=True)
+				embed["title"] = _("Created a poll \"{title}\"").format(title=post["title"])
+				if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
+					poll = post["poll"]
+					image_type = False
+					if poll["answers"][0]["image"] is not None:
+						image_type = True
+					for num, option in enumerate(poll["answers"]):
+						embed.add_field(option["text"] if image_type is True else _("Option {}").format(num+1),
+										option["text"] if image_type is False else _("__[View image]({image_url})__").format(image_url=option["image"]["url"]),
+										inline=True)
+			elif thread_funnel == "QUIZ":
+				embed.event_type = "discussion/forum/quiz"
+				embed["title"] = _("Created a quiz \"{title}\"").format(title=post["title"])
+				if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
+					quiz = post["_embedded"]["quizzes"][0]
+					embed["description"] = quiz["title"]
+					if quiz["image"] is not None:
+						embed["image"]["url"] = quiz["image"]
 			elif thread_funnel == "TEXT":
 				embed.event_type = "discussion/forum/post"
 			else:

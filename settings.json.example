@@ -278,11 +278,23 @@
              "icon": "",
              "color":null
          },
+         "discussion/forum/quiz": {
+             "icon": "",
+             "color":null
+         },
          "discussion/wall/post": {
              "icon": "",
              "color":null
          },
          "discussion/wall/reply": {
+             "icon": "",
+             "color":null
+         },
+         "discussion/comment/post": {
+             "icon": "",
+             "color":null
+         },
+         "discussion/comment/reply": {
              "icon": "",
              "color":null
          }
