@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 22:56+0200\n"
+"POT-Creation-Date: 2020-08-10 02:05+0200\n"
 "PO-Revision-Date: 2020-08-10 00:04+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/"
@@ -20,7 +20,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.1.1\n"
 
-#: src/discussion_formatters.py:38
+#: src/discussion_formatters.py:40
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
@@ -29,23 +29,23 @@ msgstr ""
 "[{author}]({author_url}) utworzył(a) [odpowiedź](<{url}f/p/{threadId}/r/"
 "{postId}>) pod tematem [{title}](<{url}f/p/{threadId}>) w {forumName}"
 
-#: src/discussion_formatters.py:40 src/discussion_formatters.py:49
-#: src/discussion_formatters.py:104 src/discussion_formatters.py:117
+#: src/discussion_formatters.py:42 src/discussion_formatters.py:51
+#: src/discussion_formatters.py:115 src/discussion_formatters.py:128
 msgid "unknown"
 msgstr "nieznany"
 
-#: src/discussion_formatters.py:44
+#: src/discussion_formatters.py:46
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) utworzył(a) [{title}](<{url}wiki/"
-"Message_Wall:{user_wall}?threadId={threadId}>) na [tablicy wiadomości uż"
-"ytkownika/użytkowniczki {user}](<{url}wiki/Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) utworzył(a) [{title}](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}>) na [tablicy wiadomości użytkownika/"
+"użytkowniczki {user}](<{url}wiki/Message_Wall:{user_wall}>)"
 
-#: src/discussion_formatters.py:46
+#: src/discussion_formatters.py:48
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
@@ -53,21 +53,21 @@ msgid ""
 "Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) stworzył(-a) [odpowiedź](<{url}wiki/"
-"Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) do [{title}](<{url}"
-"wiki/Message_Wall:{user_wall}?threadId={threadId}>) na [tablicy wiadomości "
-"{user}](<{url}wiki/Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) stworzył(-a) [odpowiedź](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}#{replyId}>) do [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) na [tablicy wiadomości {user}]"
+"(<{url}wiki/Message_Wall:{user_wall}>)"
 
-#: src/discussion_formatters.py:51
+#: src/discussion_formatters.py:53
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [comment](<{url}wiki/{article}?"
 "commentId={commentId}>) on [{article}](<{url}wiki/{article}>)"
 msgstr ""
-"[{author}]({author_url}) utworzył(-a) [komentarz](<{url}wiki/"
-"{article}?commentId={commentId}>) w [{article}](<{url}wiki/{article}>)"
+"[{author}]({author_url}) utworzył(-a) [komentarz](<{url}wiki/{article}?"
+"commentId={commentId}>) w [{article}](<{url}wiki/{article}>)"
 
-#: src/discussion_formatters.py:53
+#: src/discussion_formatters.py:55
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/{article}?"
@@ -75,54 +75,59 @@ msgid ""
 "commentId={commentId}&replyId={replyId}>) on [{article}](<{url}wiki/{article}"
 ">)"
 msgstr ""
-"[{author}]({author_url}) utworzył(-a) [odpowiedź](<{url}wiki/"
-"{article}?threadId={threadId}) na [komentarz](<{url}wiki/"
-"{article}?commentId={commentId}&replyId={replyId}>) w artykule "
-"[{article}](<{url}wiki/{article}>)"
+"[{author}]({author_url}) utworzył(-a) [odpowiedź](<{url}wiki/{article}?"
+"threadId={threadId}) na [komentarz](<{url}wiki/{article}?"
+"commentId={commentId}&replyId={replyId}>) w artykule [{article}](<{url}wiki/"
+"{article}>)"
 
-#: src/discussion_formatters.py:82
+#: src/discussion_formatters.py:84
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "Utworzył(a) „{title}”"
 
-#: src/discussion_formatters.py:87
+#: src/discussion_formatters.py:88
 #, python-brace-format
 msgid "Created a poll \"{title}\""
 msgstr "Utworzył(a) ankietę zatytułowaną „{title}”"
 
-#: src/discussion_formatters.py:92
+#: src/discussion_formatters.py:95
 msgid "Option {}"
 msgstr "Opcja {}"
 
-#: src/discussion_formatters.py:93
+#: src/discussion_formatters.py:96
 #, python-brace-format
 msgid "__[View image]({image_url})__"
 msgstr "__[Zobacz zdjęcie]({image_url})__"
 
-#: src/discussion_formatters.py:101
+#: src/discussion_formatters.py:100
+#, fuzzy, python-brace-format
+msgid "Created a quiz \"{title}\""
+msgstr "Utworzył(a) ankietę zatytułowaną „{title}”"
+
+#: src/discussion_formatters.py:112
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr "Odpowiedział(a) w „{title}”"
 
-#: src/discussion_formatters.py:110
+#: src/discussion_formatters.py:121
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
 msgstr ""
 "Utworzył(a) „{title}” na tablicy wiadomości użytkownika/użytkowniczki {user}"
 
-#: src/discussion_formatters.py:114
+#: src/discussion_formatters.py:125
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
 msgstr ""
 "Odpowiedział(a) na „{title}” z tablicy wiadomości użytkownika/użytkowniczki "
 "{user}"
 
-#: src/discussion_formatters.py:121
+#: src/discussion_formatters.py:132
 #, python-brace-format
 msgid "Commented on {article}"
 msgstr "Skomentował(a) „{article}”"
 
-#: src/discussion_formatters.py:125
+#: src/discussion_formatters.py:136
 #, python-brace-format
 msgid "Replied to a comment on {article}"
 msgstr "Odpowiedział(a) na komentarz w „{article}”"
