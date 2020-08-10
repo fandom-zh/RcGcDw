@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-10 02:05+0200\n"
+"POT-Creation-Date: 2020-08-10 16:15+0200\n"
 "PO-Revision-Date: 2020-08-10 14:11+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
@@ -18,6 +18,33 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 4.1.1\n"
 
+#: src/discussion_formatters.py:31
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/{creatorId}"
+">) no {forumName}"
+
+#: src/discussion_formatters.py:33
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"[{author}](<{url}f/u/{creatorId}>)criou uma enquete [{title}](<{url}f/p/"
+"{threadId}>) no {forumName}"
+
+#: src/discussion_formatters.py:35
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"[{author}](<{url}f/u/{creatorId}>)criou uma enquete [{title}](<{url}f/p/"
+"{threadId}>) no {forumName}"
+
 #: src/discussion_formatters.py:40
 #, python-brace-format
 msgid ""
@@ -28,7 +55,7 @@ msgstr ""
 ">) para [{title}](<{url}f/p/{threadId}>) em {forumName}"
 
 #: src/discussion_formatters.py:42 src/discussion_formatters.py:51
-#: src/discussion_formatters.py:115 src/discussion_formatters.py:128
+#: src/discussion_formatters.py:120 src/discussion_formatters.py:133
 msgid "unknown"
 msgstr "desconhecido"
 
@@ -78,67 +105,67 @@ msgstr ""
 "commentId={commentId}&replyId={replyId}>) no [{article}](<{url}wiki/{article}"
 ">)"
 
-#: src/discussion_formatters.py:84
+#: src/discussion_formatters.py:61
+#, python-brace-format
+msgid ""
+"Unknown event `{event}` by [{author}]({author_url}), report it on the "
+"[support server](<{support}>)."
+msgstr ""
+
+#: src/discussion_formatters.py:89
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "Criado \"{title}\""
 
-#: src/discussion_formatters.py:88
+#: src/discussion_formatters.py:93
 #, python-brace-format
 msgid "Created a poll \"{title}\""
 msgstr "Criou uma enquete \"{title}\""
 
-#: src/discussion_formatters.py:95
+#: src/discussion_formatters.py:100
 msgid "Option {}"
 msgstr "Option {}"
 
-#: src/discussion_formatters.py:96
+#: src/discussion_formatters.py:101
 #, python-brace-format
 msgid "__[View image]({image_url})__"
 msgstr "__[Ver imagem]({image_url})__"
 
-#: src/discussion_formatters.py:100
+#: src/discussion_formatters.py:105
 #, python-brace-format
 msgid "Created a quiz \"{title}\""
 msgstr "Criou uma enquete \"{title}\""
 
-#: src/discussion_formatters.py:112
+#: src/discussion_formatters.py:117
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr "Respondido o \"{title}\""
 
-#: src/discussion_formatters.py:121
+#: src/discussion_formatters.py:126
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
 msgstr "Criado \"{title}\" no mural de mensagem de {user}"
 
-#: src/discussion_formatters.py:125
+#: src/discussion_formatters.py:130
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
 msgstr "Respondeu a \"{title}\" no mural de mensagem de {user}"
 
-#: src/discussion_formatters.py:132
+#: src/discussion_formatters.py:137
 #, python-brace-format
 msgid "Commented on {article}"
 msgstr "Comentou em {article}"
 
-#: src/discussion_formatters.py:136
+#: src/discussion_formatters.py:141
 #, python-brace-format
 msgid "Replied to a comment on {article}"
 msgstr "Respondeu a um comentário em {article}"
 
+#: src/discussion_formatters.py:145
 #, python-brace-format
-#~ msgid ""
-#~ "[{author}](<{url}f/u/{creatorId}>) created [{title}](<{url}f/p/{threadId}"
-#~ ">) in {forumName}"
-#~ msgstr ""
-#~ "Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/"
-#~ "{creatorId}>) no {forumName}"
+msgid "Unknown event `{event}`"
+msgstr ""
 
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}](<{url}f/u/{creatorId}>) created a poll [{title}](<{url}f/p/"
-#~ "{threadId}>) in {forumName}"
-#~ msgstr ""
-#~ "[{author}](<{url}f/u/{creatorId}>)criou uma enquete [{title}](<{url}f/p/"
-#~ "{threadId}>) no {forumName}"
+#: src/discussion_formatters.py:151 src/discussion_formatters.py:153
+msgid "Report this on the support server"
+msgstr ""
