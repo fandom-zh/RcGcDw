@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-10 02:05+0200\n"
-"PO-Revision-Date: 2020-08-10 00:04+0000\n"
+"PO-Revision-Date: 2020-08-10 14:11+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/"
 "discussion_formatters-1/de/>\n"
@@ -99,9 +99,9 @@ msgid "__[View image]({image_url})__"
 msgstr "__[Bild öffnen]({image_url})__"
 
 #: src/discussion_formatters.py:100
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created a quiz \"{title}\""
-msgstr "Erstellte eine Umfrage „{title}“"
+msgstr "Erstellte ein Quiz „{title}“"
 
 #: src/discussion_formatters.py:112
 #, python-brace-format
