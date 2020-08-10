@@ -54,7 +54,12 @@ def compact_formatter(post_type, post):
 		else:
 			message = _("[{author}]({author_url}) created a [reply](<{url}wiki/{article}?threadId={threadId}) to a [comment](<{url}wiki/{article}?commentId={commentId}&replyId={replyId}>) on [{article}](<{url}wiki/{article}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], article=article_page, commentId=post["threadId"], replyId=post["id"])
 	else:
-		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(post_type))
+		discussion_logger.warning("No entry for {event} with params: {params}".format(event=post_type, params=post))
+		if not settings["support"]:
+			return
+		else:
+			content = _("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
+				event=post_type, author=author, author_url=author_url, support=settings["support"])
 	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message))
 
 
@@ -136,7 +141,16 @@ def embed_formatter(post_type, post):
 			embed["title"] = _("Replied to a comment on {article}").format(article=article_page)
 		embed["footer"]["text"] = article_page
 	else:
-		discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(post_type))
+		discussion_logger.warning("No entry for {event} with params: {params}".format(event=post_type, params=post))
+		embed["title"] = _("Unknown event `{event}`").format(event=post_type)
+		embed["color"] = 0
+		if settings.get("support", None):
+			change_params = "[```json\n{params}\n```]({support})".format(params=json.dumps(post, indent=2),
+			                                                             support=settings["support"])
+			if len(change_params) > 1000:
+				embed.add_field(_("Report this on the support server"), settings["support"])
+			else:
+				embed.add_field(_("Report this on the support server"), change_params)
 	embed.finish_embed()
 	send_to_discord(embed)
 

@@ -4,6 +4,7 @@ import re
 import time
 import logging
 import datetime
+import json
 from urllib.parse import quote_plus
 
 from bs4 import BeautifulSoup
@@ -321,7 +322,12 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = _("An action has been hidden by administration.")
 	else:
 		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
-		return
+		if not settings.get("support", None):
+			return
+		else:
+			content = _(
+				"Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
+				event=action, author=author, author_url=author_url, support=settings["support"])
 	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content))
 
 
@@ -751,6 +757,16 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["author"]["name"] = _("Unknown")
 	else:
 		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
+		link = create_article_path("Special:RecentChanges")
+		embed["title"] = _("Unknown event `{event}`").format(event=action)
+		embed["color"] = 0
+		if settings.get("support", None):
+			change_params = "[```json\n{params}\n```]({support})".format(params=json.dumps(change, indent=2),
+			                                                             support=settings["support"])
+			if len(change_params) > 1000:
+				embed.add_field(_("Report this on the support server"), settings["support"])
+			else:
+				embed.add_field(_("Report this on the support server"), change_params)
 	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
 	embed["url"] = link
 	if parsed_comment is not None:
