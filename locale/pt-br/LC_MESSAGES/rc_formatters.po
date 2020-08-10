@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 22:56+0200\n"
-"PO-Revision-Date: 2020-08-04 09:51+0000\n"
+"PO-Revision-Date: 2020-08-10 00:04+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
-"rcgcdw/main/pt_BR/>\n"
+"rcgcdw/rc_formatters/pt_BR/>\n"
 "Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,18 +108,17 @@ msgstr ""
 "*{article}* para [{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:91 src/rc_formatters.py:512
-#, fuzzy
 msgid "for infinity and beyond"
-msgstr "infinito e além"
+msgstr "para o infinito e além"
 
 #: src/rc_formatters.py:100 src/rc_formatters.py:520
 #, python-brace-format
 msgid "for {num} {translated_length}"
-msgstr ""
+msgstr "para {num} {translated_length}"
 
 #: src/rc_formatters.py:106 src/rc_formatters.py:523
 msgid "until {}"
-msgstr ""
+msgstr "até {}"
 
 #: src/rc_formatters.py:110
 msgid " on pages: "
@@ -134,13 +133,13 @@ msgid " on namespaces: "
 msgstr " nos espaços nominais: "
 
 #: src/rc_formatters.py:131
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
 "{restriction_desc}{comment}"
 msgstr ""
-"[{author}]({author_url}) bloqueou [{user}]({user_url}) por {time}"
-"{restriction_desc}{comment}"
+"[{author}]({author_url}) bloqueou [{user}]({user_url}) "
+"{time}{restriction_desc}{comment}"
 
 #: src/rc_formatters.py:135
 #, python-brace-format
@@ -333,21 +332,23 @@ msgstr ""
 "({article_url}) para [{dest}]({dest_url}){comment}"
 
 #: src/rc_formatters.py:248
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
-msgstr "[{author}]({author_url}) criou tabela no Cargo \"{table}\""
+msgstr "Conta [{author}]({author_url}) foi criada automaticamente"
 
 #: src/rc_formatters.py:251 src/rc_formatters.py:260
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
-msgstr "[{author}]({author_url}) criou tabela no Cargo \"{table}\""
+msgstr "Conta [{author}]({author_url}) foi criada"
 
 #: src/rc_formatters.py:254
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
 "{comment}"
-msgstr "[{author}]({author_url}) restaurou [{article}]({article_url}){comment}"
+msgstr ""
+"Conta [{article}]({article_url}) foi criada por "
+"[{author}]({author_url}){comment}"
 
 #: src/rc_formatters.py:257
 #, python-brace-format
@@ -355,6 +356,8 @@ msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
 "and password was sent by email{comment}"
 msgstr ""
+"Conta [{article}]({article_url}) foi criada por [{author}]({author_url}) e a "
+"senha foi enviada por e-mail{comment}"
 
 #: src/rc_formatters.py:263
 #, python-brace-format
@@ -572,9 +575,9 @@ msgid "Partial block details"
 msgstr "Detalhes do bloqueio parcial"
 
 #: src/rc_formatters.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Blocked {blocked_user} {time}"
-msgstr "Bloqueado {blocked_user} por {time}"
+msgstr "Bloqueado {blocked_user} {time}"
 
 #: src/rc_formatters.py:552
 #, python-brace-format
@@ -716,21 +719,21 @@ msgstr "Históricos de revisão mesclados de {article} em {dest}"
 
 #: src/rc_formatters.py:665
 msgid "Created account automatically"
-msgstr ""
+msgstr "Conta criada automaticamente"
 
 #: src/rc_formatters.py:668 src/rc_formatters.py:677
 msgid "Created account"
-msgstr ""
+msgstr "Conta criada"
 
 #: src/rc_formatters.py:671
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created account {article}"
-msgstr "Página {article} excluída"
+msgstr "Conta criada {article}"
 
 #: src/rc_formatters.py:674
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
-msgstr ""
+msgstr "Conta criada {article} e a senha foi enviada por e-mail"
 
 #: src/rc_formatters.py:680
 msgid "Added an entry to the interwiki table"
@@ -820,9 +823,8 @@ msgid "Deactivated a tag \"{tag}\""
 msgstr "Desativou uma etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:750
-#, fuzzy
 msgid "Action has been hidden by administration"
-msgstr "A ação foi ocultada pela administração."
+msgstr "A ação foi ocultada pela administração"
 
 #: src/rc_formatters.py:751
 msgid "Unknown"
