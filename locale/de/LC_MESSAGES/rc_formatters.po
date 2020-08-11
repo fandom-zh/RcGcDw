@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-10 16:15+0200\n"
-"PO-Revision-Date: 2020-08-10 16:41+0000\n"
+"PO-Revision-Date: 2020-08-11 21:22+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/de/>\n"
@@ -857,7 +857,7 @@ msgstr "Melde es auf dem Support-Server"
 
 #: src/rc_formatters.py:786
 msgid "Tags"
-msgstr "Markierungen"
+msgstr "Tags"
 
 #: src/rc_formatters.py:789
 msgid "**Added**: "
