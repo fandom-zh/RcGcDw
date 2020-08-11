@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-11 19:35+0200\n"
-"PO-Revision-Date: 2020-08-10 14:11+0000\n"
+"PO-Revision-Date: 2020-08-11 18:37+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
 "rcgcdw/discussion_formatters-1/pt_BR/>\n"
@@ -19,31 +19,31 @@ msgstr ""
 "X-Generator: Weblate 4.1.1\n"
 
 #: src/discussion_formatters.py:32
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"Criado [{title}](<{url}f/p/{threadId}>) por [{author}](<{url}f/u/{creatorId}"
-">) no {forumName}"
+"[{author}]({author_url}) criou [{title}](<{url}f/p/{threadId}>) no "
+"{forumName}"
 
 #: src/discussion_formatters.py:34
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>)criou uma enquete [{title}](<{url}f/p/"
-"{threadId}>) no {forumName}"
+"[{author}]({author_url}) criou uma enquete [{title}](<{url}f/p/{threadId}>) "
+"no {forumName}"
 
 #: src/discussion_formatters.py:36
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}](<{url}f/u/{creatorId}>)criou uma enquete [{title}](<{url}f/p/"
-"{threadId}>) no {forumName}"
+"[{author}]({author_url}) criou uma enquete [{title}](<{url}f/p/{threadId}>) "
+"no {forumName}"
 
 #: src/discussion_formatters.py:41
 #, python-brace-format
@@ -111,6 +111,8 @@ msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
 msgstr ""
+"Evento desconhecido `{event}` por [{author}]({author_url}), relatar no ["
+"servidor de suporte](<{support}>)."
 
 #: src/discussion_formatters.py:90
 #, python-brace-format
@@ -138,11 +140,11 @@ msgstr "Criou uma enquete \"{title}\""
 
 #: src/discussion_formatters.py:121 src/discussion_formatters.py:123
 msgid "Tags"
-msgstr ""
+msgstr "Etiquetas"
 
 #: src/discussion_formatters.py:121
 msgid "{} tags"
-msgstr ""
+msgstr "{} etiquetas"
 
 #: src/discussion_formatters.py:126
 #, python-brace-format
@@ -172,8 +174,8 @@ msgstr "Respondeu a um comentário em {article}"
 #: src/discussion_formatters.py:154
 #, python-brace-format
 msgid "Unknown event `{event}`"
-msgstr ""
+msgstr "Evento desconhecido `{event}`"
 
 #: src/discussion_formatters.py:160 src/discussion_formatters.py:162
 msgid "Report this on the support server"
-msgstr ""
+msgstr "Reportar isso no servidor de suporte"
