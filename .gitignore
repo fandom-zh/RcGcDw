@@ -10,3 +10,5 @@ lastchange.txt
 /lokalize-scripts/
 /venvv/
 __pycache__
+*.bat
+*.code-workspace
