@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-11 19:35+0200\n"
-"PO-Revision-Date: 2020-08-10 16:41+0000\n"
+"PO-Revision-Date: 2020-08-11 21:22+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/"
 "discussion_formatters-1/pl/>\n"
@@ -142,11 +142,11 @@ msgstr "Utworzył(a) quiz „{title}”"
 
 #: src/discussion_formatters.py:121 src/discussion_formatters.py:123
 msgid "Tags"
-msgstr ""
+msgstr "Tagi"
 
 #: src/discussion_formatters.py:121
 msgid "{} tags"
-msgstr ""
+msgstr "{} tagów"
 
 #: src/discussion_formatters.py:126
 #, python-brace-format
