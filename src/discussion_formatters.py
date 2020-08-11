@@ -4,7 +4,7 @@ import gettext
 from urllib.parse import quote_plus
 
 from src.configloader import settings
-from src.misc import DiscordMessage, send_to_discord, escape_formatting
+from src.misc import link_formatter, create_article_path, DiscordMessage, send_to_discord, escape_formatting
 from src.i18n import discussion_formatters
 
 _ = discussion_formatters.gettext
@@ -25,6 +25,7 @@ def compact_formatter(post_type, post):
 	else:
 		author = post["createdBy"]["name"]
 		author_url = "<{url}wiki/User:{author}>".format(url=settings["fandom_discussions"]["wiki_url"], author=author)
+		author_url = link_formatter(create_article_path("User:{user}".format(user=author)))
 	if post_type == "FORUM":
 		if not post["isReply"]:
 			thread_funnel = post.get("funnel")
@@ -112,6 +113,14 @@ def embed_formatter(post_type, post):
 				embed.event_type = "discussion/forum/post"
 			else:
 				discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(thread_funnel))
+			if post["_embedded"]["thread"][0]["tags"]:
+				tag_displayname = []
+				for tag in post["_embedded"]["thread"][0]["tags"]:
+					tag_displayname.append("[{title}]({url})".format(title=tag.articleTitle, url=create_article_path(tag.articleTitle)))
+				if len(", ".join(tag_displayname)) > 1000:
+					embed.add_field(_("Tags"), _("{} tags").format(len(post["_embedded"]["thread"][0]["tags"])))
+				else:
+					embed.add_field(_("Tags"), ", ".join(tag_displayname))
 		else:
 			embed.event_type = "discussion/forum/reply"
 			embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])
