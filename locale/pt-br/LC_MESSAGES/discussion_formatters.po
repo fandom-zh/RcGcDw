@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-11 19:35+0200\n"
-"PO-Revision-Date: 2020-08-11 18:37+0000\n"
-"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
+"PO-Revision-Date: 2020-08-11 21:22+0000\n"
+"Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
 "rcgcdw/discussion_formatters-1/pt_BR/>\n"
 "Language: pt-br\n"
@@ -174,7 +174,7 @@ msgstr "Respondeu a um comentário em {article}"
 #: src/discussion_formatters.py:154
 #, python-brace-format
 msgid "Unknown event `{event}`"
-msgstr "Evento desconhecido `{event}`"
+msgstr "Evento `{event}` desconhecido"
 
 #: src/discussion_formatters.py:160 src/discussion_formatters.py:162
 msgid "Report this on the support server"
