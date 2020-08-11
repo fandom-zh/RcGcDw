@@ -116,7 +116,7 @@ def embed_formatter(post_type, post):
 			if post["_embedded"]["thread"][0]["tags"]:
 				tag_displayname = []
 				for tag in post["_embedded"]["thread"][0]["tags"]:
-					tag_displayname.append("[{title}]({url})".format(title=tag.articleTitle, url=create_article_path(tag.articleTitle)))
+					tag_displayname.append("[{title}]({url})".format(title=tag["articleTitle"], url=create_article_path(tag["articleTitle"])))
 				if len(", ".join(tag_displayname)) > 1000:
 					embed.add_field(_("Tags"), _("{} tags").format(len(post["_embedded"]["thread"][0]["tags"])))
 				else:
