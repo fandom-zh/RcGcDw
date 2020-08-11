@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-10 16:15+0200\n"
+"POT-Creation-Date: 2020-08-11 19:35+0200\n"
 "PO-Revision-Date: 2020-07-04 01:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/discussion_formatters.py:31
+#: src/discussion_formatters.py:32
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
@@ -27,7 +27,7 @@ msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
 "{creatorId}>)  dans {forumName}"
 
-#: src/discussion_formatters.py:33
+#: src/discussion_formatters.py:34
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
@@ -36,7 +36,7 @@ msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
 "{creatorId}>)  dans {forumName}"
 
-#: src/discussion_formatters.py:35
+#: src/discussion_formatters.py:36
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
@@ -45,7 +45,7 @@ msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
 "{creatorId}>)  dans {forumName}"
 
-#: src/discussion_formatters.py:40
+#: src/discussion_formatters.py:41
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
@@ -54,12 +54,12 @@ msgstr ""
 "[Réponse](<{url}f/p/{threadId}/r/{postId}>) de [{author}](<{url}f/u/"
 "{creatorId}>) à [{title}](<{url}f/p/{threadId}>) dans {forumName}"
 
-#: src/discussion_formatters.py:42 src/discussion_formatters.py:51
-#: src/discussion_formatters.py:120 src/discussion_formatters.py:133
+#: src/discussion_formatters.py:43 src/discussion_formatters.py:52
+#: src/discussion_formatters.py:129 src/discussion_formatters.py:142
 msgid "unknown"
 msgstr "inconnu"
 
-#: src/discussion_formatters.py:46
+#: src/discussion_formatters.py:47
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
@@ -69,7 +69,7 @@ msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
 "{creatorId}>)  dans {forumName}"
 
-#: src/discussion_formatters.py:48
+#: src/discussion_formatters.py:49
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
@@ -80,14 +80,14 @@ msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
 "{creatorId}>)  dans {forumName}"
 
-#: src/discussion_formatters.py:53
+#: src/discussion_formatters.py:54
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [comment](<{url}wiki/{article}?"
 "commentId={commentId}>) on [{article}](<{url}wiki/{article}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:55
+#: src/discussion_formatters.py:56
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/{article}?"
@@ -96,67 +96,75 @@ msgid ""
 ">)"
 msgstr ""
 
-#: src/discussion_formatters.py:61
+#: src/discussion_formatters.py:62
 #, python-brace-format
 msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
 msgstr ""
 
-#: src/discussion_formatters.py:89
+#: src/discussion_formatters.py:90
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "Création de {title}"
 
-#: src/discussion_formatters.py:93
+#: src/discussion_formatters.py:94
 #, fuzzy, python-brace-format
 msgid "Created a poll \"{title}\""
 msgstr "Création de {title}"
 
-#: src/discussion_formatters.py:100
+#: src/discussion_formatters.py:101
 msgid "Option {}"
 msgstr ""
 
-#: src/discussion_formatters.py:101
+#: src/discussion_formatters.py:102
 #, python-brace-format
 msgid "__[View image]({image_url})__"
 msgstr ""
 
-#: src/discussion_formatters.py:105
+#: src/discussion_formatters.py:106
 #, fuzzy, python-brace-format
 msgid "Created a quiz \"{title}\""
 msgstr "Création de {title}"
 
-#: src/discussion_formatters.py:117
+#: src/discussion_formatters.py:121 src/discussion_formatters.py:123
+msgid "Tags"
+msgstr ""
+
+#: src/discussion_formatters.py:121
+msgid "{} tags"
+msgstr ""
+
+#: src/discussion_formatters.py:126
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr "A répondu à « {title} »"
 
-#: src/discussion_formatters.py:126
+#: src/discussion_formatters.py:135
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
 msgstr "Création de « {title} » sur le mur de {user}"
 
-#: src/discussion_formatters.py:130
+#: src/discussion_formatters.py:139
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
 msgstr "Réponse à « {title} » sur le mur de {user}"
 
-#: src/discussion_formatters.py:137
+#: src/discussion_formatters.py:146
 #, fuzzy, python-brace-format
 msgid "Commented on {article}"
 msgstr "Création de {title}"
 
-#: src/discussion_formatters.py:141
+#: src/discussion_formatters.py:150
 #, fuzzy, python-brace-format
 msgid "Replied to a comment on {article}"
 msgstr "A répondu à « {title} »"
 
-#: src/discussion_formatters.py:145
+#: src/discussion_formatters.py:154
 #, python-brace-format
 msgid "Unknown event `{event}`"
 msgstr ""
 
-#: src/discussion_formatters.py:151 src/discussion_formatters.py:153
+#: src/discussion_formatters.py:160 src/discussion_formatters.py:162
 msgid "Report this on the support server"
 msgstr ""
