@@ -7,17 +7,17 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 17:22+0200\n"
-"PO-Revision-Date: 2020-03-17 20:57+0100\n"
-"Last-Translator: Frisk <piotrex43@protonmail.ch>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2020-08-13 19:07+0000\n"
+"Last-Translator: Rail <rail01@protonmail.com>\n"
+"Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/rc/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.1.1\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 2.3\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
 
 #: src/rc.py:150
 #, python-brace-format
@@ -26,7 +26,7 @@ msgstr "Połączenie z {wiki} wygląda na stabilne."
 
 #: src/rc.py:151 src/rc.py:266
 msgid "Connection status"
-msgstr "Problem z połączeniem"
+msgstr "Status połączenia"
 
 #: src/rc.py:265
 #, python-brace-format
