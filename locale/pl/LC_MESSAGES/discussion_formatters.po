@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-11 19:35+0200\n"
-"PO-Revision-Date: 2020-08-11 21:22+0000\n"
-"Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
+"PO-Revision-Date: 2020-08-13 19:07+0000\n"
+"Last-Translator: Rail <rail01@protonmail.com>\n"
 "Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/"
 "discussion_formatters-1/pl/>\n"
 "Language: pl\n"
@@ -68,9 +68,9 @@ msgid ""
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) utworzył(a) [{title}](<{url}wiki/Message_Wall:"
-"{user_wall}?threadId={threadId}>) na [tablicy wiadomości użytkownika/"
-"użytkowniczki {user}](<{url}wiki/Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) utworzył(a) [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) na [tablicy wiadomości "
+"{user}](<{url}wiki/Message_Wall:{user_wall}>)"
 
 #: src/discussion_formatters.py:49
 #, python-brace-format
@@ -80,10 +80,10 @@ msgid ""
 "Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) stworzył(-a) [odpowiedź](<{url}wiki/Message_Wall:"
-"{user_wall}?threadId={threadId}#{replyId}>) do [{title}](<{url}wiki/"
-"Message_Wall:{user_wall}?threadId={threadId}>) na [tablicy wiadomości {user}]"
-"(<{url}wiki/Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) utworzył(-a) [odpowiedź](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) do [{title}](<{url}"
+"wiki/Message_Wall:{user_wall}?threadId={threadId}>) na [tablicy wiadomości "
+"{user}](<{url}wiki/Message_Wall:{user_wall}>)"
 
 #: src/discussion_formatters.py:54
 #, python-brace-format
@@ -156,15 +156,12 @@ msgstr "Odpowiedział(a) w „{title}”"
 #: src/discussion_formatters.py:135
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
-"Utworzył(a) „{title}” na tablicy wiadomości użytkownika/użytkowniczki {user}"
+msgstr "Utworzył(a) „{title}” na tablicy wiadomości {user}"
 
 #: src/discussion_formatters.py:139
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr ""
-"Odpowiedział(a) na „{title}” z tablicy wiadomości użytkownika/użytkowniczki "
-"{user}"
+msgstr "Odpowiedział(a) na „{title}” z tablicy wiadomości {user}"
 
 #: src/discussion_formatters.py:146
 #, python-brace-format
