@@ -63,6 +63,11 @@ def fetch_discussions():
 def parse_discussion_post(post):
 	"""Initial post recognition & handling"""
 	post_type = post["_embedded"]["thread"][0]["containerType"]
+	# Filter posts by forum
+	if post_type == "FORUM" and settings["fandom_discussions"].get("show_forums", []):
+		if not post["forumName"] in settings["fandom_discussions"]["show_forums"]:
+			discussion_logger.debug(f"Ignoring post as it's from {post['forumName']}.")
+			return
 	formatter(post_type, post)
 
 

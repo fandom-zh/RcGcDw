@@ -312,6 +312,7 @@
             "embed": {
                 "show_content": true
             }
-        }
+        },
+        "show_forums": []
     }
 } 
