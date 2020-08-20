@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-11 19:35+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-08-21 04:13+0000\n"
+"Last-Translator: Dianliang233 <dianliang233@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://weblate.frisk.space/projects/"
+"rcgcdw/rc_formatters/zh-hans/>\n"
 "Language: zh-hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #: src/rc_formatters.py:42
 #, python-brace-format
@@ -23,6 +25,8 @@ msgid ""
 "[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({sign}"
 "{edit_size})"
 msgstr ""
+"[{author}]({author_url}) 编辑了 "
+"[{article}]({edit_link}){comment}（{sign}{edit_size}）"
 
 #: src/rc_formatters.py:44
 #, python-brace-format
@@ -30,17 +34,19 @@ msgid ""
 "[{author}]({author_url}) created [{article}]({edit_link}){comment} ({sign}"
 "{edit_size})"
 msgstr ""
+"[{author}]({author_url}) 创建了 "
+"[{article}]({edit_link}){comment}（{sign}{edit_size}）"
 
 #: src/rc_formatters.py:47
 #, python-brace-format
 msgid "[{author}]({author_url}) uploaded [{file}]({file_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 上传了 [{file}]({file_link}){comment}"
 
 #: src/rc_formatters.py:54
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 回退了 [{file}]({file_link}) 的一个版本 {comment}"
 
 #: src/rc_formatters.py:58
 #, python-brace-format
