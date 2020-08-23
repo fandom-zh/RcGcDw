@@ -253,7 +253,7 @@ def add_to_dict(dictionary, key):
 		dictionary[key] = 1
 	return dictionary
 
-def prepare_paths():
+def prepare_paths(path, dry=False):
 	global WIKI_API_PATH
 	global WIKI_ARTICLE_PATH
 	global WIKI_SCRIPT_PATH
@@ -276,24 +276,27 @@ def prepare_paths():
 		except (KeyError, requests.exceptions.ConnectionError):
 			return False
 	try:
-		parsed_url = urlparse(settings["wiki_url"])
+		parsed_url = urlparse(path)
 	except KeyError:
 		misc_logger.critical("wiki_url is not specified in the settings. Please provide the wiki url in the settings and start the script again.")
 		sys.exit(1)
-	for url_scheme in (settings["wiki_url"], settings["wiki_url"].split("wiki")[0], urlunparse((*parsed_url[0:2], "", "", "", ""))):  # check different combinations, it's supposed to be idiot-proof
+	for url_scheme in (path, path.split("wiki")[0], urlunparse((*parsed_url[0:2], "", "", "", ""))):  # check different combinations, it's supposed to be idiot-proof
 		tested = quick_try_url(url_scheme + "/api.php?action=query&format=json&meta=siteinfo")
 		if tested:
-			WIKI_API_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/api.php"
-			WIKI_SCRIPT_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/"
-			WIKI_ARTICLE_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["articlepath"]
-			WIKI_JUST_DOMAIN = urlunparse((*parsed_url[0:2], "", "", "", ""))
-			break
+			if not dry:
+				WIKI_API_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/api.php"
+				WIKI_SCRIPT_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["scriptpath"] + "/"
+				WIKI_ARTICLE_PATH = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested.json()["query"]["general"]["articlepath"]
+				WIKI_JUST_DOMAIN = urlunparse((*parsed_url[0:2], "", "", "", ""))
+				break
+			return urlunparse((*parsed_url[0:2], "", "", "", ""))
+
 	else:
-		misc_logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URL in settings.json and your Internet connection is working.")
+		misc_logger.critical("Could not verify wikis paths. Please make sure you have given the proper wiki URLs in settings.json ({path} should be script path to your wiki) and your Internet connection is working.".format(path=path))
 		sys.exit(1)
 
 
-prepare_paths()
+prepare_paths(settings["wiki_url"])
 
 
 def create_article_path(article: str) -> str:

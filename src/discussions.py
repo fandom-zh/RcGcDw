@@ -17,11 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging, schedule, requests
+from typing import Dict, Any
+
 from src.configloader import settings
 
 from src.discussion_formatters import embed_formatter, compact_formatter
-from src.misc import datafile, messagequeue
+from src.misc import datafile, messagequeue, prepare_paths
 from src.session import session
+from src.exceptions import ArticleCommentError
 
 # Create a custom logger
 
@@ -36,7 +39,7 @@ if "discussion_id" not in datafile.data:
 storage = datafile.data
 
 fetch_url = "https://services.fandom.com/discussion/{wikiid}/posts?sortDirection=descending&sortKey=creation_date&limit={limit}".format(wikiid=settings["fandom_discussions"]["wiki_id"], limit=settings["fandom_discussions"]["limit"])
-
+domain = prepare_paths(settings["fandom_discussions"]["wiki_url"], dry=True)  # Shutdown if the path for discussions is wrong
 
 def fetch_discussions():
 	messagequeue.resend_msgs()
@@ -53,14 +56,35 @@ def fetch_discussions():
 			return None
 		else:
 			if request_json:
+				comment_pages: dict = {}
+				comment_events: list = [post["forumId"] for post in request_json if post["_embedded"]["thread"][0]["containerType"] == "ARTICLE_COMMENT" and int(post["id"]) > storage["discussion_id"]]
+				if comment_events:
+					comment_pages = safe_request(
+						"{wiki}wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds={pages}&format=json".format(
+							wiki=settings["fandom_discussions"]["wiki_url"], pages=",".join(comment_events)
+						))
+					if comment_pages:
+						try:
+							comment_pages = comment_pages.json()["articleNames"]
+						except ValueError:
+							discussion_logger.warning("ValueError in fetching discussions")
+							return None
+						except KeyError:
+							discussion_logger.warning("Wiki returned %s" % (request_json.json()))
+							return None
+					else:
+						return None
 				for post in request_json:
 					if int(post["id"]) > storage["discussion_id"]:
-						parse_discussion_post(post)
+						try:
+							parse_discussion_post(post, comment_pages)
+						except ArticleCommentError:
+							return None
 				if int(post["id"]) > storage["discussion_id"]:
 					storage["discussion_id"] = int(post["id"])
 					datafile.save_datafile()
 
-def parse_discussion_post(post):
+def parse_discussion_post(post, comment_pages):
 	"""Initial post recognition & handling"""
 	post_type = post["_embedded"]["thread"][0]["containerType"]
 	# Filter posts by forum
@@ -68,7 +92,14 @@ def parse_discussion_post(post):
 		if not post["forumName"] in settings["fandom_discussions"]["show_forums"]:
 			discussion_logger.debug(f"Ignoring post as it's from {post['forumName']}.")
 			return
-	formatter(post_type, post)
+	comment_page = None
+	if post_type == "ARTICLE_COMMENT":
+		try:
+			comment_page = {**comment_pages[post["forumId"]], "fullUrl": domain + comment_pages[post["forumId"]]["relativeUrl"]}
+		except KeyError:
+			discussion_logger.error("Could not parse paths for article comment, here is the content of comment_pages: {}, ignoring...".format(comment_pages))
+			raise ArticleCommentError
+	formatter(post_type, post, comment_page)
 
 
 def safe_request(url):

@@ -124,11 +124,11 @@ def advanced():
 
 
 def set_cooldown():
-	option = default_or_custom(input("Interval for fetching recent changes in seconds (min. 10, default 30).\n"), 30)
+	option = default_or_custom(input("Interval for fetching recent changes in seconds (min. 30, default 60).\n"), 60)
 	try:
 		option = int(option)
-		if option < 10:
-			print("Please give a value higher than 9!")
+		if option < 29:
+			print("Please give a value higher than 30!")
 			return False
 		else:
 			settings["cooldown"] = option

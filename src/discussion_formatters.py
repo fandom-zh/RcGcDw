@@ -13,7 +13,7 @@ _ = discussion_formatters.gettext
 discussion_logger = logging.getLogger("rcgcdw.discussion_formatter")
 
 
-def compact_formatter(post_type, post):
+def compact_formatter(post_type, post, article_paths):
 	"""Compact formatter for Fandom discussions."""
 	message = None
 	if post_type == "FORUM":
@@ -48,12 +48,18 @@ def compact_formatter(post_type, post):
 		else:
 			message = _("[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], title=post["_embedded"]["thread"][0]["title"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
 	elif post_type == "ARTICLE_COMMENT":
-		discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
-		article_page = _("unknown")  # No page known
+		if article_paths is None:
+			article_paths = {"title": _("unknown"), "fullUrl": "{wiki}wiki/{article}".format(wiki=settings["fandom_discussions"]["wiki_url"], article=_("unknown").replace(" ", "_"))}  # No page known
 		if not post["isReply"]:
-			message = _("[{author}]({author_url}) created a [comment](<{url}wiki/{article}?commentId={commentId}>) on [{article}](<{url}wiki/{article}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], article=article_page, commentId=post["threadId"])
+			message = _(
+				"[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
+				author=author, author_url=author_url, url=article_paths["fullUrl"], article=article_paths["title"],
+				commentId=post["threadId"])
 		else:
-			message = _("[{author}]({author_url}) created a [reply](<{url}wiki/{article}?threadId={threadId}) to a [comment](<{url}wiki/{article}?commentId={commentId}&replyId={replyId}>) on [{article}](<{url}wiki/{article}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], article=article_page, commentId=post["threadId"], replyId=post["id"])
+			message = _(
+				"[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
+				author=author, author_url=author_url, url=article_paths["fullUrl"], article=article_paths["title"],
+				commentId=post["threadId"], replyId=post["id"])
 	else:
 		discussion_logger.warning("No entry for {event} with params: {params}".format(event=post_type, params=post))
 		if not settings["support"]:
@@ -64,7 +70,7 @@ def compact_formatter(post_type, post):
 	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message))
 
 
-def embed_formatter(post_type, post):
+def embed_formatter(post_type, post, article_paths):
 	"""Embed formatter for Fandom discussions."""
 	embed = DiscordMessage("embed", "discussion", settings["fandom_discussions"]["webhookURL"])
 	if post_type == "FORUM":
@@ -138,17 +144,18 @@ def embed_formatter(post_type, post):
 			embed["url"] = "{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}".format(url=settings["fandom_discussions"]["wiki_url"], user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
 			embed["title"] = _("Replied to \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
 	elif post_type == "ARTICLE_COMMENT":
-		discussion_logger.warning("Article comments are not yet implemented. For reasons see https://gitlab.com/piotrex43/RcGcDw/-/issues/126#note_366480037")
-		article_page = _("unknown")  # No page known
+		if article_paths is None:
+			article_page = {"title": _("unknown"), "fullUrl": "{wiki}wiki/{article}".format(wiki=settings["fandom_discussions"]["wiki_url"], article=_(
+				"unknown").replace(" ", "_"))}  # No page known
 		if not post["isReply"]:
 			embed.event_type = "discussion/comment/post"
-			# embed["url"] = "{url}wiki/{article}?commentId={commentId}".format(url=settings["fandom_discussions"]["wiki_url"], article=quote_plus(article_page.replace(" ", "_")), commentId=post["threadId"])
-			embed["title"] = _("Commented on {article}").format(article=article_page)
+			embed["url"] = "{url}?commentId={commentId}".format(url=article_paths["fullUrl"], commentId=post["threadId"])
+			embed["title"] = _("Commented on {article}").format(article=article_paths["title"])
 		else:
 			embed.event_type = "discussion/comment/reply"
-			# embed["url"] = "{url}wiki/{article}?commentId={commentId}&replyId={replyId}".format(url=settings["fandom_discussions"]["wiki_url"], article=quote_plus(article_page.replace(" ", "_")), commentId=post["threadId"], replyId=post["id"])
-			embed["title"] = _("Replied to a comment on {article}").format(article=article_page)
-		embed["footer"]["text"] = article_page
+			embed["url"] = "{url}?commentId={commentId}&replyId={replyId}".format(url=article_paths["fullUrl"], commentId=post["threadId"], replyId=post["id"])
+			embed["title"] = _("Replied to a comment on {article}").format(article=article_paths["title"])
+		embed["footer"]["text"] = article_paths["title"]
 	else:
 		discussion_logger.warning("No entry for {event} with params: {params}".format(event=post_type, params=post))
 		embed["title"] = _("Unknown event `{event}`").format(event=post_type)
