@@ -160,13 +160,13 @@ def day_overview():
 				if item["type"] == "edit":
 					edits += 1
 					changed_bytes += item["newlen"] - item["oldlen"]
-					if item["ns"] == 0:
+					if "content" in recent_changes.namespaces.get(str(item["ns"]), {}) or not item["ns"]:
 						articles = add_to_dict(articles, item["title"])
-				if item["type"] == "new":
-					if item["ns"] == 0:
+				elif item["type"] == "new":
+					if "content" in recent_changes.namespaces.get(str(item["ns"]), {}) or not item["ns"]:
 						new_articles += 1
 					changed_bytes += item["newlen"]
-				if item["type"] == "log":
+				elif item["type"] == "log":
 					files = files + 1 if item["logtype"] == item["logaction"] == "upload" else files
 					admin = admin + 1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights",
 					                                         "abusefilter", "interwiki", "managetags"] else admin
