@@ -17,7 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import json, time, sys, re
+import json, time, sys, re, shutil
+from urllib.parse import urlunparse, urlparse
+from pprint import pprint
+
+fandom_websites = ("fandom.com", "wikia.org")
+new_issue_url = "https://gitlab.com/piotrex43/RcGcDw/-/issues/new"
 
 try:
 	import requests
@@ -33,6 +38,145 @@ if "--help" in sys.argv:
 	--advanced - Prepares advanced settings with great range of customization
 	--annoying - Asks for every single value available""")
 	sys.exit(0)
+
+def trap(method):
+	while True:
+		if method():
+			break
+
+class BasicSettings:
+	def __init__(self):
+		self.site_name = None
+		method_tuple = (self.set_cooldown, self.set_wiki, self.set_discussion, self.set_lang, self.set_webhook, self.set_displaymode, self.set_wikiname)
+		for method in method_tuple:
+			trap(method)
+
+
+	def prepare_paths(self, path):
+		global WIKI_SCRIPT_PATH
+		"""Set the URL paths for article namespace and script namespace
+		WIKI_SCRIPT_PATH will be: WIKI_DOMAIN/"""
+
+		def quick_try_url(url):
+			"""Quickly test if URL is the proper script path,
+			False if it appears invalid
+			dictionary when it appears valid"""
+			try:
+				request = requests.get(url, timeout=5)
+				if request.status_code == requests.codes.ok:
+					if request.json()["query"]["general"] is not None:
+						return request.json()["query"]["general"]
+				return False
+			except (KeyError, requests.exceptions.ConnectionError):
+				return False
+			except ValueError:
+				return False
+
+		parsed_url = urlparse(path)
+		for url_scheme in (path, path.split("wiki")[0], urlunparse(
+				(*parsed_url[0:2], "", "", "", ""))):  # check different combinations, it's supposed to be idiot-proof
+			print("Checking {}...".format(url_scheme))
+			tested = quick_try_url(url_scheme + "/api.php?action=query&format=json&meta=siteinfo")
+			if tested:
+				url = urlunparse((*parsed_url[0:2], "", "", "", "")) + tested["scriptpath"] + "/"
+				self.site_name = tested["sitename"]
+				print("Found {}, setting URL in the settings to {}".format(tested["sitename"], url))
+				return url
+		else:
+			print(
+				"Could not verify wikis paths. Please make sure you have given the proper wiki URLs in settings.json ({path} should be script path to your wiki) and your Internet connection is working.".format(
+					path=path))
+
+	@staticmethod
+	def set_cooldown():
+		option = default_or_custom(input("Interval for fetching recent changes in seconds (min. 30, default 60).\n"),
+		                           60)
+		try:
+			option = int(option)
+			if option < 29:
+				print("Please give a value higher than 30!")
+				return False
+			else:
+				settings["cooldown"] = option
+				return True
+		except ValueError:
+			print("Please give a valid number.")
+
+
+	def set_wiki(self):
+		option = input(
+			"Please give the wiki URL to be monitored. Can be any link to a script path of the MediaWiki wiki.)\n")
+		path = self.prepare_paths(option)
+		if path:
+			settings["wiki"] = path
+			return True
+		print("Couldn't find a MediaWiki wiki under given URL.")
+
+	@staticmethod
+	def set_discussion():
+		if urlparse(settings["wiki"]).netloc in fandom_websites:
+			settings["fandom_discussions"]["enabled"] = yes_no(default_or_custom(input("Would you like to have discussions feed enabled for the wiki you previously specified? (available only for Fandom wikis)"), "n"))
+			if settings["fandom_discussions"]["enabled"]:
+				print("Retrieving necessary information from Fandom servers...")
+				response = requests.get('https://community.fandom.com/api/v1/Wikis/ByString?includeDomain=true&limit=10&string={wikidomain}&format=json&cache={cache}'.format(wikidomain="".join(urlparse(settings["wiki"])[1:]), cache=time.time()))
+				try:
+					settings["fandom_discussions"]["wiki_id"] = int(response.json()["items"][0]["id"])
+					settings["fandom_discussions"]["wiki_url"] = settings["wiki"]
+				except KeyError:
+					print("Could not setup the discussions, please report the issue on the issue tracker at {tracker} with the following information:".format(tracker="https://gitlab.com/piotrex43/RcGcDw/-/issues/new"))
+					pprint(response.json())
+				except ValueError:
+					print("Could not setup the discussions, please report the issue on the issue tracker at {tracker} with the following information:".format(tracker="https://gitlab.com/piotrex43/RcGcDw/-/issues/new"))
+					print(response)
+					print('https://community.fandom.com/api/v1/Wikis/ByString?includeDomain=true&limit=10&string={wikidomain}&format=json&cache={cache}'.format(wikidomain="".join(urlparse(settings["wiki"])[1:]), cache=time.time()))
+		return True
+
+	@staticmethod
+	def set_lang():
+		option = default_or_custom(input(
+			"Please provide a language code for translation of the script. Translations available: en, de, ru, pt-br, fr, pl, uk. zh-hant (default en)\n"),
+			"en")
+		if option in ["en", "de", "ru", "pt-br", "fr", "pl", "uk", "zh-hant"]:
+			settings["lang"] = option
+			return True
+		return False
+
+	@staticmethod
+	def set_webhook():
+		option = input(
+			"Webhook URL is required. You can get it on Discord by following instructions on this page: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks\n")
+		if option.startswith("https://discord.com/api/webhooks/") or option.startswith(
+				"https://discordapp.com/api/webhooks/"):
+			test_webhook = requests.get(option)
+			if test_webhook.status_code != 200:
+				print("The webhook URL does not seem right. Reason: {}".format(test_webhook.json()["message"]))
+				return False
+			else:
+				settings["webhookURL"] = option
+				return True
+		else:
+			print(
+				"A Discord webhook URL should start with https://discord.com/api/webhooks/, are you sure it's the right URL?")
+			return False
+
+
+	def set_wikiname(self):
+		option = default_or_custom(input(
+			"Please provide any wiki name for the wiki (can be whatever, but should be a full name of the wiki, for example \"Minecraft Wiki\") otherwise it will be {}\n".format(self.site_name)), self.site_name)  # TODO Fetch the wiki yourself using api by default
+		settings["wikiname"] = option
+		return True
+
+
+	@staticmethod
+	def set_displaymode():
+		option = default_or_custom(input(
+			"Please choose the display mode for the feed. More on how they look like on https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation. Valid values: compact or embed. Default: embed\n"), "embed").lower()
+		if option in ["embed", "compact"]:
+			settings["appearance"]["mode"] = option
+			return True
+		print("Invalid mode given! (can be embed or compact, {} given)".format(option))
+		return False
+
 
 def default_or_custom(answer, default):
 	if answer == "":
@@ -56,26 +200,6 @@ try:  # load settings
 except FileNotFoundError:
 	if yes_no(default_or_custom(input("Template config (settings.json.example) could not be found. Download the most recent stable one from master branch? (https://gitlab.com/piotrex43/RcGcDw/raw/master/settings.json.example)? (Y/n)"), "y")):
 		settings = requests.get("https://gitlab.com/piotrex43/RcGcDw/raw/master/settings.json.example").json()
-
-def basic():
-	while True:
-		if set_cooldown():
-			break
-	while True:
-		if set_wiki():
-			break
-	while True:
-		if set_lang():
-			break
-	while True:
-		if set_webhook():
-			break
-	while True:
-		if set_wikiname():
-			break
-	while True:
-		if set_displaymode():
-			break
 
 def advanced():
 	while True:
@@ -123,71 +247,13 @@ def advanced():
 				break
 
 
-def set_cooldown():
-	option = default_or_custom(input("Interval for fetching recent changes in seconds (min. 30, default 60).\n"), 60)
-	try:
-		option = int(option)
-		if option < 29:
-			print("Please give a value higher than 30!")
-			return False
-		else:
-			settings["cooldown"] = option
-			return True
-	except ValueError:
-		print("Please give a valid number.")
-		return False
 
-def set_wiki():
-	option = input("Please give the wiki you want to be monitored. (for example 'minecraft' or 'terraria-pl' are valid options)\n")
-	if option.startswith("http"):
-		regex = re.search(r"http(?:s|):\/\/(.*?)\.gamepedia.com", option)
-		if regex.group(1):
-			option = regex.group(1)
-	print("Checking the wiki...")
-	wiki_request = requests.get("https://{}.gamepedia.com".format(option), timeout=10, allow_redirects=False)  # TODO Actually check the API endpoint
-	if wiki_request.status_code == 404 or wiki_request.status_code == 302:
-		print("Wiki at https://{}.gamepedia.com does not exist, are you sure you have entered the wiki correctly?".format(option))
-		return False
-	else:
-		settings["wiki"] = option
-		return True
 
-def set_lang():
-	option = default_or_custom(input(
-		"Please provide a language code for translation of the script. Translations available: en, de, ru, pt-br, fr, pl, uk. (default en)\n"), "en")
-	if option in ["en", "de", "ru", "pt-br", "fr", "pl", "uk"]:
-		settings["lang"] = option
-		return True
-	return False
 
-def set_webhook():
-	option = input(
-		"Webhook URL is required. You can get it on Discord by following instructions on this page: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks\n")
-	if option.startswith("https://discord.com/api/webhooks/") or option.startswith("https://discordapp.com/api/webhooks/"):
-		test_webhook = requests.get(option)
-		if test_webhook.status_code != 200:
-			print("The webhook URL does not seem right. Reason: {}".format(test_webhook.json()["message"]))
-			return False
-		else:
-			settings["webhookURL"] = option
-			return True
-	else:
-		print("A Discord webhook URL should start with https://discord.com/api/webhooks/, are you sure it's the right URL?")
-		return False
 
-def set_wikiname():
-	option = input("Please provide any wiki name for the wiki (can be whatever, but should be a full name of the wiki, for example \"Minecraft Wiki\")\n") # TODO Fetch the wiki yourself using api by default
-	settings["wikiname"] = option
-	return True
 
-def set_displaymode():
-	option = default_or_custom(input(
-		"Please choose the display mode for the feed. More on how they look like on https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation. Valid values: compact or embed. Default: embed\n"), "embed").lower()
-	if option in ["embed", "compact"]:
-		settings["appearance"]["mode"] = option
-		return True
-	print("Invalid mode selected!")
-	return False
+
+
 
 def set_limit():
 	option = default_or_custom(input("Limit for amount of changes fetched every {} seconds. (default: 10, minimum: 1, the less active wiki is the lower the value should be)\n".format(settings["cooldown"])), 10)
@@ -313,7 +379,8 @@ def set_password():
 
 
 try:
-	basic()
+	BasicSettings()
+	shutil.copy("settings.json", "settings.json.bak")
 	with open("settings.json", "w") as settings_file:
 		settings_file.write(json.dumps(settings, indent=4))
 	if "--advanced" in sys.argv:
