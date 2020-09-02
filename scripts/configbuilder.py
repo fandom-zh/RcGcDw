@@ -108,7 +108,7 @@ class BasicSettings:
 			"Please give the wiki URL to be monitored. Can be any link to a script path of the MediaWiki wiki.)\n")
 		path = self.prepare_paths(option)
 		if path:
-			settings["wiki"] = path
+			settings["wiki_url"] = path
 			return True
 		print("Couldn't find a MediaWiki wiki under given URL.")
 
@@ -147,7 +147,8 @@ class BasicSettings:
 			"Webhook URL is required. You can get it on Discord by following instructions on this page: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks\n")
 		if option.startswith("https://discord.com/api/webhooks/") or option.startswith(
 				"https://discordapp.com/api/webhooks/"):
-			test_webhook = requests.get(option)
+			print("Checking webhook validity...")
+			test_webhook = requests.get(option, timeout=10.0)
 			if test_webhook.status_code != 200:
 				print("The webhook URL does not seem right. Reason: {}".format(test_webhook.json()["message"]))
 				return False
@@ -201,181 +202,267 @@ except FileNotFoundError:
 	if yes_no(default_or_custom(input("Template config (settings.json.example) could not be found. Download the most recent stable one from master branch? (https://gitlab.com/piotrex43/RcGcDw/raw/master/settings.json.example)? (Y/n)"), "y")):
 		settings = requests.get("https://gitlab.com/piotrex43/RcGcDw/raw/master/settings.json.example").json()
 
-def advanced():
-	while True:
-		if set_limit():
-			break
-	while True:
-		if set_refetch_limit():
-			break
-	while True:
-		if set_updown_messages():
-			break
-	if settings["show_updown_messages"]:
-		while True:
-			if set_downup_avatars():
-				break
-	while True:
-		if set_ignored_events():
-			break
-	while True:
-		if set_overview():
-			break
-	if settings["overview"]:
-		while True:
-			if set_overview_time():
-				break
-		while True:
-			if set_empty_overview():
-				break
-	while True:
-		if set_license_detection():
-			break
-	if settings["license_detection"]:
-		while True:
-			if set_license_detection_regex():
-				break
-		while True:
-			if set_license_classification_regex():
-				break
-	while True:
-		if set_login():
-			break
-	if settings["wiki_bot_login"]:
-		while True:
-			if set_password():
-				break
+class AdvancedSettings:
+	def __init__(self):
+		self.session = requests.session()
+		method_tuple = (self.set_limit, self.set_start_refetch_limit, self.set_uptime_messages, self.set_uptime_avatars,
+		                self.set_ignored_events, self.set_overviews, self.set_overview_time, self.set_empty_overview,
+		                self.set_license_detection, self.set_license_detection_regex, self.set_license_classification_regex,
+		                self.set_login_details, self.set_login_password)
+		for method in method_tuple:
+			trap(method)
 
+	def log_in(self, login, password):
+		print("Trying to log in to {wiki}...".format(wiki=settings["wiki_url"]))
 
+		try:
+			response = self.session.post(settings["wiki_url"],
+				                  data={'action': 'query', 'format': 'json', 'utf8': '', 'meta': 'tokens',
+				                        'type': 'login'})
+			response = self.session.post(settings["wiki_url"],
+				                  data={'action': 'login', 'format': 'json', 'utf8': '',
+				                        'lgname': login,
+				                        'lgpassword': password,
+				                        'lgtoken': response.json()['query']['tokens']['logintoken']})
+		except ValueError:
+			print("Logging in have not succeeded")
+			return
+		try:
+			if response.json()['login']['result'] == "Success":
+				print("Successfully logged in")
+				return True
+			else:
+				print("Logging in have not succeeded")
+		except:
+			print("Logging in have not succeeded")
 
+	@staticmethod
+	def set_limit():
+		option = default_or_custom(input(
+			"Limit for amount of changes fetched every {} seconds. (default: 10, minimum: 1, the less active wiki is the lower the value should be)\n".format(
+				settings["cooldown"])), 10)
+		try:
+			option = int(option)
+			if option < 2:
+				print("Please give a value higher than 1!")
+			else:
+				settings["limit"] = option
+				return True
+		except ValueError:
+			print("Please give a valid number.")
 
+	@staticmethod
+	def set_start_refetch_limit():
+		option = default_or_custom(input(
+			"Limit for amount of changes fetched every time the script starts. (default: 28, minimum: {})\n".format(
+				settings["limit"])), 28)
+		try:
+			option = int(option)
+			if option < settings["limit"]:
+				print("Please give a value higher than {}!".format(settings["limit"]))
+			else:
+				settings["limitrefetch"] = option
+				return True
+		except ValueError:
+			print("Please give a valid number.")
 
-
-
-
-
-
-def set_limit():
-	option = default_or_custom(input("Limit for amount of changes fetched every {} seconds. (default: 10, minimum: 1, the less active wiki is the lower the value should be)\n".format(settings["cooldown"])), 10)
-	try:
-		option = int(option)
-		if option < 2:
-			print("Please give a value higher than 1!")
-			return False
-		else:
-			settings["limit"] = option
+	@staticmethod
+	def set_uptime_messages():
+		try:
+			option = yes_no(
+				default_or_custom(input("Should the script send messages when the wiki becomes unavailable? (Y/n)\n"),
+				                  "y"))
+			settings["show_updown_messages"] = option
 			return True
-	except ValueError:
-		print("Please give a valid number.")
-		return False
+		except ValueError:
+			print("Response not valid, please use y (yes) or n (no)")
 
-def set_refetch_limit():
-	option = default_or_custom(input("Limit for amount of changes fetched every time the script starts. (default: 28, minimum: {})\n".format(settings["limit"])), 28)
-	try:
-		option = int(option)
-		if option < settings["limit"]:
-			print("Please give a value higher than {}!".format(settings["limit"]))
-			return False
-		else:
-			settings["limit"] = option
+	@staticmethod
+	def set_uptime_avatars():
+		if settings["show_updown_messages"]:
+			option = default_or_custom(
+				input("Provide a link for a custom webhook avatar when the wiki goes DOWN. (default: no avatar)\n"),
+				"")
+			try:
+				if option:
+					response = requests.head(option, timeout=10.0)
+					if response.headers.get('content-type', "none") not in ('image/png', 'image/jpg', 'image/jpeg', 'image/webp', 'image/gif'):
+						print("The images under URL is not in the proper format. Accepted formats are: png, jpg, jpeg, webp, gif, detected: {}".format(response.headers.get('content-type', "none")))
+						return False
+			except:
+				raise
+			settings["avatars"]["connection_failed"] = option
+			option = default_or_custom(
+				input(
+					"Provide a link for a custom webhook avatar when the connection to the wiki is RESTORED. (default: no avatar)\n"),
+				"")
+			try:
+				if option:
+					response = requests.head(option, timeout=10.0)
+					if response.headers.get('content-type', "none") not in ('image/png', 'image/jpg', 'image/jpeg', 'image/webp', 'image/gif'):
+						print("The images under URL is not in the proper format. Accepted formats are: png, jpg, jpeg, webp, gif, detected: {}".format(response.headers.get('content-type', "none")))
+						return False
+			except:
+				raise
+			settings["avatars"]["connection_restored"] = option
 			return True
-	except ValueError:
-		print("Please give a valid number.")
-		return False
+		else:
+			return True
 
-def set_updown_messages():
-	try:
-		option = yes_no(default_or_custom(input("Should the script send messages when the wiki becomes unavailable? (Y/n)\n"), "y"))
-		settings["show_updown_messages"] = option
+	@staticmethod
+	def set_ignored_events():
+		supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/comment-purged", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable", "cargo/recreatetable", "cargo/replacetable", "upload/revert", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers", "edit", "new", "external"]
+		option = default_or_custom(
+			input(
+				"Provide a list of entry types that are supposed to be ignored. Separate them using commas. Example: external, edit, upload/overwrite. (default: external)\n"),
+			"external")
+		entry_types = []
+		for etype in option.split(","):
+			if etype.strip() in supported_logs:
+				entry_types.append(etype.strip())
+			else:
+				print("Type \"{}\" couldn't be added as it's not supported.".format(etype.strip()))
+		try:
+			if yes_no(default_or_custom(input("Accept {} as ignored events? (Y/n)".format(", ".join(entry_types))), "y")):
+				settings["ignored"] = entry_types
+				return True
+		except ValueError:
+			print("Response not valid, please use y (yes) or n (no)")
+
+	@staticmethod
+	def set_overviews():
+		try:
+			option = yes_no(default_or_custom(input(
+				"Should the script send daily overviews of the actions done on the wiki for past 24 hours? (y/N)\n"),
+			                                  "n"))
+			settings["overview"] = option
+			return True
+		except ValueError:
+			print("Response not valid, please use y (yes) or n (no)")
+
+	@staticmethod
+	def set_overview_time():
+		if settings["overview"]:
+			option = default_or_custom(input(
+				"At what time should the daily overviews be sent? (script uses local machine time, the format of the time should be HH:MM, default is 00:00)\n"),
+			                           "00:00")
+			check = re.match(r"^\d{2}:\d{2}$", option)
+			if check is not None:
+				settings["overview_time"] = option
+				return True
+			else:
+				print("Response not valid, please enter a time in format HH:MM like for example 00:00 or 15:21!")
+		else:
+			return True
+
+	@staticmethod
+	def set_empty_overview():
+		try:
+			option = yes_no(default_or_custom(
+				input("Should the script send empty overviews in case nothing happens during the day? (y/N)\n"), "n"))
+			settings["send_empty_overview"] = option
+			return True
+		except ValueError:
+			print("Response not valid, please use y (yes) or n (no)")
+
+	@staticmethod
+	def set_license_detection():
+		try:
+			option = yes_no(
+				default_or_custom(input("Should the script detect licenses in the newly uploaded images? (Y/n)\n"),
+				                  "y"))
+			settings["license_detection"] = option
+			return True
+		except ValueError:
+			print("Response not valid, please use y (yes) or n (no)")
+
+	@staticmethod
+	def set_license_detection_regex():
+		if settings["license_detection"]:
+			try:
+				option = default_or_custom(input(
+					"Please provide regex (in Python format) for license detection (only to find it, the next step will be a regex to determine the type of the license). Default: \{\{(license|lizenz|licence|copyright)\n"),
+				                           "\{\{(license|lizenz|licence|copyright)")
+				re.compile(option)
+				settings["license_regex_detect"] = option
+				return True
+			except re.error:
+				print("Given regex expression could not be compiled. Please provide a proper regex expression in Python.")
+				return False
+		else:
+			return True
+
+	@staticmethod
+	def set_license_classification_regex():
+		if settings["license_detection"]:
+			try:
+				option = default_or_custom(input(
+					"Please provide regex for license classification where named capture group \"license\" is used as a license type for the image. Default: \{\{(license|lizenz|licence|copyright)(\ |\|)(?P<license>.*?)\}\}\n"),
+				                           "\{\{(license|lizenz|licence|copyright)(\ |\|)(?P<license>.*?)\}\}")
+				re.compile(option)
+				settings["license_regex"] = option
+				return True
+			except re.error:
+				print(
+					"Given regex expression could not be compiled. Please provide a proper regex expression in Python.")
+				return False
+		else:
+			return True
+
+	@staticmethod
+	def set_login_details():
+		option = default_or_custom(input(
+			"You can provide bot credentials if you want the script to use higher limits than usual. If that's the case, please provide the login from Special:BotPasswords. If not, just hit Enter/return \n"),
+		                           "")
+		if "@" not in option:
+			print("Please provide proper nickname for login from {wiki}Special:BotPasswords".format(
+				wiki=settings["wiki_url"]))
+			return False
+		settings["wiki_bot_login"] = option
 		return True
-	except ValueError:
-		print("Response not valid, please use y (yes) or n (no)")
-		return False
 
-def set_downup_avatars():
-	option = default_or_custom(input("Provide a link for a custom webhook avatar when the wiki goes DOWN. (default: no avatar)\n"), "")  #TODO Add a check for the image
-	settings["avatars"]["connection_failed"] = option
-	option = default_or_custom(
-		input("Provide a link for a custom webhook avatar when the connection to the wiki is RESTORED. (default: no avatar)\n"),
-		"")  # TODO Add a check for the image
-	settings["avatars"]["connection_failed"] = option
-	return True
-
-def set_ignored_events():
-	option = default_or_custom(
-		input("Provide a list of entry types that are supposed to be ignored. Separate them using commas. Example: external, edit, upload/overwrite. (default: external)\n"), "external")  # TODO Add a check for the image
-	entry_types = []
-	for etype in option.split(","):
-		entry_types.append(etype.strip())
-	settings["ignored"] = entry_types
-	return True
-
-def set_overview():
-	try:
-		option = yes_no(default_or_custom(input("Should the script send daily overviews of the actions done on the wiki for past 24 hours? (y/N)\n"), "n"))
-		settings["overview"] = option
-		return True
-	except ValueError:
-		print("Response not valid, please use y (yes) or n (no)")
-		return False
-
-def set_overview_time():
-	option = default_or_custom(input("At what time should the daily overviews be sent? (script uses local machine time, the format of the time should be HH:MM, default is 00:00)\n"), "00:00")
-	check = re.match(r"^\d{2}:\d{2}$", option)
-	if check is not None:
-		settings["overview_time"] = option
-		return True
-	else:
-		print("Response not valid, please enter a time in format HH:MM like for example 00:00 or 15:21!")
-		return False
-
-def set_empty_overview():
-	try:
-		option = yes_no(default_or_custom(input("Should the script send empty overviews in case nothing happens during the day? (y/N)\n"), "n"))
-		settings["send_empty_overview"] = option
-		return True
-	except ValueError:
-		print("Response not valid, please use y (yes) or n (no)")
-		return False
-
-def set_license_detection():
-	try:
-		option = yes_no(default_or_custom(input("Should the script detect licenses in the newly uploaded images? (Y/n)\n"), "y"))
-		settings["license_detection"] = option
-		return True
-	except ValueError:
-		print("Response not valid, please use y (yes) or n (no)")
-		return False
-
-def set_license_detection_regex():
-	try:
-		option = default_or_custom(input("Please provide regex for license detection (only to find it, the next step will be a regex to determine the type of the license). Default: \{\{(license|lizenz|licence|copyright)\n"), "\{\{(license|lizenz|licence|copyright)")
-		re.compile(option)
-		settings["license_regex_detect"] = option
-		return True
-	except re.error:
-		print("Given regex expression could not be compiled. Please provide a proper regex expression in Python.")
-		return False
-
-def set_license_classification_regex():
-	try:
-		option = default_or_custom(input("Please provide regex for license classification where named capture group \"license\" is used as a license type for the image. Default: \{\{(license|lizenz|licence|copyright)(\ |\|)(?P<license>.*?)\}\}\n"), "\{\{(license|lizenz|licence|copyright)(\ |\|)(?P<license>.*?)\}\}")
-		re.compile(option)
-		settings["license_regex"] = option
-		return True
-	except re.error:
-		print("Given regex expression could not be compiled. Please provide a proper regex expression in Python.")
-		return False
-
-def set_login():
-	option = default_or_custom(input("You can provide bot credentials if you want the script to use higher limits than usual. If that's the case, please provide the login. If not, just skip this option \n"), "")
-	settings["wiki_bot_login"] = option
-	return True
-
-def set_password():
-	option = default_or_custom(input("Please give bot password now.\n"), "")
-	settings["wiki_bot_password"] = option
-	return True
+	def set_login_password(self):
+		if settings["wiki_bot_login"]:
+			option = default_or_custom(input("Please give bot password now, empty to cancel.\n"), "")
+			if len(option) != 32 and len(option) != 0:
+				print("Password seems incorrect. It should be 32 characters long! Grab it from {wiki}Special:BotPasswords".format(
+						wiki=settings["wiki_url"]))
+				return False
+			if option == "":
+				print("Logging in function has been disabled.")
+				settings["wiki_bot_login"] = ""
+				settings["wiki_bot_password"] = ""
+				return True
+			print("Trying the credentials...")
+			self.log_in(settings["wiki_bot_login"], option)
+			settings["wiki_bot_password"] = option
+			print("Gathering data...")
+			try:
+				response = self.session.get(settings["wiki_url"]+"api.php?action=query&format=json&meta=userinfo&uiprop=rights", timeout=10.0)
+			except:
+				print("Could not fetch information about rights, skipping limit checks...")
+				response = None
+			if response:
+				try:
+					rights = response.json()["query"]["userinfo"]["rights"]
+					if "apihighlimits" in rights:
+						if settings["limit"] > 5000:
+							print("Setting limit to 5000 as it's max we can do...")
+							settings["limit"] = 5000
+						if settings["limitrefetch"] > 5000:
+							print("Setting limitrefetch to 5000 as it's max we can do...")
+							settings["limitrefetch"] = 5000
+					else:
+						print("Credentials don't allow us to fetch more than 500 events.")
+						if settings["limit"] > 500:
+							print("Setting limit to 500 as it's max we can do...")
+							settings["limit"] = 500
+						if settings["limitrefetch"] > 500:
+							print("Setting limitrefetch to 500 as it's max we can do...")
+							settings["limitrefetch"] = 500
+				except (ValueError, KeyError):
+					print("Could not fetch information about rights, skipping limit checks...")
+			return True
 
 
 try:
@@ -385,7 +472,7 @@ try:
 		settings_file.write(json.dumps(settings, indent=4))
 	if "--advanced" in sys.argv:
 		print("Basic part of the config has been completed. Starting the advanced part...")
-		advanced()
+		AdvancedSettings()
 	print("Responses has been saved! Your settings.json should be now valid and bot ready to run.")
 except KeyboardInterrupt:
 	if not yes_no(default_or_custom(input("\nSave the config before exiting? (y/N)"),"n")):
