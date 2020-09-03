@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 22:56+0200\n"
-"PO-Revision-Date: 2020-08-04 09:51+0000\n"
+"PO-Revision-Date: 2020-08-16 19:13+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
-"Language-Team: Lolcat <https://weblate.frisk.space/projects/rcgcdw/main/lol/"
-">\n"
+"Language-Team: Lolcat <https://weblate.frisk.space/projects/rcgcdw/main/lol/>"
+"\n"
 "Language: lol\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,21 +23,21 @@ msgstr ""
 #: src/rcgcdw.py:121 src/rcgcdw.py:123 src/rcgcdw.py:125
 #, python-brace-format
 msgid "{value} (avg. {avg})"
-msgstr ""
+msgstr "{value} (mor or less. {avg})"
 
 #: src/rcgcdw.py:145
 msgid "Daily overview"
-msgstr ""
+msgstr "Morn' newz"
 
 #: src/rcgcdw.py:153
 msgid "No activity"
-msgstr ""
+msgstr "No food"
 
 #: src/rcgcdw.py:177
 msgid " ({} action)"
 msgid_plural " ({} actions)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " ({} action)"
+msgstr[1] " ({} actionz)"
 
 #: src/rcgcdw.py:179
 msgid " ({} edit)"
@@ -48,18 +48,18 @@ msgstr[1] ""
 #: src/rcgcdw.py:184
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " UTC ({} action)"
+msgstr[1] " UTC ({} actionz)"
 
 #: src/rcgcdw.py:186 src/rcgcdw.py:187 src/rcgcdw.py:191
 msgid "But nobody came"
-msgstr ""
+msgstr "No one brot food 😾"
 
 #: src/rcgcdw.py:194
 msgid "Most active user"
 msgid_plural "Most active users"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Most skilld cat"
+msgstr[1] "Most skilld cats"
 
 #: src/rcgcdw.py:195
 msgid "Most edited article"
@@ -69,11 +69,11 @@ msgstr[1] ""
 
 #: src/rcgcdw.py:196
 msgid "Edits made"
-msgstr ""
+msgstr "edtz did"
 
 #: src/rcgcdw.py:196
 msgid "New files"
-msgstr ""
+msgstr "new picturz"
 
 #: src/rcgcdw.py:196
 msgid "Admin actions"
@@ -107,31 +107,31 @@ msgstr ""
 
 #: src/rcgcdw.py:242
 msgid "bot"
-msgstr ""
+msgstr "robut"
 
 #: src/rcgcdw.py:242
 msgid "editor"
-msgstr ""
+msgstr "editur"
 
 #: src/rcgcdw.py:242
 msgid "directors"
-msgstr ""
+msgstr "directurs"
 
 #: src/rcgcdw.py:242
 msgid "sysop"
-msgstr ""
+msgstr "admen"
 
 #: src/rcgcdw.py:242
 msgid "bureaucrat"
-msgstr ""
+msgstr "burocrat"
 
 #: src/rcgcdw.py:242
 msgid "reviewer"
-msgstr ""
+msgstr "reviver"
 
 #: src/rcgcdw.py:243
 msgid "autoreview"
-msgstr ""
+msgstr "autureviver"
 
 #: src/rcgcdw.py:243
 msgid "autopatrol"

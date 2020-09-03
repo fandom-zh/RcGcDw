@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 14:00+0200\n"
-"PO-Revision-Date: 2020-08-13 19:07+0000\n"
-"Last-Translator: Leo-768 <leo768leo768@gmail.com>\n"
+"PO-Revision-Date: 2020-08-16 19:13+0000\n"
+"Last-Translator: Winston Sung <winston21.sung@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://weblate.frisk.space/projects/"
-"rcgcdw/misc/zh_Hant/>\n"
+"rcgcdw/misc/zh-hant/>\n"
 "Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: src/misc.py:42
 msgid "Location"
-msgstr ""
+msgstr "位置"
 
 #: src/misc.py:42
 msgid "About me"
@@ -65,11 +65,11 @@ msgstr "Steam 連結"
 
 #: src/misc.py:42
 msgid "Discord handle"
-msgstr ""
+msgstr "Discord handle"
 
 #: src/misc.py:42
 msgid "Battle.net handle"
-msgstr ""
+msgstr "Battle.net handle"
 
 #: src/misc.py:142
 msgid ""
