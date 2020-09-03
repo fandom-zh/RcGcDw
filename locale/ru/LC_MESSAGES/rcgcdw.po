@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-08 17:21+0200\n"
-"PO-Revision-Date: 2020-03-18 13:59+0100\n"
+"PO-Revision-Date: 2020-09-03 13:14+0200\n"
 "Last-Translator: BabylonAS\n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: src/rcgcdw.py:113 src/rcgcdw.py:115 src/rcgcdw.py:117 src/rcgcdw.py:119
 #: src/rcgcdw.py:121 src/rcgcdw.py:123 src/rcgcdw.py:125

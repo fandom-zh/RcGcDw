@@ -105,6 +105,7 @@ def day_overview_request():
 
 def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score):
 	weight = storage["daily_overview"]["days_tracked"]
+	logger.debug(_)
 	if weight == 0:
 		storage["daily_overview"].update({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed": changed_bytes, "new_articles": new_articles, "unique_editors": unique_contributors, "day_score": day_score})
 		edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score = str(edits), str(files), str(admin), str(changed_bytes), str(new_articles), str(unique_contributors), str(day_score)
