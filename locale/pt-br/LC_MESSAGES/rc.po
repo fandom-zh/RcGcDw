@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-08 17:22+0200\n"
+"PO-Revision-Date: 2020-08-04 09:51+0000\n"
+"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
+"rcgcdw/main/pt_BR/>\n"
+"Language: pt-br\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.1.1\n"
+
+#: src/rc.py:150
+#, python-brace-format
+msgid "Connection to {wiki} seems to be stable now."
+msgstr "A conexão com {wiki} parece estar estável agora."
+
+#: src/rc.py:151 src/rc.py:266
+msgid "Connection status"
+msgstr "Status da conexão"
+
+#: src/rc.py:265
+#, python-brace-format
+msgid "{wiki} seems to be down or unreachable."
+msgstr "{wiki} parece estar inativo ou inacessível."
+
+#: src/rc.py:334
+msgid "~~hidden~~"
+msgstr "~~ocultado~~"
+
+#: src/rc.py:340
+msgid "hidden"
+msgstr "oculto"
+

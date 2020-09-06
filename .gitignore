@@ -9,3 +9,6 @@ lastchange.txt
 /venv/
 /lokalize-scripts/
 /venvv/
+__pycache__
+*.bat
+*.code-workspace

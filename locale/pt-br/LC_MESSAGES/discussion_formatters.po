@@ -1,0 +1,181 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Frisk <piotrex43@protonmail.ch>, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-11 19:35+0200\n"
+"PO-Revision-Date: 2020-08-11 21:22+0000\n"
+"Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
+"rcgcdw/discussion_formatters-1/pt_BR/>\n"
+"Language: pt-br\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 4.1.1\n"
+
+#: src/discussion_formatters.py:32
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"[{author}]({author_url}) criou [{title}](<{url}f/p/{threadId}>) no "
+"{forumName}"
+
+#: src/discussion_formatters.py:34
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"[{author}]({author_url}) criou uma enquete [{title}](<{url}f/p/{threadId}>) "
+"no {forumName}"
+
+#: src/discussion_formatters.py:36
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"[{author}]({author_url}) criou uma enquete [{title}](<{url}f/p/{threadId}>) "
+"no {forumName}"
+
+#: src/discussion_formatters.py:41
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
+"to [{title}](<{url}f/p/{threadId}>) in {forumName}"
+msgstr ""
+"[{author}]({author_url}) criou uma [resposta](<{url}f/p/{threadId}/r/{postId}"
+">) para [{title}](<{url}f/p/{threadId}>) em {forumName}"
+
+#: src/discussion_formatters.py:43 src/discussion_formatters.py:52
+#: src/discussion_formatters.py:129 src/discussion_formatters.py:142
+msgid "unknown"
+msgstr "desconhecido"
+
+#: src/discussion_formatters.py:47
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
+"Message_Wall:{user_wall}>)"
+msgstr ""
+"[{author}]({author_url}) criou [{title}](<{url}wiki/Message_Wall:{user_wall}?"
+"threadId={threadId}>) no mural de mensagens de [{user}(<{url}wiki/"
+"Message_Wall:{user_wall}>)"
+
+#: src/discussion_formatters.py:49
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
+"(<{url}wiki/Message_Wall:{user_wall}>)"
+msgstr ""
+"[{author}]({author_url}) criou uma [resposta](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}#{replyId}>) para [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) no mural de mensagens de "
+"[{user}](<{url}wiki/Message_Wall:{user_wall}>)"
+
+#: src/discussion_formatters.py:54
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [comment](<{url}wiki/{article}?"
+"commentId={commentId}>) on [{article}](<{url}wiki/{article}>)"
+msgstr ""
+"[{author}]({author_url})criou um [comentário](<{url}wiki/{article}?"
+"commentId={commentId}>) no [{article}](<{url}wiki/{article}>)"
+
+#: src/discussion_formatters.py:56
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}wiki/{article}?"
+"threadId={threadId}) to a [comment](<{url}wiki/{article}?"
+"commentId={commentId}&replyId={replyId}>) on [{article}](<{url}wiki/{article}"
+">)"
+msgstr ""
+"[{author}]({author_url}) criou uma [resposta](<{url}wiki/{article}?"
+"threadId={threadId}) para um [comentário](<{url}wiki/{article}?"
+"commentId={commentId}&replyId={replyId}>) no [{article}](<{url}wiki/{article}"
+">)"
+
+#: src/discussion_formatters.py:62
+#, python-brace-format
+msgid ""
+"Unknown event `{event}` by [{author}]({author_url}), report it on the "
+"[support server](<{support}>)."
+msgstr ""
+"Evento desconhecido `{event}` por [{author}]({author_url}), relatar no ["
+"servidor de suporte](<{support}>)."
+
+#: src/discussion_formatters.py:90
+#, python-brace-format
+msgid "Created \"{title}\""
+msgstr "Criado \"{title}\""
+
+#: src/discussion_formatters.py:94
+#, python-brace-format
+msgid "Created a poll \"{title}\""
+msgstr "Criou uma enquete \"{title}\""
+
+#: src/discussion_formatters.py:101
+msgid "Option {}"
+msgstr "Option {}"
+
+#: src/discussion_formatters.py:102
+#, python-brace-format
+msgid "__[View image]({image_url})__"
+msgstr "__[Ver imagem]({image_url})__"
+
+#: src/discussion_formatters.py:106
+#, python-brace-format
+msgid "Created a quiz \"{title}\""
+msgstr "Criou uma enquete \"{title}\""
+
+#: src/discussion_formatters.py:121 src/discussion_formatters.py:123
+msgid "Tags"
+msgstr "Etiquetas"
+
+#: src/discussion_formatters.py:121
+msgid "{} tags"
+msgstr "{} etiquetas"
+
+#: src/discussion_formatters.py:126
+#, python-brace-format
+msgid "Replied to \"{title}\""
+msgstr "Respondido o \"{title}\""
+
+#: src/discussion_formatters.py:135
+#, python-brace-format
+msgid "Created \"{title}\" on {user}'s Message Wall"
+msgstr "Criado \"{title}\" no mural de mensagem de {user}"
+
+#: src/discussion_formatters.py:139
+#, python-brace-format
+msgid "Replied to \"{title}\" on {user}'s Message Wall"
+msgstr "Respondeu a \"{title}\" no mural de mensagem de {user}"
+
+#: src/discussion_formatters.py:146
+#, python-brace-format
+msgid "Commented on {article}"
+msgstr "Comentou em {article}"
+
+#: src/discussion_formatters.py:150
+#, python-brace-format
+msgid "Replied to a comment on {article}"
+msgstr "Respondeu a um comentário em {article}"
+
+#: src/discussion_formatters.py:154
+#, python-brace-format
+msgid "Unknown event `{event}`"
+msgstr "Evento `{event}` desconhecido"
+
+#: src/discussion_formatters.py:160 src/discussion_formatters.py:162
+msgid "Report this on the support server"
+msgstr "Reportar isso no servidor de suporte"
