@@ -30,7 +30,7 @@
 #### Translators #### 
 * MarkusRost – German translation
 * JSBM – French translation
-* Eduaddad – Brazilian Portuguese translation
+* [Eduaddad](https://eduardoaddad.com.br) – Brazilian Portuguese translation
 * BabylonAS and Russian Minecraft Wiki community – Russian translation
 * Mak_and_Iv – Ukrainian translation
 
