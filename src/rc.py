@@ -9,8 +9,9 @@ from src.configloader import settings
 from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, messagequeue, datafile, send_simple, safe_read, LinkParser
 from src.exceptions import MWError
 from src.session import session
-from src.rc_formatters import compact_formatter, embed_formatter
+from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
 from src.i18n import rc
+from collections import OrderedDict
 
 _ = rc.gettext
 
@@ -23,8 +24,10 @@ supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upl
 # Set the proper formatter
 if settings["appearance"]["mode"] == "embed":
 	appearance_mode = embed_formatter
+	abuselog_appearance_mode = embed_abuselog_formatter
 elif settings["appearance"]["mode"] == "compact":
 	appearance_mode = compact_formatter
+	abuselog_appearance_mode = compact_abuselog_formatter
 else:
 	logger.critical("Unknown formatter!")
 	sys.exit(1)
@@ -38,6 +41,7 @@ class Recent_Changes_Class(object):
 		self.ids = []
 		self.map_ips = {}
 		self.recent_id = 0
+		self.recent_abuse_id = 0
 		self.downtimecredibility = 0
 		self.last_downtime = 0
 		self.tags = {}
@@ -118,6 +122,18 @@ class Recent_Changes_Class(object):
 		logger.debug("Most recent rcid is: {}".format(self.recent_id))
 		return self.recent_id
 
+	def construct_params(self, amount):
+		params = OrderedDict(action="query", format="json")
+		params["list"] = "recentchanges|abuselog" if settings.get("show_abuselog", False) else "recentchanges"
+		params["rcshow"] = "" if settings.get("show_bots", False) else "!bot"
+		params["rcprop"] = "title|redirect|timestamp|ids|loginfo|parsedcomment|sizes|flags|tags|user"
+		params["rclimit"] = amount
+		params["rctype"] = "edit|new|log|external|categorize" if settings.get("show_added_categories", True) else "edit|new|log|external"
+		if settings.get("show_abuselog", False):
+			params["afllimit"] = amount
+			params["aflprop"] = "ids|user|title|action|result|timestamp|hidden|revid|filter"
+		return params
+
 	def fetch_changes(self, amount, clean=False):
 		"""Fetches the :amount: of changes from the wiki.
 		Returns None on error and int of rcid of latest change if succeeded"""
@@ -125,20 +141,26 @@ class Recent_Changes_Class(object):
 		if len(self.ids) == 0:
 			logger.debug("ids is empty, triggering clean fetch")
 			clean = True
-		changes = self.safe_request(
-			"{wiki}?action=query&format=json&list=recentchanges{show_bots}&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rclimit={amount}&rctype=edit%7Cnew%7Clog%7Cexternal{categorize}".format(
-				wiki=WIKI_API_PATH, amount=amount, categorize="%7Ccategorize" if settings["show_added_categories"] else "", show_bots="&rcshow=!bot" if settings["show_bots"] is False else ""))
-		if changes:
+		raw_changes = self.safe_request(WIKI_API_PATH, params=self.construct_params(amount))
+		# action=query&format=json&list=recentchanges%7Cabuselog&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rcshow=!bot&rclimit=20&rctype=edit%7Cnew%7Clog%7Cexternal&afllimit=10&aflprop=ids%7Cuser%7Ctitle%7Caction%7Cresult%7Ctimestamp%7Chidden%7Crevid%7Cfilter
+		if raw_changes:
 			try:
-				changes = changes.json()['query']['recentchanges']
+				raw_changes = raw_changes.json()
+				changes = raw_changes['query']['recentchanges']
+				# {"batchcomplete":"","warnings":{"query":{"*":"Unrecognized value for parameter \"list\": abuselog."}}}
 				changes.reverse()
+				if "warnings" in raw_changes:
+					warnings = raw_changes.get("warnings", {"query": {"*": ""}})
+					if warnings["query"]["*"] == "Unrecognized value for parameter \"list\": abuselog.":
+						settings["show_abuselog"] = False
+						logger.warning("AbuseLog extension is not enabled on the wiki. Disabling the function...")
 			except ValueError:
 				logger.warning("ValueError in fetching changes")
-				logger.warning("Changes URL:" + changes.url)
+				logger.warning("Changes URL:" + raw_changes.url)
 				self.downtime_controller()
 				return None
 			except KeyError:
-				logger.warning("Wiki returned %s" % (changes.json()))
+				logger.warning("Wiki returned %s" % (raw_changes))
 				return None
 			else:
 				if self.downtimecredibility > 0:
@@ -203,11 +225,19 @@ class Recent_Changes_Class(object):
 						logger.debug("Rejected {val}".format(val=change["rcid"]))
 						continue
 					essential_info(change, categorize_events.get(change.get("revid"), None))
+				if "abuselog" in raw_changes["query"]:
+					abuse_log = raw_changes['query']['recentchanges']
+					abuse_log.reverse()
+					for entry in abuse_log:
+						abuselog_processing(entry, self)
 				return change["rcid"]
 
-	def safe_request(self, url):
+	def safe_request(self, url, params=None):
 		try:
-			request = self.session.get(url, timeout=10, allow_redirects=False)
+			if params:
+				request = self.session.get(url, params=params, timeout=10, allow_redirects=False)
+			else:
+				request = self.session.get(url, timeout=10, allow_redirects=False)
 		except requests.exceptions.Timeout:
 			logger.warning("Reached timeout error for request on link {url}".format(url=url))
 			self.downtime_controller()
@@ -354,3 +384,6 @@ def essential_info(change, changed_categories):
 	if identification_string in settings["ignored"]:
 		return
 	appearance_mode(identification_string, change, parsed_comment, changed_categories, recent_changes)
+
+def abuselog_processing(entry, recent_changes):
+	abuselog_appearance_mode(entry, recent_changes)

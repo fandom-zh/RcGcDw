@@ -30,6 +30,7 @@
    "wiki_bot_password": "",
    "show_added_categories": true,
    "show_bots": false,
+   "show_abuselog": false,
    "logging": {
        "version": 1,
        "disable_existing_loggers": false,

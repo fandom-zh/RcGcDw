@@ -19,8 +19,42 @@ ngettext = rc_formatters.ngettext
 
 logger = logging.getLogger("rcgcdw.rc_formatters")
 #from src.rcgcdw import recent_changes, ngettext, logger, profile_field_name, LinkParser, pull_comment
+abusefilter_results = {"": _("None"), "warn": _("Warning issued"), "block": _("**Blocked user**"), "tag": _("Tagged the edit"), "disallow": _("Disallowed the action"), "rangeblock": _("IP range blocked"), "throttle": _("Throttled actions"), "blockautopromote": _("Blocked role autopromotion"), "degroup": _("**Removed from privilaged groups**")}
+abusefilter_actions = {"edit": _("Edit"), "upload": _("Upload"), "move": _("Move"), "stashupload": _("Stash upload"), "delete": _("Deletion"), "createaccount": _("Account creation"), "autocreateaccount": _("Auto account creation")}
 
 LinkParser = LinkParser()
+
+def format_user(change, recent_changes, action):
+	if "anon" in change:
+		author_url = create_article_path("Special:Contributions/{user}".format(
+			user=change["user"].replace(" ", "_")))  # Replace here needed in case of #75
+		logger.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
+		if change["user"] not in list(recent_changes.map_ips.keys()):
+			contibs = safe_read(recent_changes.safe_request(
+				"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+					wiki=WIKI_API_PATH, user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
+			if contibs is None:
+				logger.warning(
+					"WARNING: Something went wrong when checking amount of contributions for given IP address")
+				change["user"] = change["user"] + "(?)"
+			else:
+				recent_changes.map_ips[change["user"]] = len(contibs)
+				logger.debug(
+					"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+				change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
+		else:
+			logger.debug(
+				"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+			if action in ("edit", "new"):
+				recent_changes.map_ips[change["user"]] += 1
+			change["user"] = "{author} ({amount})".format(author=change["user"],
+			                                              amount=recent_changes.map_ips[change["user"]])
+	else:
+		author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
+	return change["user"], author_url
+
+def compact_abuselog_formatter(change, recent_changes):
+	pass
 
 def compact_formatter(action, change, parsed_comment, categories, recent_changes):
 	if action != "suppressed":
@@ -330,36 +364,25 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				event=action, author=author, author_url=author_url, support=settings["support"])
 	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content))
 
+def embed_abuselog_formatter(change, recent_changes):
+	action = "abuselog/{}".format(change["result"])
+	embed = DiscordMessage("embed", action, settings["webhookURL"])
+	raw_username = change["user"]
+	change["user"], author_url = format_user(change, recent_changes, action)
+	embed["title"] = _("{user} triggered \"{abuse_filter}\"").format(user=raw_username, abuse_filter=change["filter"])
+	embed.add_field(_("Performed"), abusefilter_actions.get(change["action"], _("Unknown")))
+	embed.add_field(_("Action taken"), abusefilter_results.get(change["result"], _("Unknown")))
+	embed.add_field(_("Title"), change.get("title", _("Unknown")))
+	embed.finish_embed()
+	send_to_discord(embed)
+
 
 def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	embed = DiscordMessage("embed", action, settings["webhookURL"])
 	if parsed_comment is None:
 		parsed_comment = _("No description provided")
 	if action != "suppressed":
-		if "anon" in change:
-			author_url = create_article_path("Special:Contributions/{user}".format(user=change["user"].replace(" ", "_")))  # Replace here needed in case of #75
-			logger.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
-			if change["user"] not in list(recent_changes.map_ips.keys()):
-				contibs = safe_read(recent_changes.safe_request(
-					"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
-						wiki=WIKI_API_PATH, user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
-				if contibs is None:
-					logger.warning(
-						"WARNING: Something went wrong when checking amount of contributions for given IP address")
-					change["user"] = change["user"] + "(?)"
-				else:
-					recent_changes.map_ips[change["user"]] = len(contibs)
-					logger.debug("Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
-					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
-			else:
-				logger.debug(
-					"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
-				if action in ("edit", "new"):
-					recent_changes.map_ips[change["user"]] += 1
-				change["user"] = "{author} ({amount})".format(author=change["user"],
-				                                              amount=recent_changes.map_ips[change["user"]])
-		else:
-			author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
+		change["user"], author_url = format_user(change, recent_changes, action)
 		embed.set_author(change["user"], author_url)
 	if action in ("edit", "new"):  # edit or new page
 		editsize = change["newlen"] - change["oldlen"]

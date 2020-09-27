@@ -30,7 +30,7 @@ _ = misc.gettext
 
 misc_logger = logging.getLogger("rcgcdw.misc")
 
-data_template = {"rcid": 99999999999, "discussion_id": 0,
+data_template = {"rcid": 99999999999, "discussion_id": 0, "abuse_log_id": 0,
                  "daily_overview": {"edits": None, "new_files": None, "admin_actions": None, "bytes_changed": None,
                                     "new_articles": None, "unique_editors": None, "day_score": None, "days_tracked": 0}}
 
