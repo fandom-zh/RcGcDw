@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-10 16:15+0200\n"
-"PO-Revision-Date: 2020-09-03 11:19+0000\n"
+"PO-Revision-Date: 2020-10-13 16:56+0000\n"
 "Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
 "Language-Team: Russian <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/ru/>\n"
@@ -743,21 +743,22 @@ msgstr ""
 
 #: src/rc_formatters.py:671
 msgid "Created account automatically"
-msgstr ""
+msgstr "Учетная запись была создана автоматически"
 
 #: src/rc_formatters.py:674 src/rc_formatters.py:683
 msgid "Created account"
-msgstr ""
+msgstr "Создана учётная запись"
 
 #: src/rc_formatters.py:677
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created account {article}"
-msgstr "Удалил страницу «{article}»"
+msgstr "Создана учетная запись {article}"
 
 #: src/rc_formatters.py:680
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr ""
+"Создана учетная запись {article} и пароль был отправлен на электронную почту"
 
 #: src/rc_formatters.py:686
 msgid "Added an entry to the interwiki table"
@@ -847,9 +848,8 @@ msgid "Deactivated a tag \"{tag}\""
 msgstr "Деактивировал метку «{tag}»"
 
 #: src/rc_formatters.py:756
-#, fuzzy
 msgid "Action has been hidden by administration"
-msgstr "Действие было скрыто администрацией."
+msgstr "Действие было скрыто администрацией"
 
 #: src/rc_formatters.py:757
 msgid "Unknown"

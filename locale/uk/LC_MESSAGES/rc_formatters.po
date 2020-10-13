@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-10 16:15+0200\n"
-"PO-Revision-Date: 2020-09-03 11:19+0000\n"
+"PO-Revision-Date: 2020-10-13 16:56+0000\n"
 "Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
 "Language-Team: Ukrainian <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/uk/>\n"
@@ -494,7 +494,7 @@ msgstr "__Тільки пробіли__"
 
 #: src/rc_formatters.py:412
 msgid "Removed"
-msgstr "видалено"
+msgstr "Видалено"
 
 #: src/rc_formatters.py:414
 msgid "Added"
@@ -734,21 +734,23 @@ msgstr "Об'єднав історії версій {article} з {dest}"
 
 #: src/rc_formatters.py:671
 msgid "Created account automatically"
-msgstr ""
+msgstr "Обліковий запис був створений автоматично"
 
 #: src/rc_formatters.py:674 src/rc_formatters.py:683
 msgid "Created account"
-msgstr ""
+msgstr "Створено обліковий запис"
 
 #: src/rc_formatters.py:677
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created account {article}"
-msgstr "Вилучив сторінку {article}"
+msgstr "Створено обліковий запис {article}"
 
 #: src/rc_formatters.py:680
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr ""
+"Створено обліковий запис {article} і і пароль був відправлений на електронну "
+"пошту"
 
 #: src/rc_formatters.py:686
 msgid "Added an entry to the interwiki table"
@@ -869,7 +871,7 @@ msgstr " та ще {}\n"
 
 #: src/rc_formatters.py:790
 msgid "**Removed**: "
-msgstr "**видалено**: "
+msgstr "**Видалено**: "
 
 #: src/rc_formatters.py:790
 msgid " and {} more"
