@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 14:00+0200\n"
+"POT-Creation-Date: 2020-10-14 20:55+0200\n"
 "PO-Revision-Date: 2020-03-18 13:59+0100\n"
 "Last-Translator: BabylonAS\n"
 "Language-Team: \n"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__И ещё__"
 
-#: src/misc.py:423
+#: src/misc.py:426
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: src/misc.py:425
+#: src/misc.py:428
 msgid "unknown"
 msgstr "неизвестно"

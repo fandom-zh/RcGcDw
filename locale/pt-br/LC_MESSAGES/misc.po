@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 14:00+0200\n"
+"POT-Creation-Date: 2020-10-14 20:55+0200\n"
 "PO-Revision-Date: 2020-08-04 09:51+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
@@ -79,11 +79,10 @@ msgstr ""
 "\n"
 "__E mais__"
 
-#: src/misc.py:423
+#: src/misc.py:426
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/misc.py:425
+#: src/misc.py:428
 msgid "unknown"
 msgstr "desconhecido"
-
