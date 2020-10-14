@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-14 20:55+0200\n"
-"PO-Revision-Date: 2020-09-04 14:55+0000\n"
+"PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/de/>\n"
@@ -19,67 +19,67 @@ msgstr ""
 
 #: src/rc_formatters.py:22
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 #: src/rc_formatters.py:22
 msgid "Warning issued"
-msgstr ""
+msgstr "Gewarnt"
 
 #: src/rc_formatters.py:22
 msgid "**Blocked user**"
-msgstr ""
+msgstr "**Benutzer gesperrt**"
 
 #: src/rc_formatters.py:22
 msgid "Tagged the edit"
-msgstr ""
+msgstr "Änderung markiert"
 
 #: src/rc_formatters.py:22
 msgid "Disallowed the action"
-msgstr ""
+msgstr "Aktion verhindert"
 
 #: src/rc_formatters.py:22
 msgid "IP range blocked"
-msgstr ""
+msgstr "IP-Adressbereich gesperrt"
 
 #: src/rc_formatters.py:22
 msgid "Throttled actions"
-msgstr ""
+msgstr "Aktionen gedrosselt"
 
 #: src/rc_formatters.py:22
 msgid "Blocked role autopromotion"
-msgstr ""
+msgstr "„Automatisch bestätigter Benutzer“-Status entzogen"
 
 #: src/rc_formatters.py:22
 msgid "**Removed from privilaged groups**"
-msgstr ""
+msgstr "**Gruppen mit Sonderrechten entfernt**"
 
 #: src/rc_formatters.py:23
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeitung"
 
 #: src/rc_formatters.py:23
 msgid "Upload"
-msgstr ""
+msgstr "Hochladen"
 
 #: src/rc_formatters.py:23
 msgid "Move"
-msgstr ""
+msgstr "Verschieben"
 
 #: src/rc_formatters.py:23
 msgid "Stash upload"
-msgstr ""
+msgstr "Hochladen vom Zwischenspeicher"
 
 #: src/rc_formatters.py:23
 msgid "Deletion"
-msgstr ""
+msgstr "Löschung"
 
 #: src/rc_formatters.py:23
 msgid "Account creation"
-msgstr ""
+msgstr "Benutzerkontenerstellung"
 
 #: src/rc_formatters.py:23
 msgid "Auto account creation"
-msgstr ""
+msgstr "Automatische Benutzerkontenerstellung"
 
 #: src/rc_formatters.py:76
 #, python-brace-format
@@ -291,22 +291,22 @@ msgid "none"
 msgstr "keine"
 
 #: src/rc_formatters.py:228
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}) from {old_groups} to {new_groups}{comment}"
 msgstr ""
-"[{author}]({author_url}) änderte das Inhaltsmodell der Seite [{article}]"
-"({article_url}) von {old} zu {new}{comment}"
+"[{author}]({author_url}) änderte die Benutzergruppen für "
+"[{target}]({target_url}) von {old_groups} zu {new_groups}{comment}"
 
 #: src/rc_formatters.py:230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{author} autopromoted [{target}]({target_url}) from {old_groups} to "
 "{new_groups}{comment}"
 msgstr ""
-"[{author}]({author_url}) änderte das Inhaltsmodell der Seite [{article}]"
-"({article_url}) von {old} zu {new}{comment}"
+"{author} änderte die Benutzergruppen für [{target}]({target_url}) "
+"automatisch von {old_groups} zu {new_groups}{comment}"
 
 #: src/rc_formatters.py:231 src/rc_formatters.py:630
 msgid "System"
@@ -544,11 +544,9 @@ msgstr ""
 "[{author}]({author_url}) deaktivierte eine [Markierung]({tag_url}) „{tag}“"
 
 #: src/rc_formatters.py:356
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings ({reason})"
-msgstr ""
-"[{author}]({author_url}) änderte die Sichtbarkeit eines "
-"Logbucheintrags{comment}"
+msgstr "[{author}]({author_url}) änderte Wiki-Einstellungen ({reason})"
 
 #: src/rc_formatters.py:358
 msgid "An action has been hidden by administration."
@@ -566,11 +564,11 @@ msgstr ""
 #: src/rc_formatters.py:374
 #, python-brace-format
 msgid "{user} triggered \"{abuse_filter}\""
-msgstr ""
+msgstr "{user} löste „{abuse_filter}“ aus"
 
 #: src/rc_formatters.py:375
 msgid "Performed"
-msgstr ""
+msgstr "Aktion"
 
 #: src/rc_formatters.py:375 src/rc_formatters.py:376 src/rc_formatters.py:377
 #: src/rc_formatters.py:787
@@ -579,11 +577,11 @@ msgstr "Unbekannt"
 
 #: src/rc_formatters.py:376
 msgid "Action taken"
-msgstr ""
+msgstr "Maßnahmen"
 
 #: src/rc_formatters.py:377
 msgid "Title"
-msgstr ""
+msgstr "Seite"
 
 #: src/rc_formatters.py:385 src/rc_formatters.py:646
 msgid "No description provided"
@@ -951,7 +949,7 @@ msgstr "Deaktivierte die Markierung „{tag}“"
 
 #: src/rc_formatters.py:781
 msgid "Changed wiki settings"
-msgstr ""
+msgstr "Änderte Wiki-Einstellungen"
 
 #: src/rc_formatters.py:786
 msgid "Action has been hidden by administration"
