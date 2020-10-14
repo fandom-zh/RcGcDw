@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-10 16:15+0200\n"
-"PO-Revision-Date: 2020-10-13 16:56+0000\n"
+"PO-Revision-Date: 2020-10-14 18:41+0000\n"
 "Last-Translator: Rail <rail01@protonmail.com>\n"
 "Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
@@ -680,7 +680,7 @@ msgstr "Zmieniono poziom zabezpieczeń {article}"
 #: src/rc_formatters.py:638
 #, python-brace-format
 msgid "Removed protection from {article}"
-msgstr "Usunięto zabezpieczenie {article}"
+msgstr "Usunięto zabezpieczenie z {article}"
 
 #: src/rc_formatters.py:642
 #, python-brace-format
@@ -705,7 +705,7 @@ msgstr "Przywrócono {article}"
 
 #: src/rc_formatters.py:655
 msgid "Changed visibility of log events"
-msgstr "Zmieniono widoczność logów"
+msgstr "Zmieniono widoczność wpisów rejestru"
 
 #: src/rc_formatters.py:658
 msgid "Imported interwiki"
@@ -742,7 +742,7 @@ msgstr "Utworzono konto {article}"
 #: src/rc_formatters.py:680
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
-msgstr "Utworzono konto {article} oraz wysłano hasło z użyciem e-maila"
+msgstr "Utworzono konto {article} oraz wysłano hasło z użyciem emaila"
 
 #: src/rc_formatters.py:686
 msgid "Added an entry to the interwiki table"
@@ -794,42 +794,42 @@ msgstr "Edytowano część sprite dla {article}"
 #: src/rc_formatters.py:720
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
-msgstr "Utworzono tabelę Cargo \"{table}\""
+msgstr "Utworzono tabelę Cargo „{table}”"
 
 #: src/rc_formatters.py:724
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr "Usunięto tabelę Cargo \"{table}\""
+msgstr "Usunięto tabelę Cargo „{table}”"
 
 #: src/rc_formatters.py:731
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
-msgstr "Utworzono ponownie tabelę Cargo \"{table}\""
+msgstr "Utworzono ponownie tabelę Cargo „{table}”"
 
 #: src/rc_formatters.py:738
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
-msgstr "Zastąpiono tabelę Cargo \"{table}\""
+msgstr "Zastąpiono tabelę Cargo „{table}”"
 
 #: src/rc_formatters.py:742
 #, python-brace-format
 msgid "Created a tag \"{tag}\""
-msgstr "Utworzono tag \"{tag}\""
+msgstr "Utworzono znacznik „{tag}”"
 
 #: src/rc_formatters.py:746
 #, python-brace-format
 msgid "Deleted a tag \"{tag}\""
-msgstr "Usunięto tag \"{tag}\""
+msgstr "Usunięto znacznik „{tag}”"
 
 #: src/rc_formatters.py:750
 #, python-brace-format
 msgid "Activated a tag \"{tag}\""
-msgstr "Aktywowano tag \"{tag}\""
+msgstr "Aktywowano znaczni „{tag}”"
 
 #: src/rc_formatters.py:753
 #, python-brace-format
 msgid "Deactivated a tag \"{tag}\""
-msgstr "Dezaktywowano tag \"{tag}\""
+msgstr "Dezaktywowano znacznik „{tag}”"
 
 #: src/rc_formatters.py:756
 msgid "Action has been hidden by administration"
@@ -850,7 +850,7 @@ msgstr "Zgłoś to na serwerze wsparcia"
 
 #: src/rc_formatters.py:786
 msgid "Tags"
-msgstr "Tagi"
+msgstr "Znaczniki"
 
 #: src/rc_formatters.py:789
 msgid "**Added**: "
