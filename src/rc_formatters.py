@@ -19,7 +19,7 @@ ngettext = rc_formatters.ngettext
 
 logger = logging.getLogger("rcgcdw.rc_formatters")
 #from src.rcgcdw import recent_changes, ngettext, logger, profile_field_name, LinkParser, pull_comment
-abusefilter_results = {"": _("None"), "warn": _("Warning issued"), "block": _("**Blocked user**"), "tag": _("Tagged the edit"), "disallow": _("Disallowed the action"), "rangeblock": _("IP range blocked"), "throttle": _("Throttled actions"), "blockautopromote": _("Blocked role autopromotion"), "degroup": _("**Removed from privilaged groups**")}
+abusefilter_results = {"": _("None"), "warn": _("Warning issued"), "block": _("**Blocked user**"), "tag": _("Tagged the edit"), "disallow": _("Disallowed the action"), "rangeblock": _("**IP range blocked**"), "throttle": _("Throttled actions"), "blockautopromote": _("Removed autoconfirmed group"), "degroup": _("**Removed from privileged groups**")}
 abusefilter_actions = {"edit": _("Edit"), "upload": _("Upload"), "move": _("Move"), "stashupload": _("Stash upload"), "delete": _("Deletion"), "createaccount": _("Account creation"), "autocreateaccount": _("Auto account creation")}
 
 LinkParser = LinkParser()
@@ -54,7 +54,15 @@ def format_user(change, recent_changes, action):
 	return change["user"], author_url
 
 def compact_abuselog_formatter(change, recent_changes):
-	pass
+	action = "abuselog/{}".format(change["result"])
+	author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
+	author = change["user"]
+	message = _("[{author}]({author_url}) triggered {abuse_filter}, performing the action \"{action}\" on {target}. Action taken: {result}.").format(
+		author=author, author_url=author_url, abuse_filter=change["filter"],
+		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
+		result=abusefilter_results.get(change["result"], _("Unknown")))
+	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message))
+
 
 def compact_formatter(action, change, parsed_comment, categories, recent_changes):
 	if action != "suppressed":
