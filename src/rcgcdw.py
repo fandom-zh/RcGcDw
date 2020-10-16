@@ -78,7 +78,7 @@ def day_overview_request():
 				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
 			except ValueError:
 				logger.warning("ValueError in fetching changes")
-				recent_changes.downtime_controller()
+				recent_changes.downtime_controller(True)
 				complete = 2
 			except KeyError:
 				logger.warning("Wiki returned %s" % (request))

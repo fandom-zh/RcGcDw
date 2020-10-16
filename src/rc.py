@@ -110,6 +110,7 @@ class Recent_Changes_Class(object):
 
 	def fetch(self, amount=settings["limit"]):
 		messagequeue.resend_msgs()
+		rcrequest = self.fetch_recentchanges_request(amount)
 		last_check = self.fetch_changes(amount=amount)
 		# If the request succeeds the last_check will be the last rcid from recentchanges query
 		if last_check is not None:
@@ -122,7 +123,24 @@ class Recent_Changes_Class(object):
 		logger.debug("Most recent rcid is: {}".format(self.recent_id))
 		return self.recent_id
 
+	def fetch_recentchanges_request(self, amount):
+		"""Make a typical MW request for rc/abuselog
+
+		If succeeds return the .json() of request and if not raises ConnectionError"""
+		request = self.safe_request(WIKI_API_PATH, params=self.construct_params(amount))
+		if request is not None:
+			try:
+				request = request.json()
+			except ValueError:
+				logger.warning("ValueError in fetching changes")
+				logger.warning("Changes URL:" + request.url)
+				self.downtime_controller(True)
+				raise ConnectionError
+			return request
+		raise ConnectionError
+
 	def construct_params(self, amount):
+		"""Constructs GET parameters for recentchanges/abuselog fetching feature"""
 		params = OrderedDict(action="query", format="json")
 		params["list"] = "recentchanges|abuselog" if settings.get("show_abuselog", False) else "recentchanges"
 		params["rcshow"] = "" if settings.get("show_bots", False) else "!bot"
@@ -134,6 +152,75 @@ class Recent_Changes_Class(object):
 			params["aflprop"] = "ids|user|title|action|result|timestamp|hidden|revid|filter"
 		return params
 
+	def prepare_rc(self, changes: list, clean: bool, amount: int):
+		"""Processes recent changes messages"""
+		categorize_events = {}
+		new_events = 0
+		changes.reverse()
+		for change in changes:
+			if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id) and not clean:
+				new_events += 1
+				logger.debug(
+					"New event: {}".format(change["rcid"]))
+				if new_events == settings["limit"]:
+					if amount < 500:
+						# call the function again with max limit for more results, ignore the ones in this request
+						logger.debug("There were too many new events, requesting max amount of events from the wiki.")
+						return self.fetch(amount=5000 if self.logged_in else 500)
+					else:
+						logger.debug(
+							"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
+			if change["type"] == "categorize":
+				if "commenthidden" not in change:
+					if len(recent_changes.mw_messages.keys()) > 0:
+						cat_title = change["title"].split(':', 1)[1]
+						# I so much hate this, blame Markus for making me do this
+						if change["revid"] not in categorize_events:
+							categorize_events[change["revid"]] = {"new": set(), "removed": set()}
+						comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
+						if recent_changes.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or \
+								recent_changes.mw_messages[
+									"recentchanges-page-added-to-category-bundled"] in comment_to_match:
+							categorize_events[change["revid"]]["new"].add(cat_title)
+							logger.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
+						elif recent_changes.mw_messages[
+							"recentchanges-page-removed-from-category"] in comment_to_match or \
+								recent_changes.mw_messages[
+									"recentchanges-page-removed-from-category-bundled"] in comment_to_match:
+							categorize_events[change["revid"]]["removed"].add(cat_title)
+							logger.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
+						else:
+							logger.debug(
+								"Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(
+									recent_changes.mw_messages["recentchanges-page-added-to-category"],
+									recent_changes.mw_messages["recentchanges-page-removed-from-category"],
+									recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"],
+									recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"],
+									comment_to_match))
+					else:
+						logger.warning(
+							"Init information not available, could not read category information. Please restart the bot.")
+				else:
+					logger.debug("Log entry got suppressed, ignoring entry.")
+		for change in changes:
+			if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
+				logger.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
+				                                                                          self.recent_id))
+				continue
+			logger.debug(self.ids)
+			logger.debug(self.recent_id)
+			self.add_cache(change)
+			if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
+				logger.debug("Rejected {val}".format(val=change["rcid"]))
+				continue
+			essential_info(change, categorize_events.get(change.get("revid"), None))
+
+	def prepare_abuse_log(self, abuse_log: list):
+		abuse_log.reverse()
+		for entry in abuse_log:
+			abuselog_processing(entry, self)
+		return change["rcid"]
+
 	def fetch_changes(self, amount, clean=False):
 		"""Fetches the :amount: of changes from the wiki.
 		Returns None on error and int of rcid of latest change if succeeded"""
@@ -141,96 +228,28 @@ class Recent_Changes_Class(object):
 		if len(self.ids) == 0:
 			logger.debug("ids is empty, triggering clean fetch")
 			clean = True
-		raw_changes = self.safe_request(WIKI_API_PATH, params=self.construct_params(amount))
-		# action=query&format=json&list=recentchanges%7Cabuselog&rcprop=title%7Credirect%7Ctimestamp%7Cids%7Cloginfo%7Cparsedcomment%7Csizes%7Cflags%7Ctags%7Cuser&rcshow=!bot&rclimit=20&rctype=edit%7Cnew%7Clog%7Cexternal&afllimit=10&aflprop=ids%7Cuser%7Ctitle%7Caction%7Cresult%7Ctimestamp%7Chidden%7Crevid%7Cfilter
-		if raw_changes:
+		try:
+			request_json = self.fetch_recentchanges_request(amount)
+		except ConnectionError:
+			return
+		try:
+			rc = request_json["query"]['recentchanges']
+		except KeyError:
+			logger.warning("Path query.recentchanges not found inside request body. Skipping...")
+			return
+		else:
+			self.prepare_rc(rc, clean, amount)
+		if settings["show_abuselog"]:
 			try:
-				raw_changes = raw_changes.json()
-				changes = raw_changes['query']['recentchanges']
-				# {"batchcomplete":"","warnings":{"query":{"*":"Unrecognized value for parameter \"list\": abuselog."}}}
-				changes.reverse()
-				if "warnings" in raw_changes:
-					warnings = raw_changes.get("warnings", {"query": {"*": ""}})
-					if warnings["query"]["*"] == "Unrecognized value for parameter \"list\": abuselog.":
+				abuselog = request_json["query"]["abuselog"]  # While LYBL approach would be more performant when abuselog is not in request body, I prefer this approach for its clarity
+			except KeyError:
+				if "warnings" in request_json:
+					warnings = request_json.get("warnings", {"query": {"*": ""}})
+					if "Unrecognized value for parameter \"list\": abuselog." in warnings["query"]["*"]:
 						settings["show_abuselog"] = False
 						logger.warning("AbuseLog extension is not enabled on the wiki. Disabling the function...")
-			except ValueError:
-				logger.warning("ValueError in fetching changes")
-				logger.warning("Changes URL:" + raw_changes.url)
-				self.downtime_controller()
-				return None
-			except KeyError:
-				logger.warning("Wiki returned %s" % (raw_changes))
-				return None
 			else:
-				if self.downtimecredibility > 0:
-					self.downtimecredibility -= 1
-					if self.streak > -1:
-						self.streak += 1
-					if self.streak > 8:
-						self.streak = -1
-						send_simple("down_detector", _("Connection to {wiki} seems to be stable now.").format(wiki=settings["wikiname"]),
-						     _("Connection status"), settings["avatars"]["connection_restored"])
-				# In the first for loop we analize the categorize events and figure if we will need more changes to fetch
-				# in order to cover all of the edits
-				categorize_events = {}
-				new_events = 0
-				for change in changes:
-					if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id) and not clean:
-						new_events += 1
-						logger.debug(
-							"New event: {}".format(change["rcid"]))
-						if new_events == settings["limit"]:
-							if amount < 500:
-								# call the function again with max limit for more results, ignore the ones in this request
-								logger.debug("There were too many new events, requesting max amount of events from the wiki.")
-								return self.fetch(amount=5000 if self.logged_in else 500)
-							else:
-								logger.debug(
-									"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
-					if change["type"] == "categorize":
-						if "commenthidden" not in change:
-							if len(recent_changes.mw_messages.keys()) > 0:
-								cat_title = change["title"].split(':', 1)[1]
-								# I so much hate this, blame Markus for making me do this
-								if change["revid"] not in categorize_events:
-									categorize_events[change["revid"]] = {"new": set(), "removed": set()}
-								comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
-								if recent_changes.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"] in comment_to_match:
-									categorize_events[change["revid"]]["new"].add(cat_title)
-									logger.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
-								elif recent_changes.mw_messages["recentchanges-page-removed-from-category"] in comment_to_match or recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"] in comment_to_match:
-									categorize_events[change["revid"]]["removed"].add(cat_title)
-									logger.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
-								else:
-									logger.debug("Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(recent_changes.mw_messages["recentchanges-page-added-to-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category"], recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"], recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"], comment_to_match))
-							else:
-								logger.warning("Init information not available, could not read category information. Please restart the bot.")
-						else:
-							logger.debug("Log entry got suppressed, ignoring entry.")
-				# if change["revid"] in categorize_events:
-						# 	categorize_events[change["revid"]].append(cat_title)
-						# else:
-						# 	logger.debug("New category '{}' for {}".format(cat_title, change["revid"]))
-						# 	categorize_events[change["revid"]] = {cat_title: }
-				for change in changes:
-					if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
-						logger.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
-						                                                                           self.recent_id))
-						continue
-					logger.debug(self.ids)
-					logger.debug(self.recent_id)
-					self.add_cache(change)
-					if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
-						logger.debug("Rejected {val}".format(val=change["rcid"]))
-						continue
-					essential_info(change, categorize_events.get(change.get("revid"), None))
-				if "abuselog" in raw_changes["query"]:
-					abuse_log = raw_changes['query']['recentchanges']
-					abuse_log.reverse()
-					for entry in abuse_log:
-						abuselog_processing(entry, self)
-				return change["rcid"]
+				self.prepare_abuse_log(abuselog)
 
 	def safe_request(self, url, params=None):
 		try:
@@ -240,19 +259,19 @@ class Recent_Changes_Class(object):
 				request = self.session.get(url, timeout=10, allow_redirects=False)
 		except requests.exceptions.Timeout:
 			logger.warning("Reached timeout error for request on link {url}".format(url=url))
-			self.downtime_controller()
+			self.downtime_controller(True)
 			return None
 		except requests.exceptions.ConnectionError:
 			logger.warning("Reached connection error for request on link {url}".format(url=url))
-			self.downtime_controller()
+			self.downtime_controller(True)
 			return None
 		except requests.exceptions.ChunkedEncodingError:
 			logger.warning("Detected faulty response from the web server for request on link {url}".format(url=url))
-			self.downtime_controller()
+			self.downtime_controller(True)
 			return None
 		else:
 			if 499 < request.status_code < 600:
-				self.downtime_controller()
+				self.downtime_controller(True)
 				return None
 			elif request.status_code == 302:
 				logger.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or Gamepedia is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
@@ -282,20 +301,31 @@ class Recent_Changes_Class(object):
 			return False
 		return True
 
-	def downtime_controller(self):
+	def downtime_controller(self, down):
 		if not settings["show_updown_messages"]:
 			return
-		if self.streak > -1:  # reset the streak of successful connections when bad one happens
-			self.streak = 0
-		if self.downtimecredibility < 60:
-			self.downtimecredibility += 15
-		else:
-			if (
-					time.time() - self.last_downtime) > 1800 and self.check_connection():  # check if last downtime happened within 30 minutes, if yes, don't send a message
-				send_simple("down_detector", _("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]),
-				     _("Connection status"), settings["avatars"]["connection_failed"])
-				self.last_downtime = time.time()
+		if down:
+			if self.streak > -1:  # reset the streak of successful connections when bad one happens
 				self.streak = 0
+			if self.downtimecredibility < 60:
+				self.downtimecredibility += 15
+			else:
+				if (
+						time.time() - self.last_downtime) > 1800 and self.check_connection():  # check if last downtime happened within 30 minutes, if yes, don't send a message
+					send_simple("down_detector", _("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]),
+					     _("Connection status"), settings["avatars"]["connection_failed"])
+					self.last_downtime = time.time()
+					self.streak = 0
+		else:
+			if self.downtimecredibility > 0:
+				self.downtimecredibility -= 1
+				if self.streak > -1:
+					self.streak += 1
+				if self.streak > 8:
+					self.streak = -1
+					send_simple("down_detector", _("Connection to {wiki} seems to be stable now.").format(
+						wiki=settings["wikiname"]),
+					            _("Connection status"), settings["avatars"]["connection_restored"])
 
 	def clear_cache(self):
 		self.map_ips = {}
