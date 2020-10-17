@@ -30,7 +30,7 @@ _ = misc.gettext
 
 misc_logger = logging.getLogger("rcgcdw.misc")
 
-data_template = {"rcid": 99999999999, "discussion_id": 0, "abuse_log_id": 0,
+data_template = {"rcid": None, "discussion_id": 0, "abuse_log_id": None,
                  "daily_overview": {"edits": None, "new_files": None, "admin_actions": None, "bytes_changed": None,
                                     "new_articles": None, "unique_editors": None, "day_score": None, "days_tracked": 0}}
 
@@ -45,6 +45,7 @@ class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
 	def __init__(self):
 		self.data = self.load_datafile()
+		self.changed = False
 
 	@staticmethod
 	def generate_datafile():
@@ -70,12 +71,23 @@ class DataFile:
 
 	def save_datafile(self):
 		"""Overwrites the data.json file with given dictionary"""
+		if self.changed is False:  # don't cause unnecessary write operations
+			return
 		try:
 			with open("data.json", "w") as data_file:
 				data_file.write(json.dumps(self.data, indent=4))
+			self.changed = False
 		except PermissionError:
 			misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
 			sys.exit(1)
+
+	def __setitem__(self, instance, value):
+		self.data[instance] = value
+		self.changed = True
+
+	def __getitem__(self, item):
+		return self.data[item]
+
 
 
 class MessageQueue:

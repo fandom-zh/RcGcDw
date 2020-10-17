@@ -57,9 +57,10 @@ def compact_abuselog_formatter(change, recent_changes):
 	action = "abuselog/{}".format(change["result"])
 	author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
 	author = change["user"]
-	message = _("[{author}]({author_url}) triggered {abuse_filter}, performing the action \"{action}\" on {target}. Action taken: {result}.").format(
+	message = _("[{author}]({author_url}) triggered *{abuse_filter}*, performing the action \"{action}\" on *[{target}]({target_url})* - action taken: {result}.").format(
 		author=author, author_url=author_url, abuse_filter=change["filter"],
 		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
+		target_url=create_article_path(change.get("title", _("Unknown"))),
 		result=abusefilter_results.get(change["result"], _("Unknown")))
 	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message))
 
@@ -130,7 +131,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			link = link_formatter(create_article_path("Special:Contributions/{user}".format(user=user)))
 		except ValueError:
 			link = link_formatter(create_article_path(change["title"]))
-		if change["logparams"]["duration"] in ["infinite", "infinity"]:
+		if change["logparams"]["duration"] in ["infinite", "infinity", "indefinite", "never"]:
 			block_time = _("for infinity and beyond")
 		else:
 			english_length = re.sub(r"(\d+)", "", change["logparams"][

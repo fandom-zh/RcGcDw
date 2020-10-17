@@ -15,7 +15,7 @@ from collections import OrderedDict
 
 _ = rc.gettext
 
-storage = datafile.data
+storage = datafile
 
 logger = logging.getLogger("rcgcdw.rc")
 
@@ -38,10 +38,7 @@ LinkParser = LinkParser()
 class Recent_Changes_Class(object):
 	"""Store verious data and functions related to wiki and fetching of Recent Changes"""
 	def __init__(self):
-		self.ids = []
 		self.map_ips = {}
-		self.recent_id = 0
-		self.recent_abuse_id = 0
 		self.downtimecredibility = 0
 		self.last_downtime = 0
 		self.tags = {}
@@ -51,10 +48,7 @@ class Recent_Changes_Class(object):
 		self.namespaces = None
 		self.session = session
 		self.logged_in = False
-		if settings["limitrefetch"] != -1:
-			self.file_id = storage["rcid"]
-		else:
-			self.file_id = 999999999  # such value won't cause trouble, and it will make sure no refetch happen
+		self.initial_run_complete = False
 
 	@staticmethod
 	def handle_mw_errors(request):
@@ -102,26 +96,24 @@ class Recent_Changes_Class(object):
 		except:
 			logger.error("Logging in have not succeeded")
 
-	def add_cache(self, change):
-		self.ids.append(change["rcid"])
-		# self.recent_id = change["rcid"]
-		if len(self.ids) > settings["limitrefetch"] + 5:
-			self.ids.pop(0)
-
 	def fetch(self, amount=settings["limit"]):
 		messagequeue.resend_msgs()
-		rcrequest = self.fetch_recentchanges_request(amount)
 		last_check = self.fetch_changes(amount=amount)
-		# If the request succeeds the last_check will be the last rcid from recentchanges query
 		if last_check is not None:
-			self.recent_id = last_check
-		# Assigns self.recent_id the last rcid if request succeeded, otherwise set the id from the file
-		if settings["limitrefetch"] != -1 and self.recent_id != self.file_id and self.recent_id != 0:  # if saving to database is disabled, don't save the recent_id
-			self.file_id = self.recent_id
-			storage["rcid"] = self.recent_id
-			datafile.save_datafile()
-		logger.debug("Most recent rcid is: {}".format(self.recent_id))
-		return self.recent_id
+			storage["rcid"] = last_check[0] if last_check[0] else storage["rcid"]
+			storage["abuse_log_id"] = last_check[1] if last_check[1] else storage["abuse_log_id"]
+			storage.save_datafile()
+		self.initial_run_complete = True
+		# If the request succeeds the last_check will be the last rcid from recentchanges query
+		# if last_check is not None:
+		# 	self.recent_id = last_check
+		# # Assigns self.recent_id the last rcid if request succeeded, otherwise set the id from the file
+		# if settings["limitrefetch"] != -1 and self.recent_id != self.file_id and self.recent_id != 0:  # if saving to database is disabled, don't save the recent_id
+		# 	self.file_id = self.recent_id
+		# 	storage["rcid"] = self.recent_id
+		# 	datafile.save_datafile()
+		# logger.debug("Most recent rcid is: {}".format(self.recent_id))
+		# return self.recent_id
 
 	def fetch_recentchanges_request(self, amount):
 		"""Make a typical MW request for rc/abuselog
@@ -152,17 +144,21 @@ class Recent_Changes_Class(object):
 			params["aflprop"] = "ids|user|title|action|result|timestamp|hidden|revid|filter"
 		return params
 
-	def prepare_rc(self, changes: list, clean: bool, amount: int):
+	def prepare_rc(self, changes: list, amount: int):
 		"""Processes recent changes messages"""
+		if not changes:
+			return None
 		categorize_events = {}
 		new_events = 0
 		changes.reverse()
+		recent_id = storage["rcid"]
+		dry_run = True if recent_id is None else False
 		for change in changes:
-			if not (change["rcid"] in self.ids or change["rcid"] < self.recent_id) and not clean:
+			if not dry_run and not (change["rcid"] <= recent_id):
 				new_events += 1
 				logger.debug(
 					"New event: {}".format(change["rcid"]))
-				if new_events == settings["limit"]:
+				if new_events == settings["limit"] and not (amount == settings["limitrefetch"] and self.initial_run_complete is False):
 					if amount < 500:
 						# call the function again with max limit for more results, ignore the ones in this request
 						logger.debug("There were too many new events, requesting max amount of events from the wiki.")
@@ -202,32 +198,41 @@ class Recent_Changes_Class(object):
 							"Init information not available, could not read category information. Please restart the bot.")
 				else:
 					logger.debug("Log entry got suppressed, ignoring entry.")
-		for change in changes:
-			if change["rcid"] in self.ids or change["rcid"] < self.recent_id:
-				logger.debug("Change ({}) is in ids or is lower than recent_id {}".format(change["rcid"],
-				                                                                          self.recent_id))
-				continue
-			logger.debug(self.ids)
-			logger.debug(self.recent_id)
-			self.add_cache(change)
-			if clean and not (self.recent_id == 0 and change["rcid"] > self.file_id):
-				logger.debug("Rejected {val}".format(val=change["rcid"]))
-				continue
-			essential_info(change, categorize_events.get(change.get("revid"), None))
-
-	def prepare_abuse_log(self, abuse_log: list):
-		abuse_log.reverse()
-		for entry in abuse_log:
-			abuselog_processing(entry, self)
+		if not dry_run:
+			for change in changes:
+				if change["rcid"] <= recent_id:
+					logger.debug("Change ({}) is lower or equal to recent_id {}".format(change["rcid"], recent_id))
+					continue
+				logger.debug(recent_id)
+				essential_info(change, categorize_events.get(change.get("revid"), None))
 		return change["rcid"]
 
-	def fetch_changes(self, amount, clean=False):
+	def prepare_abuse_log(self, abuse_log: list):
+		if not abuse_log:
+			return None
+		abuse_log.reverse()
+		recent_id = storage["abuse_log_id"]
+		dryrun = True if recent_id is None else False
+		for entry in abuse_log:
+			if dryrun:
+				continue
+			if entry["id"] <= recent_id:
+				continue
+			abuselog_processing(entry, self)
+		return entry["id"]
+
+	# def filter_logic(self, clean_status, change_id, file_id):
+	# 	"""Function that filers which changes should be sent and which not. Returns True if to send, False otherwise"""
+	# 	if clean_status and not change_id > file_id:
+	# 		return False
+	# 	return True
+
+	def fetch_changes(self, amount):
 		"""Fetches the :amount: of changes from the wiki.
 		Returns None on error and int of rcid of latest change if succeeded"""
 		global logged_in
-		if len(self.ids) == 0:
-			logger.debug("ids is empty, triggering clean fetch")
-			clean = True
+		rc_last_id = None
+		abuselog_last_id = None
 		try:
 			request_json = self.fetch_recentchanges_request(amount)
 		except ConnectionError:
@@ -238,7 +243,7 @@ class Recent_Changes_Class(object):
 			logger.warning("Path query.recentchanges not found inside request body. Skipping...")
 			return
 		else:
-			self.prepare_rc(rc, clean, amount)
+			rc_last_id = self.prepare_rc(rc, amount)
 		if settings["show_abuselog"]:
 			try:
 				abuselog = request_json["query"]["abuselog"]  # While LYBL approach would be more performant when abuselog is not in request body, I prefer this approach for its clarity
@@ -249,7 +254,8 @@ class Recent_Changes_Class(object):
 						settings["show_abuselog"] = False
 						logger.warning("AbuseLog extension is not enabled on the wiki. Disabling the function...")
 			else:
-				self.prepare_abuse_log(abuselog)
+				abuselog_last_id = self.prepare_abuse_log(abuselog)
+		return rc_last_id, abuselog_last_id
 
 	def safe_request(self, url, params=None):
 		try:

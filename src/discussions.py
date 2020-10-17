@@ -33,10 +33,10 @@ discussion_logger = logging.getLogger("rcgcdw.disc")
 # Create a variable in datafile if it doesn't exist yet (in files <1.10)
 
 if "discussion_id" not in datafile.data:
-	datafile.data["discussion_id"] = 0
+	datafile["discussion_id"] = 0
 	datafile.save_datafile()
 
-storage = datafile.data
+storage = datafile
 
 fetch_url = "https://services.fandom.com/discussion/{wikiid}/posts?sortDirection=descending&sortKey=creation_date&limit={limit}".format(wikiid=settings["fandom_discussions"]["wiki_id"], limit=settings["fandom_discussions"]["limit"])
 domain = prepare_paths(settings["fandom_discussions"]["wiki_url"], dry=True)  # Shutdown if the path for discussions is wrong
@@ -52,7 +52,7 @@ def fetch_discussions():
 			discussion_logger.warning("ValueError in fetching discussions")
 			return None
 		except KeyError:
-			discussion_logger.warning("Wiki returned %s" % (request_json.json()))
+			discussion_logger.warning("Wiki returned %s" % (request.json()))
 			return None
 		else:
 			if request_json:
