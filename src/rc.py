@@ -104,16 +104,6 @@ class Recent_Changes_Class(object):
 			storage["abuse_log_id"] = last_check[1] if last_check[1] else storage["abuse_log_id"]
 			storage.save_datafile()
 		self.initial_run_complete = True
-		# If the request succeeds the last_check will be the last rcid from recentchanges query
-		# if last_check is not None:
-		# 	self.recent_id = last_check
-		# # Assigns self.recent_id the last rcid if request succeeded, otherwise set the id from the file
-		# if settings["limitrefetch"] != -1 and self.recent_id != self.file_id and self.recent_id != 0:  # if saving to database is disabled, don't save the recent_id
-		# 	self.file_id = self.recent_id
-		# 	storage["rcid"] = self.recent_id
-		# 	datafile.save_datafile()
-		# logger.debug("Most recent rcid is: {}".format(self.recent_id))
-		# return self.recent_id
 
 	def fetch_recentchanges_request(self, amount):
 		"""Make a typical MW request for rc/abuselog
@@ -220,12 +210,6 @@ class Recent_Changes_Class(object):
 				continue
 			abuselog_processing(entry, self)
 		return entry["id"]
-
-	# def filter_logic(self, clean_status, change_id, file_id):
-	# 	"""Function that filers which changes should be sent and which not. Returns True if to send, False otherwise"""
-	# 	if clean_status and not change_id > file_id:
-	# 		return False
-	# 	return True
 
 	def fetch_changes(self, amount):
 		"""Fetches the :amount: of changes from the wiki.

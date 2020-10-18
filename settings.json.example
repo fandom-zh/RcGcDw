@@ -31,6 +31,7 @@
    "show_added_categories": true,
    "show_bots": false,
    "show_abuselog": false,
+   "discord_message_cooldown": 0,
    "logging": {
        "version": 1,
        "disable_existing_loggers": false,

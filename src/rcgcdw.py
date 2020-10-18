@@ -46,7 +46,7 @@ logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 logger.debug("Current settings: {settings}".format(settings=settings))
 
-storage = datafile.data
+storage = datafile
 
 # Remove previous data holding file if exists and limitfetch allows
 
@@ -247,9 +247,7 @@ if 1 == 2: # additional translation strings in unreachable code
 
 if TESTING:
 	logger.debug("DEBUGGING ")
-	recent_changes.recent_id -= 5
-	recent_changes.file_id -= 5
-	recent_changes.ids = [1]
+	storage["rcid"] = 1
 	recent_changes.fetch(amount=5)
 	day_overview()
 	import src.discussions

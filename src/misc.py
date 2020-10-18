@@ -38,6 +38,7 @@ WIKI_API_PATH: str = ""
 WIKI_ARTICLE_PATH: str = ""
 WIKI_SCRIPT_PATH: str = ""
 WIKI_JUST_DOMAIN: str = ""
+rate_limit = 0
 
 profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XBL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
 
@@ -124,7 +125,6 @@ class MessageQueue:
 					                                                                                         str(item)))
 				if send_to_discord_webhook(item) < 2:
 					misc_logger.debug("Sending message succeeded")
-					time.sleep(2.5)
 				else:
 					misc_logger.debug("Sending message failed")
 					break
@@ -324,12 +324,24 @@ def send_simple(msgtype, message, name, avatar):
 	send_to_discord(discord_msg)
 
 
+def update_ratelimit(request):
+	"""Updates rate limit time"""
+	global rate_limit
+	rate_limit = 0 if int(request.headers.get('x-ratelimit-remaining', "-1")) > 0 else int(request.headers.get(
+		'x-ratelimit-reset-after', 0))
+	rate_limit += settings.get("discord_message_cooldown", 0)
+
+
 def send_to_discord_webhook(data):
+	global rate_limit
 	header = settings["header"]
 	header['Content-Type'] = 'application/json'
 	try:
+		time.sleep(rate_limit)
+		rate_limit = 0
 		result = requests.post(data.webhook_url, data=repr(data),
 		                       headers=header, timeout=10)
+		update_ratelimit(result)
 	except requests.exceptions.Timeout:
 		misc_logger.warning("Timeouted while sending data to the webhook.")
 		return 3
@@ -362,7 +374,6 @@ def send_to_discord(data):
 			time.sleep(5.0)
 			messagequeue.add_message(data)
 		elif code < 2:
-			time.sleep(2.0)
 			pass
 
 class DiscordMessage():
