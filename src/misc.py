@@ -18,7 +18,7 @@
 import base64
 import json, logging, sys, re, time, random, math
 from html.parser import HTMLParser
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse, quote
 import requests
 from collections import defaultdict
 from src.configloader import settings
@@ -144,7 +144,7 @@ def weighted_average(value, weight, new_value):
 
 def link_formatter(link):
 	"""Formats a link to not embed it"""
-	return "<" + re.sub(r"([)])", "\\\\\\1", link).replace(" ", "_") + ">"
+	return "<" + quote(link.replace(" ", "_"), "/:?") + ">"
 
 def escape_formatting(data):
 	"""Escape Discord formatting"""
