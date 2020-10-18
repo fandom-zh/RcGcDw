@@ -19,7 +19,20 @@ storage = datafile
 
 logger = logging.getLogger("rcgcdw.rc")
 
-supported_logs = ["protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload", "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event", "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir", "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights", "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add", "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created", "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/comment-purged", "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite", "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate", "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable", "cargo/recreatetable", "cargo/replacetable", "upload/revert", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers", "managewiki/settings"]
+supported_logs = {"protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload",
+                  "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event",
+                  "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir",
+                  "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights",
+                  "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add",
+                  "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created",
+                  "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/comment-purged",
+                  "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite",
+                  "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate",
+                  "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable",
+                  "cargo/recreatetable", "cargo/replacetable", "upload/revert", "newusers/create",
+                  "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers",
+                  "managewiki/settings", "managewiki/delete", "managewiki/lock", "managewiki/unlock",
+                  "managewiki/namespaces", "managewiki/namespaces-delete", "managewiki/rights", "managewiki/undelete"}
 
 # Set the proper formatter
 if settings["appearance"]["mode"] == "embed":

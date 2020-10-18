@@ -134,8 +134,10 @@ class MessageQueue:
 			self.cut_messages(num)
 			misc_logger.debug(self._queue)
 
+
 messagequeue = MessageQueue()
 datafile = DataFile()
+
 
 def weighted_average(value, weight, new_value):
 	"""Calculates weighted average of value number with weight weight and new_value with weight 1"""
@@ -146,9 +148,11 @@ def link_formatter(link):
 	"""Formats a link to not embed it"""
 	return "<" + quote(link.replace(" ", "_"), "/:?") + ">"
 
+
 def escape_formatting(data):
 	"""Escape Discord formatting"""
 	return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
+
 
 class ContentParser(HTMLParser):
 	more = _("\n__And more__")
