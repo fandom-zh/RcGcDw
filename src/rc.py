@@ -402,6 +402,8 @@ def essential_info(change, changed_categories):
 		if "userhidden" in change:
 			change["user"] = _("hidden")
 		identification_string = change["type"]
+	if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
+		return
 	elif change["type"] == "log":
 		identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
 		if identification_string not in supported_logs:
