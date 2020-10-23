@@ -49,7 +49,7 @@ def compact_formatter(post_type, post, article_paths):
 			message = "📩 "+_("[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], title=post["_embedded"]["thread"][0]["title"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
 	elif post_type == "ARTICLE_COMMENT":
 		if article_paths is None:
-			article_paths = {"title": _("unknown"), "fullUrl": "{wiki}wiki/{article}".format(wiki=settings["fandom_discussions"]["wiki_url"], article=_("unknown").replace(" ", "_"))}  # No page known
+			article_paths = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
 		if not post["isReply"]:
 			message = "🗒️ "+_(
 				"[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
@@ -145,8 +145,7 @@ def embed_formatter(post_type, post, article_paths):
 			embed["title"] = _("Replied to \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
 	elif post_type == "ARTICLE_COMMENT":
 		if article_paths is None:
-			article_page = {"title": _("unknown"), "fullUrl": "{wiki}wiki/{article}".format(wiki=settings["fandom_discussions"]["wiki_url"], article=_(
-				"unknown").replace(" ", "_"))}  # No page known
+			article_page = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
 		if not post["isReply"]:
 			embed.event_type = "discussion/comment/post"
 			embed["url"] = "{url}?commentId={commentId}".format(url=article_paths["fullUrl"], commentId=post["threadId"])
