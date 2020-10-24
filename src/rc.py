@@ -397,10 +397,10 @@ def essential_info(change, changed_categories):
 		parsed_comment = _("~~hidden~~")
 	if not parsed_comment:
 		parsed_comment = None
+	if "userhidden" in change:
+		change["user"] = _("hidden")
 	if change["type"] in ["edit", "new"]:
 		logger.debug("List of categories in essential_info: {}".format(changed_categories))
-		if "userhidden" in change:
-			change["user"] = _("hidden")
 		identification_string = change["type"]
 	if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
 		return
