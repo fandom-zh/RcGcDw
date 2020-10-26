@@ -67,7 +67,7 @@ def compact_formatter(post_type, post, article_paths):
 		else:
 			message = "❓ "+_("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=post_type, author=author, author_url=author_url, support=settings["support"])
-	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message))
+	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message), meta={"request_type": "POST"})
 
 
 def embed_formatter(post_type, post, article_paths):
@@ -168,7 +168,7 @@ def embed_formatter(post_type, post, article_paths):
 			else:
 				embed.add_field(_("Report this on the support server"), change_params)
 	embed.finish_embed()
-	send_to_discord(embed)
+	send_to_discord(embed, meta={"request_type": "POST"})
 
 
 class DiscussionsFromHellParser:

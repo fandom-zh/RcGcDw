@@ -161,10 +161,10 @@ def day_overview():
 				if item["type"] == "edit":
 					edits += 1
 					changed_bytes += item["newlen"] - item["oldlen"]
-					if "content" in recent_changes.namespaces.get(str(item["ns"]), {}) or not item["ns"]:
+					if (recent_changes.namespaces is not None and "content" in recent_changes.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
 						articles = add_to_dict(articles, item["title"])
 				elif item["type"] == "new":
-					if "content" in recent_changes.namespaces.get(str(item["ns"]), {}) or not item["ns"]:
+					if "content" in (recent_changes.namespaces is not None and recent_changes.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
 						new_articles += 1
 					changed_bytes += item["newlen"]
 				elif item["type"] == "log":
@@ -202,7 +202,7 @@ def day_overview():
 			for name, value in fields:
 				embed.add_field(name, value, inline=True)
 		embed.finish_embed()
-		send_to_discord(embed)
+		send_to_discord(embed, meta={"request_type": "POST"})
 	else:
 		logger.debug("function requesting changes for day overview returned with error code")
 

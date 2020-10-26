@@ -23,6 +23,7 @@ import requests
 from collections import defaultdict
 from src.configloader import settings
 from src.i18n import misc
+from typing import Optional
 
 _ = misc.gettext
 
@@ -123,7 +124,7 @@ class MessageQueue:
 				misc_logger.debug(
 					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
 					                                                                                         str(item)))
-				if send_to_discord_webhook(item) < 2:
+				if send_to_discord_webhook(item[0], metadata=item[1]) < 2:
 					misc_logger.debug("Sending message succeeded")
 				else:
 					misc_logger.debug("Sending message failed")
@@ -325,7 +326,7 @@ def send_simple(msgtype, message, name, avatar):
 	discord_msg.set_avatar(avatar)
 	discord_msg.set_name(name)
 	messagequeue.resend_msgs()
-	send_to_discord(discord_msg)
+	send_to_discord(discord_msg, meta={"request_type": "POST"})
 
 
 def update_ratelimit(request):
@@ -336,51 +337,8 @@ def update_ratelimit(request):
 	rate_limit += settings.get("discord_message_cooldown", 0)
 
 
-def send_to_discord_webhook(data):
-	global rate_limit
-	header = settings["header"]
-	header['Content-Type'] = 'application/json'
-	try:
-		time.sleep(rate_limit)
-		rate_limit = 0
-		result = requests.post(data.webhook_url, data=repr(data),
-		                       headers=header, timeout=10)
-		update_ratelimit(result)
-	except requests.exceptions.Timeout:
-		misc_logger.warning("Timeouted while sending data to the webhook.")
-		return 3
-	except requests.exceptions.ConnectionError:
-		misc_logger.warning("Connection error while sending the data to a webhook")
-		return 3
-	else:
-		return handle_discord_http(result.status_code, data, result)
 
-
-def send_to_discord(data):
-	for regex in settings["disallow_regexes"]:
-		if data.webhook_object.get("content", None):
-			if re.search(re.compile(regex), data.webhook_object["content"]):
-				misc_logger.info("Message {} has been rejected due to matching filter ({}).".format(data.webhook_object["content"], regex))
-				return  # discard the message without anything
-		else:
-			for to_check in [data.webhook_object.get("description", ""), data.webhook_object.get("title", ""), *[x["value"] for x in data["fields"]], data.webhook_object.get("author", {"name": ""}).get("name", "")]:
-				if re.search(re.compile(regex), to_check):
-					misc_logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
-						to_check, regex))
-					return  # discard the message without anything
-	if messagequeue:
-		messagequeue.add_message(data)
-	else:
-		code = send_to_discord_webhook(data)
-		if code == 3:
-			messagequeue.add_message(data)
-		elif code == 2:
-			time.sleep(5.0)
-			messagequeue.add_message(data)
-		elif code < 2:
-			pass
-
-class DiscordMessage():
+class DiscordMessage:
 	"""A class defining a typical Discord JSON representation of webhook payload."""
 	def __init__(self, message_type: str, event_type: str, webhook_url: str, content=None):
 		self.webhook_object = dict(allowed_mentions={"parse": []}, avatar_url=settings["avatars"].get(message_type, ""))
@@ -453,6 +411,59 @@ def profile_field_name(name, embed):
 			return _("Unknown")
 		else:
 			return _("unknown")
+
+
+def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: dict = None):
+	global rate_limit
+	header = settings["header"]
+	header['Content-Type'] = 'application/json'
+	standard_args = dict(headers=header, timeout=10)
+	if metadata["request_type"] == "POST":
+		req = requests.Request("POST", data.webhook_url+"?wait=" + "true" if settings.get("auto_suppression", {"enabled": True}).get("enabled") else "false", data=repr(data), **standard_args)
+	elif metadata["request_type"] == "DELETE":
+		req = requests.Request("DELETE", metadata["webhook_url"], **standard_args)
+	elif metadata["request_type"] == "PATCH":
+		req = requests.Request("PATCH", metadata["webhook_url"], data=metadata["new_data"], **standard_args)
+	try:
+		time.sleep(rate_limit)
+		rate_limit = 0
+		req = req.prepare()
+		result = req.send()
+		update_ratelimit(result)
+	except requests.exceptions.Timeout:
+		misc_logger.warning("Timeouted while sending data to the webhook.")
+		return 3
+	except requests.exceptions.ConnectionError:
+		misc_logger.warning("Connection error while sending the data to a webhook")
+		return 3
+	else:
+		return handle_discord_http(result.status_code, data, result)
+
+
+def send_to_discord(data: Optional[DiscordMessage], meta: dict):
+	if data is not None:
+		for regex in settings["disallow_regexes"]:
+			if data.webhook_object.get("content", None):
+				if re.search(re.compile(regex), data.webhook_object["content"]):
+					misc_logger.info("Message {} has been rejected due to matching filter ({}).".format(data.webhook_object["content"], regex))
+					return  # discard the message without anything
+			else:
+				for to_check in [data.webhook_object.get("description", ""), data.webhook_object.get("title", ""), *[x["value"] for x in data["fields"]], data.webhook_object.get("author", {"name": ""}).get("name", "")]:
+					if re.search(re.compile(regex), to_check):
+						misc_logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
+							to_check, regex))
+						return  # discard the message without anything
+	if messagequeue:
+		messagequeue.add_message((data, meta))
+	else:
+		code = send_to_discord_webhook(data, metadata=meta)
+		if code == 3:
+			messagequeue.add_message((data, meta))
+		elif code == 2:
+			time.sleep(5.0)
+			messagequeue.add_message((data, meta))
+		elif code < 2:
+			pass
 
 
 class LinkParser(HTMLParser):

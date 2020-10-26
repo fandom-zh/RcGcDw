@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 from src.configloader import settings
 from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, send_to_discord, DiscordMessage, safe_read, \
 	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser
+from src.message_redaction import delete_messages, redact_messages
 from src.i18n import rc_formatters
 #from src.rc import recent_changes, pull_comment
 _ = rc_formatters.gettext
@@ -62,7 +63,7 @@ def compact_abuselog_formatter(change, recent_changes):
 		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
 		target_url=create_article_path(change.get("title", _("Unknown"))),
 		result=abusefilter_results.get(change["result"], _("Unknown")))
-	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message))
+	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message), meta={"request_type": "POST"})
 
 
 def compact_formatter(action, change, parsed_comment, categories, recent_changes):
@@ -403,7 +404,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			content = "❓ "+_(
 				"Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=action, author=author, author_url=author_url, support=settings["support"])
-	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content))
+	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content), meta={"request_type": "POST"})
 
 def embed_abuselog_formatter(change, recent_changes):
 	action = "abuselog/{}".format(change["result"])
@@ -415,7 +416,7 @@ def embed_abuselog_formatter(change, recent_changes):
 	embed.add_field(_("Action taken"), abusefilter_results.get(change["result"], _("Unknown")))
 	embed.add_field(_("Title"), change.get("title", _("Unknown")))
 	embed.finish_embed()
-	send_to_discord(embed)
+	send_to_discord(embed, meta={"request_type": "POST"})
 
 
 def embed_formatter(action, change, parsed_comment, categories, recent_changes):
@@ -889,4 +890,4 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		del_cat = (_("**Removed**: ") + ", ".join(list(categories["removed"])[0:16]) + ("" if len(categories["removed"])<=15 else _(" and {} more").format(len(categories["removed"])-15))) if categories["removed"] else ""
 		embed.add_field(_("Changed categories"), new_cat + del_cat)
 	embed.finish_embed()
-	send_to_discord(embed)
+	send_to_discord(embed, meta={"request_type": "POST"})
