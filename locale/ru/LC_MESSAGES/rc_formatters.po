@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-14 20:55+0200\n"
-"PO-Revision-Date: 2020-10-13 16:56+0000\n"
+"PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
 "Language-Team: Russian <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/ru/>\n"
@@ -199,13 +199,13 @@ msgid " on namespaces: "
 msgstr " в пространствах имён: "
 
 #: src/rc_formatters.py:166
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
 "{restriction_desc}{comment}"
 msgstr ""
 "[{author}]({author_url}) заблокировал участника [{user}]({user_url}) на срок "
-"«{time}»{comment}"
+"«{time}»{restriction_desc}{comment}"
 
 #: src/rc_formatters.py:170
 #, python-brace-format
@@ -293,22 +293,22 @@ msgid "none"
 msgstr "ничего"
 
 #: src/rc_formatters.py:228
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}) from {old_groups} to {new_groups}{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{article}]"
-"({article_url}) с {old} на {new}{comment}"
+"[{author}]({author_url}) изменил модель содержимого страницы "
+"[{target}]({target_url}) с {old_groups} на {new_groups}{comment}"
 
 #: src/rc_formatters.py:230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{author} autopromoted [{target}]({target_url}) from {old_groups} to "
 "{new_groups}{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{article}]"
-"({article_url}) с {old} на {new}{comment}"
+"{author} изменил модель содержимого страницы [{target}]({target_url}) с "
+"{old_groups} на {new_groups}{comment}"
 
 #: src/rc_formatters.py:231 src/rc_formatters.py:630
 msgid "System"
@@ -511,24 +511,24 @@ msgstr ""
 "({article_url})"
 
 #: src/rc_formatters.py:328
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) создал [метку]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) создал таблицу Cargo \"{table}\""
 
 #: src/rc_formatters.py:330
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) удалил [метку]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) удалил таблицу Cargo \"{table}\""
 
 #: src/rc_formatters.py:335
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) создал [метку]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) воссоздал таблицу Cargo \"{table}\""
 
 #: src/rc_formatters.py:340
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) создал [метку]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) заменил таблицу Cargo \"{table}\""
 
 #: src/rc_formatters.py:343
 #, python-brace-format
@@ -551,9 +551,9 @@ msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
 msgstr "[{author}]({author_url}) деактивировал [метку]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:356
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings ({reason})"
-msgstr "[{author}]({author_url}) изменил видимость событий журнала{comment}"
+msgstr "[{author}]({author_url}) изменил настройки вики ({reason})"
 
 #: src/rc_formatters.py:358
 msgid "An action has been hidden by administration."
@@ -971,7 +971,7 @@ msgstr ""
 
 #: src/rc_formatters.py:797 src/rc_formatters.py:799
 msgid "Report this on the support server"
-msgstr ""
+msgstr "Сообщить об этом на сервер поддержки"
 
 #: src/rc_formatters.py:816
 msgid "Tags"
