@@ -525,8 +525,11 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 				english_length = english_length.rstrip("s").strip()
 				block_time = _("for {num} {translated_length}").format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
 			except (AttributeError, ValueError):
-				date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
-				block_time = _("until {}").format(date_time_obj.strftime("%Y-%m-%d %H:%M:%S UTC"))
+				if "expiry" in change["logparams"]:
+					date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
+					block_time = _("until {}").format(date_time_obj.strftime("%Y-%m-%d %H:%M:%S UTC"))
+				else:
+					block_time = _("unknown expiry time")  # THIS IS HERE JUST TEMPORARY AS A HOT FIX TO #157, will be changed with release of 1.13
 		if "sitewide" not in change["logparams"]:
 			restriction_description = ""
 			if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
