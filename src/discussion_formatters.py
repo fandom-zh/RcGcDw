@@ -4,7 +4,7 @@ import gettext
 from urllib.parse import quote_plus
 
 from src.configloader import settings
-from src.misc import link_formatter, create_article_path, DiscordMessage, send_to_discord, escape_formatting
+from src.misc import link_formatter, create_article_path, DiscordMessage, send_to_discord, escape_formatting, DiscordMessageMetadata
 from src.i18n import discussion_formatters
 
 _ = discussion_formatters.gettext
@@ -67,7 +67,7 @@ def compact_formatter(post_type, post, article_paths):
 		else:
 			message = "❓ "+_("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=post_type, author=author, author_url=author_url, support=settings["support"])
-	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message), meta={"request_type": "POST"})
+	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
 
 
 def embed_formatter(post_type, post, article_paths):
@@ -168,7 +168,7 @@ def embed_formatter(post_type, post, article_paths):
 			else:
 				embed.add_field(_("Report this on the support server"), change_params)
 	embed.finish_embed()
-	send_to_discord(embed, meta={"request_type": "POST"})
+	send_to_discord(embed, meta=DiscordMessageMetadata("POST"))
 
 
 class DiscussionsFromHellParser:

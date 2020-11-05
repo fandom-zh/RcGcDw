@@ -1,5 +1,5 @@
 from src.configloader import settings
-from src.misc import send_to_discord
+from src.misc import send_to_discord, DiscordMessageMetadata
 import logging
 logger = logging.getLogger("rcgcdw.message_redaction")
 import sqlite3
@@ -44,10 +44,12 @@ def add_entry(pageid: int, revid: int, logid: int, message):
 
 def delete_messages(pageid: int):
 	to_delete = db_cursor.execute("SELECT msg_id FROM event WHERE pageid = ?", (pageid))
+	msg_to_remove = []
 	for message in to_delete:
 		webhook_url = "{main_webhook}/messages/{message_id}".format(main_webhook=settings["webhookURL"], message_id=message[0])
-		send_to_discord(None, {"request_type": "DELETE", "webhook_url": webhook_url})
-	db_cursor.executemany("DELETE FROM messages WHERE message_id = ?", list_of_messageids)
+		msg_to_remove.append(message[0])
+		send_to_discord(None, DiscordMessageMetadata("DELETE", webhook_url=webhook_url))
+	db_cursor.executemany("DELETE FROM messages WHERE message_id = ?", msg_to_remove)
 
 
 def redact_messages(rev_ids: list, to_censor: dict):

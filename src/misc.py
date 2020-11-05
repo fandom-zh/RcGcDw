@@ -25,6 +25,10 @@ from src.configloader import settings
 from src.i18n import misc
 from typing import Optional
 
+AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": True}).get("enabled")
+if AUTO_SUPPRESSION_ENABLED:
+	from src.message_redaction import add_entry as add_message_redaction_entry
+
 _ = misc.gettext
 
 # Create a custom logger
@@ -326,7 +330,7 @@ def send_simple(msgtype, message, name, avatar):
 	discord_msg.set_avatar(avatar)
 	discord_msg.set_name(name)
 	messagequeue.resend_msgs()
-	send_to_discord(discord_msg, meta={"request_type": "POST"})
+	send_to_discord(discord_msg, meta=DiscordMessageMetadata("POST"))
 
 
 def update_ratelimit(request):
@@ -413,23 +417,41 @@ def profile_field_name(name, embed):
 			return _("unknown")
 
 
-def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: dict = None):
+class DiscordMessageMetadata:
+	def __init__(self, method, log_id = None, page_id = None, rev_id = None, webhook_url = None, new_data = None):
+		self.method = method
+		self.page_id = page_id
+		self.log_id = log_id
+		self.rev_id = rev_id
+		self.webhook_url = webhook_url
+		self.new_data = new_data
+
+	def dump_ids(self):
+		return self.page_id, self.rev_id, self.log_id
+
+def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMessageMetadata):
 	global rate_limit
 	header = settings["header"]
 	header['Content-Type'] = 'application/json'
 	standard_args = dict(headers=header, timeout=10)
-	if metadata["request_type"] == "POST":
-		req = requests.Request("POST", data.webhook_url+"?wait=" + "true" if settings.get("auto_suppression", {"enabled": True}).get("enabled") else "false", data=repr(data), **standard_args)
-	elif metadata["request_type"] == "DELETE":
-		req = requests.Request("DELETE", metadata["webhook_url"], **standard_args)
-	elif metadata["request_type"] == "PATCH":
-		req = requests.Request("PATCH", metadata["webhook_url"], data=metadata["new_data"], **standard_args)
+	if metadata.method == "POST":
+		req = requests.Request("POST", data.webhook_url+"?wait=" + "true" if AUTO_SUPPRESSION_ENABLED else "false", data=repr(data), **standard_args)
+	elif metadata.method == "DELETE":
+		req = requests.Request("DELETE", metadata.webhook_url, **standard_args)
+	elif metadata.method == "PATCH":
+		req = requests.Request("PATCH", metadata.webhook_url, data=metadata.new_data, **standard_args)
 	try:
 		time.sleep(rate_limit)
 		rate_limit = 0
 		req = req.prepare()
 		result = req.send()
 		update_ratelimit(result)
+		if AUTO_SUPPRESSION_ENABLED:
+			# TODO Prepare request with all of safety checks
+			try:
+				add_message_redaction_entry(*metadata.dump_ids(), result.json())
+			except ValueError:
+				misc_logger.error("Couldn't get json of result of sending Discord message.")
 	except requests.exceptions.Timeout:
 		misc_logger.warning("Timeouted while sending data to the webhook.")
 		return 3
@@ -440,7 +462,7 @@ def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: dict = Non
 		return handle_discord_http(result.status_code, data, result)
 
 
-def send_to_discord(data: Optional[DiscordMessage], meta: dict):
+def send_to_discord(data: Optional[DiscordMessage], meta: DiscordMessageMetadata):
 	if data is not None:
 		for regex in settings["disallow_regexes"]:
 			if data.webhook_object.get("content", None):

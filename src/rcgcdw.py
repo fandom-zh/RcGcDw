@@ -27,7 +27,7 @@ from collections import defaultdict, Counter
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, \
 	WIKI_API_PATH, create_article_path, send_to_discord, \
-	DiscordMessage
+	DiscordMessage, DiscordMessageMetadata
 from src.rc import recent_changes
 from src.exceptions import MWError
 from src.i18n import rcgcdw
@@ -202,7 +202,7 @@ def day_overview():
 			for name, value in fields:
 				embed.add_field(name, value, inline=True)
 		embed.finish_embed()
-		send_to_discord(embed, meta={"request_type": "POST"})
+		send_to_discord(embed, meta=DiscordMessageMetadata("POST"))
 	else:
 		logger.debug("function requesting changes for day overview returned with error code")
 
