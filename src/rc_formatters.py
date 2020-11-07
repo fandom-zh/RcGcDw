@@ -11,8 +11,10 @@ from bs4 import BeautifulSoup
 
 from src.configloader import settings
 from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, send_to_discord, DiscordMessage, safe_read, \
-	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser, DiscordMessageMetadata
-from src.message_redaction import delete_messages, redact_messages
+	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser, DiscordMessageMetadata, AUTO_SUPPRESSION_ENABLED
+if AUTO_SUPPRESSION_ENABLED:
+	from src.message_redaction import delete_messages, redact_messages
+
 from src.i18n import rc_formatters
 #from src.rc import recent_changes, pull_comment
 _ = rc_formatters.gettext
@@ -106,10 +108,12 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		page_link = link_formatter(create_article_path(change["title"]))
 		content = "🗑️ "+_("[{author}]({author_url}) deleted [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                  comment=parsed_comment)
+		delete_messages(change.get("pageid"))
 	elif action == "delete/delete_redir":
 		page_link = link_formatter(create_article_path(change["title"]))
 		content = "🗑️ "+_("[{author}]({author_url}) deleted redirect by overwriting [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                   comment=parsed_comment)
+		delete_messages(change.get("pageid"))
 	elif action == "move/move":
 		link = link_formatter(create_article_path(change["logparams"]['target_title']))
 		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _("with a redirect")
@@ -557,9 +561,11 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "delete/delete":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Deleted page {article}").format(article=change["title"])
+		delete_messages(change.get("pageid"))
 	elif action == "delete/delete_redir":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=change["title"])
+		delete_messages(change.get("pageid"))
 	elif action == "move/move":
 		link = create_article_path(change["logparams"]['target_title'])
 		parsed_comment = "{supress}. {desc}".format(desc=parsed_comment,
