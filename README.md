@@ -36,5 +36,8 @@
 
 Thank you!
 
+### Other extensions/compatible programs ###
+* [Wiki Utilities](https://github.com/Sidemen19/Wiki-Utilities) - an integration allowing administrator to execute revert/block or delete actions on the wiki using reactions in messages created by RcGcDw/RcGcDb. Author: [Sidemen19](https://github.com/Sidemen19)
+
 ### Wiki ###
 For more information, check the [wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Home)!
