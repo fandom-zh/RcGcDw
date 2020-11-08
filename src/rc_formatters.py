@@ -184,7 +184,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "✅ "+_("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
 	elif action == "curseprofile/comment-created":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		content = "✉️ "+_("[{author}]({author_url}) left a [comment]({comment}) on {target} profile").format(author=author, author_url=author_url, comment=link, target=change["title"].split(':')[1]+"'s" if change["title"].split(':')[1] != change["user"] else _("their own profile"))
+		content = "✉️ "+_("[{author}]({author_url}) left a [comment]({comment}) on {target} profile").format(author=author, author_url=author_url, comment=link, target=change["title"].split(':')[1]+("'s" if change["title"].split(':')[1] != change["user"] else _("their own profile")))
 	elif action == "curseprofile/comment-replied":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
 		content = "📩 "+_("[{author}]({author_url}) replied to a [comment]({comment}) on {target} profile").format(author=author,
@@ -245,7 +245,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		link = link_formatter(create_article_path(change["title"]))
 		content = "🔒 "+_("[{author}]({author_url}) protected [{article}]({article_url}) with the following settings: {settings}{comment}").format(author=author, author_url=author_url,
 		                                                                                                                                     article=change["title"], article_url=link,
-		                                                                                                                                     settings=change["logparams"]["description"]+_(" [cascading]") if "cascade" in change["logparams"] else "",
+		                                                                                                                                     settings=change["logparams"]["description"]+(_(" [cascading]") if "cascade" in change["logparams"] else ""),
 		                                                                                                                                     comment=parsed_comment)
 	elif action == "protect/modify":
 		link = link_formatter(create_article_path(change["title"]))
