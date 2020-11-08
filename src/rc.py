@@ -6,7 +6,8 @@ import requests
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, messagequeue, datafile, send_simple, safe_read, LinkParser
+from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, LinkParser
+from src.discord.queue import messagequeue
 from src.exceptions import MWError
 from src.session import session
 from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
@@ -399,11 +400,11 @@ def essential_info(change, changed_categories):
 		parsed_comment = None
 	if "userhidden" in change:
 		change["user"] = _("hidden")
+	if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
+		return
 	if change["type"] in ["edit", "new"]:
 		logger.debug("List of categories in essential_info: {}".format(changed_categories))
 		identification_string = change["type"]
-	if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
-		return
 	elif change["type"] == "log":
 		identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
 		if identification_string not in supported_logs:

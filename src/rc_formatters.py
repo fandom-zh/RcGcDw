@@ -10,10 +10,13 @@ from urllib.parse import quote_plus, quote
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, send_to_discord, DiscordMessage, safe_read, \
-	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser, DiscordMessageMetadata, AUTO_SUPPRESSION_ENABLED
+from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, safe_read, \
+	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser, AUTO_SUPPRESSION_ENABLED
+from src.discord.queue import send_to_discord
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
+
 if AUTO_SUPPRESSION_ENABLED:
-	from src.message_redaction import delete_messages, redact_messages
+	from src.discord.redaction import delete_messages, redact_messages
 
 from src.i18n import rc_formatters
 #from src.rc import recent_changes, pull_comment

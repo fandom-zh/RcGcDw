@@ -16,18 +16,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import base64
-import json, logging, sys, re, time, random, math
+import json, logging, sys, re
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse, quote
 import requests
-from collections import defaultdict
 from src.configloader import settings
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
+from src.discord.queue import messagequeue, send_to_discord
 from src.i18n import misc
-from typing import Optional
 
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": True}).get("enabled")
 if AUTO_SUPPRESSION_ENABLED:
-	from src.message_redaction import add_entry as add_message_redaction_entry
+	pass
 
 _ = misc.gettext
 
@@ -43,7 +43,6 @@ WIKI_API_PATH: str = ""
 WIKI_ARTICLE_PATH: str = ""
 WIKI_SCRIPT_PATH: str = ""
 WIKI_JUST_DOMAIN: str = ""
-rate_limit = 0
 
 profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XBL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
 
@@ -95,52 +94,6 @@ class DataFile:
 		return self.data[item]
 
 
-
-class MessageQueue:
-	"""Message queue class for undelivered messages"""
-	def __init__(self):
-		self._queue = []
-
-	def __repr__(self):
-		return self._queue
-
-	def __len__(self):
-		return len(self._queue)
-
-	def __iter__(self):
-		return iter(self._queue)
-
-	def clear(self):
-		self._queue.clear()
-
-	def add_message(self, message):
-		self._queue.append(message)
-
-	def cut_messages(self, item_num):
-		self._queue = self._queue[item_num:]
-
-	def resend_msgs(self):
-		if self._queue:
-			misc_logger.info(
-				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
-					len(self._queue)))
-			for num, item in enumerate(self._queue):
-				misc_logger.debug(
-					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
-					                                                                                         str(item)))
-				if send_to_discord_webhook(item[0], metadata=item[1]) < 2:
-					misc_logger.debug("Sending message succeeded")
-				else:
-					misc_logger.debug("Sending message failed")
-					break
-			else:
-				self.clear()
-				misc_logger.debug("Queue emptied, all messages delivered")
-			self.cut_messages(num)
-			misc_logger.debug(self._queue)
-
-
-messagequeue = MessageQueue()
 datafile = DataFile()
 
 
@@ -245,28 +198,6 @@ def safe_read(request, *keys):
 	return request
 
 
-def handle_discord_http(code, formatted_embed, result):
-	if 300 > code > 199:  # message went through
-		return 0
-	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
-		misc_logger.error(
-			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
-		misc_logger.error(formatted_embed)
-		misc_logger.error(result.text)
-		return 1
-	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
-		misc_logger.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
-		sys.exit(1)
-	elif code == 429:
-		misc_logger.error("We are sending too many requests to the Discord, slowing down...")
-		return 2
-	elif 499 < code < 600:
-		misc_logger.error(
-			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
-				code))
-		return 3
-
-
 def add_to_dict(dictionary, key):
 	if key in dictionary:
 		dictionary[key] += 1
@@ -333,80 +264,6 @@ def send_simple(msgtype, message, name, avatar):
 	send_to_discord(discord_msg, meta=DiscordMessageMetadata("POST"))
 
 
-def update_ratelimit(request):
-	"""Updates rate limit time"""
-	global rate_limit
-	rate_limit = 0 if int(request.headers.get('x-ratelimit-remaining', "-1")) > 0 else int(request.headers.get(
-		'x-ratelimit-reset-after', 0))
-	rate_limit += settings.get("discord_message_cooldown", 0)
-
-
-
-class DiscordMessage:
-	"""A class defining a typical Discord JSON representation of webhook payload."""
-	def __init__(self, message_type: str, event_type: str, webhook_url: str, content=None):
-		self.webhook_object = dict(allowed_mentions={"parse": []}, avatar_url=settings["avatars"].get(message_type, ""))
-		self.webhook_url = webhook_url
-
-		if message_type == "embed":
-			self.__setup_embed()
-		elif message_type == "compact":
-			self.webhook_object["content"] = content
-
-		self.event_type = event_type
-
-	def __setitem__(self, key, value):
-		"""Set item is used only in embeds."""
-		try:
-			self.embed[key] = value
-		except NameError:
-			raise TypeError("Tried to assign a value when message type is plain message!")
-
-	def __getitem__(self, item):
-		return self.embed[item]
-
-	def __repr__(self):
-		"""Return the Discord webhook object ready to be sent"""
-		return json.dumps(self.webhook_object)
-
-	def __setup_embed(self):
-		self.embed = defaultdict(dict)
-		if "embeds" not in self.webhook_object:
-			self.webhook_object["embeds"] = [self.embed]
-		else:
-			self.webhook_object["embeds"].append(self.embed)
-		self.embed["color"] = None
-
-	def add_embed(self):
-		self.finish_embed()
-		self.__setup_embed()
-
-	def finish_embed(self):
-		if self.embed["color"] is None:
-			if settings["appearance"]["embed"].get(self.event_type, {"color": None})["color"] is None:
-				self.embed["color"] = random.randrange(1, 16777215)
-			else:
-				self.embed["color"] = settings["appearance"]["embed"][self.event_type]["color"]
-		else:
-			self.embed["color"] = math.floor(self.embed["color"])
-
-	def set_author(self, name, url, icon_url=""):
-		self.embed["author"]["name"] = name
-		self.embed["author"]["url"] = url
-		self.embed["author"]["icon_url"] = icon_url
-
-	def add_field(self, name, value, inline=False):
-		if "fields" not in self.embed:
-			self.embed["fields"] = []
-		self.embed["fields"].append(dict(name=name, value=value, inline=inline))
-
-	def set_avatar(self, url):
-		self.webhook_object["avatar_url"] = url
-
-	def set_name(self, name):
-		self.webhook_object["username"] = name
-
-
 def profile_field_name(name, embed):
 	try:
 		return profile_fields[name]
@@ -415,77 +272,6 @@ def profile_field_name(name, embed):
 			return _("Unknown")
 		else:
 			return _("unknown")
-
-
-class DiscordMessageMetadata:
-	def __init__(self, method, log_id = None, page_id = None, rev_id = None, webhook_url = None, new_data = None):
-		self.method = method
-		self.page_id = page_id
-		self.log_id = log_id
-		self.rev_id = rev_id
-		self.webhook_url = webhook_url
-		self.new_data = new_data
-
-	def dump_ids(self):
-		return self.page_id, self.rev_id, self.log_id
-
-def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMessageMetadata):
-	global rate_limit
-	header = settings["header"]
-	header['Content-Type'] = 'application/json'
-	standard_args = dict(headers=header, timeout=10)
-	if metadata.method == "POST":
-		req = requests.Request("POST", data.webhook_url+"?wait=" + "true" if AUTO_SUPPRESSION_ENABLED else "false", data=repr(data), **standard_args)
-	elif metadata.method == "DELETE":
-		req = requests.Request("DELETE", metadata.webhook_url, **standard_args)
-	elif metadata.method == "PATCH":
-		req = requests.Request("PATCH", metadata.webhook_url, data=metadata.new_data, **standard_args)
-	try:
-		time.sleep(rate_limit)
-		rate_limit = 0
-		req = req.prepare()
-		result = req.send()
-		update_ratelimit(result)
-		if AUTO_SUPPRESSION_ENABLED:
-			# TODO Prepare request with all of safety checks
-			try:
-				add_message_redaction_entry(*metadata.dump_ids(), result.json())
-			except ValueError:
-				misc_logger.error("Couldn't get json of result of sending Discord message.")
-	except requests.exceptions.Timeout:
-		misc_logger.warning("Timeouted while sending data to the webhook.")
-		return 3
-	except requests.exceptions.ConnectionError:
-		misc_logger.warning("Connection error while sending the data to a webhook")
-		return 3
-	else:
-		return handle_discord_http(result.status_code, data, result)
-
-
-def send_to_discord(data: Optional[DiscordMessage], meta: DiscordMessageMetadata):
-	if data is not None:
-		for regex in settings["disallow_regexes"]:
-			if data.webhook_object.get("content", None):
-				if re.search(re.compile(regex), data.webhook_object["content"]):
-					misc_logger.info("Message {} has been rejected due to matching filter ({}).".format(data.webhook_object["content"], regex))
-					return  # discard the message without anything
-			else:
-				for to_check in [data.webhook_object.get("description", ""), data.webhook_object.get("title", ""), *[x["value"] for x in data["fields"]], data.webhook_object.get("author", {"name": ""}).get("name", "")]:
-					if re.search(re.compile(regex), to_check):
-						misc_logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
-							to_check, regex))
-						return  # discard the message without anything
-	if messagequeue:
-		messagequeue.add_message((data, meta))
-	else:
-		code = send_to_discord_webhook(data, metadata=meta)
-		if code == 3:
-			messagequeue.add_message((data, meta))
-		elif code == 2:
-			time.sleep(5.0)
-			messagequeue.add_message((data, meta))
-		elif code < 2:
-			pass
 
 
 class LinkParser(HTMLParser):

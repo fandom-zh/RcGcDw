@@ -4,7 +4,9 @@ import gettext
 from urllib.parse import quote_plus
 
 from src.configloader import settings
-from src.misc import link_formatter, create_article_path, DiscordMessage, send_to_discord, escape_formatting, DiscordMessageMetadata
+from src.misc import link_formatter, create_article_path, escape_formatting
+from src.discord.queue import send_to_discord
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.i18n import discussion_formatters
 
 _ = discussion_formatters.gettext

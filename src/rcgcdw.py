@@ -26,8 +26,9 @@ import src.misc
 from collections import defaultdict, Counter
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, \
-	WIKI_API_PATH, create_article_path, send_to_discord, \
-	DiscordMessage, DiscordMessageMetadata
+	WIKI_API_PATH, create_article_path
+from src.discord.queue import send_to_discord
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.rc import recent_changes
 from src.exceptions import MWError
 from src.i18n import rcgcdw
