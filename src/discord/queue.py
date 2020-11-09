@@ -50,10 +50,9 @@ class MessageQueue:
 
 	def delete_all_with_matching_metadata(self, **properties):
 		"""Deletes all of the messages that have matching metadata properties (useful for message redaction)"""
-		for message in messagequeue:
-			if self.compare_message_to_dict(message[1], properties):
-				# TODO Delete messages from the queue
-				raise NotImplemented
+		for index, item in reversed(list(enumerate(self._queue))):
+			if self.compare_message_to_dict(item[1], properties):
+				self._queue.pop(index)
 
 	def resend_msgs(self):
 		if self._queue:
