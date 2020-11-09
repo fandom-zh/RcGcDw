@@ -157,70 +157,71 @@ def escape_formatting(data):
 class ContentParser(HTMLParser):
 	more = _("\n__And more__")
 	current_tag = ""
+	last_ins = None
+	last_del = None
+	empty = False
 	small_prev_ins = ""
 	small_prev_del = ""
 	ins_length = len(more)
 	del_length = len(more)
-	added = False
 
 	def handle_starttag(self, tagname, attribs):
 		if tagname == "ins" or tagname == "del":
 			self.current_tag = tagname
-		if tagname == "td" and 'diff-addedline' in attribs[0]:
-			self.current_tag = tagname + "a"
-		if tagname == "td" and 'diff-deletedline' in attribs[0]:
-			self.current_tag = tagname + "d"
-		if tagname == "td" and 'diff-marker' in attribs[0]:
-			self.added = True
+		if tagname == "td" and "diff-addedline" in attribs[0] and self.ins_length <= 1000:
+			self.current_tag = "tda"
+			self.last_ins = ""
+		if tagname == "td" and "diff-deletedline" in attribs[0] and self.del_length <= 1000:
+			self.current_tag = "tdd"
+			self.last_del = ""
+		if tagname == "td" and "diff-empty" in attribs[0]:
+			self.empty = True
 
 	def handle_data(self, data):
-		data = re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
+		data = escape_formatting(data)
 		if self.current_tag == "ins" and self.ins_length <= 1000:
-			self.ins_length += len("**" + data + '**')
+			self.ins_length += len("**" + data + "**")
 			if self.ins_length <= 1000:
-				self.small_prev_ins = self.small_prev_ins + "**" + data + '**'
-			else:
-				self.small_prev_ins = self.small_prev_ins + self.more
+				self.last_ins = self.last_ins + "**" + data + "**"
 		if self.current_tag == "del" and self.del_length <= 1000:
-			self.del_length += len("~~" + data + '~~')
+			self.del_length += len("~~" + data + "~~")
 			if self.del_length <= 1000:
-				self.small_prev_del = self.small_prev_del + "~~" + data + '~~'
-			else:
-				self.small_prev_del = self.small_prev_del + self.more
-		if (self.current_tag == "afterins" or self.current_tag == "tda") and self.ins_length <= 1000:
+				self.last_del = self.last_del + "~~" + data + "~~"
+		if self.current_tag == "tda" and self.ins_length <= 1000:
 			self.ins_length += len(data)
 			if self.ins_length <= 1000:
-				self.small_prev_ins = self.small_prev_ins + data
-			else:
-				self.small_prev_ins = self.small_prev_ins + self.more
-		if (self.current_tag == "afterdel" or self.current_tag == "tdd") and self.del_length <= 1000:
+				self.last_ins = self.last_ins + data
+		if self.current_tag == "tdd" and self.del_length <= 1000:
 			self.del_length += len(data)
 			if self.del_length <= 1000:
-				self.small_prev_del = self.small_prev_del + data
-			else:
-				self.small_prev_del = self.small_prev_del + self.more
-		if self.added:
-			if data == '+' and self.ins_length <= 1000:
-				self.ins_length += 1
-				if self.ins_length <= 1000:
-					self.small_prev_ins = self.small_prev_ins + '\n'
-				else:
-					self.small_prev_ins = self.small_prev_ins + self.more
-			if data == '−' and self.del_length <= 1000:
-				self.del_length += 1
-				if self.del_length <= 1000:
-					self.small_prev_del = self.small_prev_del + '\n'
-				else:
-					self.small_prev_del = self.small_prev_del + self.more
-			self.added = False
+				self.last_del = self.last_del + data
 
 	def handle_endtag(self, tagname):
+		self.current_tag = ""
 		if tagname == "ins":
-			self.current_tag = "afterins"
+			self.current_tag = "tda"
 		elif tagname == "del":
-			self.current_tag = "afterdel"
-		else:
-			self.current_tag = ""
+			self.current_tag = "tdd"
+		elif tagname == "tr":
+			if self.last_ins is not None:
+				self.ins_length += 1
+				if self.empty and not self.last_ins.isspace() and "**" not in self.last_ins:
+					self.ins_length += 4
+					self.last_ins = "**" + self.last_ins + "**"
+				self.small_prev_ins = self.small_prev_ins + "\n" + self.last_ins
+				if self.ins_length > 1000:
+					self.small_prev_ins = self.small_prev_ins + self.more
+				self.last_ins = None
+			if self.last_del is not None:
+				self.del_length += 1
+				if self.empty and not self.last_del.isspace() and "~~" not in self.last_del:
+					self.del_length += 4
+					self.last_del = "~~" + self.last_del + "~~"
+				self.small_prev_del = self.small_prev_del + "\n" + self.last_del
+				if self.del_length > 1000:
+					self.small_prev_del = self.small_prev_del + self.more
+				self.last_del = None
+			self.empty = False
 
 
 def safe_read(request, *keys):
