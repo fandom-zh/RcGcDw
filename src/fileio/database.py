@@ -11,13 +11,15 @@ def create_schema():
 	"""BEGIN TRANSACTION;
 	CREATE TABLE IF NOT EXISTS "messages" (
 		"message_id"	TEXT,
-		"content"	TEXT
+		"content"	TEXT,
+		PRIMARY KEY("message_id")
 	);
 	CREATE TABLE IF NOT EXISTS "event" (
 		"pageid"	INTEGER,
 		"revid"	INTEGER,
 		"logid"	INTEGER,
 		"msg_id"	TEXT NOT NULL,
+		PRIMARY KEY("msg_id"),
 		FOREIGN KEY("msg_id") REFERENCES "messages"("message_id") ON DELETE CASCADE
 	);
 	COMMIT;""")
@@ -45,6 +47,17 @@ def add_entry(pageid: int, revid: int, logid: int, message):
 	db_cursor.execute("INSERT INTO messages (message_id, content) VALUES (?, ?)", (message.get("id"), str(message)))
 	db_cursor.execute("INSERT INTO event (pageid, revid, logid, msg_id) VALUES (?, ?, ?, ?)", (pageid, revid, logid, message.get("id")))
 	logger.debug("Adding an entry to the database (pageid: {}, revid: {}, logid: {}, message: {})".format(pageid, revid, logid, message))
+	db_connection.commit()
+
+def clean_entries():
+	"""Cleans entries that are 50+"""
+	cleanup = db_cursor.execute(
+		"SELECT message_id FROM messages WHERE message_id NOT IN (SELECT message_id FROM messages ORDER BY message_id asc LIMIT 50);")
+	for row in cleanup:
+		db_cursor.execute("DELETE FROM messages WHERE message_id = ?", (cleanup[0]))
+	cleanup = db_cursor.execute("SELECT msg_id FROM event WHERE msg_id NOT IN (SELECT msg_id FROM event ORDER BY msg_id asc LIMIT 50);")
+	for row in cleanup:
+		db_cursor.execute("DELETE FROM event WHERE msg_id = ?", (cleanup[0]))
 	db_connection.commit()
 
 db_connection, db_cursor = create_connection()

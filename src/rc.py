@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, LinkParser
+from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, LinkParser, AUTO_SUPPRESSION_ENABLED
 from src.discord.queue import messagequeue
 from src.exceptions import MWError
 from src.session import session
@@ -333,6 +333,9 @@ class Recent_Changes_Class(object):
 
 	def clear_cache(self):
 		self.map_ips = {}
+		if AUTO_SUPPRESSION_ENABLED:
+			from src.fileio.database import clean_entries
+			clean_entries()
 
 	def init_info(self):
 		startup_info = safe_read(self.safe_request(

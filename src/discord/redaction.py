@@ -2,7 +2,7 @@ import logging
 
 from src.configloader import settings
 from src.discord.message import DiscordMessageMetadata
-from src.discord.queue import send_to_discord
+from src.discord.queue import send_to_discord, messagequeue
 from src.fileio.database import db_cursor, db_connection
 
 logger = logging.getLogger("rcgcdw.discord.redaction")
@@ -12,6 +12,8 @@ def delete_messages(pageid: int):
 	"""Delete messages that match that pageid"""
 	logger.debug(type(pageid))
 	to_delete = db_cursor.execute("SELECT msg_id FROM event WHERE pageid = ?", (pageid,))
+	if len(messagequeue) > 0:
+		messagequeue.delete_all_with_matching_metadata(pageid=pageid)
 	msg_to_remove = []
 	logger.debug("Deleting messages for pageid: {}".format(pageid))
 	for message in to_delete:

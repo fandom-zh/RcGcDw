@@ -9,7 +9,7 @@ import requests
 from src.configloader import settings
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 
-AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": True}).get("enabled")
+AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 if AUTO_SUPPRESSION_ENABLED:
 	from src.fileio.database import add_entry as add_message_redaction_entry
 
@@ -39,6 +39,21 @@ class MessageQueue:
 
 	def cut_messages(self, item_num):
 		self._queue = self._queue[item_num:]
+
+	@staticmethod
+	def compare_message_to_dict(metadata: DiscordMessageMetadata, to_match: dict):
+		"""Compare DiscordMessageMetadata fields and match them against dictionary"""
+		for name, val in to_match.items():
+			if getattr(metadata, name, None) != val:
+				return False
+		return True
+
+	def delete_all_with_matching_metadata(self, **properties):
+		"""Deletes all of the messages that have matching metadata properties (useful for message redaction)"""
+		for message in messagequeue:
+			if self.compare_message_to_dict(message[1], properties):
+				# TODO Delete messages from the queue
+				raise NotImplemented
 
 	def resend_msgs(self):
 		if self._queue:
