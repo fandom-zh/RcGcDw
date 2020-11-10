@@ -25,5 +25,10 @@ def delete_messages(pageid: int):
 	db_connection.commit()
 
 
-def redact_messages(rev_ids: list, to_censor: dict):
+def redact_messages(ids: list, entry_type: int, to_censor: dict):
+	"""Redact past Discord messages
+
+	ids: list of ints
+	entry_type: int - 0 for revdel, 1 for logdel
+	to_censor: dict - logparams of message parts to censor"""
 	raise NotImplemented

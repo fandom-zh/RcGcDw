@@ -111,12 +111,14 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		page_link = link_formatter(create_article_path(change["title"]))
 		content = "🗑️ "+_("[{author}]({author_url}) deleted [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                  comment=parsed_comment)
-		delete_messages(change.get("pageid"))
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(change.get("pageid"))
 	elif action == "delete/delete_redir":
 		page_link = link_formatter(create_article_path(change["title"]))
 		content = "🗑️ "+_("[{author}]({author_url}) deleted redirect by overwriting [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                   comment=parsed_comment)
-		delete_messages(change.get("pageid"))
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(change.get("pageid"))
 	elif action == "move/move":
 		link = link_formatter(create_article_path(change["logparams"]['target_title']))
 		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _("with a redirect")
@@ -273,6 +275,13 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "👁️ "+ngettext("[{author}]({author_url}) changed visibility of revision on page [{article}]({article_url}){comment}",
 		                          "[{author}]({author_url}) changed visibility of {amount} revisions on page [{article}]({article_url}){comment}", amount).format(author=author, author_url=author_url,
 			article=change["title"], article_url=link, amount=amount, comment=parsed_comment)
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+			except KeyError:
+				pass
+			else:
+				# TODO Get pageid
 	elif action == "import/upload":
 		link = link_formatter(create_article_path(change["title"]))
 		content = "📥 "+ngettext("[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision{comment}",
@@ -283,6 +292,13 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "♻️ "+_("[{author}]({author_url}) restored [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
 	elif action == "delete/event":
 		content = "👁️ "+_("[{author}]({author_url}) changed visibility of log events{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+			except KeyError:
+				pass
+			else:
+				delete_messages(logparams.get("ids", []), 1, logparams.get("new", {})) # TODO Check validity
 	elif action == "import/interwiki":
 		content = "📥 "+_("[{author}]({author_url}) imported interwiki{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
 	elif action == "abusefilter/modify":
@@ -564,11 +580,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "delete/delete":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Deleted page {article}").format(article=change["title"])
-		delete_messages(change.get("pageid"))
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(change.get("pageid"))
 	elif action == "delete/delete_redir":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=change["title"])
-		delete_messages(change.get("pageid"))
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(change.get("pageid"))
 	elif action == "move/move":
 		link = create_article_path(change["logparams"]['target_title'])
 		parsed_comment = "{supress}. {desc}".format(desc=parsed_comment,
@@ -729,6 +747,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "delete/event":
 		link = create_article_path("Special:RecentChanges")
 		embed["title"] = _("Changed visibility of log events")
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+			except KeyError:
+				pass
+			else:
+				redact_messages(logparams.get("ids", []), 1, logparams.get("new", {}))
 	elif action == "import/interwiki":
 		link = create_article_path("Special:RecentChanges")
 		embed["title"] = _("Imported interwiki")

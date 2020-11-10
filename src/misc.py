@@ -25,9 +25,7 @@ from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.discord.queue import messagequeue, send_to_discord
 from src.i18n import misc
 
-AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": True}).get("enabled")
-if AUTO_SUPPRESSION_ENABLED:
-	pass
+AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 _ = misc.gettext
 
