@@ -71,6 +71,11 @@ class DiscordMessage:
 		self.webhook_object["username"] = name
 
 
+class DiscordMessageRaw(DiscordMessage):
+	def __init__(self, content: dict):
+		self.webhook_object = content
+
+
 class DiscordMessageMetadata:
 	def __init__(self, method, log_id = None, page_id = None, rev_id = None, webhook_url = None, new_data = None):
 		self.method = method
