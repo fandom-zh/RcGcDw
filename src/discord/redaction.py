@@ -1,11 +1,14 @@
 import logging
-
+import json
 from src.configloader import settings
 from src.discord.message import DiscordMessageMetadata, DiscordMessage, DiscordMessageRaw
 from src.discord.queue import send_to_discord, messagequeue
 from src.fileio.database import db_cursor, db_connection
+from src.i18n import redaction as redaction_translation
 
-logger = logging.getLogger("rcgcdw.discord.redaction")
+logger = logging.getLogger("rcgcdw.discord.redaction") # TODO Figure out why does this logger do not work
+_ = redaction_translation.gettext
+#ngettext = redaction_translation.ngettext
 
 
 def delete_messages(matching_data: dict):
@@ -38,24 +41,30 @@ def redact_messages(ids: list, entry_type: int, to_censor: dict):
 	to_censor: dict - logparams of message parts to censor"""
 	for event_id in ids:
 		if entry_type == 0:  # TODO check if queries are proper
-			message = db_cursor.execute("SELECT content FROM messages INNER JOIN event ON event.msg_id = messages.message_id WHERE event.revid = ?;", event_id)
+			message = db_cursor.execute("SELECT content FROM messages INNER JOIN event ON event.msg_id = messages.message_id WHERE event.revid = ?;", (event_id, ))
 		else:
 			message = db_cursor.execute(
 				"SELECT content FROM messages INNER JOIN event ON event.msg_id = messages.message_id WHERE event.logid = ?;",
-				event_id)
+				(event_id,))
 		if settings["appearance"]["mode"] == "embed":
 			if message is not None:
 				message = message.fetchone()
-				new_embed = message["embeds"][0]
+				try:
+					message = json.loads(message[0])
+					new_embed = message["embeds"][0]
+				except ValueError:
+					logger.error("Couldn't loads JSON for message data. What happened? Data: {}".format(message[0]))
+					return
 				if "user" in to_censor:
 					new_embed["author"]["name"] = _("Removed")
 					new_embed["author"].pop("url")
 				if "action" in to_censor:
 					new_embed["title"] = _("Removed")
 					new_embed.pop("url")
+				if "content" in to_censor:
+					new_embed.pop("fields")
 				if "comment" in to_censor:
 					new_embed["description"] = _("Removed")
 				message["embeds"][0] = new_embed
-				send_to_discord(DiscordMessageRaw(message), DiscordMessageMetadata("PATCH"))
-
-	raise NotImplemented
+				logger.debug(message)
+				send_to_discord(DiscordMessageRaw(message, settings["webhookURL"]), DiscordMessageMetadata("PATCH"))

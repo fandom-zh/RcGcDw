@@ -121,7 +121,7 @@ def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMes
 	elif metadata.method == "DELETE":
 		req = requests.Request("DELETE", metadata.webhook_url, **standard_args)
 	elif metadata.method == "PATCH":
-		req = requests.Request("PATCH", metadata.webhook_url, data=data, **standard_args)
+		req = requests.Request("PATCH", data.webhook_url, data=repr(data), **standard_args)
 	try:
 		time.sleep(rate_limit)
 		rate_limit = 0

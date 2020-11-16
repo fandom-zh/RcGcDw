@@ -72,9 +72,9 @@ class DiscordMessage:
 
 
 class DiscordMessageRaw(DiscordMessage):
-	def __init__(self, content: dict):
+	def __init__(self, content: dict, webhook_url: str):
 		self.webhook_object = content
-
+		self.webhook_url = webhook_url
 
 class DiscordMessageMetadata:
 	def __init__(self, method, log_id = None, page_id = None, rev_id = None, webhook_url = None, new_data = None):

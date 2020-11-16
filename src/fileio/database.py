@@ -1,5 +1,6 @@
 import sqlite3
 import logging
+import json
 from src.configloader import settings
 
 logger = logging.getLogger("rcgcdw.fileio.database")
@@ -44,7 +45,7 @@ def check_tables():
 
 def add_entry(pageid: int, revid: int, logid: int, message):
 	"""Add an edit or log entry to the DB"""
-	db_cursor.execute("INSERT INTO messages (message_id, content) VALUES (?, ?)", (message.get("id"), str(message)))
+	db_cursor.execute("INSERT INTO messages (message_id, content) VALUES (?, ?)", (message.get("id"), json.dumps(message)))
 	db_cursor.execute("INSERT INTO event (pageid, revid, logid, msg_id) VALUES (?, ?, ?, ?)", (pageid, revid, logid, message.get("id")))
 	logger.debug("Adding an entry to the database (pageid: {}, revid: {}, logid: {}, message: {})".format(pageid, revid, logid, message))
 	db_connection.commit()

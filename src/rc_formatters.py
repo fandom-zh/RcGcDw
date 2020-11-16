@@ -738,6 +738,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = ngettext("Changed visibility of revision on page {article} ",
 		                          "Changed visibility of {amount} revisions on page {article} ", amount).format(
 			article=change["title"], amount=amount)
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+			except KeyError:
+				pass
+			else:
+				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
 	elif action == "import/upload":
 		link = create_article_path(change["title"])
 		embed["title"] = ngettext("Imported {article} with {count} revision",
