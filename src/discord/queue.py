@@ -117,7 +117,7 @@ def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMes
 	header['Content-Type'] = 'application/json'
 	standard_args = dict(headers=header)
 	if metadata.method == "POST":
-		req = requests.Request("POST", data.webhook_url+"?wait=" + "true" if AUTO_SUPPRESSION_ENABLED else "false", data=repr(data), **standard_args)
+		req = requests.Request("POST", data.webhook_url+"?wait=" + ("true" if AUTO_SUPPRESSION_ENABLED else "false"), data=repr(data), **standard_args)
 	elif metadata.method == "DELETE":
 		req = requests.Request("DELETE", metadata.webhook_url, **standard_args)
 	elif metadata.method == "PATCH":
@@ -140,9 +140,6 @@ def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMes
 	except requests.exceptions.ConnectionError:
 		logger.warning("Connection error while sending the data to a webhook")
 		return 3
-	except requests.exceptions.MissingSchema:
-		logger.debug(repr(data))
-		sys.exit(1)
 	else:
 		return handle_discord_http(result.status_code, data, result)
 
