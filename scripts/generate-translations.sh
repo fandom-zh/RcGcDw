@@ -1,5 +1,5 @@
 cd ..
-declare -a StringArray=("discussion_formatters" "rc_formatters" "rcgcdw" "rc" "misc")
+declare -a StringArray=("discussion_formatters" "rc_formatters" "rcgcdw" "rc" "misc", "redaction")
 for file in ${StringArray[@]}; do
   xgettext -L Python --package-name=RcGcDw -o "locale/templates/$file.pot" src/$file.py
 done

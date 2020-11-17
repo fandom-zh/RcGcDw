@@ -22,7 +22,8 @@ from typing import Dict, Any
 from src.configloader import settings
 
 from src.discussion_formatters import embed_formatter, compact_formatter
-from src.misc import datafile, messagequeue, prepare_paths
+from src.misc import datafile, prepare_paths
+from src.discord.queue import messagequeue
 from src.session import session
 from src.exceptions import ArticleCommentError
 

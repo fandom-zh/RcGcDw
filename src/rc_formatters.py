@@ -10,8 +10,14 @@ from urllib.parse import quote_plus, quote
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, send_to_discord, DiscordMessage, safe_read, \
-	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser
+from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, safe_read, \
+	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser, AUTO_SUPPRESSION_ENABLED
+from src.discord.queue import send_to_discord
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
+
+if AUTO_SUPPRESSION_ENABLED:
+	from src.discord.redaction import delete_messages, redact_messages
+
 from src.i18n import rc_formatters
 #from src.rc import recent_changes, pull_comment
 _ = rc_formatters.gettext
@@ -62,10 +68,11 @@ def compact_abuselog_formatter(change, recent_changes):
 		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
 		target_url=create_article_path(change.get("title", _("Unknown"))),
 		result=abusefilter_results.get(change["result"], _("Unknown")))
-	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message))
+	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
 
 
 def compact_formatter(action, change, parsed_comment, categories, recent_changes):
+	request_metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None), page_id=change.get("pageid", None))
 	if action != "suppressed":
 		author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
 		author = change["user"]
@@ -104,10 +111,14 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		page_link = link_formatter(create_article_path(change["title"]))
 		content = "🗑️ "+_("[{author}]({author_url}) deleted [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                  comment=parsed_comment)
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(dict(pageid=change.get("pageid")))
 	elif action == "delete/delete_redir":
 		page_link = link_formatter(create_article_path(change["title"]))
 		content = "🗑️ "+_("[{author}]({author_url}) deleted redirect by overwriting [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
 		                                                   comment=parsed_comment)
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(dict(pageid=change.get("pageid")))
 	elif action == "move/move":
 		link = link_formatter(create_article_path(change["logparams"]['target_title']))
 		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _("with a redirect")
@@ -264,6 +275,14 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "👁️ "+ngettext("[{author}]({author_url}) changed visibility of revision on page [{article}]({article_url}){comment}",
 		                          "[{author}]({author_url}) changed visibility of {amount} revisions on page [{article}]({article_url}){comment}", amount).format(author=author, author_url=author_url,
 			article=change["title"], article_url=link, amount=amount, comment=parsed_comment)
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+				pageid = change["pageid"]
+			except KeyError:
+				pass
+			else:
+				delete_messages(dict(pageid=pageid))
 	elif action == "import/upload":
 		link = link_formatter(create_article_path(change["title"]))
 		content = "📥 "+ngettext("[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision{comment}",
@@ -274,6 +293,14 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "♻️ "+_("[{author}]({author_url}) restored [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
 	elif action == "delete/event":
 		content = "👁️ "+_("[{author}]({author_url}) changed visibility of log events{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+			except KeyError:
+				pass
+			else:
+				for revid in logparams.get("ids", []):
+					delete_messages(dict(revid=revid))
 	elif action == "import/interwiki":
 		content = "📥 "+_("[{author}]({author_url}) imported interwiki{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
 	elif action == "abusefilter/modify":
@@ -403,7 +430,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			content = "❓ "+_(
 				"Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=action, author=author, author_url=author_url, support=settings["support"])
-	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content))
+	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content), meta=request_metadata)
 
 def embed_abuselog_formatter(change, recent_changes):
 	action = "abuselog/{}".format(change["result"])
@@ -415,11 +442,12 @@ def embed_abuselog_formatter(change, recent_changes):
 	embed.add_field(_("Action taken"), abusefilter_results.get(change["result"], _("Unknown")))
 	embed.add_field(_("Title"), change.get("title", _("Unknown")))
 	embed.finish_embed()
-	send_to_discord(embed)
+	send_to_discord(embed, meta=DiscordMessageMetadata("POST"))
 
 
 def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	embed = DiscordMessage("embed", action, settings["webhookURL"])
+	request_metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None), page_id=change.get("pageid", None))
 	if parsed_comment is None:
 		parsed_comment = _("No description provided")
 	if action != "suppressed":
@@ -554,9 +582,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "delete/delete":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Deleted page {article}").format(article=change["title"])
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(dict(pageid=change.get("pageid")))
 	elif action == "delete/delete_redir":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=change["title"])
+		if AUTO_SUPPRESSION_ENABLED:
+			delete_messages(dict(pageid=change.get("pageid")))
 	elif action == "move/move":
 		link = create_article_path(change["logparams"]['target_title'])
 		parsed_comment = "{supress}. {desc}".format(desc=parsed_comment,
@@ -709,6 +741,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = ngettext("Changed visibility of revision on page {article} ",
 		                          "Changed visibility of {amount} revisions on page {article} ", amount).format(
 			article=change["title"], amount=amount)
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+			except KeyError:
+				pass
+			else:
+				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
 	elif action == "import/upload":
 		link = create_article_path(change["title"])
 		embed["title"] = ngettext("Imported {article} with {count} revision",
@@ -720,6 +759,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "delete/event":
 		link = create_article_path("Special:RecentChanges")
 		embed["title"] = _("Changed visibility of log events")
+		if AUTO_SUPPRESSION_ENABLED:
+			try:
+				logparams = change["logparams"]
+			except KeyError:
+				pass
+			else:
+				redact_messages(logparams.get("ids", []), 1, logparams.get("new", {}))
 	elif action == "import/interwiki":
 		link = create_article_path("Special:RecentChanges")
 		embed["title"] = _("Imported interwiki")
@@ -886,4 +932,4 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		del_cat = (_("**Removed**: ") + ", ".join(list(categories["removed"])[0:16]) + ("" if len(categories["removed"])<=15 else _(" and {} more").format(len(categories["removed"])-15))) if categories["removed"] else ""
 		embed.add_field(_("Changed categories"), new_cat + del_cat)
 	embed.finish_embed()
-	send_to_discord(embed)
+	send_to_discord(embed, meta=request_metadata)

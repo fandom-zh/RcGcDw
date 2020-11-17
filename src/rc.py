@@ -6,7 +6,8 @@ import requests
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, messagequeue, datafile, send_simple, safe_read, LinkParser
+from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, LinkParser, AUTO_SUPPRESSION_ENABLED
+from src.discord.queue import messagequeue
 from src.exceptions import MWError
 from src.session import session
 from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
@@ -332,6 +333,9 @@ class Recent_Changes_Class(object):
 
 	def clear_cache(self):
 		self.map_ips = {}
+		if AUTO_SUPPRESSION_ENABLED:
+			from src.fileio.database import clean_entries
+			clean_entries()
 
 	def init_info(self):
 		startup_info = safe_read(self.safe_request(
@@ -397,13 +401,13 @@ def essential_info(change, changed_categories):
 		parsed_comment = _("~~hidden~~")
 	if not parsed_comment:
 		parsed_comment = None
-	if change["type"] in ["edit", "new"]:
-		logger.debug("List of categories in essential_info: {}".format(changed_categories))
-		if "userhidden" in change:
-			change["user"] = _("hidden")
-		identification_string = change["type"]
+	if "userhidden" in change:
+		change["user"] = _("hidden")
 	if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
 		return
+	if change["type"] in ["edit", "new"]:
+		logger.debug("List of categories in essential_info: {}".format(changed_categories))
+		identification_string = change["type"]
 	elif change["type"] == "log":
 		identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
 		if identification_string not in supported_logs:
