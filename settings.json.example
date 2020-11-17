@@ -33,6 +33,10 @@
    "show_bots": false,
    "show_abuselog": false,
    "discord_message_cooldown": 0,
+   "auto_suppression": {
+      "enabled": false,
+      "db_location": ":memory:"
+   },
    "logging": {
        "version": 1,
        "disable_existing_loggers": false,
