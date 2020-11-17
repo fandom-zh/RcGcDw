@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-14 20:55+0200\n"
-"PO-Revision-Date: 2020-10-13 16:56+0000\n"
+"PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
 "Language-Team: Ukrainian <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/uk/>\n"
@@ -963,7 +963,7 @@ msgstr ""
 
 #: src/rc_formatters.py:797 src/rc_formatters.py:799
 msgid "Report this on the support server"
-msgstr ""
+msgstr "Повідомити про це на сервер підтримки"
 
 #: src/rc_formatters.py:816
 msgid "Tags"
