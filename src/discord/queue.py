@@ -131,7 +131,7 @@ def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMes
 		if AUTO_SUPPRESSION_ENABLED and metadata.method == "POST":
 			# TODO Prepare request with all of safety checks
 			try:
-				add_message_redaction_entry(*metadata.dump_ids(), result.json())
+				add_message_redaction_entry(*metadata.dump_ids(), repr(data), result.json().get("id"))
 			except ValueError:
 				logger.error("Couldn't get json of result of sending Discord message.")
 	except requests.exceptions.Timeout:

@@ -6,7 +6,7 @@ from src.discord.queue import send_to_discord, messagequeue
 from src.fileio.database import db_cursor, db_connection
 from src.i18n import redaction as redaction_translation
 
-logger = logging.getLogger("rcgcdw.discord.redaction") # TODO Figure out why does this logger do not work
+logger = logging.getLogger("rcgcdw.discord.redaction")  # TODO Figure out why does this logger do not work
 _ = redaction_translation.gettext
 #ngettext = redaction_translation.ngettext
 
@@ -41,19 +41,19 @@ def redact_messages(ids: list, entry_type: int, to_censor: dict):
 	to_censor: dict - logparams of message parts to censor"""
 	for event_id in ids:
 		if entry_type == 0:  # TODO check if queries are proper
-			message = db_cursor.execute("SELECT content FROM messages INNER JOIN event ON event.msg_id = messages.message_id WHERE event.revid = ?;", (event_id, ))
+			message = db_cursor.execute("SELECT content, message_id FROM messages INNER JOIN event ON event.msg_id = messages.message_id WHERE event.revid = ?;", (event_id, ))
 		else:
 			message = db_cursor.execute(
-				"SELECT content FROM messages INNER JOIN event ON event.msg_id = messages.message_id WHERE event.logid = ?;",
+				"SELECT content, message_id FROM messages INNER JOIN event ON event.msg_id = messages.message_id WHERE event.logid = ?;",
 				(event_id,))
 		if settings["appearance"]["mode"] == "embed":
 			if message is not None:
-				message = message.fetchone()
+				row = message.fetchone()
 				try:
-					message = json.loads(message[0])
+					message = json.loads(row[0])
 					new_embed = message["embeds"][0]
 				except ValueError:
-					logger.error("Couldn't loads JSON for message data. What happened? Data: {}".format(message[0]))
+					logger.error("Couldn't loads JSON for message data. What happened? Data: {}".format(row[0]))
 					return
 				if "user" in to_censor:
 					new_embed["author"]["name"] = _("Removed")
@@ -66,5 +66,9 @@ def redact_messages(ids: list, entry_type: int, to_censor: dict):
 				if "comment" in to_censor:
 					new_embed["description"] = _("Removed")
 				message["embeds"][0] = new_embed
+				db_cursor.execute("UPDATE messages SET content = ? WHERE message_id = ?;", (json.dumps(message), row[1],))
+				db_connection.commit()
 				logger.debug(message)
-				send_to_discord(DiscordMessageRaw(message, settings["webhookURL"]), DiscordMessageMetadata("PATCH"))
+				send_to_discord(DiscordMessageRaw(message, settings["webhookURL"]+"/messages/"+str(row[1])), DiscordMessageMetadata("PATCH"))
+			else:
+				logger.debug("Could not find message in the database.")

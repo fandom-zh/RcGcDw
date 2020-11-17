@@ -85,5 +85,5 @@ class DiscordMessageMetadata:
 		self.webhook_url = webhook_url
 		self.new_data = new_data
 
-	def dump_ids(self):
+	def dump_ids(self) -> (int, int, int):
 		return self.page_id, self.rev_id, self.log_id
