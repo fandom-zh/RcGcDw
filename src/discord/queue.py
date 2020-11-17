@@ -140,6 +140,9 @@ def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMes
 	except requests.exceptions.ConnectionError:
 		logger.warning("Connection error while sending the data to a webhook")
 		return 3
+	except requests.exceptions.MissingSchema:
+		logger.debug(repr(data))
+		sys.exit(1)
 	else:
 		return handle_discord_http(result.status_code, data, result)
 
