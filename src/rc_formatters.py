@@ -195,43 +195,68 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "✅ "+_("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
 	elif action == "curseprofile/comment-created":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		content = "✉️ "+_("[{author}]({author_url}) left a [comment]({comment}) on {target} profile").format(author=author, author_url=author_url, comment=link, target=change["title"].split(':')[1]+("'s" if change["title"].split(':')[1] != change["user"] else _("their own profile")))
+		target_user = change["title"].split(':')[1]
+		if target_user != change["user"]:
+			content = "✉️ "+ _("[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile".format(author=author, author_url=author_url, comment=link, target=target_user))
+		else:
+			content = "✉️ "+ _("[{author}]({author_url}) left a [comment]({comment}) on their own profile".format(author=author, comment=link, author_url=author_url))
 	elif action == "curseprofile/comment-replied":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		content = "📩 "+_("[{author}]({author_url}) replied to a [comment]({comment}) on {target} profile").format(author=author,
-		                                                                                               author_url=author_url,
-		                                                                                               comment=link,
-		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
+		target_user = change["title"].split(':')[1]
+		if target_user != change["user"]:
+			content = "📩 "+ _(
+				"[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s profile".format(author=author,
+				                                                                                    author_url=author_url,
+				                                                                                    comment=link,
+				                                                                                    target=target_user))
+		else:
+			content = "📩 "+ _(
+				"[{author}]({author_url}) replied to a [comment]({comment}) on their own profile".format(author=author,
+				                                                                                   comment=link,
+				                                                                                   author_url=author_url))
 	elif action == "curseprofile/comment-edited":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		content = "📧 "+_("[{author}]({author_url}) edited a [comment]({comment}) on {target} profile").format(author=author,
-		                                                                                               author_url=author_url,
-		                                                                                               comment=link,
-		                                                                                               target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
+		target_user = change["title"].split(':')[1]
+		if target_user != change["user"]:
+			content = "📧 "+ _(
+				"[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile".format(author=author,
+				                                                                                          author_url=author_url,
+				                                                                                          comment=link,
+				                                                                                          target=target_user))
+		else:
+			content = "📧 "+ _(
+				"[{author}]({author_url}) edited a [comment]({comment}) on their own profile".format(author=author,
+				                                                                                         comment=link,
+				                                                                                         author_url=author_url))
 	elif action == "curseprofile/comment-purged":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		content = "👁️ "+_("[{author}]({author_url}) purged a comment on {target} profile").format(author=author,
-		                                                                                     author_url=author_url,
-		                                                                                     target=
-		                                                                                     change["title"].split(':')[
-			                                                                                     1] if
-		                                                                                     change["title"].split(':')[
-			                                                                                     1] != change[
-			                                                                                     "user"] else _(
-			                                                                                     "their own"))
+		target_user = change["title"].split(':')[1]
+		if target_user != change["user"]:
+			content = "👁️ " + _("[{author}]({author_url}) purged a comment on {target}'s profile".format(author=author, author_url=author_url,target=target_user))
+		else:
+			content = "👁️ " + _("[{author}]({author_url}) purged a comment on their own profile".format(author=author, author_url=author_url))
 	elif action == "curseprofile/comment-deleted":
-		content = "🗑️ "+_("[{author}]({author_url}) deleted a comment on {target} profile").format(author=author,
-		                                                                                    author_url=author_url,
-		                                                                                     target=change["title"].split(':')[1] if change["title"].split(':')[1] !=change["user"] else _("their own"))
+		target_user = change["title"].split(':')[1]
+		if target_user != change["user"]:
+			content = "🗑️ "+ _("[{author}]({author_url}) deleted a comment on {target}'s profile".format(author=author,author_url=author_url, target=target_user))
+		else:
+			content = "🗑️ "+ _("[{author}]({author_url}) deleted a comment on their own profile".format(author=author, author_url=author_url))
 
 	elif action == "curseprofile/profile-edited":
 		link = link_formatter(create_article_path("UserProfile:{user}".format(user=change["title"].split(":")[1])))
-		target = _("[{target}]({target_url})'s").format(target=change["title"].split(':')[1], target_url=link) if change["title"].split(':')[1] != author else _("[their own]({target_url})").format(target_url=link)
-		content = "📌 "+_("[{author}]({author_url}) edited the {field} on {target} profile. *({desc})*").format(author=author,
+		target_user = change["title"].split(':')[1]
+		if target_user != change["user"]:
+			content = "📌 "+_("[{author}]({author_url}) edited the {field} on {target}'s profile. *({desc})*").format(author=author,
 		                                                                        author_url=author_url,
-		                                                                        target=target,
+		                                                                        target=target_user,
 		                                                                        field=profile_field_name(change["logparams"]['4:section'], False),
 		                                                                        desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
+		else:
+			content = "📌 " + _("[{author}]({author_url}) edited the {field} on their own profile. *({desc})*").format(
+				author=author,
+				author_url=author_url,
+				field=profile_field_name(change["logparams"]['4:section'], False),
+				desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action in ("rights/rights", "rights/autopromote"):
 		link = link_formatter(create_article_path("User:{user}".format(user=change["title"].split(":")[1])))
 		old_groups = []
