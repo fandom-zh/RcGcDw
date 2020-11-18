@@ -958,7 +958,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 			else:
 				embed.add_field(_("Report this on the support server"), change_params)
 	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
-	embed["url"] = quote(link.replace(" ", "_"), "/:?")
+	embed["url"] = quote(link.replace(" ", "_"), "/:?=&")
 	if parsed_comment is not None:
 		embed["description"] = parsed_comment
 	if settings["appearance"]["embed"]["show_footer"]:
