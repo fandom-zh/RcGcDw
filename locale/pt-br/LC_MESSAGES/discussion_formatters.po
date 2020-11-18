@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 08:29+0100\n"
+"POT-Creation-Date: 2020-11-18 14:13+0100\n"
 "PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: Eduaddad <>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 4.2.1\n"
+
+#: src/discussion_formatters.py:25 src/discussion_formatters.py:81
+msgid "Unregistered user"
+msgstr ""
 
 #: src/discussion_formatters.py:34
 #, python-brace-format
@@ -99,9 +103,9 @@ msgid ""
 "&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
 "[{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url}) criou uma "
-"[resposta](<{url}?commentId={commentId}&replyId={replyId}>)para um "
-"[comentário](<{url}?commentId={commentId}>) no [{article}](<{url}>)"
+"[{author}]({author_url}) criou uma [resposta](<{url}?commentId={commentId}"
+"&replyId={replyId}>)para um [comentário](<{url}?commentId={commentId}>) no "
+"[{article}](<{url}>)"
 
 #: src/discussion_formatters.py:70
 #, python-brace-format
