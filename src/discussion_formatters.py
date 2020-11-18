@@ -22,7 +22,7 @@ def compact_formatter(post_type, post, article_paths):
 		author = post["createdBy"]["name"]
 		author_url = "<{url}f/u/{creatorId}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
 	elif post["creatorIp"]:
-		author = post["creatorIp"][1:]
+		author = post["creatorIp"][1:] if settings.get("hide_ips", False) is False else _("Unregistered user")
 		author_url = "<{url}wiki/Special:Contributions{creatorIp}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"])
 	else:
 		author = post["createdBy"]["name"]
@@ -78,7 +78,7 @@ def embed_formatter(post_type, post, article_paths):
 	if post_type == "FORUM":
 		embed.set_author(post["createdBy"]["name"], "{url}f/u/{creatorId}".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
 	elif post["creatorIp"]:
-		embed.set_author(post["creatorIp"][1:], "{url}wiki/Special:Contributions{creatorIp}".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"]))
+		embed.set_author(post["creatorIp"][1:] if settings.get("hide_ips", False) is False else _("Unregistered user"), "{url}wiki/Special:Contributions{creatorIp}".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"]))
 	else:
 		embed.set_author(post["createdBy"]["name"], "{url}wiki/User:{creator}".format(url=settings["fandom_discussions"]["wiki_url"], creator=post["createdBy"]["name"]), icon_url=post["createdBy"]["avatarUrl"])
 	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
