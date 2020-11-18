@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-14 20:55+0200\n"
+"POT-Creation-Date: 2020-11-18 08:29+0100\n"
 "PO-Revision-Date: 2020-08-04 09:51+0000\n"
-"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
+"Last-Translator: Eduaddad <>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
 "rcgcdw/main/pt_BR/>\n"
 "Language: pt-br\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.1.1\n"
 
-#: src/rc.py:172
-#, python-brace-format
-msgid "Connection to {wiki} seems to be stable now."
-msgstr "A conexão com {wiki} parece estar estável agora."
-
-#: src/rc.py:173 src/rc.py:296
-msgid "Connection status"
-msgstr "Status da conexão"
-
-#: src/rc.py:295
+#: src/rc.py:319
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} parece estar inativo ou inacessível."
 
-#: src/rc.py:364
+#: src/rc.py:320 src/rc.py:332
+msgid "Connection status"
+msgstr "Status da conexão"
+
+#: src/rc.py:330
+#, python-brace-format
+msgid "Connection to {wiki} seems to be stable now."
+msgstr "A conexão com {wiki} parece estar estável agora."
+
+#: src/rc.py:401
 msgid "~~hidden~~"
 msgstr "~~ocultado~~"
 
-#: src/rc.py:370
+#: src/rc.py:405
 msgid "hidden"
 msgstr "oculto"
