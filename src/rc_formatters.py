@@ -42,27 +42,46 @@ def format_user(change, recent_changes, action):
 			if contibs is None:
 				logger.warning(
 					"WARNING: Something went wrong when checking amount of contributions for given IP address")
+				if settings.get("hide_ips", False):
+					change["user"] = _("Unregistered user")
 				change["user"] = change["user"] + "(?)"
 			else:
 				recent_changes.map_ips[change["user"]] = len(contibs)
 				logger.debug(
 					"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
+				if settings.get("hide_ips", False):
+					change["user"] = _("Unregistered user")
 				change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 		else:
 			logger.debug(
 				"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 			if action in ("edit", "new"):
 				recent_changes.map_ips[change["user"]] += 1
+			if settings.get("hide_ips", False):
+				change["user"] = _("Unregistered user")
 			change["user"] = "{author} ({amount})".format(author=change["user"],
 			                                              amount=recent_changes.map_ips[change["user"]])
 	else:
 		author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
 	return change["user"], author_url
 
+
+def abuse_filter_format_user(change):
+	author = change["user"]
+	if settings.get("hide_ips", False):
+		try:
+			ipaddress.ip_address(change["user"])
+		except ValueError:
+			pass
+		else:
+			author = _("Unregistered user")
+	return author
+
+
 def compact_abuselog_formatter(change, recent_changes):
 	action = "abuselog/{}".format(change["result"])
 	author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
-	author = change["user"]
+	author = abuse_filter_format_user(change)
 	message = _("[{author}]({author_url}) triggered *{abuse_filter}*, performing the action \"{action}\" on *[{target}]({target_url})* - action taken: {result}.").format(
 		author=author, author_url=author_url, abuse_filter=change["filter"],
 		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
@@ -75,7 +94,11 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	request_metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None), page_id=change.get("pageid", None))
 	if action != "suppressed":
 		author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
-		author = change["user"]
+		if "anon" in change:
+			change["user"] = _("Unregistered user")
+			author = change["user"]
+		else:
+			author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
 	if action in ["edit", "new"]:
 		edit_link = link_formatter("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
@@ -199,14 +222,14 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "curseprofile/comment-created":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
 		target_user = change["title"].split(':')[1]
-		if target_user != change["user"]:
+		if target_user != author:
 			content = "✉️ "+ _("[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile".format(author=author, author_url=author_url, comment=link, target=target_user))
 		else:
 			content = "✉️ "+ _("[{author}]({author_url}) left a [comment]({comment}) on their own profile".format(author=author, comment=link, author_url=author_url))
 	elif action == "curseprofile/comment-replied":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
 		target_user = change["title"].split(':')[1]
-		if target_user != change["user"]:
+		if target_user != author:
 			content = "📩 "+ _(
 				"[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s profile".format(author=author,
 				                                                                                    author_url=author_url,
@@ -220,7 +243,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "curseprofile/comment-edited":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
 		target_user = change["title"].split(':')[1]
-		if target_user != change["user"]:
+		if target_user != author:
 			content = "📧 "+ _(
 				"[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile".format(author=author,
 				                                                                                          author_url=author_url,
@@ -234,13 +257,13 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "curseprofile/comment-purged":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
 		target_user = change["title"].split(':')[1]
-		if target_user != change["user"]:
+		if target_user != author:
 			content = "👁️ " + _("[{author}]({author_url}) purged a comment on {target}'s profile".format(author=author, author_url=author_url,target=target_user))
 		else:
 			content = "👁️ " + _("[{author}]({author_url}) purged a comment on their own profile".format(author=author, author_url=author_url))
 	elif action == "curseprofile/comment-deleted":
 		target_user = change["title"].split(':')[1]
-		if target_user != change["user"]:
+		if target_user != author:
 			content = "🗑️ "+ _("[{author}]({author_url}) deleted a comment on {target}'s profile".format(author=author,author_url=author_url, target=target_user))
 		else:
 			content = "🗑️ "+ _("[{author}]({author_url}) deleted a comment on their own profile".format(author=author, author_url=author_url))
@@ -248,7 +271,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "curseprofile/profile-edited":
 		link = link_formatter(create_article_path("UserProfile:{user}".format(user=change["title"].split(":")[1])))
 		target_user = change["title"].split(':')[1]
-		if target_user != change["user"]:
+		if target_user != author:
 			content = "📌 "+_("[{author}]({author_url}) edited the {field} on {target}'s profile. *({desc})*").format(author=author,
 		                                                                        author_url=author_url,
 		                                                                        target=target_user,
@@ -463,9 +486,8 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 def embed_abuselog_formatter(change, recent_changes):
 	action = "abuselog/{}".format(change["result"])
 	embed = DiscordMessage("embed", action, settings["webhookURL"])
-	raw_username = change["user"]
-	change["user"], author_url = format_user(change, recent_changes, action)
-	embed["title"] = _("{user} triggered \"{abuse_filter}\"").format(user=raw_username, abuse_filter=change["filter"])
+	author = abuse_filter_format_user(change)
+	embed["title"] = _("{user} triggered \"{abuse_filter}\"").format(user=author, abuse_filter=change["filter"])
 	embed.add_field(_("Performed"), abusefilter_actions.get(change["action"], _("Unknown")))
 	embed.add_field(_("Action taken"), abusefilter_results.get(change["result"], _("Unknown")))
 	embed.add_field(_("Title"), change.get("title", _("Unknown")))
@@ -729,7 +751,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		if action == "rights/rights":
 			embed["title"] = _("Changed group membership for {target}").format(target=change["title"].split(":")[1])
 		else:
-			change["user"] = _("System")
+			embed.set_author(_("System"), author_url)
 			author_url = ""
 			embed["title"] = _("{target} got autopromoted to a new usergroup").format(
 				target=change["title"].split(":")[1])

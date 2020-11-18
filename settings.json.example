@@ -32,6 +32,7 @@
    "show_added_categories": true,
    "show_bots": false,
    "show_abuselog": false,
+   "hide_ips": false,
    "discord_message_cooldown": 0,
    "auto_suppression": {
       "enabled": false,
