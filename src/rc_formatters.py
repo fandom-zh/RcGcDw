@@ -66,7 +66,7 @@ def compact_abuselog_formatter(change, recent_changes):
 	message = _("[{author}]({author_url}) triggered *{abuse_filter}*, performing the action \"{action}\" on *[{target}]({target_url})* - action taken: {result}.").format(
 		author=author, author_url=author_url, abuse_filter=change["filter"],
 		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
-		target_url=create_article_path(change.get("title", _("Unknown"))),
+		target_url=link_formatter(create_article_path(change.get("title", _("Unknown")))),
 		result=abusefilter_results.get(change["result"], _("Unknown")))
 	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
 
@@ -87,12 +87,15 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			sign = "+"
 		else:
 			sign = ""
+		bold = ""
+		if abs(edit_size) > 500:
+			bold = "**"
 		if change["title"].startswith("MediaWiki:Tag-"):
 			pass
 		if action == "edit":
-			content = "📝 "+_("[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({sign}{edit_size})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign)
+			content = "📝 "+_("[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({bold}{sign}{edit_size}{bold})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
 		else:
-			content = "🆕 "+_("[{author}]({author_url}) created [{article}]({edit_link}){comment} ({sign}{edit_size})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign)
+			content = "🆕 "+_("[{author}]({author_url}) created [{article}]({edit_link}){comment} ({bold}{sign}{edit_size}{bold})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
 	elif action =="upload/upload":
 		file_link = link_formatter(create_article_path(change["title"]))
 		content = "🖼️ "+_("[{author}]({author_url}) uploaded [{file}]({file_link}){comment}").format(author=author,
