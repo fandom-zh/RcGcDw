@@ -242,7 +242,7 @@ class Recent_Changes_Class(object):
 			return
 		else:
 			rc_last_id = self.prepare_rc(rc, amount)
-		if settings["show_abuselog"]:
+		if settings.get("show_abuselog", False):
 			try:
 				abuselog = request_json["query"]["abuselog"]  # While LYBL approach would be more performant when abuselog is not in request body, I prefer this approach for its clarity
 			except KeyError:

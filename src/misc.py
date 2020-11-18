@@ -89,7 +89,12 @@ class DataFile:
 		self.changed = True
 
 	def __getitem__(self, item):
-		return self.data[item]
+		try:
+			return self.data[item]
+		except KeyError:  # if such value doesn't exist, set to and return none
+			self.__setitem__(item, None)
+			self.save_datafile()
+			return None
 
 
 datafile = DataFile()
