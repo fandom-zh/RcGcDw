@@ -57,9 +57,7 @@ def format_user(change, recent_changes, action):
 				"Current params user {} and state of map_ips {}".format(change["user"], recent_changes.map_ips))
 			if action in ("edit", "new"):
 				recent_changes.map_ips[change["user"]] += 1
-			if settings.get("hide_ips", False):
-				change["user"] = _("Unregistered user")
-			change["user"] = "{author} ({amount})".format(author=change["user"],
+			change["user"] = "{author} ({amount})".format(author=change["user"] if settings.get("hide_ips", False) is False else _("Unregistered user"),
 			                                              amount=recent_changes.map_ips[change["user"]])
 	else:
 		author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
