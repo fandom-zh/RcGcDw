@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-14 20:55+0200\n"
-"PO-Revision-Date: 2020-10-14 18:41+0000\n"
-"Last-Translator: Rail <rail01@protonmail.com>\n"
+"PO-Revision-Date: 2020-11-18 07:47+0000\n"
+"Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
 "Language: pl\n"
@@ -286,22 +286,22 @@ msgid "none"
 msgstr "brak"
 
 #: src/rc_formatters.py:228
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}) from {old_groups} to {new_groups}{comment}"
 msgstr ""
-"[{author}]({author_url}) zmienił(a) model zawartości [{article}]"
-"({article_url}) z {old} na {new}{comment}"
+"[{author}]({author_url}) zmienił(a) przynależność do grup dla "
+"[{target}]({target_url}) z {old_groups} na {new_groups}{comment}"
 
 #: src/rc_formatters.py:230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{author} autopromoted [{target}]({target_url}) from {old_groups} to "
 "{new_groups}{comment}"
 msgstr ""
-"[{author}]({author_url}) zmienił(a) model zawartości [{article}]"
-"({article_url}) z {old} na {new}{comment}"
+"{author} automatycznie zmienił przynależność do grup [{target}]({target_url})"
+" z {old_groups} na {new_groups}{comment}"
 
 #: src/rc_formatters.py:231 src/rc_formatters.py:630
 msgid "System"
@@ -539,10 +539,9 @@ msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
 msgstr "[{author}]({author_url}) dezaktywował(a) [znacznik]({tag_url}) „{tag}”"
 
 #: src/rc_formatters.py:356
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings ({reason})"
-msgstr ""
-"[{author}]({author_url}) zmienił(a) widoczność wpisów rejestru{comment}"
+msgstr "[{author}]({author_url}) zmienił(a) ustawienia wiki ({reason})"
 
 #: src/rc_formatters.py:358
 msgid "An action has been hidden by administration."

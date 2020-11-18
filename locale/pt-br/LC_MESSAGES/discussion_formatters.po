@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-14 20:55+0200\n"
-"PO-Revision-Date: 2020-08-11 21:22+0000\n"
-"Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
+"PO-Revision-Date: 2020-11-18 07:47+0000\n"
+"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
-"rcgcdw/discussion_formatters-1/pt_BR/>\n"
+"rcgcdw/discussion_formatters-1/pt-br/>\n"
 "Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2.1\n"
 
 #: src/discussion_formatters.py:32
 #, python-brace-format
@@ -85,25 +85,24 @@ msgstr ""
 "[{user}](<{url}wiki/Message_Wall:{user_wall}>)"
 
 #: src/discussion_formatters.py:55
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
 "on [{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url})criou um [comentário](<{url}wiki/{article}?"
-"commentId={commentId}>) no [{article}](<{url}wiki/{article}>)"
+"[{author}]({author_url})criou um [comentário](<{url}?commentId={commentId}>) "
+"no [{article}](<{url}>)"
 
 #: src/discussion_formatters.py:60
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}"
 "&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
 "[{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url}) criou uma [resposta](<{url}wiki/{article}?"
-"threadId={threadId}) para um [comentário](<{url}wiki/{article}?"
-"commentId={commentId}&replyId={replyId}>) no [{article}](<{url}wiki/{article}"
-">)"
+"[{author}]({author_url}) criou uma "
+"[resposta](<{url}?commentId={commentId}&replyId={replyId}>)para um "
+"[comentário](<{url}?commentId={commentId}>) no [{article}](<{url}>)"
 
 #: src/discussion_formatters.py:68
 #, python-brace-format

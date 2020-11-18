@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-14 20:55+0200\n"
-"PO-Revision-Date: 2020-10-13 16:56+0000\n"
+"PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/"
 "discussion_formatters-1/de/>\n"
@@ -86,25 +86,24 @@ msgstr ""
 "{user}](<{url}wiki/Message_Wall:{user_wall}>)"
 
 #: src/discussion_formatters.py:55
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
 "on [{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url}) erstellte ein [Kommentar](<{url}wiki/{article}?"
-"commentId={commentId}>) zu [{article}](<{url}wiki/{article}>)"
+"[{author}]({author_url}) erstellte ein "
+"[Kommentar](<{url}?commentId={commentId}>) zu [{article}](<{url}>)"
 
 #: src/discussion_formatters.py:60
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}"
 "&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
 "[{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url}) erstellte eine [Antwort](<{url}wiki/{article}?"
-"threadId={threadId}>) auf ein [Kommentar](<{url}wiki/{article}?"
-"commentId={commentId}&replyId={replyId}>) zu [{article}](<{url}wiki/{article}"
-">)"
+"[{author}]({author_url}) erstellte eine "
+"[Antwort](<{url}?commentId={commentId}&replyId={replyId}>) auf ein "
+"[Kommentar](<{url}?commentId={commentId}>) zu [{article}](<{url}>)"
 
 #: src/discussion_formatters.py:68
 #, python-brace-format
