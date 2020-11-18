@@ -974,6 +974,8 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 			else:
 				tag_displayname.append(tag)
 		embed.add_field(_("Tags"), ", ".join(tag_displayname))
+	if len(embed["title"]) > 254:
+		embed["title"] = embed["title"][0:253]+"…"
 	logger.debug("Current params in edit action: {}".format(change))
 	if categories is not None and not (len(categories["new"]) == 0 and len(categories["removed"]) == 0):
 		new_cat = (_("**Added**: ") + ", ".join(list(categories["new"])[0:16]) + ("\n" if len(categories["new"])<=15 else _(" and {} more\n").format(len(categories["new"])-15))) if categories["new"] else ""

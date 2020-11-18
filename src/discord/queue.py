@@ -129,11 +129,13 @@ def send_to_discord_webhook(data: Optional[DiscordMessage], metadata: DiscordMes
 		result = requests.Session().send(req, timeout=10)
 		update_ratelimit(result)
 		if AUTO_SUPPRESSION_ENABLED and metadata.method == "POST":
-			# TODO Prepare request with all of safety checks
-			try:
-				add_message_redaction_entry(*metadata.dump_ids(), repr(data), result.json().get("id"))
-			except ValueError:
-				logger.error("Couldn't get json of result of sending Discord message.")
+			if 199 < result.status_code < 300:  # check if positive error log
+				try:
+					add_message_redaction_entry(*metadata.dump_ids(), repr(data), result.json().get("id"))
+				except ValueError:
+					logger.error("Couldn't get json of result of sending Discord message.")
+			else:
+				pass
 	except requests.exceptions.Timeout:
 		logger.warning("Timeouted while sending data to the webhook.")
 		return 3
