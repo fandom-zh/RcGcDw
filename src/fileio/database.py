@@ -57,10 +57,10 @@ def clean_entries():
 	cleanup = db_cursor.execute(
 		"SELECT message_id FROM messages WHERE message_id NOT IN (SELECT message_id FROM messages ORDER BY message_id desc LIMIT 50);")
 	for row in cleanup:
-		db_cursor.execute("DELETE FROM messages WHERE message_id = ?", (row[0]))
+		db_cursor.execute("DELETE FROM messages WHERE message_id = ?", (row[0],))
 	cleanup = db_cursor.execute("SELECT msg_id FROM event WHERE msg_id NOT IN (SELECT msg_id FROM event ORDER BY msg_id desc LIMIT 50);")
 	for row in cleanup:
-		db_cursor.execute("DELETE FROM event WHERE msg_id = ?", (row[0]))
+		db_cursor.execute("DELETE FROM event WHERE msg_id = ?", (row[0],))
 	db_connection.commit()
 
 db_connection, db_cursor = create_connection()
