@@ -36,6 +36,8 @@
 
 Thank you!
 
+[![Translation status](https://weblate.frisk.space/widgets/rcgcdw/-/multi-auto.svg)](https://weblate.frisk.space/engage/rcgcdw/?utm_source=widget)
+
 ### Other extensions/compatible programs ###
 * [Wiki Utilities](https://github.com/Sidemen19/Wiki-Utilities) - an integration allowing administrator to execute revert/block or delete actions on the wiki using reactions in messages created by RcGcDw/RcGcDb. Author: [Sidemen19](https://github.com/Sidemen19)
 
