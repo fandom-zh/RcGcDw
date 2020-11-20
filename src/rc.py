@@ -155,7 +155,7 @@ class Recent_Changes_Class(object):
 		categorize_events = {}
 		new_events = 0
 		changes.reverse()
-		recent_id = storage["rcid"]
+		highest_id = recent_id = storage["rcid"]
 		dry_run = True if recent_id is None else False
 		for change in changes:
 			if not dry_run and not (change["rcid"] <= recent_id):
@@ -202,6 +202,8 @@ class Recent_Changes_Class(object):
 							"Init information not available, could not read category information. Please restart the bot.")
 				else:
 					logger.debug("Log entry got suppressed, ignoring entry.")
+			if change["rcid"] > highest_id:
+				highest_id = change["rcid"]
 		if not dry_run:
 			for change in changes:
 				if change["rcid"] <= recent_id:
@@ -209,7 +211,7 @@ class Recent_Changes_Class(object):
 					continue
 				logger.debug(recent_id)
 				essential_info(change, categorize_events.get(change.get("revid"), None))
-		return change["rcid"]
+		return highest_id
 
 	def prepare_abuse_log(self, abuse_log: list):
 		if not abuse_log:
