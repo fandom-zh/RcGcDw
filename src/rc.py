@@ -202,7 +202,7 @@ class Recent_Changes_Class(object):
 							"Init information not available, could not read category information. Please restart the bot.")
 				else:
 					logger.debug("Log entry got suppressed, ignoring entry.")
-			if change["rcid"] > highest_id:
+			if highest_id is None or change["rcid"] > highest_id:
 				highest_id = change["rcid"]
 		if not dry_run:
 			for change in changes:
