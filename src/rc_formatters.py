@@ -185,28 +185,28 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
 				block_time = _("until {}").format(date_time_obj.strftime("%Y-%m-%d %H:%M:%S UTC"))
 			if "sitewide" not in change["logparams"]:
-				restriction_description = ""
-				if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
-					restriction_description = _(" on pages: ")
-					for page in change["logparams"]["restrictions"]["pages"]:
-						restricted_pages = ["*{page}*".format(page=i["page_title"]) for i in change["logparams"]["restrictions"]["pages"]]
-					restriction_description = restriction_description + ", ".join(restricted_pages)
-				if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
-					namespaces = []
-					if restriction_description:
-						restriction_description = restriction_description + _(" and namespaces: ")
-					else:
-						restriction_description = _(" on namespaces: ")
-					for namespace in change["logparams"]["restrictions"]["namespaces"]:
-						if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
-							namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
+				if "restrictions" in change["logparams"]:
+					if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
+						restriction_description = _(" on pages: ")
+						for page in change["logparams"]["restrictions"]["pages"]:
+							restricted_pages = ["*{page}*".format(page=i["page_title"]) for i in change["logparams"]["restrictions"]["pages"]]
+						restriction_description = restriction_description + ", ".join(restricted_pages)
+					if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
+						namespaces = []
+						if restriction_description:
+							restriction_description = restriction_description + _(" and namespaces: ")
 						else:
-							namespaces.append("*{ns}*".format(ns=namespace))
-					restriction_description = restriction_description + ", ".join(namespaces)
-				restriction_description = restriction_description + "."
-				if len(restriction_description) > 1020:
-					logger.debug(restriction_description)
-					restriction_description = restriction_description[:1020] + "…"
+							restriction_description = _(" on namespaces: ")
+						for namespace in change["logparams"]["restrictions"]["namespaces"]:
+							if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
+								namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
+							else:
+								namespaces.append("*{ns}*".format(ns=namespace))
+						restriction_description = restriction_description + ", ".join(namespaces)
+					restriction_description = restriction_description + "."
+					if len(restriction_description) > 1020:
+						logger.debug(restriction_description)
+						restriction_description = restriction_description[:1020] + "…"
 		content = "🚫 "+_(
 			"[{author}]({author_url}) blocked [{user}]({user_url}) {time}{restriction_desc}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, restriction_desc=restriction_description, comment=parsed_comment)
 	elif action == "block/reblock":
@@ -676,28 +676,29 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 					block_time = _("unknown expiry time")  # THIS IS HERE JUST TEMPORARY AS A HOT FIX TO #157, will be changed with release of 1.13
 		if "sitewide" not in change["logparams"]:
 			restriction_description = ""
-			if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
-				restriction_description = _("Blocked from editing the following pages: ")
-				for page in change["logparams"]["restrictions"]["pages"]:
-					restricted_pages = ["*"+i["page_title"]+"*" for i in change["logparams"]["restrictions"]["pages"]]
-				restriction_description = restriction_description + ", ".join(restricted_pages)
-			if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
-				namespaces = []
-				if restriction_description:
-					restriction_description = restriction_description + _(" and namespaces: ")
-				else:
-					restriction_description = _("Blocked from editing pages on following namespaces: ")
-				for namespace in change["logparams"]["restrictions"]["namespaces"]:
-					if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
-						namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
+			if "restrictions" in change["logparams"]:
+				if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
+					restriction_description = _("Blocked from editing the following pages: ")
+					for page in change["logparams"]["restrictions"]["pages"]:
+						restricted_pages = ["*"+i["page_title"]+"*" for i in change["logparams"]["restrictions"]["pages"]]
+					restriction_description = restriction_description + ", ".join(restricted_pages)
+				if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
+					namespaces = []
+					if restriction_description:
+						restriction_description = restriction_description + _(" and namespaces: ")
 					else:
-						namespaces.append("*{ns}*".format(ns=namespace))
-				restriction_description = restriction_description + ", ".join(namespaces)
-			restriction_description = restriction_description + "."
-			if len(restriction_description) > 1020:
-				logger.debug(restriction_description)
-				restriction_description = restriction_description[:1020]+"…"
-			embed.add_field(_("Partial block details"), restriction_description, inline=True)
+						restriction_description = _("Blocked from editing pages on following namespaces: ")
+					for namespace in change["logparams"]["restrictions"]["namespaces"]:
+						if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
+							namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
+						else:
+							namespaces.append("*{ns}*".format(ns=namespace))
+					restriction_description = restriction_description + ", ".join(namespaces)
+				restriction_description = restriction_description + "."
+				if len(restriction_description) > 1020:
+					logger.debug(restriction_description)
+					restriction_description = restriction_description[:1020]+"…"
+				embed.add_field(_("Partial block details"), restriction_description, inline=True)
 		embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
 		link = create_article_path(change["title"].replace(')', '\)'))
