@@ -8,18 +8,20 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 14:13+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-11-25 10:16+0000\n"
+"Last-Translator: Yongmin Hong <revi@pobox.com>\n"
+"Language-Team: Korean <https://weblate.frisk.space/projects/rcgcdw/main/ko/>"
+"\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.2.1\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: src/rc_formatters.py:28
 msgid "Warning issued"
@@ -27,64 +29,64 @@ msgstr ""
 
 #: src/rc_formatters.py:28
 msgid "**Blocked user**"
-msgstr ""
+msgstr "**차단된 사용자**"
 
 #: src/rc_formatters.py:28
 msgid "Tagged the edit"
-msgstr ""
+msgstr "편집 태그"
 
 #: src/rc_formatters.py:28
 msgid "Disallowed the action"
-msgstr ""
+msgstr "행동을 불허했습니다"
 
 #: src/rc_formatters.py:28
 msgid "**IP range blocked**"
-msgstr ""
+msgstr "**IP 대역 차단됨**"
 
 #: src/rc_formatters.py:28
 msgid "Throttled actions"
-msgstr ""
+msgstr "속도 제한이 적용된 행동"
 
 #: src/rc_formatters.py:28
 msgid "Removed autoconfirmed group"
-msgstr ""
+msgstr "자동 인증 상태가 해제됨"
 
 #: src/rc_formatters.py:28
 msgid "**Removed from privileged groups**"
-msgstr ""
+msgstr "**특수 사용자 권한이 회수됨**"
 
 #: src/rc_formatters.py:29
 msgid "Edit"
-msgstr ""
+msgstr "편집"
 
 #: src/rc_formatters.py:29
 msgid "Upload"
-msgstr ""
+msgstr "업로드"
 
 #: src/rc_formatters.py:29
 msgid "Move"
-msgstr ""
+msgstr "이동"
 
 #: src/rc_formatters.py:29
 msgid "Stash upload"
-msgstr ""
+msgstr "스태시 업로드"
 
 #: src/rc_formatters.py:29
 msgid "Deletion"
-msgstr ""
+msgstr "삭제"
 
 #: src/rc_formatters.py:29
 msgid "Account creation"
-msgstr ""
+msgstr "계정 생성"
 
 #: src/rc_formatters.py:29
 msgid "Auto account creation"
-msgstr ""
+msgstr "자동 계정 생성"
 
 #: src/rc_formatters.py:46 src/rc_formatters.py:53 src/rc_formatters.py:60
 #: src/rc_formatters.py:75 src/rc_formatters.py:96
 msgid "Unregistered user"
-msgstr ""
+msgstr "비등록 사용자"
 
 #: src/rc_formatters.py:83
 #, python-brace-format
@@ -102,7 +104,7 @@ msgstr ""
 #: src/rc_formatters.py:932 src/rc_formatters.py:934 src/rc_formatters.py:939
 #: src/rc_formatters.py:942 src/rc_formatters.py:947
 msgid "Unknown"
-msgstr ""
+msgstr "알 수 없음"
 
 #: src/rc_formatters.py:117
 #, python-brace-format
@@ -150,11 +152,11 @@ msgstr ""
 
 #: src/rc_formatters.py:148 src/rc_formatters.py:153
 msgid "without making a redirect"
-msgstr ""
+msgstr "넘겨주기를 남기지 않고"
 
 #: src/rc_formatters.py:148 src/rc_formatters.py:154
 msgid "with a redirect"
-msgstr ""
+msgstr "넘겨주기를 유지하고"
 
 #: src/rc_formatters.py:149
 #, python-brace-format
@@ -179,7 +181,7 @@ msgstr ""
 
 #: src/rc_formatters.py:171 src/rc_formatters.py:662
 msgid "for infinity and beyond"
-msgstr ""
+msgstr "영원 그 이후의 순간까지"
 
 #: src/rc_formatters.py:180 src/rc_formatters.py:670
 #, python-brace-format
@@ -188,19 +190,19 @@ msgstr ""
 
 #: src/rc_formatters.py:186 src/rc_formatters.py:674
 msgid "until {}"
-msgstr ""
+msgstr "{} 까지"
 
 #: src/rc_formatters.py:190
 msgid " on pages: "
-msgstr ""
+msgstr " 다음 문서에서: "
 
 #: src/rc_formatters.py:197 src/rc_formatters.py:687
 msgid " and namespaces: "
-msgstr ""
+msgstr " 그리고 다음 이름공간에서: "
 
 #: src/rc_formatters.py:199
 msgid " on namespaces: "
-msgstr ""
+msgstr " 다음 이름공간에서: "
 
 #: src/rc_formatters.py:211
 #, python-brace-format
@@ -295,7 +297,7 @@ msgstr ""
 #: src/rc_formatters.py:293 src/rc_formatters.py:295 src/rc_formatters.py:765
 #: src/rc_formatters.py:767
 msgid "none"
-msgstr ""
+msgstr "없음"
 
 #: src/rc_formatters.py:298
 #, python-brace-format
@@ -313,7 +315,7 @@ msgstr ""
 
 #: src/rc_formatters.py:301 src/rc_formatters.py:752
 msgid "System"
-msgstr ""
+msgstr "시스템"
 
 #: src/rc_formatters.py:306
 #, python-brace-format
@@ -325,7 +327,7 @@ msgstr ""
 #: src/rc_formatters.py:308 src/rc_formatters.py:316 src/rc_formatters.py:775
 #: src/rc_formatters.py:781
 msgid " [cascading]"
-msgstr ""
+msgstr " [연쇄]"
 
 #: src/rc_formatters.py:313
 #, python-brace-format
@@ -571,19 +573,19 @@ msgstr ""
 
 #: src/rc_formatters.py:490
 msgid "Action taken"
-msgstr ""
+msgstr "취한 조치"
 
 #: src/rc_formatters.py:491
 msgid "Title"
-msgstr ""
+msgstr "제목"
 
 #: src/rc_formatters.py:500 src/rc_formatters.py:768
 msgid "No description provided"
-msgstr ""
+msgstr "설명 제공되지 않음"
 
 #: src/rc_formatters.py:524
 msgid "(N!) "
-msgstr ""
+msgstr "(새글!) "
 
 #: src/rc_formatters.py:525
 msgid "m"
@@ -591,23 +593,23 @@ msgstr ""
 
 #: src/rc_formatters.py:525
 msgid "b"
-msgstr ""
+msgstr "봇"
 
 #: src/rc_formatters.py:542 src/rc_formatters.py:547
 msgid "__Only whitespace__"
-msgstr ""
+msgstr "__공백만 있음__"
 
 #: src/rc_formatters.py:552
 msgid "Removed"
-msgstr ""
+msgstr "삭제됨"
 
 #: src/rc_formatters.py:554
 msgid "Added"
-msgstr ""
+msgstr "추가됨"
 
 #: src/rc_formatters.py:588 src/rc_formatters.py:627
 msgid "Options"
-msgstr ""
+msgstr "옵션"
 
 #: src/rc_formatters.py:588
 #, python-brace-format
@@ -631,13 +633,15 @@ msgstr ""
 
 #: src/rc_formatters.py:613
 msgid "**No license!**"
-msgstr ""
+msgstr "**라이선스가 없습니다!**"
 
 #: src/rc_formatters.py:625
 msgid ""
 "\n"
 "License: {}"
 msgstr ""
+"\n"
+"라이선스: {}"
 
 #: src/rc_formatters.py:627
 #, python-brace-format
@@ -960,7 +964,7 @@ msgstr ""
 
 #: src/rc_formatters.py:929 src/rc_formatters.py:934
 msgid "Wiki"
-msgstr ""
+msgstr "위키"
 
 #: src/rc_formatters.py:931
 #, python-brace-format
@@ -984,7 +988,7 @@ msgstr ""
 
 #: src/rc_formatters.py:946
 msgid "Action has been hidden by administration"
-msgstr ""
+msgstr "이 행동이 관리자에 의해 숨겨졌습니다"
 
 #: src/rc_formatters.py:951
 #, python-brace-format
@@ -997,7 +1001,7 @@ msgstr ""
 
 #: src/rc_formatters.py:976
 msgid "Tags"
-msgstr ""
+msgstr "태그"
 
 #: src/rc_formatters.py:979
 msgid "**Added**: "
