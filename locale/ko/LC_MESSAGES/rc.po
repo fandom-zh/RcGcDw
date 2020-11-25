@@ -1,0 +1,41 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: RcGcDw\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-18 14:13+0100\n"
+"PO-Revision-Date: 2020-11-25 10:16+0000\n"
+"Last-Translator: Yongmin Hong <revi@pobox.com>\n"
+"Language-Team: Korean <https://weblate.frisk.space/projects/rcgcdw/rc/ko/>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.2.1\n"
+
+#: src/rc.py:319
+#, python-brace-format
+msgid "{wiki} seems to be down or unreachable."
+msgstr "{wiki} 이(가) 접속 다운되었거나 연결할 수 없습니다."
+
+#: src/rc.py:320 src/rc.py:332
+msgid "Connection status"
+msgstr "연결 상태"
+
+#: src/rc.py:330
+#, python-brace-format
+msgid "Connection to {wiki} seems to be stable now."
+msgstr "{wiki} 연결이 현재 안정적인 것 같습니다."
+
+#: src/rc.py:401
+msgid "~~hidden~~"
+msgstr "~~숨겨짐~~"
+
+#: src/rc.py:405
+msgid "hidden"
+msgstr "숨겨짐"
