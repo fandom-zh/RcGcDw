@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 14:13+0100\n"
-"PO-Revision-Date: 2020-11-21 01:09+0000\n"
+"PO-Revision-Date: 2020-11-25 10:16+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
 "rcgcdw/rc_formatters/pt-br/>\n"
@@ -89,13 +89,13 @@ msgid "Unregistered user"
 msgstr "Usuário não registrado"
 
 #: src/rc_formatters.py:83
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) triggered *{abuse_filter}*, performing the action "
 "\"{action}\" on *[{target}]({target_url})* - action taken: {result}."
 msgstr ""
-"[{author}]({author_url}) moveu {redirect}*{article}* para [{target}]"
-"({target_url}) deixando um redirecionamento {made_a_redirect}{comment}"
+"[{author}]({author_url}) acionou *{abuse_filter}*, executando a ação\""
+"{action}\" em *[{target}]({target_url})* - ação realizada: {result}."
 
 #: src/rc_formatters.py:85 src/rc_formatters.py:86 src/rc_formatters.py:87
 #: src/rc_formatters.py:445 src/rc_formatters.py:448 src/rc_formatters.py:451
@@ -248,7 +248,7 @@ msgstr ""
 "[{author}]({author_url}) desbloqueou [{blocked_user}]({user_url}){comment}"
 
 #: src/rc_formatters.py:224
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile"
 msgstr ""
@@ -263,7 +263,7 @@ msgstr ""
 "[{author}]({author_url}) deixou um [comentário]({comment}) no próprio perfil"
 
 #: src/rc_formatters.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
 "profile"
@@ -281,7 +281,7 @@ msgstr ""
 "perfil"
 
 #: src/rc_formatters.py:246
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile"
 msgstr ""
@@ -296,9 +296,9 @@ msgstr ""
 "[{author}]({author_url}) editou um [comentário]({comment}) no próprio perfil"
 
 #: src/rc_formatters.py:259
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) purged a comment on {target}'s profile"
-msgstr "[{author}]({author_url}) limpou um comentário no perfil {target}"
+msgstr "[{author}]({author_url}) limpou um comentário no perfil de {target}"
 
 #: src/rc_formatters.py:261
 #, python-brace-format
@@ -306,7 +306,7 @@ msgid "[{author}]({author_url}) purged a comment on their own profile"
 msgstr "[{author}]({author_url}) limpou um comentário no próprio perfil"
 
 #: src/rc_formatters.py:265
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a comment on {target}'s profile"
 msgstr "[{author}]({author_url}) excluiu um comentário no perfil de {target}"
 
@@ -316,7 +316,7 @@ msgid "[{author}]({author_url}) deleted a comment on their own profile"
 msgstr "[{author}]({author_url}) excluiu um comentário no próprio perfil"
 
 #: src/rc_formatters.py:273
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the {field} on {target}'s profile. *({desc})*"
 msgstr ""
@@ -1038,7 +1038,7 @@ msgstr "Configurações de wiki alteradas"
 #: src/rc_formatters.py:921
 #, python-brace-format
 msgid "Deleted a \"{wiki}\" wiki"
-msgstr "Excluiu uma wiki  \"{wiki}\""
+msgstr "Excluiu uma \"{wiki}\" wiki"
 
 #: src/rc_formatters.py:924
 #, python-brace-format
