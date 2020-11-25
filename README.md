@@ -1,21 +1,21 @@
 ## Overview ##
-*Recent changes Goat compatible Discord webhook* is a project created to track changes on the wiki directly on Discord.     
+*Recent changes Goat compatible Discord webhook* is a project created to track changes on MediaWiki wikis directly on Discord.     
 **Screenshots** of the script in action can be found [on the wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Presentation).
 
 ### Features ###
-* Fetch recent changes from MediaWiki wiki or/and Discussions from Fandom wikis and send them to Discord channel using a webhook
-* Two appearance modes - embed and compact
-* Send daily overviews, that show general information about wiki activity
+* Fetch recent changes from a MediaWiki wiki and/or Discussions from Fandom wikis and send them to a Discord channel using a webhook
+* Two appearance modes – embed and compact
+* Send daily overviews that show general information about wiki activity
 * Supports multiple languages (included EN, PL, BR, RU, FR, UK)
 * Re-sends missed edits after start
 * Very customizable
 
 ### Dependencies ###
-* **Python 3.6>**
-* requests 2.18.4>
-* beautifulsoup 4.6.0>
-* schedule 0.5.0>
-* lxml 4.2.1>
+* **Python 3.6+**
+* requests 2.18.4+
+* beautifulsoup 4.6.0+
+* schedule 0.5.0+
+* lxml 4.2.1+
 
 ### settings.json ###
 [Explanation for settings](https://gitlab.com/piotrex43/RcGcDw/wikis/settings.json)    
@@ -39,7 +39,7 @@ Thank you!
 [![Translation status](https://weblate.frisk.space/widgets/rcgcdw/-/multi-auto.svg)](https://weblate.frisk.space/engage/rcgcdw/?utm_source=widget)
 
 ### Other extensions/compatible programs ###
-* [Wiki Utilities](https://github.com/Sidemen19/Wiki-Utilities) - an integration allowing administrator to execute revert/block or delete actions on the wiki using reactions in messages created by RcGcDw/RcGcDb. Author: [Sidemen19](https://github.com/Sidemen19)
+* [Wiki Utilities](https://github.com/Sidemen19/Wiki-Utilities) – an integration that allows wiki administrators to revert edits, block editors, and delete pages on the wiki by reacting to messages created by RcGcDw/RcGcDb. Author: [Sidemen19](https://github.com/Sidemen19)
 
 ### Wiki ###
 For more information, check the [wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Home)!
