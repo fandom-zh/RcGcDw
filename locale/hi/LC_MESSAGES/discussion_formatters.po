@@ -1,0 +1,184 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: RcGcDw\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-18 14:13+0100\n"
+"PO-Revision-Date: 2020-11-25 10:16+0000\n"
+"Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
+"Language-Team: Hindi <https://weblate.frisk.space/projects/rcgcdw/"
+"discussion_formatters-1/hi/>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2.1\n"
+
+#: src/discussion_formatters.py:25 src/discussion_formatters.py:81
+msgid "Unregistered user"
+msgstr "अनरेजिसटर्ड सदस्य"
+
+#: src/discussion_formatters.py:34
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"{author}({author_url}) ने {forumName} में [{title}](<{url}f/p/{threadId}>) "
+"बनाया"
+
+#: src/discussion_formatters.py:36
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"[{author}]({author_url}) ने {forumName} में पॉल [{title}](<{url}f/p/"
+"{threadId}>) बनाया"
+
+#: src/discussion_formatters.py:38
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"[{author}]({author_url}) ने {forumName} में क्विज़ [{title}](<{url}f/p/"
+"{threadId}>) बनाया"
+
+#: src/discussion_formatters.py:43
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
+"to [{title}](<{url}f/p/{threadId}>) in {forumName}"
+msgstr ""
+"[{author}]({author_url}) ने {forumName} में [{title}](<{url}f/p/{threadId}> "
+"पर [जवाब](<{url}f/p/{threadId}/r/{postId}>) दिया"
+
+#: src/discussion_formatters.py:45 src/discussion_formatters.py:54
+#: src/discussion_formatters.py:137 src/discussion_formatters.py:150
+msgid "unknown"
+msgstr "अनजान"
+
+#: src/discussion_formatters.py:49
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
+"Message_Wall:{user_wall}>)"
+msgstr ""
+"{author}({author_url}) ने [{user} के मैसेज वॉल](<{url}wiki/"
+"Message_Wall:{user_wall}>) पर [{title}(<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) बनाया"
+
+#: src/discussion_formatters.py:51
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
+"(<{url}wiki/Message_Wall:{user_wall}>)"
+msgstr ""
+"[{author}]({author_url}) ने [{user} के मैसेज वॉल](<{url}wiki/"
+"Message_Wall:{user_wall}>) के [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) पर [जवाब](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) दिया"
+
+#: src/discussion_formatters.py:57
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
+"on [{article}](<{url}>)"
+msgstr ""
+"[{author}]({author_url}) ने [{article}](<{url}>) पर "
+"[कमेंट](<{url}?commentId={commentId}>) किया"
+
+#: src/discussion_formatters.py:62
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}"
+"&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
+"[{article}](<{url}>)"
+msgstr ""
+"[{author}]({author_url}) ने [{article}](<{url}>) के एक "
+"[कमेंट](<{url}?commentId={commentId}>) पर "
+"[जवाब](<{url}?commentId={commentId}&replyId={replyId}>) दिया"
+
+#: src/discussion_formatters.py:70
+#, python-brace-format
+msgid ""
+"Unknown event `{event}` by [{author}]({author_url}), report it on the "
+"[support server](<{support}>)."
+msgstr ""
+"[{author}]({author_url}) द्वारा अनजान घटना `{event}`, [सहायता "
+"सर्वर](<{support}>) पर रिपोर्ट करें।"
+
+#: src/discussion_formatters.py:98
+#, python-brace-format
+msgid "Created \"{title}\""
+msgstr "\"{title}\" बनाया"
+
+#: src/discussion_formatters.py:102
+#, python-brace-format
+msgid "Created a poll \"{title}\""
+msgstr "पॉल \"{title}\" बनाया"
+
+#: src/discussion_formatters.py:109
+msgid "Option {}"
+msgstr "विकल्प {}"
+
+#: src/discussion_formatters.py:110
+#, python-brace-format
+msgid "__[View image]({image_url})__"
+msgstr "__[चित्र देखें]({image_url})__"
+
+#: src/discussion_formatters.py:114
+#, python-brace-format
+msgid "Created a quiz \"{title}\""
+msgstr "एक क्विज़ \"{title}\" बनाया"
+
+#: src/discussion_formatters.py:129 src/discussion_formatters.py:131
+msgid "Tags"
+msgstr "टैग"
+
+#: src/discussion_formatters.py:129
+msgid "{} tags"
+msgstr "{} टैग"
+
+#: src/discussion_formatters.py:134
+#, python-brace-format
+msgid "Replied to \"{title}\""
+msgstr "\"{title}\" पर जवाब दिया"
+
+#: src/discussion_formatters.py:143
+#, python-brace-format
+msgid "Created \"{title}\" on {user}'s Message Wall"
+msgstr "{user} के मैसेज वॉल पर \"{title}\" बनाया"
+
+#: src/discussion_formatters.py:147
+#, python-brace-format
+msgid "Replied to \"{title}\" on {user}'s Message Wall"
+msgstr "{user} के मैसेज वॉल के \"{title}\" पर जवाब दिया"
+
+#: src/discussion_formatters.py:154
+#, python-brace-format
+msgid "Commented on {article}"
+msgstr "{article} पर कमेंट किया"
+
+#: src/discussion_formatters.py:158
+#, python-brace-format
+msgid "Replied to a comment on {article}"
+msgstr "{article} के एक कमेंट पर जवाब दिया"
+
+#: src/discussion_formatters.py:162
+#, python-brace-format
+msgid "Unknown event `{event}`"
+msgstr "अनजान घटना `{event}`"
+
+#: src/discussion_formatters.py:168 src/discussion_formatters.py:170
+msgid "Report this on the support server"
+msgstr "इसे सहायता सर्वर पर रिपोर्ट करें"

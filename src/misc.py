@@ -16,13 +16,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import base64
-import json, logging, sys, re, time, random, math
+import json, logging, sys, re
 from html.parser import HTMLParser
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse, quote
 import requests
-from collections import defaultdict
 from src.configloader import settings
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
+from src.discord.queue import messagequeue, send_to_discord
 from src.i18n import misc
+
+AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 _ = misc.gettext
 
@@ -30,7 +33,7 @@ _ = misc.gettext
 
 misc_logger = logging.getLogger("rcgcdw.misc")
 
-data_template = {"rcid": 99999999999, "discussion_id": 0,
+data_template = {"rcid": None, "discussion_id": 0, "abuse_log_id": None,
                  "daily_overview": {"edits": None, "new_files": None, "admin_actions": None, "bytes_changed": None,
                                     "new_articles": None, "unique_editors": None, "day_score": None, "days_tracked": 0}}
 
@@ -45,6 +48,7 @@ class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
 	def __init__(self):
 		self.data = self.load_datafile()
+		self.changed = False
 
 	@staticmethod
 	def generate_datafile():
@@ -70,60 +74,31 @@ class DataFile:
 
 	def save_datafile(self):
 		"""Overwrites the data.json file with given dictionary"""
+		if self.changed is False:  # don't cause unnecessary write operations
+			return
 		try:
 			with open("data.json", "w") as data_file:
 				data_file.write(json.dumps(self.data, indent=4))
+			self.changed = False
 		except PermissionError:
 			misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
 			sys.exit(1)
 
+	def __setitem__(self, instance, value):
+		self.data[instance] = value
+		self.changed = True
 
-class MessageQueue:
-	"""Message queue class for undelivered messages"""
-	def __init__(self):
-		self._queue = []
+	def __getitem__(self, item):
+		try:
+			return self.data[item]
+		except KeyError:  # if such value doesn't exist, set to and return none
+			self.__setitem__(item, None)
+			self.save_datafile()
+			return None
 
-	def __repr__(self):
-		return self._queue
 
-	def __len__(self):
-		return len(self._queue)
-
-	def __iter__(self):
-		return iter(self._queue)
-
-	def clear(self):
-		self._queue.clear()
-
-	def add_message(self, message):
-		self._queue.append(message)
-
-	def cut_messages(self, item_num):
-		self._queue = self._queue[item_num:]
-
-	def resend_msgs(self):
-		if self._queue:
-			misc_logger.info(
-				"{} messages waiting to be delivered to Discord due to Discord throwing errors/no connection to Discord servers.".format(
-					len(self._queue)))
-			for num, item in enumerate(self._queue):
-				misc_logger.debug(
-					"Trying to send a message to Discord from the queue with id of {} and content {}".format(str(num),
-					                                                                                         str(item)))
-				if send_to_discord_webhook(item) < 2:
-					misc_logger.debug("Sending message succeeded")
-					time.sleep(2.5)
-				else:
-					misc_logger.debug("Sending message failed")
-					break
-			else:
-				self.clear()
-				misc_logger.debug("Queue emptied, all messages delivered")
-			self.cut_messages(num)
-			misc_logger.debug(self._queue)
-
-messagequeue = MessageQueue()
 datafile = DataFile()
+
 
 def weighted_average(value, weight, new_value):
 	"""Calculates weighted average of value number with weight weight and new_value with weight 1"""
@@ -132,79 +107,82 @@ def weighted_average(value, weight, new_value):
 
 def link_formatter(link):
 	"""Formats a link to not embed it"""
-	return "<" + re.sub(r"([)])", "\\\\\\1", link).replace(" ", "_") + ">"
+	return "<" + quote(link.replace(" ", "_"), "/:?") + ">"
+
 
 def escape_formatting(data):
 	"""Escape Discord formatting"""
 	return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
 
+
 class ContentParser(HTMLParser):
 	more = _("\n__And more__")
 	current_tag = ""
+	last_ins = None
+	last_del = None
+	empty = False
 	small_prev_ins = ""
 	small_prev_del = ""
 	ins_length = len(more)
 	del_length = len(more)
-	added = False
 
 	def handle_starttag(self, tagname, attribs):
 		if tagname == "ins" or tagname == "del":
 			self.current_tag = tagname
-		if tagname == "td" and 'diff-addedline' in attribs[0]:
-			self.current_tag = tagname + "a"
-		if tagname == "td" and 'diff-deletedline' in attribs[0]:
-			self.current_tag = tagname + "d"
-		if tagname == "td" and 'diff-marker' in attribs[0]:
-			self.added = True
+		if tagname == "td" and "diff-addedline" in attribs[0] and self.ins_length <= 1000:
+			self.current_tag = "tda"
+			self.last_ins = ""
+		if tagname == "td" and "diff-deletedline" in attribs[0] and self.del_length <= 1000:
+			self.current_tag = "tdd"
+			self.last_del = ""
+		if tagname == "td" and "diff-empty" in attribs[0]:
+			self.empty = True
 
 	def handle_data(self, data):
-		data = re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
+		data = escape_formatting(data)
 		if self.current_tag == "ins" and self.ins_length <= 1000:
-			self.ins_length += len("**" + data + '**')
+			self.ins_length += len("**" + data + "**")
 			if self.ins_length <= 1000:
-				self.small_prev_ins = self.small_prev_ins + "**" + data + '**'
-			else:
-				self.small_prev_ins = self.small_prev_ins + self.more
+				self.last_ins = self.last_ins + "**" + data + "**"
 		if self.current_tag == "del" and self.del_length <= 1000:
-			self.del_length += len("~~" + data + '~~')
+			self.del_length += len("~~" + data + "~~")
 			if self.del_length <= 1000:
-				self.small_prev_del = self.small_prev_del + "~~" + data + '~~'
-			else:
-				self.small_prev_del = self.small_prev_del + self.more
-		if (self.current_tag == "afterins" or self.current_tag == "tda") and self.ins_length <= 1000:
+				self.last_del = self.last_del + "~~" + data + "~~"
+		if self.current_tag == "tda" and self.ins_length <= 1000:
 			self.ins_length += len(data)
 			if self.ins_length <= 1000:
-				self.small_prev_ins = self.small_prev_ins + data
-			else:
-				self.small_prev_ins = self.small_prev_ins + self.more
-		if (self.current_tag == "afterdel" or self.current_tag == "tdd") and self.del_length <= 1000:
+				self.last_ins = self.last_ins + data
+		if self.current_tag == "tdd" and self.del_length <= 1000:
 			self.del_length += len(data)
 			if self.del_length <= 1000:
-				self.small_prev_del = self.small_prev_del + data
-			else:
-				self.small_prev_del = self.small_prev_del + self.more
-		if self.added:
-			if data == '+' and self.ins_length <= 1000:
-				self.ins_length += 1
-				if self.ins_length <= 1000:
-					self.small_prev_ins = self.small_prev_ins + '\n'
-				else:
-					self.small_prev_ins = self.small_prev_ins + self.more
-			if data == '−' and self.del_length <= 1000:
-				self.del_length += 1
-				if self.del_length <= 1000:
-					self.small_prev_del = self.small_prev_del + '\n'
-				else:
-					self.small_prev_del = self.small_prev_del + self.more
-			self.added = False
+				self.last_del = self.last_del + data
 
 	def handle_endtag(self, tagname):
+		self.current_tag = ""
 		if tagname == "ins":
-			self.current_tag = "afterins"
+			self.current_tag = "tda"
 		elif tagname == "del":
-			self.current_tag = "afterdel"
-		else:
-			self.current_tag = ""
+			self.current_tag = "tdd"
+		elif tagname == "tr":
+			if self.last_ins is not None:
+				self.ins_length += 1
+				if self.empty and not self.last_ins.isspace() and "**" not in self.last_ins:
+					self.ins_length += 4
+					self.last_ins = "**" + self.last_ins + "**"
+				self.small_prev_ins = self.small_prev_ins + "\n" + self.last_ins
+				if self.ins_length > 1000:
+					self.small_prev_ins = self.small_prev_ins + self.more
+				self.last_ins = None
+			if self.last_del is not None:
+				self.del_length += 1
+				if self.empty and not self.last_del.isspace() and "~~" not in self.last_del:
+					self.del_length += 4
+					self.last_del = "~~" + self.last_del + "~~"
+				self.small_prev_del = self.small_prev_del + "\n" + self.last_del
+				if self.del_length > 1000:
+					self.small_prev_del = self.small_prev_del + self.more
+				self.last_del = None
+			self.empty = False
 
 
 def safe_read(request, *keys):
@@ -222,28 +200,6 @@ def safe_read(request, *keys):
 		misc_logger.warning("Failure while extracting data from request in {change}".format(change=request))
 		return None
 	return request
-
-
-def handle_discord_http(code, formatted_embed, result):
-	if 300 > code > 199:  # message went through
-		return 0
-	elif code == 400:  # HTTP BAD REQUEST result.status_code, data, result, header
-		misc_logger.error(
-			"Following message has been rejected by Discord, please submit a bug on our bugtracker adding it:")
-		misc_logger.error(formatted_embed)
-		misc_logger.error(result.text)
-		return 1
-	elif code == 401 or code == 404:  # HTTP UNAUTHORIZED AND NOT FOUND
-		misc_logger.error("Webhook URL is invalid or no longer in use, please replace it with proper one.")
-		sys.exit(1)
-	elif code == 429:
-		misc_logger.error("We are sending too many requests to the Discord, slowing down...")
-		return 2
-	elif 499 < code < 600:
-		misc_logger.error(
-			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
-				code))
-		return 3
 
 
 def add_to_dict(dictionary, key):
@@ -309,113 +265,7 @@ def send_simple(msgtype, message, name, avatar):
 	discord_msg.set_avatar(avatar)
 	discord_msg.set_name(name)
 	messagequeue.resend_msgs()
-	send_to_discord(discord_msg)
-
-
-def send_to_discord_webhook(data):
-	header = settings["header"]
-	header['Content-Type'] = 'application/json'
-	try:
-		result = requests.post(data.webhook_url, data=repr(data),
-		                       headers=header, timeout=10)
-	except requests.exceptions.Timeout:
-		misc_logger.warning("Timeouted while sending data to the webhook.")
-		return 3
-	except requests.exceptions.ConnectionError:
-		misc_logger.warning("Connection error while sending the data to a webhook")
-		return 3
-	else:
-		return handle_discord_http(result.status_code, data, result)
-
-
-def send_to_discord(data):
-	for regex in settings["disallow_regexes"]:
-		if data.webhook_object.get("content", None):
-			if re.search(re.compile(regex), data.webhook_object["content"]):
-				misc_logger.info("Message {} has been rejected due to matching filter ({}).".format(data.webhook_object["content"], regex))
-				return  # discard the message without anything
-		else:
-			for to_check in [data.webhook_object.get("description", ""), data.webhook_object.get("title", ""), *[x["value"] for x in data["fields"]], data.webhook_object.get("author", {"name": ""}).get("name", "")]:
-				if re.search(re.compile(regex), to_check):
-					misc_logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
-						to_check, regex))
-					return  # discard the message without anything
-	if messagequeue:
-		messagequeue.add_message(data)
-	else:
-		code = send_to_discord_webhook(data)
-		if code == 3:
-			messagequeue.add_message(data)
-		elif code == 2:
-			time.sleep(5.0)
-			messagequeue.add_message(data)
-		elif code < 2:
-			time.sleep(2.0)
-			pass
-
-class DiscordMessage():
-	"""A class defining a typical Discord JSON representation of webhook payload."""
-	def __init__(self, message_type: str, event_type: str, webhook_url: str, content=None):
-		self.webhook_object = dict(allowed_mentions={"parse": []}, avatar_url=settings["avatars"].get(message_type, ""))
-		self.webhook_url = webhook_url
-
-		if message_type == "embed":
-			self.__setup_embed()
-		elif message_type == "compact":
-			self.webhook_object["content"] = content
-
-		self.event_type = event_type
-
-	def __setitem__(self, key, value):
-		"""Set item is used only in embeds."""
-		try:
-			self.embed[key] = value
-		except NameError:
-			raise TypeError("Tried to assign a value when message type is plain message!")
-
-	def __getitem__(self, item):
-		return self.embed[item]
-
-	def __repr__(self):
-		"""Return the Discord webhook object ready to be sent"""
-		return json.dumps(self.webhook_object)
-
-	def __setup_embed(self):
-		self.embed = defaultdict(dict)
-		if "embeds" not in self.webhook_object:
-			self.webhook_object["embeds"] = [self.embed]
-		else:
-			self.webhook_object["embeds"].append(self.embed)
-		self.embed["color"] = None
-
-	def add_embed(self):
-		self.finish_embed()
-		self.__setup_embed()
-
-	def finish_embed(self):
-		if self.embed["color"] is None:
-			if settings["appearance"]["embed"].get(self.event_type, {"color": None})["color"] is None:
-				self.embed["color"] = random.randrange(1, 16777215)
-			else:
-				self.embed["color"] = settings["appearance"]["embed"][self.event_type]["color"]
-		else:
-			self.embed["color"] = math.floor(self.embed["color"])
-
-	def set_author(self, name, url, icon_url=""):
-		self.embed["author"]["name"] = name
-		self.embed["author"]["url"] = url
-		self.embed["author"]["icon_url"] = icon_url
-
-	def add_field(self, name, value, inline=False):
-		if "fields" not in self.embed:
-			self.embed["fields"] = []
-		self.embed["fields"].append(dict(name=name, value=value, inline=inline))
-
-	def set_avatar(self, url):
-		self.webhook_object["avatar_url"] = url
-
-	def set_name(self, name):
-		self.webhook_object["username"] = name
+	send_to_discord(discord_msg, meta=DiscordMessageMetadata("POST"))
 
 
 def profile_field_name(name, embed):

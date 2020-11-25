@@ -1,0 +1,88 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: RcGcDw\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-18 14:13+0100\n"
+"PO-Revision-Date: 2020-11-25 10:16+0000\n"
+"Last-Translator: Yongmin Hong <revi@pobox.com>\n"
+"Language-Team: Korean <https://weblate.frisk.space/projects/rcgcdw/misc/ko/>"
+"\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.2.1\n"
+
+#: src/misc.py:45
+msgid "Location"
+msgstr "위치"
+
+#: src/misc.py:45
+msgid "About me"
+msgstr "나에 대해서"
+
+#: src/misc.py:45
+msgid "Google link"
+msgstr "구글 링크"
+
+#: src/misc.py:45
+msgid "Facebook link"
+msgstr "페이스북 링크"
+
+#: src/misc.py:45
+msgid "Twitter link"
+msgstr "트위터 링크"
+
+#: src/misc.py:45
+msgid "Reddit link"
+msgstr "레딧 링크"
+
+#: src/misc.py:45
+msgid "Twitch link"
+msgstr "트위치 링크"
+
+#: src/misc.py:45
+msgid "PSN link"
+msgstr "PSN 링크"
+
+#: src/misc.py:45
+msgid "VK link"
+msgstr "VK 링크"
+
+#: src/misc.py:45
+msgid "XBL link"
+msgstr "XBL 링크"
+
+#: src/misc.py:45
+msgid "Steam link"
+msgstr "스팀 링크"
+
+#: src/misc.py:45
+msgid "Discord handle"
+msgstr "디스코드 사용자 이름"
+
+#: src/misc.py:45
+msgid "Battle.net handle"
+msgstr "배틀넷 사용자 이름"
+
+#: src/misc.py:114
+msgid ""
+"\n"
+"__And more__"
+msgstr ""
+"\n"
+"__그 외 더__"
+
+#: src/misc.py:271
+msgid "Unknown"
+msgstr "알 수 없음"
+
+#: src/misc.py:273
+msgid "unknown"
+msgstr "알 수 없음"

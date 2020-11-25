@@ -26,8 +26,9 @@ import src.misc
 from collections import defaultdict, Counter
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, \
-	WIKI_API_PATH, create_article_path, send_to_discord, \
-	DiscordMessage
+	WIKI_API_PATH, create_article_path
+from src.discord.queue import send_to_discord
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.rc import recent_changes
 from src.exceptions import MWError
 from src.i18n import rcgcdw
@@ -46,7 +47,7 @@ logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 logger.debug("Current settings: {settings}".format(settings=settings))
 
-storage = datafile.data
+storage = datafile
 
 # Remove previous data holding file if exists and limitfetch allows
 
@@ -78,7 +79,7 @@ def day_overview_request():
 				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
 			except ValueError:
 				logger.warning("ValueError in fetching changes")
-				recent_changes.downtime_controller()
+				recent_changes.downtime_controller(True)
 				complete = 2
 			except KeyError:
 				logger.warning("Wiki returned %s" % (request))
@@ -161,10 +162,10 @@ def day_overview():
 				if item["type"] == "edit":
 					edits += 1
 					changed_bytes += item["newlen"] - item["oldlen"]
-					if "content" in recent_changes.namespaces.get(str(item["ns"]), {}) or not item["ns"]:
+					if (recent_changes.namespaces is not None and "content" in recent_changes.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
 						articles = add_to_dict(articles, item["title"])
 				elif item["type"] == "new":
-					if "content" in recent_changes.namespaces.get(str(item["ns"]), {}) or not item["ns"]:
+					if "content" in (recent_changes.namespaces is not None and recent_changes.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
 						new_articles += 1
 					changed_bytes += item["newlen"]
 				elif item["type"] == "log":
@@ -202,7 +203,7 @@ def day_overview():
 			for name, value in fields:
 				embed.add_field(name, value, inline=True)
 		embed.finish_embed()
-		send_to_discord(embed)
+		send_to_discord(embed, meta=DiscordMessageMetadata("POST"))
 	else:
 		logger.debug("function requesting changes for day overview returned with error code")
 
@@ -247,9 +248,7 @@ if 1 == 2: # additional translation strings in unreachable code
 
 if TESTING:
 	logger.debug("DEBUGGING ")
-	recent_changes.recent_id -= 5
-	recent_changes.file_id -= 5
-	recent_changes.ids = [1]
+	storage["rcid"] = 1
 	recent_changes.fetch(amount=5)
 	day_overview()
 	import src.discussions

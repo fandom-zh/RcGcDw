@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 14:00+0200\n"
+"POT-Creation-Date: 2020-11-18 09:44+0100\n"
 "PO-Revision-Date: 2020-08-08 20:59+0000\n"
-"Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
+"Last-Translator: Frisk The Evil Goat Overlord <>\n"
 "Language-Team: Chinese (Simplified) <https://weblate.frisk.space/projects/"
 "rcgcdw/misc/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -20,59 +20,59 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.1.1\n"
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Location"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "About me"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Google link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Facebook link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Twitter link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Reddit link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Twitch link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "PSN link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "VK link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "XBL link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Steam link"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Discord handle"
 msgstr ""
 
-#: src/misc.py:42
+#: src/misc.py:45
 msgid "Battle.net handle"
 msgstr ""
 
-#: src/misc.py:142
+#: src/misc.py:114
 msgid ""
 "\n"
 "__And more__"
@@ -80,10 +80,10 @@ msgstr ""
 "\n"
 "__还有更多__"
 
-#: src/misc.py:423
+#: src/misc.py:271
 msgid "Unknown"
 msgstr ""
 
-#: src/misc.py:425
+#: src/misc.py:273
 msgid "unknown"
 msgstr ""

@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 17:22+0200\n"
+"POT-Creation-Date: 2020-11-18 08:29+0100\n"
 "PO-Revision-Date: 2020-08-13 19:07+0000\n"
-"Last-Translator: Rail <rail01@protonmail.com>\n"
+"Last-Translator: Rail <>\n"
 "Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/rc/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -19,24 +19,24 @@ msgstr ""
 "X-Generator: Weblate 4.1.1\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: src/rc.py:150
-#, python-brace-format
-msgid "Connection to {wiki} seems to be stable now."
-msgstr "Połączenie z {wiki} wygląda na stabilne."
-
-#: src/rc.py:151 src/rc.py:266
-msgid "Connection status"
-msgstr "Status połączenia"
-
-#: src/rc.py:265
+#: src/rc.py:319
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} nie działa lub jest nieosiągalna."
 
-#: src/rc.py:334
+#: src/rc.py:320 src/rc.py:332
+msgid "Connection status"
+msgstr "Status połączenia"
+
+#: src/rc.py:330
+#, python-brace-format
+msgid "Connection to {wiki} seems to be stable now."
+msgstr "Połączenie z {wiki} wygląda na stabilne."
+
+#: src/rc.py:401
 msgid "~~hidden~~"
 msgstr "~~ukryte~~"
 
-#: src/rc.py:340
+#: src/rc.py:405
 msgid "hidden"
 msgstr "ukryte"

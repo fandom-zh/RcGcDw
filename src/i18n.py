@@ -11,8 +11,9 @@ try:
 		rc = gettext.translation('rc', localedir='locale', languages=[settings["lang"]])
 		rc_formatters = gettext.translation('rc_formatters', localedir='locale', languages=[settings["lang"]])
 		misc = gettext.translation('misc', localedir='locale', languages=[settings["lang"]])
+		redaction = gettext.translation('redaction', localedir='locale', languages=[settings["lang"]])
 	else:
-		rcgcdw, discussion_formatters, rc, rc_formatters, misc = gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations()
+		rcgcdw, discussion_formatters, rc, rc_formatters, misc, redaction = gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations()
 except FileNotFoundError:
 	logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
 	sys.exit(1)

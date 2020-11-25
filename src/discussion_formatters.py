@@ -4,7 +4,9 @@ import gettext
 from urllib.parse import quote_plus
 
 from src.configloader import settings
-from src.misc import link_formatter, create_article_path, DiscordMessage, send_to_discord, escape_formatting
+from src.misc import link_formatter, create_article_path, escape_formatting
+from src.discord.queue import send_to_discord
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.i18n import discussion_formatters
 
 _ = discussion_formatters.gettext
@@ -20,7 +22,7 @@ def compact_formatter(post_type, post, article_paths):
 		author = post["createdBy"]["name"]
 		author_url = "<{url}f/u/{creatorId}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
 	elif post["creatorIp"]:
-		author = post["creatorIp"][1:]
+		author = post["creatorIp"][1:] if settings.get("hide_ips", False) is False else _("Unregistered user")
 		author_url = "<{url}wiki/Special:Contributions{creatorIp}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"])
 	else:
 		author = post["createdBy"]["name"]
@@ -36,27 +38,27 @@ def compact_formatter(post_type, post, article_paths):
 				msg_text = _("[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in {forumName}")
 			elif thread_funnel != "TEXT":
 				discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(thread_funnel))
-			message = msg_text.format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], forumName=post["forumName"])
+			message = "📝 "+msg_text.format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], forumName=post["forumName"])
 		else:
-			message = _("[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"])
+			message = "📝 "+_("[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"])
 	elif post_type == "WALL":
 		user_wall = _("unknown")  # Fail safe
 		if post["forumName"].endswith(' Message Wall'):
 			user_wall = post["forumName"][:-13]
 		if not post["isReply"]:
-			message = _("[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"])
+			message = "✉️ "+_("[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"])
 		else:
-			message = _("[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], title=post["_embedded"]["thread"][0]["title"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
+			message = "📩 "+_("[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], title=post["_embedded"]["thread"][0]["title"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
 	elif post_type == "ARTICLE_COMMENT":
 		if article_paths is None:
-			article_paths = {"title": _("unknown"), "fullUrl": "{wiki}wiki/{article}".format(wiki=settings["fandom_discussions"]["wiki_url"], article=_("unknown").replace(" ", "_"))}  # No page known
+			article_paths = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
 		if not post["isReply"]:
-			message = _(
+			message = "🗒️ "+_(
 				"[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
 				author=author, author_url=author_url, url=article_paths["fullUrl"], article=article_paths["title"],
 				commentId=post["threadId"])
 		else:
-			message = _(
+			message = "🗒️ "+_(
 				"[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
 				author=author, author_url=author_url, url=article_paths["fullUrl"], article=article_paths["title"],
 				commentId=post["threadId"], replyId=post["id"])
@@ -65,9 +67,9 @@ def compact_formatter(post_type, post, article_paths):
 		if not settings["support"]:
 			return
 		else:
-			content = _("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
+			message = "❓ "+_("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=post_type, author=author, author_url=author_url, support=settings["support"])
-	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message))
+	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
 
 
 def embed_formatter(post_type, post, article_paths):
@@ -76,7 +78,7 @@ def embed_formatter(post_type, post, article_paths):
 	if post_type == "FORUM":
 		embed.set_author(post["createdBy"]["name"], "{url}f/u/{creatorId}".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
 	elif post["creatorIp"]:
-		embed.set_author(post["creatorIp"][1:], "{url}wiki/Special:Contributions{creatorIp}".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"]))
+		embed.set_author(post["creatorIp"][1:] if settings.get("hide_ips", False) is False else _("Unregistered user"), "{url}wiki/Special:Contributions{creatorIp}".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"]))
 	else:
 		embed.set_author(post["createdBy"]["name"], "{url}wiki/User:{creator}".format(url=settings["fandom_discussions"]["wiki_url"], creator=post["createdBy"]["name"]), icon_url=post["createdBy"]["avatarUrl"])
 	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
@@ -145,8 +147,7 @@ def embed_formatter(post_type, post, article_paths):
 			embed["title"] = _("Replied to \"{title}\" on {user}'s Message Wall").format(title=post["_embedded"]["thread"][0]["title"], user=user_wall)
 	elif post_type == "ARTICLE_COMMENT":
 		if article_paths is None:
-			article_page = {"title": _("unknown"), "fullUrl": "{wiki}wiki/{article}".format(wiki=settings["fandom_discussions"]["wiki_url"], article=_(
-				"unknown").replace(" ", "_"))}  # No page known
+			article_page = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
 		if not post["isReply"]:
 			embed.event_type = "discussion/comment/post"
 			embed["url"] = "{url}?commentId={commentId}".format(url=article_paths["fullUrl"], commentId=post["threadId"])
@@ -168,7 +169,7 @@ def embed_formatter(post_type, post, article_paths):
 			else:
 				embed.add_field(_("Report this on the support server"), change_params)
 	embed.finish_embed()
-	send_to_discord(embed)
+	send_to_discord(embed, meta=DiscordMessageMetadata("POST"))
 
 
 class DiscussionsFromHellParser:

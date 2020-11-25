@@ -19,6 +19,7 @@
    },
    "ignored": ["external", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers"],
    "show_updown_messages": true,
+   "ignored_namespaces": [],
    "overview": false,
    "overview_time": "00:00",
    "send_empty_overview": false,
@@ -30,6 +31,13 @@
    "wiki_bot_password": "",
    "show_added_categories": true,
    "show_bots": false,
+   "show_abuselog": false,
+   "hide_ips": false,
+   "discord_message_cooldown": 0,
+   "auto_suppression": {
+      "enabled": false,
+      "db_location": ":memory:"
+   },
    "logging": {
        "version": 1,
        "disable_existing_loggers": false,
