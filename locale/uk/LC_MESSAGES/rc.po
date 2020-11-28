@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 08:29+0100\n"
+"POT-Creation-Date: 2020-11-28 23:45+0100\n"
 "PO-Revision-Date: 2020-07-12 12:17+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,24 +19,24 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/rc.py:319
+#: src/rc.py:321
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki}, здається, не працює або недоступна."
 
-#: src/rc.py:320 src/rc.py:332
+#: src/rc.py:322 src/rc.py:334
 msgid "Connection status"
 msgstr "Статус з'єднання"
 
-#: src/rc.py:330
+#: src/rc.py:332
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr "З'єднання з {wiki} зараз здається стабільним."
 
-#: src/rc.py:401
+#: src/rc.py:403
 msgid "~~hidden~~"
 msgstr "~~прихована~~"
 
-#: src/rc.py:405
+#: src/rc.py:407
 msgid "hidden"
 msgstr "прихована"
