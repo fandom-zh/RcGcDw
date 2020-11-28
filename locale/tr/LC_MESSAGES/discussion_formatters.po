@@ -1,26 +1,24 @@
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-# Frisk <>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 14:13+0100\n"
-"PO-Revision-Date: 2020-11-27 13:07+0000\n"
-"Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
-"Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
-"discussion_formatters-1/ru/>\n"
-"Language: ru\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.2.1\n"
 
 #: src/discussion_formatters.py:25 src/discussion_formatters.py:81
 msgid "Unregistered user"
-msgstr "Незарегистрированный пользователь"
+msgstr ""
 
 #: src/discussion_formatters.py:34
 #, python-brace-format
@@ -28,8 +26,6 @@ msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}]({author_url}) создал(а) [{title}](<{url}f/p/{threadId}>) в "
-"{forumName}"
 
 #: src/discussion_formatters.py:36
 #, python-brace-format
@@ -37,8 +33,6 @@ msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}]({author_url}) создал(а) опрос [{title}](<{url}f/p/{threadId}>) в "
-"{forumName}"
 
 #: src/discussion_formatters.py:38
 #, python-brace-format
