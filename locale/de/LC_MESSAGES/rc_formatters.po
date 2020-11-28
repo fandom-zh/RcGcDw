@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-28 23:45+0100\n"
-"PO-Revision-Date: 2020-11-20 09:22+0000\n"
+"PO-Revision-Date: 2020-11-28 22:58+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
-"Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/"
+"Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -443,7 +443,7 @@ msgstr ""
 "Logbucheintrags{comment}"
 
 #: src/rc_formatters.py:356
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
 "revision from [{source}]({source_url}){comment}"
@@ -452,10 +452,10 @@ msgid_plural ""
 "revisions from [{source}]({source_url}){comment}"
 msgstr[0] ""
 "[{author}]({author_url}) importierte [{article}]({article_url}) mit einer "
-"Version{comment}"
+"Version von [{source}]({source_url}){comment}"
 msgstr[1] ""
 "[{author}]({author_url}) importierte [{article}]({article_url}) mit {count} "
-"Versionen{comment}"
+"Versionen von [{source}]({source_url}){comment}"
 
 #: src/rc_formatters.py:361
 #, python-brace-format
@@ -608,74 +608,79 @@ msgstr ""
 "[{author}]({author_url}) deaktivierte eine [Markierung]({tag_url}) „{tag}“"
 
 #: src/rc_formatters.py:446
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings{reason}"
-msgstr "[{author}]({author_url}) änderte Wiki-Einstellungen ({reason})"
+msgstr "[{author}]({author_url}) änderte Wiki-Einstellungen{reason}"
 
 #: src/rc_formatters.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) löschte das Wiki *{wiki_name}* ({comment})"
+msgstr "[{author}]({author_url}) löschte das Wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:451
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) sperrte das Wiki *{wiki_name}* ({comment})"
+msgstr "[{author}]({author_url}) sperrte das Wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:454
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified a namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
 "[{author}]({author_url}) bearbeitete den Namensraum *{namespace_name}* für "
-"*{wiki_name}* ({comment})"
+"*{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:459
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
 "[{author}]({author_url}) löschte den Namesraum *{namespace_name}* für "
-"*{wiki_name}* ({comment})"
+"*{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:465
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) bearbeitete die Benutzergruppe *{group_name}* "
-"({comment})"
+"[{author}]({author_url}) bearbeitete die Benutzergruppe "
+"*{group_name}*{comment}"
 
 #: src/rc_formatters.py:469
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) stellte das Wiki *{wiki_name}* wieder her "
-"({comment})"
+"[{author}]({author_url}) stellte das Wiki *{wiki_name}* wieder her{comment}"
 
 #: src/rc_formatters.py:473
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) entsperrte das Wiki *{wiki_name}* ({comment})"
+msgstr "[{author}]({author_url}) entsperrte das Wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:481
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
 "[{new_name}]({link}){comment}"
 msgid_plural ""
 "[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to "
 "[{new_name}]({link}){comment}"
-msgstr[0] "[{author}]({author_url}) löschte [{page}]({page_link}){comment}"
-msgstr[1] "[{author}]({author_url}) löschte [{page}]({page_link}){comment}"
+msgstr[0] ""
+"[{author}]({author_url}) hat den Benutzer *{old_name}* mit einer Bearbeitung "
+"zu [{new_name}]({link}) umbenannt{comment}"
+msgstr[1] ""
+"[{author}]({author_url}) hat den Benutzer *{old_name}* mit {edits} "
+"Bearbeitungen zu [{new_name}]({link}) umbenannt{comment}"
 
 #: src/rc_formatters.py:486
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
 "{comment}"
-msgstr "[{author}]({author_url}) löschte [{page}]({page_link}){comment}"
+msgstr ""
+"[{author}]({author_url}) hat den Benutzer *{old_name}* zu "
+"[{new_name}]({link}) umbenannt{comment}"
 
 #: src/rc_formatters.py:490
 msgid "An action has been hidden by administration."
@@ -952,11 +957,11 @@ msgid "Changed visibility of log events"
 msgstr "Änderte die Sichtbarkeit eines Logbucheintrags"
 
 #: src/rc_formatters.py:837
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Imported {article} with {count} revision from \"{source}\""
 msgid_plural "Imported {article} with {count} revisions from \"{source}\""
-msgstr[0] "Importierte {article} mit einer Version"
-msgstr[1] "Importierte {article} mit {count} Versionen"
+msgstr[0] "Importierte {article} mit einer Version von „{source}“"
+msgstr[1] "Importierte {article} mit {count} Versionen von „{source}“"
 
 #: src/rc_formatters.py:842
 #, python-brace-format
@@ -1126,12 +1131,14 @@ msgstr "Entsperrte das Wiki „{wiki}“"
 msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
 msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
 msgstr[0] ""
+"Nannte den Benutzer „{old_name}“ mit einer Bearbeitung zu „{new_name}“ um"
 msgstr[1] ""
+"Nannte den Benutzer „{old_name}“ mit {edits} Bearbeitungen zu „{new_name}“ um"
 
 #: src/rc_formatters.py:970
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" to \"{new_name}\""
-msgstr ""
+msgstr "Nannte den Benutzer „{old_name}“ zu „{new_name}“ um"
 
 #: src/rc_formatters.py:974
 msgid "Action has been hidden by administration"
