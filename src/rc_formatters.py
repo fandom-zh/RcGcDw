@@ -474,6 +474,150 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")),
 			comment=parsed_comment
 		)
+	elif action == "pagetranslation/mark":
+		link = create_article_path(change["title"])
+		if "?" in link:
+			link = link + "&oldid=" + change["logparams"]["revision"]
+		else:
+			link = link + "?oldid=" + change["logparams"]["revision"]
+		link = link_formatter(link)
+		content = "🌐 " + _("[{author}]({author_url}) marked [{article}]({article_url}) for translation{comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/unmark":
+		link = link_formatter(create_article_path(change["title"]))
+		content = "🌐 " + _("[{author}]({author_url}) removed [{article}]({article_url}) from the translation system{comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/moveok":
+		link = link_formatter(create_article_path(change["logparams"]["target"]))
+		content = "🌐 " + _("[{author}]({author_url}) completed moving translation pages from *{article}* to [{target}]({target_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], target=change["logparams"]["target"], target_url=link,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/movenok":
+		link = link_formatter(create_article_path(change["title"]))
+		target_url = link_formatter(create_article_path(change["logparams"]["target"]))
+		content = "🌐 " + _("[{author}]({author_url}) encountered a problem while moving [{article}]({article_url}) to [{target}]({target_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			target=change["logparams"]["target"], target_url=target_url,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/deletefok":
+		link = link_formatter(create_article_path(change["title"]))
+		content = "🌐 " + _("[{author}]({author_url}) completed deletion of translatable page [{article}]({article_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/deletefnok":
+		link = link_formatter(create_article_path(change["title"]))
+		target_url = link_formatter(create_article_path(change["logparams"]["target"]))
+		content = "🌐 " + _("[{author}]({author_url}) failed to delete [{article}]({article_url}) which belongs to translatable page [{target}]({target_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			target=change["logparams"]["target"], target_url=target_url,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/deletelok":
+		link = link_formatter(create_article_path(change["title"]))
+		content = "🌐 " + _("[{author}]({author_url}) completed deletion of translation page [{article}]({article_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/deletelnok":
+		link = link_formatter(create_article_path(change["title"]))
+		target_url = link_formatter(create_article_path(change["logparams"]["target"]))
+		content = "🌐 " + _("[{author}]({author_url}) failed to delete [{article}]({article_url}) which belongs to translation page [{target}]({target_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			target=change["logparams"]["target"], target_url=target_url,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/encourage":
+		link = link_formatter(create_article_path(change["title"]))
+		content = "🌐 " + _("[{author}]({author_url}) encouraged translation of [{article}]({article_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/discourage":
+		link = link_formatter(create_article_path(change["title"]))
+		content = "🌐 " + _("[{author}]({author_url}) discouraged translation of [{article}]({article_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			comment=parsed_comment
+		)
+	elif action == "pagetranslation/prioritylanguages":
+		link = link_formatter(create_article_path(change["title"]))
+		if "languages" in change["logparams"]:
+			languages = "`, `".join(change["logparams"]["languages"].split(","))
+			if change["logparams"]["force"] == "on":
+				content = "🌐 " + _("[{author}]({author_url}) limited languages for [{article}]({article_url}) to `{languages}`{comment}").format(
+					author=author, author_url=author_url,
+					article=change["title"], article_url=link,
+					languages=languages, comment=parsed_comment
+				)
+			else:
+				content = "🌐 " + _("[{author}]({author_url}) set the priority languages for [{article}]({article_url}) to `{languages}`{comment}").format(
+					author=author, author_url=author_url,
+					article=change["title"], article_url=link,
+					languages=languages, comment=parsed_comment
+				)
+		else:
+			content = "🌐 " + _("[{author}]({author_url}) removed priority languages from [{article}]({article_url}){comment}").format(
+				author=author, author_url=author_url,
+				article=change["title"], article_url=link,
+				comment=parsed_comment
+			)
+	elif action == "pagetranslation/associate":
+		link = link_formatter(create_article_path(change["title"]))
+		content = "🌐 " + _("[{author}]({author_url}) added translatable page [{article}]({article_url}) to aggregate group \"{group}\"{comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			group=change["logparams"]["aggregategroup"], comment=parsed_comment
+		)
+	elif action == "pagetranslation/dissociate":
+		link = link_formatter(create_article_path(change["title"]))
+		content = "🌐 " + _("[{author}]({author_url}) removed translatable page [{article}]({article_url}) from aggregate group \"{group}\"{comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			group=change["logparams"]["aggregategroup"], comment=parsed_comment
+		)
+	elif action == "translationreview/message":
+		link = create_article_path(change["title"])
+		if "?" in link:
+			link = link + "&oldid=" + change["logparams"]["revision"]
+		else:
+			link = link + "?oldid=" + change["logparams"]["revision"]
+		link = link_formatter(link)
+		content = "🌐 " + _("[{author}]({author_url}) reviewed translation [{article}]({article_url}){comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			comment=parsed_comment
+		)
+	elif action == "translationreview/group":
+		link = link_formatter(create_article_path(change["title"]))
+		if "old-state" in change["logparams"]:
+			content = "🌐 " + _("[{author}]({author_url}) changed the state of `{language}` translations of [{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}").format(
+				author=author, author_url=author_url, language=change["logparams"]["language"],
+				article=change["logparams"]["group-label"], article_url=link,
+				old_state=change["logparams"]["old-state"], new_state=change["logparams"]["new-state"],
+				comment=parsed_comment
+			)
+		else:
+			content = "🌐 " + _("[{author}]({author_url}) changed the state of `{language}` translations of [{article}]({article_url}) to `{new_state}`{comment}").format(
+				author=author, author_url=author_url, language=change["logparams"]["language"],
+				article=change["logparams"]["group-label"], article_url=link,
+				new_state=change["logparams"]["new-state"], comment=parsed_comment
+			)
 	elif action == "renameuser/renameuser":
 		link = link_formatter(create_article_path("User:"+change["logparams"]["newuser"]))
 		edits = change["logparams"]["edits"]
@@ -980,6 +1124,69 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "managewiki/unlock":
 		embed["title"] = _("Unlocked a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
 		link = create_article_path("")
+	elif action == "pagetranslation/mark":
+		link = create_article_path(change["title"])
+		if "?" in link:
+			link = link + "&oldid=" + change["logparams"]["revision"]
+		else:
+			link = link + "?oldid=" + change["logparams"]["revision"]
+		embed["title"] = _("Marked \"{article}\" for translation").format(article=change["title"])
+	elif action == "pagetranslation/unmark":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Removed \"{article}\" from the translation system").format(article=change["title"])
+	elif action == "pagetranslation/moveok":
+		link = create_article_path(change["logparams"]["target"])
+		embed["title"] = _("Completed moving translation pages from \"{article}\" to \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+	elif action == "pagetranslation/movenok":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Encountered a problem while moving \"{article}\" to \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+	elif action == "pagetranslation/deletefok":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Completed deletion of translatable page \"{article}\"").format(article=change["title"])
+	elif action == "pagetranslation/deletefnok":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Failed to delete \"{article}\" which belongs to translatable page \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+	elif action == "pagetranslation/deletelok":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Completed deletion of translation page \"{article}\"").format(article=change["title"])
+	elif action == "pagetranslation/deletelnok":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Failed to delete \"{article}\" which belongs to translation page \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+	elif action == "pagetranslation/encourage":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Encouraged translation of \"{article}\"").format(article=change["title"])
+	elif action == "pagetranslation/discourage":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Discouraged translation of \"{article}\"").format(article=change["title"])
+	elif action == "pagetranslation/prioritylanguages":
+		link = create_article_path(change["title"])
+		if "languages" in change["logparams"]:
+			languages = "`, `".join(change["logparams"]["languages"].split(","))
+			if change["logparams"]["force"] == "on":
+				embed["title"] = _("Limited languages for \"{article}\" to `{languages}`").format(article=change["title"], languages=languages)
+			else:
+				embed["title"] = _("Priority languages for \"{article}\" set to `{languages}`").format(article=change["title"], languages=languages)
+		else:
+			embed["title"] = _("Removed priority languages from \"{article}\"").format(article=change["title"])
+	elif action == "pagetranslation/associate":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Added translatable page \"{article}\" to aggregate group \"{group}\"").format(article=change["title"], group=change["logparams"]["aggregategroup"])
+	elif action == "pagetranslation/dissociate":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Removed translatable page \"{article}\" from aggregate group \"{group}\"").format(article=change["title"], group=change["logparams"]["aggregategroup"])
+	elif action == "translationreview/message":
+		link = create_article_path(change["title"])
+		if "?" in link:
+			link = link + "&oldid=" + change["logparams"]["revision"]
+		else:
+			link = link + "?oldid=" + change["logparams"]["revision"]
+		embed["title"] = _("Reviewed translation \"{article}\"").format(article=change["title"])
+	elif action == "translationreview/group":
+		link = create_article_path(change["title"])
+		embed["title"] = _("Changed the state of `{language}` translations of \"{article}\"").format(language=change["logparams"]["language"], article=change["title"])
+		if "old-state" in change["logparams"]:
+			embed.add_field(_("Old state"), change["logparams"]["old-state"], inline=True)
+		embed.add_field(_("New state"), change["logparams"]["new-state"], inline=True)
 	elif action == "renameuser/renameuser":
 		edits = change["logparams"]["edits"]
 		if edits > 0:
