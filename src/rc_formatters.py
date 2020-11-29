@@ -104,19 +104,18 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			article=change["title"]))
 		logger.debug(edit_link)
 		edit_size = change["newlen"] - change["oldlen"]
+		sign = ""
 		if edit_size > 0:
 			sign = "+"
-		else:
-			sign = ""
 		bold = ""
 		if abs(edit_size) > 500:
 			bold = "**"
 		if change["title"].startswith("MediaWiki:Tag-"):
 			pass
 		if action == "edit":
-			content = "📝 "+_("[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({bold}{sign}{edit_size}{bold})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
+			content = "📝 "+_("[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
 		else:
-			content = "🆕 "+_("[{author}]({author_url}) created [{article}]({edit_link}){comment} ({bold}{sign}{edit_size}{bold})").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
+			content = "🆕 "+_("[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
 	elif action =="upload/upload":
 		file_link = link_formatter(create_article_path(change["title"]))
 		content = "🖼️ "+_("[{author}]({author_url}) uploaded [{file}]({file_link}){comment}").format(author=author,
@@ -167,7 +166,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			link = link_formatter(create_article_path("Special:Contributions/{user}".format(user=user)))
 		except ValueError:
 			link = link_formatter(create_article_path(change["title"]))
-		if change["logparams"]["duration"] in ["infinite", "infinity", "indefinite", "never"]:
+		if change["logparams"]["duration"] in ["infinite", "indefinite", "infinity", "never"]:
 			block_time = _("for infinity and beyond")
 		else:
 			english_length = re.sub(r"(\d+)", "", change["logparams"][
@@ -219,14 +218,14 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "✅ "+_("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
 	elif action == "curseprofile/comment-created":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		target_user = change["title"].split(':')[1]
+		target_user = change["title"].split(':', 1)[1]
 		if target_user != author:
 			content = "✉️ "+ _("[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile".format(author=author, author_url=author_url, comment=link, target=target_user))
 		else:
-			content = "✉️ "+ _("[{author}]({author_url}) left a [comment]({comment}) on their own profile".format(author=author, comment=link, author_url=author_url))
+			content = "✉️ "+ _("[{author}]({author_url}) left a [comment]({comment}) on their own profile".format(author=author, author_url=author_url, comment=link))
 	elif action == "curseprofile/comment-replied":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		target_user = change["title"].split(':')[1]
+		target_user = change["title"].split(':', 1)[1]
 		if target_user != author:
 			content = "📩 "+ _(
 				"[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s profile".format(author=author,
@@ -240,7 +239,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				                                                                                   author_url=author_url))
 	elif action == "curseprofile/comment-edited":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		target_user = change["title"].split(':')[1]
+		target_user = change["title"].split(':', 1)[1]
 		if target_user != author:
 			content = "📧 "+ _(
 				"[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile".format(author=author,
@@ -253,32 +252,36 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				                                                                                         comment=link,
 				                                                                                         author_url=author_url))
 	elif action == "curseprofile/comment-purged":
-		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-		target_user = change["title"].split(':')[1]
+		target_user = change["title"].split(':', 1)[1]
 		if target_user != author:
 			content = "👁️ " + _("[{author}]({author_url}) purged a comment on {target}'s profile".format(author=author, author_url=author_url,target=target_user))
 		else:
 			content = "👁️ " + _("[{author}]({author_url}) purged a comment on their own profile".format(author=author, author_url=author_url))
 	elif action == "curseprofile/comment-deleted":
-		target_user = change["title"].split(':')[1]
-		if target_user != author:
-			content = "🗑️ "+ _("[{author}]({author_url}) deleted a comment on {target}'s profile".format(author=author,author_url=author_url, target=target_user))
+		if "4:comment_id" in change["logparams"]:
+			link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
 		else:
-			content = "🗑️ "+ _("[{author}]({author_url}) deleted a comment on their own profile".format(author=author, author_url=author_url))
-
+			link = link_formatter(create_article_path(change["title"]))
+		target_user = change["title"].split(':', 1)[1]
+		if target_user != author:
+			content = "🗑️ "+ _("[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s profile".format(author=author,author_url=author_url, comment=link, target=target_user))
+		else:
+			content = "🗑️ "+ _("[{author}]({author_url}) deleted a [comment]({comment}) on their own profile".format(author=author, author_url=author_url, comment=link))
 	elif action == "curseprofile/profile-edited":
-		link = link_formatter(create_article_path("UserProfile:{user}".format(user=change["title"].split(":")[1])))
-		target_user = change["title"].split(':')[1]
+		target_user = change["title"].split(':', 1)[1]
+		link = link_formatter(create_article_path("UserProfile:{user}".format(user=target_user)))
 		if target_user != author:
-			content = "📌 "+_("[{author}]({author_url}) edited the {field} on {target}'s profile. *({desc})*").format(author=author,
-		                                                                        author_url=author_url,
-		                                                                        target=target_user,
-		                                                                        field=profile_field_name(change["logparams"]['4:section'], False),
-		                                                                        desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
+			content = "📌 "+_("[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s profile. *({desc})*").format(author=author,
+				                                                                author_url=author_url,
+				                                                                target=target_user,
+				                                                                target_url=link,
+				                                                                field=profile_field_name(change["logparams"]['4:section'], False),
+				                                                                desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 		else:
-			content = "📌 " + _("[{author}]({author_url}) edited the {field} on their own profile. *({desc})*").format(
+			content = "📌 " + _("[{author}]({author_url}) edited the {field} on [their own]({target_url}) profile. *({desc})*").format(
 				author=author,
 				author_url=author_url,
+				target_url=link,
 				field=profile_field_name(change["logparams"]['4:section'], False),
 				desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action in ("rights/rights", "rights/autopromote"):
@@ -313,7 +316,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			"[{author}]({author_url}) modified protection settings of [{article}]({article_url}) to: {settings}{comment}").format(
 			author=author, author_url=author_url,
 			article=change["title"], article_url=link,
-			settings=change["logparams"]["description"] + _(" [cascading]") if "cascade" in change["logparams"] else "",
+			settings=change["logparams"]["description"] + (_(" [cascading]") if "cascade" in change["logparams"] else ""),
 			comment=parsed_comment)
 	elif action == "protect/unprotect":
 		link = link_formatter(create_article_path(change["title"]))
@@ -369,10 +372,8 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = "🖇️ "+_("[{author}]({author_url}) merged revision histories of [{article}]({article_url}) into [{dest}]({dest_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, dest_url=link_dest,
 		                                                                                dest=change["logparams"]["dest_title"], comment=parsed_comment)
 	elif action == "newusers/autocreate":
-		link = link_formatter(create_article_path(change["title"]))
 		content = "🗿 "+_("Account [{author}]({author_url}) was created automatically").format(author=author, author_url=author_url)
 	elif action == "newusers/create":
-		link = link_formatter(create_article_path(change["title"]))
 		content = "🗿 "+_("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
 	elif action == "newusers/create2":
 		link = link_formatter(create_article_path(change["title"]))
@@ -381,7 +382,6 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		link = link_formatter(create_article_path(change["title"]))
 		content = "🗿 "+_("Account [{article}]({article_url}) was created by [{author}]({author_url}) and password was sent by email{comment}").format(article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
 	elif action == "newusers/newusers":
-		link = author_url
 		content = "🗿 "+_("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
 	elif action == "interwiki/iw_add":
 		link = link_formatter(create_article_path("Special:Interwiki"))
@@ -536,7 +536,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 			recent_changes.init_info()
 		link = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 			wiki=WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
-			article=change["title"])
+			article=change["title"].replace(" ", "_").replace("%", "%25").replace("\\", "%5C").replace("&", "%26"))
 		embed["title"] = "{redirect}{article} ({new}{minor}{bot}{space}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
 		                                                             minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "", space=" " if "bot" in change or (action == "edit" and "minor" in change) or action == "new" else "")
@@ -594,7 +594,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 			logger.warning("Request for additional image information have failed. The preview will not be shown.")
 		if action in ("upload/overwrite", "upload/revert"):
 			if additional_info_retrieved:
-				article_encoded = change["title"].replace(" ", "_").replace(')', '\)')
+				article_encoded = change["title"].replace(" ", "_").replace("%", "%25").replace("\\", "%5C").replace("&", "%26").replace(')', '\\)')
 				try:
 					revision = img_info[num+1]
 				except IndexError:
@@ -674,8 +674,8 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 			ipaddress.ip_address(user)
 			link = create_article_path("Special:Contributions/{user}".format(user=user))
 		except ValueError:
-			link = create_article_path(change["title"].replace(')', '\)'))
-		if change["logparams"]["duration"] in ["infinite", "infinity"]:
+			link = create_article_path(change["title"])
+		if change["logparams"]["duration"] in ["infinite", "indefinite", "infinity", "never"]:
 			block_time = _("for infinity and beyond")
 		else:
 			english_length = re.sub(r"(\d+)", "", change["logparams"]["duration"])  # note that translation won't work for millenia and century yet
@@ -718,57 +718,75 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 				embed.add_field(_("Partial block details"), restriction_description, inline=True)
 		embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_time)
 	elif action == "block/reblock":
-		link = create_article_path(change["title"].replace(')', '\)'))
+		link = create_article_path(change["title"])
 		user = change["title"].split(':', 1)[1]
 		embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=user)
 	elif action == "block/unblock":
-		link = create_article_path(change["title"].replace(')', '\)'))
+		link = create_article_path(change["title"])
 		user = change["title"].split(':', 1)[1]
 		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
 	elif action == "curseprofile/comment-created":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			parsed_comment = recent_changes.pull_comment(change["logparams"]["4:comment_id"])
 		link = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
-		embed["title"] = _("Left a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
-		                                                                                              change["user"] else _(
-			"Left a comment on their own profile")
+		target_user = change["title"].split(':', 1)[1]
+		if target_user != change["user"]:
+			embed["title"] = _("Left a comment on {target}'s profile").format(target=target_user)
+		else:
+			embed["title"] = _("Left a comment on their own profile")
 	elif action == "curseprofile/comment-replied":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			parsed_comment = recent_changes.pull_comment(change["logparams"]["4:comment_id"])
 		link = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
-		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
-		                                                                                                    change["user"] else _(
-			"Replied to a comment on their own profile")
+		target_user = change["title"].split(':', 1)[1]
+		if target_user != change["user"]:
+			embed["title"] = _("Replied to a comment on {target}'s profile").format(target=target_user)
+		else:
+			embed["title"] = _("Replied to a comment on their own profile")
 	elif action == "curseprofile/comment-edited":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			parsed_comment = recent_changes.pull_comment(change["logparams"]["4:comment_id"])
 		link = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
-		embed["title"] = _("Edited a comment on {target}'s profile").format(target=change["title"].split(':')[1]) if change["title"].split(':')[1] != \
-		                                                                                                change["user"] else _(
-			"Edited a comment on their own profile")
+		target_user = change["title"].split(':', 1)[1]
+		if target_user != change["user"]:
+			embed["title"] = _("Edited a comment on {target}'s profile").format(target=target_user)
+		else:
+			embed["title"] = _("Edited a comment on their own profile")
 	elif action == "curseprofile/profile-edited":
-		link = create_article_path("UserProfile:{target}".format(target=change["title"].split(':')[1].replace(')', '\)')))
-		embed["title"] = _("Edited {target}'s profile").format(target=change["title"].split(':')[1]) if change["user"] != change["title"].split(':')[1] else _("Edited their own profile")
+		target_user = change["title"].split(':', 1)[1]
+		link = create_article_path("UserProfile:{target}".format(target=target_user))
+		if target_user != change["user"]:
+			embed["title"] = _("Edited {target}'s profile").format(target=target_user)
+		else:
+			embed["title"] = _("Edited their own profile")
 		if not change["parsedcomment"]:  # If the field is empty
 			parsed_comment = _("Cleared the {field} field").format(field=profile_field_name(change["logparams"]['4:section'], True))
 		else:
 			parsed_comment = _("{field} field changed to: {desc}").format(field=profile_field_name(change["logparams"]['4:section'], True), desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action == "curseprofile/comment-purged":
-		link = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
-		embed["title"] = _("Purged a comment on {target}'s profile").format(target=change["title"].split(':')[1])
+		link = create_article_path(change["title"])
+		target_user = change["title"].split(':', 1)[1]
+		if target_user != change["user"]:
+			embed["title"] = _("Purged a comment on {target}'s profile").format(target=target_user)
+		else:
+			embed["title"] = _("Purged a comment on their own profile")
 	elif action == "curseprofile/comment-deleted":
 		if "4:comment_id" in change["logparams"]:
 			link = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
 		else:
 			link = create_article_path(change["title"])
-		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=change["title"].split(':')[1])
+		target_user = change["title"].split(':', 1)[1]
+		if target_user != change["user"]:
+			embed["title"] = _("Deleted a comment on {target}'s profile").format(target=target_user)
+		else:
+			embed["title"] = _("Deleted a comment on their own profile")
 	elif action in ("rights/rights", "rights/autopromote"):
 		link = create_article_path("User:{}".format(change["title"].split(":")[1]))
 		if action == "rights/rights":
 			embed["title"] = _("Changed group membership for {target}").format(target=change["title"].split(":")[1])
 		else:
-			embed.set_author(_("System"), author_url)
 			author_url = ""
+			embed.set_author(_("System"), author_url)
 			embed["title"] = _("{target} got autopromoted to a new usergroup").format(
 				target=change["title"].split(":")[1])
 		if len(change["logparams"]["oldgroups"]) < len(change["logparams"]["newgroups"]):
@@ -985,7 +1003,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 				embed.add_field(_("Report this on the support server"), settings["support"])
 			else:
 				embed.add_field(_("Report this on the support server"), change_params)
-	embed["author"]["icon_url"] = settings["appearance"]["embed"][action]["icon"]
+	embed["author"]["icon_url"] = settings["appearance"]["embed"].get(action, {"icon": None})["icon"]
 	embed["url"] = quote(link.replace(" ", "_"), "/:?=&")
 	if parsed_comment is not None:
 		embed["description"] = parsed_comment
