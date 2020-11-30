@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-11-20 09:22+0000\n"
+"PO-Revision-Date: 2020-11-30 16:47+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
-"Language-Team: Polish <https://weblate.frisk.space/projects/rcgcdw/"
+"Language-Team: Polish <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -111,13 +111,13 @@ msgid "Unknown"
 msgstr "Nieznana"
 
 #: src/rc_formatters.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}"
 "({sign}{edit_size}){bold}"
 msgstr ""
 "[{author}]({author_url}) edytował(a) [{article}]({edit_link}){comment} "
-"({bold}{sign}{edit_size}{bold})"
+"{bold}({sign}{edit_size}){bold}"
 
 #: src/rc_formatters.py:118
 #, fuzzy, python-brace-format
