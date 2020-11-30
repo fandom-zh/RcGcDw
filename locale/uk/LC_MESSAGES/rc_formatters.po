@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"POT-Creation-Date: 2020-11-30 11:58+0100\n"
 "PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: MakandIv <>\n"
 "Language-Team: Ukrainian <https://weblate.frisk.space/projects/rcgcdw/"
@@ -101,45 +101,46 @@ msgstr ""
 #: src/rc_formatters.py:85 src/rc_formatters.py:86 src/rc_formatters.py:87
 #: src/rc_formatters.py:449 src/rc_formatters.py:452 src/rc_formatters.py:455
 #: src/rc_formatters.py:456 src/rc_formatters.py:461 src/rc_formatters.py:462
-#: src/rc_formatters.py:470 src/rc_formatters.py:474 src/rc_formatters.py:506
-#: src/rc_formatters.py:507 src/rc_formatters.py:508 src/rc_formatters.py:941
-#: src/rc_formatters.py:944 src/rc_formatters.py:947 src/rc_formatters.py:949
-#: src/rc_formatters.py:952 src/rc_formatters.py:954 src/rc_formatters.py:960
-#: src/rc_formatters.py:963 src/rc_formatters.py:975
+#: src/rc_formatters.py:470 src/rc_formatters.py:474 src/rc_formatters.py:650
+#: src/rc_formatters.py:651 src/rc_formatters.py:652 src/rc_formatters.py:1103
+#: src/rc_formatters.py:1106 src/rc_formatters.py:1109
+#: src/rc_formatters.py:1111 src/rc_formatters.py:1114
+#: src/rc_formatters.py:1116 src/rc_formatters.py:1122
+#: src/rc_formatters.py:1125 src/rc_formatters.py:1200
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: src/rc_formatters.py:117
+#: src/rc_formatters.py:116
 #, fuzzy, python-brace-format
 msgid ""
-"[{author}]({author_url}) edited [{article}]({edit_link}){comment} ({bold}"
-"{sign}{edit_size}{bold})"
+"[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}"
+"({sign}{edit_size}){bold}"
 msgstr ""
 "[{author}]({author_url}) відредагував [{article}]({edit_link}){comment} "
 "({sign}{edit_size})"
 
-#: src/rc_formatters.py:119
+#: src/rc_formatters.py:118
 #, fuzzy, python-brace-format
 msgid ""
-"[{author}]({author_url}) created [{article}]({edit_link}){comment} ({bold}"
-"{sign}{edit_size}{bold})"
+"[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}"
+"({sign}{edit_size}){bold}"
 msgstr ""
 "[{author}]({author_url}) створив [{article}]({edit_link}){comment} ({sign}"
 "{edit_size})"
 
-#: src/rc_formatters.py:122
+#: src/rc_formatters.py:121
 #, python-brace-format
 msgid "[{author}]({author_url}) uploaded [{file}]({file_link}){comment}"
 msgstr "[{author}]({author_url}) завантажив [{file}]({file_link}){comment}"
 
-#: src/rc_formatters.py:129
+#: src/rc_formatters.py:128
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}"
 msgstr ""
 "[{author}] ({author_url}) повернув версію [{file}] ({file_link}) {comment}"
 
-#: src/rc_formatters.py:133
+#: src/rc_formatters.py:132
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) uploaded a new version of [{file}]({file_link})"
@@ -148,12 +149,12 @@ msgstr ""
 "[{author}]({author_url}) завантажив нову версію [{file}]({file_link})"
 "{comment}"
 
-#: src/rc_formatters.py:136
+#: src/rc_formatters.py:135
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted [{page}]({page_link}){comment}"
 msgstr "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:142
+#: src/rc_formatters.py:141
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted redirect by overwriting [{page}]"
@@ -162,15 +163,15 @@ msgstr ""
 "[{author}]({author_url}) вилучив перенаправлення за допомогою перезапису "
 "[{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:148 src/rc_formatters.py:153
+#: src/rc_formatters.py:147 src/rc_formatters.py:152
 msgid "without making a redirect"
 msgstr "не залишивши перенаправлення"
 
-#: src/rc_formatters.py:148 src/rc_formatters.py:154
+#: src/rc_formatters.py:147 src/rc_formatters.py:153
 msgid "with a redirect"
 msgstr "з перенаправленням"
 
-#: src/rc_formatters.py:149
+#: src/rc_formatters.py:148
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* to [{target}]"
@@ -179,7 +180,7 @@ msgstr ""
 "[{author}]({author_url}) перейменував {redirect}*{article}* в [{target}]"
 "({target_url}) {made_a_redirect}{comment}"
 
-#: src/rc_formatters.py:155
+#: src/rc_formatters.py:154
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
@@ -188,7 +189,7 @@ msgstr ""
 "[{author}]({author_url}) перейменував {redirect}*{article}* поверх "
 "перенаправлення в [{target}]({target_url}) {made_a_redirect}{comment}"
 
-#: src/rc_formatters.py:160
+#: src/rc_formatters.py:159
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) moved protection settings from {redirect}*{article}"
@@ -197,33 +198,33 @@ msgstr ""
 "[{author}]({author_url}) переніс налаштування захисту з {redirect}*{article}"
 "* на [{target}]({target_url}){comment}"
 
-#: src/rc_formatters.py:171 src/rc_formatters.py:679
+#: src/rc_formatters.py:170 src/rc_formatters.py:823
 #, fuzzy
 msgid "for infinity and beyond"
 msgstr "навіки і назавжди"
 
-#: src/rc_formatters.py:180 src/rc_formatters.py:687
+#: src/rc_formatters.py:179 src/rc_formatters.py:831
 #, python-brace-format
 msgid "for {num} {translated_length}"
 msgstr "на {num}{translated_length}"
 
-#: src/rc_formatters.py:186 src/rc_formatters.py:691
+#: src/rc_formatters.py:185 src/rc_formatters.py:835
 msgid "until {}"
 msgstr ""
 
-#: src/rc_formatters.py:190
+#: src/rc_formatters.py:189
 msgid " on pages: "
 msgstr " на сторінках: "
 
-#: src/rc_formatters.py:197 src/rc_formatters.py:705
+#: src/rc_formatters.py:196 src/rc_formatters.py:849
 msgid " and namespaces: "
 msgstr " і в простору імен: "
 
-#: src/rc_formatters.py:199
+#: src/rc_formatters.py:198
 msgid " on namespaces: "
 msgstr " в просторах імен: "
 
-#: src/rc_formatters.py:211
+#: src/rc_formatters.py:210
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
@@ -232,7 +233,7 @@ msgstr ""
 "[{author}]({author_url}) заблокував [{user}]({user_url}) на {time}"
 "{restriction_desc}{comment}"
 
-#: src/rc_formatters.py:215
+#: src/rc_formatters.py:214
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed block settings for [{blocked_user}]"
@@ -241,28 +242,28 @@ msgstr ""
 "[{author}]({author_url}) змінив блокування для [{blocked_user}]({user_url})"
 "{comment}"
 
-#: src/rc_formatters.py:219
+#: src/rc_formatters.py:218
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
 msgstr ""
 "[{author}]({author_url}) розблокував [{blocked_user}]({user_url}){comment}"
 
-#: src/rc_formatters.py:224
+#: src/rc_formatters.py:223
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile"
 msgstr ""
 "[{author}]({author_url}) залишив [коментар]({comment}) на профілі {target}"
 
-#: src/rc_formatters.py:226
+#: src/rc_formatters.py:225
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on their own profile"
 msgstr ""
 "[{author}]({author_url}) залишив [коментар]({comment}) на профілі {target}"
 
-#: src/rc_formatters.py:232
+#: src/rc_formatters.py:231
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
@@ -271,7 +272,7 @@ msgstr ""
 "[{author}]({author_url}) відповів на [коментар]({comment}) на профілі "
 "{target}"
 
-#: src/rc_formatters.py:238
+#: src/rc_formatters.py:237
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
@@ -280,7 +281,7 @@ msgstr ""
 "[{author}]({author_url}) відповів на [коментар]({comment}) на профілі "
 "{target}"
 
-#: src/rc_formatters.py:246
+#: src/rc_formatters.py:245
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile"
@@ -288,7 +289,7 @@ msgstr ""
 "[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
 "{target}"
 
-#: src/rc_formatters.py:252
+#: src/rc_formatters.py:251
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on their own profile"
@@ -296,46 +297,54 @@ msgstr ""
 "[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
 "{target}"
 
-#: src/rc_formatters.py:259
+#: src/rc_formatters.py:257
 #, fuzzy, python-brace-format
 msgid "[{author}]({author_url}) purged a comment on {target}'s profile"
 msgstr "[{author}] ({author_url}) вилучив коментар в профілі {target}"
 
-#: src/rc_formatters.py:261
+#: src/rc_formatters.py:259
 #, fuzzy, python-brace-format
 msgid "[{author}]({author_url}) purged a comment on their own profile"
 msgstr "[{author}] ({author_url}) вилучив коментар в профілі {target}"
 
-#: src/rc_formatters.py:265
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) deleted a comment on {target}'s profile"
-msgstr "[{author}]({author_url}) видалив коментар з профілю {target}"
-
 #: src/rc_formatters.py:267
 #, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) deleted a comment on their own profile"
-msgstr "[{author}]({author_url}) видалив коментар з профілю {target}"
+msgid ""
+"[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s profile"
+msgstr ""
+"[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
+"{target}"
 
-#: src/rc_formatters.py:273
+#: src/rc_formatters.py:269
 #, fuzzy, python-brace-format
 msgid ""
-"[{author}]({author_url}) edited the {field} on {target}'s profile. *({desc})*"
+"[{author}]({author_url}) deleted a [comment]({comment}) on their own profile"
+msgstr ""
+"[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
+"{target}"
+
+#: src/rc_formatters.py:274
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
+"profile. *({desc})*"
 msgstr ""
 "[{author}]({author_url}) відредагував {field} на профілі {target}. *({desc})*"
 
-#: src/rc_formatters.py:279
+#: src/rc_formatters.py:281
 #, fuzzy, python-brace-format
 msgid ""
-"[{author}]({author_url}) edited the {field} on their own profile. *({desc})*"
+"[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
+"profile. *({desc})*"
 msgstr ""
 "[{author}]({author_url}) відредагував {field} на профілі {target}. *({desc})*"
 
-#: src/rc_formatters.py:293 src/rc_formatters.py:295 src/rc_formatters.py:783
-#: src/rc_formatters.py:785
+#: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:945
+#: src/rc_formatters.py:947
 msgid "none"
 msgstr "нічого"
 
-#: src/rc_formatters.py:298
+#: src/rc_formatters.py:301
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
@@ -344,7 +353,7 @@ msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: src/rc_formatters.py:300
+#: src/rc_formatters.py:303
 #, fuzzy, python-brace-format
 msgid ""
 "{author} autopromoted [{target}]({target_url}) from {old_groups} to "
@@ -353,11 +362,11 @@ msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: src/rc_formatters.py:301 src/rc_formatters.py:770
+#: src/rc_formatters.py:304 src/rc_formatters.py:933
 msgid "System"
 msgstr "Система"
 
-#: src/rc_formatters.py:306
+#: src/rc_formatters.py:309
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) protected [{article}]({article_url}) with the "
@@ -366,12 +375,12 @@ msgstr ""
 "[{author}]({author_url}) захистив [{article}]({article_url}) з наступними "
 "налаштуваннями: {settings}{comment}"
 
-#: src/rc_formatters.py:308 src/rc_formatters.py:316 src/rc_formatters.py:793
-#: src/rc_formatters.py:799
+#: src/rc_formatters.py:311 src/rc_formatters.py:319 src/rc_formatters.py:955
+#: src/rc_formatters.py:961
 msgid " [cascading]"
 msgstr " [каскадний]"
 
-#: src/rc_formatters.py:313
+#: src/rc_formatters.py:316
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified protection settings of [{article}]"
@@ -380,7 +389,7 @@ msgstr ""
 "[{author}]({author_url}) змінив налаштування захисту [{article}]"
 "({article_url}) на: {settings}{comment}"
 
-#: src/rc_formatters.py:320
+#: src/rc_formatters.py:323
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed protection from [{article}]({article_url})"
@@ -388,7 +397,7 @@ msgid ""
 msgstr ""
 "[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
 
-#: src/rc_formatters.py:324
+#: src/rc_formatters.py:327
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed visibility of revision on page [{article}]"
@@ -406,7 +415,7 @@ msgstr[2] ""
 "[{author}]({author_url}) змінив видимість {amount} версій сторінки "
 "[{article}]({article_url}){comment}"
 
-#: src/rc_formatters.py:337
+#: src/rc_formatters.py:340
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -424,17 +433,17 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: src/rc_formatters.py:342
+#: src/rc_formatters.py:345
 #, python-brace-format
 msgid "[{author}]({author_url}) restored [{article}]({article_url}){comment}"
 msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
 
-#: src/rc_formatters.py:344
+#: src/rc_formatters.py:347
 #, python-brace-format
 msgid "[{author}]({author_url}) changed visibility of log events{comment}"
 msgstr "[{author}]({author_url}) змінив видимість подій журналу{comment}"
 
-#: src/rc_formatters.py:356
+#: src/rc_formatters.py:359
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -452,7 +461,7 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: src/rc_formatters.py:361
+#: src/rc_formatters.py:364
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})"
@@ -460,7 +469,7 @@ msgstr ""
 "[{author}]({author_url}) відредагував фільтр зловживань [під номером "
 "{number}]({filter_url})"
 
-#: src/rc_formatters.py:365
+#: src/rc_formatters.py:368
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created abuse filter [number {number}]({filter_url})"
@@ -468,7 +477,7 @@ msgstr ""
 "[{author}]({author_url}) створив фільтр зловживань [під номером {number}]"
 "({filter_url})"
 
-#: src/rc_formatters.py:369
+#: src/rc_formatters.py:372
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
@@ -477,17 +486,17 @@ msgstr ""
 "[{author}]({author_url}) об'єднав історії версій [{article}]({article_url}) "
 "з [{dest}]({dest_url}){comment}"
 
-#: src/rc_formatters.py:373
+#: src/rc_formatters.py:375
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
 msgstr "Обліковий запис [{author}]({author_url}) був автоматично створений"
 
-#: src/rc_formatters.py:376 src/rc_formatters.py:385
+#: src/rc_formatters.py:377 src/rc_formatters.py:385
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
 msgstr "Обліковий запис [{author}]({author_url}) був створений"
 
-#: src/rc_formatters.py:379
+#: src/rc_formatters.py:380
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
@@ -496,7 +505,7 @@ msgstr ""
 "Обліковий запис [{article}]({article_url}) був створений [{author}]"
 "({author_url}){comment}"
 
-#: src/rc_formatters.py:382
+#: src/rc_formatters.py:383
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
@@ -648,7 +657,159 @@ msgstr "[{author}]({author_url}) імпортував інтервікі{comment
 msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
 
-#: src/rc_formatters.py:481
+#: src/rc_formatters.py:484
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) marked [{article}]({article_url}) for "
+"translation{comment}"
+msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:491
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed [{article}]({article_url}) from the "
+"translation system{comment}"
+msgstr ""
+"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
+"версією{comment}"
+
+#: src/rc_formatters.py:498
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) completed moving translation pages from *{article}* "
+"to [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) переніс налаштування захисту з {redirect}*{article}"
+"* на [{target}]({target_url}){comment}"
+
+#: src/rc_formatters.py:506
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) encountered a problem while moving [{article}]"
+"({article_url}) to [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) об'єднав історії версій [{article}]({article_url}) "
+"з [{dest}]({dest_url}){comment}"
+
+#: src/rc_formatters.py:514
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) completed deletion of translatable page [{article}]"
+"({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:522
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
+"belongs to translatable page [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
+"версією{comment}"
+
+#: src/rc_formatters.py:530
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) completed deletion of translation page [{article}]"
+"({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) змінив видимість {amount} версії сторінки "
+"[{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:538
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
+"belongs to translation page [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
+"версією{comment}"
+
+#: src/rc_formatters.py:546
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
+"{comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:553
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) discouraged translation of [{article}]"
+"({article_url}){comment}"
+msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:563
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
+"`{languages}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив налаштування захисту [{article}]"
+"({article_url}) на: {settings}{comment}"
+
+#: src/rc_formatters.py:569
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) set the priority languages for [{article}]"
+"({article_url}) to `{languages}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив налаштування захисту [{article}]"
+"({article_url}) на: {settings}{comment}"
+
+#: src/rc_formatters.py:575
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed priority languages from [{article}]"
+"({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:582
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) added translatable page [{article}]({article_url}) "
+"to aggregate group \"{group}\"{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: src/rc_formatters.py:589
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed translatable page [{article}]"
+"({article_url}) from aggregate group \"{group}\"{comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:601
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) reviewed translation [{article}]({article_url})"
+"{comment}"
+msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
+
+#: src/rc_formatters.py:609
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the state of `{language}` translations of "
+"[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: src/rc_formatters.py:616
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the state of `{language}` translations of "
+"[{article}]({article_url}) to `{new_state}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: src/rc_formatters.py:625
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
@@ -660,98 +821,98 @@ msgstr[0] "[{author}]({author_url}) вилучив [{page}]({page_link}){comment
 msgstr[1] "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 msgstr[2] "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:486
+#: src/rc_formatters.py:630
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
 "{comment}"
 msgstr "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:490
+#: src/rc_formatters.py:634
 msgid "An action has been hidden by administration."
 msgstr "Дія була прихована адміністрацією."
 
-#: src/rc_formatters.py:497
+#: src/rc_formatters.py:641
 #, python-brace-format
 msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
 msgstr ""
 
-#: src/rc_formatters.py:505
+#: src/rc_formatters.py:649
 #, python-brace-format
 msgid "{user} triggered \"{abuse_filter}\""
 msgstr ""
 
-#: src/rc_formatters.py:506
+#: src/rc_formatters.py:650
 msgid "Performed"
 msgstr ""
 
-#: src/rc_formatters.py:507
+#: src/rc_formatters.py:651
 msgid "Action taken"
 msgstr ""
 
-#: src/rc_formatters.py:508
+#: src/rc_formatters.py:652
 msgid "Title"
 msgstr ""
 
-#: src/rc_formatters.py:517 src/rc_formatters.py:786
+#: src/rc_formatters.py:661 src/rc_formatters.py:948
 msgid "No description provided"
 msgstr "Немає опису редагування"
 
-#: src/rc_formatters.py:541
+#: src/rc_formatters.py:685
 msgid "(N!) "
 msgstr "(Н!) "
 
-#: src/rc_formatters.py:542
+#: src/rc_formatters.py:686
 msgid "m"
 msgstr "м"
 
-#: src/rc_formatters.py:542
+#: src/rc_formatters.py:686
 msgid "b"
 msgstr "б"
 
-#: src/rc_formatters.py:559 src/rc_formatters.py:564
+#: src/rc_formatters.py:703 src/rc_formatters.py:708
 msgid "__Only whitespace__"
 msgstr "__Тільки пробіли__"
 
-#: src/rc_formatters.py:569
+#: src/rc_formatters.py:713
 msgid "Removed"
 msgstr "Видалено"
 
-#: src/rc_formatters.py:571
+#: src/rc_formatters.py:715
 msgid "Added"
 msgstr "Додано"
 
-#: src/rc_formatters.py:605 src/rc_formatters.py:644
+#: src/rc_formatters.py:749 src/rc_formatters.py:788
 msgid "Options"
 msgstr "Параметри"
 
-#: src/rc_formatters.py:605
+#: src/rc_formatters.py:749
 #, python-brace-format
 msgid "([preview]({link}) | [undo]({undolink}))"
 msgstr "([перегляд]({link}) | [скасувати]({undolink}))"
 
-#: src/rc_formatters.py:610
+#: src/rc_formatters.py:754
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
 msgstr "Завантажив нову версію {name}"
 
-#: src/rc_formatters.py:612
+#: src/rc_formatters.py:756
 #, python-brace-format
 msgid "Reverted a version of {name}"
 msgstr "Повернув версію {name}"
 
-#: src/rc_formatters.py:614
+#: src/rc_formatters.py:758
 #, python-brace-format
 msgid "Uploaded {name}"
 msgstr "Загрузил {name}"
 
-#: src/rc_formatters.py:630
+#: src/rc_formatters.py:774
 msgid "**No license!**"
 msgstr "**Немає ліцензії!**"
 
-#: src/rc_formatters.py:642
+#: src/rc_formatters.py:786
 msgid ""
 "\n"
 "License: {}"
@@ -759,163 +920,173 @@ msgstr ""
 "\n"
 "Ліцензія: {}"
 
-#: src/rc_formatters.py:644
+#: src/rc_formatters.py:788
 #, python-brace-format
 msgid "([preview]({link}))"
 msgstr "([перегляд]({link}))"
 
-#: src/rc_formatters.py:649
+#: src/rc_formatters.py:793
 #, python-brace-format
 msgid "Deleted page {article}"
 msgstr "Вилучив сторінку {article}"
 
-#: src/rc_formatters.py:654
+#: src/rc_formatters.py:798
 #, python-brace-format
 msgid "Deleted redirect {article} by overwriting"
 msgstr "Вилучив перенаправлення {article} by overwriting"
 
-#: src/rc_formatters.py:660
+#: src/rc_formatters.py:804
 msgid "No redirect has been made"
 msgstr "Перенаправлення не зроблено"
 
-#: src/rc_formatters.py:661
+#: src/rc_formatters.py:805
 msgid "A redirect has been made"
 msgstr "Перенаправлення було зроблено"
 
-#: src/rc_formatters.py:662
+#: src/rc_formatters.py:806
 #, python-brace-format
 msgid "Moved {redirect}{article} to {target}"
 msgstr "Перейменував сторінку {redirect}{article} to {target}"
 
-#: src/rc_formatters.py:665
+#: src/rc_formatters.py:809
 #, python-brace-format
 msgid "Moved {redirect}{article} to {title} over redirect"
 msgstr ""
 "Перейменував сторінку {redirect}{article} to {title} поверх перенаправлення"
 
-#: src/rc_formatters.py:669
+#: src/rc_formatters.py:813
 #, python-brace-format
 msgid "Moved protection settings from {redirect}{article} to {title}"
 msgstr "Переніс налаштування захисту з {redirect}{article} на {title}"
 
-#: src/rc_formatters.py:693
+#: src/rc_formatters.py:837
 msgid "unknown expiry time"
 msgstr ""
 
-#: src/rc_formatters.py:698
+#: src/rc_formatters.py:842
 msgid "Blocked from editing the following pages: "
 msgstr "Заблокований від редагування в наступних сторінках: "
 
-#: src/rc_formatters.py:707
+#: src/rc_formatters.py:851
 msgid "Blocked from editing pages on following namespaces: "
 msgstr "Заблокований від редагування на сторінках в наступних просторах назв: "
 
-#: src/rc_formatters.py:718
+#: src/rc_formatters.py:862
 msgid "Partial block details"
 msgstr "Часткові деталі блокування"
 
-#: src/rc_formatters.py:719
+#: src/rc_formatters.py:863
 #, fuzzy, python-brace-format
 msgid "Blocked {blocked_user} {time}"
 msgstr "Заблокував {blocked_user} на {time}"
 
-#: src/rc_formatters.py:723
+#: src/rc_formatters.py:867
 #, python-brace-format
 msgid "Changed block settings for {blocked_user}"
 msgstr "Змінив блокування для {blocked_user}"
 
-#: src/rc_formatters.py:727
+#: src/rc_formatters.py:871
 #, python-brace-format
 msgid "Unblocked {blocked_user}"
 msgstr "Розблокував {blocked_user}"
 
-#: src/rc_formatters.py:732
+#: src/rc_formatters.py:878
 #, python-brace-format
 msgid "Left a comment on {target}'s profile"
 msgstr "Залишив коментар на профілі {target}"
 
-#: src/rc_formatters.py:734
+#: src/rc_formatters.py:880
 msgid "Left a comment on their own profile"
 msgstr "Залишив коментар на своєму профілі"
 
-#: src/rc_formatters.py:739
+#: src/rc_formatters.py:887
 #, python-brace-format
 msgid "Replied to a comment on {target}'s profile"
 msgstr "Відповів на коментар на профілі {target}"
 
-#: src/rc_formatters.py:741
+#: src/rc_formatters.py:889
 msgid "Replied to a comment on their own profile"
 msgstr "Відповів на коментар на своєму профілі"
 
-#: src/rc_formatters.py:746
+#: src/rc_formatters.py:896
 #, python-brace-format
 msgid "Edited a comment on {target}'s profile"
 msgstr "Відредагував коментар на профілі {target}"
 
-#: src/rc_formatters.py:748
+#: src/rc_formatters.py:898
 msgid "Edited a comment on their own profile"
 msgstr "Відредагував коментар на своєму профілі"
 
-#: src/rc_formatters.py:751
+#: src/rc_formatters.py:903
 #, python-brace-format
 msgid "Edited {target}'s profile"
 msgstr "Відредагував профіль {target}"
 
-#: src/rc_formatters.py:751
+#: src/rc_formatters.py:905
 msgid "Edited their own profile"
 msgstr "Відредагував свій профіль"
 
-#: src/rc_formatters.py:753
+#: src/rc_formatters.py:907
 #, python-brace-format
 msgid "Cleared the {field} field"
 msgstr "Очистив поле {field}"
 
-#: src/rc_formatters.py:755
+#: src/rc_formatters.py:909
 #, python-brace-format
 msgid "{field} field changed to: {desc}"
 msgstr "Поле {field} змінено на: {desc}"
 
-#: src/rc_formatters.py:758
+#: src/rc_formatters.py:914
 #, python-brace-format
 msgid "Purged a comment on {target}'s profile"
 msgstr "Вилучив коментар в профілі {target}"
 
-#: src/rc_formatters.py:764
+#: src/rc_formatters.py:916
+#, fuzzy
+msgid "Purged a comment on their own profile"
+msgstr "Відредагував коментар на своєму профілі"
+
+#: src/rc_formatters.py:924
 #, python-brace-format
 msgid "Deleted a comment on {target}'s profile"
 msgstr "Вилучив коментар на профілі {target}"
 
-#: src/rc_formatters.py:768
+#: src/rc_formatters.py:926
+#, fuzzy
+msgid "Deleted a comment on their own profile"
+msgstr "Відредагував коментар на своєму профілі"
+
+#: src/rc_formatters.py:930
 #, python-brace-format
 msgid "Changed group membership for {target}"
 msgstr "Змінено членство в групі для {target}"
 
-#: src/rc_formatters.py:772
+#: src/rc_formatters.py:934
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} автоматично переведений в нову групу користувачів"
 
-#: src/rc_formatters.py:787
+#: src/rc_formatters.py:949
 #, python-brace-format
 msgid "Groups changed from {old_groups} to {new_groups}{reason}"
 msgstr "Групи змінені з {old_groups} на {new_groups}{reason}"
 
-#: src/rc_formatters.py:791
+#: src/rc_formatters.py:953
 #, python-brace-format
 msgid "Protected {target}"
 msgstr "Захистив {target}"
 
-#: src/rc_formatters.py:797
+#: src/rc_formatters.py:959
 #, python-brace-format
 msgid "Changed protection level for {article}"
 msgstr "Змінив рівень захисту для {article}"
 
-#: src/rc_formatters.py:803
+#: src/rc_formatters.py:965
 #, python-brace-format
 msgid "Removed protection from {article}"
 msgstr "Зняв захист з {article}"
 
-#: src/rc_formatters.py:807
+#: src/rc_formatters.py:969
 #, python-brace-format
 msgid "Changed visibility of revision on page {article} "
 msgid_plural "Changed visibility of {amount} revisions on page {article} "
@@ -923,7 +1094,7 @@ msgstr[0] "Змінив видимість {amount} версії сторінк�
 msgstr[1] "Змінив видимість {amount} версій сторінки {article} "
 msgstr[2] "Змінив видимість {amount} версій сторінки {article} "
 
-#: src/rc_formatters.py:819
+#: src/rc_formatters.py:981
 #, python-brace-format
 msgid "Imported {article} with {count} revision"
 msgid_plural "Imported {article} with {count} revisions"
@@ -931,16 +1102,16 @@ msgstr[0] "Імпортував {article} з {count} версією"
 msgstr[1] "Імпортував {article} з {count} версіями"
 msgstr[2] "Імпортував {article} з {count} версіями"
 
-#: src/rc_formatters.py:824
+#: src/rc_formatters.py:986
 #, python-brace-format
 msgid "Restored {article}"
 msgstr "Відновив {article}"
 
-#: src/rc_formatters.py:827
+#: src/rc_formatters.py:989
 msgid "Changed visibility of log events"
 msgstr "Змінив видимість подій журналу"
 
-#: src/rc_formatters.py:837
+#: src/rc_formatters.py:999
 #, fuzzy, python-brace-format
 msgid "Imported {article} with {count} revision from \"{source}\""
 msgid_plural "Imported {article} with {count} revisions from \"{source}\""
@@ -948,172 +1119,269 @@ msgstr[0] "Імпортував {article} з {count} версією"
 msgstr[1] "Імпортував {article} з {count} версіями"
 msgstr[2] "Імпортував {article} з {count} версіями"
 
-#: src/rc_formatters.py:842
+#: src/rc_formatters.py:1004
 #, python-brace-format
 msgid "Edited abuse filter number {number}"
 msgstr "Відредагував фільтр зловживань під номером {number}"
 
-#: src/rc_formatters.py:845
+#: src/rc_formatters.py:1007
 #, python-brace-format
 msgid "Created abuse filter number {number}"
 msgstr "Створив фільтр зловживань під номером {number}"
 
-#: src/rc_formatters.py:848
+#: src/rc_formatters.py:1010
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
 msgstr "Об'єднав історії версій {article} з {dest}"
 
-#: src/rc_formatters.py:852
+#: src/rc_formatters.py:1014
 msgid "Created account automatically"
 msgstr "Обліковий запис був створений автоматично"
 
-#: src/rc_formatters.py:855 src/rc_formatters.py:864
+#: src/rc_formatters.py:1017 src/rc_formatters.py:1026
 msgid "Created account"
 msgstr "Створено обліковий запис"
 
-#: src/rc_formatters.py:858
+#: src/rc_formatters.py:1020
 #, python-brace-format
 msgid "Created account {article}"
 msgstr "Створено обліковий запис {article}"
 
-#: src/rc_formatters.py:861
+#: src/rc_formatters.py:1023
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr ""
 "Створено обліковий запис {article} і і пароль був відправлений на електронну "
 "пошту"
 
-#: src/rc_formatters.py:867
+#: src/rc_formatters.py:1029
 msgid "Added an entry to the interwiki table"
 msgstr "Додав запис в таблицю інтервікі"
 
-#: src/rc_formatters.py:868 src/rc_formatters.py:874
+#: src/rc_formatters.py:1030 src/rc_formatters.py:1036
 #, python-brace-format
 msgid "Prefix: {prefix}, website: {website} | {desc}"
 msgstr "Префікс: {prefix}, веб-сайт: {website} | {desc}"
 
-#: src/rc_formatters.py:873
+#: src/rc_formatters.py:1035
 msgid "Edited an entry in interwiki table"
 msgstr "Відредагував запис в таблиці інтервікі"
 
-#: src/rc_formatters.py:879
+#: src/rc_formatters.py:1041
 msgid "Deleted an entry in interwiki table"
 msgstr "Вилучив запис в таблиці інтервікі"
 
-#: src/rc_formatters.py:880
+#: src/rc_formatters.py:1042
 #, python-brace-format
 msgid "Prefix: {prefix} | {desc}"
 msgstr "Префікс: {prefix} | {desc}"
 
-#: src/rc_formatters.py:883
+#: src/rc_formatters.py:1045
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr "Змінив модель вмісту сторінки {article}"
 
-#: src/rc_formatters.py:884
+#: src/rc_formatters.py:1046
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "Модель змінена з {old} на {new}: {reason}"
 
-#: src/rc_formatters.py:889
+#: src/rc_formatters.py:1051
 #, python-brace-format
 msgid "Edited the sprite for {article}"
 msgstr "Відредагував спрайт для {article}"
 
-#: src/rc_formatters.py:892
+#: src/rc_formatters.py:1054
 #, python-brace-format
 msgid "Created the sprite sheet for {article}"
 msgstr "Створив таблицю спрайтів для {article}"
 
-#: src/rc_formatters.py:895
+#: src/rc_formatters.py:1057
 #, python-brace-format
 msgid "Edited the slice for {article}"
 msgstr "Відредагував фрагмент для {article}"
 
-#: src/rc_formatters.py:901
+#: src/rc_formatters.py:1063
 #, fuzzy, python-brace-format
 msgid "Created the Cargo table \"{table}\""
 msgstr "Створив тег \"{tag}\""
 
-#: src/rc_formatters.py:905
+#: src/rc_formatters.py:1067
 #, fuzzy, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
 msgstr "Вилучив тег \"{tag}\""
 
-#: src/rc_formatters.py:912
+#: src/rc_formatters.py:1074
 #, fuzzy, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
 msgstr "Створив тег \"{tag}\""
 
-#: src/rc_formatters.py:919
+#: src/rc_formatters.py:1081
 #, fuzzy, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
 msgstr "Вилучив тег \"{tag}\""
 
-#: src/rc_formatters.py:923
+#: src/rc_formatters.py:1085
 #, python-brace-format
 msgid "Created a tag \"{tag}\""
 msgstr "Створив тег \"{tag}\""
 
-#: src/rc_formatters.py:927
+#: src/rc_formatters.py:1089
 #, python-brace-format
 msgid "Deleted a tag \"{tag}\""
 msgstr "Вилучив тег \"{tag}\""
 
-#: src/rc_formatters.py:931
+#: src/rc_formatters.py:1093
 #, python-brace-format
 msgid "Activated a tag \"{tag}\""
 msgstr "Активував тег \"{tag}\""
 
-#: src/rc_formatters.py:934
+#: src/rc_formatters.py:1096
 #, python-brace-format
 msgid "Deactivated a tag \"{tag}\""
 msgstr "Деактивував тег \"{tag}\""
 
-#: src/rc_formatters.py:937
+#: src/rc_formatters.py:1099
 msgid "Changed wiki settings"
 msgstr ""
 
-#: src/rc_formatters.py:941
+#: src/rc_formatters.py:1103
 #, fuzzy, python-brace-format
 msgid "Deleted a \"{wiki}\" wiki"
 msgstr "Вилучив тег \"{tag}\""
 
-#: src/rc_formatters.py:944
+#: src/rc_formatters.py:1106
 #, python-brace-format
 msgid "Locked a \"{wiki}\" wiki"
 msgstr ""
 
-#: src/rc_formatters.py:947
+#: src/rc_formatters.py:1109
 #, python-brace-format
 msgid "Modified a \"{namespace_name}\" namespace"
 msgstr ""
 
-#: src/rc_formatters.py:949 src/rc_formatters.py:954
+#: src/rc_formatters.py:1111 src/rc_formatters.py:1116
 msgid "Wiki"
 msgstr ""
 
-#: src/rc_formatters.py:951
+#: src/rc_formatters.py:1113
 #, python-brace-format
 msgid "Deleted a \"{namespace_name}\" namespace"
 msgstr ""
 
-#: src/rc_formatters.py:957
+#: src/rc_formatters.py:1119
 #, python-brace-format
 msgid "Modified \"{usergroup_name}\" usergroup"
 msgstr ""
 
-#: src/rc_formatters.py:960
+#: src/rc_formatters.py:1122
 #, python-brace-format
 msgid "Restored a \"{wiki}\" wiki"
 msgstr ""
 
-#: src/rc_formatters.py:963
+#: src/rc_formatters.py:1125
 #, python-brace-format
 msgid "Unlocked a \"{wiki}\" wiki"
 msgstr ""
 
-#: src/rc_formatters.py:968
+#: src/rc_formatters.py:1133
+#, python-brace-format
+msgid "Marked \"{article}\" for translation"
+msgstr ""
+
+#: src/rc_formatters.py:1136
+#, python-brace-format
+msgid "Removed \"{article}\" from the translation system"
+msgstr ""
+
+#: src/rc_formatters.py:1139
+#, python-brace-format
+msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
+msgstr ""
+
+#: src/rc_formatters.py:1142
+#, python-brace-format
+msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
+msgstr ""
+
+#: src/rc_formatters.py:1145
+#, python-brace-format
+msgid "Completed deletion of translatable page \"{article}\""
+msgstr ""
+
+#: src/rc_formatters.py:1148
+#, python-brace-format
+msgid ""
+"Failed to delete \"{article}\" which belongs to translatable page "
+"\"{target}\""
+msgstr ""
+
+#: src/rc_formatters.py:1151
+#, fuzzy, python-brace-format
+msgid "Completed deletion of translation page \"{article}\""
+msgstr "Змінив видимість {amount} версії сторінки {article} "
+
+#: src/rc_formatters.py:1154
+#, python-brace-format
+msgid ""
+"Failed to delete \"{article}\" which belongs to translation page \"{target}\""
+msgstr ""
+
+#: src/rc_formatters.py:1157
+#, fuzzy, python-brace-format
+msgid "Encouraged translation of \"{article}\""
+msgstr "Зняв захист з {article}"
+
+#: src/rc_formatters.py:1160
+#, python-brace-format
+msgid "Discouraged translation of \"{article}\""
+msgstr ""
+
+#: src/rc_formatters.py:1166
+#, python-brace-format
+msgid "Limited languages for \"{article}\" to `{languages}`"
+msgstr ""
+
+#: src/rc_formatters.py:1168
+#, python-brace-format
+msgid "Priority languages for \"{article}\" set to `{languages}`"
+msgstr ""
+
+#: src/rc_formatters.py:1170
+#, fuzzy, python-brace-format
+msgid "Removed priority languages from \"{article}\""
+msgstr "Зняв захист з {article}"
+
+#: src/rc_formatters.py:1173
+#, python-brace-format
+msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
+msgstr ""
+
+#: src/rc_formatters.py:1176
+#, python-brace-format
+msgid ""
+"Removed translatable page \"{article}\" from aggregate group \"{group}\""
+msgstr ""
+
+#: src/rc_formatters.py:1183
+#, fuzzy, python-brace-format
+msgid "Reviewed translation \"{article}\""
+msgstr "Зняв захист з {article}"
+
+#: src/rc_formatters.py:1186
+#, python-brace-format
+msgid "Changed the state of `{language}` translations of \"{article}\""
+msgstr ""
+
+#: src/rc_formatters.py:1188
+msgid "Old state"
+msgstr ""
+
+#: src/rc_formatters.py:1189
+msgid "New state"
+msgstr ""
+
+#: src/rc_formatters.py:1193
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
 msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
@@ -1121,48 +1389,56 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/rc_formatters.py:970
+#: src/rc_formatters.py:1195
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" to \"{new_name}\""
 msgstr ""
 
-#: src/rc_formatters.py:974
+#: src/rc_formatters.py:1199
 #, fuzzy
 msgid "Action has been hidden by administration"
 msgstr "Дія була прихована адміністрацією."
 
-#: src/rc_formatters.py:979
+#: src/rc_formatters.py:1204
 #, python-brace-format
 msgid "Unknown event `{event}`"
 msgstr ""
 
-#: src/rc_formatters.py:985 src/rc_formatters.py:987
+#: src/rc_formatters.py:1210 src/rc_formatters.py:1212
 msgid "Report this on the support server"
 msgstr "Повідомити про це на сервер підтримки"
 
-#: src/rc_formatters.py:1004
+#: src/rc_formatters.py:1229
 msgid "Tags"
 msgstr "Теги"
 
-#: src/rc_formatters.py:1009
+#: src/rc_formatters.py:1234
 msgid "**Added**: "
 msgstr "**Додано**: "
 
-#: src/rc_formatters.py:1009
+#: src/rc_formatters.py:1234
 msgid " and {} more\n"
 msgstr " та ще {}\n"
 
-#: src/rc_formatters.py:1010
+#: src/rc_formatters.py:1235
 msgid "**Removed**: "
 msgstr "**Видалено**: "
 
-#: src/rc_formatters.py:1010
+#: src/rc_formatters.py:1235
 msgid " and {} more"
 msgstr " та ще {}"
 
-#: src/rc_formatters.py:1011
+#: src/rc_formatters.py:1236
 msgid "Changed categories"
 msgstr "Змінені категорії"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) deleted a comment on {target}'s profile"
+#~ msgstr "[{author}]({author_url}) видалив коментар з профілю {target}"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) deleted a comment on their own profile"
+#~ msgstr "[{author}]({author_url}) видалив коментар з профілю {target}"
 
 #, python-brace-format
 #~ msgid "[{author}]({author_url}) imported interwiki{comment}"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 14:13+0100\n"
+"POT-Creation-Date: 2020-11-29 00:05+0100\n"
 "PO-Revision-Date: 2020-11-25 10:16+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://weblate.frisk.space/projects/rcgcdw/misc/hi/>\n"
@@ -70,7 +70,7 @@ msgstr "डिस्कॉर्ड अकाउंट"
 msgid "Battle.net handle"
 msgstr "Battle.net अकाउंट"
 
-#: src/misc.py:114
+#: src/misc.py:119
 msgid ""
 "\n"
 "__And more__"
@@ -78,10 +78,10 @@ msgstr ""
 "\n"
 "__और काफी कुछ__"
 
-#: src/misc.py:271
+#: src/misc.py:276
 msgid "Unknown"
 msgstr "अनजान"
 
-#: src/misc.py:273
+#: src/misc.py:278
 msgid "unknown"
 msgstr "अनजान"
