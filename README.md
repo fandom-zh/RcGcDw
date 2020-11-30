@@ -42,4 +42,4 @@ Thank you!
 * [Wiki Utilities](https://github.com/Sidemen19/Wiki-Utilities) – an integration that allows wiki administrators to revert edits, block editors, and delete pages on the wiki by reacting to messages created by RcGcDw/RcGcDb. Author: [Sidemen19](https://github.com/Sidemen19)
 
 ### Wiki ###
-For more information, check the [wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Home)!
+For more information, check the [wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Home)! 
