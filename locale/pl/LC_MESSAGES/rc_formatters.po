@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-11-30 16:47+0000\n"
+"PO-Revision-Date: 2020-12-01 12:29+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
@@ -120,13 +120,13 @@ msgstr ""
 "{bold}({sign}{edit_size}){bold}"
 
 #: src/rc_formatters.py:118
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}"
 "({sign}{edit_size}){bold}"
 msgstr ""
 "[{author}]({author_url}) stworzył(a) [{article}]({edit_link}){comment} "
-"({bold}{sign}{edit_size}{bold})"
+"{bold}({sign}{edit_size}){bold}"
 
 #: src/rc_formatters.py:121
 #, python-brace-format
@@ -313,38 +313,38 @@ msgstr ""
 "własnym profilu"
 
 #: src/rc_formatters.py:267
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s profile"
 msgstr ""
-"[{author}]({author_url}) edytował(a) [komentarz]({comment}) na profilu "
+"[{author}]({author_url}) usunął [komentarz]({comment}) na profilu "
 "użytkownika {target}"
 
 #: src/rc_formatters.py:269
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on their own profile"
 msgstr ""
-"[{author}]({author_url}) edytował(a) [komentarz]({comment}) na swoim własnym "
+"[{author}]({author_url}) usunął [komentarz]({comment}) na swoim własnym "
 "profilu"
 
 #: src/rc_formatters.py:274
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
 "profile. *({desc})*"
 msgstr ""
 "[{author}]({author_url}) edytował(a) pole {field} na profilu użytkownika "
-"{target}. *({desc})*"
+"[{target}]({target_url}). *({desc})*"
 
 #: src/rc_formatters.py:281
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
 "profile. *({desc})*"
 msgstr ""
-"[{author}]({author_url}) edytował(a) pole {field} na swoim własnym profilu. "
-"*({desc})*"
+"[{author}]({author_url}) edytował(a) pole {field} na [swoim "
+"własnym]({target_url}) profilu. *({desc})*"
 
 #: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:945
 #: src/rc_formatters.py:947
@@ -454,7 +454,7 @@ msgstr ""
 "[{author}]({author_url}) zmienił(a) widoczność wpisów rejestru{comment}"
 
 #: src/rc_formatters.py:359
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
 "revision from [{source}]({source_url}){comment}"
@@ -462,14 +462,14 @@ msgid_plural ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
 "revisions from [{source}]({source_url}){comment}"
 msgstr[0] ""
-"[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z jedną "
-"wersją{comment}"
+"[{author}]({author_url}) zaimportował(a) wersję [{article}]({article_url}) z "
+"[{source}]({source_url}){comment}"
 msgstr[1] ""
-"[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z "
-"{count} wersjami{comment}"
+"[{author}]({author_url}) zaimportował(a) {count} wersji artykułu "
+"[{article}]({article_url}) z [{source}]({source_url}){comment}"
 msgstr[2] ""
-"[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z "
-"{count} wersjami{comment}"
+"[{author}]({author_url}) zaimportował(a) {count} wersji artykułu "
+"[{article}]({article_url}) z [{source}]({source_url}){comment}"
 
 #: src/rc_formatters.py:364
 #, python-brace-format
@@ -618,89 +618,90 @@ msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
 msgstr "[{author}]({author_url}) dezaktywował(a) [znacznik]({tag_url}) „{tag}”"
 
 #: src/rc_formatters.py:446
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings{reason}"
-msgstr "[{author}]({author_url}) zmienił(a) ustawienia wiki ({reason})"
+msgstr "[{author}]({author_url}) zmienił(a) ustawienia wiki{reason}"
 
 #: src/rc_formatters.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) usunął/usunęła wiki *{wiki_name}* ({comment})"
+msgstr "[{author}]({author_url}) usunął/usunęła wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:451
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) zablokował(a) wiki *{wiki_name}* ({comment})"
+msgstr "[{author}]({author_url}) zablokował(a) wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:454
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified a namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
 "[{author}]({author_url}) zmodyfikował(a) przestrzeń nazw *{namespace_name}* "
-"na *{wiki_name}* ({comment})"
+"na *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:459
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
 "[{author}]({author_url}) usunął/usunęła przestrzeń nazw *{namespace_name}* "
-"na *{wiki_name}* ({comment})"
+"na *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:465
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) zaimportował(a) grupę użytkownika *{group_name}* "
-"({comment})"
+"[{author}]({author_url}) zaimportował(a) grupę użytkownika "
+"*{group_name}*{comment}"
 
 #: src/rc_formatters.py:469
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) przywrócił(a) wiki *{wiki_name}* ({comment})"
+msgstr "[{author}]({author_url}) przywrócił(a) wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:473
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) odblokował(a) wiki *{wiki_name}* ({comment})"
+msgstr "[{author}]({author_url}) odblokował(a) wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:484
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
 msgstr ""
-"[{author}]({author_url}) odtworzył(a) [{article}]({article_url}){comment}"
+"[{author}]({author_url}) oznaczył(a) [{article}]({article_url}) do "
+"tłumaczenia{comment}"
 
 #: src/rc_formatters.py:491
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
-"[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z jedną "
-"wersją{comment}"
+"[{author}]({author_url}) usunął/usunęła [{article}]({article_url}) z systemu "
+"tłumaczeń{comment}"
 
 #: src/rc_formatters.py:498
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed moving translation pages from *{article}* "
 "to [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) przeniósł ustawienia zabezpieczeń z {redirect}"
+"[{author}]({author_url}) zakończył(a) przenoszenie stron tłumaczeń z "
 "*{article}* do [{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:506
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) encountered a problem while moving [{article}]"
 "({article_url}) to [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) połączył(a) historie zmian [{article}]"
-"({article_url}) z [{dest}]({dest_url}){comment}"
+"[{author}]({author_url}) napotkał(a) problem podczas przenoszenia "
+"[{article}]({article_url}) do [{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:514
 #, fuzzy, python-brace-format
@@ -1403,13 +1404,16 @@ msgstr ""
 msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
 msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
 msgstr[0] ""
+"Zmienił(a) nazwę użytkownika „{old_name}” z jedną edycją na „{new_name}”"
 msgstr[1] ""
+"Zmienił(a) nazwę użytkownika „{old_name}” z {edits} edycjami na „{new_name}”"
 msgstr[2] ""
+"Zmienił(a) nazwę użytkownika „{old_name}” z {edits} edycjami na „{new_name}”"
 
 #: src/rc_formatters.py:1195
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" to \"{new_name}\""
-msgstr ""
+msgstr "Zmieniono nazwę użytkownika „{old_name}” na „{new_name}”"
 
 #: src/rc_formatters.py:1199
 msgid "Action has been hidden by administration"
