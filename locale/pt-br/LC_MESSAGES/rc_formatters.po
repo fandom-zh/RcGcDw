@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-12-01 12:29+0000\n"
+"PO-Revision-Date: 2020-12-06 14:17+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/rc_formatters/pt-br/>\n"
@@ -336,7 +336,7 @@ msgid ""
 "[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
 "profile. *({desc})*"
 msgstr ""
-"[{author}]({author_url}) editou o {field} em seu  [próprio "
+"[{author}]({author_url}) editou o {field} em seu [próprio "
 "perfil]({target_url}). *({desc})*"
 
 #: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:945
@@ -441,7 +441,7 @@ msgstr ""
 "registro{comment}"
 
 #: src/rc_formatters.py:359
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
 "revision from [{source}]({source_url}){comment}"
@@ -450,10 +450,10 @@ msgid_plural ""
 "revisions from [{source}]({source_url}){comment}"
 msgstr[0] ""
 "[{author}]({author_url}) importou [{article}]({article_url}) com {count} "
-"revisão{comment}"
+"revisão{comment} de [{source}]({source_url}){comment}"
 msgstr[1] ""
 "[{author}]({author_url}) importou [{article}]({article_url}) com {count} "
-"revisões{comment}"
+"revisões{comment} de [{source}]({source_url}){comment}"
 
 #: src/rc_formatters.py:364
 #, python-brace-format
@@ -781,56 +781,64 @@ msgstr ""
 "[{article}]({article_url}) para agregar o grupo \"{group}\"{comment}"
 
 #: src/rc_formatters.py:589
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed translatable page [{article}]"
 "({article_url}) from aggregate group \"{group}\"{comment}"
 msgstr ""
-"[{author}]({author_url}) removeu a proteção de [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) removeu a página traduzida "
+"[{article}]({article_url}) do grupo agregado \"{group}\"{comment}"
 
 #: src/rc_formatters.py:601
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) reviewed translation [{article}]({article_url})"
 "{comment}"
-msgstr "[{author}]({author_url}) restaurou [{article}]({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) revisou a tradução "
+"[{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:609
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
 msgstr ""
-"[{author}]({author_url}) mudou o modelo de conteúdo da página [{article}]"
-"({article_url}) de {old} para {new}{comment}"
+"[{author}]({author_url}) mudou o estado das traduçõe de `{language}` de "
+"[{article}]({article_url}) de `{old_state}` para `{new_state}`{comment}"
 
 #: src/rc_formatters.py:616
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) to `{new_state}`{comment}"
 msgstr ""
-"[{author}]({author_url}) mudou o modelo de conteúdo da página [{article}]"
-"({article_url}) de {old} para {new}{comment}"
+"[{author}]({author_url}) mudou o estado de traduções `{language}` de "
+"[{article}]({article_url}) para `{new_state}`{comment}"
 
 #: src/rc_formatters.py:625
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
 "[{new_name}]({link}){comment}"
 msgid_plural ""
 "[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to "
 "[{new_name}]({link}){comment}"
-msgstr[0] "[{author}]({author_url}) excluiu [{page}]({page_link}){comment}"
-msgstr[1] "[{author}]({author_url}) excluiu [{page}]({page_link}){comment}"
+msgstr[0] ""
+"[{author}]({author_url}) renomeou usuário *{old_name}* com edição {edits} "
+"para [{new_name}]({link}){comment}"
+msgstr[1] ""
+"[{author}]({author_url}) renomeou usuário *{old_name}* com edições {edits} "
+"para [{new_name}]({link}){comment}"
 
 #: src/rc_formatters.py:630
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
 "{comment}"
-msgstr "[{author}]({author_url}) excluiu [{page}]({page_link}){comment}"
+msgstr ""
+"[{author}]({author_url}) renomeou o usuário *{old_name}* para "
+"[{new_name}]({link}){comment}"
 
 #: src/rc_formatters.py:634
 msgid "An action has been hidden by administration."
@@ -1047,9 +1055,8 @@ msgid "Purged a comment on {target}'s profile"
 msgstr "Excluiu permanentemente um comentário no perfil de {target}"
 
 #: src/rc_formatters.py:916
-#, fuzzy
 msgid "Purged a comment on their own profile"
-msgstr "Editou um comentário em seu próprio perfil"
+msgstr "Limitou um comentário em seu próprio perfil"
 
 #: src/rc_formatters.py:924
 #, python-brace-format
@@ -1057,9 +1064,8 @@ msgid "Deleted a comment on {target}'s profile"
 msgstr "Excluiu um comentário no perfil de {target}"
 
 #: src/rc_formatters.py:926
-#, fuzzy
 msgid "Deleted a comment on their own profile"
-msgstr "Editou um comentário em seu próprio perfil"
+msgstr "Excluiu um comentário em seu próprio perfil"
 
 #: src/rc_formatters.py:930
 #, python-brace-format
@@ -1115,11 +1121,11 @@ msgid "Changed visibility of log events"
 msgstr "Alterou a visibilidade de eventos de registros"
 
 #: src/rc_formatters.py:999
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Imported {article} with {count} revision from \"{source}\""
 msgid_plural "Imported {article} with {count} revisions from \"{source}\""
-msgstr[0] "Importou {article} com {count} revisão"
-msgstr[1] "Importou {article} com {count} revisões"
+msgstr[0] "Importou {article} com {count} revisão de \"{source}\""
+msgstr[1] "Importou {article} com {count} revisões de \"{source}\""
 
 #: src/rc_formatters.py:1004
 #, python-brace-format
@@ -1321,9 +1327,9 @@ msgstr ""
 "Falha ao excluir \"{article}\" que pertence à página traduzível \"{target}\""
 
 #: src/rc_formatters.py:1151
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Alterou a visibilidade da revisão na página {article} "
+msgstr "Concluiu a exclusão da página de tradução \"{article}\""
 
 #: src/rc_formatters.py:1154
 #, python-brace-format
@@ -1353,9 +1359,9 @@ msgid "Priority languages for \"{article}\" set to `{languages}`"
 msgstr "Idiomas prioritários para \"{article}\" definido como `{languages}`"
 
 #: src/rc_formatters.py:1170
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed priority languages from \"{article}\""
-msgstr "Removeu a proteção de {article}"
+msgstr "Removeu Idiomas prioritários de \"{article}\""
 
 #: src/rc_formatters.py:1173
 #, python-brace-format
@@ -1370,9 +1376,9 @@ msgid ""
 msgstr "Página traduzível removida \"{article}\" do grupo agregado \"{group}\""
 
 #: src/rc_formatters.py:1183
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Reviewed translation \"{article}\""
-msgstr "Removeu a proteção de {article}"
+msgstr "Revisou a tradução \"{article}\""
 
 #: src/rc_formatters.py:1186
 #, python-brace-format
