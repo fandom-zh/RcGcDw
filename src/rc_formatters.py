@@ -628,6 +628,19 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				article=change["logparams"]["group-label"], article_url=link,
 				new_state=change["logparams"]["new-state"], comment=parsed_comment
 			)
+	elif action == "pagelang/pagelang":
+		link = link_formatter(create_article_path(change["title"]))
+		old_lang = "`{}`".format(change["logparams"]["oldlanguage"])
+		if change["logparams"]["oldlanguage"][-5:] == "[def]":
+			old_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
+		new_lang = "`{}`".format(change["logparams"]["newlanguage"])
+		if change["logparams"]["newlanguage"][-5:] == "[def]":
+			new_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
+		content = "🌐 " + _("[{author}]({author_url}) changed the language of [{article}]({article_url}) from {old_lang} to {new_lang}{comment}").format(
+			author=author, author_url=author_url,
+			article=change["title"], article_url=link,
+			old_lang=old_lang, new_lang=new_lang, comment=parsed_comment
+		)
 	elif action == "renameuser/renameuser":
 		link = link_formatter(create_article_path("User:"+change["logparams"]["newuser"]))
 		edits = change["logparams"]["edits"]
@@ -1203,6 +1216,17 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		if "old-state" in change["logparams"]:
 			embed.add_field(_("Old state"), change["logparams"]["old-state"], inline=True)
 		embed.add_field(_("New state"), change["logparams"]["new-state"], inline=True)
+	elif action == "pagelang/pagelang":
+		link = create_article_path(change["title"])
+		old_lang = "`{}`".format(change["logparams"]["oldlanguage"])
+		if change["logparams"]["oldlanguage"][-5:] == "[def]":
+			old_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
+		new_lang = "`{}`".format(change["logparams"]["newlanguage"])
+		if change["logparams"]["newlanguage"][-5:] == "[def]":
+			new_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
+		embed["title"] = _("Changed the language of \"{article}\"").format(article=change["title"])
+		embed.add_field(_("Old language"), old_lang, inline=True)
+		embed.add_field(_("New language"), new_lang, inline=True)
 	elif action == "renameuser/renameuser":
 		edits = change["logparams"]["edits"]
 		if edits > 0:
