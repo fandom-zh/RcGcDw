@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 14:13+0100\n"
+"POT-Creation-Date: 2020-11-29 00:05+0100\n"
 "PO-Revision-Date: 2020-11-25 10:16+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://weblate.frisk.space/projects/rcgcdw/rc/hi/>\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/rc.py:319
+#: src/rc.py:321
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "शायद {wiki} डाउन है या इस तक पहुँचा नहीं जा सकता।"
 
-#: src/rc.py:320 src/rc.py:332
+#: src/rc.py:322 src/rc.py:334
 msgid "Connection status"
 msgstr "कनेक्शन की स्थिति"
 
-#: src/rc.py:330
+#: src/rc.py:332
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr "{wiki} से सम्पर्क अब स्थिर होने लगा है।"
 
-#: src/rc.py:401
+#: src/rc.py:403
 msgid "~~hidden~~"
 msgstr "~~छिपाया गया~~"
 
-#: src/rc.py:405
+#: src/rc.py:407
 msgid "hidden"
 msgstr "छिपाया गया"

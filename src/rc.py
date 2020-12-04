@@ -243,6 +243,7 @@ class Recent_Changes_Class(object):
 			logger.warning("Path query.recentchanges not found inside request body. Skipping...")
 			return
 		else:
+			self.downtime_controller(False)
 			rc_last_id = self.prepare_rc(rc, amount)
 		if settings.get("show_abuselog", False):
 			try:

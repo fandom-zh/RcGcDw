@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 09:44+0100\n"
-"PO-Revision-Date: 2020-08-04 09:51+0000\n"
-"Last-Translator: Eduaddad <>\n"
-"Language-Team: Portuguese (Brazil) <https://weblate.frisk.space/projects/"
-"rcgcdw/main/pt_BR/>\n"
+"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"PO-Revision-Date: 2020-11-27 13:07+0000\n"
+"Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
+"rcgcdw/misc/pt-br/>\n"
 "Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2.1\n"
 
 #: src/misc.py:45
 msgid "Location"
@@ -33,7 +33,7 @@ msgstr "Link do Google"
 
 #: src/misc.py:45
 msgid "Facebook link"
-msgstr "Facebook link"
+msgstr "Link do Facebook"
 
 #: src/misc.py:45
 msgid "Twitter link"
@@ -45,7 +45,7 @@ msgstr "Link do Reddit"
 
 #: src/misc.py:45
 msgid "Twitch link"
-msgstr "Link do Twitch"
+msgstr "Link da Twitch"
 
 #: src/misc.py:45
 msgid "PSN link"
@@ -61,7 +61,7 @@ msgstr "Link do XBL"
 
 #: src/misc.py:45
 msgid "Steam link"
-msgstr "Link do Steam"
+msgstr "Link da Steam"
 
 #: src/misc.py:45
 msgid "Discord handle"
@@ -71,7 +71,7 @@ msgstr "Link do Discord"
 msgid "Battle.net handle"
 msgstr "Link do Battle.net"
 
-#: src/misc.py:114
+#: src/misc.py:119
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__E mais__"
 
-#: src/misc.py:271
+#: src/misc.py:276
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/misc.py:273
+#: src/misc.py:278
 msgid "unknown"
 msgstr "desconhecido"

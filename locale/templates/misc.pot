@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 14:13+0100\n"
+"POT-Creation-Date: 2020-11-30 11:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,16 +69,16 @@ msgstr ""
 msgid "Battle.net handle"
 msgstr ""
 
-#: src/misc.py:114
+#: src/misc.py:119
 msgid ""
 "\n"
 "__And more__"
 msgstr ""
 
-#: src/misc.py:271
+#: src/misc.py:276
 msgid "Unknown"
 msgstr ""
 
-#: src/misc.py:273
+#: src/misc.py:278
 msgid "unknown"
 msgstr ""
