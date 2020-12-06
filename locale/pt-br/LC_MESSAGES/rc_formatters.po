@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
 "PO-Revision-Date: 2020-12-13 14:30+0000\n"
-"Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
+"Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/rc_formatters/pt-br/>\n"
 "Language: pt-br\n"
@@ -942,7 +942,7 @@ msgstr "([visualização]({link}))"
 #: src/rc_formatters.py:793
 #, python-brace-format
 msgid "Deleted page {article}"
-msgstr "Exclui página {article}"
+msgstr "Excluiu a página {article}"
 
 #: src/rc_formatters.py:798
 #, python-brace-format
