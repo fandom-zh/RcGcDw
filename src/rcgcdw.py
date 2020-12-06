@@ -146,8 +146,7 @@ def day_overview():
 		embed = DiscordMessage("embed", "daily_overview", settings["webhookURL"])
 		embed["title"] = _("Daily overview")
 		embed["url"] = create_article_path("Special:Statistics")
-		embed.set_author(settings["wikiname"], create_article_path(""),
-		                 icon_url=settings["appearance"]["embed"]["daily_overview"]["icon"])
+		embed.set_author(settings["wikiname"], create_article_path(""))
 		if not result[0]:
 			if not settings["send_empty_overview"]:
 				return  # no changes in this day

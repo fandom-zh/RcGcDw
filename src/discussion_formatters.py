@@ -28,38 +28,49 @@ def compact_formatter(post_type, post, article_paths):
 		author = post["createdBy"]["name"]
 		author_url = "<{url}wiki/User:{author}>".format(url=settings["fandom_discussions"]["wiki_url"], author=author)
 		author_url = link_formatter(create_article_path("User:{user}".format(user=author)))
+	event_type = "discussion"
 	if post_type == "FORUM":
 		if not post["isReply"]:
 			thread_funnel = post.get("funnel")
 			msg_text = _("[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in {forumName}")
 			if thread_funnel == "POLL":
+				event_type = "discussion/forum/poll"
 				msg_text = _("[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in {forumName}")
 			elif thread_funnel == "QUIZ":
+				event_type = "discussion/forum/quiz"
 				msg_text = _("[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in {forumName}")
-			elif thread_funnel != "TEXT":
+			elif thread_funnel == "TEXT":
+				event_type = "discussion/forum/post"
+			else:
 				discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(thread_funnel))
-			message = "📝 "+msg_text.format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], forumName=post["forumName"])
+				event_type = "unknown"
+			message = msg_text.format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], forumName=post["forumName"])
 		else:
-			message = "📝 "+_("[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"])
+			event_type = "discussion/forum/reply"
+			message = _("[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) to [{title}](<{url}f/p/{threadId}>) in {forumName}").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], threadId=post["threadId"], postId=post["id"], title=post["_embedded"]["thread"][0]["title"], forumName=post["forumName"])
 	elif post_type == "WALL":
 		user_wall = _("unknown")  # Fail safe
 		if post["forumName"].endswith(' Message Wall'):
 			user_wall = post["forumName"][:-13]
 		if not post["isReply"]:
-			message = "✉️ "+_("[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"])
+			event_type = "discussion/wall/post"
+			message = _("[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, title=post["title"], url=settings["fandom_discussions"]["wiki_url"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"])
 		else:
-			message = "📩 "+_("[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], title=post["_embedded"]["thread"][0]["title"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
+			event_type = "discussion/wall/reply"
+			message = _("[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/Message_Wall:{user_wall}>)").format(author=author, author_url=author_url, url=settings["fandom_discussions"]["wiki_url"], title=post["_embedded"]["thread"][0]["title"], user=user_wall, user_wall=quote_plus(user_wall.replace(" ", "_")), threadId=post["threadId"], replyId=post["id"])
 	elif post_type == "ARTICLE_COMMENT":
 		if article_paths is None:
 			article_paths = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
 		article_paths["fullUrl"] = article_paths["fullUrl"].replace(")", "\)").replace("()", "\(")
 		if not post["isReply"]:
-			message = "🗒️ "+_(
+			event_type = "discussion/comment/post"
+			message = _(
 				"[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
 				author=author, author_url=author_url, url=article_paths["fullUrl"], article=article_paths["title"],
 				commentId=post["threadId"])
 		else:
-			message = "🗒️ "+_(
+			event_type = "discussion/comment/reply"
+			message = _(
 				"[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
 				author=author, author_url=author_url, url=article_paths["fullUrl"], article=article_paths["title"],
 				commentId=post["threadId"], replyId=post["id"])
@@ -68,9 +79,12 @@ def compact_formatter(post_type, post, article_paths):
 		if not settings["support"]:
 			return
 		else:
-			message = "❓ "+_("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
+			message = _("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=post_type, author=author, author_url=author_url, support=settings["support"])
-	send_to_discord(DiscordMessage("compact", "discussion", settings["fandom_discussions"]["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
+			event_type = "unknown"
+	if settings["event_appearance"].get(event_type, {"emoji": None})["emoji"]:
+		message = settings["event_appearance"][event_type]["emoji"] + " " + message
+	send_to_discord(DiscordMessage("compact", event_type, settings["fandom_discussions"]["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
 
 
 def embed_formatter(post_type, post, article_paths):
@@ -122,6 +136,7 @@ def embed_formatter(post_type, post, article_paths):
 				embed.event_type = "discussion/forum/post"
 			else:
 				discussion_logger.warning("The type of {} is an unknown discussion post type. Please post an issue on the project page to have it added https://gitlab.com/piotrex43/RcGcDw/-/issues.".format(thread_funnel))
+				embed.event_type = "unknown"
 			if post["_embedded"]["thread"][0]["tags"]:
 				tag_displayname = []
 				for tag in post["_embedded"]["thread"][0]["tags"]:
@@ -161,7 +176,7 @@ def embed_formatter(post_type, post, article_paths):
 	else:
 		discussion_logger.warning("No entry for {event} with params: {params}".format(event=post_type, params=post))
 		embed["title"] = _("Unknown event `{event}`").format(event=post_type)
-		embed["color"] = 0
+		embed.event_type = "unknown"
 		if settings.get("support", None):
 			change_params = "[```json\n{params}\n```]({support})".format(params=json.dumps(post, indent=2),
 			                                                             support=settings["support"])
