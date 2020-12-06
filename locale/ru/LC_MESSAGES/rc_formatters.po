@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-11-18 07:47+0000\n"
-"Last-Translator: MakandIv <>\n"
-"Language-Team: Russian <https://weblate.frisk.space/projects/rcgcdw/"
+"PO-Revision-Date: 2020-12-06 14:17+0000\n"
+"Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
+"Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -90,13 +90,14 @@ msgid "Unregistered user"
 msgstr ""
 
 #: src/rc_formatters.py:83
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) triggered *{abuse_filter}*, performing the action "
 "\"{action}\" on *[{target}]({target_url})* - action taken: {result}."
 msgstr ""
-"[{author}]({author_url}) переименовал страницу {redirect}*{article}* поверх "
-"перенаправления в [{target}]({target_url}) {made_a_redirect}{comment}"
+"[{author}]({author_url}) вызвал срабатывание *{abuse_filter}*, выполнив "
+"действие \"{action}\" на странице *[{target}]({target_url})* - Предпринятые "
+"меры: {result}."
 
 #: src/rc_formatters.py:85 src/rc_formatters.py:86 src/rc_formatters.py:87
 #: src/rc_formatters.py:449 src/rc_formatters.py:452 src/rc_formatters.py:455
@@ -111,22 +112,22 @@ msgid "Unknown"
 msgstr "Неизвестно"
 
 #: src/rc_formatters.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}"
 "({sign}{edit_size}){bold}"
 msgstr ""
-"[{author}]({author_url}) отредактировал страницу [{article}]({edit_link})"
-"{comment} ({sign}{edit_size})"
+"[{author}]({author_url}) отредактировал страницу "
+"[{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}"
 
 #: src/rc_formatters.py:118
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}"
 "({sign}{edit_size}){bold}"
 msgstr ""
 "[{author}]({author_url}) создал страницу [{article}]({edit_link}){comment} "
-"({sign}{edit_size})"
+"{bold}({sign}{edit_size}){bold}"
 
 #: src/rc_formatters.py:121
 #, python-brace-format
@@ -251,7 +252,7 @@ msgstr ""
 "{comment}"
 
 #: src/rc_formatters.py:223
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile"
 msgstr ""
@@ -259,15 +260,15 @@ msgstr ""
 "участника {target}"
 
 #: src/rc_formatters.py:225
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on their own profile"
 msgstr ""
-"[{author}]({author_url}) оставил [комментарий]({comment}) на профиле "
-"участника {target}"
+"[{author}]({author_url}) оставил [комментарий]({comment}) на своём "
+"собственном профиле"
 
 #: src/rc_formatters.py:231
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
 "profile"
@@ -276,16 +277,16 @@ msgstr ""
 "участника {target}"
 
 #: src/rc_formatters.py:237
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
 "profile"
 msgstr ""
-"[{author}]({author_url}) ответил на [комментарий]({comment}) на профиле "
-"участника {target}"
+"[{author}]({author_url}) ответил на [комментарий]({comment}) на своём "
+"собственном профиле"
 
 #: src/rc_formatters.py:245
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile"
 msgstr ""
@@ -293,56 +294,57 @@ msgstr ""
 "участника {target}"
 
 #: src/rc_formatters.py:251
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on their own profile"
 msgstr ""
-"[{author}]({author_url}) отредактировал [комментарий]({comment}) на профиле "
-"участника {target}"
+"[{author}]({author_url}) отредактировал [комментарий]({comment}) на своём "
+"собственном профиле"
 
 #: src/rc_formatters.py:257
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) purged a comment on {target}'s profile"
-msgstr "[{author}]({author_url}) удалил комментарий в профиле {target}"
+msgstr "[{author}]({author_url}) удалил комментарий на профиле {target}"
 
 #: src/rc_formatters.py:259
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) purged a comment on their own profile"
-msgstr "[{author}]({author_url}) удалил комментарий в профиле {target}"
+msgstr ""
+"[{author}]({author_url}) удалил комментарий на своём собственном профиле"
 
 #: src/rc_formatters.py:267
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s profile"
 msgstr ""
-"[{author}]({author_url}) отредактировал [комментарий]({comment}) на профиле "
+"[{author}]({author_url}) удалил [комментарий]({comment}) на профиле "
 "участника {target}"
 
 #: src/rc_formatters.py:269
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on their own profile"
 msgstr ""
-"[{author}]({author_url}) отредактировал [комментарий]({comment}) на профиле "
-"участника {target}"
+"[{author}]({author_url}) удалил [комментарий]({comment}) на своём "
+"собственном профиле"
 
 #: src/rc_formatters.py:274
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
 "profile. *({desc})*"
 msgstr ""
 "[{author}]({author_url}) отредактировал поле «{field}» на профиле участника "
-"{target}. *({desc})*"
+"[{target}]({target_url}). *({desc})*"
 
 #: src/rc_formatters.py:281
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
 "profile. *({desc})*"
 msgstr ""
-"[{author}]({author_url}) отредактировал поле «{field}» на профиле участника "
-"{target}. *({desc})*"
+"[{author}]({author_url}) отредактировал поле «{field}» на [своём "
+"собственном]({target_url}) профиле. *({desc})*"
 
 #: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:945
 #: src/rc_formatters.py:947
@@ -452,7 +454,7 @@ msgid "[{author}]({author_url}) changed visibility of log events{comment}"
 msgstr "[{author}]({author_url}) изменил видимость событий журнала{comment}"
 
 #: src/rc_formatters.py:359
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
 "revision from [{source}]({source_url}){comment}"
@@ -461,13 +463,13 @@ msgid_plural ""
 "revisions from [{source}]({source_url}){comment}"
 msgstr[0] ""
 "[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правкой{comment}"
+"{count} версией [{source}]({source_url}){comment}"
 msgstr[1] ""
 "[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правками{comment}"
+"{count} версиями [{source}]({source_url}){comment}"
 msgstr[2] ""
 "[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правками{comment}"
+"{count} версиями [{source}]({source_url}){comment}"
 
 #: src/rc_formatters.py:364
 #, python-brace-format
@@ -621,14 +623,14 @@ msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
 msgstr "[{author}]({author_url}) деактивировал [метку]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:446
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings{reason}"
-msgstr "[{author}]({author_url}) изменил настройки вики ({reason})"
+msgstr "[{author}]({author_url}) изменил настройки вики{reason}"
 
 #: src/rc_formatters.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) импортировал интервики{comment}"
+msgstr "[{author}]({author_url}) удалил вики *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:451
 #, fuzzy, python-brace-format
@@ -636,20 +638,22 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) импортировал интервики{comment}"
 
 #: src/rc_formatters.py:454
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified a namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) загрузил новую версию [{file}]({file_link}){comment}"
+"[{author}]({author_url}) изменил пространство имён *{namespace_name}* на "
+"вики *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:459
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) удалил страницу [{page}]({page_link}){comment}"
+"[{author}]({author_url}) удалил пространство имён *{namespace_name}* на вики "
+"*{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:465
 #, fuzzy, python-brace-format
