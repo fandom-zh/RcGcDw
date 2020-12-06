@@ -52,6 +52,7 @@ def compact_formatter(post_type, post, article_paths):
 	elif post_type == "ARTICLE_COMMENT":
 		if article_paths is None:
 			article_paths = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
+		article_paths["fullUrl"] = article_paths["fullUrl"].replace(")", "\)").replace("()", "\(")
 		if not post["isReply"]:
 			message = "🗒️ "+_(
 				"[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) on [{article}](<{url}>)").format(
