@@ -107,7 +107,7 @@ def weighted_average(value, weight, new_value):
 
 def link_formatter(link):
 	"""Formats a link to not embed it"""
-	return "<" + quote(link.replace(" ", "_"), "/:?") + ">"
+	return "<" + quote(link.replace(" ", "_"), "/:?=&") + ">"
 
 
 def escape_formatting(data):
