@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-12-06 14:17+0000\n"
-"Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
+"PO-Revision-Date: 2020-12-13 14:30+0000\n"
+"Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/hi/>\n"
 "Language: hi\n"
@@ -162,7 +162,7 @@ msgid ""
 "[{author}]({author_url}) deleted redirect by overwriting [{page}]"
 "({page_link}){comment}"
 msgstr ""
-"[{author}]({author_url} ने [{page}]({page_link}){comment} को ओवर्राइट करके "
+"[{author}]({author_url}) ने [{page}]({page_link}){comment} को ओवर्राइट करके "
 "रेडिरेक्ट को डिलीट किया"
 
 #: src/rc_formatters.py:147 src/rc_formatters.py:152
@@ -279,7 +279,8 @@ msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
 "profile"
 msgstr ""
-"[{author}]({author_url}) ने अपने प्रॉफाइल के एक [कमेंट] ({comment}) पर जवाब दिया"
+"[{author}]({author_url}) ने अपने प्रॉफाइल के एक [कमेंट]({comment}) पर जवाब "
+"दिया"
 
 #: src/rc_formatters.py:245
 #, python-brace-format
@@ -408,11 +409,11 @@ msgid_plural ""
 "[{author}]({author_url}) changed visibility of {amount} revisions on page "
 "[{article}]({article_url}){comment}"
 msgstr[0] ""
-"[{author}]({author_url} ने [{article}]({article_url}) पर रिवीशन के दृश्यता को "
-"बदल दिया{comment}"
+"[{author}]({author_url}) ने [{article}]({article_url}) पर रिवीशन के दृश्यता "
+"को बदल दिया{comment}"
 msgstr[1] ""
-"[{author}]({author_url} ने [{article}]({article_url}) पर {amount} रिवीशनों के "
-"दृश्यता को बदल दिया{comment}"
+"[{author}]({author_url}) ने [{article}]({article_url}) पर {amount} रिवीशनों "
+"के दृश्यता को बदल दिया{comment}"
 
 #: src/rc_formatters.py:340
 #, python-brace-format
@@ -719,8 +720,8 @@ msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url} ने अनुवाद पृष्ठ [{article}]({article_url}) के डिलीशन "
-"को पूरा किया{comment}"
+"[{author}]({author_url}) ने अनुवाद पृष्ठ [{article}]({article_url}) के डिली"
+"शन को पूरा किया{comment}"
 
 #: src/rc_formatters.py:538
 #, python-brace-format
