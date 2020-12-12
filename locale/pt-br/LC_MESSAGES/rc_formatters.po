@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-12-06 14:17+0000\n"
-"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
+"PO-Revision-Date: 2020-12-13 14:30+0000\n"
+"Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/rc_formatters/pt-br/>\n"
 "Language: pt-br\n"
@@ -41,7 +41,7 @@ msgstr "Desautorizado a ação"
 
 #: src/rc_formatters.py:28
 msgid "**IP range blocked**"
-msgstr "Faixa de IP bloqueada"
+msgstr "**Faixa de IP bloqueada**"
 
 #: src/rc_formatters.py:28
 msgid "Throttled actions"
