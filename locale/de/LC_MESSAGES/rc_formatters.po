@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-12-01 12:29+0000\n"
+"PO-Revision-Date: 2020-12-13 14:30+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/de/>\n"
@@ -39,7 +39,7 @@ msgstr "Aktion verhindert"
 
 #: src/rc_formatters.py:28
 msgid "**IP range blocked**"
-msgstr "IP-Adressbereich gesperrt"
+msgstr "**IP-Adressbereich gesperrt**"
 
 #: src/rc_formatters.py:28
 msgid "Throttled actions"
