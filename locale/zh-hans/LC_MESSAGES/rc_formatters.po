@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-11 19:35+0200\n"
-"PO-Revision-Date: 2020-08-21 04:13+0000\n"
-"Last-Translator: Dianliang233 <>\n"
-"Language-Team: Chinese (Simplified) <https://weblate.frisk.space/projects/"
+"PO-Revision-Date: 2020-12-13 14:30+0000\n"
+"Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
+"Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
 "rcgcdw/rc_formatters/zh-hans/>\n"
 "Language: zh-hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2.1\n"
 
 #: src/rc_formatters.py:42
 #, python-brace-format
@@ -53,27 +53,27 @@ msgstr "[{author}]({author_url}) 回退了 [{file}]({file_link}) 的一个版本
 msgid ""
 "[{author}]({author_url}) uploaded a new version of [{file}]({file_link})"
 "{comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 上传了 [{file}]({file_link}) 的一个新版本 {comment}"
 
 #: src/rc_formatters.py:61
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted [{page}]({page_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 删除了 [{page}]({page_link}){comment}"
 
 #: src/rc_formatters.py:65
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted redirect by overwriting [{page}]"
 "({page_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 通过覆盖 [{page}]({page_link}) 删除重定向 {comment}"
 
 #: src/rc_formatters.py:69 src/rc_formatters.py:74
 msgid "without making a redirect"
-msgstr ""
+msgstr "不留重定向"
 
 #: src/rc_formatters.py:69 src/rc_formatters.py:75
 msgid "with a redirect"
-msgstr ""
+msgstr "创建重定向"
 
 #: src/rc_formatters.py:70
 #, python-brace-format
@@ -81,6 +81,8 @@ msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* to [{target}]"
 "({target_url}) {made_a_redirect}{comment}"
 msgstr ""
+"[{author}]({author_url}) 移动 {redirect}*{article}* 至 "
+"[{target}]({target_url})，{made_a_redirect}{comment}"
 
 #: src/rc_formatters.py:76
 #, python-brace-format
@@ -88,6 +90,8 @@ msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
 "[{target}]({target_url}) {made_a_redirect}{comment}"
 msgstr ""
+"[{author}]({author_url}) 移动 {redirect}*{article}* 至 [{target}]({target_url}) "
+"覆盖重定向，{made_a_redirect}{comment}"
 
 #: src/rc_formatters.py:81
 #, python-brace-format
@@ -95,31 +99,33 @@ msgid ""
 "[{author}]({author_url}) moved protection settings from {redirect}*{article}"
 "* to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) 将保护设置从 {redirect}*{article}* 移动到了 "
+"[{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:92 src/rc_formatters.py:518
 msgid "for infinity and beyond"
-msgstr ""
+msgstr "时长为无限期"
 
 #: src/rc_formatters.py:101 src/rc_formatters.py:526
 #, python-brace-format
 msgid "for {num} {translated_length}"
-msgstr ""
+msgstr "时长为{num}{translated_length}"
 
 #: src/rc_formatters.py:107 src/rc_formatters.py:529
 msgid "until {}"
-msgstr ""
+msgstr "直到{}"
 
 #: src/rc_formatters.py:111
 msgid " on pages: "
-msgstr ""
+msgstr " 于页面： "
 
 #: src/rc_formatters.py:118 src/rc_formatters.py:540
 msgid " and namespaces: "
-msgstr ""
+msgstr " 和命名空间： "
 
 #: src/rc_formatters.py:120
 msgid " on namespaces: "
-msgstr ""
+msgstr " 于命名空间： "
 
 #: src/rc_formatters.py:132
 #, python-brace-format
@@ -127,6 +133,8 @@ msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
 "{restriction_desc}{comment}"
 msgstr ""
+"[{author}]({author_url}) 封禁了 "
+"[{user}]({user_url})，{time}{restriction_desc}{comment}"
 
 #: src/rc_formatters.py:136
 #, python-brace-format
@@ -134,75 +142,76 @@ msgid ""
 "[{author}]({author_url}) changed block settings for [{blocked_user}]"
 "({user_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) 更改了 [{blocked_user}]({user_url}) 的封禁设置 {comment}"
 
 #: src/rc_formatters.py:140
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 解封了 [{blocked_user}]({user_url}){comment}"
 
 #: src/rc_formatters.py:143
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target} profile"
-msgstr ""
+msgstr "[{author}]({author_url}) 在 {target} 的资料页上留下了一条 [留言]({comment})"
 
 #: src/rc_formatters.py:143
 msgid "their own profile"
-msgstr ""
+msgstr "自己"
 
 #: src/rc_formatters.py:146
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target} "
 "profile"
-msgstr ""
+msgstr "[{author}]({author_url}) 在 {target} 的资料页上回复了一条 [评论]({comment})"
 
 #: src/rc_formatters.py:149 src/rc_formatters.py:155 src/rc_formatters.py:166
 #: src/rc_formatters.py:170
 msgid "their own"
-msgstr ""
+msgstr "自己"
 
 #: src/rc_formatters.py:152
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target} profile"
-msgstr ""
+msgstr "[{author}]({author_url}) 在 {target} 的资料页上编辑了一条 [评论]({comment})"
 
 #: src/rc_formatters.py:158
 #, python-brace-format
 msgid "[{author}]({author_url}) purged a comment on {target} profile"
-msgstr ""
+msgstr "[{author}]({author_url}) 在 {target} 的资料页上永久删除了一条评论"
 
 #: src/rc_formatters.py:168
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a comment on {target} profile"
-msgstr ""
+msgstr "[{author}]({author_url}) 在 {target} 的资料页上删除了一条评论"
 
 #: src/rc_formatters.py:174
 #, python-brace-format
 msgid "[{target}]({target_url})'s"
-msgstr ""
+msgstr "[{target}]({target_url})的"
 
 #: src/rc_formatters.py:174
 #, python-brace-format
 msgid "[their own]({target_url})"
-msgstr ""
+msgstr "[Ta自己的]({target_url})"
 
 #: src/rc_formatters.py:175
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the {field} on {target} profile. *({desc})*"
-msgstr ""
+msgstr "[{author}]({author_url}) 在 {target} 的资料页上编辑了 {field} 栏位。*({desc})*"
 
 #: src/rc_formatters.py:189 src/rc_formatters.py:191 src/rc_formatters.py:618
 #: src/rc_formatters.py:620
 msgid "none"
-msgstr ""
+msgstr "无"
 
 #: src/rc_formatters.py:197 src/rc_formatters.py:605
 msgid "System"
-msgstr ""
+msgstr "系统"
 
 #: src/rc_formatters.py:202
 #, python-brace-format
@@ -210,11 +219,13 @@ msgid ""
 "[{author}]({author_url}) protected [{article}]({article_url}) with the "
 "following settings: {settings}{comment}"
 msgstr ""
+"[{author}]({author_url}) 保护了 "
+"[{article}]({article_url})，设置为：{settings}{comment}"
 
 #: src/rc_formatters.py:204 src/rc_formatters.py:212 src/rc_formatters.py:628
 #: src/rc_formatters.py:634
 msgid " [cascading]"
-msgstr ""
+msgstr " [级联]"
 
 #: src/rc_formatters.py:209
 #, python-brace-format
@@ -222,13 +233,15 @@ msgid ""
 "[{author}]({author_url}) modified protection settings of [{article}]"
 "({article_url}) to: {settings}{comment}"
 msgstr ""
+"[{author}]({author_url}) 将 [{article}]({article_url}) "
+"的保护设置更改为：{settings}{comment}"
 
 #: src/rc_formatters.py:216
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed protection from [{article}]({article_url})"
 "{comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 移除了 [{article}]({article_url}) 的保护 {comment}"
 
 #: src/rc_formatters.py:220
 #, python-brace-format
@@ -239,6 +252,8 @@ msgid_plural ""
 "[{author}]({author_url}) changed visibility of {amount} revisions on page "
 "[{article}]({article_url}){comment}"
 msgstr[0] ""
+"[{author}]({author_url}) 更改了[{article}]({article_url}) 的 {amount} "
+"个版本的可见性{comment}"
 
 #: src/rc_formatters.py:225
 #, python-brace-format
@@ -249,33 +264,35 @@ msgid_plural ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
 "revisions{comment}"
 msgstr[0] ""
+"[{author}]({author_url}) 导入了 [{article}]({article_url}) 的 {count} "
+"个修订版本{comment}"
 
 #: src/rc_formatters.py:230
 #, python-brace-format
 msgid "[{author}]({author_url}) restored [{article}]({article_url}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 还原了 [{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:232
 #, python-brace-format
 msgid "[{author}]({author_url}) changed visibility of log events{comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 更改了日志事件的可视性{comment}"
 
 #: src/rc_formatters.py:234
 #, python-brace-format
 msgid "[{author}]({author_url}) imported interwiki{comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 导入了跨wiki表{comment}"
 
 #: src/rc_formatters.py:237
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})"
-msgstr ""
+msgstr "[{author}]({author_url}) 更改了滥用过滤器[number {number}]({filter_url})"
 
 #: src/rc_formatters.py:241
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created abuse filter [number {number}]({filter_url})"
-msgstr ""
+msgstr "[{author}]({author_url}) 创建了滥用过滤器[number {number}]({filter_url})"
 
 #: src/rc_formatters.py:245
 #, python-brace-format
@@ -283,23 +300,25 @@ msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
 "({article_url}) into [{dest}]({dest_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) 将 [{article}]({article_url}) 的修订版本历史合并到 "
+"[{dest}]({dest_url}){comment}"
 
 #: src/rc_formatters.py:249
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
-msgstr ""
+msgstr "用户账户 [{author}]({author_url}) 被自动创建"
 
 #: src/rc_formatters.py:252 src/rc_formatters.py:261
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
-msgstr ""
+msgstr "用户账户 [{author}]({author_url}) 被创建"
 
 #: src/rc_formatters.py:255
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
 "{comment}"
-msgstr ""
+msgstr "用户账户 [{article}]({article_url}) 被 [{author}]({author_url}) 创建{comment}"
 
 #: src/rc_formatters.py:258
 #, python-brace-format
@@ -307,6 +326,8 @@ msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
 "and password was sent by email{comment}"
 msgstr ""
+"用户账户 [{article}]({article_url}) 被 [{author}]({author_url}) "
+"创建，密码已通过电子邮件发送{comment}"
 
 #: src/rc_formatters.py:264
 #, python-brace-format
@@ -314,6 +335,8 @@ msgid ""
 "[{author}]({author_url}) added an entry to the [interwiki table]"
 "({table_url}) pointing to {website} with {prefix} prefix"
 msgstr ""
+"[{author}]({author_url}) 向[跨wiki表]({table_url})中加入了指向 {website} 的，前缀为 "
+"{prefix} 的跨wiki前缀"
 
 #: src/rc_formatters.py:270
 #, python-brace-format
@@ -321,12 +344,14 @@ msgid ""
 "[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
 "pointing to {website} with {prefix} prefix"
 msgstr ""
+"[{author}]({author_url})修改了[跨wiki表]({table_url}) 中指向 {website} 的，前缀为 {prefix}"
+" 的跨wiki前缀"
 
 #: src/rc_formatters.py:276
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
-msgstr ""
+msgstr "[{author}]({author_url})删除了[跨wiki表]({table_url})中的一个跨wiki前缀"
 
 #: src/rc_formatters.py:279
 #, python-brace-format
@@ -334,472 +359,476 @@ msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
 "({article_url}) from {old} to {new}{comment}"
 msgstr ""
+"[{author}]({author_url}) 将页面 [{article}]({article_url}) 的内容模型从 {old} 更改为 "
+"{new}{comment}"
 
 #: src/rc_formatters.py:283
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the sprite for [{article}]({article_url})"
-msgstr ""
+msgstr "[{author}]({author_url}) 编辑了 [{article}]({article_url}) 的 Sprite 图"
 
 #: src/rc_formatters.py:286
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the sprite sheet for [{article}]"
 "({article_url})"
-msgstr ""
+msgstr "[{author}]({author_url}) 创建了 [{article}]({article_url}) 的 Sprite 表"
 
 #: src/rc_formatters.py:289
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the slice for [{article}]({article_url})"
-msgstr ""
+msgstr "[{author}]({author_url}) 编辑了 [{article}]({article_url}) 的 Slice"
 
 #: src/rc_formatters.py:294
 #, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 创建了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:296
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 删除了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:301
 #, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 重新创建了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:306
 #, python-brace-format
 msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 替换了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:309
 #, python-brace-format
 msgid "[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 创建了一个[标签]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:313
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 删除了一个[标签]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:317
 #, python-brace-format
 msgid "[{author}]({author_url}) activated a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 激活了一个[标签]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:320
 #, python-brace-format
 msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) 取消激活了一个[标签]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:322
 msgid "An action has been hidden by administration."
-msgstr ""
+msgstr "一项操作已被管理员隐藏。"
 
 #: src/rc_formatters.py:329
 #, python-brace-format
 msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
-msgstr ""
+msgstr "未知事件 `{event}`，作者为 [{author}]({author_url})，请在[支持服务器](<{support}>)上报告。"
 
 #: src/rc_formatters.py:337 src/rc_formatters.py:621
 msgid "No description provided"
-msgstr ""
+msgstr "没有提供描述"
 
 #: src/rc_formatters.py:384
 msgid "(N!) "
-msgstr ""
+msgstr "(新!) "
 
 #: src/rc_formatters.py:385
 msgid "m"
-msgstr ""
+msgstr "小"
 
 #: src/rc_formatters.py:385
 msgid "b"
-msgstr ""
+msgstr "机"
 
 #: src/rc_formatters.py:402 src/rc_formatters.py:407
 msgid "__Only whitespace__"
-msgstr ""
+msgstr "__仅空格__"
 
 #: src/rc_formatters.py:412
 msgid "Removed"
-msgstr ""
+msgstr "移除了"
 
 #: src/rc_formatters.py:414
 msgid "Added"
-msgstr ""
+msgstr "添加了"
 
 #: src/rc_formatters.py:448 src/rc_formatters.py:487
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 #: src/rc_formatters.py:448
 #, python-brace-format
 msgid "([preview]({link}) | [undo]({undolink}))"
-msgstr ""
+msgstr "([预览]({link}) | [撤销]({undolink}))"
 
 #: src/rc_formatters.py:453
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
-msgstr ""
+msgstr "上传了 {name} 的新版本"
 
 #: src/rc_formatters.py:455
 #, python-brace-format
 msgid "Reverted a version of {name}"
-msgstr ""
+msgstr "回退了 {name} 的一个版本"
 
 #: src/rc_formatters.py:457
 #, python-brace-format
 msgid "Uploaded {name}"
-msgstr ""
+msgstr "上传了 {name}"
 
 #: src/rc_formatters.py:473
 msgid "**No license!**"
-msgstr ""
+msgstr "**没有许可协议！**"
 
 #: src/rc_formatters.py:485
 msgid ""
 "\n"
 "License: {}"
 msgstr ""
+"\n"
+"许可协议：{}"
 
 #: src/rc_formatters.py:487
 #, python-brace-format
 msgid "([preview]({link}))"
-msgstr ""
+msgstr "([预览]({link}))"
 
 #: src/rc_formatters.py:492
 #, python-brace-format
 msgid "Deleted page {article}"
-msgstr ""
+msgstr "删除了页面 {article}"
 
 #: src/rc_formatters.py:495
 #, python-brace-format
 msgid "Deleted redirect {article} by overwriting"
-msgstr ""
+msgstr "通过覆盖删除了重定向 {article}"
 
 #: src/rc_formatters.py:499
 msgid "No redirect has been made"
-msgstr ""
+msgstr "未创建重定向"
 
 #: src/rc_formatters.py:500
 msgid "A redirect has been made"
-msgstr ""
+msgstr "创建了重定向"
 
 #: src/rc_formatters.py:501
 #, python-brace-format
 msgid "Moved {redirect}{article} to {target}"
-msgstr ""
+msgstr "将 {redirect}{article} 移动到了 {target}"
 
 #: src/rc_formatters.py:504
 #, python-brace-format
 msgid "Moved {redirect}{article} to {title} over redirect"
-msgstr ""
+msgstr "将 {redirect}{article} 移动到了 {title}，不留重定向"
 
 #: src/rc_formatters.py:508
 #, python-brace-format
 msgid "Moved protection settings from {redirect}{article} to {title}"
-msgstr ""
+msgstr "将保护设置从 {redirect}{article} 移动到了 {title}"
 
 #: src/rc_formatters.py:533
 msgid "Blocked from editing the following pages: "
-msgstr ""
+msgstr "被阻止编辑下列页面： "
 
 #: src/rc_formatters.py:542
 msgid "Blocked from editing pages on following namespaces: "
-msgstr ""
+msgstr "被阻止编辑下列命名空间的页面： "
 
 #: src/rc_formatters.py:553
 msgid "Partial block details"
-msgstr ""
+msgstr "部分封禁详情"
 
 #: src/rc_formatters.py:554
 #, python-brace-format
 msgid "Blocked {blocked_user} {time}"
-msgstr ""
+msgstr "封禁 {blocked_user} {time}"
 
 #: src/rc_formatters.py:558
 #, python-brace-format
 msgid "Changed block settings for {blocked_user}"
-msgstr ""
+msgstr "更改了 {blocked_user} 的封禁设置"
 
 #: src/rc_formatters.py:562
 #, python-brace-format
 msgid "Unblocked {blocked_user}"
-msgstr ""
+msgstr "解封 {blocked_user}"
 
 #: src/rc_formatters.py:567
 #, python-brace-format
 msgid "Left a comment on {target}'s profile"
-msgstr ""
+msgstr "在 {target} 的资料页上留下留言"
 
 #: src/rc_formatters.py:569
 msgid "Left a comment on their own profile"
-msgstr ""
+msgstr "在自己的资料页上留下留言"
 
 #: src/rc_formatters.py:574
 #, python-brace-format
 msgid "Replied to a comment on {target}'s profile"
-msgstr ""
+msgstr "在 {target} 的资料页上回复留言"
 
 #: src/rc_formatters.py:576
 msgid "Replied to a comment on their own profile"
-msgstr ""
+msgstr "在自己的资料页上回复留言"
 
 #: src/rc_formatters.py:581
 #, python-brace-format
 msgid "Edited a comment on {target}'s profile"
-msgstr ""
+msgstr "编辑了 {target} 的资料页上的一条留言"
 
 #: src/rc_formatters.py:583
 msgid "Edited a comment on their own profile"
-msgstr ""
+msgstr "编辑了自己的资料页上的一条留言"
 
 #: src/rc_formatters.py:586
 #, python-brace-format
 msgid "Edited {target}'s profile"
-msgstr ""
+msgstr "编辑了 {target} 的资料页"
 
 #: src/rc_formatters.py:586
 msgid "Edited their own profile"
-msgstr ""
+msgstr "编辑了自己的资料页"
 
 #: src/rc_formatters.py:588
 #, python-brace-format
 msgid "Cleared the {field} field"
-msgstr ""
+msgstr "清空了 {field} 栏位"
 
 #: src/rc_formatters.py:590
 #, python-brace-format
 msgid "{field} field changed to: {desc}"
-msgstr ""
+msgstr "{field} 栏位改为：{desc}"
 
 #: src/rc_formatters.py:593
 #, python-brace-format
 msgid "Purged a comment on {target}'s profile"
-msgstr ""
+msgstr "永久删除了 {target} 的资料页上的一条留言"
 
 #: src/rc_formatters.py:599
 #, python-brace-format
 msgid "Deleted a comment on {target}'s profile"
-msgstr ""
+msgstr "删除了 {target} 的资料页上的一条留言"
 
 #: src/rc_formatters.py:603
 #, python-brace-format
 msgid "Changed group membership for {target}"
-msgstr ""
+msgstr "更改了 {target} 的用户组"
 
 #: src/rc_formatters.py:607
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
-msgstr ""
+msgstr "{target} 被自动地提升到新用户组"
 
 #: src/rc_formatters.py:622
 #, python-brace-format
 msgid "Groups changed from {old_groups} to {new_groups}{reason}"
-msgstr ""
+msgstr "用户组从 {old_groups} 更改为 {new_groups}{reason}"
 
 #: src/rc_formatters.py:626
 #, python-brace-format
 msgid "Protected {target}"
-msgstr ""
+msgstr "保护了 {target}"
 
 #: src/rc_formatters.py:632
 #, python-brace-format
 msgid "Changed protection level for {article}"
-msgstr ""
+msgstr "更改了 {article} 的保护等级"
 
 #: src/rc_formatters.py:638
 #, python-brace-format
 msgid "Removed protection from {article}"
-msgstr ""
+msgstr "移除了 {article} 的保护"
 
 #: src/rc_formatters.py:642
 #, python-brace-format
 msgid "Changed visibility of revision on page {article} "
 msgid_plural "Changed visibility of {amount} revisions on page {article} "
-msgstr[0] ""
+msgstr[0] "更改了页面 {article} 的 {amount} 个修订版本的可见性 "
 
 #: src/rc_formatters.py:647
 #, python-brace-format
 msgid "Imported {article} with {count} revision"
 msgid_plural "Imported {article} with {count} revisions"
-msgstr[0] ""
+msgstr[0] "导入了含有 {count} 个修订版本的 {article}"
 
 #: src/rc_formatters.py:652
 #, python-brace-format
 msgid "Restored {article}"
-msgstr ""
+msgstr "还原了 {article}"
 
 #: src/rc_formatters.py:655
 msgid "Changed visibility of log events"
-msgstr ""
+msgstr "更改了日志事件的可见性"
 
 #: src/rc_formatters.py:658
 msgid "Imported interwiki"
-msgstr ""
+msgstr "导入了跨wiki表"
 
 #: src/rc_formatters.py:661
 #, python-brace-format
 msgid "Edited abuse filter number {number}"
-msgstr ""
+msgstr "编辑了滥用过滤器{number}"
 
 #: src/rc_formatters.py:664
 #, python-brace-format
 msgid "Created abuse filter number {number}"
-msgstr ""
+msgstr "创建了滥用过滤器{number}"
 
 #: src/rc_formatters.py:667
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
-msgstr ""
+msgstr "将 {article} 的修订版本历史合并到了 {dest}"
 
 #: src/rc_formatters.py:671
 msgid "Created account automatically"
-msgstr ""
+msgstr "自动创建账户"
 
 #: src/rc_formatters.py:674 src/rc_formatters.py:683
 msgid "Created account"
-msgstr ""
+msgstr "创建了账户"
 
 #: src/rc_formatters.py:677
 #, python-brace-format
 msgid "Created account {article}"
-msgstr ""
+msgstr "创建了账户 {article}"
 
 #: src/rc_formatters.py:680
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
-msgstr ""
+msgstr "创建了账户 {article} 且密码已通过电子邮件发送"
 
 #: src/rc_formatters.py:686
 msgid "Added an entry to the interwiki table"
-msgstr ""
+msgstr "向跨wiki表添加了跨wiki前缀"
 
 #: src/rc_formatters.py:687 src/rc_formatters.py:693
 #, python-brace-format
 msgid "Prefix: {prefix}, website: {website} | {desc}"
-msgstr ""
+msgstr "前缀：{prefix}，网站：{website} | {desc}"
 
 #: src/rc_formatters.py:692
 msgid "Edited an entry in interwiki table"
-msgstr ""
+msgstr "编辑了跨wiki表的跨wiki前缀"
 
 #: src/rc_formatters.py:698
 msgid "Deleted an entry in interwiki table"
-msgstr ""
+msgstr "删除了跨wiki表的跨wiki前缀"
 
 #: src/rc_formatters.py:699
 #, python-brace-format
 msgid "Prefix: {prefix} | {desc}"
-msgstr ""
+msgstr "前缀：{prefix} | {desc}"
 
 #: src/rc_formatters.py:702
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
-msgstr ""
+msgstr "更改了页面 {article} 的内容模型"
 
 #: src/rc_formatters.py:703
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
-msgstr ""
+msgstr "内容模型从 {old} 更改为 {new}：{reason}"
 
 #: src/rc_formatters.py:708
 #, python-brace-format
 msgid "Edited the sprite for {article}"
-msgstr ""
+msgstr "编辑了 {article} 的 Sprite 图"
 
 #: src/rc_formatters.py:711
 #, python-brace-format
 msgid "Created the sprite sheet for {article}"
-msgstr ""
+msgstr "创建了 {article} 的 Sprite 表"
 
 #: src/rc_formatters.py:714
 #, python-brace-format
 msgid "Edited the slice for {article}"
-msgstr ""
+msgstr "编辑了 {article} 的 Slice"
 
 #: src/rc_formatters.py:720
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
-msgstr ""
+msgstr "创建了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:724
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "删除了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:731
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
-msgstr ""
+msgstr "重新创建了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:738
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "替换了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:742
 #, python-brace-format
 msgid "Created a tag \"{tag}\""
-msgstr ""
+msgstr "创建了标签 \"{tag}\""
 
 #: src/rc_formatters.py:746
 #, python-brace-format
 msgid "Deleted a tag \"{tag}\""
-msgstr ""
+msgstr "删除了标签 \"{tag}\""
 
 #: src/rc_formatters.py:750
 #, python-brace-format
 msgid "Activated a tag \"{tag}\""
-msgstr ""
+msgstr "激活了标签 \"{tag}\""
 
 #: src/rc_formatters.py:753
 #, python-brace-format
 msgid "Deactivated a tag \"{tag}\""
-msgstr ""
+msgstr "取消激活了标签 \"{tag}\""
 
 #: src/rc_formatters.py:756
 msgid "Action has been hidden by administration"
-msgstr ""
+msgstr "操作已被管理员隐藏"
 
 #: src/rc_formatters.py:757
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: src/rc_formatters.py:761
 #, python-brace-format
 msgid "Unknown event `{event}`"
-msgstr ""
+msgstr "未知事件 `{event}`"
 
 #: src/rc_formatters.py:767 src/rc_formatters.py:769
 msgid "Report this on the support server"
-msgstr ""
+msgstr "在支持服务器上报告此错误"
 
 #: src/rc_formatters.py:786
 msgid "Tags"
-msgstr ""
+msgstr "标签"
 
 #: src/rc_formatters.py:789
 msgid "**Added**: "
-msgstr ""
+msgstr "**添加了**： "
 
 #: src/rc_formatters.py:789
 msgid " and {} more\n"
-msgstr ""
+msgstr " 还有{}更多\n"
 
 #: src/rc_formatters.py:790
 msgid "**Removed**: "
-msgstr ""
+msgstr "**移除了**： "
 
 #: src/rc_formatters.py:790
 msgid " and {} more"
-msgstr ""
+msgstr " 还有{}更多"
 
 #: src/rc_formatters.py:791
 msgid "Changed categories"
-msgstr ""
+msgstr "更改了分类"
