@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 14:13+0100\n"
-"PO-Revision-Date: 2020-11-28 22:44+0000\n"
+"PO-Revision-Date: 2020-12-13 14:30+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
-"Language-Team: Spanish <https://weblate.frisk.space/projects/rcgcdw/"
+"Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/"
 "discussion_formatters-1/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,7 @@ msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}) creó [{title}](<{url}f/p/{threadId}>) en {forumName}"
 
 #: src/discussion_formatters.py:36
 #, python-brace-format
@@ -36,6 +37,8 @@ msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}) creó una encuesta [{title}](<{url}f/p/{threadId}>) "
+"en {forumName}"
 
 #: src/discussion_formatters.py:38
 #, python-brace-format
@@ -43,6 +46,8 @@ msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}) creó un cuestionario [{title}](<{url}f/p/"
+"{threadId}>) en {forumName}"
 
 #: src/discussion_formatters.py:43
 #, python-brace-format
@@ -50,6 +55,8 @@ msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
+"[{author}]({author_url}) creó una [respuesta](<{url}f/p/{threadId}/r/"
+"{postId}>) a [{title}](<{url}f/p/{threadId}>) en {forumName}"
 
 #: src/discussion_formatters.py:45 src/discussion_formatters.py:54
 #: src/discussion_formatters.py:137 src/discussion_formatters.py:150
