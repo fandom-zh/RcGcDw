@@ -1,7 +1,7 @@
 import json, sys, logging
 
 try:  # load settings
-	with open("settings.json") as sfile:
+	with open("settings.json", encoding="utf8") as sfile:
 		settings = json.load(sfile)
 		if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
 			settings["limitrefetch"] = settings["limit"]

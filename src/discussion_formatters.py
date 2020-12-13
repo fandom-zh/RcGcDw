@@ -82,8 +82,6 @@ def compact_formatter(post_type, post, article_paths):
 			message = _("Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=post_type, author=author, author_url=author_url, support=settings["support"])
 			event_type = "unknown"
-	if settings["event_appearance"].get(event_type, {"emoji": None})["emoji"]:
-		message = settings["event_appearance"][event_type]["emoji"] + " " + message
 	send_to_discord(DiscordMessage("compact", event_type, settings["fandom_discussions"]["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
 
 

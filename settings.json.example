@@ -493,6 +493,11 @@
             "color": 1,
             "emoji": "👁️"
         },
+        "discussion": {
+            "icon": "https://static.wikia.nocookie.net/663e53f7-1e79-4906-95a7-2c1df4ebbada",
+            "color": 54998,
+            "emoji": "📝"
+        },
         "discussion/forum/post": {
             "icon": "https://static.wikia.nocookie.net/663e53f7-1e79-4906-95a7-2c1df4ebbada",
             "color": 54998,

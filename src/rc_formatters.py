@@ -664,8 +664,6 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				"Unknown event `{event}` by [{author}]({author_url}), report it on the [support server](<{support}>).").format(
 				event=action, author=author, author_url=author_url, support=settings["support"])
 			action = "unknown"
-	if settings["event_appearance"].get(action, {"emoji": None})["emoji"]:
-		content = settings["event_appearance"][action]["emoji"] + " " + content
 	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content), meta=request_metadata)
 
 def embed_abuselog_formatter(change, recent_changes):
