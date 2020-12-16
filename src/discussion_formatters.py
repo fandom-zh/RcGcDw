@@ -18,16 +18,20 @@ discussion_logger = logging.getLogger("rcgcdw.discussion_formatter")
 def compact_formatter(post_type, post, article_paths):
 	"""Compact formatter for Fandom discussions."""
 	message = None
+	author = _("unknown")  # Fail safe
 	if post_type == "FORUM":
-		author = post["createdBy"]["name"]
+		if post["createdBy"]["name"]:
+			author = post["createdBy"]["name"]
 		author_url = "<{url}f/u/{creatorId}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
 	elif post["creatorIp"]:
 		author = post["creatorIp"][1:] if settings.get("hide_ips", False) is False else _("Unregistered user")
 		author_url = "<{url}wiki/Special:Contributions{creatorIp}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"])
 	else:
-		author = post["createdBy"]["name"]
-		author_url = "<{url}wiki/User:{author}>".format(url=settings["fandom_discussions"]["wiki_url"], author=author)
-		author_url = link_formatter(create_article_path("User:{user}".format(user=author)))
+		if post["createdBy"]["name"]:
+			author = post["createdBy"]["name"]
+			author_url = link_formatter(create_article_path("User:{user}".format(user=author)))
+		else:
+			author_url = "<{url}f/u/{creatorId}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
 	event_type = "discussion"
 	if post_type == "FORUM":
 		if not post["isReply"]:
@@ -88,12 +92,20 @@ def compact_formatter(post_type, post, article_paths):
 def embed_formatter(post_type, post, article_paths):
 	"""Embed formatter for Fandom discussions."""
 	embed = DiscordMessage("embed", "discussion", settings["fandom_discussions"]["webhookURL"])
+	author = _("unknown")  # Fail safe
 	if post_type == "FORUM":
-		embed.set_author(post["createdBy"]["name"], "{url}f/u/{creatorId}".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
+		if post["createdBy"]["name"]:
+			author = post["createdBy"]["name"]
+		embed.set_author(author, "{url}f/u/{creatorId}".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
 	elif post["creatorIp"]:
-		embed.set_author(post["creatorIp"][1:] if settings.get("hide_ips", False) is False else _("Unregistered user"), "{url}wiki/Special:Contributions{creatorIp}".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"]))
+		author = post["creatorIp"][1:]
+		embed.set_author(author if settings.get("hide_ips", False) is False else _("Unregistered user"), "{url}wiki/Special:Contributions{creatorIp}".format(url=settings["fandom_discussions"]["wiki_url"], creatorIp=post["creatorIp"]))
 	else:
-		embed.set_author(post["createdBy"]["name"], "{url}wiki/User:{creator}".format(url=settings["fandom_discussions"]["wiki_url"], creator=post["createdBy"]["name"]), icon_url=post["createdBy"]["avatarUrl"])
+		if post["createdBy"]["name"]:
+			author = post["createdBy"]["name"]
+			embed.set_author(author, "{url}wiki/User:{creator}".format(url=settings["fandom_discussions"]["wiki_url"], creator=author.replace(" ", "_")), icon_url=post["createdBy"]["avatarUrl"])
+		else:
+			embed.set_author(author, "{url}f/u/{creatorId}".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"]), icon_url=post["createdBy"]["avatarUrl"])
 	if settings["fandom_discussions"]["appearance"]["embed"]["show_content"]:
 		if post.get("jsonModel") is not None:
 			npost = DiscussionsFromHellParser(post)
