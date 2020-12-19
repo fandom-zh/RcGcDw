@@ -273,6 +273,11 @@
             "color": 25600,
             "emoji": "📋"
         },
+        "contentmodel/new": {
+            "icon": "",
+            "color": 25600,
+            "emoji": "📋"
+        },
         "cargo/deletetable": {
             "icon": "",
             "color": 16776960,
