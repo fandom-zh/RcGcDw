@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"POT-Creation-Date: 2020-12-21 15:30+0100\n"
 "PO-Revision-Date: 2020-12-13 14:30+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.wikibot.de/projects/"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/discord/redaction.py:59 src/discord/redaction.py:62
-#: src/discord/redaction.py:67
+#: src/discord/redaction.py:62 src/discord/redaction.py:65
+#: src/discord/redaction.py:70
 msgid "Removed"
 msgstr "移除了"

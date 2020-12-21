@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"POT-Creation-Date: 2020-12-21 15:30+0100\n"
 "PO-Revision-Date: 2020-08-13 19:07+0000\n"
 "Last-Translator: Leo-768 <>\n"
 "Language-Team: Chinese (Traditional) <https://weblate.frisk.space/projects/"
@@ -19,24 +19,24 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.1.1\n"
 
-#: src/rc.py:321
+#: src/rc.py:322
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} 似乎無法訪問。"
 
-#: src/rc.py:322 src/rc.py:334
+#: src/rc.py:323 src/rc.py:335
 msgid "Connection status"
 msgstr "連線狀態"
 
-#: src/rc.py:332
+#: src/rc.py:333
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr "與 {wiki} 的連線目前似乎很穩定。"
 
-#: src/rc.py:403
+#: src/rc.py:404
 msgid "~~hidden~~"
 msgstr "~~隱藏~~"
 
-#: src/rc.py:407
+#: src/rc.py:408
 msgid "hidden"
 msgstr "隱藏"
