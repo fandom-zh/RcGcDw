@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 14:13+0100\n"
+"POT-Creation-Date: 2020-12-23 00:28+0100\n"
 "PO-Revision-Date: 2020-12-22 00:13+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
@@ -19,19 +19,26 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/discussion_formatters.py:25 src/discussion_formatters.py:81
+#: src/discussion_formatters.py:21 src/discussion_formatters.py:56
+#: src/discussion_formatters.py:67 src/discussion_formatters.py:95
+#: src/discussion_formatters.py:163 src/discussion_formatters.py:176
+msgid "unknown"
+msgstr "未知"
+
+#: src/discussion_formatters.py:27 src/discussion_formatters.py:102
 msgid "Unregistered user"
 msgstr "未注册用户"
 
-#: src/discussion_formatters.py:34
+#: src/discussion_formatters.py:39
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}]({author_url}) 创建了 [{title}](<{url}f/p/{threadId}>) 于 {forumName}"
+"[{author}]({author_url}) 创建了 [{title}](<{url}f/p/{threadId}>) 于 "
+"{forumName}"
 
-#: src/discussion_formatters.py:36
+#: src/discussion_formatters.py:42
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
@@ -40,7 +47,7 @@ msgstr ""
 "[{author}]({author_url}) 创建了一个投票 [{title}](<{url}f/p/{threadId}>) 于 "
 "{forumName}"
 
-#: src/discussion_formatters.py:38
+#: src/discussion_formatters.py:45
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
@@ -49,32 +56,27 @@ msgstr ""
 "[{author}]({author_url}) 创建了一份问卷 [{title}](<{url}f/p/{threadId}>) 于 "
 "{forumName}"
 
-#: src/discussion_formatters.py:43
+#: src/discussion_formatters.py:54
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
-"[{author}]({author_url}) 创建了一条[回复](<{url}f/p/{threadId}/r/{postId}>) 至 "
-"[{title}](<{url}f/p/{threadId}>) 于 {forumName}"
+"[{author}]({author_url}) 创建了一条[回复](<{url}f/p/{threadId}/r/{postId}>) "
+"至 [{title}](<{url}f/p/{threadId}>) 于 {forumName}"
 
-#: src/discussion_formatters.py:45 src/discussion_formatters.py:54
-#: src/discussion_formatters.py:137 src/discussion_formatters.py:150
-msgid "unknown"
-msgstr "未知"
-
-#: src/discussion_formatters.py:49
+#: src/discussion_formatters.py:61
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) 创建了 [{title}](<{url}wiki/"
-"Message_Wall:{user_wall}?threadId={threadId}>) 于 [{user}的信息墙](<{url}wiki/"
+"[{author}]({author_url}) 创建了 [{title}](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}>) 于 [{user}的信息墙](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 
-#: src/discussion_formatters.py:51
+#: src/discussion_formatters.py:64
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
@@ -82,12 +84,12 @@ msgid ""
 "Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) 创建了一条[回复](<{url}wiki/"
-"Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) 至 [{title}](<{url}"
-"wiki/Message_Wall:{user_wall}?threadId={threadId}>) 于 [{user}的信息墙](<{url}"
+"[{author}]({author_url}) 创建了一条[回复](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}#{replyId}>) 至 [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) 于 [{user}的信息墙](<{url}"
 "wiki/Message_Wall:{user_wall}>)"
 
-#: src/discussion_formatters.py:57
+#: src/discussion_formatters.py:72
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
@@ -96,86 +98,88 @@ msgstr ""
 "[{author}]({author_url}) 创建了一条[评论](<{url}?commentId={commentId}>) 于 "
 "[{article}](<{url}>)"
 
-#: src/discussion_formatters.py:62
+#: src/discussion_formatters.py:78
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}"
 "&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
 "[{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url}) "
-"创建了一条[回复](<{url}?commentId={commentId}&replyId={replyId}>) to a "
-"[comment](<{url}?commentId={commentId}>) 于 [{article}](<{url}>)"
+"[{author}]({author_url}) 创建了一条[回复](<{url}?commentId={commentId}"
+"&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) 于 "
+"[{article}](<{url}>)"
 
-#: src/discussion_formatters.py:70
+#: src/discussion_formatters.py:86
 #, python-brace-format
 msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
-msgstr "未知事件 `{event}` 由 [{author}]({author_url}) 发出，请在[支持服务器](<{support}>)中报告。"
+msgstr ""
+"未知事件 `{event}` 由 [{author}]({author_url}) 发出，请在[支持服务器]"
+"(<{support}>)中报告。"
 
-#: src/discussion_formatters.py:98
+#: src/discussion_formatters.py:123
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr "创建了 \"{title}\""
 
-#: src/discussion_formatters.py:102
+#: src/discussion_formatters.py:127
 #, python-brace-format
 msgid "Created a poll \"{title}\""
 msgstr "创建了投票 \"{title}\""
 
-#: src/discussion_formatters.py:109
+#: src/discussion_formatters.py:134
 msgid "Option {}"
 msgstr "选项 {}"
 
-#: src/discussion_formatters.py:110
+#: src/discussion_formatters.py:135
 #, python-brace-format
 msgid "__[View image]({image_url})__"
 msgstr "__[查看图片]({image_url})__"
 
-#: src/discussion_formatters.py:114
+#: src/discussion_formatters.py:139
 #, python-brace-format
 msgid "Created a quiz \"{title}\""
 msgstr "创建了问卷 \"{title}\""
 
-#: src/discussion_formatters.py:129 src/discussion_formatters.py:131
+#: src/discussion_formatters.py:155 src/discussion_formatters.py:157
 msgid "Tags"
 msgstr "标签"
 
-#: src/discussion_formatters.py:129
+#: src/discussion_formatters.py:155
 msgid "{} tags"
 msgstr "{} 个标签"
 
-#: src/discussion_formatters.py:134
+#: src/discussion_formatters.py:160
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr "回复至 \"{title}\""
 
-#: src/discussion_formatters.py:143
+#: src/discussion_formatters.py:169
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
 msgstr "创建了 \"{title}\" 于 {user} 的信息墙"
 
-#: src/discussion_formatters.py:147
+#: src/discussion_formatters.py:173
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
 msgstr "回复至 \"{title}\" 于 {user} 的信息墙"
 
-#: src/discussion_formatters.py:154
+#: src/discussion_formatters.py:180
 #, python-brace-format
 msgid "Commented on {article}"
 msgstr "评论于 {article}"
 
-#: src/discussion_formatters.py:158
+#: src/discussion_formatters.py:184
 #, python-brace-format
 msgid "Replied to a comment on {article}"
 msgstr "回复至一条评论于 {article}"
 
-#: src/discussion_formatters.py:162
+#: src/discussion_formatters.py:188
 #, python-brace-format
 msgid "Unknown event `{event}`"
 msgstr "未知事件 `{event}`"
 
-#: src/discussion_formatters.py:168 src/discussion_formatters.py:170
+#: src/discussion_formatters.py:194 src/discussion_formatters.py:196
 msgid "Report this on the support server"
 msgstr "在支持服务器上报告"

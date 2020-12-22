@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-30 11:58+0100\n"
+"POT-Creation-Date: 2020-12-23 00:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,44 +17,45 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/discussion_formatters.py:25 src/discussion_formatters.py:81
+#: src/discussion_formatters.py:21 src/discussion_formatters.py:56
+#: src/discussion_formatters.py:67 src/discussion_formatters.py:95
+#: src/discussion_formatters.py:163 src/discussion_formatters.py:176
+msgid "unknown"
+msgstr ""
+
+#: src/discussion_formatters.py:27 src/discussion_formatters.py:102
 msgid "Unregistered user"
 msgstr ""
 
-#: src/discussion_formatters.py:34
+#: src/discussion_formatters.py:39
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:36
+#: src/discussion_formatters.py:42
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:38
+#: src/discussion_formatters.py:45
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:43
+#: src/discussion_formatters.py:54
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:45 src/discussion_formatters.py:54
-#: src/discussion_formatters.py:137 src/discussion_formatters.py:150
-msgid "unknown"
-msgstr ""
-
-#: src/discussion_formatters.py:49
+#: src/discussion_formatters.py:61
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
@@ -62,7 +63,7 @@ msgid ""
 "Message_Wall:{user_wall}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:51
+#: src/discussion_formatters.py:64
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
@@ -71,14 +72,14 @@ msgid ""
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:57
+#: src/discussion_formatters.py:72
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
 "on [{article}](<{url}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:62
+#: src/discussion_formatters.py:78
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}"
@@ -86,75 +87,75 @@ msgid ""
 "[{article}](<{url}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:70
+#: src/discussion_formatters.py:86
 #, python-brace-format
 msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
 msgstr ""
 
-#: src/discussion_formatters.py:98
+#: src/discussion_formatters.py:123
 #, python-brace-format
 msgid "Created \"{title}\""
 msgstr ""
 
-#: src/discussion_formatters.py:102
+#: src/discussion_formatters.py:127
 #, python-brace-format
 msgid "Created a poll \"{title}\""
 msgstr ""
 
-#: src/discussion_formatters.py:109
+#: src/discussion_formatters.py:134
 msgid "Option {}"
 msgstr ""
 
-#: src/discussion_formatters.py:110
+#: src/discussion_formatters.py:135
 #, python-brace-format
 msgid "__[View image]({image_url})__"
 msgstr ""
 
-#: src/discussion_formatters.py:114
+#: src/discussion_formatters.py:139
 #, python-brace-format
 msgid "Created a quiz \"{title}\""
 msgstr ""
 
-#: src/discussion_formatters.py:129 src/discussion_formatters.py:131
+#: src/discussion_formatters.py:155 src/discussion_formatters.py:157
 msgid "Tags"
 msgstr ""
 
-#: src/discussion_formatters.py:129
+#: src/discussion_formatters.py:155
 msgid "{} tags"
 msgstr ""
 
-#: src/discussion_formatters.py:134
+#: src/discussion_formatters.py:160
 #, python-brace-format
 msgid "Replied to \"{title}\""
 msgstr ""
 
-#: src/discussion_formatters.py:143
+#: src/discussion_formatters.py:169
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
 msgstr ""
 
-#: src/discussion_formatters.py:147
+#: src/discussion_formatters.py:173
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
 msgstr ""
 
-#: src/discussion_formatters.py:154
+#: src/discussion_formatters.py:180
 #, python-brace-format
 msgid "Commented on {article}"
 msgstr ""
 
-#: src/discussion_formatters.py:158
+#: src/discussion_formatters.py:184
 #, python-brace-format
 msgid "Replied to a comment on {article}"
 msgstr ""
 
-#: src/discussion_formatters.py:162
+#: src/discussion_formatters.py:188
 #, python-brace-format
 msgid "Unknown event `{event}`"
 msgstr ""
 
-#: src/discussion_formatters.py:168 src/discussion_formatters.py:170
+#: src/discussion_formatters.py:194 src/discussion_formatters.py:196
 msgid "Report this on the support server"
 msgstr ""
