@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-21 15:29+0100\n"
+"POT-Creation-Date: 2020-11-28 23:45+0100\n"
 "PO-Revision-Date: 2020-08-03 13:44+0000\n"
 "Last-Translator: MarkusRost <>\n"
 "Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/main/de/"
@@ -17,24 +17,24 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "X-Loco-Parser: loco_parse_po\n"
 
-#: src/rc.py:322
+#: src/rc.py:321
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "Das {wiki} scheint unerreichbar zu sein."
 
-#: src/rc.py:323 src/rc.py:335
+#: src/rc.py:322 src/rc.py:334
 msgid "Connection status"
 msgstr "Verbindungsstatus"
 
-#: src/rc.py:333
+#: src/rc.py:332
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr "{wiki} scheint wieder erreichbar zu sein."
 
-#: src/rc.py:404
+#: src/rc.py:403
 msgid "~~hidden~~"
 msgstr "~~versteckt~~"
 
-#: src/rc.py:408
+#: src/rc.py:407
 msgid "hidden"
 msgstr "versteckt"

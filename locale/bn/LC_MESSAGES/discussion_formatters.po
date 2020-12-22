@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-12-22 00:13+0000\n"
+"Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
+"Language-Team: Bengali <https://translate.wikibot.de/projects/rcgcdw/"
+"discussion_formatters-1/bn/>\n"
 "Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2.1\n"
 
 #: src/discussion_formatters.py:25 src/discussion_formatters.py:81
 msgid "Unregistered user"
-msgstr ""
+msgstr "রেজিস্টার না করা ব্যাবহারকারি"
 
 #: src/discussion_formatters.py:34
 #, python-brace-format
@@ -26,6 +29,8 @@ msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}) {forumName}তে [{title}](<{url}f/p/{threadId}>) "
+"বানিয়েছে"
 
 #: src/discussion_formatters.py:36
 #, python-brace-format
@@ -33,6 +38,8 @@ msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}) {forumName}এ পোল [{title}](<{url}f/p/{threadId}>) "
+"বানিয়েছে"
 
 #: src/discussion_formatters.py:38
 #, python-brace-format
@@ -40,6 +47,8 @@ msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}) {forumName}তে একটি কুইজ [{title}](<{url}f/p/"
+"{threadId}>) বানিয়েছে"
 
 #: src/discussion_formatters.py:43
 #, python-brace-format
@@ -47,11 +56,13 @@ msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
+"[{author}]({author_url}) {forumName}এ [{title}](<{url}f/p/{threadId}>)তে একটি"
+" [উত্তর](<{url}f/p/{threadId}/r/{postId}>) দিয়েছে"
 
 #: src/discussion_formatters.py:45 src/discussion_formatters.py:54
 #: src/discussion_formatters.py:137 src/discussion_formatters.py:150
 msgid "unknown"
-msgstr ""
+msgstr "অজানা"
 
 #: src/discussion_formatters.py:49
 #, python-brace-format
@@ -60,6 +71,9 @@ msgid ""
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
+"[{author}]({author_url}) [{user}এর মেসেজ ওয়ালে](<{url}wiki/"
+"Message_Wall:{user_wall}>)এ [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) বানিয়েছে"
 
 #: src/discussion_formatters.py:51
 #, python-brace-format
@@ -69,6 +83,10 @@ msgid ""
 "Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
+"[{author}]({author_url}) [{user}এর মেসেজ ওয়ালে](<{url}wiki/"
+"Message_Wall:{user_wall}>) [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>)তে একটি [উত্তর](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) দিয়েছে"
 
 #: src/discussion_formatters.py:57
 #, python-brace-format
@@ -76,6 +94,8 @@ msgid ""
 "[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
 "on [{article}](<{url}>)"
 msgstr ""
+"[{author}]({author_url}) [{article}](<{url}>)এ একটি "
+"[কমেন্ট](<{url}?commentId={commentId}>) লিখেছে"
 
 #: src/discussion_formatters.py:62
 #, python-brace-format
@@ -84,6 +104,9 @@ msgid ""
 "&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
 "[{article}](<{url}>)"
 msgstr ""
+"[{author}]({author_url}) [{article}](<{url}>)এর একটি "
+"[কমেন্ট](<{url}?commentId={commentId}>)এ একটি "
+"[উত্তর](<{url}?commentId={commentId}&replyId={replyId}>) দিয়েছে"
 
 #: src/discussion_formatters.py:70
 #, python-brace-format
@@ -91,43 +114,45 @@ msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
 msgstr ""
+"[{author}]({author_url})দ্বারা অজানা ঘটনা `{event}` , [সাহায্য "
+"সার্ভারে](<{support}>) রিপোর্ট করুন।"
 
 #: src/discussion_formatters.py:98
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr ""
+msgstr "\"{title}\" বানানো হলো"
 
 #: src/discussion_formatters.py:102
 #, python-brace-format
 msgid "Created a poll \"{title}\""
-msgstr ""
+msgstr "পোল \"{title}\" বানানো হলো"
 
 #: src/discussion_formatters.py:109
 msgid "Option {}"
-msgstr ""
+msgstr "বিকল্প {}"
 
 #: src/discussion_formatters.py:110
 #, python-brace-format
 msgid "__[View image]({image_url})__"
-msgstr ""
+msgstr "__[চিত্র দেখুন]({image_url})__"
 
 #: src/discussion_formatters.py:114
 #, python-brace-format
 msgid "Created a quiz \"{title}\""
-msgstr ""
+msgstr "একটি কুইজ \"{title}\" বানানো হলো"
 
 #: src/discussion_formatters.py:129 src/discussion_formatters.py:131
 msgid "Tags"
-msgstr ""
+msgstr "ট্যাগ"
 
 #: src/discussion_formatters.py:129
 msgid "{} tags"
-msgstr ""
+msgstr "{}টি ট্যাগ"
 
 #: src/discussion_formatters.py:134
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr ""
+msgstr "\"{title}\"এ উত্তর দেওয়া হলো"
 
 #: src/discussion_formatters.py:143
 #, python-brace-format

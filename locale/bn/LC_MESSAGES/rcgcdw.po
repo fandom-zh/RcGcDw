@@ -8,78 +8,80 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-12-22 00:13+0000\n"
+"Last-Translator: R4356th <radman.siddiki@outlook.com>\n"
+"Language-Team: Bengali <https://translate.wikibot.de/projects/rcgcdw/main/bn/"
+">\n"
 "Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2.1\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
-msgstr ""
+msgstr "কিছুই না"
 
 #: src/rc_formatters.py:28
 msgid "Warning issued"
-msgstr ""
+msgstr "সতর্কতা জারি করা হয়েছে"
 
 #: src/rc_formatters.py:28
 msgid "**Blocked user**"
-msgstr ""
+msgstr "**অবরুদ্ধ ব্যবহারকারী**"
 
 #: src/rc_formatters.py:28
 msgid "Tagged the edit"
-msgstr ""
+msgstr "সম্পাদনা ট্যাগ"
 
 #: src/rc_formatters.py:28
 msgid "Disallowed the action"
-msgstr ""
+msgstr "ক্রিয়াটি নিষিদ্ধ করা হয়েছে"
 
 #: src/rc_formatters.py:28
 msgid "**IP range blocked**"
-msgstr ""
+msgstr "**আইপি পরিসীমা অবরুদ্ধ**"
 
 #: src/rc_formatters.py:28
 msgid "Throttled actions"
-msgstr ""
+msgstr "থ্রোটলেড ক্রিয়া"
 
 #: src/rc_formatters.py:28
 msgid "Removed autoconfirmed group"
-msgstr ""
+msgstr "স্বতঃসিদ্ধ গ্রুপটি সরানো হয়েছে"
 
 #: src/rc_formatters.py:28
 msgid "**Removed from privileged groups**"
-msgstr ""
+msgstr "**সুবিধাভুক্ত গোষ্ঠী থেকে সরানো**"
 
 #: src/rc_formatters.py:29
 msgid "Edit"
-msgstr ""
+msgstr "সম্পাদনা"
 
 #: src/rc_formatters.py:29
 msgid "Upload"
-msgstr ""
+msgstr "আপলোড"
 
 #: src/rc_formatters.py:29
 msgid "Move"
-msgstr ""
+msgstr "সরান"
 
 #: src/rc_formatters.py:29
 msgid "Stash upload"
-msgstr ""
+msgstr "স্ট্যাশ আপলোড"
 
 #: src/rc_formatters.py:29
 msgid "Deletion"
-msgstr ""
+msgstr "মোছা"
 
 #: src/rc_formatters.py:29
 msgid "Account creation"
-msgstr ""
+msgstr "হিসাব খোলা"
 
 #: src/rc_formatters.py:29
 msgid "Auto account creation"
-msgstr ""
+msgstr "অটো অ্যাকাউন্ট তৈরি"
 
 #: src/rc_formatters.py:46 src/rc_formatters.py:53 src/rc_formatters.py:60
 #: src/rc_formatters.py:75 src/rc_formatters.py:96
