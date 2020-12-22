@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-12-22 00:13+0000\n"
+"PO-Revision-Date: 2020-12-22 23:29+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/ru/>\n"
@@ -1237,24 +1237,24 @@ msgid "Edited the slice for {article}"
 msgstr "Отредактировал срез для страницы «{article}»"
 
 #: src/rc_formatters.py:1063
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the Cargo table \"{table}\""
-msgstr "Создал метку «{tag}»"
+msgstr "Создал Cargo таблицу \"{table}\""
 
 #: src/rc_formatters.py:1067
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr "Удалил метку «{tag}»"
+msgstr "Удалил Cargo таблицу \"{table}\""
 
 #: src/rc_formatters.py:1074
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
-msgstr "Создал метку «{tag}»"
+msgstr "Воссоздал Cargo таблицу \"{table}\""
 
 #: src/rc_formatters.py:1081
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
-msgstr "Удалил метку «{tag}»"
+msgstr "Заменил Cargo таблицу \"{table}\""
 
 #: src/rc_formatters.py:1085
 #, python-brace-format
