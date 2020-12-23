@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-12-13 14:30+0000\n"
+"PO-Revision-Date: 2020-12-29 15:21+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/de/>\n"
@@ -549,13 +549,13 @@ msgstr ""
 "({article_url}) von {old} zu {new}{comment}"
 
 #: src/rc_formatters.py:407
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
 "non-default content model {new}{comment}"
 msgstr ""
-"[{author}]({author_url}) änderte das Inhaltsmodell der Seite [{article}]"
-"({article_url}) von {old} zu {new}{comment}"
+"[{author}]({author_url}) erstellte die Seite [{article}]({article_url}) mit "
+"dem Inhaltsmodell {new}{comment}"
 
 #: src/rc_formatters.py:410
 #, python-brace-format
@@ -675,14 +675,14 @@ msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) entsperrte das Wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:481
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) löschte das Wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) generierte *{file}* Dump{comment}"
 
 #: src/rc_formatters.py:486
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) löschte das Wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) löschte *{file}* Dump{comment}"
 
 #: src/rc_formatters.py:497
 #, python-brace-format
@@ -850,16 +850,16 @@ msgstr ""
 #: src/rc_formatters.py:638 src/rc_formatters.py:641 src/rc_formatters.py:1231
 #: src/rc_formatters.py:1234
 msgid "(default)"
-msgstr ""
+msgstr "(Standard)"
 
 #: src/rc_formatters.py:642
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the language of [{article}]({article_url}) "
 "from {old_lang} to {new_lang}{comment}"
 msgstr ""
-"[{author}]({author_url}) änderte das Inhaltsmodell der Seite [{article}]"
-"({article_url}) von {old} zu {new}{comment}"
+"[{author}]({author_url}) änderte die Sprache für [{article}]({article_url}) "
+"von {old_lang} zu {new_lang}{comment}"
 
 #: src/rc_formatters.py:651
 #, python-brace-format
@@ -1242,12 +1242,12 @@ msgstr "Modell geändert von {old} zu {new}: {reason}"
 #: src/rc_formatters.py:1078
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
-msgstr ""
+msgstr "Erstellte die Seite {article}mit einem nicht-standard Inhaltsmodell"
 
 #: src/rc_formatters.py:1079
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created with model {new}: {reason}"
-msgstr "Modell geändert von {old} zu {new}: {reason}"
+msgstr "Erstellt mit Modell {new}: {reason}"
 
 #: src/rc_formatters.py:1082
 #, python-brace-format
@@ -1350,12 +1350,12 @@ msgstr "Entsperrte das Wiki „{wiki}“"
 #: src/rc_formatters.py:1159
 #, python-brace-format
 msgid "Generated {file} dump"
-msgstr ""
+msgstr "Generierte {file} Dump"
 
 #: src/rc_formatters.py:1162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {file} dump"
-msgstr "Löschte {article}"
+msgstr "Löschte {file} Dump"
 
 #: src/rc_formatters.py:1170
 #, python-brace-format
@@ -1465,17 +1465,17 @@ msgid "New state"
 msgstr "Neuer Status"
 
 #: src/rc_formatters.py:1235
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Changed the language of \"{article}\""
-msgstr "Änderte den Status der Übersetzungen in `{language}` für „{article}“"
+msgstr "Änderte die Sprache für „{article}“"
 
 #: src/rc_formatters.py:1236
 msgid "Old language"
-msgstr ""
+msgstr "Alte Sprache"
 
 #: src/rc_formatters.py:1237
 msgid "New language"
-msgstr ""
+msgstr "Neue Sprache"
 
 #: src/rc_formatters.py:1241
 #, python-brace-format
