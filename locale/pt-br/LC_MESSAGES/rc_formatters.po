@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-12-13 14:30+0000\n"
-"Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
+"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/rc_formatters/pt-br/>\n"
 "Language: pt-br\n"
@@ -544,13 +544,13 @@ msgstr ""
 "({article_url}) de {old} para {new}{comment}"
 
 #: src/rc_formatters.py:407
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
 "non-default content model {new}{comment}"
 msgstr ""
-"[{author}]({author_url}) mudou o modelo de conteúdo da página [{article}]"
-"({article_url}) de {old} para {new}{comment}"
+"[{author}]({author_url}) criou a página [{article}]({article_url}) usando um "
+"modelo de conteúdo não padrão {new}{comment}"
 
 #: src/rc_formatters.py:410
 #, python-brace-format
@@ -664,14 +664,14 @@ msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) destravou a wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:481
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) excluiu uma wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) gerou *{file}* de despejo{comment}"
 
 #: src/rc_formatters.py:486
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) excluiu uma wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) excluiu *{file}* de despejo{comment}"
 
 #: src/rc_formatters.py:497
 #, python-brace-format
@@ -838,16 +838,16 @@ msgstr ""
 #: src/rc_formatters.py:638 src/rc_formatters.py:641 src/rc_formatters.py:1231
 #: src/rc_formatters.py:1234
 msgid "(default)"
-msgstr ""
+msgstr "(padrão)"
 
 #: src/rc_formatters.py:642
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the language of [{article}]({article_url}) "
 "from {old_lang} to {new_lang}{comment}"
 msgstr ""
-"[{author}]({author_url}) mudou o modelo de conteúdo da página [{article}]"
-"({article_url}) de {old} para {new}{comment}"
+"[{author}]({author_url}) mudou o idioma do [{article}]({article_url}) de "
+"{old_lang} para {new_lang}{comment}"
 
 #: src/rc_formatters.py:651
 #, python-brace-format
@@ -1228,12 +1228,12 @@ msgstr "Modelo alterado de {old} para {new}: {reason}"
 #: src/rc_formatters.py:1078
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
-msgstr ""
+msgstr "Criou a página {article} usando um modelo de conteúdo não padrão"
 
 #: src/rc_formatters.py:1079
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created with model {new}: {reason}"
-msgstr "Modelo alterado de {old} para {new}: {reason}"
+msgstr "Criado com modelo {new}: {reason}"
 
 #: src/rc_formatters.py:1082
 #, python-brace-format
@@ -1336,12 +1336,12 @@ msgstr "Destravou a wiki \"{wiki}\""
 #: src/rc_formatters.py:1159
 #, python-brace-format
 msgid "Generated {file} dump"
-msgstr ""
+msgstr "Gerou despejo de {file}"
 
 #: src/rc_formatters.py:1162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {file} dump"
-msgstr "Excluiu a página {article}"
+msgstr "Excluiu {file} de despejo"
 
 #: src/rc_formatters.py:1170
 #, python-brace-format
@@ -1447,17 +1447,17 @@ msgid "New state"
 msgstr "Novo estado"
 
 #: src/rc_formatters.py:1235
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Changed the language of \"{article}\""
-msgstr "Mudou o estado de traduções de`{language}` de \"{article}\""
+msgstr "Mudou o idioma de \"{article}\""
 
 #: src/rc_formatters.py:1236
 msgid "Old language"
-msgstr ""
+msgstr "Idioma antigo"
 
 #: src/rc_formatters.py:1237
 msgid "New language"
-msgstr ""
+msgstr "Novo idioma"
 
 #: src/rc_formatters.py:1241
 #, python-brace-format
