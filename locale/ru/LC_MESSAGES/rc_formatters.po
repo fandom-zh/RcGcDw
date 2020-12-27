@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-12-22 23:29+0000\n"
+"PO-Revision-Date: 2020-12-29 15:21+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/ru/>\n"
@@ -50,11 +50,11 @@ msgstr ""
 
 #: src/rc_formatters.py:28
 msgid "Removed autoconfirmed group"
-msgstr ""
+msgstr "Сняты права автоподтверждённого"
 
 #: src/rc_formatters.py:28
 msgid "**Removed from privileged groups**"
-msgstr ""
+msgstr "**Удаление из привилегированных групп**"
 
 #: src/rc_formatters.py:29
 msgid "Edit"
@@ -413,7 +413,7 @@ msgid_plural ""
 "[{author}]({author_url}) changed visibility of {amount} revisions on page "
 "[{article}]({article_url}){comment}"
 msgstr[0] ""
-"[{author}]({author_url}) изменил видимость {amount} правки на странице "
+"[{author}]({author_url}) изменил видимость правки на странице "
 "[{article}]({article_url}){comment}"
 msgstr[1] ""
 "[{author}]({author_url}) изменил видимость {amount} правок на странице "
@@ -558,13 +558,13 @@ msgstr ""
 "({article_url}) с {old} на {new}{comment}"
 
 #: src/rc_formatters.py:407
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
 "non-default content model {new}{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{article}]"
-"({article_url}) с {old} на {new}{comment}"
+"[{author}]({author_url}) создал страницу [{article}]({article_url}) с "
+"использованием нестандартной модели содержимого {new}{comment}"
 
 #: src/rc_formatters.py:410
 #, python-brace-format
@@ -641,9 +641,9 @@ msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) удалил вики *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:454
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) импортировал интервики{comment}"
+msgstr "[{author}]({author_url}) заблокировал вики *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:457
 #, python-brace-format
@@ -675,19 +675,19 @@ msgid "[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) восстановил вики *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:476
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) импортировал интервики{comment}"
+msgstr "[{author}]({author_url}) разблокировал вики *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:481
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) удалил вики *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) сгенерировал дамп *{file}*{comment}"
 
 #: src/rc_formatters.py:486
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) удалил вики *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) удалил дамп *{file}*{comment}"
 
 #: src/rc_formatters.py:497
 #, fuzzy, python-brace-format
@@ -854,7 +854,7 @@ msgstr ""
 #: src/rc_formatters.py:638 src/rc_formatters.py:641 src/rc_formatters.py:1231
 #: src/rc_formatters.py:1234
 msgid "(default)"
-msgstr ""
+msgstr "(по умолчанию)"
 
 #: src/rc_formatters.py:642
 #, fuzzy, python-brace-format
@@ -920,7 +920,7 @@ msgstr "Предпринятые меры"
 
 #: src/rc_formatters.py:679
 msgid "Title"
-msgstr ""
+msgstr "Заголовок"
 
 #: src/rc_formatters.py:688 src/rc_formatters.py:975
 msgid "No description provided"
@@ -1027,7 +1027,7 @@ msgstr "Перенёс параметры защиты с «{redirect}{article}�
 
 #: src/rc_formatters.py:864
 msgid "unknown expiry time"
-msgstr ""
+msgstr "неизвестный период"
 
 #: src/rc_formatters.py:869
 msgid "Blocked from editing the following pages: "
@@ -1043,9 +1043,9 @@ msgid "Partial block details"
 msgstr "Частичные детали блокировки"
 
 #: src/rc_formatters.py:890
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Blocked {blocked_user} {time}"
-msgstr "Заблокировал участника {blocked_user} на срок «{time}»"
+msgstr "Заблокировал участника {blocked_user} {time}"
 
 #: src/rc_formatters.py:894
 #, python-brace-format
@@ -1109,9 +1109,8 @@ msgid "Purged a comment on {target}'s profile"
 msgstr "Удалил комментарий в профиле {target}"
 
 #: src/rc_formatters.py:943
-#, fuzzy
 msgid "Purged a comment on their own profile"
-msgstr "Отредактировал комментарий на своём профиле"
+msgstr "Удалил комментарий на своём профиле"
 
 #: src/rc_formatters.py:951
 #, python-brace-format
@@ -1119,9 +1118,8 @@ msgid "Deleted a comment on {target}'s profile"
 msgstr "Удалил комментарий на профиле участника {target}"
 
 #: src/rc_formatters.py:953
-#, fuzzy
 msgid "Deleted a comment on their own profile"
-msgstr "Отредактировал комментарий на своём профиле"
+msgstr "Удалил комментарий на своём профиле"
 
 #: src/rc_formatters.py:957
 #, python-brace-format
@@ -1157,7 +1155,7 @@ msgstr "Убрал защиту со страницы «{article}»"
 #, python-brace-format
 msgid "Changed visibility of revision on page {article} "
 msgid_plural "Changed visibility of {amount} revisions on page {article} "
-msgstr[0] "Изменил видимость {amount} правки на странице «{article}» "
+msgstr[0] "Изменил видимость правки на странице «{article}» "
 msgstr[1] "Изменил видимость {amount} правок на странице «{article}» "
 msgstr[2] "Изменил видимость {amount} правок на странице «{article}» "
 
@@ -1179,12 +1177,12 @@ msgid "Changed visibility of log events"
 msgstr "Изменил видимость событий в журнале"
 
 #: src/rc_formatters.py:1026
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Imported {article} with {count} revision from \"{source}\""
 msgid_plural "Imported {article} with {count} revisions from \"{source}\""
-msgstr[0] "Импортировал страницу «{article}» с {count} правкой"
-msgstr[1] "Импортировал страницу «{article}» с {count} правками"
-msgstr[2] "Импортировал страницу «{article}» с {count} правками"
+msgstr[0] "Импортировал страницу «{article}» с {count} правкой из \"{source}\""
+msgstr[1] "Импортировал страницу «{article}» с {count} правками из \"{source}\""
+msgstr[2] "Импортировал страницу «{article}» с {count} правками из \"{source}\""
 
 #: src/rc_formatters.py:1031
 #, python-brace-format
@@ -1257,11 +1255,12 @@ msgstr "Модель изменена с «{old}» на «{new}»: {reason}"
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr ""
+"Создал страницу {article} с использованием нестандартной модели содержимого"
 
 #: src/rc_formatters.py:1079
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created with model {new}: {reason}"
-msgstr "Модель изменена с «{old}» на «{new}»: {reason}"
+msgstr "Создал с использованием модели содержимого {new}: {reason}"
 
 #: src/rc_formatters.py:1082
 #, python-brace-format
@@ -1320,31 +1319,31 @@ msgstr "Деактивировал метку «{tag}»"
 
 #: src/rc_formatters.py:1130
 msgid "Changed wiki settings"
-msgstr ""
+msgstr "Изменил настройки вики"
 
 #: src/rc_formatters.py:1134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted a \"{wiki}\" wiki"
-msgstr "Удалил метку «{tag}»"
+msgstr "Удалил вики \"{wiki}\""
 
 #: src/rc_formatters.py:1137
 #, python-brace-format
 msgid "Locked a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Заблокировал вики \"{wiki}\""
 
 #: src/rc_formatters.py:1140
 #, python-brace-format
 msgid "Modified a \"{namespace_name}\" namespace"
-msgstr ""
+msgstr "Изменил пространство имён \"{namespace_name}\""
 
 #: src/rc_formatters.py:1142 src/rc_formatters.py:1147
 msgid "Wiki"
-msgstr ""
+msgstr "Вики"
 
 #: src/rc_formatters.py:1144
 #, python-brace-format
 msgid "Deleted a \"{namespace_name}\" namespace"
-msgstr ""
+msgstr "Удалил пространство имён \"{namespace_name}\""
 
 #: src/rc_formatters.py:1150
 #, python-brace-format
@@ -1354,22 +1353,22 @@ msgstr ""
 #: src/rc_formatters.py:1153
 #, python-brace-format
 msgid "Restored a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Восстановил вики \"{wiki}\""
 
 #: src/rc_formatters.py:1156
 #, python-brace-format
 msgid "Unlocked a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Разблокировал вики \"{wiki}\""
 
 #: src/rc_formatters.py:1159
 #, python-brace-format
 msgid "Generated {file} dump"
-msgstr ""
+msgstr "Сгенерировал дамп {file}"
 
 #: src/rc_formatters.py:1162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {file} dump"
-msgstr "Удалил страницу «{article}»"
+msgstr "Удалил дамп {file}"
 
 #: src/rc_formatters.py:1170
 #, python-brace-format
@@ -1404,9 +1403,9 @@ msgid ""
 msgstr ""
 
 #: src/rc_formatters.py:1188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Изменил видимость {amount} правки на странице «{article}» "
+msgstr "Изменил видимость {amount} правки на странице \"{article}\""
 
 #: src/rc_formatters.py:1191
 #, python-brace-format
