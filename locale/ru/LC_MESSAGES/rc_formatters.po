@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"PO-Revision-Date: 2020-12-30 13:26+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/ru/>\n"
@@ -46,7 +46,7 @@ msgstr "**Диапазон IP-адресов заблокирован**"
 
 #: src/rc_formatters.py:28
 msgid "Throttled actions"
-msgstr ""
+msgstr "Действия замедлены"
 
 #: src/rc_formatters.py:28
 msgid "Removed autoconfirmed group"
@@ -690,31 +690,31 @@ msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
 msgstr "[{author}]({author_url}) удалил дамп *{file}*{comment}"
 
 #: src/rc_formatters.py:497
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
 msgstr ""
-"[{author}]({author_url}) восстановил страницу [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) пометил страницу [{article}]({article_url}) как "
+"доступную для перевода{comment}"
 
 #: src/rc_formatters.py:504
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
-"[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правкой{comment}"
+"[{author}]({author_url}) удалил [{article}]({article_url}) из системы "
+"перевода{comment}"
 
 #: src/rc_formatters.py:511
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed moving translation pages from *{article}* "
 "to [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) перенёс параметры защиты со страницы {redirect}"
-"*{article}* на страницу [{target}]({target_url}){comment}"
+"[{author}]({author_url}) переименовал доступную для перевода страницу "
+"*{article}* в [{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:519
 #, python-brace-format
@@ -726,130 +726,131 @@ msgstr ""
 "[{article}]({article_url}) в [{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:527
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed deletion of translatable page [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) снял защиту со страницу [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) удалил доступную для перевода страницу "
+"[{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:535
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translatable page [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правкой{comment}"
+"[{author}]({author_url}) не смог удалить [{article}]({article_url}), "
+"относящуюся к доступной для перевода странице "
+"[{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:543
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) изменил видимость {amount} правки на странице "
+"[{author}]({author_url}) удалил страницу перевода "
 "[{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:551
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translation page [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правкой{comment}"
+"[{author}]({author_url}) не смог удалить [{article}]({article_url}), "
+"относящуюся к странице перевода [{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:559
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
 "{comment}"
 msgstr ""
-"[{author}]({author_url}) снял защиту со страницу [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) повысил приоритет перевода страницы "
+"[{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:566
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) discouraged translation of [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) восстановил страницу [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) понизил приоритет перевода страницы "
+"[{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:576
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
 "`{languages}`{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил настройки защиты страницы [{article}]"
-"({article_url}) на: {settings}{comment}"
+"[{author}]({author_url}) ограничил для страницы [{article}]({article_url}) "
+"список языков: `{languages}`{comment}"
 
 #: src/rc_formatters.py:582
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) set the priority languages for [{article}]"
 "({article_url}) to `{languages}`{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил настройки защиты страницы [{article}]"
-"({article_url}) на: {settings}{comment}"
+"[{author}]({author_url}) задал для страницы [{article}]({article_url}) "
+"следующий список приоритетных языков: `{languages}`{comment}"
 
 #: src/rc_formatters.py:588
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed priority languages from [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) снял защиту со страницу [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) удалил приоритетные языки со страницы "
+"[{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:595
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) added translatable page [{article}]({article_url}) "
 "to aggregate group \"{group}\"{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{article}]"
-"({article_url}) с {old} на {new}{comment}"
+"[{author}]({author_url}) добавил доступную для перевода страницу "
+"[{article}]({article_url}) в агрегированную группу \"{group}\"{comment}"
 
 #: src/rc_formatters.py:602
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed translatable page [{article}]"
 "({article_url}) from aggregate group \"{group}\"{comment}"
 msgstr ""
-"[{author}]({author_url}) снял защиту со страницу [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) удалил доступную для перевода страницу "
+"[{article}]({article_url}) из агрегированной группы \"{group}\"{comment}"
 
 #: src/rc_formatters.py:614
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) reviewed translation [{article}]({article_url})"
 "{comment}"
 msgstr ""
-"[{author}]({author_url}) восстановил страницу [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) проверил перевод [{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:622
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{article}]"
-"({article_url}) с {old} на {new}{comment}"
+"[{author}]({author_url}) изменил состояние переводов страницы "
+"[{article}]({article_url}) на `{language}` язык с `{old_state}` на "
+"`{new_state}`{comment}"
 
 #: src/rc_formatters.py:629
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) to `{new_state}`{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{article}]"
-"({article_url}) с {old} на {new}{comment}"
+"[{author}]({author_url}) изменил состояние переводов страницы "
+"[{article}]({article_url}) на `{language}` язык на `{new_state}`{comment}"
 
 #: src/rc_formatters.py:638 src/rc_formatters.py:641 src/rc_formatters.py:1231
 #: src/rc_formatters.py:1234
@@ -857,13 +858,13 @@ msgid "(default)"
 msgstr "(по умолчанию)"
 
 #: src/rc_formatters.py:642
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the language of [{article}]({article_url}) "
 "from {old_lang} to {new_lang}{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{article}]"
-"({article_url}) с {old} на {new}{comment}"
+"[{author}]({author_url}) изменил язык страницы [{article}]({article_url}) с "
+"{old_lang} на {new_lang}{comment}"
 
 #: src/rc_formatters.py:651
 #, python-brace-format
@@ -1348,7 +1349,7 @@ msgstr "Удалил пространство имён \"{namespace_name}\""
 #: src/rc_formatters.py:1150
 #, python-brace-format
 msgid "Modified \"{usergroup_name}\" usergroup"
-msgstr ""
+msgstr "Изменил группу \"{usergroup_name}\""
 
 #: src/rc_formatters.py:1153
 #, python-brace-format
@@ -1373,27 +1374,30 @@ msgstr "Удалил дамп {file}"
 #: src/rc_formatters.py:1170
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
-msgstr ""
+msgstr "Пометил страницу \"{article}\" как доступную для перевода"
 
 #: src/rc_formatters.py:1173
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
-msgstr ""
+msgstr "Удалил \"{article}\" из системы перевода"
 
 #: src/rc_formatters.py:1176
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
 msgstr ""
+"Переименовал доступную для перевода страницу \"{article}\" в \"{target}\""
 
 #: src/rc_formatters.py:1179
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
 msgstr ""
+"Столкнулся с проблемой при попытке переименования \"{article}\" в \"{target}"
+"\""
 
 #: src/rc_formatters.py:1182
 #, python-brace-format
 msgid "Completed deletion of translatable page \"{article}\""
-msgstr ""
+msgstr "Удалил доступную для перевода страницу \"{article}\""
 
 #: src/rc_formatters.py:1185
 #, python-brace-format
@@ -1401,84 +1405,93 @@ msgid ""
 "Failed to delete \"{article}\" which belongs to translatable page "
 "\"{target}\""
 msgstr ""
+"Не смог удалить \"{article}\", относящуюся к доступной для перевода странице "
+"\"{target}\""
 
 #: src/rc_formatters.py:1188
 #, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Изменил видимость {amount} правки на странице \"{article}\""
+msgstr "Удалил страницу перевода \"{article}\""
 
 #: src/rc_formatters.py:1191
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translation page \"{target}\""
 msgstr ""
+"Не смог удалить \"{article}\", относящуюся к странице перевода \"{target}\""
 
 #: src/rc_formatters.py:1194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Encouraged translation of \"{article}\""
-msgstr "Убрал защиту со страницы «{article}»"
+msgstr "Повысил приоритет перевода страницы \"{article}\""
 
 #: src/rc_formatters.py:1197
 #, python-brace-format
 msgid "Discouraged translation of \"{article}\""
-msgstr ""
+msgstr "Понизил приоритет перевода страницы \"{article}\""
 
 #: src/rc_formatters.py:1203
 #, python-brace-format
 msgid "Limited languages for \"{article}\" to `{languages}`"
-msgstr ""
+msgstr "Ограничил для страницы \"{article}\" список языков: `{languages}`"
 
 #: src/rc_formatters.py:1205
 #, python-brace-format
 msgid "Priority languages for \"{article}\" set to `{languages}`"
 msgstr ""
+"Задал для страницы \"{article}\" следующий список приоритетных языков: "
+"`{languages}`"
 
 #: src/rc_formatters.py:1207
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed priority languages from \"{article}\""
-msgstr "Убрал защиту со страницы «{article}»"
+msgstr "Удалил приоритетные языки со страницы \"{article}\""
 
 #: src/rc_formatters.py:1210
 #, python-brace-format
 msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
 msgstr ""
+"Добавил доступную для перевода страницу \"{article}\" в агрегированную "
+"группу \"{group}\""
 
 #: src/rc_formatters.py:1213
 #, python-brace-format
 msgid ""
 "Removed translatable page \"{article}\" from aggregate group \"{group}\""
 msgstr ""
+"Удалил доступную для перевода страницу \"{article}\" из агрегированной "
+"группы \"{group}\""
 
 #: src/rc_formatters.py:1220
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Reviewed translation \"{article}\""
-msgstr "Убрал защиту со страницы «{article}»"
+msgstr "Проверил перевод \"{article}\""
 
 #: src/rc_formatters.py:1223
 #, python-brace-format
 msgid "Changed the state of `{language}` translations of \"{article}\""
-msgstr ""
+msgstr "Изменил состояние переводов страницы \"{article}\" на `{language}` язык"
 
 #: src/rc_formatters.py:1225
 msgid "Old state"
-msgstr ""
+msgstr "Старое состояние"
 
 #: src/rc_formatters.py:1226
 msgid "New state"
-msgstr ""
+msgstr "Новое состояние"
 
 #: src/rc_formatters.py:1235
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Changed the language of \"{article}\""
-msgstr "Убрал защиту со страницы «{article}»"
+msgstr "Изменил язык страницы «{article}»"
 
 #: src/rc_formatters.py:1236
 msgid "Old language"
-msgstr ""
+msgstr "Старый язык"
 
 #: src/rc_formatters.py:1237
 msgid "New language"
-msgstr ""
+msgstr "Новый язык"
 
 #: src/rc_formatters.py:1241
 #, python-brace-format
