@@ -8,76 +8,81 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-12-30 13:26+0000\n"
+"Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
+"Language-Team: Bengali <https://translate.wikibot.de/projects/rcgcdw/misc/bn/"
+">\n"
 "Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2.1\n"
 
 #: src/misc.py:45
 msgid "Location"
-msgstr ""
+msgstr "জায়গা"
 
 #: src/misc.py:45
 msgid "About me"
-msgstr ""
+msgstr "আমার বিষয়ে"
 
 #: src/misc.py:45
 msgid "Google link"
-msgstr ""
+msgstr "গুগল লিংক"
 
 #: src/misc.py:45
 msgid "Facebook link"
-msgstr ""
+msgstr "ফেইসবুক লিংক"
 
 #: src/misc.py:45
 msgid "Twitter link"
-msgstr ""
+msgstr "টুইটার লিংক"
 
 #: src/misc.py:45
 msgid "Reddit link"
-msgstr ""
+msgstr "রেড্ডিট লিংক"
 
 #: src/misc.py:45
 msgid "Twitch link"
-msgstr ""
+msgstr "টুইচ লিংক"
 
 #: src/misc.py:45
 msgid "PSN link"
-msgstr ""
+msgstr "PSN লিংক"
 
 #: src/misc.py:45
 msgid "VK link"
-msgstr ""
+msgstr "VK লিংক"
 
 #: src/misc.py:45
 msgid "XBL link"
-msgstr ""
+msgstr "XBL লিংক"
 
 #: src/misc.py:45
 msgid "Steam link"
-msgstr ""
+msgstr "স্টিম লিংক"
 
 #: src/misc.py:45
 msgid "Discord handle"
-msgstr ""
+msgstr "ডিসকর্ড একাউন্ট"
 
 #: src/misc.py:45
 msgid "Battle.net handle"
-msgstr ""
+msgstr "Battle.net একাউন্ট"
 
 #: src/misc.py:119
 msgid ""
 "\n"
 "__And more__"
 msgstr ""
+"\n"
+"__আরও অনেকটি__"
 
 #: src/misc.py:276
 msgid "Unknown"
-msgstr ""
+msgstr "অজানা"
 
 #: src/misc.py:278
 msgid "unknown"
-msgstr ""
+msgstr "অজানা"
