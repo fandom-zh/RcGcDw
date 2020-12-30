@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 14:13+0100\n"
-"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"PO-Revision-Date: 2020-12-30 13:26+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/es/>\n"
@@ -69,7 +69,7 @@ msgstr "Traslado"
 
 #: src/rc_formatters.py:29
 msgid "Stash upload"
-msgstr ""
+msgstr "Subida de archivos"
 
 #: src/rc_formatters.py:29
 msgid "Deletion"
@@ -428,23 +428,29 @@ msgstr "[{author}]({author_url}) restauró [{article}]({article_url}){comment}"
 #, python-brace-format
 msgid "[{author}]({author_url}) changed visibility of log events{comment}"
 msgstr ""
+"[{author}]({author_url}) cambió la visibilidad de los eventos del "
+"registro{comment}"
 
 #: src/rc_formatters.py:354
 #, python-brace-format
 msgid "[{author}]({author_url}) imported interwiki{comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) importó interwiki{comment}"
 
 #: src/rc_formatters.py:357
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})"
 msgstr ""
+"[{author}]({author_url}) editó el filtro de abuso [número "
+"{number}]({filter_url})"
 
 #: src/rc_formatters.py:361
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created abuse filter [number {number}]({filter_url})"
 msgstr ""
+"[{author}]({author_url}) creó el filtro de abuso [número "
+"{number}]({filter_url})"
 
 #: src/rc_formatters.py:365
 #, python-brace-format
@@ -452,16 +458,18 @@ msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
 "({article_url}) into [{dest}]({dest_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) fusionó los historiales de revisión de "
+"[{article}]({article_url}) en [{dest}]({dest_url}){comment}"
 
 #: src/rc_formatters.py:369
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
-msgstr ""
+msgstr "La cuenta [{author}]({author_url}) se creó automáticamente"
 
 #: src/rc_formatters.py:372 src/rc_formatters.py:381
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
-msgstr ""
+msgstr "Se creó la cuenta [{author}]({author_url})"
 
 #: src/rc_formatters.py:375
 #, python-brace-format
@@ -469,6 +477,8 @@ msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
 "{comment}"
 msgstr ""
+"La cuenta [{article}]({article_url}) fue creada por "
+"[{author}]({author_url}){comment}"
 
 #: src/rc_formatters.py:378
 #, python-brace-format
@@ -476,6 +486,8 @@ msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
 "and password was sent by email{comment}"
 msgstr ""
+"La cuenta [{article}]({article_url}) fue creada por [{author}]({author_url}) "
+"y la contraseña se envió por correo electrónico{comment}"
 
 #: src/rc_formatters.py:384
 #, python-brace-format
@@ -483,6 +495,8 @@ msgid ""
 "[{author}]({author_url}) added an entry to the [interwiki table]"
 "({table_url}) pointing to {website} with {prefix} prefix"
 msgstr ""
+"[{author}]({author_url}) agregó una entrada a la [tabla "
+"interwiki]({table_url}) que apunta a {website} con el prefijo {prefix}"
 
 #: src/rc_formatters.py:390
 #, python-brace-format
@@ -490,12 +504,16 @@ msgid ""
 "[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
 "pointing to {website} with {prefix} prefix"
 msgstr ""
+"[{author}]({author_url}) editó una entrada en la [tabla "
+"interwiki]({table_url}) que apunta a {website} con el prefijo {prefix}"
 
 #: src/rc_formatters.py:396
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
 msgstr ""
+"[{author}]({author_url}) eliminó una entrada en la [tabla "
+"interwiki]({table_url})"
 
 #: src/rc_formatters.py:399
 #, python-brace-format
@@ -503,12 +521,14 @@ msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
 "({article_url}) from {old} to {new}{comment}"
 msgstr ""
+"[{author}]({author_url}) cambió el modelo de contenido de la página "
+"[{article}]({article_url}) de {old} a {new}{comment}"
 
 #: src/rc_formatters.py:403
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the sprite for [{article}]({article_url})"
-msgstr ""
+msgstr "[{author}]({author_url}) editó el sprite de [{article}]({article_url})"
 
 #: src/rc_formatters.py:406
 #, python-brace-format
@@ -516,67 +536,69 @@ msgid ""
 "[{author}]({author_url}) created the sprite sheet for [{article}]"
 "({article_url})"
 msgstr ""
+"[{author}]({author_url}) creó la hoja de sprites de "
+"[{article}]({article_url})"
 
 #: src/rc_formatters.py:409
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited the slice for [{article}]({article_url})"
-msgstr ""
+msgstr "[{author}]({author_url}) editó el sector de [{article}]({article_url})"
 
 #: src/rc_formatters.py:414
 #, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) creó la tabla Cargo \"{table}\""
 
 #: src/rc_formatters.py:416
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) eliminó la tabla Cargo \"{table}\""
 
 #: src/rc_formatters.py:421
 #, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) recreó la tabla Cargo \"{table}\""
 
 #: src/rc_formatters.py:426
 #, python-brace-format
 msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) reemplazó la tabla Cargo \"{table}\""
 
 #: src/rc_formatters.py:429
 #, python-brace-format
 msgid "[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) creó una [etiqueta]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:433
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) eliminó una [etiqueta]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:437
 #, python-brace-format
 msgid "[{author}]({author_url}) activated a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) activó una [etiqueta]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:440
 #, python-brace-format
 msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
-msgstr ""
+msgstr "[{author}]({author_url}) desactivó una [etiqueta]({tag_url}) \"{tag}\""
 
 #: src/rc_formatters.py:442
 #, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings ({reason})"
-msgstr ""
+msgstr "[{author}]({author_url}) cambió la configuración del wiki ({reason})"
 
 #: src/rc_formatters.py:444
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}* ({comment})"
-msgstr ""
+msgstr "[{author}]({author_url}) eliminó un wiki *{wiki_name}* ({comment})"
 
 #: src/rc_formatters.py:447
 #, python-brace-format
 msgid "[{author}]({author_url}) locked a wiki *{wiki_name}* ({comment})"
-msgstr ""
+msgstr "[{author}]({author_url}) protegió un wiki *{wiki_name}* ({comment})"
 
 #: src/rc_formatters.py:450
 #, python-brace-format
@@ -584,6 +606,8 @@ msgid ""
 "[{author}]({author_url}) modified a namespace *{namespace_name}* on "
 "*{wiki_name}* ({comment})"
 msgstr ""
+"[{author}]({author_url}) modificó un espacio de nombres *{namespace_name}* "
+"en *{wiki_name}* ({comment})"
 
 #: src/rc_formatters.py:455
 #, python-brace-format
@@ -591,25 +615,29 @@ msgid ""
 "[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
 "*{wiki_name}* ({comment})"
 msgstr ""
+"[{author}]({author_url}) eliminó un espacio de nombres *{namespace_name}* en "
+"*{wiki_name}* ({comment})"
 
 #: src/rc_formatters.py:460
 #, python-brace-format
 msgid "[{author}]({author_url}) modified user group *{group_name}* ({comment})"
 msgstr ""
+"[{author}]({author_url}) modificó el grupo de usuarios *{group_name}* "
+"({comment})"
 
 #: src/rc_formatters.py:464
 #, python-brace-format
 msgid "[{author}]({author_url}) restored a wiki *{wiki_name}* ({comment})"
-msgstr ""
+msgstr "[{author}]({author_url}) restauró un wiki *{wiki_name}* ({comment})"
 
 #: src/rc_formatters.py:468
 #, python-brace-format
 msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}* ({comment})"
-msgstr ""
+msgstr "[{author}]({author_url}) desprotegió un wiki *{wiki_name}* ({comment})"
 
 #: src/rc_formatters.py:473
 msgid "An action has been hidden by administration."
-msgstr ""
+msgstr "La administración ha ocultado una acción."
 
 #: src/rc_formatters.py:480
 #, python-brace-format
@@ -617,464 +645,470 @@ msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 "[support server](<{support}>)."
 msgstr ""
+"Evento desconocido `{event}` por [{author}]({author_url}), repórtalo en el ["
+"servidor de soporte](<{support}>)."
 
 #: src/rc_formatters.py:488
 #, python-brace-format
 msgid "{user} triggered \"{abuse_filter}\""
-msgstr ""
+msgstr "{user} activó \"{abuse_filter}\""
 
 #: src/rc_formatters.py:489
 msgid "Performed"
-msgstr ""
+msgstr "Realizó"
 
 #: src/rc_formatters.py:490
 msgid "Action taken"
-msgstr ""
+msgstr "Acción tomada"
 
 #: src/rc_formatters.py:491
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: src/rc_formatters.py:500 src/rc_formatters.py:768
 msgid "No description provided"
-msgstr ""
+msgstr "No se proporcionó una descripción"
 
 #: src/rc_formatters.py:524
 msgid "(N!) "
-msgstr ""
+msgstr "(N!) "
 
 #: src/rc_formatters.py:525
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/rc_formatters.py:525
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: src/rc_formatters.py:542 src/rc_formatters.py:547
 msgid "__Only whitespace__"
-msgstr ""
+msgstr "__Solo espacios en blanco__"
 
 #: src/rc_formatters.py:552
 msgid "Removed"
-msgstr ""
+msgstr "Eliminado"
 
 #: src/rc_formatters.py:554
 msgid "Added"
-msgstr ""
+msgstr "Agregado"
 
 #: src/rc_formatters.py:588 src/rc_formatters.py:627
 msgid "Options"
-msgstr ""
+msgstr "Opciones"
 
 #: src/rc_formatters.py:588
 #, python-brace-format
 msgid "([preview]({link}) | [undo]({undolink}))"
-msgstr ""
+msgstr "([vista previa]({link}) | [deshacer]({undolink}))"
 
 #: src/rc_formatters.py:593
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
-msgstr ""
+msgstr "Subió una nueva versión de {name}"
 
 #: src/rc_formatters.py:595
 #, python-brace-format
 msgid "Reverted a version of {name}"
-msgstr ""
+msgstr "Revirtió una versión de {name}"
 
 #: src/rc_formatters.py:597
 #, python-brace-format
 msgid "Uploaded {name}"
-msgstr ""
+msgstr "Subió {name}"
 
 #: src/rc_formatters.py:613
 msgid "**No license!**"
-msgstr ""
+msgstr "**¡Sin licencia!**"
 
 #: src/rc_formatters.py:625
 msgid ""
 "\n"
 "License: {}"
 msgstr ""
+"\n"
+"Licencia: {}"
 
 #: src/rc_formatters.py:627
 #, python-brace-format
 msgid "([preview]({link}))"
-msgstr ""
+msgstr "([vista previa]({link}))"
 
 #: src/rc_formatters.py:632
 #, python-brace-format
 msgid "Deleted page {article}"
-msgstr ""
+msgstr "Página eliminada {article}"
 
 #: src/rc_formatters.py:637
 #, python-brace-format
 msgid "Deleted redirect {article} by overwriting"
-msgstr ""
+msgstr "Se eliminó el redireccionamiento {article} sobrescribiéndolo"
 
 #: src/rc_formatters.py:643
 msgid "No redirect has been made"
-msgstr ""
+msgstr "No se ha creado una redirección"
 
 #: src/rc_formatters.py:644
 msgid "A redirect has been made"
-msgstr ""
+msgstr "Se creó una redirección"
 
 #: src/rc_formatters.py:645
 #, python-brace-format
 msgid "Moved {redirect}{article} to {target}"
-msgstr ""
+msgstr "Se movió {redirect}{article} a {target}"
 
 #: src/rc_formatters.py:648
 #, python-brace-format
 msgid "Moved {redirect}{article} to {title} over redirect"
-msgstr ""
+msgstr "Se movió {redirect}{article} a {title} sobre el redireccionamiento"
 
 #: src/rc_formatters.py:652
 #, python-brace-format
 msgid "Moved protection settings from {redirect}{article} to {title}"
 msgstr ""
+"Se movió la configuración de protección de {redirect}{article} a {title}"
 
 #: src/rc_formatters.py:676
 msgid "unknown expiry time"
-msgstr ""
+msgstr "tiempo de caducidad desconocido"
 
 #: src/rc_formatters.py:680
 msgid "Blocked from editing the following pages: "
-msgstr ""
+msgstr "Bloqueado de editar las siguientes páginas: "
 
 #: src/rc_formatters.py:689
 msgid "Blocked from editing pages on following namespaces: "
-msgstr ""
+msgstr "Bloqueado de editar páginas en los siguientes espacios de nombres: "
 
 #: src/rc_formatters.py:700
 msgid "Partial block details"
-msgstr ""
+msgstr "Detalles del bloqueo parcial"
 
 #: src/rc_formatters.py:701
 #, python-brace-format
 msgid "Blocked {blocked_user} {time}"
-msgstr ""
+msgstr "Bloqueado {blocked_user}{time}"
 
 #: src/rc_formatters.py:705
 #, python-brace-format
 msgid "Changed block settings for {blocked_user}"
-msgstr ""
+msgstr "Se modificó la configuración de bloqueo de {blocked_user}"
 
 #: src/rc_formatters.py:709
 #, python-brace-format
 msgid "Unblocked {blocked_user}"
-msgstr ""
+msgstr "Desbloqueado {blocked_user}"
 
 #: src/rc_formatters.py:714
 #, python-brace-format
 msgid "Left a comment on {target}'s profile"
-msgstr ""
+msgstr "Dejó un comentario en el perfil de {target}"
 
 #: src/rc_formatters.py:716
 msgid "Left a comment on their own profile"
-msgstr ""
+msgstr "Dejó un comentario en su propio perfil"
 
 #: src/rc_formatters.py:721
 #, python-brace-format
 msgid "Replied to a comment on {target}'s profile"
-msgstr ""
+msgstr "Respondió a un comentario en el perfil de {target}"
 
 #: src/rc_formatters.py:723
 msgid "Replied to a comment on their own profile"
-msgstr ""
+msgstr "Respondió a un comentario en su propio perfil"
 
 #: src/rc_formatters.py:728
 #, python-brace-format
 msgid "Edited a comment on {target}'s profile"
-msgstr ""
+msgstr "Editó un comentario en el perfil de {target}"
 
 #: src/rc_formatters.py:730
 msgid "Edited a comment on their own profile"
-msgstr ""
+msgstr "Editó un comentario en su propio perfil"
 
 #: src/rc_formatters.py:733
 #, python-brace-format
 msgid "Edited {target}'s profile"
-msgstr ""
+msgstr "Editó el perfil de {target}"
 
 #: src/rc_formatters.py:733
 msgid "Edited their own profile"
-msgstr ""
+msgstr "Editó su propio perfil"
 
 #: src/rc_formatters.py:735
 #, python-brace-format
 msgid "Cleared the {field} field"
-msgstr ""
+msgstr "Borró el campo {field}"
 
 #: src/rc_formatters.py:737
 #, python-brace-format
 msgid "{field} field changed to: {desc}"
-msgstr ""
+msgstr "El campo {field} cambió a: {desc}"
 
 #: src/rc_formatters.py:740
 #, python-brace-format
 msgid "Purged a comment on {target}'s profile"
-msgstr ""
+msgstr "Borró un comentario en el perfil de {target}"
 
 #: src/rc_formatters.py:746
 #, python-brace-format
 msgid "Deleted a comment on {target}'s profile"
-msgstr ""
+msgstr "Eliminó un comentario en el perfil de {target}"
 
 #: src/rc_formatters.py:750
 #, python-brace-format
 msgid "Changed group membership for {target}"
-msgstr ""
+msgstr "Modificó el grupo de {target}"
 
 #: src/rc_formatters.py:754
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
-msgstr ""
+msgstr "{target} obtuvo una promoción automática a un nuevo grupo de usuarios"
 
 #: src/rc_formatters.py:769
 #, python-brace-format
 msgid "Groups changed from {old_groups} to {new_groups}{reason}"
-msgstr ""
+msgstr "Los grupos cambiaron de {old_groups} a {new_groups}{reason}"
 
 #: src/rc_formatters.py:773
 #, python-brace-format
 msgid "Protected {target}"
-msgstr ""
+msgstr "Protegió {target}"
 
 #: src/rc_formatters.py:779
 #, python-brace-format
 msgid "Changed protection level for {article}"
-msgstr ""
+msgstr "Modificó el nivel de protección de {article}"
 
 #: src/rc_formatters.py:785
 #, python-brace-format
 msgid "Removed protection from {article}"
-msgstr ""
+msgstr "Eliminó la protección de {article}"
 
 #: src/rc_formatters.py:789
 #, python-brace-format
 msgid "Changed visibility of revision on page {article} "
 msgid_plural "Changed visibility of {amount} revisions on page {article} "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Modificó la visibilidad de la revisión en la página {article} "
+msgstr[1] "Modificó la visibilidad de {amount} revisiones en la página {article} "
 
 #: src/rc_formatters.py:801
 #, python-brace-format
 msgid "Imported {article} with {count} revision"
 msgid_plural "Imported {article} with {count} revisions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Importó {article} con {count} revisión"
+msgstr[1] "Importó {article} con {count} revisiones"
 
 #: src/rc_formatters.py:806
 #, python-brace-format
 msgid "Restored {article}"
-msgstr ""
+msgstr "Restauró {article}"
 
 #: src/rc_formatters.py:809
 msgid "Changed visibility of log events"
-msgstr ""
+msgstr "Modificó la visibilidad de los eventos del registro"
 
 #: src/rc_formatters.py:819
 msgid "Imported interwiki"
-msgstr ""
+msgstr "Importó interwiki"
 
 #: src/rc_formatters.py:822
 #, python-brace-format
 msgid "Edited abuse filter number {number}"
-msgstr ""
+msgstr "Editó el número del filtro de abuso {number}"
 
 #: src/rc_formatters.py:825
 #, python-brace-format
 msgid "Created abuse filter number {number}"
-msgstr ""
+msgstr "Creó el número de filtro de abuso {number}"
 
 #: src/rc_formatters.py:828
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
-msgstr ""
+msgstr "Fusionó los historiales de revisión de {article} en {dest}"
 
 #: src/rc_formatters.py:832
 msgid "Created account automatically"
-msgstr ""
+msgstr "Creó una cuenta automáticamente"
 
 #: src/rc_formatters.py:835 src/rc_formatters.py:844
 msgid "Created account"
-msgstr ""
+msgstr "Creó una cuenta"
 
 #: src/rc_formatters.py:838
 #, python-brace-format
 msgid "Created account {article}"
-msgstr ""
+msgstr "Creó la cuenta {article}"
 
 #: src/rc_formatters.py:841
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr ""
+"Creó la cuenta {article} y la contraseña se envió por correo electrónico"
 
 #: src/rc_formatters.py:847
 msgid "Added an entry to the interwiki table"
-msgstr ""
+msgstr "Agregó una entrada a la tabla interwiki"
 
 #: src/rc_formatters.py:848 src/rc_formatters.py:854
 #, python-brace-format
 msgid "Prefix: {prefix}, website: {website} | {desc}"
-msgstr ""
+msgstr "Prefijo: {prefix}, sitio web: {website} | {desc}"
 
 #: src/rc_formatters.py:853
 msgid "Edited an entry in interwiki table"
-msgstr ""
+msgstr "Editó una entrada en la tabla interwiki"
 
 #: src/rc_formatters.py:859
 msgid "Deleted an entry in interwiki table"
-msgstr ""
+msgstr "Eliminó una entrada en la tabla interwiki"
 
 #: src/rc_formatters.py:860
 #, python-brace-format
 msgid "Prefix: {prefix} | {desc}"
-msgstr ""
+msgstr "Prefijo: {prefix} | {desc}"
 
 #: src/rc_formatters.py:863
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
-msgstr ""
+msgstr "Cambió el modelo de contenido de la página {article}"
 
 #: src/rc_formatters.py:864
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
-msgstr ""
+msgstr "El modelo cambió de {old} a {new}: {reason}"
 
 #: src/rc_formatters.py:869
 #, python-brace-format
 msgid "Edited the sprite for {article}"
-msgstr ""
+msgstr "Editó el sprite de {article}"
 
 #: src/rc_formatters.py:872
 #, python-brace-format
 msgid "Created the sprite sheet for {article}"
-msgstr ""
+msgstr "Creó la hoja de sprites de {article}"
 
 #: src/rc_formatters.py:875
 #, python-brace-format
 msgid "Edited the slice for {article}"
-msgstr ""
+msgstr "Editó el sector de {article}"
 
 #: src/rc_formatters.py:881
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
-msgstr ""
+msgstr "Creó la tabla Cargo \"{table}\""
 
 #: src/rc_formatters.py:885
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "Eliminó la tabla Cargo\"{table}\""
 
 #: src/rc_formatters.py:892
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
-msgstr ""
+msgstr "Recreó la tabla Cargo \"{table}\""
 
 #: src/rc_formatters.py:899
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "Reemplazó la tabla Cargo \"{table}\""
 
 #: src/rc_formatters.py:903
 #, python-brace-format
 msgid "Created a tag \"{tag}\""
-msgstr ""
+msgstr "Creó una etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:907
 #, python-brace-format
 msgid "Deleted a tag \"{tag}\""
-msgstr ""
+msgstr "Eliminó una etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:911
 #, python-brace-format
 msgid "Activated a tag \"{tag}\""
-msgstr ""
+msgstr "Activó una etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:914
 #, python-brace-format
 msgid "Deactivated a tag \"{tag}\""
-msgstr ""
+msgstr "Desactivó una etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:917
 msgid "Changed wiki settings"
-msgstr ""
+msgstr "Modificó la configuración del wiki"
 
 #: src/rc_formatters.py:921
 #, python-brace-format
 msgid "Deleted a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Eliminó un wiki \"{wiki}\""
 
 #: src/rc_formatters.py:924
 #, python-brace-format
 msgid "Locked a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Protegió un wiki \"{wiki}\""
 
 #: src/rc_formatters.py:927
 #, python-brace-format
 msgid "Modified a \"{namespace_name}\" namespace"
-msgstr ""
+msgstr "Modificó un espacio de nombres \"{namespace_name}\""
 
 #: src/rc_formatters.py:929 src/rc_formatters.py:934
 msgid "Wiki"
-msgstr ""
+msgstr "Wiki"
 
 #: src/rc_formatters.py:931
 #, python-brace-format
 msgid "Deleted a \"{namespace_name}\" namespace"
-msgstr ""
+msgstr "Eliminó un espacio de nombres \"{namespace_name}\""
 
 #: src/rc_formatters.py:936
 #, python-brace-format
 msgid "Modified \"{usergroup_name}\" usergroup"
-msgstr ""
+msgstr "Modificó el grupo de usuarios \"{usergroup_name}\""
 
 #: src/rc_formatters.py:939
 #, python-brace-format
 msgid "Restored a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Restauró un wiki \"{wiki}\""
 
 #: src/rc_formatters.py:942
 #, python-brace-format
 msgid "Unlocked a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Desprotegió un wiki \"{wiki}\""
 
 #: src/rc_formatters.py:946
 msgid "Action has been hidden by administration"
-msgstr ""
+msgstr "La administración ha ocultado la acción"
 
 #: src/rc_formatters.py:951
 #, python-brace-format
 msgid "Unknown event `{event}`"
-msgstr ""
+msgstr "Evento desconocido `{event}`"
 
 #: src/rc_formatters.py:957 src/rc_formatters.py:959
 msgid "Report this on the support server"
-msgstr ""
+msgstr "Reporta esto en el servidor de soporte"
 
 #: src/rc_formatters.py:976
 msgid "Tags"
-msgstr ""
+msgstr "Etiquetas"
 
 #: src/rc_formatters.py:979
 msgid "**Added**: "
-msgstr ""
+msgstr "**Agregó**: "
 
 #: src/rc_formatters.py:979
 msgid " and {} more\n"
-msgstr ""
+msgstr " y {} más\n"
 
 #: src/rc_formatters.py:980
 msgid "**Removed**: "
-msgstr ""
+msgstr "**Eliminó**: "
 
 #: src/rc_formatters.py:980
 msgid " and {} more"
-msgstr ""
+msgstr " y {} más"
 
 #: src/rc_formatters.py:981
 msgid "Changed categories"
-msgstr ""
+msgstr "Cambio las categorías"
