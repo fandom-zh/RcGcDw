@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: 2020-12-22 00:13+0000\n"
+"PO-Revision-Date: 2020-12-30 13:26+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Bengali <https://translate.wikibot.de/projects/rcgcdw/"
-"discussion_formatters-1/bn/>\n"
+"discussion_formatters/bn/>\n"
 "Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -157,28 +157,28 @@ msgstr "\"{title}\"এ উত্তর দেওয়া হলো"
 #: src/discussion_formatters.py:143
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "{user}এর মেসেজ ওয়ালে \"{title}\" বানানো হলো"
 
 #: src/discussion_formatters.py:147
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "{user}এর মেসেজ ওয়ালের \"{title}\"তে উত্তর দেওয়া হলো"
 
 #: src/discussion_formatters.py:154
 #, python-brace-format
 msgid "Commented on {article}"
-msgstr ""
+msgstr "{article}এ কমেন্ট করা হলো"
 
 #: src/discussion_formatters.py:158
 #, python-brace-format
 msgid "Replied to a comment on {article}"
-msgstr ""
+msgstr "{article}এর একটি কমেন্টে উত্তর দেওয়া হলো"
 
 #: src/discussion_formatters.py:162
 #, python-brace-format
 msgid "Unknown event `{event}`"
-msgstr ""
+msgstr "অজানা ঘটনা `{event}`"
 
 #: src/discussion_formatters.py:168 src/discussion_formatters.py:170
 msgid "Report this on the support server"
-msgstr ""
+msgstr "এটিকে সাহায্য সার্ভারে রিপোর্ট করুন"

@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-12-13 14:30+0000\n"
-"Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
+"PO-Revision-Date: 2020-12-30 13:26+0000\n"
+"Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/hi/>\n"
 "Language: hi\n"
@@ -542,13 +542,13 @@ msgstr ""
 "{old} से {new} में बदला{comment}"
 
 #: src/rc_formatters.py:407
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
 "non-default content model {new}{comment}"
 msgstr ""
-"[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) के कंटेंट मॉडल को "
-"{old} से {new} में बदला{comment}"
+"[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) को गैर-डिफ़ॉल्ट "
+"कंटेंट मॉडल की मदद से बनाया {new}{comment}"
 
 #: src/rc_formatters.py:410
 #, python-brace-format
@@ -665,14 +665,14 @@ msgstr ""
 "[{author}]({author_url}) ने एक विकी *{wiki_name}* को अनलॉक किया{comment}"
 
 #: src/rc_formatters.py:481
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* को डिलीट किया{comment}"
+msgstr "[{author}]({author_url}) ने *{file}* डंप जनरेट किया{comment}"
 
 #: src/rc_formatters.py:486
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* को डिलीट किया{comment}"
+msgstr "[{author}]({author_url}) *{file}* डंप को डिलीट किया{comment}"
 
 #: src/rc_formatters.py:497
 #, python-brace-format
@@ -839,16 +839,16 @@ msgstr ""
 #: src/rc_formatters.py:638 src/rc_formatters.py:641 src/rc_formatters.py:1231
 #: src/rc_formatters.py:1234
 msgid "(default)"
-msgstr ""
+msgstr "(डिफ़ॉल्ट)"
 
 #: src/rc_formatters.py:642
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the language of [{article}]({article_url}) "
 "from {old_lang} to {new_lang}{comment}"
 msgstr ""
-"[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) के कंटेंट मॉडल को "
-"{old} से {new} में बदला{comment}"
+"[{author}]({author_url}) [{article}]({article_url}) के भाषा को {old_lang} से "
+"{new_lang} में बदला{comment}"
 
 #: src/rc_formatters.py:651
 #, python-brace-format
@@ -1229,12 +1229,12 @@ msgstr "मॉडल को {old} से {new} में बदला गया:
 #: src/rc_formatters.py:1078
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
-msgstr ""
+msgstr "पृष्ठ {article} को गैर-डिफ़ॉल्ट कंटेंट मॉडल की मदद से बनाया"
 
 #: src/rc_formatters.py:1079
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created with model {new}: {reason}"
-msgstr "मॉडल को {old} से {new} में बदला गया: {reason}"
+msgstr "मॉडल {new} से बनाया: {reason}"
 
 #: src/rc_formatters.py:1082
 #, python-brace-format
@@ -1337,12 +1337,12 @@ msgstr "\"{wiki}\" विकी को अनलॉक किया गया"
 #: src/rc_formatters.py:1159
 #, python-brace-format
 msgid "Generated {file} dump"
-msgstr ""
+msgstr "{file} डंप जनरेट किया"
 
 #: src/rc_formatters.py:1162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {file} dump"
-msgstr "पृष्ठ {article} को डिलीट किया"
+msgstr "{file} डंप को डिलीट किया"
 
 #: src/rc_formatters.py:1170
 #, python-brace-format
@@ -1443,17 +1443,17 @@ msgid "New state"
 msgstr "नई स्थिति"
 
 #: src/rc_formatters.py:1235
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Changed the language of \"{article}\""
-msgstr "\"{article}\" `{language}` अनुवादों के स्थिति को बदला गया"
+msgstr "\"{article}\" के भाषा को बदला"
 
 #: src/rc_formatters.py:1236
 msgid "Old language"
-msgstr ""
+msgstr "पुरानी भाषा"
 
 #: src/rc_formatters.py:1237
 msgid "New language"
-msgstr ""
+msgstr "नई भाषा"
 
 #: src/rc_formatters.py:1241
 #, python-brace-format
