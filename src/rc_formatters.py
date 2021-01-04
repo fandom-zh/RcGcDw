@@ -432,19 +432,24 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		LinkParser.new_string = ""
 		content = _("[{author}]({author_url}) replaced the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=table)
 	elif action == "managetags/create":
-		link = link_formatter(create_article_path("Special:Tags"))
-		content = _("[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+		link = link_formatter(create_article_path(change["title"]))
+		content = _("[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link, comment=parsed_comment)
 		recent_changes.init_info()
 	elif action == "managetags/delete":
-		link = link_formatter(create_article_path("Special:Tags"))
-		content = _("[{author}]({author_url}) deleted a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+		link = link_formatter(create_article_path(change["title"]))
+		if change["logparams"]["count"] == 0:
+			content = _("[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link, comment=parsed_comment)
+		else:
+			content = ngettext("[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed it from {count} revision or log entry{comment}",
+		                       "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed it from {count} revisions and/or log entries{comment}",
+		                       change["logparams"]["count"]).format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link, count=change["logparams"]["count"], comment=parsed_comment)
 		recent_changes.init_info()
 	elif action == "managetags/activate":
-		link = link_formatter(create_article_path("Special:Tags"))
-		content = _("[{author}]({author_url}) activated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+		link = link_formatter(create_article_path(change["title"]))
+		content = _("[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link, comment=parsed_comment)
 	elif action == "managetags/deactivate":
-		link = link_formatter(create_article_path("Special:Tags"))
-		content = _("[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\"").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link)
+		link = link_formatter(create_article_path(change["title"]))
+		content = _("[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author, author_url=author_url, tag=change["logparams"]["tag"], tag_url=link, comment=parsed_comment)
 	elif action == "managewiki/settings":  # Miraheze's ManageWiki extension https://github.com/miraheze/ManageWiki
 		content = _("[{author}]({author_url}) changed wiki settings{reason}".format(author=author, author_url=author_url, reason=parsed_comment))
 	elif action == "managewiki/delete":
@@ -1112,19 +1117,21 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = _("Replaced the Cargo table \"{table}\"").format(table=table.group(1))
 		parsed_comment = None
 	elif action == "managetags/create":
-		link = create_article_path("Special:Tags")
-		embed["title"] = _("Created a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
+		link = create_article_path(change["title"])
+		embed["title"] = _("Created the tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 		recent_changes.init_info()
 	elif action == "managetags/delete":
-		link = create_article_path("Special:Tags")
-		embed["title"] = _("Deleted a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
+		link = create_article_path(change["title"])
+		embed["title"] = _("Deleted the tag \"{tag}\"").format(tag=change["logparams"]["tag"])
+		if change["logparams"]["count"] > 0:
+			embed.add_field(_('Removed from'), ngettext("{} revision or log entry", "{} revisions and/or log entries", change["logparams"]["count"]).format(change["logparams"]["count"]))
 		recent_changes.init_info()
 	elif action == "managetags/activate":
-		link = create_article_path("Special:Tags")
-		embed["title"] = _("Activated a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
+		link = create_article_path(change["title"])
+		embed["title"] = _("Activated the tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 	elif action == "managetags/deactivate":
-		link = create_article_path("Special:Tags")
-		embed["title"] = _("Deactivated a tag \"{tag}\"").format(tag=change["logparams"]["tag"])
+		link = create_article_path(change["title"])
+		embed["title"] = _("Deactivated the tag \"{tag}\"").format(tag=change["logparams"]["tag"])
 	elif action == "managewiki/settings":  # Miraheze's ManageWiki extension https://github.com/miraheze/ManageWiki
 		link = create_article_path(change["title"])
 		embed["title"] = _("Changed wiki settings")
