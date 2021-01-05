@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 14:13+0100\n"
-"PO-Revision-Date: 2020-12-30 13:26+0000\n"
+"PO-Revision-Date: 2021-01-22 13:58+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/es/>\n"
@@ -69,7 +69,7 @@ msgstr "Traslado"
 
 #: src/rc_formatters.py:29
 msgid "Stash upload"
-msgstr "Subida de archivos"
+msgstr "Carga de archivos"
 
 #: src/rc_formatters.py:29
 msgid "Deletion"
@@ -164,7 +164,7 @@ msgstr ""
 
 #: src/rc_formatters.py:148 src/rc_formatters.py:153
 msgid "without making a redirect"
-msgstr "sin hacer una redirección"
+msgstr "sin crear una redirección"
 
 #: src/rc_formatters.py:148 src/rc_formatters.py:154
 msgid "with a redirect"
@@ -185,7 +185,7 @@ msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
 "[{target}]({target_url}) {made_a_redirect}{comment}"
 msgstr ""
-"[{author}]({author_url}) movió {redirect}*{article}* sobe una redirección a "
+"[{author}]({author_url}) movió {redirect}*{article}* sobre la redirección a "
 "[{target}]({target_url}) {made_a_redirect}{comment}"
 
 #: src/rc_formatters.py:160
@@ -428,8 +428,8 @@ msgstr "[{author}]({author_url}) restauró [{article}]({article_url}){comment}"
 #, python-brace-format
 msgid "[{author}]({author_url}) changed visibility of log events{comment}"
 msgstr ""
-"[{author}]({author_url}) cambió la visibilidad de los eventos del "
-"registro{comment}"
+"[{author}]({author_url}) cambió la visibilidad del registro de "
+"eventos{comment}"
 
 #: src/rc_formatters.py:354
 #, python-brace-format
@@ -742,7 +742,7 @@ msgstr "Página eliminada {article}"
 #: src/rc_formatters.py:637
 #, python-brace-format
 msgid "Deleted redirect {article} by overwriting"
-msgstr "Se eliminó el redireccionamiento {article} sobrescribiéndolo"
+msgstr "Eliminó la redirección {article} sobrescribiéndola"
 
 #: src/rc_formatters.py:643
 msgid "No redirect has been made"
@@ -755,18 +755,17 @@ msgstr "Se creó una redirección"
 #: src/rc_formatters.py:645
 #, python-brace-format
 msgid "Moved {redirect}{article} to {target}"
-msgstr "Se movió {redirect}{article} a {target}"
+msgstr "Movió {redirect}{article} a {target}"
 
 #: src/rc_formatters.py:648
 #, python-brace-format
 msgid "Moved {redirect}{article} to {title} over redirect"
-msgstr "Se movió {redirect}{article} a {title} sobre el redireccionamiento"
+msgstr "Movió {redirect}{article} a {title} sobre la redirección"
 
 #: src/rc_formatters.py:652
 #, python-brace-format
 msgid "Moved protection settings from {redirect}{article} to {title}"
-msgstr ""
-"Se movió la configuración de protección de {redirect}{article} a {title}"
+msgstr "Movió la configuración de protección de {redirect}{article} a {title}"
 
 #: src/rc_formatters.py:676
 msgid "unknown expiry time"
@@ -906,7 +905,7 @@ msgstr "Restauró {article}"
 
 #: src/rc_formatters.py:809
 msgid "Changed visibility of log events"
-msgstr "Modificó la visibilidad de los eventos del registro"
+msgstr "Modificó la visibilidad del registro de eventos"
 
 #: src/rc_formatters.py:819
 msgid "Imported interwiki"
