@@ -474,7 +474,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			author=author, author_url=author_url, group_name=group_name, comment=parsed_comment
 		)
 	elif action == "managewiki/undelete":
-		content = _("[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}").format(
+		content = _("[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}").format(
 			author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment
 		)
 	elif action == "managewiki/unlock":
@@ -1157,7 +1157,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = _("Modified \"{usergroup_name}\" usergroup").format(usergroup_name=group_name)
 		link = create_article_path(change["title"])
 	elif action == "managewiki/undelete":
-		embed["title"] = _("Restored a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
+		embed["title"] = _("Undeleted a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
 		link = create_article_path(change["title"])
 	elif action == "managewiki/unlock":
 		embed["title"] = _("Unlocked a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
