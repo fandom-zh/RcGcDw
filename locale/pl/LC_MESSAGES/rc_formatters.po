@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-12-01 12:29+0000\n"
+"PO-Revision-Date: 2021-04-14 14:22+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.4.2\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: src/rc_formatters.py:28
@@ -558,13 +558,13 @@ msgstr ""
 "({article_url}) z {old} na {new}{comment}"
 
 #: src/rc_formatters.py:407
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
 "non-default content model {new}{comment}"
 msgstr ""
-"[{author}]({author_url}) zmienił(a) model zawartości [{article}]"
-"({article_url}) z {old} na {new}{comment}"
+"[{author}]({author_url}) utworzył(a) stronę [{article}]({article_url}) "
+"używając niedomyślnego modelu zawartości {new}{comment}"
 
 #: src/rc_formatters.py:410
 #, python-brace-format
@@ -677,14 +677,16 @@ msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) odblokował(a) wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:481
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) usunął/usunęła wiki *{wiki_name}*{comment}"
+msgstr ""
+"[{author}]({author_url}) wygenerował(a) kopię zapasową w *{file}*{comment}"
 
 #: src/rc_formatters.py:486
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) usunął/usunęła wiki *{wiki_name}*{comment}"
+msgstr ""
+"[{author}]({author_url}) usunął/usunęła kopię zapasową *{file}*{comment}"
 
 #: src/rc_formatters.py:497
 #, python-brace-format
@@ -723,13 +725,13 @@ msgstr ""
 "({article_url}) do [{target}]({target_url}){comment}"
 
 #: src/rc_formatters.py:527
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed deletion of translatable page [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) usunął zabezpieczenia z [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) zakończył(a) usuwanie tłumaczonej strony "
+"[{article}]({article_url}){comment}"
 
 #: src/rc_formatters.py:535
 #, fuzzy, python-brace-format
