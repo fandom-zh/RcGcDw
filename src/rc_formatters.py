@@ -459,7 +459,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		content = _("[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}").format(
 			author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment)
 	elif action == "managewiki/namespaces":
-		content = _("[{author}]({author_url}) modified a namespace *{namespace_name}* on *{wiki_name}*{comment}").format(
+		content = _("[{author}]({author_url}) modified namespace *{namespace_name}* on *{wiki_name}*{comment}").format(
 			author=author, author_url=author_url, namespace_name=change["logparams"].get("namespace", _("Unknown")),
 		    wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment)
 	elif action == "managewiki/namespaces-delete":
@@ -1144,7 +1144,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed["title"] = _("Locked a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
 		link = create_article_path(change["title"])
 	elif action == "managewiki/namespaces":
-		embed["title"] = _("Modified a \"{namespace_name}\" namespace").format(namespace_name=change["logparams"].get("namespace", _("Unknown")))
+		embed["title"] = _("Modified \"{namespace_name}\" namespace").format(namespace_name=change["logparams"].get("namespace", _("Unknown")))
 		link = create_article_path(change["title"])
 		embed.add_field(_('Wiki'), change["logparams"].get("wiki", _("Unknown")))
 	elif action == "managewiki/namespaces-delete":
