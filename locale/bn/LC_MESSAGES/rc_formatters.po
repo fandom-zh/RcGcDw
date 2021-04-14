@@ -8,30 +8,32 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-04-14 14:22+0000\n"
+"Last-Translator: R4356th <radman.siddiki@outlook.com>\n"
+"Language-Team: Bengali <https://translate.wikibot.de/projects/rcgcdw/"
+"rc_formatters/bn/>\n"
 "Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
-msgstr ""
+msgstr "কিছুই না"
 
 #: src/rc_formatters.py:28
 msgid "Warning issued"
-msgstr ""
+msgstr "সতর্কতা জারি করা হয়েছে"
 
 #: src/rc_formatters.py:28
 msgid "**Blocked user**"
-msgstr ""
+msgstr "**অবরুদ্ধ ব্যবহারকারী**"
 
 #: src/rc_formatters.py:28
 msgid "Tagged the edit"
-msgstr ""
+msgstr "সম্পাদনা ট্যাগ করা হয়েছিল"
 
 #: src/rc_formatters.py:28
 msgid "Disallowed the action"
@@ -55,19 +57,19 @@ msgstr ""
 
 #: src/rc_formatters.py:29
 msgid "Edit"
-msgstr ""
+msgstr "সম্পাদনা"
 
 #: src/rc_formatters.py:29
 msgid "Upload"
-msgstr ""
+msgstr "আপলোড"
 
 #: src/rc_formatters.py:29
 msgid "Move"
-msgstr ""
+msgstr "সরানো"
 
 #: src/rc_formatters.py:29
 msgid "Stash upload"
-msgstr ""
+msgstr "স্ট্যাশ আপলোড"
 
 #: src/rc_formatters.py:29
 msgid "Deletion"
@@ -151,11 +153,11 @@ msgstr ""
 
 #: src/rc_formatters.py:147 src/rc_formatters.py:152
 msgid "without making a redirect"
-msgstr ""
+msgstr "পুনঃনির্দেশ না করে"
 
 #: src/rc_formatters.py:147 src/rc_formatters.py:153
 msgid "with a redirect"
-msgstr ""
+msgstr "পুনঃনির্দেশ করে"
 
 #: src/rc_formatters.py:148
 #, python-brace-format
@@ -180,16 +182,16 @@ msgstr ""
 
 #: src/rc_formatters.py:170 src/rc_formatters.py:823
 msgid "for infinity and beyond"
-msgstr ""
+msgstr "অনন্ত এবং এর বাইরেও"
 
 #: src/rc_formatters.py:179 src/rc_formatters.py:831
 #, python-brace-format
 msgid "for {num} {translated_length}"
-msgstr ""
+msgstr "{num} {translated_length} -এর জন্য"
 
 #: src/rc_formatters.py:185 src/rc_formatters.py:835
 msgid "until {}"
-msgstr ""
+msgstr "{} অবধি"
 
 #: src/rc_formatters.py:189
 msgid " on pages: "
@@ -300,14 +302,16 @@ msgstr ""
 #: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:945
 #: src/rc_formatters.py:947
 msgid "none"
-msgstr ""
+msgstr "কিছুই না"
 
 #: src/rc_formatters.py:301
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}) from {old_groups} to {new_groups}{comment}"
 msgstr ""
+"[{author}]({author_url}) [{target}] ({target_url})-এর দলীয় সদস্যপদ "
+"{old_groups} থেকে {new_groups} -এ পরিবর্তন করেছেন {comment}"
 
 #: src/rc_formatters.py:303
 #, python-brace-format
@@ -318,7 +322,7 @@ msgstr ""
 
 #: src/rc_formatters.py:304 src/rc_formatters.py:933
 msgid "System"
-msgstr ""
+msgstr "পদ্ধতি"
 
 #: src/rc_formatters.py:309
 #, python-brace-format
@@ -411,12 +415,12 @@ msgstr ""
 #: src/rc_formatters.py:375
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
-msgstr ""
+msgstr "[{author}]({author_url}) অ্যাকাউন্টটি স্বয়ংক্রিয়ভাবে তৈরি হয়েছে"
 
 #: src/rc_formatters.py:377 src/rc_formatters.py:385
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
-msgstr ""
+msgstr "ব্যবহারকারী অ্যাকাউন্ট [{author}]({author_url}) তৈরি করা হয়েছে"
 
 #: src/rc_formatters.py:380
 #, python-brace-format
@@ -568,6 +572,8 @@ msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
 msgstr ""
+"[{author}]({author_url}) [{article}]({article_url}) অনুবাদের জন্য চিহ্নিত "
+"করেছেন {comment}"
 
 #: src/rc_formatters.py:491
 #, python-brace-format
@@ -575,6 +581,8 @@ msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
+"[{author}]({author_url}) অনুবাদের পাতা [{article}]({article_url}) অপসারণ "
+"করেছেন {comment}"
 
 #: src/rc_formatters.py:498
 #, python-brace-format
@@ -724,47 +732,47 @@ msgstr ""
 
 #: src/rc_formatters.py:650
 msgid "Performed"
-msgstr ""
+msgstr "সম্পাদিত"
 
 #: src/rc_formatters.py:651
 msgid "Action taken"
-msgstr ""
+msgstr "ব্যবস্থা নেওয়া হয়েছে"
 
 #: src/rc_formatters.py:652
 msgid "Title"
-msgstr ""
+msgstr "শিরোনাম"
 
 #: src/rc_formatters.py:661 src/rc_formatters.py:948
 msgid "No description provided"
-msgstr ""
+msgstr "কোনও বিবরণ সরবরাহ করা হয়নি"
 
 #: src/rc_formatters.py:685
 msgid "(N!) "
-msgstr ""
+msgstr "(N!) "
 
 #: src/rc_formatters.py:686
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/rc_formatters.py:686
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: src/rc_formatters.py:703 src/rc_formatters.py:708
 msgid "__Only whitespace__"
-msgstr ""
+msgstr "__Only whitespace__"
 
 #: src/rc_formatters.py:713
 msgid "Removed"
-msgstr ""
+msgstr "সরানো হয়েছে"
 
 #: src/rc_formatters.py:715
 msgid "Added"
-msgstr ""
+msgstr "যুক্ত হয়েছে"
 
 #: src/rc_formatters.py:749 src/rc_formatters.py:788
 msgid "Options"
-msgstr ""
+msgstr "বিকল্পগুলি"
 
 #: src/rc_formatters.py:749
 #, python-brace-format
@@ -774,7 +782,7 @@ msgstr ""
 #: src/rc_formatters.py:754
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
-msgstr ""
+msgstr "{name} -এর একটি নতুন সংস্করণ আপলোড হয়েছে"
 
 #: src/rc_formatters.py:756
 #, python-brace-format

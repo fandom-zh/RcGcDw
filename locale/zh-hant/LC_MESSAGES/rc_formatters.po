@@ -8,83 +8,85 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: zh_Hant\n"
+"PO-Revision-Date: 2021-04-14 14:22+0000\n"
+"Last-Translator: Winston Sung <winston21.sung@gmail.com>\n"
+"Language-Team: Chinese (Traditional) <https://translate.wikibot.de/projects/"
+"rcgcdw/rc_formatters/zh-hant/>\n"
+"Language: zh-hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: src/rc_formatters.py:28
 msgid "Warning issued"
-msgstr ""
+msgstr "已發出警告"
 
 #: src/rc_formatters.py:28
 msgid "**Blocked user**"
-msgstr ""
+msgstr "**已封鎖使用者**"
 
 #: src/rc_formatters.py:28
 msgid "Tagged the edit"
-msgstr ""
+msgstr "已標記編輯"
 
 #: src/rc_formatters.py:28
 msgid "Disallowed the action"
-msgstr ""
+msgstr "已阻止操作"
 
 #: src/rc_formatters.py:28
 msgid "**IP range blocked**"
-msgstr ""
+msgstr "**已封鎖IP段**"
 
 #: src/rc_formatters.py:28
 msgid "Throttled actions"
-msgstr ""
+msgstr "已壓制操作"
 
 #: src/rc_formatters.py:28
 msgid "Removed autoconfirmed group"
-msgstr ""
+msgstr "已移除自動確認使用者群組"
 
 #: src/rc_formatters.py:28
 msgid "**Removed from privileged groups**"
-msgstr ""
+msgstr "**已移除特有使用者群組**"
 
 #: src/rc_formatters.py:29
 msgid "Edit"
-msgstr ""
+msgstr "編輯"
 
 #: src/rc_formatters.py:29
 msgid "Upload"
-msgstr ""
+msgstr "上傳"
 
 #: src/rc_formatters.py:29
 msgid "Move"
-msgstr ""
+msgstr "移動"
 
 #: src/rc_formatters.py:29
 msgid "Stash upload"
-msgstr ""
+msgstr "隱藏上傳"
 
 #: src/rc_formatters.py:29
 msgid "Deletion"
-msgstr ""
+msgstr "刪除"
 
 #: src/rc_formatters.py:29
 msgid "Account creation"
-msgstr ""
+msgstr "建立帳號"
 
 #: src/rc_formatters.py:29
 msgid "Auto account creation"
-msgstr ""
+msgstr "自動建立帳號"
 
 #: src/rc_formatters.py:46 src/rc_formatters.py:53 src/rc_formatters.py:60
 #: src/rc_formatters.py:75 src/rc_formatters.py:96
 msgid "Unregistered user"
-msgstr ""
+msgstr "未註冊使用者"
 
 #: src/rc_formatters.py:83
 #, python-brace-format
@@ -92,6 +94,8 @@ msgid ""
 "[{author}]({author_url}) triggered *{abuse_filter}*, performing the action "
 "\"{action}\" on *[{target}]({target_url})* - action taken: {result}."
 msgstr ""
+"[{author}]({author_url}) 觸發了 *{abuse_filter}* ，於 *[{target}]({target_url})* "
+"執行操作「{action}」 - 已採取的操作：{result}。"
 
 #: src/rc_formatters.py:85 src/rc_formatters.py:86 src/rc_formatters.py:87
 #: src/rc_formatters.py:452 src/rc_formatters.py:455 src/rc_formatters.py:458
@@ -103,7 +107,7 @@ msgstr ""
 #: src/rc_formatters.py:1147 src/rc_formatters.py:1153
 #: src/rc_formatters.py:1156 src/rc_formatters.py:1248
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: src/rc_formatters.py:116
 #, python-brace-format
@@ -111,6 +115,8 @@ msgid ""
 "[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}"
 "({sign}{edit_size}){bold}"
 msgstr ""
+"[{author}]({author_url}) 編輯了 [{article}]({edit_link}) {comment} "
+"{bold}({sign}{edit_size}){bold}"
 
 #: src/rc_formatters.py:118
 #, python-brace-format
@@ -118,44 +124,46 @@ msgid ""
 "[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}"
 "({sign}{edit_size}){bold}"
 msgstr ""
+"[{author}]({author_url}) 建立了 [{article}]({edit_link}) {comment} "
+"{bold}({sign}{edit_size}){bold}"
 
 #: src/rc_formatters.py:121
 #, python-brace-format
 msgid "[{author}]({author_url}) uploaded [{file}]({file_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 上傳了 [{file}]({file_link}) {comment}"
 
 #: src/rc_formatters.py:128
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 回退了 [{file}]({file_link}) 的版本 {comment}"
 
 #: src/rc_formatters.py:132
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) uploaded a new version of [{file}]({file_link})"
 "{comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 上傳了 [{file}]({file_link}) 的新版本 {comment}"
 
 #: src/rc_formatters.py:135
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted [{page}]({page_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 刪除了 [{page}]({page_link}) {comment}"
 
 #: src/rc_formatters.py:141
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted redirect by overwriting [{page}]"
 "({page_link}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 透過覆蓋 [{page}]({page_link}) 刪除了重新導向 {comment}"
 
 #: src/rc_formatters.py:147 src/rc_formatters.py:152
 msgid "without making a redirect"
-msgstr ""
+msgstr "不留重新導向"
 
 #: src/rc_formatters.py:147 src/rc_formatters.py:153
 msgid "with a redirect"
-msgstr ""
+msgstr "保留重新導向"
 
 #: src/rc_formatters.py:148
 #, python-brace-format
@@ -163,6 +171,8 @@ msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* to [{target}]"
 "({target_url}) {made_a_redirect}{comment}"
 msgstr ""
+"[{author}]({author_url}) 已將 {redirect}*{article}* 移動至 "
+"[{target}]({target_url}) {made_a_redirect} {comment}"
 
 #: src/rc_formatters.py:154
 #, python-brace-format
@@ -170,6 +180,8 @@ msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
 "[{target}]({target_url}) {made_a_redirect}{comment}"
 msgstr ""
+"[{author}]({author_url}) 已透過重新導向將 {redirect}*{article}* 移動至 "
+"[{target}]({target_url}) {made_a_redirect} {comment}"
 
 #: src/rc_formatters.py:159
 #, python-brace-format
@@ -177,31 +189,33 @@ msgid ""
 "[{author}]({author_url}) moved protection settings from {redirect}*{article}"
 "* to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) 已將 {redirect}*{article}* 的保護設定移動至 "
+"[{target}]({target_url}) {comment}"
 
 #: src/rc_formatters.py:170 src/rc_formatters.py:850
 msgid "for infinity and beyond"
-msgstr ""
+msgstr "時長為無線期"
 
 #: src/rc_formatters.py:179 src/rc_formatters.py:858
 #, python-brace-format
 msgid "for {num} {translated_length}"
-msgstr ""
+msgstr "時長為{num} {translated_length}"
 
 #: src/rc_formatters.py:185 src/rc_formatters.py:862
 msgid "until {}"
-msgstr ""
+msgstr "直到{}"
 
 #: src/rc_formatters.py:189
 msgid " on pages: "
-msgstr ""
+msgstr " 於頁面： "
 
 #: src/rc_formatters.py:196 src/rc_formatters.py:876
 msgid " and namespaces: "
-msgstr ""
+msgstr " 及命名空間： "
 
 #: src/rc_formatters.py:198
 msgid " on namespaces: "
-msgstr ""
+msgstr " 於命名空間： "
 
 #: src/rc_formatters.py:210
 #, python-brace-format
@@ -209,6 +223,8 @@ msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
 "{restriction_desc}{comment}"
 msgstr ""
+"[{author}]({author_url}) 封鎖了 [{user}]({user_url}) "
+"{time}{restriction_desc}{comment}"
 
 #: src/rc_formatters.py:214
 #, python-brace-format
@@ -216,12 +232,13 @@ msgid ""
 "[{author}]({author_url}) changed block settings for [{blocked_user}]"
 "({user_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) 變更了 [{blocked_user}]({user_url}) 的封鎖設定 {comment}"
 
 #: src/rc_formatters.py:218
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) 解封了 [{blocked_user}]({user_url}) {comment}"
 
 #: src/rc_formatters.py:223
 #, python-brace-format
