@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 00:28+0100\n"
+"POT-Creation-Date: 2021-04-14 16:24+0200\n"
 "PO-Revision-Date: 2020-12-30 13:26+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
@@ -98,14 +98,14 @@ msgstr ""
 "लेते हुए *{abuse_filter}* को ट्रिगर किया - लिया गया ऐक्शन: {result}।"
 
 #: src/rc_formatters.py:85 src/rc_formatters.py:86 src/rc_formatters.py:87
-#: src/rc_formatters.py:452 src/rc_formatters.py:455 src/rc_formatters.py:458
-#: src/rc_formatters.py:459 src/rc_formatters.py:464 src/rc_formatters.py:465
-#: src/rc_formatters.py:473 src/rc_formatters.py:477 src/rc_formatters.py:677
-#: src/rc_formatters.py:678 src/rc_formatters.py:679 src/rc_formatters.py:1134
-#: src/rc_formatters.py:1137 src/rc_formatters.py:1140
-#: src/rc_formatters.py:1142 src/rc_formatters.py:1145
-#: src/rc_formatters.py:1147 src/rc_formatters.py:1153
-#: src/rc_formatters.py:1156 src/rc_formatters.py:1248
+#: src/rc_formatters.py:457 src/rc_formatters.py:460 src/rc_formatters.py:463
+#: src/rc_formatters.py:464 src/rc_formatters.py:469 src/rc_formatters.py:470
+#: src/rc_formatters.py:478 src/rc_formatters.py:482 src/rc_formatters.py:682
+#: src/rc_formatters.py:683 src/rc_formatters.py:684 src/rc_formatters.py:1141
+#: src/rc_formatters.py:1144 src/rc_formatters.py:1147
+#: src/rc_formatters.py:1149 src/rc_formatters.py:1152
+#: src/rc_formatters.py:1154 src/rc_formatters.py:1160
+#: src/rc_formatters.py:1163 src/rc_formatters.py:1255
 msgid "Unknown"
 msgstr "अनजान"
 
@@ -200,16 +200,16 @@ msgstr ""
 "[{author}]({author_url}) ने प्रॉटेक्शन सेटिंगस को {redirect}*{article}* से "
 "[{target}]({target_url}){comment} पर मूव किया"
 
-#: src/rc_formatters.py:170 src/rc_formatters.py:850
+#: src/rc_formatters.py:170 src/rc_formatters.py:855
 msgid "for infinity and beyond"
 msgstr "अनंत और इसके परे तक"
 
-#: src/rc_formatters.py:179 src/rc_formatters.py:858
+#: src/rc_formatters.py:179 src/rc_formatters.py:863
 #, python-brace-format
 msgid "for {num} {translated_length}"
 msgstr "{num} {translated_length} के लिए"
 
-#: src/rc_formatters.py:185 src/rc_formatters.py:862
+#: src/rc_formatters.py:185 src/rc_formatters.py:867
 msgid "until {}"
 msgstr "{} के लिए"
 
@@ -217,7 +217,7 @@ msgstr "{} के लिए"
 msgid " on pages: "
 msgstr " इन पृष्ठों पर: "
 
-#: src/rc_formatters.py:196 src/rc_formatters.py:876
+#: src/rc_formatters.py:196 src/rc_formatters.py:881
 msgid " and namespaces: "
 msgstr " और इन नेमस्पेसों पर: "
 
@@ -339,8 +339,8 @@ msgstr ""
 "[{author}]({author_url}) ने [अपने]({target_url}) प्रॉफाइल पर {field} को सम्पादित "
 "किया। *({desc})*"
 
-#: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:972
-#: src/rc_formatters.py:974
+#: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:977
+#: src/rc_formatters.py:979
 msgid "none"
 msgstr "कुछ नहीं"
 
@@ -362,7 +362,7 @@ msgstr ""
 "{author} ने [{target}]({target_url}) को {old_groups} से {new_groups} में "
 "ऑटोप्रमोट किया{comment}"
 
-#: src/rc_formatters.py:304 src/rc_formatters.py:960
+#: src/rc_formatters.py:304 src/rc_formatters.py:965
 msgid "System"
 msgstr "सिस्टम"
 
@@ -375,8 +375,8 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) को इन सेटिंग्स के साथ "
 "प्रॉटेक्ट किया: {settings}{comment}"
 
-#: src/rc_formatters.py:311 src/rc_formatters.py:319 src/rc_formatters.py:982
-#: src/rc_formatters.py:988
+#: src/rc_formatters.py:311 src/rc_formatters.py:319 src/rc_formatters.py:987
+#: src/rc_formatters.py:993
 msgid " [cascading]"
 msgstr " [कैस्केडिंग]"
 
@@ -547,8 +547,8 @@ msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
 "non-default content model {new}{comment}"
 msgstr ""
-"[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) को गैर-डिफ़ॉल्ट "
-"कंटेंट मॉडल की मदद से बनाया {new}{comment}"
+"[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) को गैर-डिफ़ॉल्ट कंटेंट "
+"मॉडल की मदद से बनाया {new}{comment}"
 
 #: src/rc_formatters.py:410
 #, python-brace-format
@@ -593,51 +593,70 @@ msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
 msgstr "[{author}]({author_url}) ने कार्गो टेबल \"{table}\" को बदल दिया"
 
 #: src/rc_formatters.py:436
-#, python-brace-format
-msgid "[{author}]({author_url}) created a [tag]({tag_url}) \"{tag}\""
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" बनाया"
 
-#: src/rc_formatters.py:440
-#, python-brace-format
-msgid "[{author}]({author_url}) deleted a [tag]({tag_url}) \"{tag}\""
+#: src/rc_formatters.py:441
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिलीट किया"
 
-#: src/rc_formatters.py:444
-#, python-brace-format
-msgid "[{author}]({author_url}) activated a [tag]({tag_url}) \"{tag}\""
+#: src/rc_formatters.py:443
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
+"it from {count} revision or log entry{comment}"
+msgid_plural ""
+"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
+"it from {count} revisions and/or log entries{comment}"
+msgstr[0] ""
+"[{author}]({author_url}) ने [{article}]({article_url}) को {count} रिवीशन के "
+"साथ ({article_url}) इम्पोर्ट किया{comment}"
+msgstr[1] ""
+"[{author}]({author_url}) ने [{article}]({article_url}) को {count} रिवीशनों के "
+"साथ ({article_url}) इम्पोर्ट किया{comment}"
+
+#: src/rc_formatters.py:449
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को ऐक्टिवेट किया"
 
-#: src/rc_formatters.py:447
-#, python-brace-format
-msgid "[{author}]({author_url}) deactivated a [tag]({tag_url}) \"{tag}\""
+#: src/rc_formatters.py:452
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr ""
 "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिऐक्टिवेट किया"
 
-#: src/rc_formatters.py:449
+#: src/rc_formatters.py:454
 #, python-brace-format
 msgid "[{author}]({author_url}) changed wiki settings{reason}"
 msgstr "[{author}]({author_url}) ने विकी सेटिंग्स को बदला{reason}"
 
-#: src/rc_formatters.py:451
+#: src/rc_formatters.py:456
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* को डिलीट किया{comment}"
 
-#: src/rc_formatters.py:454
+#: src/rc_formatters.py:459
 #, python-brace-format
 msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* के लॉक किया{comment}"
 
-#: src/rc_formatters.py:457
-#, python-brace-format
+#: src/rc_formatters.py:462
+#, fuzzy, python-brace-format
 msgid ""
-"[{author}]({author_url}) modified a namespace *{namespace_name}* on "
+"[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
 "[{author}]({author_url}) ने *{wiki_name}* पर एक नेमस्पेस *{namespace_name}* को "
 "मॉडिफाइ किया{comment}"
 
-#: src/rc_formatters.py:462
+#: src/rc_formatters.py:467
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
@@ -646,35 +665,34 @@ msgstr ""
 "[{author}]({author_url}) ने *{wiki_name}* पर नेमस्पेस *{namespace_name}* को "
 "डिलीट किया{comment}"
 
-#: src/rc_formatters.py:468
+#: src/rc_formatters.py:473
 #, python-brace-format
 msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
 msgstr ""
 "[{author}]({author_url}) ने यूज़र ग्रुप *{group_name}* को मॉडिफाइ किया{comment}"
 
-#: src/rc_formatters.py:472
-#, python-brace-format
-msgid "[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}"
-msgstr ""
-"[{author}]({author_url}) ने एक विकी *{wiki_name}* को रिस्टोर किया{comment}"
+#: src/rc_formatters.py:477
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* को डिलीट किया{comment}"
 
-#: src/rc_formatters.py:476
+#: src/rc_formatters.py:481
 #, python-brace-format
 msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
 msgstr ""
 "[{author}]({author_url}) ने एक विकी *{wiki_name}* को अनलॉक किया{comment}"
 
-#: src/rc_formatters.py:481
+#: src/rc_formatters.py:486
 #, python-brace-format
 msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
 msgstr "[{author}]({author_url}) ने *{file}* डंप जनरेट किया{comment}"
 
-#: src/rc_formatters.py:486
+#: src/rc_formatters.py:491
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
 msgstr "[{author}]({author_url}) *{file}* डंप को डिलीट किया{comment}"
 
-#: src/rc_formatters.py:497
+#: src/rc_formatters.py:502
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
@@ -683,7 +701,7 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) को अनुवाद के लिए मार्क "
 "किया{comment}"
 
-#: src/rc_formatters.py:504
+#: src/rc_formatters.py:509
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
@@ -692,7 +710,7 @@ msgstr ""
 "[{author}]({author_url}) ने अनुवाद सिस्टम से [{article}]({article_url}) को "
 "हटाया{comment}"
 
-#: src/rc_formatters.py:511
+#: src/rc_formatters.py:516
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed moving translation pages from *{article}* "
@@ -701,7 +719,7 @@ msgstr ""
 "[{author}]({author_url}) ने *{article}* से [{target}]({target_url}) पर अनुवाद "
 "पृष्ठ को लाना ख़त्म किया{comment}"
 
-#: src/rc_formatters.py:519
+#: src/rc_formatters.py:524
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) encountered a problem while moving [{article}]"
@@ -710,7 +728,7 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) को [{target}]"
 "({target_url}) पर लाते वक्त मुश्किलें पाई{comment}"
 
-#: src/rc_formatters.py:527
+#: src/rc_formatters.py:532
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed deletion of translatable page [{article}]"
@@ -719,7 +737,7 @@ msgstr ""
 "[{author}]({author_url}) ने अनुवाद लायक पृष्ठ [{article}]({article_url}) के "
 "डिलीशन को पूरा किया{comment}"
 
-#: src/rc_formatters.py:535
+#: src/rc_formatters.py:540
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
@@ -728,7 +746,7 @@ msgstr ""
 "[{author}]({author_url}) [{article}]({article_url}) को डिलीट न कर पाए, जो "
 "अनुवाद-लायक पृष्ठ [{target}]({target_url}) का है{comment}"
 
-#: src/rc_formatters.py:543
+#: src/rc_formatters.py:548
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
@@ -737,7 +755,7 @@ msgstr ""
 "[{author}]({author_url}) ने अनुवाद पृष्ठ [{article}]({article_url}) के डिलीशन को "
 "पूरा किया{comment}"
 
-#: src/rc_formatters.py:551
+#: src/rc_formatters.py:556
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
@@ -746,7 +764,7 @@ msgstr ""
 "[{author}]({author_url}) [{article}]({article_url}) को डिलीट न कर पाए, जो "
 "अनुवाद पृष्ठ [{target}]({target_url}) का है{comment}"
 
-#: src/rc_formatters.py:559
+#: src/rc_formatters.py:564
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
@@ -755,7 +773,7 @@ msgstr ""
 "[{author}]({author_url}) [{article}]({article_url}) को अनुवाद करने का बढ़ावा "
 "दिया{comment}"
 
-#: src/rc_formatters.py:566
+#: src/rc_formatters.py:571
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) discouraged translation of [{article}]"
@@ -764,7 +782,7 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) के अनुवाद के बढ़ावे को कम "
 "किया{comment}"
 
-#: src/rc_formatters.py:576
+#: src/rc_formatters.py:581
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
@@ -773,7 +791,7 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) के भाषाओं को `{languages}"
 "` तक सीमित किया{comment}"
 
-#: src/rc_formatters.py:582
+#: src/rc_formatters.py:587
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) set the priority languages for [{article}]"
@@ -782,7 +800,7 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) के मुख्य भाषाओं को "
 "`{languages}` में सेट किया{comment}"
 
-#: src/rc_formatters.py:588
+#: src/rc_formatters.py:593
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed priority languages from [{article}]"
@@ -791,7 +809,7 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) से मुख्य भाषाओं को "
 "हटाया{comment}"
 
-#: src/rc_formatters.py:595
+#: src/rc_formatters.py:600
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) added translatable page [{article}]({article_url}) "
@@ -800,7 +818,7 @@ msgstr ""
 "[{author}]({author_url}) ने अनुवाद-लायक पृष्ठ [{article}]({article_url}) को "
 "एग्रीगेट ग्रुप \"{group}\" में डाला{comment}"
 
-#: src/rc_formatters.py:602
+#: src/rc_formatters.py:607
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed translatable page [{article}]"
@@ -809,7 +827,7 @@ msgstr ""
 "[{author}]({author_url}) ने अनुवाद-लायक [{article}]({article_url}) को एग्रीगेट "
 "ग्रुप \"{group}\" से हटाया{comment}"
 
-#: src/rc_formatters.py:614
+#: src/rc_formatters.py:619
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) reviewed translation [{article}]({article_url})"
@@ -818,7 +836,7 @@ msgstr ""
 "[{author}]({author_url}) ने अनुवाद [{article}]({article_url}) को रिव्यु "
 "किया{comment}"
 
-#: src/rc_formatters.py:622
+#: src/rc_formatters.py:627
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
@@ -827,7 +845,7 @@ msgstr ""
 "[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) के `{language}` के "
 "स्थिति को `{old_state}` से `{new_state}` में बदला{comment}"
 
-#: src/rc_formatters.py:629
+#: src/rc_formatters.py:634
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
@@ -836,12 +854,12 @@ msgstr ""
 "[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) के `{language}` "
 "अनुवादों को `{new_state}` में बदला{comment}"
 
-#: src/rc_formatters.py:638 src/rc_formatters.py:641 src/rc_formatters.py:1231
-#: src/rc_formatters.py:1234
+#: src/rc_formatters.py:643 src/rc_formatters.py:646 src/rc_formatters.py:1238
+#: src/rc_formatters.py:1241
 msgid "(default)"
 msgstr "(डिफ़ॉल्ट)"
 
-#: src/rc_formatters.py:642
+#: src/rc_formatters.py:647
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the language of [{article}]({article_url}) "
@@ -850,7 +868,7 @@ msgstr ""
 "[{author}]({author_url}) [{article}]({article_url}) के भाषा को {old_lang} से "
 "{new_lang} में बदला{comment}"
 
-#: src/rc_formatters.py:651
+#: src/rc_formatters.py:656
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
@@ -865,7 +883,7 @@ msgstr[1] ""
 "[{author}]({author_url}) ने {edits} सम्पादनाओं वाले सदस्य *{old_name}* को "
 "[{new_name}]({link}) में रीनेम किया{comment}"
 
-#: src/rc_formatters.py:656
+#: src/rc_formatters.py:661
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
@@ -874,11 +892,11 @@ msgstr ""
 "[{author}]({author_url}) ने सदस्य *{old_name}* को [{new_name}]({link}) में रीनेम "
 "किया{comment}"
 
-#: src/rc_formatters.py:660
+#: src/rc_formatters.py:665
 msgid "An action has been hidden by administration."
 msgstr "एक ऐक्शन ऐडमिनिस्ट्रेशन द्वारा छिपाया गया है।"
 
-#: src/rc_formatters.py:667
+#: src/rc_formatters.py:672
 #, python-brace-format
 msgid ""
 "Unknown event `{event}` by [{author}]({author_url}), report it on the "
@@ -887,80 +905,80 @@ msgstr ""
 "[{author}]({author_url}) द्वारा अनजान घटना `{event}`, इसे [सहायता सर्वर]"
 "(<{support}>) पर रिपोर्ट करें।"
 
-#: src/rc_formatters.py:676
+#: src/rc_formatters.py:681
 #, python-brace-format
 msgid "{user} triggered \"{abuse_filter}\""
 msgstr "{user} ने \"{abuse_filter}\" को ट्रिगर किया"
 
-#: src/rc_formatters.py:677
+#: src/rc_formatters.py:682
 msgid "Performed"
 msgstr "ऐक्शन"
 
-#: src/rc_formatters.py:678
+#: src/rc_formatters.py:683
 msgid "Action taken"
 msgstr "लिया गया ऐक्शन"
 
-#: src/rc_formatters.py:679
+#: src/rc_formatters.py:684
 msgid "Title"
 msgstr "शीर्षक"
 
-#: src/rc_formatters.py:688 src/rc_formatters.py:975
+#: src/rc_formatters.py:693 src/rc_formatters.py:980
 msgid "No description provided"
 msgstr "कोई विवरण नहीं दिया गया"
 
-#: src/rc_formatters.py:712
+#: src/rc_formatters.py:717
 msgid "(N!) "
 msgstr "(न!) "
 
-#: src/rc_formatters.py:713
+#: src/rc_formatters.py:718
 msgid "m"
 msgstr "छो"
 
-#: src/rc_formatters.py:713
+#: src/rc_formatters.py:718
 msgid "b"
 msgstr "बॉ"
 
-#: src/rc_formatters.py:730 src/rc_formatters.py:735
+#: src/rc_formatters.py:735 src/rc_formatters.py:740
 msgid "__Only whitespace__"
 msgstr "__सिर्फ वाइटस्पेस__"
 
-#: src/rc_formatters.py:740
+#: src/rc_formatters.py:745
 msgid "Removed"
 msgstr "हटाया गया"
 
-#: src/rc_formatters.py:742
+#: src/rc_formatters.py:747
 msgid "Added"
 msgstr "जोड़ा"
 
-#: src/rc_formatters.py:776 src/rc_formatters.py:815
+#: src/rc_formatters.py:781 src/rc_formatters.py:820
 msgid "Options"
 msgstr "विकल्प"
 
-#: src/rc_formatters.py:776
+#: src/rc_formatters.py:781
 #, python-brace-format
 msgid "([preview]({link}) | [undo]({undolink}))"
 msgstr "([पूर्वावलोकन]({link}) | [पूर्ववत करें]({undolink}))"
 
-#: src/rc_formatters.py:781
+#: src/rc_formatters.py:786
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
 msgstr "{name} के एक नए संसकरण को अपलोड किया"
 
-#: src/rc_formatters.py:783
+#: src/rc_formatters.py:788
 #, python-brace-format
 msgid "Reverted a version of {name}"
 msgstr "{name} के एक संसकरण को पूर्ववत किया"
 
-#: src/rc_formatters.py:785
+#: src/rc_formatters.py:790
 #, python-brace-format
 msgid "Uploaded {name}"
 msgstr "{name} को अपलोड किया"
 
-#: src/rc_formatters.py:801
+#: src/rc_formatters.py:806
 msgid "**No license!**"
 msgstr "**कोई लाइसेंस नहीं है!**"
 
-#: src/rc_formatters.py:813
+#: src/rc_formatters.py:818
 msgid ""
 "\n"
 "License: {}"
@@ -968,408 +986,419 @@ msgstr ""
 "\n"
 "लाइसेंस: {}"
 
-#: src/rc_formatters.py:815
+#: src/rc_formatters.py:820
 #, python-brace-format
 msgid "([preview]({link}))"
 msgstr "([पूर्वावलोकन]({link}))"
 
-#: src/rc_formatters.py:820
+#: src/rc_formatters.py:825
 #, python-brace-format
 msgid "Deleted page {article}"
 msgstr "पृष्ठ {article} को डिलीट किया"
 
-#: src/rc_formatters.py:825
+#: src/rc_formatters.py:830
 #, python-brace-format
 msgid "Deleted redirect {article} by overwriting"
 msgstr "ओवर्राइट करके रेडिरेक्ट {article} को डिलीट किया"
 
-#: src/rc_formatters.py:831
+#: src/rc_formatters.py:836
 msgid "No redirect has been made"
 msgstr "कोई रेडिरेक्ट नहीं बनाया गया"
 
-#: src/rc_formatters.py:832
+#: src/rc_formatters.py:837
 msgid "A redirect has been made"
 msgstr "एक रेडिरेक्ट बनाया गया है"
 
-#: src/rc_formatters.py:833
+#: src/rc_formatters.py:838
 #, python-brace-format
 msgid "Moved {redirect}{article} to {target}"
 msgstr "{redirect}{article} को {target} पर ले जाया गया है"
 
-#: src/rc_formatters.py:836
+#: src/rc_formatters.py:841
 #, python-brace-format
 msgid "Moved {redirect}{article} to {title} over redirect"
 msgstr "{redirect}{article} को रेडिरेक्ट के साथ {title} पर ले जाया गया है"
 
-#: src/rc_formatters.py:840
+#: src/rc_formatters.py:845
 #, python-brace-format
 msgid "Moved protection settings from {redirect}{article} to {title}"
 msgstr "प्रॉटेक्शन सेटिंग्स को {redirect}{article} से {title} पर ले जाया गया"
 
-#: src/rc_formatters.py:864
+#: src/rc_formatters.py:869
 msgid "unknown expiry time"
 msgstr "अनजान समय सीमा"
 
-#: src/rc_formatters.py:869
+#: src/rc_formatters.py:874
 msgid "Blocked from editing the following pages: "
 msgstr "इन पृष्ठों को सम्पादित करने से ब्लॉक्ड: "
 
-#: src/rc_formatters.py:878
+#: src/rc_formatters.py:883
 msgid "Blocked from editing pages on following namespaces: "
 msgstr "इन नेमस्पेसों में पृष्ठों को सम्पादित करने से ब्लॉक्ड: "
 
-#: src/rc_formatters.py:889
+#: src/rc_formatters.py:894
 msgid "Partial block details"
 msgstr "आधा ब्लॉक विवरण"
 
-#: src/rc_formatters.py:890
+#: src/rc_formatters.py:895
 #, python-brace-format
 msgid "Blocked {blocked_user} {time}"
 msgstr "{blocked_user} को ब्लॉक किया {time}"
 
-#: src/rc_formatters.py:894
+#: src/rc_formatters.py:899
 #, python-brace-format
 msgid "Changed block settings for {blocked_user}"
 msgstr "{blocked_user} के ब्लॉक सेटिंग्स को बदला"
 
-#: src/rc_formatters.py:898
+#: src/rc_formatters.py:903
 #, python-brace-format
 msgid "Unblocked {blocked_user}"
 msgstr "{blocked_user} को अनब्लॉक किया"
 
-#: src/rc_formatters.py:905
+#: src/rc_formatters.py:910
 #, python-brace-format
 msgid "Left a comment on {target}'s profile"
 msgstr "{target} के प्रॉफाइल पर एक कमेंट छोड़ा"
 
-#: src/rc_formatters.py:907
+#: src/rc_formatters.py:912
 msgid "Left a comment on their own profile"
 msgstr "अपने प्रॉफाइल पर एक कमेंट छोड़ा"
 
-#: src/rc_formatters.py:914
+#: src/rc_formatters.py:919
 #, python-brace-format
 msgid "Replied to a comment on {target}'s profile"
 msgstr "{target} के प्रॉफाइल के एक कमेंट पर जवाब दिया"
 
-#: src/rc_formatters.py:916
+#: src/rc_formatters.py:921
 msgid "Replied to a comment on their own profile"
 msgstr "अपने प्रॉफाइल क के एक कमेंट पर जवाब दिया"
 
-#: src/rc_formatters.py:923
+#: src/rc_formatters.py:928
 #, python-brace-format
 msgid "Edited a comment on {target}'s profile"
 msgstr "{target} के प्रॉफाइल के एक कमेंट को सम्पादित किया"
 
-#: src/rc_formatters.py:925
+#: src/rc_formatters.py:930
 msgid "Edited a comment on their own profile"
 msgstr "अपने प्रॉफाइल के एक कमेंट को सम्पादित किया"
 
-#: src/rc_formatters.py:930
+#: src/rc_formatters.py:935
 #, python-brace-format
 msgid "Edited {target}'s profile"
 msgstr "{target} के प्रॉफाइल को सम्पादित किया"
 
-#: src/rc_formatters.py:932
+#: src/rc_formatters.py:937
 msgid "Edited their own profile"
 msgstr "अपने प्रॉफाइल को सम्पादित किया"
 
-#: src/rc_formatters.py:934
+#: src/rc_formatters.py:939
 #, python-brace-format
 msgid "Cleared the {field} field"
 msgstr "{field} फील्ड को क्लियर किया"
 
-#: src/rc_formatters.py:936
+#: src/rc_formatters.py:941
 #, python-brace-format
 msgid "{field} field changed to: {desc}"
 msgstr "{field} फील्ड को बदला गया: {desc} में"
 
-#: src/rc_formatters.py:941
+#: src/rc_formatters.py:946
 #, python-brace-format
 msgid "Purged a comment on {target}'s profile"
 msgstr "{target} के प्रॉफाइल के एक कमेंट को पर्ज किया"
 
-#: src/rc_formatters.py:943
+#: src/rc_formatters.py:948
 msgid "Purged a comment on their own profile"
 msgstr "अपने प्रॉफाइल के एक कमेंट को पर्ज किया"
 
-#: src/rc_formatters.py:951
+#: src/rc_formatters.py:956
 #, python-brace-format
 msgid "Deleted a comment on {target}'s profile"
 msgstr "{target} के प्रॉफाइल के एक कमेंट को सम्पादित किया"
 
-#: src/rc_formatters.py:953
+#: src/rc_formatters.py:958
 msgid "Deleted a comment on their own profile"
 msgstr "अपने प्रॉफाइल के एक कमेंट को डिलीट किया"
 
-#: src/rc_formatters.py:957
+#: src/rc_formatters.py:962
 #, python-brace-format
 msgid "Changed group membership for {target}"
 msgstr "{target} के ग्रुपों को बदला"
 
-#: src/rc_formatters.py:961
+#: src/rc_formatters.py:966
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} को एक नए यूज़रग्रुप में ऑटोप्रमोट किया गया"
 
-#: src/rc_formatters.py:976
+#: src/rc_formatters.py:981
 #, python-brace-format
 msgid "Groups changed from {old_groups} to {new_groups}{reason}"
 msgstr "ग्रुपों को {old_groups} से {new_groups} में बदला गया{reason}"
 
-#: src/rc_formatters.py:980
+#: src/rc_formatters.py:985
 #, python-brace-format
 msgid "Protected {target}"
 msgstr "{target} को प्रॉटेक्ट किया गया"
 
-#: src/rc_formatters.py:986
+#: src/rc_formatters.py:991
 #, python-brace-format
 msgid "Changed protection level for {article}"
 msgstr "{article} के प्रॉटेक्शन लेवल को बदला"
 
-#: src/rc_formatters.py:992
+#: src/rc_formatters.py:997
 #, python-brace-format
 msgid "Removed protection from {article}"
 msgstr "{article} से प्रॉटेक्शन हटा दिया गया"
 
-#: src/rc_formatters.py:996
+#: src/rc_formatters.py:1001
 #, python-brace-format
 msgid "Changed visibility of revision on page {article} "
 msgid_plural "Changed visibility of {amount} revisions on page {article} "
 msgstr[0] "पृष्ठ {article} पर रिवीशन के दृश्यता को बदला "
 msgstr[1] "पृष्ठ {article} पर {amount} रिवीशनों के दृश्यता को बदला "
 
-#: src/rc_formatters.py:1008
+#: src/rc_formatters.py:1013
 #, python-brace-format
 msgid "Imported {article} with {count} revision"
 msgid_plural "Imported {article} with {count} revisions"
 msgstr[0] "{count} रिवीशन के साथ {article} को इम्पोर्ट किया गया"
 msgstr[1] "{count} रिवीशनों के साथ {article} को इम्पोर्ट किया गया"
 
-#: src/rc_formatters.py:1013
+#: src/rc_formatters.py:1018
 #, python-brace-format
 msgid "Restored {article}"
 msgstr "{article} को रिस्टोर किया गया"
 
-#: src/rc_formatters.py:1016
+#: src/rc_formatters.py:1021
 msgid "Changed visibility of log events"
 msgstr "लॉग घटनाओं के दृश्यता को बदला गया"
 
-#: src/rc_formatters.py:1026
+#: src/rc_formatters.py:1031
 #, python-brace-format
 msgid "Imported {article} with {count} revision from \"{source}\""
 msgid_plural "Imported {article} with {count} revisions from \"{source}\""
 msgstr[0] "\"{source}\" से {count} रिवीशन के साथ {article} को इम्पोर्ट किया गया"
 msgstr[1] "\"{source}\" से {count} रिवीशनों के साथ {article} को इम्पोर्ट किया गया"
 
-#: src/rc_formatters.py:1031
+#: src/rc_formatters.py:1036
 #, python-brace-format
 msgid "Edited abuse filter number {number}"
 msgstr "अब्यूज़ फिल्टर संख्यी {number} को बदला गया"
 
-#: src/rc_formatters.py:1034
+#: src/rc_formatters.py:1039
 #, python-brace-format
 msgid "Created abuse filter number {number}"
 msgstr "अब्यूज़ फिल्टर संख्या {number} को बनाया गया"
 
-#: src/rc_formatters.py:1037
+#: src/rc_formatters.py:1042
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
 msgstr "{article} के रिवीशन इतिहास को {dest} में मर्ज किया गया"
 
-#: src/rc_formatters.py:1041
+#: src/rc_formatters.py:1046
 msgid "Created account automatically"
 msgstr "अपने आप अकाउंट बनाया गया"
 
-#: src/rc_formatters.py:1044 src/rc_formatters.py:1053
+#: src/rc_formatters.py:1049 src/rc_formatters.py:1058
 msgid "Created account"
 msgstr "अकाउंट बनाया गया"
 
-#: src/rc_formatters.py:1047
+#: src/rc_formatters.py:1052
 #, python-brace-format
 msgid "Created account {article}"
 msgstr "अकाउंट {article} बनाया गया"
 
-#: src/rc_formatters.py:1050
+#: src/rc_formatters.py:1055
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr "अकाउंट {article} बनाया गया और पासवर्ड ईमेल के ज़रिये भेजा गया"
 
-#: src/rc_formatters.py:1056
+#: src/rc_formatters.py:1061
 msgid "Added an entry to the interwiki table"
 msgstr "इंटरविकी टेबल पर एक एंट्री जोड़ा गया"
 
-#: src/rc_formatters.py:1057 src/rc_formatters.py:1063
+#: src/rc_formatters.py:1062 src/rc_formatters.py:1068
 #, python-brace-format
 msgid "Prefix: {prefix}, website: {website} | {desc}"
 msgstr "उपसर्ग: {prefix}, वेबसाइट: {website} | {desc}"
 
-#: src/rc_formatters.py:1062
+#: src/rc_formatters.py:1067
 msgid "Edited an entry in interwiki table"
 msgstr "इंटरविकी टेबल पर एक एंट्री को सम्पादित किया गया"
 
-#: src/rc_formatters.py:1068
+#: src/rc_formatters.py:1073
 msgid "Deleted an entry in interwiki table"
 msgstr "इंटरविकी टेबल में एक एंट्री को डिलीट किया गया"
 
-#: src/rc_formatters.py:1069
+#: src/rc_formatters.py:1074
 #, python-brace-format
 msgid "Prefix: {prefix} | {desc}"
 msgstr "उपसर्ग: {prefix} | {desc}"
 
-#: src/rc_formatters.py:1072
+#: src/rc_formatters.py:1077
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr "पृष्ठ {article} के कंटेंट मॉडल को बदला गया"
 
-#: src/rc_formatters.py:1073
+#: src/rc_formatters.py:1078
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "मॉडल को {old} से {new} में बदला गया: {reason}"
 
-#: src/rc_formatters.py:1078
+#: src/rc_formatters.py:1083
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr "पृष्ठ {article} को गैर-डिफ़ॉल्ट कंटेंट मॉडल की मदद से बनाया"
 
-#: src/rc_formatters.py:1079
+#: src/rc_formatters.py:1084
 #, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr "मॉडल {new} से बनाया: {reason}"
 
-#: src/rc_formatters.py:1082
+#: src/rc_formatters.py:1087
 #, python-brace-format
 msgid "Edited the sprite for {article}"
 msgstr "{article} के स्प्राइट को सम्पादित किया गया"
 
-#: src/rc_formatters.py:1085
+#: src/rc_formatters.py:1090
 #, python-brace-format
 msgid "Created the sprite sheet for {article}"
 msgstr "{article} के लिए स्प्राइट शीट बनाया गया"
 
-#: src/rc_formatters.py:1088
+#: src/rc_formatters.py:1093
 #, python-brace-format
 msgid "Edited the slice for {article}"
 msgstr "{article} के स्लाइस को सम्पादित किया गया"
 
-#: src/rc_formatters.py:1094
+#: src/rc_formatters.py:1099
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
 msgstr "कार्गो टेबल \"{table}\" बनाया गया"
 
-#: src/rc_formatters.py:1098
+#: src/rc_formatters.py:1103
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
 msgstr "कार्गो टेबल \"{table}\" को डिलीट किया गया"
 
-#: src/rc_formatters.py:1105
+#: src/rc_formatters.py:1110
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
 msgstr "कार्गो टेबल \"{table}\" को फिर से बनाया गया"
 
-#: src/rc_formatters.py:1112
+#: src/rc_formatters.py:1117
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
 msgstr "कोर्गो टेबल \"{table}\" को बदला गया"
 
-#: src/rc_formatters.py:1116
-#, python-brace-format
-msgid "Created a tag \"{tag}\""
+#: src/rc_formatters.py:1121
+#, fuzzy, python-brace-format
+msgid "Created the tag \"{tag}\""
 msgstr "टैग \"{tag}\" बनाया गया"
 
-#: src/rc_formatters.py:1120
-#, python-brace-format
-msgid "Deleted a tag \"{tag}\""
+#: src/rc_formatters.py:1125
+#, fuzzy, python-brace-format
+msgid "Deleted the tag \"{tag}\""
 msgstr "टैग \"{tag}\" को डिलीट किया गया"
 
-#: src/rc_formatters.py:1124
-#, python-brace-format
-msgid "Activated a tag \"{tag}\""
-msgstr "टैग \"{tag}\" को ऐक्टिवेट किया गया"
+#: src/rc_formatters.py:1127
+#, fuzzy
+msgid "Removed from"
+msgstr "हटाया गया"
 
 #: src/rc_formatters.py:1127
-#, python-brace-format
-msgid "Deactivated a tag \"{tag}\""
+msgid "{} revision or log entry"
+msgid_plural "{} revisions and/or log entries"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/rc_formatters.py:1131
+#, fuzzy, python-brace-format
+msgid "Activated the tag \"{tag}\""
+msgstr "टैग \"{tag}\" को ऐक्टिवेट किया गया"
+
+#: src/rc_formatters.py:1134
+#, fuzzy, python-brace-format
+msgid "Deactivated the tag \"{tag}\""
 msgstr "टैग \"{tag}\" को डिऐक्टिवेट किया गया"
 
-#: src/rc_formatters.py:1130
+#: src/rc_formatters.py:1137
 msgid "Changed wiki settings"
 msgstr "विकी सेटिंग्स को बदला गया"
 
-#: src/rc_formatters.py:1134
+#: src/rc_formatters.py:1141
 #, python-brace-format
 msgid "Deleted a \"{wiki}\" wiki"
 msgstr "\"{wiki}\" विकी को डिलीट किया गया"
 
-#: src/rc_formatters.py:1137
+#: src/rc_formatters.py:1144
 #, python-brace-format
 msgid "Locked a \"{wiki}\" wiki"
 msgstr "\"{wiki}\" विकी को लॉक किया गया"
 
-#: src/rc_formatters.py:1140
-#, python-brace-format
-msgid "Modified a \"{namespace_name}\" namespace"
+#: src/rc_formatters.py:1147
+#, fuzzy, python-brace-format
+msgid "Modified \"{namespace_name}\" namespace"
 msgstr "\"{namespace_name}\" नेमस्पेस को मॉडिफाइ किया गया"
 
-#: src/rc_formatters.py:1142 src/rc_formatters.py:1147
+#: src/rc_formatters.py:1149 src/rc_formatters.py:1154
 msgid "Wiki"
 msgstr "विकी"
 
-#: src/rc_formatters.py:1144
+#: src/rc_formatters.py:1151
 #, python-brace-format
 msgid "Deleted a \"{namespace_name}\" namespace"
 msgstr "\"{namespace_name}\" नेमस्पेस को डिलीट किया गया"
 
-#: src/rc_formatters.py:1150
+#: src/rc_formatters.py:1157
 #, python-brace-format
 msgid "Modified \"{usergroup_name}\" usergroup"
 msgstr "\"{usergroup_name}\" यूज़रग्रुप को मॉडिफाइ किया गया"
 
-#: src/rc_formatters.py:1153
-#, python-brace-format
-msgid "Restored a \"{wiki}\" wiki"
-msgstr "\"{wiki}\" विकी को रिस्टोर किया गया"
+#: src/rc_formatters.py:1160
+#, fuzzy, python-brace-format
+msgid "Undeleted a \"{wiki}\" wiki"
+msgstr "\"{wiki}\" विकी को डिलीट किया गया"
 
-#: src/rc_formatters.py:1156
+#: src/rc_formatters.py:1163
 #, python-brace-format
 msgid "Unlocked a \"{wiki}\" wiki"
 msgstr "\"{wiki}\" विकी को अनलॉक किया गया"
 
-#: src/rc_formatters.py:1159
+#: src/rc_formatters.py:1166
 #, python-brace-format
 msgid "Generated {file} dump"
 msgstr "{file} डंप जनरेट किया"
 
-#: src/rc_formatters.py:1162
+#: src/rc_formatters.py:1169
 #, python-brace-format
 msgid "Deleted {file} dump"
 msgstr "{file} डंप को डिलीट किया"
 
-#: src/rc_formatters.py:1170
+#: src/rc_formatters.py:1177
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
 msgstr "\"{article}\" को अनुवाद के लिए मार्क किया गया"
 
-#: src/rc_formatters.py:1173
+#: src/rc_formatters.py:1180
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
 msgstr "\"{article}\" को अनुवाद सिस्टम से हटा दिया गया"
 
-#: src/rc_formatters.py:1176
+#: src/rc_formatters.py:1183
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
 msgstr "\"{article}\" से \"{target}\" तक अनुवाद पृष्ठों को लाना पूरा हुआ"
 
-#: src/rc_formatters.py:1179
+#: src/rc_formatters.py:1186
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
 msgstr "\"{article}\" को \"{target}\" पर ले जाते वक्त एक त्रुटि आई"
 
-#: src/rc_formatters.py:1182
+#: src/rc_formatters.py:1189
 #, python-brace-format
 msgid "Completed deletion of translatable page \"{article}\""
 msgstr "अनुवाद-लायक पृष्ठ \"{article}\" के डिलीशन पृष्ठ को पूरा किया"
 
-#: src/rc_formatters.py:1185
+#: src/rc_formatters.py:1192
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translatable page "
@@ -1377,85 +1406,85 @@ msgid ""
 msgstr ""
 "\"{article}\" को डिलीट न किया जा सका जो अनुवाद-लायक पृष्ठ \"{target}\" का है"
 
-#: src/rc_formatters.py:1188
+#: src/rc_formatters.py:1195
 #, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
 msgstr "अनुवाद पृष्ठ {article} के डिलीशन को पूरा किया"
 
-#: src/rc_formatters.py:1191
+#: src/rc_formatters.py:1198
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translation page \"{target}\""
 msgstr "\"{article}\" को डिलीट न किया जा सका जो अनुवाद पृष्ठ \"{target}\" का है"
 
-#: src/rc_formatters.py:1194
+#: src/rc_formatters.py:1201
 #, python-brace-format
 msgid "Encouraged translation of \"{article}\""
 msgstr "{article} के अनुवाद को बढ़ावा दिया गया"
 
-#: src/rc_formatters.py:1197
+#: src/rc_formatters.py:1204
 #, python-brace-format
 msgid "Discouraged translation of \"{article}\""
 msgstr "\"{article}\" के अनुवाद के बढ़ावे को कम किया"
 
-#: src/rc_formatters.py:1203
+#: src/rc_formatters.py:1210
 #, python-brace-format
 msgid "Limited languages for \"{article}\" to `{languages}`"
 msgstr "\"{article}\" के भाषाओं को `{languages}` तक सीमित किया गया"
 
-#: src/rc_formatters.py:1205
+#: src/rc_formatters.py:1212
 #, python-brace-format
 msgid "Priority languages for \"{article}\" set to `{languages}`"
 msgstr "\"{article}\" के मुख्य भाषाओं को `{languages}` में सेट किया गया"
 
-#: src/rc_formatters.py:1207
+#: src/rc_formatters.py:1214
 #, python-brace-format
 msgid "Removed priority languages from \"{article}\""
 msgstr "\"{article}\" से मुख्य भाषाओं को हटा दिया गया"
 
-#: src/rc_formatters.py:1210
+#: src/rc_formatters.py:1217
 #, python-brace-format
 msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
 msgstr "अनुवाद-लायक पृष्ठ \"{article}\" को एग्रीगेट ग्रुप \"{group}\" में डाला गया"
 
-#: src/rc_formatters.py:1213
+#: src/rc_formatters.py:1220
 #, python-brace-format
 msgid ""
 "Removed translatable page \"{article}\" from aggregate group \"{group}\""
 msgstr "अनुवाद-लायक पृष्ठ \"{article}\" को एग्रीगेट ग्रुप \"{group}\" से हटा दिया गया"
 
-#: src/rc_formatters.py:1220
+#: src/rc_formatters.py:1227
 #, python-brace-format
 msgid "Reviewed translation \"{article}\""
 msgstr "अनुवाद \"{article}\" को रिव्यु किया गया"
 
-#: src/rc_formatters.py:1223
+#: src/rc_formatters.py:1230
 #, python-brace-format
 msgid "Changed the state of `{language}` translations of \"{article}\""
 msgstr "\"{article}\" `{language}` अनुवादों के स्थिति को बदला गया"
 
-#: src/rc_formatters.py:1225
+#: src/rc_formatters.py:1232
 msgid "Old state"
 msgstr "पुरानी स्थिति"
 
-#: src/rc_formatters.py:1226
+#: src/rc_formatters.py:1233
 msgid "New state"
 msgstr "नई स्थिति"
 
-#: src/rc_formatters.py:1235
+#: src/rc_formatters.py:1242
 #, python-brace-format
 msgid "Changed the language of \"{article}\""
 msgstr "\"{article}\" के भाषा को बदला"
 
-#: src/rc_formatters.py:1236
+#: src/rc_formatters.py:1243
 msgid "Old language"
 msgstr "पुरानी भाषा"
 
-#: src/rc_formatters.py:1237
+#: src/rc_formatters.py:1244
 msgid "New language"
 msgstr "नई भाषा"
 
-#: src/rc_formatters.py:1241
+#: src/rc_formatters.py:1248
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
 msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
@@ -1464,47 +1493,56 @@ msgstr[0] ""
 msgstr[1] ""
 "{edits} सम्पादनाओं वाले सदस्य \"{old_name}\" को \"{new_name}\" में रीनेम किया गया"
 
-#: src/rc_formatters.py:1243
+#: src/rc_formatters.py:1250
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" to \"{new_name}\""
 msgstr "सदस्य \"{old_name}\" को \"{new_name}\" में रीनेम किया गया"
 
-#: src/rc_formatters.py:1247
+#: src/rc_formatters.py:1254
 msgid "Action has been hidden by administration"
 msgstr "ऐक्शन ऐडमिनिस्ट्रेशन द्वारा छिपाया गया है"
 
-#: src/rc_formatters.py:1252
+#: src/rc_formatters.py:1259
 #, python-brace-format
 msgid "Unknown event `{event}`"
 msgstr "अनजान घटना `{event}`"
 
-#: src/rc_formatters.py:1258 src/rc_formatters.py:1260
+#: src/rc_formatters.py:1265 src/rc_formatters.py:1267
 msgid "Report this on the support server"
 msgstr "इसे सहायता सर्वर पर रिपोर्ट करें"
 
-#: src/rc_formatters.py:1276
+#: src/rc_formatters.py:1283
 msgid "Tags"
 msgstr "टैग"
 
-#: src/rc_formatters.py:1281
+#: src/rc_formatters.py:1288
 msgid "**Added**: "
 msgstr "**जोड़ा**: "
 
-#: src/rc_formatters.py:1281
+#: src/rc_formatters.py:1288
 msgid " and {} more\n"
 msgstr " और {}\n"
 
-#: src/rc_formatters.py:1282
+#: src/rc_formatters.py:1289
 msgid "**Removed**: "
 msgstr "**हटाया**: "
 
-#: src/rc_formatters.py:1282
+#: src/rc_formatters.py:1289
 msgid " and {} more"
 msgstr " और {}"
 
-#: src/rc_formatters.py:1283
+#: src/rc_formatters.py:1290
 msgid "Changed categories"
 msgstr "श्रेणियों को बदला गया"
+
+#, python-brace-format
+#~ msgid "[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}"
+#~ msgstr ""
+#~ "[{author}]({author_url}) ने एक विकी *{wiki_name}* को रिस्टोर किया{comment}"
+
+#, python-brace-format
+#~ msgid "Restored a \"{wiki}\" wiki"
+#~ msgstr "\"{wiki}\" विकी को रिस्टोर किया गया"
 
 #, python-brace-format
 #~ msgid "[{author}]({author_url}) deleted a comment on {target}'s profile"
