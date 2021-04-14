@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
-"PO-Revision-Date: 2021-04-14 14:22+0000\n"
+"PO-Revision-Date: 2021-05-06 14:10+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 4.6\n"
 "Generated-By: pygettext.py 1.5\n"
 
 #: src/rc_formatters.py:28
@@ -607,19 +607,20 @@ msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
 msgstr "[{author}]({author_url}) zastąpił(a) tabelę Cargo „{table}”"
 
 #: src/rc_formatters.py:436
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) utworzył(a) [znacznik]({tag_url}) „{tag}”"
+msgstr ""
+"[{author}]({author_url}) utworzył(a) [znacznik]({tag_url}) „{tag}”{comment}"
 
 #: src/rc_formatters.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) usunął [znacznik]({tag_url}) „{tag}”"
+msgstr "[{author}]({author_url}) usunął [znacznik]({tag_url}) „{tag}”{comment}"
 
 #: src/rc_formatters.py:443
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -627,26 +628,29 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z jedną "
-"wersją{comment}"
+"[{author}]({author_url}) usunął/usunęła [znacznik]({tag_url}) „{tag}” "
+"usuwając go również z jednego logu zmian{comment}"
 msgstr[1] ""
-"[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z "
-"{count} wersjami{comment}"
+"[{author}]({author_url}) usunął/usunęła [znacznik]({tag_url}) „{tag}” "
+"usuwając go również z {count} logów zmian{comment}"
 msgstr[2] ""
-"[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z "
-"{count} wersjami{comment}"
+"[{author}]({author_url}) usunął/usunęła [znacznik]({tag_url}) „{tag}” "
+"usuwając go również z {count} logów zmian{comment}"
 
 #: src/rc_formatters.py:449
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) aktywował(a) [znacznik]({tag_url}) „{tag}”"
+msgstr ""
+"[{author}]({author_url}) aktywował(a) [znacznik]({tag_url}) „{tag}”{comment}"
 
 #: src/rc_formatters.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) dezaktywował(a) [znacznik]({tag_url}) „{tag}”"
+msgstr ""
+"[{author}]({author_url}) dezaktywował(a) [znacznik]({tag_url}) "
+"„{tag}”{comment}"
 
 #: src/rc_formatters.py:454
 #, python-brace-format
@@ -664,7 +668,7 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) zablokował(a) wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:462
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
@@ -689,9 +693,10 @@ msgstr ""
 "*{comment}"
 
 #: src/rc_formatters.py:477
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) usunął/usunęła wiki *{wiki_name}*{comment}"
+msgstr ""
+"[{author}]({author_url}) przywrócił/przywróciła wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:481
 #, python-brace-format
