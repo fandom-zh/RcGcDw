@@ -46,7 +46,7 @@ TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testin
 logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 logger.debug("Current settings: {settings}".format(settings=settings))
-
+from src.migrations import *  # migrations after logging
 storage = datafile
 
 # Remove previous data holding file if exists and limitfetch allows

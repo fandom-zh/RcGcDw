@@ -5,8 +5,10 @@ import json
 discussion_logger = logging.getLogger("rcgcdw.migrations.utils")
 
 
-def return_example_file() -> dict:
+def return_example_file(force=False) -> dict:
 	try:
+		if force:
+			raise FileNotFoundError
 		with open('settings.json.example', 'r') as example_file:
 			return json.loads(example_file.read())
 	except FileNotFoundError:
