@@ -1,21 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Recent changes Goat compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
-# Copyright (C) 2018 Frisk
+# This file is part of Recent changes Goat compatible Discord webhook (RcGcDw).
 
-# This program is free software: you can redistribute it and/or modify
+# RcGcDw is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-# This program is distributed in the hope that it will be useful,
+# RcGcDw is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
@@ -82,7 +81,7 @@ def day_overview_request():
 				recent_changes.downtime_controller(True)
 				complete = 2
 			except KeyError:
-				logger.warning("Wiki returned %s" % (request))
+				logger.warning("Wiki returned %s" % request)
 				complete = 2
 			except MWError:
 				complete = 2
@@ -130,6 +129,7 @@ def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique
 	storage["daily_overview"]["days_tracked"] += 1
 	datafile.save_datafile()
 	return edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score
+
 
 def day_overview():
 	result = day_overview_request()
@@ -207,7 +207,6 @@ def day_overview():
 		logger.debug("function requesting changes for day overview returned with error code")
 
 
-
 # Log in and download wiki information
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
@@ -239,7 +238,7 @@ if settings["rc_enabled"]:
 else:
 	logger.info("Script started! RC is disabled however, this means no recent changes will be sent :c")
 
-if 1 == 2: # additional translation strings in unreachable code
+if 1 == 2:  # additional translation strings in unreachable code
 	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
 	      _("autoreview"), _("autopatrol"), _("wiki_guardian"), ngettext("second", "seconds", 1), ngettext("minute", "minutes", 1), ngettext("hour", "hours", 1), ngettext("day", "days", 1), ngettext("week", "weeks", 1), ngettext("month", "months",1), ngettext("year", "years", 1), ngettext("millennium", "millennia", 1), ngettext("decade", "decades", 1), ngettext("century", "centuries", 1))
 # noinspection PyUnreachableCode
@@ -254,6 +253,6 @@ if TESTING:
 	src.discussions.fetch_discussions()
 	sys.exit(0)
 
-while 1: 
+while 1:
 	time.sleep(1.0)
 	schedule.run_pending()
