@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"POT-Creation-Date: 2020-12-23 00:28+0100\n"
 "PO-Revision-Date: 2020-11-27 13:07+0000\n"
 "Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
@@ -19,24 +19,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/rc.py:321
+#: src/rc.py:322
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} parece estar fora do ar ou inacessível."
 
-#: src/rc.py:322 src/rc.py:334
+#: src/rc.py:323 src/rc.py:335
 msgid "Connection status"
 msgstr "Status da conexão"
 
-#: src/rc.py:332
+#: src/rc.py:333
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr "A conexão com {wiki} parece estar estável agora."
 
-#: src/rc.py:403
+#: src/rc.py:404
 msgid "~~hidden~~"
 msgstr "~~oculto~~"
 
-#: src/rc.py:407
+#: src/rc.py:408
 msgid "hidden"
 msgstr "oculto"

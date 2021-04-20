@@ -29,7 +29,7 @@ supported_logs = {"protect/protect", "protect/modify", "protect/unprotect", "upl
                   "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/comment-purged",
                   "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite",
                   "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate",
-                  "managetags/deactivate", "tag/update", "cargo/createtable", "cargo/deletetable",
+                  "managetags/deactivate", "cargo/createtable", "cargo/deletetable",
                   "cargo/recreatetable", "cargo/replacetable", "upload/revert", "newusers/create",
                   "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers",
                   "managewiki/settings", "managewiki/delete", "managewiki/lock", "managewiki/unlock",

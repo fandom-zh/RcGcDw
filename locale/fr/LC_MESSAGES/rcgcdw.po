@@ -6,18 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 08:29+0100\n"
-"PO-Revision-Date: 2020-09-03 13:14+0200\n"
-"Last-Translator: Frisk <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2020-12-23 00:28+0100\n"
+"PO-Revision-Date: 2020-12-13 14:30+0000\n"
+"Last-Translator: magiczocker <jan-frederik-kriete@t-online.de>\n"
+"Language-Team: French <https://translate.wikibot.de/projects/rcgcdw/main/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2.1\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 2.4.1\n"
 "X-Poedit-Basepath: ../../..\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SearchPath-0: rcgcdw.pot\n"
 
 #: src/rcgcdw.py:115 src/rcgcdw.py:117 src/rcgcdw.py:119 src/rcgcdw.py:121
@@ -30,173 +31,173 @@ msgstr ""
 msgid "Daily overview"
 msgstr "Résumé de la journée"
 
-#: src/rcgcdw.py:155
+#: src/rcgcdw.py:154
 msgid "No activity"
 msgstr "Aucune activité"
 
-#: src/rcgcdw.py:179
+#: src/rcgcdw.py:178
 msgid " ({} action)"
 msgid_plural " ({} actions)"
-msgstr[0] "  ({} action)"
+msgstr[0] " ({} action)"
 msgstr[1] " ({} actions)"
 
-#: src/rcgcdw.py:181
+#: src/rcgcdw.py:180
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] " ({} modification)"
 msgstr[1] " ({} modifications)"
 
-#: src/rcgcdw.py:186
+#: src/rcgcdw.py:185
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] " UTC ({} action)"
 msgstr[1] " UTC ({} actions)"
 
-#: src/rcgcdw.py:188 src/rcgcdw.py:189 src/rcgcdw.py:193
+#: src/rcgcdw.py:187 src/rcgcdw.py:188 src/rcgcdw.py:192
 msgid "But nobody came"
 msgstr "Aucune activité"
 
-#: src/rcgcdw.py:196
+#: src/rcgcdw.py:195
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] "Membre le plus actif"
 msgstr[1] "Membres les plus actifs"
 
-#: src/rcgcdw.py:197
+#: src/rcgcdw.py:196
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] "Article le plus modifié"
 msgstr[1] "Articles les plus modifiés"
 
-#: src/rcgcdw.py:198
+#: src/rcgcdw.py:197
 msgid "Edits made"
 msgstr "Modifications effectuées"
 
-#: src/rcgcdw.py:198
+#: src/rcgcdw.py:197
 msgid "New files"
 msgstr "Nouveaux fichiers"
 
-#: src/rcgcdw.py:198
+#: src/rcgcdw.py:197
 msgid "Admin actions"
 msgstr "Actions d'administrateur"
 
-#: src/rcgcdw.py:199
+#: src/rcgcdw.py:198
 msgid "Bytes changed"
 msgstr "Octets modifiés"
 
-#: src/rcgcdw.py:199
+#: src/rcgcdw.py:198
 msgid "New articles"
 msgstr "Nouveaux articles"
 
-#: src/rcgcdw.py:200
+#: src/rcgcdw.py:199
 msgid "Unique contributors"
 msgstr "Contributeurs uniques"
 
-#: src/rcgcdw.py:201
+#: src/rcgcdw.py:200
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] "Heure la plus active"
 msgstr[1] "Heures les plus actives"
 
-#: src/rcgcdw.py:202
+#: src/rcgcdw.py:201
 msgid "Day score"
 msgstr "Score du jour"
 
-#: src/rcgcdw.py:244
+#: src/rcgcdw.py:243
 msgid "director"
 msgstr "Directeur"
 
-#: src/rcgcdw.py:244
+#: src/rcgcdw.py:243
 msgid "bot"
 msgstr "Robot"
 
-#: src/rcgcdw.py:244
+#: src/rcgcdw.py:243
 msgid "editor"
 msgstr "editor"
 
-#: src/rcgcdw.py:244
+#: src/rcgcdw.py:243
 msgid "directors"
 msgstr "Directeur"
 
-#: src/rcgcdw.py:244
+#: src/rcgcdw.py:243
 msgid "sysop"
 msgstr "Administrateur"
 
-#: src/rcgcdw.py:244
+#: src/rcgcdw.py:243
 msgid "bureaucrat"
 msgstr "Bureaucrate"
 
-#: src/rcgcdw.py:244
+#: src/rcgcdw.py:243
 msgid "reviewer"
 msgstr "reviewer"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "autoreview"
 msgstr "autoreview"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "autopatrol"
 msgstr "autopatrol"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "wiki_guardian"
 msgstr "Gardien du wiki"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "seconde"
 msgstr[1] "secondes"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minute"
 msgstr[1] "minutes"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heures"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "day"
 msgid_plural "days"
 msgstr[0] "jour"
 msgstr[1] "jours"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] "semaine"
 msgstr[1] "semaines"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "month"
 msgid_plural "months"
 msgstr[0] "mois"
 msgstr[1] "mois"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "year"
 msgid_plural "years"
 msgstr[0] "année"
 msgstr[1] "années"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "millennium"
 msgid_plural "millennia"
 msgstr[0] "millénaire"
 msgstr[1] "millénaires"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "decade"
 msgid_plural "decades"
 msgstr[0] "décennie"
 msgstr[1] "décennies"
 
-#: src/rcgcdw.py:245
+#: src/rcgcdw.py:244
 msgid "century"
 msgid_plural "centuries"
 msgstr[0] "centenaire"

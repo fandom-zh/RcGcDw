@@ -1,0 +1,186 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: RcGcDw\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-23 00:28+0100\n"
+"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
+"Language-Team: Chinese (Traditional) <https://translate.wikibot.de/projects/"
+"rcgcdw/main/zh-hant/>\n"
+"Language: zh-hant\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.2.1\n"
+
+#: src/rcgcdw.py:115 src/rcgcdw.py:117 src/rcgcdw.py:119 src/rcgcdw.py:121
+#: src/rcgcdw.py:123 src/rcgcdw.py:125 src/rcgcdw.py:127
+#, python-brace-format
+msgid "{value} (avg. {avg})"
+msgstr "{value}（平均 {avg}）"
+
+#: src/rcgcdw.py:147
+msgid "Daily overview"
+msgstr "每日總覽"
+
+#: src/rcgcdw.py:154
+msgid "No activity"
+msgstr "無動態"
+
+#: src/rcgcdw.py:178
+msgid " ({} action)"
+msgid_plural " ({} actions)"
+msgstr[0] " （{} 次操作）"
+
+#: src/rcgcdw.py:180
+msgid " ({} edit)"
+msgid_plural " ({} edits)"
+msgstr[0] " （{} 次編輯）"
+
+#: src/rcgcdw.py:185
+msgid " UTC ({} action)"
+msgid_plural " UTC ({} actions)"
+msgstr[0] " UTC（{} 次操作）"
+
+#: src/rcgcdw.py:187 src/rcgcdw.py:188 src/rcgcdw.py:192
+msgid "But nobody came"
+msgstr "無人"
+
+#: src/rcgcdw.py:195
+msgid "Most active user"
+msgid_plural "Most active users"
+msgstr[0] "最活躍的使用者"
+
+#: src/rcgcdw.py:196
+msgid "Most edited article"
+msgid_plural "Most edited articles"
+msgstr[0] "編輯次數最多的頁面"
+
+#: src/rcgcdw.py:197
+msgid "Edits made"
+msgstr "作出的編輯"
+
+#: src/rcgcdw.py:197
+msgid "New files"
+msgstr "新建檔案"
+
+#: src/rcgcdw.py:197
+msgid "Admin actions"
+msgstr "管理員操作"
+
+#: src/rcgcdw.py:198
+msgid "Bytes changed"
+msgstr "變更位元組"
+
+#: src/rcgcdw.py:198
+msgid "New articles"
+msgstr "新建頁面"
+
+#: src/rcgcdw.py:199
+msgid "Unique contributors"
+msgstr "編輯者數"
+
+#: src/rcgcdw.py:200
+msgid "Most active hour"
+msgid_plural "Most active hours"
+msgstr[0] "最活躍時段"
+
+#: src/rcgcdw.py:201
+msgid "Day score"
+msgstr "每日分數"
+
+#: src/rcgcdw.py:243
+msgid "director"
+msgstr "嚮導"
+
+#: src/rcgcdw.py:243
+msgid "bot"
+msgstr "機器人"
+
+#: src/rcgcdw.py:243
+msgid "editor"
+msgstr "編輯者"
+
+#: src/rcgcdw.py:243
+msgid "directors"
+msgstr "嚮導"
+
+#: src/rcgcdw.py:243
+msgid "sysop"
+msgstr "管理員"
+
+#: src/rcgcdw.py:243
+msgid "bureaucrat"
+msgstr "行政員"
+
+#: src/rcgcdw.py:243
+msgid "reviewer"
+msgstr "覆核員"
+
+#: src/rcgcdw.py:244
+msgid "autoreview"
+msgstr "自動覆核使用者"
+
+#: src/rcgcdw.py:244
+msgid "autopatrol"
+msgstr "自動巡查使用者"
+
+#: src/rcgcdw.py:244
+msgid "wiki_guardian"
+msgstr "Wiki守衛"
+
+#: src/rcgcdw.py:244
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "秒"
+
+#: src/rcgcdw.py:244
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "分"
+
+#: src/rcgcdw.py:244
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "時"
+
+#: src/rcgcdw.py:244
+msgid "day"
+msgid_plural "days"
+msgstr[0] "日"
+
+#: src/rcgcdw.py:244
+msgid "week"
+msgid_plural "weeks"
+msgstr[0] "週"
+
+#: src/rcgcdw.py:244
+msgid "month"
+msgid_plural "months"
+msgstr[0] "月"
+
+#: src/rcgcdw.py:244
+msgid "year"
+msgid_plural "years"
+msgstr[0] "年"
+
+#: src/rcgcdw.py:244
+msgid "millennium"
+msgid_plural "millennia"
+msgstr[0] "千年"
+
+#: src/rcgcdw.py:244
+msgid "decade"
+msgid_plural "decades"
+msgstr[0] "十年"
+
+#: src/rcgcdw.py:244
+msgid "century"
+msgid_plural "centuries"
+msgstr[0] "世紀"

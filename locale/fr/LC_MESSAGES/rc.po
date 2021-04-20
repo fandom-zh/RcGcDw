@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"POT-Creation-Date: 2020-12-23 00:28+0100\n"
 "PO-Revision-Date: 2020-03-17 21:40+0100\n"
 "Last-Translator: Frisk <>\n"
 "Language-Team: \n"
@@ -20,24 +20,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SearchPath-0: rcgcdw.pot\n"
 
-#: src/rc.py:321
+#: src/rc.py:322
 #, python-brace-format
 msgid "{wiki} seems to be down or unreachable."
 msgstr "{wiki} semble être down ou inatteignable."
 
-#: src/rc.py:322 src/rc.py:334
+#: src/rc.py:323 src/rc.py:335
 msgid "Connection status"
 msgstr "Statut de connexion"
 
-#: src/rc.py:332
+#: src/rc.py:333
 #, python-brace-format
 msgid "Connection to {wiki} seems to be stable now."
 msgstr "La connexion avec {wiki} semble stable maintenant."
 
-#: src/rc.py:403
+#: src/rc.py:404
 msgid "~~hidden~~"
 msgstr ""
 
-#: src/rc.py:407
+#: src/rc.py:408
 msgid "hidden"
 msgstr ""

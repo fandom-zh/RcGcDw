@@ -39,7 +39,7 @@ if "discussion_id" not in datafile.data:
 
 storage = datafile
 
-fetch_url = "{wiki}wikia.php?controller=DiscussionPost&method=getPosts&sortDirection=descending&sortKey=creation_date&limit={limit}".format(wiki=settings["fandom_discussions"]["wiki_url"], limit=settings["fandom_discussions"]["limit"])
+fetch_url = "{wiki}wikia.php?controller=DiscussionPost&method=getPosts&sortDirection=descending&sortKey=creation_date&limit={limit}&includeCounters=false".format(wiki=settings["fandom_discussions"]["wiki_url"], limit=settings["fandom_discussions"]["limit"])
 domain = prepare_paths(settings["fandom_discussions"]["wiki_url"], dry=True)  # Shutdown if the path for discussions is wrong
 
 def fetch_discussions():

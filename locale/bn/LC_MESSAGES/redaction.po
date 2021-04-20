@@ -1,0 +1,25 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: RcGcDw\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-30 11:58+0100\n"
+"PO-Revision-Date: 2020-12-30 13:26+0000\n"
+"Last-Translator: R4356th <radman.siddiki@outlook.com>\n"
+"Language-Team: Bengali <https://translate.wikibot.de/projects/rcgcdw/"
+"redaction/bn/>\n"
+"Language: bn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2.1\n"
+
+#: src/discord/redaction.py:59 src/discord/redaction.py:62
+#: src/discord/redaction.py:67
+msgid "Removed"
+msgstr "সরানো হয়েছে"
