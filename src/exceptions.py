@@ -13,8 +13,16 @@
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
+
 class MWError(Exception):
 	pass
 
+
 class ArticleCommentError(Exception):
 	pass
+
+
+class FormatterBreaksAPISpec(Exception):
+	def __init__(self, field):
+		self.message = f"Formatter doesn't specify {field}!"
+		super().__init__(self.message)

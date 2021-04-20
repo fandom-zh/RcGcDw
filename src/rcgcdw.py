@@ -57,6 +57,8 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 		datafile.save_datafile()
 		os.remove("lastchange.txt")
 
+formatter_hooks = {}
+
 
 def day_overview_request():
 	logger.info("Fetching daily overview... This may take up to 30 seconds!")
