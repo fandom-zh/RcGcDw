@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
 "PO-Revision-Date: 2021-05-06 14:10+0000\n"
-"Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
+"Last-Translator: magiczocker <jan-frederik-kriete@t-online.de>\n"
 "Language-Team: Polish <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/pl/>\n"
 "Language: pl\n"
@@ -95,8 +95,8 @@ msgid ""
 "[{author}]({author_url}) triggered *{abuse_filter}*, performing the action "
 "\"{action}\" on *[{target}]({target_url})* - action taken: {result}."
 msgstr ""
-"[{author}]({author_url}) wywołał(a) *{abuse_filter}*, wykonując akcję "
-"\"{action}\" w *[{target}]({target_url})* - podjęte działanie: {result}"
+"[{author}]({author_url}) wywołał(a) *{abuse_filter}*, wykonując akcję \""
+"{action}\" w *[{target}]({target_url})* - podjęte działanie: {result}."
 
 #: src/rc_formatters.py:85 src/rc_formatters.py:86 src/rc_formatters.py:87
 #: src/rc_formatters.py:457 src/rc_formatters.py:460 src/rc_formatters.py:463
@@ -1429,9 +1429,9 @@ msgid ""
 msgstr ""
 
 #: src/rc_formatters.py:1195
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Zmieniono widoczność wersji na stronie {article} "
+msgstr "Zmieniono widoczność wersji na stronie {article}"
 
 #: src/rc_formatters.py:1198
 #, python-brace-format
