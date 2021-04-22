@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
 "PO-Revision-Date: 2021-04-29 05:47+0000\n"
-"Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
+"Last-Translator: magiczocker <jan-frederik-kriete@t-online.de>\n"
 "Language-Team: Ukrainian <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/uk/>\n"
 "Language: uk\n"
@@ -1406,7 +1406,7 @@ msgstr ""
 #: src/rc_formatters.py:1195
 #, fuzzy, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Змінив видимість {amount} версії сторінки {article} "
+msgstr "Змінив видимість {amount} версії сторінки {article}"
 
 #: src/rc_formatters.py:1198
 #, python-brace-format
