@@ -62,4 +62,3 @@ class Client:
 
 
 client = Client()
-client.make_api_request()

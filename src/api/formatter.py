@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-from src.rcgcdw import formatter_hooks
+import src.rcgcdw
 from src.configloader import settings
 from src.exceptions import FormatterBreaksAPISpec
 from src.discord.message import DiscordMessage
@@ -35,7 +35,7 @@ def _register_formatter(func: Callable[[dict], DiscordMessage], kwargs: dict[str
 	if action_type is None:
 		raise FormatterBreaksAPISpec("event type")
 	if settings["appearance"]["mode"] == formatter_type:
-		formatter_hooks[action_type] = func
+		src.rcgcdw.formatter_hooks[action_type] = func
 
 
 def embed(**kwargs):

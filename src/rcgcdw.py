@@ -47,9 +47,10 @@ logger = logging.getLogger("rcgcdw")
 logger.debug("Current settings: {settings}".format(settings=settings))
 from src.migrations import *  # migrations after logging
 try:
-	import exceptions
+	import extensions
 except ImportError:
 	logger.critical("No extensions module found. What's going on?")
+	raise
 	sys.exit(1)
 storage = datafile
 

@@ -20,7 +20,7 @@ from src.api import formatter
 from src.i18n import rc_formatters
 from src.api.client import Client, client
 from src.configloader import settings
-
+from src.exceptions import *
 
 _ = rc_formatters.gettext
 
@@ -59,16 +59,19 @@ class base():
 			minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "",
 			space=" " if "bot" in change or (action == "edit" and "minor" in change) or action == "new" else "")
 		if settings["appearance"]["embed"]["show_edit_changes"]:
-			if action == "new":
-				changed_content = safe_read(recent_changes._safe_request(
-					"{wiki}?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
-						wiki=ctx.client.WIKI_API_PATH, diff=change["revid"]
-					)), "compare", "*")
-			else:
-				changed_content = safe_read(recent_changes._safe_request(
-					"{wiki}?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
-						wiki=ctx.client.WIKI_API_PATH, diff=change["revid"], oldrev=change["old_revid"]
-					)), "compare", "*")
+			try:
+				if action == "new":
+					changed_content = ctx.client.make_api_request(
+						"{wiki}?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
+							wiki=ctx.client.WIKI_API_PATH, diff=change["revid"]
+						), "compare", "*")
+				else:
+					changed_content = ctx.client.make_api_request(
+						"{wiki}?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
+							wiki=ctx.client.WIKI_API_PATH, diff=change["revid"], oldrev=change["old_revid"]
+						), "compare", "*")
+			except (ServerError):
+				changed_content = None
 			if changed_content:
 				EditDiff = ctx.client.content_parser()
 				EditDiff.feed(changed_content)
