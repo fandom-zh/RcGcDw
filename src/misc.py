@@ -22,6 +22,7 @@ import requests
 from src.configloader import settings
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.discord.queue import messagequeue, send_to_discord
+from src.exceptions import MediaWikiError
 from src.i18n import misc
 
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
@@ -207,6 +208,20 @@ def safe_read(request, *keys):
 		return None
 	return request
 
+
+def parse_mw_request_info(request_data: dict, url: str):
+	"""A function parsing request JSON message from MediaWiki logging all warnings and raising on MediaWiki errors"""
+	# any([True for k in request_data.keys() if k in ("error", "errors")])
+	errors: list = request_data.get("errors", {})  # Is it ugly? I don't know tbh
+	if errors:
+		raise MediaWikiError(str(errors))
+	warnings: list = request_data.get("warnings", {})
+	if warnings:
+		for warning in warnings:
+			misc_logger.warning("MediaWiki returned the following warning: {code} - {text} on {url}.".format(
+				code=warning["code"], text=warning.get("text", warning.get("*", "")), url=url
+			))
+	return request_data
 
 def add_to_dict(dictionary, key):
 	if key in dictionary:

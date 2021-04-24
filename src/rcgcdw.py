@@ -28,7 +28,7 @@ from src.misc import add_to_dict, datafile, \
 	WIKI_API_PATH, create_article_path
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
-from src.rc import recent_changes
+from src.rc import wiki
 from src.exceptions import MWError
 from src.i18n import rcgcdw
 
@@ -74,18 +74,18 @@ def day_overview_request():
 	passes = 0
 	continuearg = ""
 	while not complete and passes < 10:
-		request = recent_changes.safe_request(
+		request = wiki._safe_request(
 			"{wiki}?action=query&format=json&list=recentchanges&rcend={timestamp}Z&rcprop=title%7Ctimestamp%7Csizes%7Cloginfo%7Cuser&rcshow=!bot&rclimit=500&rctype=edit%7Cnew%7Clog{continuearg}".format(
 				wiki=WIKI_API_PATH, timestamp=timestamp, continuearg=continuearg))
 		if request:
 			try:
 				request = request.json()
-				request = recent_changes.handle_mw_errors(request)
+				request = wiki.handle_mw_errors(request)
 				rc = request['query']['recentchanges']
 				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
 			except ValueError:
 				logger.warning("ValueError in fetching changes")
-				recent_changes.downtime_controller(True)
+				wiki.downtime_controller(True)
 				complete = 2
 			except KeyError:
 				logger.warning("Wiki returned %s" % request)
@@ -168,10 +168,10 @@ def day_overview():
 				if item["type"] == "edit":
 					edits += 1
 					changed_bytes += item["newlen"] - item["oldlen"]
-					if (recent_changes.namespaces is not None and "content" in recent_changes.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
+					if (wiki.namespaces is not None and "content" in wiki.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
 						articles = add_to_dict(articles, item["title"])
 				elif item["type"] == "new":
-					if "content" in (recent_changes.namespaces is not None and recent_changes.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
+					if "content" in (wiki.namespaces is not None and wiki.namespaces.get(str(item["ns"]), {})) or item["ns"] == 0:
 						new_articles += 1
 					changed_bytes += item["newlen"]
 				elif item["type"] == "log":
@@ -217,17 +217,17 @@ def day_overview():
 # Log in and download wiki information
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
-		recent_changes.log_in()
+		wiki.log_in()
 	time.sleep(2.0)
-	recent_changes.init_info()
+	wiki.init_info()
 except requests.exceptions.ConnectionError:
 	logger.critical("A connection can't be established with the wiki. Exiting...")
 	sys.exit(1)
 time.sleep(3.0)  # this timeout is to prevent timeouts. It seems Fandom does not like our ~2-3 request in under a second
 if settings["rc_enabled"]:
 	logger.info("Script started! Fetching newest changes...")
-	recent_changes.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
-	schedule.every(settings["cooldown"]).seconds.do(recent_changes.fetch)
+	wiki.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
+	schedule.every(settings["cooldown"]).seconds.do(wiki.fetch)
 	if settings["overview"]:
 		try:
 			overview_time = time.strptime(settings["overview_time"], '%H:%M')
@@ -241,7 +241,7 @@ if settings["rc_enabled"]:
 		except ValueError:
 			logger.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(
 				settings["overview_time"]))
-	schedule.every().day.at("00:00").do(recent_changes.clear_cache)
+	schedule.every().day.at("00:00").do(wiki.clear_cache)
 else:
 	logger.info("Script started! RC is disabled however, this means no recent changes will be sent :c")
 
@@ -254,7 +254,7 @@ if 1 == 2:  # additional translation strings in unreachable code
 if TESTING:
 	logger.debug("DEBUGGING ")
 	storage["rcid"] = 1
-	recent_changes.fetch(amount=5)
+	wiki.fetch(amount=5)
 	day_overview()
 	import src.discussions
 	src.discussions.fetch_discussions()

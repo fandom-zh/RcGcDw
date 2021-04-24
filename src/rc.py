@@ -23,10 +23,12 @@ import requests
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, LinkParser, AUTO_SUPPRESSION_ENABLED
+from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, LinkParser, \
+	AUTO_SUPPRESSION_ENABLED, parse_mw_request_info
 from src.discord.queue import messagequeue
-from src.exceptions import MWError
+from src.exceptions import MWError, BadRequest, ClientError, ServerError, MediaWikiError
 from src.session import session
+from typing import Union
 # from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
 from src.i18n import rc
 from collections import OrderedDict
@@ -37,25 +39,9 @@ storage = datafile
 
 logger = logging.getLogger("rcgcdw.rc")
 
-supported_logs = {"protect/protect", "protect/modify", "protect/unprotect", "upload/overwrite", "upload/upload",
-                  "delete/delete", "delete/delete_redir", "delete/restore", "delete/revision", "delete/event",
-                  "import/upload", "import/interwiki", "merge/merge", "move/move", "move/move_redir",
-                  "protect/move_prot", "block/block", "block/unblock", "block/reblock", "rights/rights",
-                  "rights/autopromote", "abusefilter/modify", "abusefilter/create", "interwiki/iw_add",
-                  "interwiki/iw_edit", "interwiki/iw_delete", "curseprofile/comment-created",
-                  "curseprofile/comment-edited", "curseprofile/comment-deleted", "curseprofile/comment-purged",
-                  "curseprofile/profile-edited", "curseprofile/comment-replied", "contentmodel/change", "sprite/sprite",
-                  "sprite/sheet", "sprite/slice", "managetags/create", "managetags/delete", "managetags/activate",
-                  "managetags/deactivate", "cargo/createtable", "cargo/deletetable",
-                  "cargo/recreatetable", "cargo/replacetable", "upload/revert", "newusers/create",
-                  "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers",
-                  "managewiki/settings", "managewiki/delete", "managewiki/lock", "managewiki/unlock",
-                  "managewiki/namespaces", "managewiki/namespaces-delete", "managewiki/rights", "managewiki/undelete"}
-
-
 LinkParser = LinkParser()
 
-class Recent_Changes_Class(object):
+class Wiki(object):
 	"""Store verious data and functions related to wiki and fetching of Recent Changes"""
 	def __init__(self):
 		self.map_ips = {}
@@ -129,7 +115,7 @@ class Recent_Changes_Class(object):
 		"""Make a typical MW request for rc/abuselog
 
 		If succeeds return the .json() of request and if not raises ConnectionError"""
-		request = self.safe_request(WIKI_API_PATH, params=self.construct_params(amount))
+		request = self._safe_request(WIKI_API_PATH, params=self.construct_params(amount))
 		if request is not None:
 			try:
 				request = request.json()
@@ -178,30 +164,30 @@ class Recent_Changes_Class(object):
 							"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
 			if change["type"] == "categorize":
 				if "commenthidden" not in change:
-					if len(recent_changes.mw_messages.keys()) > 0:
+					if len(wiki.mw_messages.keys()) > 0:
 						cat_title = change["title"].split(':', 1)[1]
 						# I so much hate this, blame Markus for making me do this
 						if change["revid"] not in categorize_events:
 							categorize_events[change["revid"]] = {"new": set(), "removed": set()}
 						comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
-						if recent_changes.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or \
-								recent_changes.mw_messages[
+						if wiki.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or \
+								wiki.mw_messages[
 									"recentchanges-page-added-to-category-bundled"] in comment_to_match:
 							categorize_events[change["revid"]]["new"].add(cat_title)
 							logger.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
-						elif recent_changes.mw_messages[
+						elif wiki.mw_messages[
 							"recentchanges-page-removed-from-category"] in comment_to_match or \
-								recent_changes.mw_messages[
+								wiki.mw_messages[
 									"recentchanges-page-removed-from-category-bundled"] in comment_to_match:
 							categorize_events[change["revid"]]["removed"].add(cat_title)
 							logger.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
 						else:
 							logger.debug(
 								"Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(
-									recent_changes.mw_messages["recentchanges-page-added-to-category"],
-									recent_changes.mw_messages["recentchanges-page-removed-from-category"],
-									recent_changes.mw_messages["recentchanges-page-removed-from-category-bundled"],
-									recent_changes.mw_messages["recentchanges-page-added-to-category-bundled"],
+									wiki.mw_messages["recentchanges-page-added-to-category"],
+									wiki.mw_messages["recentchanges-page-removed-from-category"],
+									wiki.mw_messages["recentchanges-page-removed-from-category-bundled"],
+									wiki.mw_messages["recentchanges-page-added-to-category-bundled"],
 									comment_to_match))
 					else:
 						logger.warning(
@@ -264,7 +250,9 @@ class Recent_Changes_Class(object):
 				abuselog_last_id = self.prepare_abuse_log(abuselog)
 		return rc_last_id, abuselog_last_id
 
-	def safe_request(self, url, params=None):
+	def _safe_request(self, url, params=None):
+		"""This method is depreciated, please use api_request"""
+		logger.warning("safe_request is depreciated, please use api_request or own requests request")
 		try:
 			if params:
 				request = self.session.get(url, params=params, timeout=10, allow_redirects=False)
@@ -291,6 +279,76 @@ class Recent_Changes_Class(object):
 				sys.exit(0)
 			return request
 
+	def api_request(self, params: Union[str, OrderedDict], *json_path: list[str], timeout: int=10, allow_redirects: bool=False):
+		"""Method to GET request data from the wiki's API with error handling including recognition of MediaWiki errors.
+		
+		Parameters:
+			
+			params (str, OrderedDict): a string or collections.OrderedDict object containing query parameters
+			json_path (str): *args taking strings as values. After request is parsed as json it will extract data from given json path
+			timeout (int, float) (default=10): int or float limiting time required for receiving a full response from a server before returning TimeoutError
+			allow_redirects (bool) (default=False): switches whether the request should follow redirects or not
+			
+		Returns:
+			
+			request_content (dict): a dict resulting from json extraction of HTTP GET request with given json_path
+			OR
+			One of the following exceptions:
+			ServerError: When connection with the wiki failed due to server error
+			ClientError: When connection with the wiki failed due to client error
+			KeyError: When json_path contained keys that weren't found in response JSON response
+			BadRequest: When params argument is of wrong type
+			MediaWikiError: When MediaWiki returns an error
+		"""
+		# Making request
+		try:
+			if isinstance(params, str):
+				request = self.session.get(WIKI_API_PATH + params, timeout=timeout, allow_redirects=allow_redirects)
+			elif isinstance(params, OrderedDict):
+				request = self.session.get(WIKI_API_PATH, params=params, timeout=timeout, allow_redirects=allow_redirects)
+			else:
+				raise BadRequest(params)
+		except requests.exceptions.Timeout:
+			logger.warning("Reached timeout error for request on link {url}".format(url=WIKI_API_PATH+str(params)))
+			self.downtime_controller(True)
+			raise ServerError
+		except requests.exceptions.ConnectionError:
+			logger.warning("Reached connection error for request on link {url}".format(url=WIKI_API_PATH+str(params)))
+			self.downtime_controller(True)
+			raise ServerError
+		except requests.exceptions.ChunkedEncodingError:
+			logger.warning("Detected faulty response from the web server for request on link {url}".format(url=WIKI_API_PATH+str(params)))
+			self.downtime_controller(True)
+			raise ServerError
+		# Catching HTTP errors
+		if 499 < request.status_code < 600:
+			self.downtime_controller(True)
+			raise ServerError
+		elif request.status_code == 302:
+			logger.critical(
+				"Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(
+					request.next.url))
+			sys.exit(0)
+		elif 399 < request.status_code < 500:
+			logger.error("Request returned ClientError status code on {url}".format(url=request.url))
+			raise ClientError(request)
+		else:
+			# JSON Extraction
+			try:
+				request_json = parse_mw_request_info(request.json(), request.url)
+				for item in request_json:
+					request_json = request_json[item]
+			except ValueError:
+				logger.warning("ValueError when extracting JSON data on {url}".format(url=request.url))
+				self.downtime_controller(True)
+				raise ServerError
+			except MediaWikiError:
+				logger.exception("MediaWiki error on request: {}".format(request.url))
+				raise
+			except KeyError:
+				raise
+		return request_json
+
 	def check_connection(self, looped=False):
 		online = 0
 		for website in ["https://google.com", "https://instagram.com", "https://steamcommunity.com"]:
@@ -308,7 +366,7 @@ class Recent_Changes_Class(object):
 			if not looped:
 				while 1:  # recursed loop, check for connection (every 10 seconds) as long as three services are down, don't do anything else
 					if self.check_connection(looped=True):
-						recent_changes.fetch(amount=settings["limitrefetch"])
+						wiki.fetch(amount=settings["limitrefetch"])
 						break
 					time.sleep(10)
 			return False
@@ -347,7 +405,7 @@ class Recent_Changes_Class(object):
 			clean_entries()
 
 	def init_info(self):
-		startup_info = safe_read(self.safe_request(
+		startup_info = safe_read(self._safe_request(
 			"{wiki}?action=query&format=json&uselang=content&list=tags&meta=allmessages%7Csiteinfo&utf8=1&tglimit=max&tgprop=displayname&ammessages=recentchanges-page-added-to-category%7Crecentchanges-page-removed-from-category%7Crecentchanges-page-added-to-category-bundled%7Crecentchanges-page-removed-from-category-bundled&amenableparser=1&amincludelocal=1&siprop=namespaces".format(
 				wiki=WIKI_API_PATH)), "query")
 		if startup_info:
@@ -375,7 +433,7 @@ class Recent_Changes_Class(object):
 
 	def pull_comment(self, comment_id):
 		try:
-			comment = self.handle_mw_errors(self.safe_request(
+			comment = self.handle_mw_errors(self._safe_request(
 				"{wiki}?action=comment&do=getRaw&comment_id={comment}&format=json".format(wiki=WIKI_API_PATH,
 				                                                                          comment=comment_id)).json())[
 				"text"]
@@ -393,13 +451,14 @@ class Recent_Changes_Class(object):
 		return ""
 
 
-recent_changes = Recent_Changes_Class()
+wiki = Wiki()
+
 
 def essential_info(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
 	logger.debug(change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
-		appearance_mode("suppressed", change, "", changed_categories, recent_changes)
+		appearance_mode("suppressed", change, "", changed_categories, wiki)
 		return
 	if "commenthidden" not in change:
 		LinkParser.feed(change["parsedcomment"])
@@ -431,7 +490,7 @@ def essential_info(change, changed_categories):
 		return
 	if identification_string in settings["ignored"]:
 		return
-	appearance_mode(identification_string, change, parsed_comment, changed_categories, recent_changes)
+	appearance_mode(identification_string, change, parsed_comment, changed_categories, wiki)
 
 def abuselog_processing(entry, recent_changes):
 	abuselog_appearance_mode(entry, recent_changes)

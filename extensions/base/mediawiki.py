@@ -60,12 +60,12 @@ class base():
 			space=" " if "bot" in change or (action == "edit" and "minor" in change) or action == "new" else "")
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			if action == "new":
-				changed_content = safe_read(recent_changes.safe_request(
+				changed_content = safe_read(recent_changes._safe_request(
 					"{wiki}?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
 						wiki=ctx.client.WIKI_API_PATH, diff=change["revid"]
 					)), "compare", "*")
 			else:
-				changed_content = safe_read(recent_changes.safe_request(
+				changed_content = safe_read(recent_changes._safe_request(
 					"{wiki}?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
 						wiki=ctx.client.WIKI_API_PATH, diff=change["revid"], oldrev=change["old_revid"]
 					)), "compare", "*")

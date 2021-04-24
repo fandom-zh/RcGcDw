@@ -53,7 +53,7 @@ def format_user(change, recent_changes, action):
 			user=change["user"].replace(" ", "_")))  # Replace here needed in case of #75
 		logger.debug("current user: {} with cache of IPs: {}".format(change["user"], recent_changes.map_ips.keys()))
 		if change["user"] not in list(recent_changes.map_ips.keys()):
-			contibs = safe_read(recent_changes.safe_request(
+			contibs = safe_read(recent_changes._safe_request(
 				"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
 					wiki=WIKI_API_PATH, user=change["user"], timestamp=change["timestamp"])), "query", "usercontribs")
 			if contibs is None:
@@ -715,7 +715,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 
 	elif action in ("upload/overwrite", "upload/upload", "upload/revert"):  # sending files
 		license = None
-		urls = safe_read(recent_changes.safe_request(
+		urls = safe_read(recent_changes._safe_request(
 			"{wiki}?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl%7Carchivename&iilimit=5".format(
 				wiki=WIKI_API_PATH, filename=change["title"])), "query", "pages")
 		link = create_article_path(change["title"])
@@ -755,7 +755,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		else:
 			embed["title"] = _("Uploaded {name}").format(name=change["title"])
 			if settings["license_detection"]:
-				article_content = safe_read(recent_changes.safe_request(
+				article_content = safe_read(recent_changes._safe_request(
 					"{wiki}?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
 						wiki=WIKI_API_PATH, article=quote_plus(change["title"], safe=''))), "query", "pages")
 				if article_content is None:
