@@ -13,12 +13,29 @@
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-from src.rcgcdw import formatter_hooks
+import src.rcgcdw
+import src.rc
+import src.misc
+
 
 class Client:
+	"""
+		A client for interacting with RcGcDw when creating formatters or hooks.
+	"""
 	def __init__(self):
-		self._formatters = formatter_hooks
-		self.
+		self._formatters = src.rcgcdw.formatter_hooks
+		self.__recent_changes = src.rc.recent_changes
+		self.WIKI_API_PATH = src.misc.WIKI_API_PATH
+		self.WIKI_ARTICLE_PATH = src.misc.WIKI_ARTICLE_PATH
+		self.WIKI_SCRIPT_PATH = src.misc.WIKI_SCRIPT_PATH
+		self.WIKI_JUST_DOMAIN = src.misc.WIKI_JUST_DOMAIN
+		self.content_parser = src.misc.ContentParser
+
+	def refresh_internal_data(self):
+		"""Refreshes internal storage data for wiki tags and MediaWiki messages."""
+		self.__recent_changes.init_info()
+
+
 
 
 

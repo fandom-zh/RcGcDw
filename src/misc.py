@@ -115,6 +115,13 @@ def escape_formatting(data):
 
 
 class ContentParser(HTMLParser):
+	"""ContentPerser is an implementation of HTMLParser that parses output of action=compare&prop=diff API request
+	for two MediaWiki revisions. It extracts the following:
+	small_prev_ins - storing up to 1000 characters of added text
+	small_prev_del - storing up to 1000 chracters of removed text
+	ins_length - storing length of inserted text
+	del_length - storing length of deleted text
+	"""
 	more = _("\n__And more__")
 	current_tag = ""
 	last_ins = None

@@ -712,58 +712,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		change["user"], author_url = format_user(change, recent_changes, action)
 		embed.set_author(change["user"], author_url)
 	if action in ("edit", "new"):  # edit or new page
-		editsize = change["newlen"] - change["oldlen"]
-		if editsize > 0:
-			if editsize > 6032:
-				embed["color"] = 65280
-			else:
-				embed["color"] = 35840 + (math.floor(editsize / 52)) * 256
-		elif editsize < 0:
-			if editsize < -6032:
-				embed["color"] = 16711680
-			else:
-				embed["color"] = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
-		elif editsize == 0:
-			embed["color"] = 8750469
-		if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
-			recent_changes.init_info()
-		link = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
-			wiki=WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
-			article=change["title"].replace(" ", "_").replace("%", "%25").replace("\\", "%5C").replace("&", "%26"))
-		embed["title"] = "{redirect}{article} ({new}{minor}{bot}{space}{editsize})".format(redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
-			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
-		                                                             minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "", space=" " if "bot" in change or (action == "edit" and "minor" in change) or action == "new" else "")
-		if settings["appearance"]["embed"]["show_edit_changes"]:
-			if action == "new":
-				changed_content = safe_read(recent_changes.safe_request(
-				"{wiki}?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
-					wiki=WIKI_API_PATH, diff=change["revid"]
-				)), "compare", "*")
-			else:
-				changed_content = safe_read(recent_changes.safe_request(
-					"{wiki}?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
-						wiki=WIKI_API_PATH, diff=change["revid"],oldrev=change["old_revid"]
-					)), "compare", "*")
-			if changed_content:
-				EditDiff = ContentParser()
-				EditDiff.feed(changed_content)
-				if EditDiff.small_prev_del:
-					if EditDiff.small_prev_del.replace("~~", "").isspace():
-						EditDiff.small_prev_del = _('__Only whitespace__')
-					else:
-						EditDiff.small_prev_del = EditDiff.small_prev_del.replace("~~~~", "")
-				if EditDiff.small_prev_ins:
-					if EditDiff.small_prev_ins.replace("**", "").isspace():
-						EditDiff.small_prev_ins = _('__Only whitespace__')
-					else:
-						EditDiff.small_prev_ins = EditDiff.small_prev_ins.replace("****", "")
-				logger.debug("Changed content: {}".format(EditDiff.small_prev_ins))
-				if EditDiff.small_prev_del and not action == "new":
-					embed.add_field(_("Removed"), "{data}".format(data=EditDiff.small_prev_del), inline=True)
-				if EditDiff.small_prev_ins:
-					embed.add_field(_("Added"), "{data}".format(data=EditDiff.small_prev_ins), inline=True)
-			else:
-				logger.warning("Unable to download data on the edit content!")
+
 	elif action in ("upload/overwrite", "upload/upload", "upload/revert"):  # sending files
 		license = None
 		urls = safe_read(recent_changes.safe_request(

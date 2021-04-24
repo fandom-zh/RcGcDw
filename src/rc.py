@@ -27,7 +27,7 @@ from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, saf
 from src.discord.queue import messagequeue
 from src.exceptions import MWError
 from src.session import session
-from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
+# from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
 from src.i18n import rc
 from collections import OrderedDict
 
@@ -51,17 +51,6 @@ supported_logs = {"protect/protect", "protect/modify", "protect/unprotect", "upl
                   "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers",
                   "managewiki/settings", "managewiki/delete", "managewiki/lock", "managewiki/unlock",
                   "managewiki/namespaces", "managewiki/namespaces-delete", "managewiki/rights", "managewiki/undelete"}
-
-# Set the proper formatter
-if settings["appearance"]["mode"] == "embed":
-	appearance_mode = embed_formatter
-	abuselog_appearance_mode = embed_abuselog_formatter
-elif settings["appearance"]["mode"] == "compact":
-	appearance_mode = compact_formatter
-	abuselog_appearance_mode = compact_abuselog_formatter
-else:
-	logger.critical("Unknown formatter!")
-	sys.exit(1)
 
 
 LinkParser = LinkParser()
@@ -298,7 +287,7 @@ class Recent_Changes_Class(object):
 				self.downtime_controller(True)
 				return None
 			elif request.status_code == 302:
-				logger.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or Gamepedia is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
+				logger.critical("Redirect detected! Either the wiki given in the script settings (wiki field) is incorrect/the wiki got removed or is giving us the false value. Please provide the real URL to the wiki, current URL redirects to {}".format(request.next.url))
 				sys.exit(0)
 			return request
 

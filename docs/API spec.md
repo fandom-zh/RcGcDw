@@ -12,17 +12,17 @@ A class allowing to change the message content and/or execute additional actions
 
 ## File structure
 Directory with extensions should be possible to be changed using settings.json
-/
- /src
- /extensions
- /extensions/base
- /extensions/abusefilter
-  /extensions/abusefilter/abusefilter.py
- /extensions/managewiki
-  /extensions/managewiki/managewiki.py
- /extensions/prehooks/
-  /extensions/prehooks/friskyhooks.py
- /extensions/posthooks/
+/    
+ /src   
+ /extensions   
+ /extensions/base   
+ /extensions/abusefilter    
+  /extensions/abusefilter/abusefilter.py   
+ /extensions/managewiki   
+  /extensions/managewiki/managewiki.py   
+ /extensions/prehooks/   
+  /extensions/prehooks/friskyhooks.py   
+ /extensions/posthooks/   
 
 ## API
 api object exposes various data which allows to extend the usefulness of what can be then sent to Discord.
@@ -46,11 +46,11 @@ class abusefilter(Formatter):
 		super().__init__(api)
 		
     @formatter.embed(event="abuselog/modify", mode="embed")
-	def embed_modify(self, change: dict) -> DiscordMessage:
+    def embed_modify(self, change: dict) -> DiscordMessage:
 		return DiscordMessage
 		
     @formatter.compact(event="abuselog/modify")
-	def compact_modify(self, change: dict) -> DiscordMessage:
+    def compact_modify(self, change: dict) -> DiscordMessage:
 		return DiscordMessage
 
 ```

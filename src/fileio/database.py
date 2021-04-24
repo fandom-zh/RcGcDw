@@ -22,6 +22,7 @@ logger = logging.getLogger("rcgcdw.fileio.database")
 
 
 def create_schema():
+	"""Creates a SQLite database schema"""
 	logger.info("Creating database schema...")
 	db_cursor.executescript(
 	"""BEGIN TRANSACTION;
@@ -43,6 +44,7 @@ def create_schema():
 
 
 def create_connection() -> (sqlite3.Connection, sqlite3.Cursor):
+	"""Creates a connection to the database"""
 	_db_connection = sqlite3.connect(settings['auto_suppression'].get("db_location", ':memory:'))
 	_db_connection.row_factory = sqlite3.Row
 	_db_cursor = _db_connection.cursor()
@@ -66,6 +68,7 @@ def add_entry(pageid: int, revid: int, logid: int, message, message_id: str):
 	db_cursor.execute("INSERT INTO event (pageid, revid, logid, msg_id) VALUES (?, ?, ?, ?)", (pageid, revid, logid, message_id))
 	logger.debug("Adding an entry to the database (pageid: {}, revid: {}, logid: {}, message: {})".format(pageid, revid, logid, message))
 	db_connection.commit()
+
 
 def clean_entries():
 	"""Cleans entries that are 50+"""
