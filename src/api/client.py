@@ -60,5 +60,7 @@ class Client:
 				"""
 		return self.__recent_changes.api_request(params, *json_path, timeout, allow_redirects)
 
+	def get_formatters(self):
+		return self._formatters
 
 client = Client()

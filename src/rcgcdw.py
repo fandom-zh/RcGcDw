@@ -39,19 +39,22 @@ if settings["fandom_discussions"]["enabled"]:
 	import src.discussions
 
 TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
-
+formatter_hooks = {}
 # Prepare logging
 
 logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 logger.debug("Current settings: {settings}".format(settings=settings))
 from src.migrations import *  # migrations after logging
-try:
-	import extensions
-except ImportError:
-	logger.critical("No extensions module found. What's going on?")
-	raise
-	sys.exit(1)
+
+
+def load_extensions():
+	"""Loads all of the extensions, can be a local import because all we need is them to register"""
+	try:
+		import extensions
+	except ImportError:
+		logger.critical("No extensions module found. What's going on?")
+		sys.exit(1)
 storage = datafile
 
 # Remove previous data holding file if exists and limitfetch allows
@@ -62,8 +65,6 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 		storage["rcid"] = int(sfile.read().strip())
 		datafile.save_datafile()
 		os.remove("lastchange.txt")
-
-formatter_hooks = {}
 
 
 def day_overview_request():
@@ -251,6 +252,7 @@ if 1 == 2:  # additional translation strings in unreachable code
 	      _("autoreview"), _("autopatrol"), _("wiki_guardian"), ngettext("second", "seconds", 1), ngettext("minute", "minutes", 1), ngettext("hour", "hours", 1), ngettext("day", "days", 1), ngettext("week", "weeks", 1), ngettext("month", "months",1), ngettext("year", "years", 1), ngettext("millennium", "millennia", 1), ngettext("decade", "decades", 1), ngettext("century", "centuries", 1))
 # noinspection PyUnreachableCode
 
+load_extensions()
 
 if TESTING:
 	logger.debug("DEBUGGING ")

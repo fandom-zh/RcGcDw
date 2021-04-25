@@ -18,7 +18,8 @@ import math
 from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import rc_formatters
-from src.api.client import Client, client
+from src.api.client import Client
+from src.api.context import Context
 from src.configloader import settings
 from src.exceptions import *
 
@@ -32,7 +33,7 @@ class base():
 		super().__init__(api)
 
 	@formatter.embed(event="edit", mode="embed")
-	def embed_edit(self, ctx: Client, change: dict) -> DiscordMessage:
+	def embed_edit(self, ctx: Context, change: dict) -> DiscordMessage:
 		embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
 		action = ctx.event
 		editsize = change["newlen"] - change["oldlen"]
@@ -92,6 +93,7 @@ class base():
 					embed.add_field(_("Added"), "{data}".format(data=EditDiff.small_prev_ins), inline=True)
 			else:
 				logger.warning("Unable to download data on the edit content!")
+		return embed
 
 	@formatter.compact(event="edit", mode="embed")
 	def compact_edit(self, change: dict):

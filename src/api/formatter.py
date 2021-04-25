@@ -14,11 +14,13 @@
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 import src.rcgcdw
+import logging
 from src.configloader import settings
 from src.exceptions import FormatterBreaksAPISpec
 from src.discord.message import DiscordMessage
 from typing import Optional, Callable
 
+logger = logging.getLogger("src.api.formatter")
 
 def _register_formatter(func: Callable[[dict], DiscordMessage], kwargs: dict[str, str], formatter_type: str,
                         action_type: Optional[str]=None):
@@ -35,6 +37,10 @@ def _register_formatter(func: Callable[[dict], DiscordMessage], kwargs: dict[str
 	if action_type is None:
 		raise FormatterBreaksAPISpec("event type")
 	if settings["appearance"]["mode"] == formatter_type:
+		if action_type in src.rcgcdw.formatter_hooks:
+			logger.warning(f"Action {action_type} is already defined inside of "
+			               f"{src.rcgcdw.formatter_hooks[action_type].__module__}! "
+			               f"Overwriting it with one from {func.__module__}")
 		src.rcgcdw.formatter_hooks[action_type] = func
 
 

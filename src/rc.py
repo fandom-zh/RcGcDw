@@ -20,6 +20,7 @@ import sys
 import time
 import logging
 import requests
+import src.api.client
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
@@ -28,6 +29,7 @@ from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, saf
 from src.discord.queue import messagequeue
 from src.exceptions import MWError, BadRequest, ClientError, ServerError, MediaWikiError
 from src.session import session
+from src.api.context import Context
 from typing import Union
 # from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
 from src.i18n import rc
@@ -202,7 +204,7 @@ class Wiki(object):
 					logger.debug("Change ({}) is lower or equal to recent_id {}".format(change["rcid"], recent_id))
 					continue
 				logger.debug(recent_id)
-				essential_info(change, categorize_events.get(change.get("revid"), None))
+				rc_processor(change, categorize_events.get(change.get("revid"), None))
 		return highest_id
 
 	def prepare_abuse_log(self, abuse_log: list):
@@ -454,12 +456,13 @@ class Wiki(object):
 wiki = Wiki()
 
 
-def essential_info(change, changed_categories):
+def rc_processor(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
+	formatters = src.api.client.client.get_formatters()  # TODO Make it better? Importing might be a hell
 	logger.debug(change)
+	context = Context(settings["appearance"]["mode"], settings["webhookURL"], src.api.client.client)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
-		appearance_mode("suppressed", change, "", changed_categories, wiki)
-		return
+		context.event = "suppressed"
 	if "commenthidden" not in change:
 		LinkParser.feed(change["parsedcomment"])
 		parsed_comment = LinkParser.new_string
