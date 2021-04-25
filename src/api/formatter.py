@@ -12,8 +12,7 @@
 
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
-
-import src.rcgcdw
+import src.api.hooks
 import logging
 from src.configloader import settings
 from src.exceptions import FormatterBreaksAPISpec
@@ -37,11 +36,11 @@ def _register_formatter(func: Callable[[dict], DiscordMessage], kwargs: dict[str
 	if action_type is None:
 		raise FormatterBreaksAPISpec("event type")
 	if settings["appearance"]["mode"] == formatter_type:
-		if action_type in src.rcgcdw.formatter_hooks:
+		if action_type in src.api.hooks.formatter_hooks:
 			logger.warning(f"Action {action_type} is already defined inside of "
-			               f"{src.rcgcdw.formatter_hooks[action_type].__module__}! "
+			               f"{src.api.hooks.formatter_hooks[action_type].__module__}! "
 			               f"Overwriting it with one from {func.__module__}")
-		src.rcgcdw.formatter_hooks[action_type] = func
+		src.api.hooks.formatter_hooks[action_type] = func
 
 
 def embed(**kwargs):
@@ -59,7 +58,7 @@ def embed(**kwargs):
 	return decorator_cont
 
 
-def compact(func: Callable[[dict], DiscordMessage], **kwargs):
+def compact(**kwargs):
 	"""
 	Decorator to register a formatter are return a function
 

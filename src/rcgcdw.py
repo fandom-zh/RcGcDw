@@ -19,7 +19,7 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, requests, datetime, gettext, math, os.path, schedule, sys, re
+import time, logging.config, requests, datetime, math, os.path, schedule, sys, re
 
 import src.misc
 from collections import defaultdict, Counter
@@ -27,6 +27,7 @@ from collections import defaultdict, Counter
 from typing import Optional
 import src.api.client
 from src.api.context import Context
+from src.api.hooks import formatter_hooks
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, \
 	WIKI_API_PATH
@@ -44,13 +45,11 @@ if settings["fandom_discussions"]["enabled"]:
 	import src.discussions
 
 TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
-formatter_hooks = {}
 # Prepare logging
 
 logging.config.dictConfig(settings["logging"])
 logger = logging.getLogger("rcgcdw")
 logger.debug("Current settings: {settings}".format(settings=settings))
-from src.migrations import *  # migrations after logging
 
 
 def load_extensions():

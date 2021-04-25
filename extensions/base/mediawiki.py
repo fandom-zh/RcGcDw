@@ -94,6 +94,6 @@ class base():
 				logger.warning("Unable to download data on the edit content!")
 		return embed
 
-	@formatter.compact(event="edit", mode="embed")
-	def compact_edit(self, change: dict):
+	@formatter.compact(event="edit", mode="compact")
+	def compact_edit(self, ctx: Context, change: dict):
 		return DiscordMessage()
