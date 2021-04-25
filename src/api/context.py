@@ -21,3 +21,6 @@ class Context:
 		self.webhook_url = webhook_url
 		self.message_type = message_type
 		self.event = None
+
+	def set_categories(self, cats):
+		self.categories = cats

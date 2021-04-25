@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 import base64
-import json, logging, sys, re
+import json, logging, sys
 from html.parser import HTMLParser
-from urllib.parse import urlparse, urlunparse, quote
+from urllib.parse import urlparse, urlunparse
 import requests
+
+from src.api.util import escape_formatting
 from src.configloader import settings
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.discord.queue import messagequeue, send_to_discord
@@ -103,16 +105,6 @@ datafile = DataFile()
 def weighted_average(value, weight, new_value):
 	"""Calculates weighted average of value number with weight weight and new_value with weight 1"""
 	return round(((value * weight) + new_value) / (weight + 1), 2)
-
-
-def link_formatter(link):
-	"""Formats a link to not embed it"""
-	return "<" + quote(link.replace(" ", "_"), "/:?=&") + ">"
-
-
-def escape_formatting(data):
-	"""Escape Discord formatting"""
-	return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
 
 
 class ContentParser(HTMLParser):
@@ -274,11 +266,6 @@ def prepare_paths(path, dry=False):
 
 
 prepare_paths(settings["wiki_url"])
-
-
-def create_article_path(article: str) -> str:
-	"""Takes the string and creates an URL with it as the article name"""
-	return WIKI_ARTICLE_PATH.replace("$1", article)
 
 
 def send_simple(msgtype, message, name, avatar):

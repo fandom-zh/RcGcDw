@@ -89,6 +89,9 @@ class DiscordMessage:
 	def set_name(self, name):
 		self.webhook_object["username"] = name
 
+	def set_link(self, link):
+		self.embed["link"] = link
+
 
 class DiscordMessageRaw(DiscordMessage):
 	def __init__(self, content: dict, webhook_url: str):

@@ -174,14 +174,14 @@ def send_to_discord(data: Optional[DiscordMessage], meta: DiscordMessageMetadata
 						logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
 							to_check, regex))
 						return  # discard the message without anything
-	if messagequeue:
-		messagequeue.add_message((data, meta))
-	else:
-		code = send_to_discord_webhook(data, metadata=meta)
-		if code == 3:
+		if messagequeue:
 			messagequeue.add_message((data, meta))
-		elif code == 2:
-			time.sleep(5.0)
-			messagequeue.add_message((data, meta))
-		elif code < 2:
-			pass
+		else:
+			code = send_to_discord_webhook(data, metadata=meta)
+			if code == 3:
+				messagequeue.add_message((data, meta))
+			elif code == 2:
+				time.sleep(5.0)
+				messagequeue.add_message((data, meta))
+			elif code < 2:
+				pass

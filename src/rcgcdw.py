@@ -19,18 +19,23 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, requests, datetime, gettext, math, os.path, schedule, sys
+import time, logging.config, requests, datetime, gettext, math, os.path, schedule, sys, re
 
 import src.misc
 from collections import defaultdict, Counter
+
+import src.api.client
+from typing import Optional
+from src.api.context import Context
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, \
-	WIKI_API_PATH, create_article_path
+	WIKI_API_PATH, LinkParser
+from src.api.util import create_article_path, default_message
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
-from src.rc import wiki
 from src.exceptions import MWError
 from src.i18n import rcgcdw
+from src.wiki import Wiki
 
 _ = rcgcdw.gettext
 ngettext = rcgcdw.ngettext
@@ -66,6 +71,12 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 		datafile.save_datafile()
 		os.remove("lastchange.txt")
 
+
+def no_formatter(ctx: Context, change: dict) -> None:
+	logger.warning(f"There is no formatter specified for {ctx.event}! Ignoring event.")
+	return
+
+formatter_hooks["no_formatter"] = no_formatter
 
 def day_overview_request():
 	logger.info("Fetching daily overview... This may take up to 30 seconds!")
@@ -216,7 +227,48 @@ def day_overview():
 		logger.debug("function requesting changes for day overview returned with error code")
 
 
+def rc_processor(change, changed_categories):
+	"""Prepares essential information for both embed and compact message format."""
+	LinkParser = LinkParser()
+	metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None),
+	                       page_id=change.get("pageid", None))
+	logger.debug(change)
+	context = Context(settings["appearance"]["mode"], settings["webhookURL"], src.api.client.client)
+	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
+		context.event = "suppressed"
+		discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
+	else:
+		if "commenthidden" not in change:
+			LinkParser.feed(change.get("parsedcomment", ""))
+			parsed_comment = LinkParser.new_string
+			parsed_comment = re.sub(r"(`|_|\*|~|{|}|\|\|)", "\\\\\\1", parsed_comment)
+		else:
+			parsed_comment = _("~~hidden~~")
+		if "userhidden" in change:
+			change["user"] = _("hidden")
+		if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
+			return
+		if change["type"] in ["edit", "new"]:
+			logger.debug("List of categories in essential_info: {}".format(changed_categories))
+			identification_string = change["type"]
+			context.set_categories(changed_categories)
+		elif change["type"] == "categorize":
+			return
+		elif change["type"] == "log":
+			identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
+		else:
+			identification_string = change.get("type", "unknown")  # If event doesn't have a type
+		if identification_string in settings["ignored"]:
+			return
+		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
+	send_to_discord(discord_message, metadata)
+
+def abuselog_processing(entry, recent_changes):
+	abuselog_appearance_mode(entry, recent_changes)
+
+
 # Log in and download wiki information
+wiki = Wiki(rc_processor, abuselog_processing)
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
 		wiki.log_in()
@@ -253,6 +305,7 @@ if 1 == 2:  # additional translation strings in unreachable code
 # noinspection PyUnreachableCode
 
 load_extensions()
+
 
 if TESTING:
 	logger.debug("DEBUGGING ")

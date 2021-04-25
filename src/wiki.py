@@ -20,17 +20,15 @@ import sys
 import time
 import logging
 import requests
-import src.api.client
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, LinkParser, \
+from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, \
 	AUTO_SUPPRESSION_ENABLED, parse_mw_request_info
 from src.discord.queue import messagequeue
 from src.exceptions import MWError, BadRequest, ClientError, ServerError, MediaWikiError
 from src.session import session
-from src.api.context import Context
-from typing import Union
+from typing import Union, Callable
 # from src.rc_formatters import compact_formatter, embed_formatter, compact_abuselog_formatter, embed_abuselog_formatter
 from src.i18n import rc
 from collections import OrderedDict
@@ -41,11 +39,11 @@ storage = datafile
 
 logger = logging.getLogger("rcgcdw.rc")
 
-LinkParser = LinkParser()
-
 class Wiki(object):
 	"""Store verious data and functions related to wiki and fetching of Recent Changes"""
-	def __init__(self):
+	def __init__(self, rc_processor: Callable, abuse_processor: Callable):
+		self.rc_processor = rc_processor
+		self.abuse_processor = abuse_processor
 		self.map_ips = {}
 		self.downtimecredibility = 0
 		self.last_downtime = 0
@@ -57,6 +55,7 @@ class Wiki(object):
 		self.session = session
 		self.logged_in = False
 		self.initial_run_complete = False
+
 
 	@staticmethod
 	def handle_mw_errors(request):
@@ -166,30 +165,30 @@ class Wiki(object):
 							"There were too many new events, but the limit was high enough we don't care anymore about fetching them all.")
 			if change["type"] == "categorize":
 				if "commenthidden" not in change:
-					if len(wiki.mw_messages.keys()) > 0:
+					if len(self.mw_messages.keys()) > 0:
 						cat_title = change["title"].split(':', 1)[1]
 						# I so much hate this, blame Markus for making me do this
 						if change["revid"] not in categorize_events:
 							categorize_events[change["revid"]] = {"new": set(), "removed": set()}
 						comment_to_match = re.sub(r'<.*?a>', '', change["parsedcomment"])
-						if wiki.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or \
-								wiki.mw_messages[
+						if self.mw_messages["recentchanges-page-added-to-category"] in comment_to_match or \
+								self.mw_messages[
 									"recentchanges-page-added-to-category-bundled"] in comment_to_match:
 							categorize_events[change["revid"]]["new"].add(cat_title)
 							logger.debug("Matched {} to added category for {}".format(cat_title, change["revid"]))
-						elif wiki.mw_messages[
+						elif self.mw_messages[
 							"recentchanges-page-removed-from-category"] in comment_to_match or \
-								wiki.mw_messages[
+								self.mw_messages[
 									"recentchanges-page-removed-from-category-bundled"] in comment_to_match:
 							categorize_events[change["revid"]]["removed"].add(cat_title)
 							logger.debug("Matched {} to removed category for {}".format(cat_title, change["revid"]))
 						else:
 							logger.debug(
 								"Unknown match for category change with messages {}, {}, {}, {} and comment_to_match {}".format(
-									wiki.mw_messages["recentchanges-page-added-to-category"],
-									wiki.mw_messages["recentchanges-page-removed-from-category"],
-									wiki.mw_messages["recentchanges-page-removed-from-category-bundled"],
-									wiki.mw_messages["recentchanges-page-added-to-category-bundled"],
+									self.mw_messages["recentchanges-page-added-to-category"],
+									self.mw_messages["recentchanges-page-removed-from-category"],
+									self.mw_messages["recentchanges-page-removed-from-category-bundled"],
+									self.mw_messages["recentchanges-page-added-to-category-bundled"],
 									comment_to_match))
 					else:
 						logger.warning(
@@ -204,7 +203,7 @@ class Wiki(object):
 					logger.debug("Change ({}) is lower or equal to recent_id {}".format(change["rcid"], recent_id))
 					continue
 				logger.debug(recent_id)
-				rc_processor(change, categorize_events.get(change.get("revid"), None))
+				self.rc_processor(change, categorize_events.get(change.get("revid"), None))
 		return highest_id
 
 	def prepare_abuse_log(self, abuse_log: list):
@@ -218,7 +217,7 @@ class Wiki(object):
 				continue
 			if entry["id"] <= recent_id:
 				continue
-			abuselog_processing(entry, self)
+			self.abuse_processor(entry, self)
 		return entry["id"]
 
 	def fetch_changes(self, amount):
@@ -368,7 +367,7 @@ class Wiki(object):
 			if not looped:
 				while 1:  # recursed loop, check for connection (every 10 seconds) as long as three services are down, don't do anything else
 					if self.check_connection(looped=True):
-						wiki.fetch(amount=settings["limitrefetch"])
+						self.fetch(amount=settings["limitrefetch"])
 						break
 					time.sleep(10)
 			return False
@@ -451,49 +450,3 @@ class Wiki(object):
 				comment = comment[0:1000] + "…"
 			return comment
 		return ""
-
-
-wiki = Wiki()
-
-
-def rc_processor(change, changed_categories):
-	"""Prepares essential information for both embed and compact message format."""
-	formatters = src.api.client.client.get_formatters()  # TODO Make it better? Importing might be a hell
-	logger.debug(change)
-	context = Context(settings["appearance"]["mode"], settings["webhookURL"], src.api.client.client)
-	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
-		context.event = "suppressed"
-	if "commenthidden" not in change:
-		LinkParser.feed(change["parsedcomment"])
-		parsed_comment = LinkParser.new_string
-		LinkParser.new_string = ""
-		parsed_comment = re.sub(r"(`|_|\*|~|{|}|\|\|)", "\\\\\\1", parsed_comment, 0)
-	else:
-		parsed_comment = _("~~hidden~~")
-	if not parsed_comment:
-		parsed_comment = None
-	if "userhidden" in change:
-		change["user"] = _("hidden")
-	if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
-		return
-	if change["type"] in ["edit", "new"]:
-		logger.debug("List of categories in essential_info: {}".format(changed_categories))
-		identification_string = change["type"]
-	elif change["type"] == "log":
-		identification_string = "{logtype}/{logaction}".format(logtype=change["logtype"], logaction=change["logaction"])
-		if identification_string not in supported_logs:
-			logger.warning(
-				"This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(
-					change))
-			return
-	elif change["type"] == "categorize":
-		return
-	else:
-		logger.warning("This event is not implemented in the script. Please make an issue on the tracker attaching the following info: wiki url, time, and this information: {}".format(change))
-		return
-	if identification_string in settings["ignored"]:
-		return
-	appearance_mode(identification_string, change, parsed_comment, changed_categories, wiki)
-
-def abuselog_processing(entry, recent_changes):
-	abuselog_appearance_mode(entry, recent_changes)

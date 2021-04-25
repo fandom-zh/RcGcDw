@@ -27,8 +27,9 @@ from urllib.parse import quote_plus, quote
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import link_formatter, create_article_path, WIKI_SCRIPT_PATH, safe_read, \
+from src.misc import WIKI_SCRIPT_PATH, safe_read, \
 	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser, AUTO_SUPPRESSION_ENABLED
+from src.api.util import link_formatter, create_article_path
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 

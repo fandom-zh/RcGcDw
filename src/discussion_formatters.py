@@ -19,7 +19,7 @@ import gettext
 from urllib.parse import quote_plus
 
 from src.configloader import settings
-from src.misc import link_formatter, create_article_path, escape_formatting
+from src.api.util import link_formatter, escape_formatting, create_article_path
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.i18n import discussion_formatters
