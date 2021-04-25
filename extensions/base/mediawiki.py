@@ -18,7 +18,6 @@ import math
 from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import rc_formatters
-from src.api.client import Client
 from src.api.context import Context
 from src.configloader import settings
 from src.exceptions import *

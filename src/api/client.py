@@ -13,18 +13,19 @@
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-import src.rcgcdw
+
 import src.misc
 from typing import Union
 from collections import OrderedDict
+
 
 class Client:
 	"""
 		A client for interacting with RcGcDw when creating formatters or hooks.
 	"""
-	def __init__(self):
-		self._formatters = src.rcgcdw.formatter_hooks
-		self.__recent_changes = src.rcgcdw.wiki
+	def __init__(self, hooks, wiki):
+		self._formatters = hooks
+		self.__recent_changes = wiki
 		self.WIKI_API_PATH = src.misc.WIKI_API_PATH
 		self.WIKI_ARTICLE_PATH = src.misc.WIKI_ARTICLE_PATH
 		self.WIKI_SCRIPT_PATH = src.misc.WIKI_SCRIPT_PATH
@@ -61,6 +62,3 @@ class Client:
 
 	def get_formatters(self):
 		return self._formatters
-
-
-client = Client()

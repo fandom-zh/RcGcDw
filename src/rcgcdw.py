@@ -24,12 +24,12 @@ import time, logging.config, requests, datetime, gettext, math, os.path, schedul
 import src.misc
 from collections import defaultdict, Counter
 
-import src.api.client
 from typing import Optional
+import src.api.client
 from src.api.context import Context
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, \
-	WIKI_API_PATH, LinkParser
+	WIKI_API_PATH
 from src.api.util import create_article_path, default_message
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
@@ -60,6 +60,7 @@ def load_extensions():
 	except ImportError:
 		logger.critical("No extensions module found. What's going on?")
 		sys.exit(1)
+
 storage = datafile
 
 # Remove previous data holding file if exists and limitfetch allows
@@ -229,11 +230,12 @@ def day_overview():
 
 def rc_processor(change, changed_categories):
 	"""Prepares essential information for both embed and compact message format."""
+	from src.misc import LinkParser
 	LinkParser = LinkParser()
 	metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None),
 	                       page_id=change.get("pageid", None))
 	logger.debug(change)
-	context = Context(settings["appearance"]["mode"], settings["webhookURL"], src.api.client.client)
+	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		context.event = "suppressed"
 		discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
@@ -269,6 +271,7 @@ def abuselog_processing(entry, recent_changes):
 
 # Log in and download wiki information
 wiki = Wiki(rc_processor, abuselog_processing)
+client = src.api.client.Client(formatter_hooks, wiki)
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
 		wiki.log_in()
