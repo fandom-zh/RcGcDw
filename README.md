@@ -11,7 +11,7 @@
 * Very customizable
 
 ### Dependencies ###
-* **Python 3.6+**
+* **Python 3.7+**
 * requests 2.18.4+
 * beautifulsoup 4.6.0+
 * schedule 0.5.0+
