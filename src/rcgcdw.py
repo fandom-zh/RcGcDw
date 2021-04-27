@@ -262,6 +262,7 @@ def rc_processor(change, changed_categories):
 			identification_string = change.get("type", "unknown")  # If event doesn't have a type
 		if identification_string in settings["ignored"]:
 			return
+		context.event = identification_string
 		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
 	send_to_discord(discord_message, metadata)
 

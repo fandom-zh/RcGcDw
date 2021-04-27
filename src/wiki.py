@@ -280,7 +280,7 @@ class Wiki(object):
 				sys.exit(0)
 			return request
 
-	def api_request(self, params: Union[str, OrderedDict], *json_path: list[str], timeout: int=10, allow_redirects: bool=False):
+	def api_request(self, params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False):
 		"""Method to GET request data from the wiki's API with error handling including recognition of MediaWiki errors.
 		
 		Parameters:
@@ -303,22 +303,14 @@ class Wiki(object):
 		"""
 		# Making request
 		try:
-			if isinstance(params, str):
+			if isinstance(params, str):  # Todo Make it so there are some default arguments like warning/error format appended
 				request = self.session.get(WIKI_API_PATH + params, timeout=timeout, allow_redirects=allow_redirects)
 			elif isinstance(params, OrderedDict):
 				request = self.session.get(WIKI_API_PATH, params=params, timeout=timeout, allow_redirects=allow_redirects)
 			else:
 				raise BadRequest(params)
-		except requests.exceptions.Timeout:
-			logger.warning("Reached timeout error for request on link {url}".format(url=WIKI_API_PATH+str(params)))
-			self.downtime_controller(True)
-			raise ServerError
-		except requests.exceptions.ConnectionError:
-			logger.warning("Reached connection error for request on link {url}".format(url=WIKI_API_PATH+str(params)))
-			self.downtime_controller(True)
-			raise ServerError
-		except requests.exceptions.ChunkedEncodingError:
-			logger.warning("Detected faulty response from the web server for request on link {url}".format(url=WIKI_API_PATH+str(params)))
+		except (requests.exceptions.Timeout, requests.exceptions.ConnectionError, requests.exceptions.ChunkedEncodingError) as exc:
+			logger.warning("Reached {error} error for request on link {url}".format(error=repr(exc), url=WIKI_API_PATH+str(params)))
 			self.downtime_controller(True)
 			raise ServerError
 		# Catching HTTP errors
@@ -337,7 +329,7 @@ class Wiki(object):
 			# JSON Extraction
 			try:
 				request_json = parse_mw_request_info(request.json(), request.url)
-				for item in request_json:
+				for item in json_path:
 					request_json = request_json[item]
 			except ValueError:
 				logger.warning("ValueError when extracting JSON data on {url}".format(url=request.url))

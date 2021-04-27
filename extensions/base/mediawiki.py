@@ -19,6 +19,7 @@ from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import rc_formatters
 from src.api.context import Context
+from src.api.util import embed_helper
 from src.configloader import settings
 from src.exceptions import *
 
@@ -27,28 +28,25 @@ _ = rc_formatters.gettext
 logger = logging.getLogger("extensions.base")
 
 
+# Page edit - event edit
+
 @formatter.embed(event="edit", mode="embed")
 def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
 	action = ctx.event
 	editsize = change["newlen"] - change["oldlen"]
 	if editsize > 0:
-		if editsize > 6032:
-			embed["color"] = 65280
-		else:
-			embed["color"] = 35840 + (math.floor(editsize / 52)) * 256
+		embed["color"] = min(65280, 35840 + (math.floor(editsize / 52)) * 256)  # Choose shade of green
 	elif editsize < 0:
-		if editsize < -6032:
-			embed["color"] = 16711680
-		else:
-			embed["color"] = 9175040 + (math.floor((editsize * -1) / 52)) * 65536
+		embed["color"] = min(16711680, 9175040 + (math.floor(abs(editsize) / 52)) * 65536)  # Choose shade of red
 	elif editsize == 0:
 		embed["color"] = 8750469
 	if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
 		ctx.client.refresh_internal_data()
-	embed.set_link("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
+	embed["link"] = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 		wiki=ctx.client.WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
-		article=change["title"].replace(" ", "_").replace("%", "%25").replace("\\", "%5C").replace("&", "%26")))
+		article=change["title"].replace(" ", "_").replace("%", "%25").replace("\\", "%5C").replace("&", "%26"))
 	embed["title"] = "{redirect}{article} ({new}{minor}{bot}{space}{editsize})".format(
 		redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
 			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
@@ -58,14 +56,12 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
 		try:
 			if action == "new":
 				changed_content = ctx.client.make_api_request(
-					"{wiki}?action=compare&format=json&fromtext=&torev={diff}&topst=1&prop=diff".format(
-						wiki=ctx.client.WIKI_API_PATH, diff=change["revid"]
+					"?action=compare&format=json&torev={diff}&topst=1&prop=diff".format(diff=change["revid"]
 					), "compare", "*")
 			else:
 				changed_content = ctx.client.make_api_request(
-					"{wiki}?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
-						wiki=ctx.client.WIKI_API_PATH, diff=change["revid"], oldrev=change["old_revid"]
-					), "compare", "*")
+					"?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
+						diff=change["revid"], oldrev=change["old_revid"]), "compare", "*")
 		except ServerError:
 			changed_content = None
 		if changed_content:
@@ -90,6 +86,44 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
 			logger.warning("Unable to download data on the edit content!")
 	return embed
 
+
 @formatter.compact(event="edit", mode="compact")
 def compact_edit(ctx: Context, change: dict):
-	return DiscordMessage()
+	action = ctx.event
+	edit_link = link_formatter("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
+		wiki=ctx.client.WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
+		article=change["title"]))
+	logger.debug(edit_link)
+	edit_size = change["newlen"] - change["oldlen"]
+	sign = ""
+	if edit_size > 0:
+		sign = "+"
+	bold = ""
+	if abs(edit_size) > 500:
+		bold = "**"
+	if change["title"].startswith("MediaWiki:Tag-"):
+		pass
+	if action == "edit":
+		content = _(
+			"[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(
+			author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment,
+			edit_size=edit_size, sign=sign, bold=bold)
+	else:
+		content = _(
+			"[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(
+			author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment,
+			edit_size=edit_size, sign=sign, bold=bold)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+
+# Page creation - event new
+
+@formatter.embed(event="new", mode="embed")
+def embed_new(ctx, change):
+	return embed_edit(ctx, change)
+
+
+@formatter.compact(event="new", mode="compact")
+def compact_new(ctx, change):
+	return compact_edit(ctx, change)
+

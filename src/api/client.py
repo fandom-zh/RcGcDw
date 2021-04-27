@@ -14,9 +14,14 @@
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 
+from __future__ import annotations
 import src.misc
 from typing import Union
 from collections import OrderedDict
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+	from src.wiki import Wiki
 
 
 class Client:
@@ -25,7 +30,7 @@ class Client:
 	"""
 	def __init__(self, hooks, wiki):
 		self._formatters = hooks
-		self.__recent_changes = wiki
+		self.__recent_changes: Wiki = wiki
 		self.WIKI_API_PATH = src.misc.WIKI_API_PATH
 		self.WIKI_ARTICLE_PATH = src.misc.WIKI_ARTICLE_PATH
 		self.WIKI_SCRIPT_PATH = src.misc.WIKI_SCRIPT_PATH
@@ -37,7 +42,7 @@ class Client:
 		"""Refreshes internal storage data for wiki tags and MediaWiki messages."""
 		self.__recent_changes.init_info()
 
-	def make_api_request(self, params: Union[str, OrderedDict], *json_path: list[str], timeout: int=10, allow_redirects: bool=False):
+	def make_api_request(self, params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False):
 		"""Method to GET request data from the wiki's API with error handling including recognition of MediaWiki errors.
 
 				Parameters:
@@ -58,7 +63,11 @@ class Client:
 					BadRequest: When params argument is of wrong type
 					MediaWikiError: When MediaWiki returns an error
 				"""
-		return self.__recent_changes.api_request(params, *json_path, timeout, allow_redirects)
+		return self.__recent_changes.api_request(params, *json_path, timeout=timeout, allow_redirects=allow_redirects)
 
 	def get_formatters(self):
 		return self._formatters
+
+	def get_ipmapper(self) -> dict:
+		"""Returns a dict mapping IPs with amount of their edits"""
+		return self.__recent_changes.map_ips

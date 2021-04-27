@@ -47,7 +47,8 @@ def embed(**kwargs):
 	"""
 	Decorator to register a formatter are return a function
 
-	:param kwargs:
+	:key event: Event string
+	:key mode: Discord Message mode
 	:return:
 	"""
 
@@ -62,8 +63,8 @@ def compact(**kwargs):
 	"""
 	Decorator to register a formatter are return a function
 
-	:param func:
-	:param kwargs:
+	:key event: Event string
+	:key mode: Discord Message mode
 	:return:
 	"""
 

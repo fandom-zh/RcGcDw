@@ -12,11 +12,16 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+	from src.api.client import Client
 
 
 class Context:
 	"""Context object containing client and some metadata regarding specific formatter call"""
-	def __init__(self, message_type: str, webhook_url: str, client):
+	def __init__(self, message_type: str, webhook_url: str, client: Client):
 		self.client = client
 		self.webhook_url = webhook_url
 		self.message_type = message_type
