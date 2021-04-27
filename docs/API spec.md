@@ -44,22 +44,19 @@ _ = rc_formatters.gettext
 
 logger = logging.getLogger("extensions.abusefilter")
 
-class abusefilter():
-  def __init__(self, api):
-    super().__init__(api)
+
+@formatter.embed(event="abuselog/modify", mode="embed")
+def embed_modify(ctx: Context, change: dict) -> DiscordMessage:
+  embed = DiscordMessage(ctx.message_type, ctx.event, webhook_url=ctx.webhook_url)
+  embed.set_link(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
+  embed["title"] = _("Edited abuse filter number {number}").format(number=change["logparams"]['newId'])
+  return embed
 		
-  @formatter.embed(event="abuselog/modify", mode="embed")
-  def embed_modify(self, ctx: Context, change: dict) -> DiscordMessage:
-    embed = DiscordMessage(ctx.message_type, ctx.event, webhook_url=ctx.webhook_url)
-    embed.set_link(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
-    embed["title"] = _("Edited abuse filter number {number}").format(number=change["logparams"]['newId'])
-    return embed
-		
-  @formatter.compact(event="abuselog/modify")
-  def embed_modify(self, ctx: Context, change: dict) -> DiscordMessage:
-    link = link_formatter(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
-    content = _("[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
-    return DiscordMessage
+@formatter.compact(event="abuselog/modify")
+def embed_modify(ctx: Context, change: dict) -> DiscordMessage:
+  link = link_formatter(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
+  content = _("[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
+  return DiscordMessage
 
 ```
 

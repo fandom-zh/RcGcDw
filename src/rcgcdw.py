@@ -245,6 +245,7 @@ def rc_processor(change, changed_categories):
 			parsed_comment = re.sub(r"(`|_|\*|~|{|}|\|\|)", "\\\\\\1", parsed_comment)
 		else:
 			parsed_comment = _("~~hidden~~")
+		context.set_parsedcomment(parsed_comment)
 		if "userhidden" in change:
 			change["user"] = _("hidden")
 		if change.get("ns", -1) in settings.get("ignored_namespaces", ()):
@@ -268,6 +269,7 @@ def abuselog_processing(entry, recent_changes):
 	abuselog_appearance_mode(entry, recent_changes)
 
 
+load_extensions()
 # Log in and download wiki information
 wiki = Wiki(rc_processor, abuselog_processing)
 client = src.api.client.Client(formatter_hooks, wiki)
@@ -305,8 +307,6 @@ if 1 == 2:  # additional translation strings in unreachable code
 	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
 	      _("autoreview"), _("autopatrol"), _("wiki_guardian"), ngettext("second", "seconds", 1), ngettext("minute", "minutes", 1), ngettext("hour", "hours", 1), ngettext("day", "days", 1), ngettext("week", "weeks", 1), ngettext("month", "months",1), ngettext("year", "years", 1), ngettext("millennium", "millennia", 1), ngettext("decade", "decades", 1), ngettext("century", "centuries", 1))
 # noinspection PyUnreachableCode
-
-load_extensions()
 
 
 if TESTING:

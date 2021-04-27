@@ -24,3 +24,6 @@ class Context:
 
 	def set_categories(self, cats):
 		self.categories = cats
+
+	def set_parsedcomment(self, parsedcomment: str):
+		self.parsedcomment = parsedcomment
