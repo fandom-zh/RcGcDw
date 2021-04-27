@@ -63,6 +63,7 @@ class Recent_Changes_Class(object):
 		self.session = session
 		self.logged_in = False
 		self.initial_run_complete = False
+		self.memory_id = None  # Used only when limitrefetch is set to -1 to avoid reading from storage
 
 	@staticmethod
 	def handle_mw_errors(request):
@@ -114,9 +115,12 @@ class Recent_Changes_Class(object):
 		messagequeue.resend_msgs()
 		last_check = self.fetch_changes(amount=amount)
 		if last_check is not None:
-			storage["rcid"] = last_check[0] if last_check[0] else storage["rcid"]
-			storage["abuse_log_id"] = last_check[1] if last_check[1] else storage["abuse_log_id"]
-			storage.save_datafile()
+			if settings["limitrefetch"] != -1:
+				storage["rcid"] = last_check[0] if last_check[0] else storage["rcid"]
+				storage["abuse_log_id"] = last_check[1] if last_check[1] else storage["abuse_log_id"]
+				storage.save_datafile()
+			else:
+				self.memory_id = last_check
 		self.initial_run_complete = True
 
 	def fetch_recentchanges_request(self, amount):
@@ -155,8 +159,11 @@ class Recent_Changes_Class(object):
 		categorize_events = {}
 		new_events = 0
 		changes.reverse()
-		highest_id = recent_id = storage["rcid"]
-		dry_run = True if recent_id is None else False
+		if settings["limitrefetch"] == -1 and self.memory_id is not None:
+			highest_id = recent_id = self.memory_id[0]
+		else:
+			highest_id = recent_id = storage["rcid"]
+		dry_run = True if recent_id is None or (self.memory_id is None and settings["limitrefetch"] == -1) else False
 		for change in changes:
 			if not dry_run and not (change["rcid"] <= recent_id):
 				new_events += 1
@@ -217,8 +224,11 @@ class Recent_Changes_Class(object):
 		if not abuse_log:
 			return None
 		abuse_log.reverse()
-		recent_id = storage["abuse_log_id"]
-		dryrun = True if recent_id is None else False
+		if self.memory_id is not None and settings["limitrefetch"] == -1:
+			recent_id = self.memory_id[1]
+		else:
+			recent_id = storage["abuse_log_id"]
+		dryrun = True if recent_id is None or (self.initial_run_complete is False and settings["limitrefetch"] == -1) else False
 		for entry in abuse_log:
 			if dryrun:
 				continue
