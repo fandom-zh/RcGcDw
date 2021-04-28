@@ -19,7 +19,7 @@ import gettext
 from urllib.parse import quote_plus
 
 from src.configloader import settings
-from src.api.util import link_formatter, escape_formatting, create_article_path
+from src.api.util import escape_formatting, create_article_path, clean_link
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.i18n import discussion_formatters
@@ -44,7 +44,7 @@ def compact_formatter(post_type, post, article_paths):
 	else:
 		if post["createdBy"]["name"]:
 			author = post["createdBy"]["name"]
-			author_url = link_formatter(create_article_path("User:{user}".format(user=author)))
+			author_url = clean_link(create_article_path("User:{user}".format(user=author)))
 		else:
 			author_url = "<{url}f/u/{creatorId}>".format(url=settings["fandom_discussions"]["wiki_url"], creatorId=post["creatorId"])
 	event_type = "discussion"

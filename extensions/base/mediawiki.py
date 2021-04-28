@@ -19,7 +19,7 @@ from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import rc_formatters
 from src.api.context import Context
-from src.api.util import embed_helper
+from src.api.util import embed_helper, sanitize_to_url, parse_mediawiki_changes, clean_link, compact_author
 from src.configloader import settings
 from src.exceptions import *
 
@@ -44,20 +44,29 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
 		embed["color"] = 8750469
 	if change["title"].startswith("MediaWiki:Tag-"):  # Refresh tag list when tag display name is edited
 		ctx.client.refresh_internal_data()
-	embed["link"] = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
-		wiki=ctx.client.WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
-		article=change["title"].replace(" ", "_").replace("%", "%25").replace("\\", "%5C").replace("&", "%26"))
+	# Sparse is better than dense.
+	# Readability counts.
+	embed["url"] = "{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
+		wiki=ctx.client.WIKI_SCRIPT_PATH,
+		pageid=change["pageid"],
+		diff=change["revid"],
+		oldrev=change["old_revid"],
+		article=sanitize_to_url(change["title"])
+	)
 	embed["title"] = "{redirect}{article} ({new}{minor}{bot}{space}{editsize})".format(
-		redirect="⤷ " if "redirect" in change else "", article=change["title"], editsize="+" + str(
-			editsize) if editsize > 0 else editsize, new=_("(N!) ") if action == "new" else "",
-		minor=_("m") if action == "edit" and "minor" in change else "", bot=_('b') if "bot" in change else "",
+		redirect="⤷ " if "redirect" in change else "",
+		article=change["title"],
+		editsize="+" + str(editsize) if editsize > 0 else editsize,
+		new=_("(N!) ") if action == "new" else "",
+		minor=_("m") if action == "edit" and "minor" in change else "",
+		bot=_('b') if "bot" in change else "",
 		space=" " if "bot" in change or (action == "edit" and "minor" in change) or action == "new" else "")
 	if settings["appearance"]["embed"]["show_edit_changes"]:
 		try:
 			if action == "new":
 				changed_content = ctx.client.make_api_request(
-					"?action=compare&format=json&torev={diff}&topst=1&prop=diff".format(diff=change["revid"]
-					), "compare", "*")
+					"?action=compare&format=json&fromslots=main&torev={diff}&fromtext-main=&topst=1&prop=diff".format(
+						diff=change["revid"]), "compare", "*")
 			else:
 				changed_content = ctx.client.make_api_request(
 					"?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
@@ -65,34 +74,21 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
 		except ServerError:
 			changed_content = None
 		if changed_content:
-			EditDiff = ctx.client.content_parser()
-			EditDiff.feed(changed_content)
-			if EditDiff.small_prev_del:
-				if EditDiff.small_prev_del.replace("~~", "").isspace():
-					EditDiff.small_prev_del = _('__Only whitespace__')
-				else:
-					EditDiff.small_prev_del = EditDiff.small_prev_del.replace("~~~~", "")
-			if EditDiff.small_prev_ins:
-				if EditDiff.small_prev_ins.replace("**", "").isspace():
-					EditDiff.small_prev_ins = _('__Only whitespace__')
-				else:
-					EditDiff.small_prev_ins = EditDiff.small_prev_ins.replace("****", "")
-			logger.debug("Changed content: {}".format(EditDiff.small_prev_ins))
-			if EditDiff.small_prev_del and not action == "new":
-				embed.add_field(_("Removed"), "{data}".format(data=EditDiff.small_prev_del), inline=True)
-			if EditDiff.small_prev_ins:
-				embed.add_field(_("Added"), "{data}".format(data=EditDiff.small_prev_ins), inline=True)
+			parse_mediawiki_changes(ctx, changed_content, embed)
 		else:
 			logger.warning("Unable to download data on the edit content!")
+	embed["description"] = ctx.parsedcomment
 	return embed
 
 
 @formatter.compact(event="edit", mode="compact")
 def compact_edit(ctx: Context, change: dict):
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	author, author_url = compact_author(ctx, change)
 	action = ctx.event
-	edit_link = link_formatter("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
+	edit_link = clean_link("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
 		wiki=ctx.client.WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
-		article=change["title"]))
+		article=sanitize_to_url(change["title"])))
 	logger.debug(edit_link)
 	edit_size = change["newlen"] - change["oldlen"]
 	sign = ""
@@ -101,8 +97,6 @@ def compact_edit(ctx: Context, change: dict):
 	bold = ""
 	if abs(edit_size) > 500:
 		bold = "**"
-	if change["title"].startswith("MediaWiki:Tag-"):
-		pass
 	if action == "edit":
 		content = _(
 			"[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(
@@ -116,7 +110,7 @@ def compact_edit(ctx: Context, change: dict):
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
-# Page creation - event new
+# Page creation - event new aliases to embed_edit since they share a lot of their code
 
 @formatter.embed(event="new", mode="embed")
 def embed_new(ctx, change):

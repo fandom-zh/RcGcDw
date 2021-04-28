@@ -72,6 +72,8 @@ class DiscordMessage:
 			self.embed["color"] = math.floor(self.embed["color"])
 		if not self.embed["author"]["icon_url"] and settings["event_appearance"].get(self.event_type, {"icon": None})["icon"]:
 			self.embed["author"]["icon_url"] = settings["event_appearance"][self.event_type]["icon"]
+		if len(self.embed["title"]) > 254:
+			self.embed["title"] = self.embed["title"][0:253] + "…"
 
 	def set_author(self, name, url, icon_url=""):
 		self.embed["author"]["name"] = name

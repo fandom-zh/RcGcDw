@@ -304,8 +304,9 @@ class Wiki(object):
 		# Making request
 		try:
 			if isinstance(params, str):  # Todo Make it so there are some default arguments like warning/error format appended
-				request = self.session.get(WIKI_API_PATH + params, timeout=timeout, allow_redirects=allow_redirects)
+				request = self.session.get(WIKI_API_PATH + params+"&errorformat=raw", timeout=timeout, allow_redirects=allow_redirects)
 			elif isinstance(params, OrderedDict):
+				params["errorformat"] = "raw"
 				request = self.session.get(WIKI_API_PATH, params=params, timeout=timeout, allow_redirects=allow_redirects)
 			else:
 				raise BadRequest(params)
