@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 00:28+0100\n"
 "PO-Revision-Date: 2021-04-30 14:43+0000\n"
-"Last-Translator: Arnaud0865 <Arnaud2.8583@gmail.com>\n"
+"Last-Translator: magiczocker <jan-frederik-kriete@t-online.de>\n"
 "Language-Team: French <https://translate.wikibot.de/projects/rcgcdw/"
 "discussion_formatters/fr/>\n"
 "Language: fr\n"
@@ -36,7 +36,7 @@ msgid ""
 "{forumName}"
 msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
-"{creatorId}>)  dans {forumName}"
+"{creatorId}>) dans {forumName}"
 
 #: src/discussion_formatters.py:42
 #, fuzzy, python-brace-format
@@ -45,7 +45,7 @@ msgid ""
 "{forumName}"
 msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
-"{creatorId}>)  dans {forumName}"
+"{creatorId}>) dans {forumName}"
 
 #: src/discussion_formatters.py:45
 #, fuzzy, python-brace-format
@@ -54,7 +54,7 @@ msgid ""
 "{forumName}"
 msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
-"{creatorId}>)  dans {forumName}"
+"{creatorId}>) dans {forumName}"
 
 #: src/discussion_formatters.py:54
 #, fuzzy, python-brace-format
@@ -73,7 +73,7 @@ msgid ""
 "Message_Wall:{user_wall}>)"
 msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
-"{creatorId}>)  dans {forumName}"
+"{creatorId}>) dans {forumName}"
 
 #: src/discussion_formatters.py:64
 #, fuzzy, python-brace-format
@@ -84,7 +84,7 @@ msgid ""
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
 "Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
-"{creatorId}>)  dans {forumName}"
+"{creatorId}>) dans {forumName}"
 
 #: src/discussion_formatters.py:72
 #, fuzzy, python-brace-format
