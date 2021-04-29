@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
-"PO-Revision-Date: 2020-11-18 07:47+0000\n"
-"Last-Translator: MakandIv <>\n"
-"Language-Team: Ukrainian <https://weblate.frisk.space/projects/rcgcdw/"
+"PO-Revision-Date: 2021-04-29 05:47+0000\n"
+"Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
+"Language-Team: Ukrainian <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
@@ -1352,39 +1352,39 @@ msgid "Modified \"{usergroup_name}\" usergroup"
 msgstr ""
 
 #: src/rc_formatters.py:1160
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "Вилучив тег \"{tag}\""
+msgstr "Відновив вікі \"{wiki}\""
 
 #: src/rc_formatters.py:1163
 #, python-brace-format
 msgid "Unlocked a \"{wiki}\" wiki"
-msgstr ""
+msgstr "Розблокував вікі \"{wiki}\""
 
 #: src/rc_formatters.py:1166
 #, python-brace-format
 msgid "Generated {file} dump"
-msgstr ""
+msgstr "Згенерував дамп {file}"
 
 #: src/rc_formatters.py:1169
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {file} dump"
-msgstr "Вилучив сторінку {article}"
+msgstr "Видалив дамп {file}"
 
 #: src/rc_formatters.py:1177
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
-msgstr ""
+msgstr "Позначив \"{article}\" для перекладу"
 
 #: src/rc_formatters.py:1180
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
-msgstr ""
+msgstr "Видалив \"{article}\" з системи перекладу"
 
 #: src/rc_formatters.py:1183
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
-msgstr ""
+msgstr "Завершив переміщення сторінок перекладу з \"{article}\" на \"{target}\""
 
 #: src/rc_formatters.py:1186
 #, python-brace-format
