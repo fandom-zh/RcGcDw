@@ -35,7 +35,7 @@ def run():
 			logger.exception("Failed to migrate appearance embed.")
 			sys.exit(1)
 		shutil.copy("settings.json", "settings.json.{}.bak".format(int(time.time())))
-		with open("settings.json", "w") as new_write:
+		with open("settings.json", "w", encoding="utf-8") as new_write:
 			new_write.write(json.dumps(new_settings, indent=4))
 		load_settings()
 		logger.info("Migration 1.13.1.1 has been successful.")
