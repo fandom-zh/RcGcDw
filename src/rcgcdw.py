@@ -266,8 +266,15 @@ def rc_processor(change, changed_categories):
 		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
 	send_to_discord(discord_message, metadata)
 
-def abuselog_processing(entry, recent_changes):
-	abuselog_appearance_mode(entry, recent_changes)
+
+def abuselog_processing(entry):
+	action = "abuselog"
+	if action in settings["ignored"]:
+		return
+	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
+	context.event = action
+	discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
+	send_to_discord(discord_message, DiscordMessageMetadata("POST"))
 
 
 load_extensions()

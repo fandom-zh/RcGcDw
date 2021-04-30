@@ -28,6 +28,13 @@ Directory with extensions should be possible to be changed using settings.json
 ## API
 api object exposes various data which allows to extend the usefulness of what can be then sent to Discord.
 
+### Language support
+
+
+
+### Formatter event types
+Formatters can be added based on their "event type". Event type is determined by `type` property for events in Recent Changes MediaWiki API. However in case of log events this becomes not enough and log events are chosen by "logtype/logaction" combination (for example `upload/overwrite`).
+There are also additional made up cases like a single event type of "abuselog" for all abuselog related events and "discussion/discussiontype" for Fandom's Discussion technology integration.
 
 
 ## Example formatter

@@ -36,11 +36,12 @@ def _register_formatter(func: Callable[[dict], DiscordMessage], kwargs: dict[str
 	if action_type is None:
 		raise FormatterBreaksAPISpec("event type")
 	if settings["appearance"]["mode"] == formatter_type:
-		if action_type in src.api.hooks.formatter_hooks:
-			logger.warning(f"Action {action_type} is already defined inside of "
-			               f"{src.api.hooks.formatter_hooks[action_type].__module__}! "
-			               f"Overwriting it with one from {func.__module__}")
-		src.api.hooks.formatter_hooks[action_type] = func
+		for act in [action_type] + kwargs.get("aliases", []):  # Make action_type string a list and merge with aliases
+			if act in src.api.hooks.formatter_hooks:
+				logger.warning(f"Action {act} is already defined inside of "
+				               f"{src.api.hooks.formatter_hooks[act].__module__}! "
+				               f"Overwriting it with one from {func.__module__}")
+			src.api.hooks.formatter_hooks[act] = func
 
 
 def embed(**kwargs):
@@ -49,6 +50,7 @@ def embed(**kwargs):
 
 	:key event: Event string
 	:key mode: Discord Message mode
+	:key aliases: Allows to register multiple events under same function
 	:return:
 	"""
 
@@ -65,6 +67,7 @@ def compact(**kwargs):
 
 	:key event: Event string
 	:key mode: Discord Message mode
+	:key aliases: Allows to register multiple events under same function
 	:return:
 	"""
 

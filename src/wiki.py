@@ -217,7 +217,7 @@ class Wiki(object):
 				continue
 			if entry["id"] <= recent_id:
 				continue
-			self.abuse_processor(entry, self)
+			self.abuse_processor(entry)
 		return entry["id"]
 
 	def fetch_changes(self, amount):

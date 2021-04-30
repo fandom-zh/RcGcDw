@@ -715,83 +715,9 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	if action in ("edit", "new"):  # edit or new page
 
 	elif action in ("upload/overwrite", "upload/upload", "upload/revert"):  # sending files
-		license = None
-		urls = safe_read(recent_changes._safe_request(
-			"{wiki}?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl%7Carchivename&iilimit=5".format(
-				wiki=WIKI_API_PATH, filename=change["title"])), "query", "pages")
-		link = create_article_path(change["title"])
-		additional_info_retrieved = False
-		if urls is not None:
-			logger.debug(urls)
-			if "-1" not in urls:  # image still exists and not removed
-				try:
-					img_info = next(iter(urls.values()))["imageinfo"]
-					for num, revision in enumerate(img_info):
-						if revision["timestamp"] == change["logparams"]["img_timestamp"]:  # find the correct revision corresponding for this log entry
-							image_direct_url = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time()*5))  # cachebusting
-							additional_info_retrieved = True
-							break
-				except KeyError:
-					logger.warning("Wiki did not respond with extended information about file. The preview will not be shown.")
-		else:
-			logger.warning("Request for additional image information have failed. The preview will not be shown.")
-		if action in ("upload/overwrite", "upload/revert"):
-			if additional_info_retrieved:
-				article_encoded = change["title"].replace(" ", "_").replace("%", "%25").replace("\\", "%5C").replace("&", "%26").replace(')', '\\)')
-				try:
-					revision = img_info[num+1]
-				except IndexError:
-					logger.exception("Could not analize the information about the image (does it have only one version when expected more in overwrite?) which resulted in no Options field: {}".format(img_info))
-				else:
-					undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={archiveid}".format(
-						wiki=WIKI_SCRIPT_PATH, filename=article_encoded, archiveid=revision["archivename"])
-					embed.add_field(_("Options"), _("([preview]({link}) | [undo]({undolink}))").format(
-						link=image_direct_url, undolink=undolink))
-				if settings["appearance"]["embed"]["embed_images"]:
-					embed["image"]["url"] = image_direct_url
-			if action == "upload/overwrite":
-				embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
-			elif action == "upload/revert":
-				embed["title"] = _("Reverted a version of {name}").format(name=change["title"])
-		else:
-			embed["title"] = _("Uploaded {name}").format(name=change["title"])
-			if settings["license_detection"]:
-				article_content = safe_read(recent_changes._safe_request(
-					"{wiki}?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
-						wiki=WIKI_API_PATH, article=quote_plus(change["title"], safe=''))), "query", "pages")
-				if article_content is None:
-					logger.warning("Something went wrong when getting license for the image")
-					return 0
-				if "-1" not in article_content:
-					content = list(article_content.values())[0]['revisions'][0]['*']
-					try:
-						matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
-						if matches is not None:
-							license = matches.group("license")
-						else:
-							if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
-								license = _("**No license!**")
-							else:
-								license = "?"
-					except IndexError:
-						logger.error(
-							"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
-						license = "?"
-					except re.error:
-						logger.error(
-							"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
-						license = "?"
-			if license is not None:
-				parsed_comment += _("\nLicense: {}").format(license)
-			if additional_info_retrieved:
-				embed.add_field(_("Options"), _("([preview]({link}))").format(link=image_direct_url))
-				if settings["appearance"]["embed"]["embed_images"]:
-					embed["image"]["url"] = image_direct_url
+
 	elif action == "delete/delete":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Deleted page {article}").format(article=change["title"])
-		if AUTO_SUPPRESSION_ENABLED:
-			delete_messages(dict(pageid=change.get("pageid")))
+
 	elif action == "delete/delete_redir":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=change["title"])
