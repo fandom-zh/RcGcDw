@@ -28,7 +28,7 @@ from bs4 import BeautifulSoup
 
 from src.configloader import settings
 from src.misc import WIKI_SCRIPT_PATH, safe_read, \
-	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser, AUTO_SUPPRESSION_ENABLED
+	WIKI_API_PATH, ContentParser, profile_field_name, LinkParser
 from src.api.util import link_formatter, create_article_path
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
@@ -155,27 +155,13 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		if AUTO_SUPPRESSION_ENABLED:
 			delete_messages(dict(pageid=change.get("pageid")))
 	elif action == "delete/delete_redir":
-		page_link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) deleted redirect by overwriting [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
-		                                                   comment=parsed_comment)
-		if AUTO_SUPPRESSION_ENABLED:
-			delete_messages(dict(pageid=change.get("pageid")))
+
 	elif action == "move/move":
-		link = link_formatter(create_article_path(change["logparams"]['target_title']))
-		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _("with a redirect")
-		content = _("[{author}]({author_url}) moved {redirect}*{article}* to [{target}]({target_url}) {made_a_redirect}{comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
-			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment, made_a_redirect=redirect_status)
+
 	elif action == "move/move_redir":
-		link = link_formatter(create_article_path(change["logparams"]["target_title"]))
-		redirect_status = _("without making a redirect") if "suppressredirect" in change["logparams"] else _(
-			"with a redirect")
-		content = _("[{author}]({author_url}) moved {redirect}*{article}* over redirect to [{target}]({target_url}) {made_a_redirect}{comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
-			target=change["logparams"]['target_title'], target_url=link, comment=parsed_comment, made_a_redirect=redirect_status)
+
 	elif action == "protect/move_prot":
-		link = link_formatter(create_article_path(change["logparams"]["oldtitle_title"]))
-		content = _(
-			"[{author}]({author_url}) moved protection settings from {redirect}*{article}* to [{target}]({target_url}){comment}").format(author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
-			target=change["title"], target_url=link, comment=parsed_comment)
+
 	elif action == "block/block":
 		user = change["title"].split(':', 1)[1]
 		restriction_description = ""
@@ -323,22 +309,11 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				old_groups=", ".join(old_groups), new_groups=', '.join(new_groups),
 				comment=parsed_comment)
 	elif action == "protect/protect":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) protected [{article}]({article_url}) with the following settings: {settings}{comment}").format(author=author, author_url=author_url,
-		                                                                                                                                     article=change["title"], article_url=link,
-		                                                                                                                                     settings=change["logparams"].get("description", "")+(_(" [cascading]") if "cascade" in change["logparams"] else ""),
-		                                                                                                                                     comment=parsed_comment)
+
 	elif action == "protect/modify":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _(
-			"[{author}]({author_url}) modified protection settings of [{article}]({article_url}) to: {settings}{comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			settings=change["logparams"].get("description", "") + (_(" [cascading]") if "cascade" in change["logparams"] else ""),
-			comment=parsed_comment)
+
 	elif action == "protect/unprotect":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) removed protection from [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
+
 	elif action == "delete/revision":
 		amount = len(change["logparams"]["ids"])
 		link = link_formatter(create_article_path(change["title"]))
@@ -719,24 +694,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "delete/delete":
 
 	elif action == "delete/delete_redir":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Deleted redirect {article} by overwriting").format(article=change["title"])
-		if AUTO_SUPPRESSION_ENABLED:
-			delete_messages(dict(pageid=change.get("pageid")))
+
 	elif action == "move/move":
-		link = create_article_path(change["logparams"]['target_title'])
-		parsed_comment = "{supress}. {desc}".format(desc=parsed_comment,
-		                                            supress=_("No redirect has been made") if "suppressredirect" in change["logparams"] else _(
-			                                            "A redirect has been made"))
-		embed["title"] = _("Moved {redirect}{article} to {target}").format(redirect="⤷ " if "redirect" in change else "", article=change["title"], target=change["logparams"]['target_title'])
+
 	elif action == "move/move_redir":
-		link = create_article_path(change["logparams"]["target_title"])
-		embed["title"] = _("Moved {redirect}{article} to {title} over redirect").format(redirect="⤷ " if "redirect" in change else "", article=change["title"],
-		                                                                      title=change["logparams"]["target_title"])
+
 	elif action == "protect/move_prot":
-		link = create_article_path(change["logparams"]["oldtitle_title"])
-		embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(redirect="⤷ " if "redirect" in change else "", article=change["logparams"]["oldtitle_title"],
-		                                                                                 title=change["title"])
+
 	elif action == "block/block":
 		user = change["title"].split(':', 1)[1]
 		try:
@@ -874,20 +838,11 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		parsed_comment = _("Groups changed from {old_groups} to {new_groups}{reason}").format(
 			old_groups=", ".join(old_groups), new_groups=', '.join(new_groups), reason=reason)
 	elif action == "protect/protect":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Protected {target}").format(target=change["title"])
-		parsed_comment = "{settings}{cascade} | {reason}".format(settings=change["logparams"].get("description", ""),
-		                                                         cascade=_(" [cascading]") if "cascade" in change["logparams"] else "",
-		                                                         reason=parsed_comment)
+
 	elif action == "protect/modify":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Changed protection level for {article}").format(article=change["title"])
-		parsed_comment = "{settings}{cascade} | {reason}".format(settings=change["logparams"].get("description", ""),
-		                                                         cascade=_(" [cascading]") if "cascade" in change["logparams"] else "",
-		                                                         reason=parsed_comment)
+
 	elif action == "protect/unprotect":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Removed protection from {article}").format(article=change["title"])
+
 	elif action == "delete/revision":
 		amount = len(change["logparams"]["ids"])
 		link = create_article_path(change["title"])

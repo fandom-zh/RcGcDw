@@ -23,8 +23,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from src.configloader import settings
-from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, \
-	AUTO_SUPPRESSION_ENABLED, parse_mw_request_info
+from src.misc import WIKI_SCRIPT_PATH, WIKI_API_PATH, datafile, send_simple, safe_read, parse_mw_request_info
 from src.discord.queue import messagequeue
 from src.exceptions import MWError, BadRequest, ClientError, ServerError, MediaWikiError
 from src.session import session
@@ -394,7 +393,7 @@ class Wiki(object):
 
 	def clear_cache(self):
 		self.map_ips = {}
-		if AUTO_SUPPRESSION_ENABLED:
+		if settings.get("auto_suppression", {"enabled": False}).get("enabled"):
 			from src.fileio.database import clean_entries
 			clean_entries()
 

@@ -45,6 +45,10 @@ if settings["fandom_discussions"]["enabled"]:
 	import src.discussions
 
 TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
+AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
+
+if AUTO_SUPPRESSION_ENABLED:
+	from src.discord.redaction import delete_messages, redact_messages
 # Prepare logging
 
 logging.config.dictConfig(settings["logging"])
@@ -264,6 +268,8 @@ def rc_processor(change, changed_categories):
 			return
 		context.event = identification_string
 		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
+		if identification_string in ("delete/delete", "delete/delete_redir") and AUTO_SUPPRESSION_ENABLED:
+			delete_messages(dict(pageid=change.get("pageid")))
 	send_to_discord(discord_message, metadata)
 
 
