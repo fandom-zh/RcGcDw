@@ -42,6 +42,7 @@ def clean_link(link: str) -> str:
 
 def sanitize_to_markdown(text: str):
 	"""Sanitizes given text to escape markdown formatting. It is used in values that will be visible on Discord in messages"""
+	return re.sub(r"([`_*~:<>{}@|\\])", "\\\\\\1", text, 0).replace('//', "/\\/").replace('](', "]\\(")
 
 
 def sanitize_to_url(text: str) -> str:  # TODO ) replaces needed?
