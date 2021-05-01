@@ -15,19 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 import base64
-import json, logging, sys
+import json, logging, sys, re
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse
 import requests
 
-from src.api.util import escape_formatting
 from src.configloader import settings
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.discord.queue import messagequeue, send_to_discord
 from src.exceptions import MediaWikiError
 from src.i18n import misc
-
-AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 _ = misc.gettext
 
@@ -138,6 +135,9 @@ class ContentParser(HTMLParser):
 			self.empty = True
 
 	def handle_data(self, data):
+		def escape_formatting(data: str) -> str:
+			"""Escape Discord formatting"""
+			return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
 		data = escape_formatting(data)
 		if self.current_tag == "ins" and self.ins_length <= 1000:
 			self.ins_length += len("**" + data + "**")

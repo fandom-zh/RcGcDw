@@ -29,6 +29,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger("src.api.util")
 
+
 def default_message(event: str, formatter_hooks: dict) -> Callable:
 	"""Returns a method of a formatter responsible for the event or None if such does not exist."""
 	return formatter_hooks.get(event, formatter_hooks.get("generic", formatter_hooks["no_formatter"]))
@@ -40,12 +41,12 @@ def clean_link(link: str) -> str:
 
 
 def sanitize_to_markdown(text: str):
-	"""Sanitizes given text to """
+	"""Sanitizes given text to escape markdown formatting. It is used in values that will be visible on Discord in messages"""
 
 
 def sanitize_to_url(text: str) -> str:  # TODO ) replaces needed?
-	"""Formats a link to not embed it"""
-	return quote(text, " \\/:").replace(' ', "_")
+	"""Formats a string in a way where it can be safely added to a URL without breaking MediaWiki URL schema"""
+	return quote(text, " /:").replace(' ', "_").replace(")", "%29")
 
 
 def parse_mediawiki_changes(ctx: Context, content: str, embed: DiscordMessage) -> None:
@@ -67,11 +68,6 @@ def parse_mediawiki_changes(ctx: Context, content: str, embed: DiscordMessage) -
 		embed.add_field(_("Removed"), "{data}".format(data=edit_diff.small_prev_del), inline=True)
 	if edit_diff.small_prev_ins:
 		embed.add_field(_("Added"), "{data}".format(data=edit_diff.small_prev_ins), inline=True)
-
-
-def escape_formatting(data: str) -> str:
-	"""Escape Discord formatting"""
-	return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
 
 
 def create_article_path(article: str) -> str:
