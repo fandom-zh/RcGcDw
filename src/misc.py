@@ -104,16 +104,16 @@ def weighted_average(value, weight, new_value):
 	return round(((value * weight) + new_value) / (weight + 1), 2)
 
 
-def class_searcher(attribs: list, sclass: str) -> bool:
-	"""Function to search certain string (sclass) in attribute list of given tag provided by HTMLParser on handle_starttag
+def class_searcher(attribs: list) -> str:
+	"""Function to return classes of given element in HTMLParser on handle_starttag
 
-	:returns True if element is of given sclass False if it isn't
+	:returns a string with all of the classes of element
 	"""
 	for attr in attribs:
 		if attr[0] == "class":
-			if sclass in attr[1]:
-				return True
-	return False
+			return attr[1]
+	return ""
+
 
 class ContentParser(HTMLParser):
 	"""ContentPerser is an implementation of HTMLParser that parses output of action=compare&prop=diff API request
@@ -136,14 +136,16 @@ class ContentParser(HTMLParser):
 	def handle_starttag(self, tagname, attribs):
 		if tagname == "ins" or tagname == "del":
 			self.current_tag = tagname
-		if tagname == "td" and class_searcher(attribs, "diff-addedline") and self.ins_length <= 1000:
-			self.current_tag = "tda"
-			self.last_ins = ""
-		if tagname == "td" and class_searcher(attribs, "diff-deletedline") and self.del_length <= 1000:
-			self.current_tag = "tdd"
-			self.last_del = ""
-		if tagname == "td" and class_searcher(attribs, "diff-empty"):
-			self.empty = True
+		if tagname == "td":
+			classes = class_searcher(attribs).split(' ')
+			if "diff-addedline" in classes and self.ins_length <= 1000:
+				self.current_tag = "tda"
+				self.last_ins = ""
+			if "diff-deletedline" in classes and self.del_length <= 1000:
+				self.current_tag = "tdd"
+				self.last_del = ""
+			if "diff-empty" in classes:
+				self.empty = True
 
 	def handle_data(self, data):
 		def escape_formatting(data: str) -> str:
