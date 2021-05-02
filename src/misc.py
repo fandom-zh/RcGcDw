@@ -104,6 +104,17 @@ def weighted_average(value, weight, new_value):
 	return round(((value * weight) + new_value) / (weight + 1), 2)
 
 
+def class_searcher(attribs: list, sclass: str) -> bool:
+	"""Function to search certain string (sclass) in attribute list of given tag provided by HTMLParser on handle_starttag
+
+	:returns True if element is of given sclass False if it isn't
+	"""
+	for attr in attribs:
+		if attr[0] == "class":
+			if sclass in attr[1]:
+				return True
+	return False
+
 class ContentParser(HTMLParser):
 	"""ContentPerser is an implementation of HTMLParser that parses output of action=compare&prop=diff API request
 	for two MediaWiki revisions. It extracts the following:
@@ -125,13 +136,13 @@ class ContentParser(HTMLParser):
 	def handle_starttag(self, tagname, attribs):
 		if tagname == "ins" or tagname == "del":
 			self.current_tag = tagname
-		if tagname == "td" and "diff-addedline" in attribs[0] and self.ins_length <= 1000:
+		if tagname == "td" and class_searcher(attribs, "diff-addedline") and self.ins_length <= 1000:
 			self.current_tag = "tda"
 			self.last_ins = ""
-		if tagname == "td" and "diff-deletedline" in attribs[0] and self.del_length <= 1000:
+		if tagname == "td" and class_searcher(attribs, "diff-deletedline") and self.del_length <= 1000:
 			self.current_tag = "tdd"
 			self.last_del = ""
-		if tagname == "td" and "diff-empty" in attribs[0]:
+		if tagname == "td" and class_searcher(attribs, "diff-empty"):
 			self.empty = True
 
 	def handle_data(self, data):
