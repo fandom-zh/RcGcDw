@@ -15,3 +15,5 @@
 
 # Made just to avoid circular imports
 formatter_hooks = {}
+pre_hooks = []
+post_hooks = []

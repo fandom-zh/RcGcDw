@@ -27,11 +27,11 @@ from collections import defaultdict, Counter
 from typing import Optional
 import src.api.client
 from src.api.context import Context
-from src.api.hooks import formatter_hooks
+from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, \
 	WIKI_API_PATH
-from src.api.util import create_article_path, default_message
+from src.api.util import create_article_path, default_message, sanitize_to_markdown
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.exceptions import MWError
@@ -239,6 +239,8 @@ def rc_processor(change, changed_categories):
 	                       page_id=change.get("pageid", None))
 	logger.debug(change)
 	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
+	for hook in pre_hooks:
+		hook(change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		context.event = "suppressed"
 		discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
@@ -246,7 +248,7 @@ def rc_processor(change, changed_categories):
 		if "commenthidden" not in change:
 			LinkParser.feed(change.get("parsedcomment", ""))
 			parsed_comment = LinkParser.new_string
-			parsed_comment = re.sub(r"(`|_|\*|~|{|}|\|\|)", "\\\\\\1", parsed_comment)
+			parsed_comment = sanitize_to_markdown(parsed_comment)
 		else:
 			parsed_comment = _("~~hidden~~")
 		context.set_parsedcomment(parsed_comment)
@@ -270,6 +272,8 @@ def rc_processor(change, changed_categories):
 		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
 		if identification_string in ("delete/delete", "delete/delete_redir") and AUTO_SUPPRESSION_ENABLED:
 			delete_messages(dict(pageid=change.get("pageid")))
+	for hook in post_hooks:
+		hook(discord_message, metadata)
 	send_to_discord(discord_message, metadata)
 
 

@@ -13,3 +13,24 @@
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
+import src.api.hooks
+
+
+def pre_hook(func):
+	"""
+	Decorator to register a pre hook and return a function
+
+	:return: func
+	"""
+	src.api.hooks.pre_hooks.append(func)
+	return func
+
+
+def post_hook(func):
+	"""
+	Decorator to register a post hook and return a function
+
+	:return: func
+	"""
+	src.api.hooks.post_hooks.append(func)
+	return func
