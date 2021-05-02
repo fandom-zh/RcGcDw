@@ -37,6 +37,7 @@ class Client:
 		self.WIKI_JUST_DOMAIN = src.misc.WIKI_JUST_DOMAIN
 		self.content_parser = src.misc.ContentParser
 		self.tags = self.__recent_changes.tags
+		self.namespaces = self.__recent_changes.namespaces
 		#self.make_api_request: src.rc.wiki.__recent_changes.api_request = self.__recent_changes.api_request
 
 	def refresh_internal_data(self):
@@ -68,7 +69,6 @@ class Client:
 
 	def get_formatters(self):
 		return self._formatters
-
 
 	def get_ipmapper(self) -> dict:
 		"""Returns a dict mapping IPs with amount of their edits"""

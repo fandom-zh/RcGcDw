@@ -40,7 +40,7 @@ def clean_link(link: str) -> str:
 	return "<" + link.replace(" ", "_") + ">"
 
 
-def sanitize_to_markdown(text: str):
+def sanitize_to_markdown(text: str) -> str:
 	"""Sanitizes given text to escape markdown formatting. It is used in values that will be visible on Discord in messages"""
 	return re.sub(r"([`_*~:<>{}@|\\])", "\\\\\\1", text, 0).replace('//', "/\\/").replace('](', "]\\(")
 

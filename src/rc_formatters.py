@@ -163,59 +163,9 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "protect/move_prot":
 
 	elif action == "block/block":
-		user = change["title"].split(':', 1)[1]
-		restriction_description = ""
-		try:
-			ipaddress.ip_address(user)
-			link = link_formatter(create_article_path("Special:Contributions/{user}".format(user=user)))
-		except ValueError:
-			link = link_formatter(create_article_path(change["title"]))
-		if change["logparams"]["duration"] in ["infinite", "indefinite", "infinity", "never"]:
-			block_time = _("for infinity and beyond")
-		else:
-			english_length = re.sub(r"(\d+)", "", change["logparams"][
-				"duration"])  # note that translation won't work for millenia and century yet
-			english_length_num = re.sub(r"(\D+)", "", change["logparams"]["duration"])
-			try:
-				if "@" in english_length:
-					raise ValueError
-				english_length = english_length.rstrip("s").strip()
-				block_time = _("for {num} {translated_length}").format(num=english_length_num,
-				                                                translated_length=ngettext(english_length,
-				                                                                           english_length + "s",
-				                                                                           int(english_length_num)))
-			except (AttributeError, ValueError):
-				date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
-				block_time = _("until {}").format(date_time_obj.strftime("%Y-%m-%d %H:%M:%S UTC"))
-			if "sitewide" not in change["logparams"]:
-				if "restrictions" in change["logparams"]:
-					if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
-						restriction_description = _(" on pages: ")
-						for page in change["logparams"]["restrictions"]["pages"]:
-							restricted_pages = ["*{page}*".format(page=i["page_title"]) for i in change["logparams"]["restrictions"]["pages"]]
-						restriction_description = restriction_description + ", ".join(restricted_pages)
-					if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
-						namespaces = []
-						if restriction_description:
-							restriction_description = restriction_description + _(" and namespaces: ")
-						else:
-							restriction_description = _(" on namespaces: ")
-						for namespace in change["logparams"]["restrictions"]["namespaces"]:
-							if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
-								namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
-							else:
-								namespaces.append("*{ns}*".format(ns=namespace))
-						restriction_description = restriction_description + ", ".join(namespaces)
-					restriction_description = restriction_description + "."
-					if len(restriction_description) > 1020:
-						logger.debug(restriction_description)
-						restriction_description = restriction_description[:1020] + "…"
-		content = _(
-			"[{author}]({author_url}) blocked [{user}]({user_url}) {time}{restriction_desc}{comment}").format(author=author, author_url=author_url, user=user, time=block_time, user_url=link, restriction_desc=restriction_description, comment=parsed_comment)
+
 	elif action == "block/reblock":
-		link = link_formatter(create_article_path(change["title"]))
-		user = change["title"].split(':', 1)[1]
-		content = _("[{author}]({author_url}) changed block settings for [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
+
 	elif action == "block/unblock":
 		link = link_formatter(create_article_path(change["title"]))
 		user = change["title"].split(':', 1)[1]
@@ -702,58 +652,9 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "protect/move_prot":
 
 	elif action == "block/block":
-		user = change["title"].split(':', 1)[1]
-		try:
-			ipaddress.ip_address(user)
-			link = create_article_path("Special:Contributions/{user}".format(user=user))
-		except ValueError:
-			link = create_article_path(change["title"])
-		if change["logparams"]["duration"] in ["infinite", "indefinite", "infinity", "never"]:
-			block_time = _("for infinity and beyond")
-		else:
-			english_length = re.sub(r"(\d+)", "", change["logparams"]["duration"])  # note that translation won't work for millenia and century yet
-			english_length_num = re.sub(r"(\D+)", "", change["logparams"]["duration"])
-			try:
-				if "@" in english_length:
-					raise ValueError
-				english_length = english_length.rstrip("s").strip()
-				block_time = _("for {num} {translated_length}").format(num=english_length_num, translated_length=ngettext(english_length, english_length + "s", int(english_length_num)))
-			except (AttributeError, ValueError):
-				if "expiry" in change["logparams"]:
-					date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
-					block_time = _("until {}").format(date_time_obj.strftime("%Y-%m-%d %H:%M:%S UTC"))
-				else:
-					block_time = _("unknown expiry time")  # THIS IS HERE JUST TEMPORARY AS A HOT FIX TO #157, will be changed with release of 1.13
-		if "sitewide" not in change["logparams"]:
-			restriction_description = ""
-			if "restrictions" in change["logparams"]:
-				if "pages" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["pages"]:
-					restriction_description = _("Blocked from editing the following pages: ")
-					for page in change["logparams"]["restrictions"]["pages"]:
-						restricted_pages = ["*"+i["page_title"]+"*" for i in change["logparams"]["restrictions"]["pages"]]
-					restriction_description = restriction_description + ", ".join(restricted_pages)
-				if "namespaces" in change["logparams"]["restrictions"] and change["logparams"]["restrictions"]["namespaces"]:
-					namespaces = []
-					if restriction_description:
-						restriction_description = restriction_description + _(" and namespaces: ")
-					else:
-						restriction_description = _("Blocked from editing pages on following namespaces: ")
-					for namespace in change["logparams"]["restrictions"]["namespaces"]:
-						if str(namespace) in recent_changes.namespaces:  # if we have cached namespace name for given namespace number, add its name to the list
-							namespaces.append("*{ns}*".format(ns=recent_changes.namespaces[str(namespace)]["*"]))
-						else:
-							namespaces.append("*{ns}*".format(ns=namespace))
-					restriction_description = restriction_description + ", ".join(namespaces)
-				restriction_description = restriction_description + "."
-				if len(restriction_description) > 1020:
-					logger.debug(restriction_description)
-					restriction_description = restriction_description[:1020]+"…"
-				embed.add_field(_("Partial block details"), restriction_description, inline=True)
-		embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_time)
+
 	elif action == "block/reblock":
-		link = create_article_path(change["title"])
-		user = change["title"].split(':', 1)[1]
-		embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=user)
+
 	elif action == "block/unblock":
 		link = create_article_path(change["title"])
 		user = change["title"].split(':', 1)[1]
