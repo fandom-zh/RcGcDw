@@ -197,9 +197,10 @@ class Wiki(object):
 			if highest_id is None or change["rcid"] > highest_id:
 				highest_id = change["rcid"]
 		if not dry_run:
+			logger.debug(f"Currently considering whether IDs in newest batch are lower than {recent_id}.")
 			for change in changes:
 				if change["rcid"] <= recent_id:
-					logger.debug("Change ({}) is lower or equal to recent_id {}".format(change["rcid"], recent_id))
+					#logger.debug("Change ({}) is lower or equal to recent_id {}".format(change["rcid"], recent_id))
 					continue
 				logger.debug(recent_id)
 				self.rc_processor(change, categorize_events.get(change.get("revid"), None))
