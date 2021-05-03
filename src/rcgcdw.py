@@ -272,12 +272,19 @@ def rc_processor(change, changed_categories):
 			return
 		context.event = identification_string
 		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
-		if identification_string in ("delete/delete", "delete/delete_redir") and AUTO_SUPPRESSION_ENABLED:
+		if identification_string in ("delete/delete", "delete/delete_redir") and AUTO_SUPPRESSION_ENABLED:  # TODO Move it into a hook?
 			delete_messages(dict(pageid=change.get("pageid")))
 		elif identification_string == "delete/event" and AUTO_SUPPRESSION_ENABLED:
 			logparams = change.get('logparams', {"ids": []})
 			if settings["appearance"]["mode"] == "embed":
 				redact_messages(logparams.get("ids", []), 1, logparams.get("new", {}))
+			else:
+				for logid in logparams.get("ids", []):
+					delete_messages(dict(logid=logid))
+		elif identification_string == "delete/revision" and AUTO_SUPPRESSION_ENABLED:
+			logparams = change.get('logparams', {"ids": []})
+			if settings["appearance"]["mode"] == "embed":
+				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
 			else:
 				for revid in logparams.get("ids", []):
 					delete_messages(dict(revid=revid))

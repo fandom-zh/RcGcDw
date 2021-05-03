@@ -237,25 +237,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				field=profile_field_name(change["logparams"]['4:section'], False),
 				desc=BeautifulSoup(change["parsedcomment"], "lxml").get_text())
 	elif action in ("rights/rights", "rights/autopromote"):
-		link = link_formatter(create_article_path("User:{user}".format(user=change["title"].split(":")[1])))
-		old_groups = []
-		new_groups = []
-		for name in change["logparams"]["oldgroups"]:
-			old_groups.append(_(name))
-		for name in change["logparams"]["newgroups"]:
-			new_groups.append(_(name))
-		if len(old_groups) == 0:
-			old_groups = [_("none")]
-		if len(new_groups) == 0:
-			new_groups = [_("none")]
 
-		if action == "rights/rights":
-			content = _("[{author}]({author_url}) changed group membership for [{target}]({target_url}) from {old_groups} to {new_groups}{comment}").format(author=author, author_url=author_url, target=change["title"].split(":")[1], target_url=link, old_groups=", ".join(old_groups), new_groups=', '.join(new_groups), comment=parsed_comment)
-		else:
-			content = _("{author} autopromoted [{target}]({target_url}) from {old_groups} to {new_groups}{comment}").format(
-				author=_("System"), author_url=author_url, target=change["title"].split(":")[1], target_url=link,
-				old_groups=", ".join(old_groups), new_groups=', '.join(new_groups),
-				comment=parsed_comment)
 	elif action == "protect/protect":
 
 	elif action == "protect/modify":
@@ -263,34 +245,15 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "protect/unprotect":
 
 	elif action == "delete/revision":
-		amount = len(change["logparams"]["ids"])
-		link = link_formatter(create_article_path(change["title"]))
-		content = ngettext("[{author}]({author_url}) changed visibility of revision on page [{article}]({article_url}){comment}",
-		                          "[{author}]({author_url}) changed visibility of {amount} revisions on page [{article}]({article_url}){comment}", amount).format(author=author, author_url=author_url,
-			article=change["title"], article_url=link, amount=amount, comment=parsed_comment)
-		if AUTO_SUPPRESSION_ENABLED:
-			try:
-				logparams = change["logparams"]
-				pageid = change["pageid"]
-			except KeyError:
-				pass
-			else:
-				delete_messages(dict(pageid=pageid))
+
 	elif action == "import/upload":
-		link = link_formatter(create_article_path(change["title"]))
-		content = ngettext("[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision{comment}",
-		                          "[{author}]({author_url}) imported [{article}]({article_url}) with {count} revisions{comment}", change["logparams"]["count"]).format(
-			author=author, author_url=author_url, article=change["title"], article_url=link, count=change["logparams"]["count"], comment=parsed_comment)
+
 	elif action == "delete/restore":
 
 	elif action == "delete/event":
 
 	elif action == "import/interwiki":
-		link = link_formatter(create_article_path(change["title"]))
-		source_link = link_formatter(create_article_path(change["logparams"]["interwiki_title"]))
-		content = ngettext("[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision from [{source}]({source_url}){comment}",
-		                          "[{author}]({author_url}) imported [{article}]({article_url}) with {count} revisions from [{source}]({source_url}){comment}", change["logparams"]["count"]).format(
-			author=author, author_url=author_url, article=change["title"], article_url=link, count=change["logparams"]["count"], source=change["logparams"]["interwiki_title"], source_url=source_link, comment=parsed_comment)
+
 	elif action == "abusefilter/modify":
 		link = link_formatter(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
 		content = _("[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
@@ -702,29 +665,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		else:
 			embed["title"] = _("Deleted a comment on their own profile")
 	elif action in ("rights/rights", "rights/autopromote"):
-		link = create_article_path("User:{}".format(change["title"].split(":")[1]))
-		if action == "rights/rights":
-			embed["title"] = _("Changed group membership for {target}").format(target=change["title"].split(":")[1])
-		else:
-			author_url = ""
-			embed.set_author(_("System"), author_url)
-			embed["title"] = _("{target} got autopromoted to a new usergroup").format(
-				target=change["title"].split(":")[1])
-		if len(change["logparams"]["oldgroups"]) < len(change["logparams"]["newgroups"]):
-			embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
-		old_groups = []
-		new_groups = []
-		for name in change["logparams"]["oldgroups"]:
-			old_groups.append(_(name))
-		for name in change["logparams"]["newgroups"]:
-			new_groups.append(_(name))
-		if len(old_groups) == 0:
-			old_groups = [_("none")]
-		if len(new_groups) == 0:
-			new_groups = [_("none")]
-		reason = ": {desc}".format(desc=parsed_comment) if parsed_comment != _("No description provided") else ""
-		parsed_comment = _("Groups changed from {old_groups} to {new_groups}{reason}").format(
-			old_groups=", ".join(old_groups), new_groups=', '.join(new_groups), reason=reason)
+
 	elif action == "protect/protect":
 
 	elif action == "protect/modify":
@@ -732,32 +673,15 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "protect/unprotect":
 
 	elif action == "delete/revision":
-		amount = len(change["logparams"]["ids"])
-		link = create_article_path(change["title"])
-		embed["title"] = ngettext("Changed visibility of revision on page {article} ",
-		                          "Changed visibility of {amount} revisions on page {article} ", amount).format(
-			article=change["title"], amount=amount)
-		if AUTO_SUPPRESSION_ENABLED:
-			try:
-				logparams = change["logparams"]
-			except KeyError:
-				pass
-			else:
-				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
+
 	elif action == "import/upload":
-		link = create_article_path(change["title"])
-		embed["title"] = ngettext("Imported {article} with {count} revision",
-		                          "Imported {article} with {count} revisions", change["logparams"]["count"]).format(
-			article=change["title"], count=change["logparams"]["count"])
+
 	elif action == "delete/restore":
 
 	elif action == "delete/event":
 
 	elif action == "import/interwiki":
-		link = create_article_path(change["title"])
-		embed["title"] = ngettext("Imported {article} with {count} revision from \"{source}\"",
-		                          "Imported {article} with {count} revisions from \"{source}\"", change["logparams"]["count"]).format(
-			article=change["title"], count=change["logparams"]["count"], source=change["logparams"]["interwiki_title"])
+
 	elif action == "abusefilter/modify":
 		link = create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"]))
 		embed["title"] = _("Edited abuse filter number {number}").format(number=change["logparams"]['newId'])

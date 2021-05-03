@@ -298,6 +298,34 @@ def compact_delete_event(ctx, change) -> DiscordMessage:
 	                                                                                         author_url=author_url, comment=parsed_comment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
+# delete/revision - Deleting revision information
+
+@formatter.embed(event="delete/revision", mode="embed")
+def embed_delete_revision(ctx, change) -> DiscordMessage:
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	amount = len(change["logparams"]["ids"])
+	embed['url'] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = ngettext("Changed visibility of revision on page {article} ",
+	                          "Changed visibility of {amount} revisions on page {article} ", amount).format(
+		article=change["title"], amount=amount)
+	embed["description"] = ctx.parsedcomment
+	return embed
+
+
+@formatter.compact(event="delete/revision", mode="compact")
+def compact_delete_revision(ctx, change) -> DiscordMessage:
+	author, author_url = compact_author(ctx, change)
+	amount = len(change["logparams"]["ids"])
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = ngettext(
+		"[{author}]({author_url}) changed visibility of revision on page [{article}]({article_url}){comment}",
+		"[{author}]({author_url}) changed visibility of {amount} revisions on page [{article}]({article_url}){comment}",
+		amount).format(author=author, author_url=author_url,
+	                   article=change["title"], article_url=link, amount=amount, comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
 # move/move - Moving pages
 
 
@@ -638,4 +666,104 @@ def embed_suppressed(ctx, change):
 @formatter.compact(event="suppressed", mode="compact")
 def compact_suppressed(ctx, change):
 	content = _("An action has been hidden by administration.")
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+
+# import/upload - Importing pages by uploading exported XML files
+
+@formatter.embed(event="import/upload", mode="embed")
+def embed_import_upload(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = ngettext("Imported {article} with {count} revision",
+	                          "Imported {article} with {count} revisions", change["logparams"]["count"]).format(
+		article=sanitize_to_markdown(change["title"]), count=change["logparams"]["count"])
+	return embed
+
+
+@formatter.compact(event="import/upload", mode="compact")
+def compact_import_upload(ctx, change):
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	author, author_url = compact_author(ctx, change)
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = ngettext("[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision{comment}",
+	                   "[{author}]({author_url}) imported [{article}]({article_url}) with {count} revisions{comment}",
+	                   change["logparams"]["count"]).format(
+		author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), article_url=link,
+		count=change["logparams"]["count"], comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# import/interwiki - Importing interwiki entries
+
+@formatter.embed(event="import/interwiki", mode="embed")
+def embed_import_interwiki(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = ngettext("Imported {article} with {count} revision from \"{source}\"",
+	                          "Imported {article} with {count} revisions from \"{source}\"",
+	                          change["logparams"]["count"]).format(
+		article=sanitize_to_markdown(change["title"]), count=change["logparams"]["count"], source=sanitize_to_markdown(change["logparams"]["interwiki_title"]))
+	return embed
+
+@formatter.compact(event="import/interwiki", mode="compact")
+def compact_import_interwiki(ctx, change):
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	author, author_url = compact_author(ctx, change)
+	source_link = clean_link(create_article_path(change["logparams"]["interwiki_title"]))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = ngettext(
+		"[{author}]({author_url}) imported [{article}]({article_url}) with {count} revision from [{source}]({source_url}){comment}",
+		"[{author}]({author_url}) imported [{article}]({article_url}) with {count} revisions from [{source}]({source_url}){comment}",
+		change["logparams"]["count"]).format(
+		author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), article_url=link,
+		count=change["logparams"]["count"], source=sanitize_to_markdown(change["logparams"]["interwiki_title"]), source_url=source_link,
+		comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# rights/rights - Assigning rights groups
+def get_changed_groups(change: dict, separator: str):
+	"""Creates strings comparing the changes between the user groups for the user"""
+	old_groups = {_(x) for x in change["logparams"]["oldgroups"]}  # translate all groups and pull them into a set
+	new_groups = {_(x) for x in change["logparams"]["newgroups"]}
+	added = separator.join(["+ " + x for x in new_groups-old_groups])  # add + before every string and join them with separator
+	removed = separator.join(["- " + x for x in old_groups-new_groups])
+	return added, removed
+
+@formatter.embed(event="rights/rights", mode="embed")
+def embed_rights_rights(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url("User:{}".format(change["title"].split(":")[1])))
+	if ctx.event == "rights/rights":
+		embed["title"] = _("Changed group membership for {target}").format(target=change["title"].split(":")[1])
+	else:
+		author_url = ""
+		embed.set_author(_("System"), author_url)
+		embed["title"] = _("{target} got autopromoted to a new usergroup").format(
+			target=change["title"].split(":")[1])
+	# if len(change["logparams"]["oldgroups"]) < len(change["logparams"]["newgroups"]):
+	# 	embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
+	added, removed = get_changed_groups(change, "\n")
+	reason = ": {desc}".format(desc=ctx.parsedcomment) if change.get("parsedcomment", None) else ""
+	embed["description"] = _("{reason}\n{added}{linebreak}{removed}").format(added=added, removed=removed, reason=reason,
+	                                                                         linebreak="\n" if added else "")
+	return embed
+
+@formatter.compact(event="rights/rights")
+def compact_rights_rights(ctx, change):
+	link = clean_link(create_article_path(sanitize_to_url("User:{user}".format(user=change["title"].split(":")[1]))))
+	added, removed = get_changed_groups(change, ", ")
+	author, author_url = compact_author(ctx, change)
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	if ctx.event == "rights/rights":
+		content = _(
+			"[{author}]({author_url}) changed group membership for [{target}]({target_url}) {added} {removed}{comment}").format(
+			author=author, author_url=author_url, target=change["title"].split(":")[1], target_url=link,
+			added=added, removed=removed, comment=parsed_comment)
+	else:
+		content = _("{author} autopromoted [{target}]({target_url}) {added} {removed}{comment}").format(
+			author=_("System"), author_url=author_url, target=change["title"].split(":")[1], target_url=link,
+			added=added, removed=removed, comment=parsed_comment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
