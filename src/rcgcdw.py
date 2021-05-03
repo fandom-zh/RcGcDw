@@ -251,6 +251,8 @@ def rc_processor(change, changed_categories):
 			parsed_comment = sanitize_to_markdown(parsed_comment)
 		else:
 			parsed_comment = _("~~hidden~~")
+		if not parsed_comment and context.message_type == "embed" and settings["appearance"].get("embed", {}).get("show_no_description_provided", True):
+			parsed_comment = _("No description provided")
 		context.set_parsedcomment(parsed_comment)
 		if "userhidden" in change:
 			change["user"] = _("hidden")
