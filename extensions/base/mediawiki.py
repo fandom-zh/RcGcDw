@@ -253,6 +253,51 @@ def compact_delete_delete_redir(ctx, change) -> DiscordMessage:
 		comment=parsed_comment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
+# delete/restore - Restoring a page
+
+@formatter.embed(event="delete/restore", mode="embed")
+def embed_delete_restore(ctx, change) -> DiscordMessage:
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed['url'] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Restored {article}").format(article=sanitize_to_markdown(change["title"]))
+	embed["description"] = ctx.parsedcomment
+	return embed
+
+
+@formatter.compact(event="delete/restore", mode="compact")
+def compact_delete_restore(ctx, change) -> DiscordMessage:
+	page_link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	author, author_url = compact_author(ctx, change)
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _("[{author}]({author_url}) restored [{article}]({article_url}){comment}").format(author=author,
+	                                                                                            author_url=author_url,
+	                                                                                            article=sanitize_to_markdown(change["title"]),
+	                                                                                            article_url=page_link,
+	                                                                                            comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# delete/event - Deleting an event with revdelete feature
+
+@formatter.embed(event="delete/event", mode="embed")
+def embed_delete_event(ctx, change) -> DiscordMessage:
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed['url'] = create_article_path("Special:RecentChanges")
+	embed["title"] = _("Changed visibility of log events")
+	embed["description"] = ctx.parsedcomment
+	return embed
+
+
+@formatter.compact(event="delete/event", mode="compact")
+def compact_delete_event(ctx, change) -> DiscordMessage:
+	page_link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	author, author_url = compact_author(ctx, change)
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _("[{author}]({author_url}) changed visibility of log events{comment}").format(author=author,
+	                                                                                         author_url=author_url, comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
 # move/move - Moving pages
 
 
@@ -326,6 +371,7 @@ def embed_protect_move_prot(ctx, change):
 	embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(
 		redirect="⤷ " if "redirect" in change else "", article=sanitize_to_markdown(change["logparams"]["oldtitle_title"]),
 		title=sanitize_to_markdown(change["title"]))
+	embed["description"] = ctx.parsedcomment
 	return embed
 
 @formatter.compact(event="protect/move_prot", mode="compact")
@@ -418,7 +464,7 @@ def compact_protect_unprotect(ctx, change):
 		author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), article_url=link, comment=ctx.parsedcomment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
-# block/block
+# block/block - Blocking an user
 def block_expiry(change: dict) -> str:
 	if change["logparams"]["duration"] in ["infinite", "indefinite", "infinity", "never"]:
 		return _("for infinity and beyond")
@@ -481,6 +527,8 @@ def embed_block_block(ctx, change):
 	if block_flags:
 		embed.add_field(_("Block flags"), ", ".join(block_flags))  # TODO Translate flags into MW messages, this requires making additional request in init_request since we want to get all messages with prefix (amprefix) block-log-flags- and that parameter is exclusive with ammessages
 	embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_expiry(change))
+	embed["description"] = ctx.parsedcomment
+	return embed
 
 @formatter.compact(event="block/block", mode="compact")
 def compact_block_block(ctx, change):
@@ -537,6 +585,7 @@ def embed_block_reblock(ctx, change):
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	user = change["title"].split(':', 1)[1]
 	embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=sanitize_to_markdown(user))
+	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -547,4 +596,46 @@ def compact_block_reblock(ctx, change):
 	user = change["title"].split(':', 1)[1]
 	content = _("[{author}]({author_url}) changed block settings for [{blocked_user}]({user_url}){comment}").format(
 		author=author, author_url=author_url, blocked_user=user, user_url=link, comment=ctx.parsedcomment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
+
+# block/unblock - Unblocking an user
+
+@formatter.embed(event="block/unblock", mode="embed")
+def embed_block_unblock(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	user = change["title"].split(':', 1)[1]
+	embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
+	embed["description"] = ctx.parsedcomment
+	return embed
+
+
+@formatter.compact(event="block/unblock")
+def compact_block_unblock(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	user = change["title"].split(':', 1)[1]
+	content = _("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author,
+	                                                                                               author_url=author_url,
+	                                                                                               blocked_user=user,
+	                                                                                               user_url=link,
+	                                                                                               comment=ctx.parsedcomment)
+
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# suppressed - Custom event for whenever there is limited information available about the event due to revdel
+
+@formatter.embed(event="suppressed", mode="embed")
+def embed_suppressed(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed["url"] = create_article_path("")
+	embed["title"] = _("Action has been hidden by administration")
+	embed["author"]["name"] = _("Unknown")
+	return embed
+
+@formatter.compact(event="suppressed", mode="compact")
+def compact_suppressed(ctx, change):
+	content = _("An action has been hidden by administration.")
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)

@@ -272,6 +272,13 @@ def rc_processor(change, changed_categories):
 		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
 		if identification_string in ("delete/delete", "delete/delete_redir") and AUTO_SUPPRESSION_ENABLED:
 			delete_messages(dict(pageid=change.get("pageid")))
+		elif identification_string == "delete/event" and AUTO_SUPPRESSION_ENABLED:
+			logparams = change.get('logparams', {"ids": []})
+			if settings["appearance"]["mode"] == "embed":
+				redact_messages(logparams.get("ids", []), 1, logparams.get("new", {}))
+			else:
+				for revid in logparams.get("ids", []):
+					delete_messages(dict(revid=revid))
 	for hook in post_hooks:
 		hook(discord_message, metadata)
 	send_to_discord(discord_message, metadata)

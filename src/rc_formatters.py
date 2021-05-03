@@ -167,9 +167,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "block/reblock":
 
 	elif action == "block/unblock":
-		link = link_formatter(create_article_path(change["title"]))
-		user = change["title"].split(':', 1)[1]
-		content = _("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
+
 	elif action == "curseprofile/comment-created":
 		link = link_formatter(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
 		target_user = change["title"].split(':', 1)[1]
@@ -284,18 +282,9 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		                          "[{author}]({author_url}) imported [{article}]({article_url}) with {count} revisions{comment}", change["logparams"]["count"]).format(
 			author=author, author_url=author_url, article=change["title"], article_url=link, count=change["logparams"]["count"], comment=parsed_comment)
 	elif action == "delete/restore":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) restored [{article}]({article_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, comment=parsed_comment)
+
 	elif action == "delete/event":
-		content = _("[{author}]({author_url}) changed visibility of log events{comment}").format(author=author, author_url=author_url, comment=parsed_comment)
-		if AUTO_SUPPRESSION_ENABLED:
-			try:
-				logparams = change["logparams"]
-			except KeyError:
-				pass
-			else:
-				for revid in logparams.get("ids", []):
-					delete_messages(dict(revid=revid))
+
 	elif action == "import/interwiki":
 		link = link_formatter(create_article_path(change["title"]))
 		source_link = link_formatter(create_article_path(change["logparams"]["interwiki_title"]))
@@ -605,7 +594,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				author=author, author_url=author_url, old_name=change["logparams"]["olduser"], new_name=change["logparams"]["newuser"], link=link, comment=parsed_comment
 			)
 	elif action == "suppressed":
-		content = _("An action has been hidden by administration.")
+
 	else:
 		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
 		if not settings.get("support", None):
@@ -656,9 +645,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "block/reblock":
 
 	elif action == "block/unblock":
-		link = create_article_path(change["title"])
-		user = change["title"].split(':', 1)[1]
-		embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
+
 	elif action == "curseprofile/comment-created":
 		if settings["appearance"]["embed"]["show_edit_changes"]:
 			parsed_comment = recent_changes.pull_comment(change["logparams"]["4:comment_id"])
@@ -763,18 +750,9 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		                          "Imported {article} with {count} revisions", change["logparams"]["count"]).format(
 			article=change["title"], count=change["logparams"]["count"])
 	elif action == "delete/restore":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Restored {article}").format(article=change["title"])
+
 	elif action == "delete/event":
-		link = create_article_path("Special:RecentChanges")
-		embed["title"] = _("Changed visibility of log events")
-		if AUTO_SUPPRESSION_ENABLED:
-			try:
-				logparams = change["logparams"]
-			except KeyError:
-				pass
-			else:
-				redact_messages(logparams.get("ids", []), 1, logparams.get("new", {}))
+
 	elif action == "import/interwiki":
 		link = create_article_path(change["title"])
 		embed["title"] = ngettext("Imported {article} with {count} revision from \"{source}\"",
@@ -999,9 +977,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 			embed["title"] = _("Renamed user \"{old_name}\" to \"{new_name}\"").format(old_name=change["logparams"]["olduser"], new_name=change["logparams"]["newuser"])
 		link = create_article_path("User:"+change["logparams"]["newuser"])
 	elif action == "suppressed":
-		link = create_article_path("")
-		embed["title"] = _("Action has been hidden by administration")
-		embed["author"]["name"] = _("Unknown")
+
 	else:
 		logger.warning("No entry for {event} with params: {params}".format(event=action, params=change))
 		link = create_article_path("Special:RecentChanges")
