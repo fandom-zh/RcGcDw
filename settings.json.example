@@ -43,7 +43,7 @@
         "disable_existing_loggers": false,
         "formatters": {
             "standard": {
-                "format": "%(name)s - %(levelname)s: %(message)s"
+                "format": "%(name)s - %(asctime)s - %(levelname)s: %(message)s"
             }
         },
         "handlers": {
