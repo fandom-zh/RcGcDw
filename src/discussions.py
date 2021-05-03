@@ -77,6 +77,7 @@ def fetch_discussions():
 				for post in request_json:
 					if int(post["id"]) > storage["discussion_id"]:
 						try:
+							discussion_logger.debug(f"Sending discussion post with ID {post['id']}")
 							parse_discussion_post(post, comment_pages)
 						except ArticleCommentError:
 							return None

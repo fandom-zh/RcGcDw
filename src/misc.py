@@ -47,6 +47,7 @@ class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
 	def __init__(self):
 		self.data = self.load_datafile()
+		misc_logger.debug("Current contents of data.json {}".format(self.data))
 		self.changed = False
 
 	@staticmethod
@@ -79,6 +80,7 @@ class DataFile:
 			with open("data.json", "w") as data_file:
 				data_file.write(json.dumps(self.data, indent=4))
 			self.changed = False
+			misc_logger.debug("Saving the database succeeded.")
 		except PermissionError:
 			misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
 			sys.exit(1)
