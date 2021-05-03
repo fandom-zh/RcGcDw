@@ -8,13 +8,12 @@ import sys
 from src.migrations.utils import return_example_file
 
 logger = logging.getLogger("rcgcdw.migrations.1.13.1.1")
-base_file = return_example_file()
 new_settings = settings.copy()
 
 def run():
-	global base_file
 	if "event_appearance" not in settings:
 		logger.info("Running migration 1.13.1.1")
+		base_file = return_example_file()
 		if "event_appearance" not in base_file:  # if local base file is outdated, download from repo
 			base_file = return_example_file(force=True)
 		try:
