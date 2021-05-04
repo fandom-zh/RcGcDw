@@ -262,37 +262,17 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId'])))
 		content = _("[{author}]({author_url}) created abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
 	elif action == "merge/merge":
-		link = link_formatter(create_article_path(change["title"]))
-		link_dest = link_formatter(create_article_path(change["logparams"]["dest_title"]))
-		content = _("[{author}]({author_url}) merged revision histories of [{article}]({article_url}) into [{dest}]({dest_url}){comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, dest_url=link_dest,
-		                                                                                dest=change["logparams"]["dest_title"], comment=parsed_comment)
+
 	elif action == "newusers/autocreate":
-		content = _("Account [{author}]({author_url}) was created automatically").format(author=author, author_url=author_url)
 	elif action == "newusers/create":
-		content = _("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
 	elif action == "newusers/create2":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("Account [{article}]({article_url}) was created by [{author}]({author_url}){comment}").format(article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
 	elif action == "newusers/byemail":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("Account [{article}]({article_url}) was created by [{author}]({author_url}) and password was sent by email{comment}").format(article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
 	elif action == "newusers/newusers":
-		content = _("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
 	elif action == "interwiki/iw_add":
-		link = link_formatter(create_article_path("Special:Interwiki"))
-		content = _("[{author}]({author_url}) added an entry to the [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(author=author, author_url=author_url, desc=parsed_comment,
-		                                                                           prefix=change["logparams"]['0'],
-		                                                                           website=change["logparams"]['1'],
-		                                                                            table_url=link)
 	elif action == "interwiki/iw_edit":
-		link = link_formatter(create_article_path("Special:Interwiki"))
-		content = _("[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(author=author, author_url=author_url, desc=parsed_comment,
-		                                                                           prefix=change["logparams"]['0'],
-		                                                                           website=change["logparams"]['1'],
-		                                                                            table_url=link)
+
 	elif action == "interwiki/iw_delete":
 		link = link_formatter(create_article_path("Special:Interwiki"))
-		content = _("[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})").format(author=author, author_url=author_url, table_url=link)
 	elif action == "contentmodel/change":
 		link = link_formatter(create_article_path(change["title"]))
 		content = _("[{author}]({author_url}) changed the content model of the page [{article}]({article_url}) from {old} to {new}{comment}").format(author=author, author_url=author_url, article=change["title"], article_url=link, old=change["logparams"]["oldmodel"],
@@ -689,40 +669,22 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		link = create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId']))
 		embed["title"] = _("Created abuse filter number {number}").format(number=change["logparams"]['newId'])
 	elif action == "merge/merge":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=change["title"],
-		                                                                                dest=change["logparams"]["dest_title"])
 	elif action == "newusers/autocreate":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Created account automatically")
+
 	elif action == "newusers/create":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Created account")
+
 	elif action == "newusers/create2":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Created account {article}").format(article=change["title"])
+
 	elif action == "newusers/byemail":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Created account {article} and password was sent by email").format(article=change["title"])
+
 	elif action == "newusers/newusers":
-		link = author_url
-		embed["title"] = _("Created account")
+
 	elif action == "interwiki/iw_add":
-		link = create_article_path("Special:Interwiki")
-		embed["title"] = _("Added an entry to the interwiki table")
-		parsed_comment = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=parsed_comment,
-		                                                                           prefix=change["logparams"]['0'],
-		                                                                           website=change["logparams"]['1'])
+
 	elif action == "interwiki/iw_edit":
-		link = create_article_path("Special:Interwiki")
-		embed["title"] = _("Edited an entry in interwiki table")
-		parsed_comment = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=parsed_comment,
-		                                                                           prefix=change["logparams"]['0'],
-		                                                                           website=change["logparams"]['1'])
+
 	elif action == "interwiki/iw_delete":
-		link = create_article_path("Special:Interwiki")
-		embed["title"] = _("Deleted an entry in interwiki table")
-		parsed_comment = _("Prefix: {prefix} | {desc}").format(desc=parsed_comment, prefix=change["logparams"]['0'])
+
 	elif action == "contentmodel/change":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Changed the content model of the page {article}").format(article=change["title"])

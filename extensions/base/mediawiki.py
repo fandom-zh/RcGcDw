@@ -34,6 +34,7 @@ logger = logging.getLogger("extensions.base")
 
 # Page edit - event edit, New - page creation
 
+
 @formatter.embed(event="edit", mode="embed", aliases=["new"])
 def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
@@ -255,6 +256,7 @@ def compact_delete_delete_redir(ctx, change) -> DiscordMessage:
 
 # delete/restore - Restoring a page
 
+
 @formatter.embed(event="delete/restore", mode="embed")
 def embed_delete_restore(ctx, change) -> DiscordMessage:
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
@@ -278,6 +280,7 @@ def compact_delete_restore(ctx, change) -> DiscordMessage:
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 # delete/event - Deleting an event with revdelete feature
+
 
 @formatter.embed(event="delete/event", mode="embed")
 def embed_delete_event(ctx, change) -> DiscordMessage:
@@ -401,6 +404,7 @@ def embed_protect_move_prot(ctx, change):
 		title=sanitize_to_markdown(change["title"]))
 	embed["description"] = ctx.parsedcomment
 	return embed
+
 
 @formatter.compact(event="protect/move_prot", mode="compact")
 def compact_protect_move_prot(ctx, change):
@@ -558,6 +562,7 @@ def embed_block_block(ctx, change):
 	embed["description"] = ctx.parsedcomment
 	return embed
 
+
 @formatter.compact(event="block/block", mode="compact")
 def compact_block_block(ctx, change):
 	user = change["title"].split(':', 1)[1]
@@ -655,6 +660,7 @@ def compact_block_unblock(ctx, change):
 
 # suppressed - Custom event for whenever there is limited information available about the event due to revdel
 
+
 @formatter.embed(event="suppressed", mode="embed")
 def embed_suppressed(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
@@ -662,6 +668,7 @@ def embed_suppressed(ctx, change):
 	embed["title"] = _("Action has been hidden by administration")
 	embed["author"]["name"] = _("Unknown")
 	return embed
+
 
 @formatter.compact(event="suppressed", mode="compact")
 def compact_suppressed(ctx, change):
@@ -696,6 +703,7 @@ def compact_import_upload(ctx, change):
 
 # import/interwiki - Importing interwiki entries
 
+
 @formatter.embed(event="import/interwiki", mode="embed")
 def embed_import_interwiki(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
@@ -706,6 +714,7 @@ def embed_import_interwiki(ctx, change):
 	                          change["logparams"]["count"]).format(
 		article=sanitize_to_markdown(change["title"]), count=change["logparams"]["count"], source=sanitize_to_markdown(change["logparams"]["interwiki_title"]))
 	return embed
+
 
 @formatter.compact(event="import/interwiki", mode="compact")
 def compact_import_interwiki(ctx, change):
@@ -731,6 +740,7 @@ def get_changed_groups(change: dict, separator: str):
 	removed = separator.join(["- " + x for x in old_groups-new_groups])
 	return added, removed
 
+
 @formatter.embed(event="rights/rights", mode="embed")
 def embed_rights_rights(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
@@ -751,6 +761,7 @@ def embed_rights_rights(ctx, change):
 	                                                                         linebreak="\n" if added else "")
 	return embed
 
+
 @formatter.compact(event="rights/rights")
 def compact_rights_rights(ctx, change):
 	link = clean_link(create_article_path(sanitize_to_url("User:{user}".format(user=change["title"].split(":")[1]))))
@@ -767,3 +778,199 @@ def compact_rights_rights(ctx, change):
 			author=_("System"), author_url=author_url, target=change["title"].split(":")[1], target_url=link,
 			added=added, removed=removed, comment=parsed_comment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# merge/merge - Merging histories of two pages
+
+@formatter.embed(event="merge/merge", mode="embed")
+def embed_merge_merge(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=sanitize_to_markdown(change["title"]),
+	                                                                                dest=sanitize_to_markdown(change["logparams"][
+		                                                                                "dest_title"]))
+	embed["description"] = ctx.parsedcomment
+	return embed
+
+
+@formatter.compact(event="merge/merge")
+def compact_merge_merge(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	link_dest = clean_link(create_article_path(sanitize_to_url(change["logparams"]["dest_title"])))
+	content = _(
+		"[{author}]({author_url}) merged revision histories of [{article}]({article_url}) into [{dest}]({dest_url}){comment}").format(
+		author=author, author_url=author_url, article=change["title"], article_url=link, dest_url=link_dest,
+		dest=change["logparams"]["dest_title"], comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# newusers/autocreate - Auto creation of user account
+
+
+@formatter.embed(event="newusers/autocreate", mode="embed")
+def embed_newusers_autocreate(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Created account automatically")
+	return embed
+
+
+@formatter.compact(event="newusers/autocreate")
+def compact_newusers_autocreate(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	content = _("Account [{author}]({author_url}) was created automatically").format(author=author, author_url=author_url)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# newusers/create - Auto creation of user account
+
+
+@formatter.embed(event="newusers/create", mode="embed")
+def embed_newusers_create(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Created account")
+	return embed
+
+
+@formatter.compact(event="newusers/create")
+def compact_newusers_create(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	content = _("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# newusers/autocreate - Auto creation of user account
+
+@formatter.embed(event="newusers/create2", mode="embed")
+def embed_newusers_create2(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Created account {article}").format(article=change["title"])
+	return embed
+
+@formatter.compact(event="newusers/create2")
+def compact_newusers_create2(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	content = _("Account [{article}]({article_url}) was created by [{author}]({author_url}){comment}").format(article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# newusers/byemail - Creation of account by email
+
+
+@formatter.embed(event="newusers/byemail", mode="embed")
+def embed_newusers_byemail(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Created account {article} and password was sent by email").format(article=sanitize_to_markdown(change["title"]))
+	return embed
+
+
+@formatter.compact(event="newusers/byemail")
+def compact_newusers_byemail(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	content = _("Account [{article}]({article_url}) was created by [{author}]({author_url}) and password was sent by email{comment}").format(article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# newusers/newusers - New users
+
+
+@formatter.embed(event="newusers/newusers", mode="embed")
+def embed_newusers_newusers(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
+	embed["title"] = _("Created account")
+	return embed
+
+
+@formatter.compact(event="newusers/newusers")
+def compact_newusers_newusers(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	content = _("Account [{author}]({author_url}) was created").format(author=author, author_url=author_url)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# interwiki/iw_add - Added entry to interwiki table
+
+
+@formatter.embed(event="interwiki/iw_add", mode="embed")
+def embed_interwiki_iw_add(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path("Special:Interwiki")
+	embed["title"] = _("Added an entry to the interwiki table")
+	embed["description"] = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=ctx.parsedcomment,
+	                                                                           prefix=change["logparams"]['0'],
+	                                                                           website=change["logparams"]['1'])
+	return embed
+
+
+@formatter.compact(event="interwiki/iw_add")
+def compact_interwiki_iw_add(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path("Special:Interwiki"))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _("[{author}]({author_url}) added an entry to the [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(
+		author=author, author_url=author_url, desc=parsed_comment, prefix=change["logparams"]['0'],
+		website=change["logparams"]['1'], table_url=link)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# interwiki/iw_edit - Editing interwiki entry
+
+
+@formatter.embed(event="interwiki/iw_edit", mode="embed")
+def embed_interwiki_iw_edit(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path("Special:Interwiki")
+	embed["title"] = _("Edited an entry in interwiki table")
+	embed["description"] = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=ctx.parsedcomment,
+	                                                                           prefix=change["logparams"]['0'],
+	                                                                           website=change["logparams"]['1'])
+	return embed
+
+
+@formatter.compact(event="interwiki/iw_edit")
+def compact_interwiki_iw_edit(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path("Special:Interwiki"))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _(
+		"[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(
+		author=author, author_url=author_url, desc=parsed_comment, prefix=change["logparams"]['0'],
+		website=change["logparams"]['1'], table_url=link)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+
+# interwiki/iw_delete - Deleting interwiki entry
+
+
+@formatter.embed(event="interwiki/iw_delete", mode="embed")
+def embed_interwiki_iw_delete(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path("Special:Interwiki")
+	embed["title"] = _("Deleted an entry in interwiki table")
+	embed["description"] = _("Prefix: {prefix} | {desc}").format(desc=ctx.parsedcomment, prefix=change["logparams"]['0'])
+	return embed
+
+
+@formatter.compact(event="interwiki/iw_delete")
+def compact_interwiki_iw_delete(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path("Special:Interwiki"))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _("[{author}]({author_url}) deleted an entry in [interwiki table]({table_url}){desc}").format(author=author,
+	                                                                                                  author_url=author_url,
+	                                                                                                  table_url=link,
+	                                                                                                  desc=parsed_comment)
+
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
