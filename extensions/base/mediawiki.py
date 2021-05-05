@@ -974,3 +974,170 @@ def compact_interwiki_iw_delete(ctx, change):
 
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
+# contentmodel/change - Changing the content model of a page
+
+
+@formatter.embed(event="contentmodel/change", mode="embed")
+def embed_contentmodel_change(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Changed the content model of the page {article}").format(article=sanitize_to_markdown(change["title"]))
+	embed["description"] = _("Model changed from {old} to {new}: {reason}").format(old=change["logparams"]["oldmodel"],
+		                                                                         new=change["logparams"]["newmodel"],
+		                                                                         reason=ctx.parsedcomment)
+	return embed
+
+
+@formatter.compact(event="contentmodel/change")
+def compact_contentmodel_change(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _(
+		"[{author}]({author_url}) changed the content model of the page [{article}]({article_url}) from {old} to {new}{comment}").format(
+		author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), article_url=link,
+		old=change["logparams"]["oldmodel"],
+		new=change["logparams"]["newmodel"], comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# contentmodel/new - Creating a page with non-default content model
+
+
+@formatter.embed(event="contentmodel/new", mode="embed")
+def embed_contentmodel_new(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Created the page {article} using a non-default content model").format(article=sanitize_to_markdown(change["title"]))
+	embed["description"] = _("Created with model {new}: {reason}").format(new=change["logparams"]["newmodel"], reason=ctx.parsedcomment)
+	return embed
+
+
+@formatter.compact(event="contentmodel/new")
+def compact_contentmodel_new(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _(
+		"[{author}]({author_url}) created the page [{article}]({article_url}) using a non-default content model {new}{comment}").format(
+		author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), article_url=link,
+		new=change["logparams"]["newmodel"], comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# managetags/create - Creating log tags
+
+
+@formatter.embed(event="managetags/create", mode="embed")
+def embed_managetags_create(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	ctx.client.refresh_internal_data()
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Created the tag \"{tag}\"").format(tag=sanitize_to_markdown(change["logparams"]["tag"]))
+	return embed
+
+
+@formatter.compact(event="managetags/create")
+def compact_managetags_create(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	ctx.client.refresh_internal_data()
+	content = _("[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author,
+	                                                                                               author_url=author_url,
+	                                                                                               tag=
+	                                                                                               sanitize_to_markdown(change["logparams"][
+		                                                                                               "tag"]),
+	                                                                                               tag_url=link,
+	                                                                                               comment=ctx.parsedcomment)
+
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# managetags/delete - Deleting a tag
+
+
+@formatter.embed(event="managetags/delete", mode="embed")
+def embed_managetags_delete(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	ctx.client.refresh_internal_data()
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Deleted the tag \"{tag}\"").format(tag=sanitize_to_markdown(change["logparams"]["tag"]))
+	if change["logparams"]["count"] > 0:
+		embed.add_field(_('Removed from'), ngettext("{} revision or log entry", "{} revisions and/or log entries",
+		                                            change["logparams"]["count"]).format(change["logparams"]["count"]))
+	return embed
+
+
+@formatter.compact(event="managetags/delete")
+def compact_managetags_delete(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	ctx.client.refresh_internal_data()
+	if change["logparams"]["count"] == 0:
+		content = _("[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author,
+		                                                                                               author_url=author_url,
+		                                                                                               tag=sanitize_to_markdown(change[
+			                                                                                               "logparams"][
+			                                                                                               "tag"]),
+		                                                                                               tag_url=link,
+		                                                                                               comment=ctx.parsedcomment)
+	else:
+		content = ngettext(
+			"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed it from {count} revision or log entry{comment}",
+			"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed it from {count} revisions and/or log entries{comment}",
+			change["logparams"]["count"]).format(author=author, author_url=author_url, tag=sanitize_to_markdown(change["logparams"]["tag"]),
+		                                         tag_url=link, count=change["logparams"]["count"],
+		                                         comment=ctx.parsedcomment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# managetags/activate - Activating a tag
+
+
+@formatter.embed(event="managetags/activate", mode="embed")
+def embed_managetags_activate(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Activated the tag \"{tag}\"").format(tag=sanitize_to_markdown(change["logparams"]["tag"]))
+	return embed
+
+
+@formatter.compact(event="managetags/activate")
+def compact_managetags_activate(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	content = _("[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author,
+	                                                                                                 author_url=author_url,
+	                                                                                                 tag=sanitize_to_markdown(change[
+		                                                                                                 "logparams"][
+		                                                                                                 "tag"]),
+	                                                                                                 tag_url=link,
+	                                                                                                 comment=ctx.parsedcomment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# managetags/deactivate - Deactivating a tag
+
+
+@formatter.embed(event="managetags/deactivate", mode="embed")
+def embed_managetags_deactivate(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+	embed["title"] = _("Deactivated the tag \"{tag}\"").format(tag=sanitize_to_markdown(change["logparams"]["tag"]))
+	return embed
+
+
+@formatter.compact(event="managetags/deactivate")
+def compact_managetags_deactivate(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	content = _("[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}").format(author=author,
+	                                                                                                   author_url=author_url,
+	                                                                                                   tag=sanitize_to_markdown(change[
+		                                                                                                   "logparams"][
+		                                                                                                   "tag"]),
+	                                                                                                   tag_url=link,
+	                                                                                                   comment=ctx.parsedcomment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
