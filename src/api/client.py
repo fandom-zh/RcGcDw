@@ -23,7 +23,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 	from src.wiki import Wiki
 
-
 class Client:
 	"""
 		A client for interacting with RcGcDw when creating formatters or hooks.
@@ -31,18 +30,24 @@ class Client:
 	def __init__(self, hooks, wiki):
 		self._formatters = hooks
 		self.__recent_changes: Wiki = wiki
-		self.WIKI_API_PATH = src.misc.WIKI_API_PATH
-		self.WIKI_ARTICLE_PATH = src.misc.WIKI_ARTICLE_PATH
-		self.WIKI_SCRIPT_PATH = src.misc.WIKI_SCRIPT_PATH
-		self.WIKI_JUST_DOMAIN = src.misc.WIKI_JUST_DOMAIN
+		self.WIKI_API_PATH: str = src.misc.WIKI_API_PATH
+		self.WIKI_ARTICLE_PATH: str = src.misc.WIKI_ARTICLE_PATH
+		self.WIKI_SCRIPT_PATH: str = src.misc.WIKI_SCRIPT_PATH
+		self.WIKI_JUST_DOMAIN: str = src.misc.WIKI_JUST_DOMAIN
 		self.content_parser = src.misc.ContentParser
 		self.tags = self.__recent_changes.tags
 		self.namespaces = self.__recent_changes.namespaces
+		self.LinkParser: type(src.misc.LinkParser) = src.misc.LinkParser
 		#self.make_api_request: src.rc.wiki.__recent_changes.api_request = self.__recent_changes.api_request
 
 	def refresh_internal_data(self):
 		"""Refreshes internal storage data for wiki tags and MediaWiki messages."""
 		self.__recent_changes.init_info()
+
+	def parse_links(self, summary: str):
+		link_parser = self.LinkParser()
+		link_parser.feed(summary)
+		return link_parser.new_string
 
 	def make_api_request(self, params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False):
 		"""Method to GET request data from the wiki's API with error handling including recognition of MediaWiki errors.

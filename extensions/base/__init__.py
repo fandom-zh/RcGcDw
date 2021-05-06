@@ -14,3 +14,4 @@
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 import extensions.base.mediawiki
+import extensions.base.abusefilter

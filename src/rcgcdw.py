@@ -29,8 +29,7 @@ import src.api.client
 from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
 from src.configloader import settings
-from src.misc import add_to_dict, datafile, \
-	WIKI_API_PATH
+from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser
 from src.api.util import create_article_path, default_message, sanitize_to_markdown
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata

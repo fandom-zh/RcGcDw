@@ -229,22 +229,13 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 		link = link_formatter(create_article_path(change["title"]))
 		content = _("[{author}]({author_url}) edited the slice for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
 	elif action == "cargo/createtable":
-		LinkParser.feed(change["logparams"]["0"])
-		table = LinkParser.new_string
-		LinkParser.new_string = ""
-		content = _("[{author}]({author_url}) created the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=table)
+
 	elif action == "cargo/deletetable":
-		content = _("[{author}]({author_url}) deleted the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=change["logparams"]["0"])
+
 	elif action == "cargo/recreatetable":
-		LinkParser.feed(change["logparams"]["0"])
-		table = LinkParser.new_string
-		LinkParser.new_string = ""
-		content = _("[{author}]({author_url}) recreated the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=table)
+
 	elif action == "cargo/replacetable":
-		LinkParser.feed(change["logparams"]["0"])
-		table = LinkParser.new_string
-		LinkParser.new_string = ""
-		content = _("[{author}]({author_url}) replaced the Cargo table \"{table}\"").format(author=author, author_url=author_url, table=table)
+
 	elif action == "managetags/create":
 
 	elif action == "managetags/delete":
@@ -614,30 +605,13 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		link = create_article_path(change["title"])
 		embed["title"] = _("Edited the slice for {article}").format(article=change["title"])
 	elif action == "cargo/createtable":
-		LinkParser.feed(change["logparams"]["0"])
-		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
-		LinkParser.new_string = ""
-		link = table.group(2)
-		embed["title"] = _("Created the Cargo table \"{table}\"").format(table=table.group(1))
-		parsed_comment = None
+
 	elif action == "cargo/deletetable":
-		link = create_article_path("Special:CargoTables")
-		embed["title"] = _("Deleted the Cargo table \"{table}\"").format(table=change["logparams"]["0"])
-		parsed_comment = None
+
 	elif action == "cargo/recreatetable":
-		LinkParser.feed(change["logparams"]["0"])
-		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
-		LinkParser.new_string = ""
-		link = table.group(2)
-		embed["title"] = _("Recreated the Cargo table \"{table}\"").format(table=table.group(1))
-		parsed_comment = None
+
 	elif action == "cargo/replacetable":
-		LinkParser.feed(change["logparams"]["0"])
-		table = re.search(r"\[(.*?)\]\(<(.*?)>\)", LinkParser.new_string)
-		LinkParser.new_string = ""
-		link = table.group(2)
-		embed["title"] = _("Replaced the Cargo table \"{table}\"").format(table=table.group(1))
-		parsed_comment = None
+
 	elif action == "managetags/create":
 
 	elif action == "managetags/delete":
