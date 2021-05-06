@@ -196,7 +196,7 @@ def yes_no(answer):
 print("Welcome in RcGcDw config builder! This script is still work in progress so beware! You can accept the default value if provided in the question by using Enter key without providing any other input.\nWARNING! Your current settings.json will be overwritten if you continue!")
 
 try:  # load settings
-	with open("../settings.json.example") as sfile:
+	with open("../settings.json.example", encoding="utf-8") as sfile:
 		settings = json.load(sfile)
 except FileNotFoundError:
 	if yes_no(default_or_custom(input("Template config (settings.json.example) could not be found. Download the most recent stable one from master branch? (https://gitlab.com/piotrex43/RcGcDw/raw/master/settings.json.example)? (Y/n)"), "y")):
@@ -468,7 +468,7 @@ class AdvancedSettings:
 try:
 	BasicSettings()
 	shutil.copy("settings.json", "settings.json.bak")
-	with open("settings.json", "w") as settings_file:
+	with open("settings.json", "w", encoding="utf-8") as settings_file:
 		settings_file.write(json.dumps(settings, indent=4))
 	if "--advanced" in sys.argv:
 		print("Basic part of the config has been completed. Starting the advanced part...")
@@ -478,5 +478,5 @@ except KeyboardInterrupt:
 	if not yes_no(default_or_custom(input("\nSave the config before exiting? (y/N)"),"n")):
 		sys.exit(0)
 	else:
-		with open("settings.json", "w") as settings_file:
+		with open("settings.json", "w", encoding="utf-8") as settings_file:
 			settings_file.write(json.dumps(settings, indent=4))

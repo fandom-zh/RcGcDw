@@ -54,7 +54,7 @@ class DataFile:
 	def generate_datafile():
 		"""Generate a data.json file from a template."""
 		try:
-			with open("data.json", 'w') as data:
+			with open("data.json", 'w', encoding="utf-8") as data:
 				data.write(json.dumps(data_template, indent=4))
 		except PermissionError:
 			misc_logger.critical("Could not create a data file (no permissions). No way to store last edit.")
@@ -65,7 +65,7 @@ class DataFile:
 		:rtype: dict
 		"""
 		try:
-			with open("data.json") as data:
+			with open("data.json", encoding="utf-8") as data:
 				return json.loads(data.read())
 		except FileNotFoundError:
 			self.generate_datafile()
@@ -77,7 +77,7 @@ class DataFile:
 		if self.changed is False:  # don't cause unnecessary write operations
 			return
 		try:
-			with open("data.json", "w") as data_file:
+			with open("data.json", "w", encoding="utf-8") as data_file:
 				data_file.write(json.dumps(self.data, indent=4))
 			self.changed = False
 		except PermissionError:
