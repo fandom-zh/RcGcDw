@@ -43,8 +43,7 @@ ngettext = rc_formatters.ngettext
 
 logger = logging.getLogger("rcgcdw.rc_formatters")
 #from src.rcgcdw import recent_changes, ngettext, logger, profile_field_name, LinkParser, pull_comment
-abusefilter_results = {"": _("None"), "warn": _("Warning issued"), "block": _("**Blocked user**"), "tag": _("Tagged the edit"), "disallow": _("Disallowed the action"), "rangeblock": _("**IP range blocked**"), "throttle": _("Throttled actions"), "blockautopromote": _("Removed autoconfirmed group"), "degroup": _("**Removed from privileged groups**")}
-abusefilter_actions = {"edit": _("Edit"), "upload": _("Upload"), "move": _("Move"), "stashupload": _("Stash upload"), "delete": _("Deletion"), "createaccount": _("Account creation"), "autocreateaccount": _("Auto account creation")}
+
 
 LinkParser = LinkParser()
 
@@ -82,16 +81,7 @@ def format_user(change, recent_changes, action):
 	return change["user"], author_url
 
 
-def abuse_filter_format_user(change):
-	author = change["user"]
-	if settings.get("hide_ips", False):
-		try:
-			ipaddress.ip_address(change["user"])
-		except ValueError:
-			pass
-		else:
-			author = _("Unregistered user")
-	return author
+
 
 
 def compact_abuselog_formatter(change, recent_changes):
@@ -534,17 +524,6 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 				event=action, author=author, author_url=author_url, support=settings["support"])
 			action = "unknown"
 	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=content), meta=request_metadata)
-
-def embed_abuselog_formatter(change, recent_changes):
-	action = "abuselog/{}".format(change["result"])
-	embed = DiscordMessage("embed", action, settings["webhookURL"])
-	author = abuse_filter_format_user(change)
-	embed["title"] = _("{user} triggered \"{abuse_filter}\"").format(user=author, abuse_filter=change["filter"])
-	embed.add_field(_("Performed"), abusefilter_actions.get(change["action"], _("Unknown")))
-	embed.add_field(_("Action taken"), abusefilter_results.get(change["result"], _("Unknown")))
-	embed.add_field(_("Title"), change.get("title", _("Unknown")))
-	embed.finish_embed()
-	send_to_discord(embed, meta=DiscordMessageMetadata("POST"))
 
 
 def embed_formatter(action, change, parsed_comment, categories, recent_changes):
