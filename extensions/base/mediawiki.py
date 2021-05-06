@@ -197,15 +197,35 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
 	return embed
 
 
+@formatter.compact(event="upload/revert", mode="compact")
+def compact_upload_revert(ctx, change) -> DiscordMessage:
+	author, author_url = compact_author(ctx, change)
+	file_link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _("[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}").format(
+			author=author, author_url=author_url, file=sanitize_to_markdown(change["title"]), file_link=file_link, comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+
+@formatter.compact(event="upload/overwrite", mode="compact")
+def compact_upload_overwrite(ctx, change) -> DiscordMessage:
+	author, author_url = compact_author(ctx, change)
+	file_link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	content = _("[{author}]({author_url}) uploaded a new version of [{file}]({file_link}){comment}").format(author=author, author_url=author_url, file=sanitize_to_markdown(change["title"]), file_link=file_link, comment=parsed_comment)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+
 @formatter.compact(event="upload/upload", mode="compact")
 def compact_upload_upload(ctx, change) -> DiscordMessage:
 	author, author_url = compact_author(ctx, change)
 	file_link = clean_link(create_article_path(sanitize_to_url(change["title"])))
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
 	content = _("[{author}]({author_url}) uploaded [{file}]({file_link}){comment}").format(author=author,
 	                                                                                       author_url=author_url,
-	                                                                                       file=change["title"],
+	                                                                                       file=sanitize_to_markdown(change["title"]),
 	                                                                                       file_link=file_link,
-	                                                                                       comment="" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*")
+	                                                                                       comment=parsed_comment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -227,7 +247,7 @@ def compact_delete_delete(ctx, change) -> DiscordMessage:
 	page_link = clean_link(create_article_path(sanitize_to_url(change["title"])))
 	content = _("[{author}]({author_url}) deleted [{page}]({page_link}){comment}").format(author=author,
 	                                                                                      author_url=author_url,
-	                                                                                      page=change["title"],
+	                                                                                      page=sanitize_to_markdown(change["title"]),
 	                                                                                      page_link=page_link,
 	                                                                                      comment=parsed_comment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)

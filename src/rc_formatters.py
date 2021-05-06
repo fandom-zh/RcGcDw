@@ -81,21 +81,6 @@ def format_user(change, recent_changes, action):
 	return change["user"], author_url
 
 
-
-
-
-def compact_abuselog_formatter(change, recent_changes):
-	action = "abuselog/{}".format(change["result"])
-	author_url = link_formatter(create_article_path("User:{user}".format(user=change["user"])))
-	author = abuse_filter_format_user(change)
-	message = _("[{author}]({author_url}) triggered *{abuse_filter}*, performing the action \"{action}\" on *[{target}]({target_url})* - action taken: {result}.").format(
-		author=author, author_url=author_url, abuse_filter=change["filter"],
-		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
-		target_url=link_formatter(create_article_path(change.get("title", _("Unknown")))),
-		result=abusefilter_results.get(change["result"], _("Unknown")))
-	send_to_discord(DiscordMessage("compact", action, settings["webhookURL"], content=message), meta=DiscordMessageMetadata("POST"))
-
-
 def compact_formatter(action, change, parsed_comment, categories, recent_changes):
 	request_metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None), page_id=change.get("pageid", None))
 	if action != "suppressed":
@@ -107,43 +92,14 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			author = change["user"]
 	parsed_comment = "" if parsed_comment is None else " *("+parsed_comment+")*"
 	if action in ["edit", "new"]:
-		edit_link = link_formatter("{wiki}index.php?title={article}&curid={pageid}&diff={diff}&oldid={oldrev}".format(
-			wiki=WIKI_SCRIPT_PATH, pageid=change["pageid"], diff=change["revid"], oldrev=change["old_revid"],
-			article=change["title"]))
-		logger.debug(edit_link)
-		edit_size = change["newlen"] - change["oldlen"]
-		sign = ""
-		if edit_size > 0:
-			sign = "+"
-		bold = ""
-		if abs(edit_size) > 500:
-			bold = "**"
-		if change["title"].startswith("MediaWiki:Tag-"):
-			pass
-		if action == "edit":
-			content = _("[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
-		else:
-			content = _("[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment, edit_size=edit_size, sign=sign, bold=bold)
 	elif action =="upload/upload":
-		file_link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) uploaded [{file}]({file_link}){comment}").format(author=author,
-		                                                                                    author_url=author_url,
-		                                                                                    file=change["title"],
-		                                                                                    file_link=file_link,
-		                                                                                    comment=parsed_comment)
+
 	elif action == "upload/revert":
-		file_link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}").format(
-			author=author, author_url=author_url, file=change["title"], file_link=file_link, comment=parsed_comment)
+
 	elif action == "upload/overwrite":
-		file_link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) uploaded a new version of [{file}]({file_link}){comment}").format(author=author, author_url=author_url, file=change["title"], file_link=file_link, comment=parsed_comment)
+
 	elif action == "delete/delete":
-		page_link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) deleted [{page}]({page_link}){comment}").format(author=author, author_url=author_url, page=change["title"], page_link=page_link,
-		                                                  comment=parsed_comment)
-		if AUTO_SUPPRESSION_ENABLED:
-			delete_messages(dict(pageid=change.get("pageid")))
+
 	elif action == "delete/delete_redir":
 
 	elif action == "move/move":
@@ -245,12 +201,8 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "import/interwiki":
 
 	elif action == "abusefilter/modify":
-		link = link_formatter(create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"])))
-		content = _("[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
 	elif action == "abusefilter/create":
-		link = link_formatter(
-			create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId'])))
-		content = _("[{author}]({author_url}) created abuse filter [number {number}]({filter_url})").format(author=author, author_url=author_url, number=change["logparams"]['newId'], filter_url=link)
+
 	elif action == "merge/merge":
 
 	elif action == "newusers/autocreate":
@@ -628,11 +580,9 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "import/interwiki":
 
 	elif action == "abusefilter/modify":
-		link = create_article_path("Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'], historyid=change["logparams"]["historyId"]))
-		embed["title"] = _("Edited abuse filter number {number}").format(number=change["logparams"]['newId'])
+
 	elif action == "abusefilter/create":
-		link = create_article_path("Special:AbuseFilter/{number}".format(number=change["logparams"]['newId']))
-		embed["title"] = _("Created abuse filter number {number}").format(number=change["logparams"]['newId'])
+
 	elif action == "merge/merge":
 	elif action == "newusers/autocreate":
 
