@@ -1165,3 +1165,43 @@ def compact_managetags_deactivate(ctx, change):
 	                                                                                                   comment=ctx.parsedcomment)
 	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
+# renameuser/renameuser - Renaming a user
+
+
+@formatter.embed(event="renameuser/renameuser")
+def embed_renameuser_renameuser(ctx, change):
+	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+	embed_helper(ctx, embed, change)
+	edits = change["logparams"]["edits"]
+	if edits > 0:
+		embed["title"] = ngettext("Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\"",
+								  "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\"", edits).format(
+			old_name=sanitize_to_markdown(change["logparams"]["olduser"]), edits=edits, new_name=sanitize_to_markdown(change["logparams"]["newuser"]))
+	else:
+		embed["title"] = _("Renamed user \"{old_name}\" to \"{new_name}\"").format(
+			old_name=sanitize_to_markdown(change["logparams"]["olduser"]), new_name=sanitize_to_markdown(change["logparams"]["newuser"]))
+	embed["url"] = create_article_path("User:" + sanitize_to_url(change["logparams"]["newuser"]))
+	embed["description"] = ctx.parsedcomment
+	return embed
+
+
+@formatter.compact(event="renameuser/renameuser")
+def compact_renameuser_renameuser(ctx, change):
+	author, author_url = compact_author(ctx, change)
+	link = clean_link(create_article_path("User:" + sanitize_to_url(change["logparams"]["newuser"])))
+	edits = change["logparams"]["edits"]
+	parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+	if edits > 0:
+		content = ngettext(
+			"[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to [{new_name}]({link}){comment}",
+			"[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to [{new_name}]({link}){comment}",
+			edits).format(
+			author=author, author_url=author_url, old_name=sanitize_to_markdown(change["logparams"]["olduser"]), edits=edits,
+			new_name=sanitize_to_markdown(change["logparams"]["newuser"]), link=link, comment=parsed_comment
+		)
+	else:
+		content = _("[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link}){comment}").format(
+			author=author, author_url=author_url, old_name=sanitize_to_markdown(change["logparams"]["olduser"]),
+			new_name=sanitize_to_markdown(change["logparams"]["newuser"]), link=link, comment=parsed_comment
+		)
+	return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)

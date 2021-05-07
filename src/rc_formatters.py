@@ -418,17 +418,7 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 			old_lang=old_lang, new_lang=new_lang, comment=parsed_comment
 		)
 	elif action == "renameuser/renameuser":
-		link = link_formatter(create_article_path("User:"+change["logparams"]["newuser"]))
-		edits = change["logparams"]["edits"]
-		if edits > 0:
-			content = ngettext("[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to [{new_name}]({link}){comment}",
-			                          "[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to [{new_name}]({link}){comment}", edits).format(
-				author=author, author_url=author_url, old_name=change["logparams"]["olduser"], edits=edits, new_name=change["logparams"]["newuser"], link=link, comment=parsed_comment
-			)
-		else:
-			content = _("[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link}){comment}").format(
-				author=author, author_url=author_url, old_name=change["logparams"]["olduser"], new_name=change["logparams"]["newuser"], link=link, comment=parsed_comment
-			)
+
 	elif action == "suppressed":
 
 	else:
@@ -685,12 +675,7 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 		embed.add_field(_("Old language"), old_lang, inline=True)
 		embed.add_field(_("New language"), new_lang, inline=True)
 	elif action == "renameuser/renameuser":
-		edits = change["logparams"]["edits"]
-		if edits > 0:
-			embed["title"] = ngettext("Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\"", "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\"", edits).format(old_name=change["logparams"]["olduser"], edits=edits, new_name=change["logparams"]["newuser"])
-		else:
-			embed["title"] = _("Renamed user \"{old_name}\" to \"{new_name}\"").format(old_name=change["logparams"]["olduser"], new_name=change["logparams"]["newuser"])
-		link = create_article_path("User:"+change["logparams"]["newuser"])
+
 	elif action == "suppressed":
 
 	else:
