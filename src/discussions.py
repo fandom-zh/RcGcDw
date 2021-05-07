@@ -20,11 +20,15 @@ from typing import Dict, Any
 
 from src.configloader import settings
 
-from src.discussion_formatters import embed_formatter, compact_formatter
+#from src.discussion_formatters import embed_formatter, compact_formatter
 from src.misc import datafile, prepare_paths
-from src.discord.queue import messagequeue
+from src.discord.queue import messagequeue, send_to_discord
+from src.discord.message import DiscordMessageMetadata
 from src.session import session
 from src.exceptions import ArticleCommentError
+from src.api.util import default_message
+from src.api.context import Context
+from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
 
 # Create a custom logger
 
@@ -38,8 +42,14 @@ if "discussion_id" not in datafile.data:
 
 storage = datafile
 
+global client
+
+# setup a few things first so we don't have to do expensive nested get operations every time
 fetch_url = "{wiki}wikia.php?controller=DiscussionPost&method=getPosts&sortDirection=descending&sortKey=creation_date&limit={limit}&includeCounters=false".format(wiki=settings["fandom_discussions"]["wiki_url"], limit=settings["fandom_discussions"]["limit"])
 domain = prepare_paths(settings["fandom_discussions"]["wiki_url"], dry=True)  # Shutdown if the path for discussions is wrong
+display_mode = settings.get("fandom_discussions", {}).get("appearance", {}).get("mode", "embed")
+webhook_url =settings.get("fandom_discussions", {}).get("webhookURL", settings.get("webhookURL"))
+
 
 def fetch_discussions():
 	messagequeue.resend_msgs()
@@ -85,9 +95,12 @@ def fetch_discussions():
 					storage["discussion_id"] = int(post["id"])
 					datafile.save_datafile()
 
+
 def parse_discussion_post(post, comment_pages):
 	"""Initial post recognition & handling"""
+	global client
 	post_type = post["_embedded"]["thread"][0]["containerType"]
+	context = Context(display_mode, webhook_url, client)
 	# Filter posts by forum
 	if post_type == "FORUM" and settings["fandom_discussions"].get("show_forums", []):
 		if not post["forumName"] in settings["fandom_discussions"]["show_forums"]:
@@ -100,8 +113,14 @@ def parse_discussion_post(post, comment_pages):
 		except KeyError:
 			discussion_logger.error("Could not parse paths for article comment, here is the content of comment_pages: {}, ignoring...".format(comment_pages))
 			raise ArticleCommentError
-	formatter(post_type, post, comment_page)
+	event_type = f"discussions/{post_type.lower()}"
+	message = default_message(event_type, formatter_hooks)(context, post)
+	send_to_discord(message, meta=DiscordMessageMetadata("POST"))
 
+
+def inject_client(client_obj):
+	global client
+	client = client_obj
 
 def safe_request(url):
 	"""Function to assure safety of request, and do not crash the script on exceptions,"""
@@ -121,6 +140,6 @@ def safe_request(url):
 			return None
 		return request
 
-formatter = embed_formatter if settings["fandom_discussions"]["appearance"]["mode"] == "embed" else compact_formatter
 
 schedule.every(settings["fandom_discussions"]["cooldown"]).seconds.do(fetch_discussions)
+

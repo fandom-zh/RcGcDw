@@ -40,9 +40,6 @@ from src.wiki import Wiki
 _ = rcgcdw.gettext
 ngettext = rcgcdw.ngettext
 
-if settings["fandom_discussions"]["enabled"]:
-	import src.discussions
-
 TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
@@ -306,6 +303,9 @@ load_extensions()
 # Log in and download wiki information
 wiki = Wiki(rc_processor, abuselog_processing)
 client = src.api.client.Client(formatter_hooks, wiki)
+if settings["fandom_discussions"]["enabled"]:
+	import src.discussions
+	src.discussions.inject_client(client)  # Not the prettiest but gets the job done
 try:
 	if settings["wiki_bot_login"] and settings["wiki_bot_password"]:
 		wiki.log_in()
