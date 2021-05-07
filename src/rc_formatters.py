@@ -245,37 +245,21 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "managetags/deactivate":
 		link = link_formatter(create_article_path(change["title"]))
 	elif action == "managewiki/settings":  # Miraheze's ManageWiki extension https://github.com/miraheze/ManageWiki
-		content = _("[{author}]({author_url}) changed wiki settings{reason}".format(author=author, author_url=author_url, reason=parsed_comment))
+
 	elif action == "managewiki/delete":
-		content = _("[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}").format(author=author, author_url=author_url,
-		                                                                                              wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment)
+
 	elif action == "managewiki/lock":
-		content = _("[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}").format(
-			author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment)
+
 	elif action == "managewiki/namespaces":
-		content = _("[{author}]({author_url}) modified namespace *{namespace_name}* on *{wiki_name}*{comment}").format(
-			author=author, author_url=author_url, namespace_name=change["logparams"].get("namespace", _("Unknown")),
-		    wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment)
+
 	elif action == "managewiki/namespaces-delete":
-		content = _(
-			"[{author}]({author_url}) deleted a namespace *{namespace_name}* on *{wiki_name}*{comment}").format(
-			author=author, author_url=author_url,
-			namespace_name=change["logparams"].get("namespace", _("Unknown")),
-			wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment)
+
 	elif action == "managewiki/rights":
-		group_name = change["title"].split("/permissions/", 1)[1]
-		content = _("[{author}]({author_url}) modified user group *{group_name}*{comment}").format(
-			author=author, author_url=author_url, group_name=group_name, comment=parsed_comment
-		)
+
 	elif action == "managewiki/undelete":
-		content = _("[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}").format(
-			author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment
-		)
+
 	elif action == "managewiki/unlock":
-		content = _("[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}").format(
-			author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")),
-			comment=parsed_comment
-		)
+
 	elif action == "datadump/generate":
 		content = _("[{author}]({author_url}) generated *{file}* dump{comment}").format(
 			author=author, author_url=author_url, file=change["logparams"]["filename"],
@@ -621,35 +605,21 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "managetags/deactivate":
 
 	elif action == "managewiki/settings":  # Miraheze's ManageWiki extension https://github.com/miraheze/ManageWiki
-		link = create_article_path(change["title"])
-		embed["title"] = _("Changed wiki settings")
-		if change["logparams"].get("changes", ""):
-			embed.add_field("Setting", change["logparams"].get("changes"))
+
 	elif action == "managewiki/delete":
-		embed["title"] = _("Deleted a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
-		link = create_article_path(change["title"])
+
 	elif action == "managewiki/lock":
-		embed["title"] = _("Locked a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
-		link = create_article_path(change["title"])
+
 	elif action == "managewiki/namespaces":
-		embed["title"] = _("Modified \"{namespace_name}\" namespace").format(namespace_name=change["logparams"].get("namespace", _("Unknown")))
-		link = create_article_path(change["title"])
-		embed.add_field(_('Wiki'), change["logparams"].get("wiki", _("Unknown")))
+
 	elif action == "managewiki/namespaces-delete":
-		embed["title"] = _("Deleted a \"{namespace_name}\" namespace").format(
-				namespace_name=change["logparams"].get("namespace", _("Unknown")))
-		link = create_article_path(change["title"])
-		embed.add_field(_('Wiki'), change["logparams"].get("wiki", _("Unknown")))
+
 	elif action == "managewiki/rights":
-		group_name = change["title"].split("/permissions/", 1)[1]
-		embed["title"] = _("Modified \"{usergroup_name}\" usergroup").format(usergroup_name=group_name)
-		link = create_article_path(change["title"])
+
 	elif action == "managewiki/undelete":
-		embed["title"] = _("Undeleted a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
-		link = create_article_path(change["title"])
+
 	elif action == "managewiki/unlock":
-		embed["title"] = _("Unlocked a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
-		link = create_article_path(change["title"])
+
 	elif action == "datadump/generate":
 		embed["title"] = _("Generated {file} dump").format(file=change["logparams"]["filename"])
 		link = create_article_path(change["title"])
