@@ -220,14 +220,11 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "contentmodel/new":
 
 	elif action == "sprite/sprite":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) edited the sprite for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
+
 	elif action == "sprite/sheet":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) created the sprite sheet for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
+
 	elif action == "sprite/slice":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) edited the slice for [{article}]({article_url})").format(author=author, author_url=author_url, article=change["title"], article_url=link)
+
 	elif action == "cargo/createtable":
 
 	elif action == "cargo/deletetable":
@@ -573,14 +570,11 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "contentmodel/new":
 
 	elif action == "sprite/sprite":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Edited the sprite for {article}").format(article=change["title"])
+
 	elif action == "sprite/sheet":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Created the sprite sheet for {article}").format(article=change["title"])
+
 	elif action == "sprite/slice":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Edited the slice for {article}").format(article=change["title"])
+
 	elif action == "cargo/createtable":
 
 	elif action == "cargo/deletetable":
