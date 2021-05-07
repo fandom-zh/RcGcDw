@@ -336,9 +336,6 @@ if settings["rc_enabled"]:
 else:
 	logger.info("Script started! RC is disabled however, this means no recent changes will be sent :c")
 
-if 1 == 2:  # additional translation strings in unreachable code
-	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
-	      _("autoreview"), _("autopatrol"), _("wiki_guardian"), ngettext("second", "seconds", 1), ngettext("minute", "minutes", 1), ngettext("hour", "hours", 1), ngettext("day", "days", 1), ngettext("week", "weeks", 1), ngettext("month", "months",1), ngettext("year", "years", 1), ngettext("millennium", "millennia", 1), ngettext("decade", "decades", 1), ngettext("century", "centuries", 1))
 # noinspection PyUnreachableCode
 
 

@@ -261,15 +261,8 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "managewiki/unlock":
 
 	elif action == "datadump/generate":
-		content = _("[{author}]({author_url}) generated *{file}* dump{comment}").format(
-			author=author, author_url=author_url, file=change["logparams"]["filename"],
-			comment=parsed_comment
-		)
 	elif action == "datadump/delete":
-		content = _("[{author}]({author_url}) deleted *{file}* dump{comment}").format(
-			author=author, author_url=author_url, file=change["logparams"]["filename"],
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/mark":
 		link = create_article_path(change["title"])
 		if "?" in link:
@@ -621,11 +614,8 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "managewiki/unlock":
 
 	elif action == "datadump/generate":
-		embed["title"] = _("Generated {file} dump").format(file=change["logparams"]["filename"])
-		link = create_article_path(change["title"])
 	elif action == "datadump/delete":
-		embed["title"] = _("Deleted {file} dump").format(file=change["logparams"]["filename"])
-		link = create_article_path(change["title"])
+
 	elif action == "pagetranslation/mark":
 		link = create_article_path(change["title"])
 		if "?" in link:

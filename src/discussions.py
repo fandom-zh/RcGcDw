@@ -51,6 +51,12 @@ display_mode = settings.get("fandom_discussions", {}).get("appearance", {}).get(
 webhook_url =settings.get("fandom_discussions", {}).get("webhookURL", settings.get("webhookURL"))
 
 
+def inject_client(client_obj):
+	"""Function to avoid circular import issues"""
+	global client
+	client = client_obj
+
+
 def fetch_discussions():
 	messagequeue.resend_msgs()
 	request = safe_request(fetch_url)
@@ -117,10 +123,6 @@ def parse_discussion_post(post, comment_pages):
 	message = default_message(event_type, formatter_hooks)(context, post)
 	send_to_discord(message, meta=DiscordMessageMetadata("POST"))
 
-
-def inject_client(client_obj):
-	global client
-	client = client_obj
 
 def safe_request(url):
 	"""Function to assure safety of request, and do not crash the script on exceptions,"""

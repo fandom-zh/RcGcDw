@@ -32,6 +32,10 @@ ngettext = rc_formatters.ngettext
 
 logger = logging.getLogger("extensions.base")
 
+if 1 == 2:  # additional translation strings in unreachable code
+	print(_("director"), _("bot"), _("editor"), _("directors"), _("sysop"), _("bureaucrat"), _("reviewer"),
+	      _("autoreview"), _("autopatrol"), _("wiki_guardian"))
+
 # Page edit - event edit, New - page creation
 
 

@@ -15,3 +15,6 @@
 
 import extensions.base.mediawiki
 import extensions.base.abusefilter
+import extensions.base.managewiki
+import extensions.base.cargo
+import extensions.base.datadump
