@@ -33,7 +33,6 @@ def embed_managewiki_settings(ctx: Context, change: dict):
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Changed wiki settings")
-    embed["description"] = ctx.parsedcomment
     if change["logparams"].get("changes", ""):
         embed.add_field("Setting", sanitize_to_markdown(change["logparams"].get("changes")))
     return embed
@@ -53,7 +52,6 @@ def compact_managewiki_settings(ctx: Context, change: dict):
 def embed_managewiki_delete(ctx: Context, change: dict):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-    embed["description"] = ctx.parsedcomment
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Deleted a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
     return embed
@@ -78,7 +76,6 @@ def compact_managewiki_delete(ctx: Context, change: dict):
 def embed_managewiki_lock(ctx: Context, change: dict):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-    embed["description"] = ctx.parsedcomment
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Locked a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
     return embed
@@ -103,7 +100,6 @@ def embed_managewiki_namespaces(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Modified \"{namespace_name}\" namespace").format(
         namespace_name=change["logparams"].get("namespace", _("Unknown")))
-    embed["description"] = ctx.parsedcomment
     embed.add_field(_('Wiki'), change["logparams"].get("wiki", _("Unknown")))
     return embed
 
@@ -127,7 +123,6 @@ def embed_managewiki_namespaces_delete(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Deleted a \"{namespace_name}\" namespace").format(
         namespace_name=change["logparams"].get("namespace", _("Unknown")))
-    embed["description"] = ctx.parsedcomment
     embed.add_field(_('Wiki'), change["logparams"].get("wiki", _("Unknown")))
     return embed
 
@@ -152,7 +147,6 @@ def embed_managewiki_rights(ctx: Context, change: dict):
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     group_name = change["title"].split("/permissions/", 1)[1]
-    embed["description"] = ctx.parsedcomment
     embed["title"] = _("Modified \"{usergroup_name}\" usergroup").format(usergroup_name=group_name)
     return embed
 
@@ -175,7 +169,6 @@ def embed_managewiki_undelete(ctx: Context, change: dict):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
-    embed["description"] = ctx.parsedcomment
     embed["title"] = _("Undeleted a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
     return embed
 
@@ -198,7 +191,6 @@ def embed_managewiki_unlock(ctx: Context, change: dict):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
-    embed["description"] = ctx.parsedcomment
     embed["title"] = _("Unlocked a \"{wiki}\" wiki").format(wiki=change["logparams"].get("wiki", _("Unknown")))
     return embed
 

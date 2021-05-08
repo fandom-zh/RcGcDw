@@ -39,7 +39,6 @@ def embed_pagetranslation_mark(ctx: Context, change: dict):
     else:
         embed["url"] = link + "?oldid={}".format(change["logparams"]["revision"])
     embed["title"] = _("Marked \"{article}\" for translation").format(article=sanitize_to_markdown(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -69,7 +68,6 @@ def embed_pagetranslation_unmark(ctx: Context, change: dict):
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Removed \"{article}\" from the translation system").format(article=sanitize_to_markdown(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -96,7 +94,6 @@ def embed_pagetranslation_moveok(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["logparams"]["target"]))
     embed["title"] = _("Completed moving translation pages from \"{article}\" to \"{target}\"").format(
         article=sanitize_to_markdown(change["title"]), target=sanitize_to_markdown(change["logparams"]["target"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -123,7 +120,6 @@ def embed_pagetranslation_movenok(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Encountered a problem while moving \"{article}\" to \"{target}\"").format(
         article=sanitize_to_markdown(change["title"]), target=sanitize_to_markdown(change["logparams"]["target"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -152,7 +148,6 @@ def embed_pagetranslation_deletefnok(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Failed to delete \"{article}\" which belongs to translatable page \"{target}\"").format(
         article=sanitize_to_markdown(change["title"]), target=sanitize_to_markdown(change["logparams"]["target"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -181,7 +176,6 @@ def embed_pagetranslation_deletelok(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Completed deletion of translation page \"{article}\"").format(
         article=sanitize_to_markdown(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -208,7 +202,6 @@ def embed_pagetranslation_deletelnok(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Failed to delete \"{article}\" which belongs to translation page \"{target}\"").format(
         article=sanitize_to_markdown(change["title"]), target=sanitize_to_markdown(change["logparams"]["target"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -236,7 +229,6 @@ def embed_pagetranslation_encourage(ctx: Context, change: dict):
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Encouraged translation of \"{article}\"").format(article=sanitize_to_markdown(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -261,7 +253,6 @@ def embed_pagetranslation_discourage(ctx: Context, change: dict):
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Discouraged translation of \"{article}\"").format(article=sanitize_to_markdown(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -295,7 +286,6 @@ def embed_pagetranslation_prioritylanguages(ctx: Context, change: dict):
                 article=sanitize_to_markdown(change["title"]), languages=languages)
     else:
         embed["title"] = _("Removed priority languages from \"{article}\"").format(article=sanitize_to_markdown(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -340,7 +330,6 @@ def embed_pagetranslation_associate(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Added translatable page \"{article}\" to aggregate group \"{group}\"").format(
         article=sanitize_to_markdown(change["title"]), group=change["logparams"]["aggregategroup"])
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -367,7 +356,6 @@ def embed_pagetranslation_dissociate(ctx: Context, change: dict):
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Removed translatable page \"{article}\" from aggregate group \"{group}\"").format(
         article=sanitize_to_markdown(change["title"]), group=change["logparams"]["aggregategroup"])
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -397,7 +385,6 @@ def embed_translationreview_message(ctx: Context, change: dict):
     else:
         embed["url"] = link + "?oldid={}".format(change["logparams"]["revision"])
     embed["title"] = _("Reviewed translation \"{article}\"").format(article=sanitize_to_markdown(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -431,7 +418,6 @@ def embed_translationreview_group(ctx: Context, change: dict):
     if "old-state" in change["logparams"]:
         embed.add_field(_("Old state"), change["logparams"]["old-state"], inline=True)
     embed.add_field(_("New state"), change["logparams"]["new-state"], inline=True)
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -478,7 +464,6 @@ def embed_pagelang_pagelang(ctx: Context, change: dict):
     embed["title"] = _("Changed the language of \"{article}\"").format(article=sanitize_to_markdown(change["title"]))
     embed.add_field(_("Old language"), old_lang, inline=True)
     embed.add_field(_("New language"), new_lang, inline=True)
-    embed["description"] = ctx.parsedcomment
     return embed
 
 

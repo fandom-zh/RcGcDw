@@ -35,7 +35,6 @@ def embed_datadump_generate(ctx: Context, change: dict) -> DiscordMessage:
     embed_helper(ctx, embed, change)
     embed["title"] = _("Generated {file} dump").format(file=change["logparams"]["filename"])
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 
@@ -58,7 +57,6 @@ def embed_datadump_delete(ctx: Context, change: dict) -> DiscordMessage:
     embed_helper(ctx, embed, change)
     embed["title"] = _("Deleted {file} dump").format(file=change["logparams"]["filename"])
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
-    embed["description"] = ctx.parsedcomment
     return embed
 
 

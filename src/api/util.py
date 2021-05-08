@@ -89,59 +89,72 @@ def compact_author(ctx: Context, change: dict) -> (Optional[str], Optional[str])
 	return author, author_url
 
 
-def embed_helper(ctx: Context, message: DiscordMessage, change: dict) -> None:
+def embed_helper(ctx: Context, message: DiscordMessage, change: dict, set_user=True, set_edit_meta=True, set_desc=True) -> None:
 	"""Helps in preparing common edit/log fields for events. Passed arguments automatically become saturated with needed data.
+	All automatic setups can be disabled by setting relevant variable to False
 
-	Currently handles: setting usernames"""
-	# TODO Repurpose it so change['user'] stays the same
-	if "anon" in change:
-		author_url = create_article_path("Special:Contributions/{user}".format(
-			user=change["user"].replace(" ", "_")))  # Replace here needed in case of #75
-		ip_mapper = ctx.client.get_ipmapper()
-		logger.debug("current user: {} with cache of IPs: {}".format(change["user"], ip_mapper.keys()))
-		if change["user"] not in list(ip_mapper.keys()):
-			contibs = ctx.client.make_api_request(
-				"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
-					wiki=ctx.client.WIKI_API_PATH, user=change["user"], timestamp=change["timestamp"]), "query",
-				"usercontribs")
-			if contibs is None:
-				logger.warning(
-					"WARNING: Something went wrong when checking amount of contributions for given IP address")
-				if settings.get("hide_ips", False):
-					change["user"] = _("Unregistered user")
-				change["user"] = change["user"] + "(?)"
+	Currently handles:
+	setting usernames (handles according to settings, specific options set in the settings: hide_ips)
+	adding category fields (if there are any specified categories in the edit)
+	adding tags (if the log is tagged anyhow)
+	setting default description (to ctx.parsedcomment)"""
+	if set_user:
+		# TODO Repurpose it so change['user'] stays the same
+		if "anon" in change:
+			author_url = create_article_path("Special:Contributions/{user}".format(
+				user=change["user"].replace(" ", "_")))  # Replace here needed in case of #75
+			ip_mapper = ctx.client.get_ipmapper()
+			logger.debug("current user: {} with cache of IPs: {}".format(change["user"], ip_mapper.keys()))
+			if change["user"] not in list(ip_mapper.keys()):
+				contibs = ctx.client.make_api_request(
+					"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+						wiki=ctx.client.WIKI_API_PATH, user=change["user"], timestamp=change["timestamp"]), "query",
+					"usercontribs")
+				if contibs is None:
+					logger.warning(
+						"WARNING: Something went wrong when checking amount of contributions for given IP address")
+					if settings.get("hide_ips", False):
+						change["user"] = _("Unregistered user")
+					change["user"] = change["user"] + "(?)"
+				else:
+					ip_mapper[change["user"]] = len(contibs)
+					logger.debug(
+						"Current params user {} and state of map_ips {}".format(change["user"], ip_mapper))
+					if settings.get("hide_ips", False):
+						change["user"] = _("Unregistered user")
+					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 			else:
-				ip_mapper[change["user"]] = len(contibs)
 				logger.debug(
 					"Current params user {} and state of map_ips {}".format(change["user"], ip_mapper))
-				if settings.get("hide_ips", False):
-					change["user"] = _("Unregistered user")
-				change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
+				if ctx.event in ("edit", "new"):
+					ip_mapper[change["user"]] += 1
+				change["user"] = "{author} ({amount})".format(
+					author=change["user"] if settings.get("hide_ips", False) is False else _("Unregistered user"),
+					amount=ip_mapper[change["user"]])
 		else:
-			logger.debug(
-				"Current params user {} and state of map_ips {}".format(change["user"], ip_mapper))
-			if ctx.event in ("edit", "new"):
-				ip_mapper[change["user"]] += 1
-			change["user"] = "{author} ({amount})".format(
-				author=change["user"] if settings.get("hide_ips", False) is False else _("Unregistered user"),
-				amount=ip_mapper[change["user"]])
-	else:
-		author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
-	if settings["appearance"]["embed"]["show_footer"]:
-		message["timestamp"] = change["timestamp"]
-	if "tags" in change and change["tags"]:
-		tag_displayname = []
-		for tag in change["tags"]:
-			if tag in ctx.client.tags:
-				if ctx.client.tags[tag] is None:
-					continue  # Ignore hidden tags
+			author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
+		message.set_author(change["user"], author_url)
+	if set_edit_meta:
+		if settings["appearance"]["embed"]["show_footer"]:
+			message["timestamp"] = change["timestamp"]
+		if "tags" in change and change["tags"]:
+			tag_displayname = []
+			for tag in change["tags"]:
+				if tag in ctx.client.tags:
+					if ctx.client.tags[tag] is None:
+						continue  # Ignore hidden tags
+					else:
+						tag_displayname.append(ctx.client.tags[tag])
 				else:
-					tag_displayname.append(ctx.client.tags[tag])
-			else:
-				tag_displayname.append(tag)
-		message.add_field(_("Tags"), ", ".join(tag_displayname))
-	if ctx.categories is not None and not (len(ctx.categories["new"]) == 0 and len(ctx.categorie["removed"]) == 0):
-		new_cat = (_("**Added**: ") + ", ".join(list(ctx.categories["new"])[0:16]) + ("\n" if len(ctx.categories["new"])<=15 else _(" and {} more\n").format(len(ctx.categories["new"])-15))) if ctx.categories["new"] else ""
-		del_cat = (_("**Removed**: ") + ", ".join(list(ctx.categories["removed"])[0:16]) + ("" if len(ctx.categories["removed"])<=15 else _(" and {} more").format(len(ctx.categories["removed"])-15))) if ctx.categories["removed"] else ""
-		message.add_field(_("Changed categories"), new_cat + del_cat)
-	message.set_author(change["user"], author_url)
+					tag_displayname.append(tag)
+			message.add_field(_("Tags"), ", ".join(tag_displayname))
+		if ctx.categories is not None and not (len(ctx.categories["new"]) == 0 and len(ctx.categories["removed"]) == 0):
+			new_cat = (_("**Added**: ") + ", ".join(list(ctx.categories["new"])[0:16]) + (
+				"\n" if len(ctx.categories["new"]) <= 15 else _(" and {} more\n").format(
+					len(ctx.categories["new"]) - 15))) if ctx.categories["new"] else ""
+			del_cat = (_("**Removed**: ") + ", ".join(list(ctx.categories["removed"])[0:16]) + (
+				"" if len(ctx.categories["removed"]) <= 15 else _(" and {} more").format(
+					len(ctx.categories["removed"]) - 15))) if ctx.categories["removed"] else ""
+			message.add_field(_("Changed categories"), new_cat + del_cat)
+	if set_desc:
+		message["description"] = ctx.parsedcomment

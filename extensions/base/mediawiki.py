@@ -86,7 +86,6 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
 			parse_mediawiki_changes(ctx, changed_content, embed)
 		else:
 			logger.warning("Unable to download data on the edit content!")
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -240,7 +239,6 @@ def embed_delete_delete(ctx, change) -> DiscordMessage:
 	embed_helper(ctx, embed, change)
 	embed['url'] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Deleted page {article}").format(article=change["title"])
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -264,7 +262,6 @@ def embed_delete_delete_redir(ctx, change) -> DiscordMessage:
 	embed_helper(ctx, embed, change)
 	embed['url'] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Deleted redirect {article} by overwriting").format(article=sanitize_to_markdown(change["title"]))
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -287,7 +284,6 @@ def embed_delete_restore(ctx, change) -> DiscordMessage:
 	embed_helper(ctx, embed, change)
 	embed['url'] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Restored {article}").format(article=sanitize_to_markdown(change["title"]))
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -312,7 +308,6 @@ def embed_delete_event(ctx, change) -> DiscordMessage:
 	embed_helper(ctx, embed, change)
 	embed['url'] = create_article_path("Special:RecentChanges")
 	embed["title"] = _("Changed visibility of log events")
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -336,7 +331,6 @@ def embed_delete_revision(ctx, change) -> DiscordMessage:
 	embed["title"] = ngettext("Changed visibility of revision on page {article} ",
 	                          "Changed visibility of {amount} revisions on page {article} ", amount).format(
 		article=change["title"], amount=amount)
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -359,7 +353,7 @@ def compact_delete_revision(ctx, change) -> DiscordMessage:
 @formatter.embed(event="move/move", mode="embed")
 def embed_move_move(ctx, change) -> DiscordMessage:
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path(sanitize_to_url(change["logparams"]['target_title']))
 	embed["description"] = "{supress}. {desc}".format(desc=ctx.parsedcomment,
 	                                            supress=_("No redirect has been made") if "suppressredirect" in change[
@@ -390,7 +384,7 @@ def compact_move_move(ctx, change) -> DiscordMessage:
 @formatter.embed(event="move/move_redir", mode="embed")
 def embed_move_move_redir(ctx, change) -> DiscordMessage:
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path(sanitize_to_url(change["logparams"]['target_title']))
 	embed["description"] = "{supress}. {desc}".format(desc=ctx.parsedcomment,
 	                                            supress=_("No redirect has been made") if "suppressredirect" in change[
@@ -426,7 +420,6 @@ def embed_protect_move_prot(ctx, change):
 	embed["title"] = _("Moved protection settings from {redirect}{article} to {title}").format(
 		redirect="⤷ " if "redirect" in change else "", article=sanitize_to_markdown(change["logparams"]["oldtitle_title"]),
 		title=sanitize_to_markdown(change["title"]))
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -448,7 +441,7 @@ def compact_protect_move_prot(ctx, change):
 @formatter.embed(event="protect/protect", mode="embed")
 def embed_protect_protect(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Protected {target}").format(target=sanitize_to_markdown(change["title"]))
 	embed["description"] = "{settings}{cascade} | {reason}".format(settings=sanitize_to_markdown(change["logparams"].get("description", "")),
@@ -476,7 +469,7 @@ def compact_protect_protect(ctx, change):
 @formatter.embed(event="protect/modify", mode="embed")
 def embed_protect_modify(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Changed protection level for {article}").format(article=sanitize_to_markdown(change["title"]))
 	embed["description"] = "{settings}{cascade} | {reason}".format(settings=sanitize_to_markdown(change["logparams"].get("description", "")),
@@ -508,7 +501,6 @@ def embed_protect_unprotect(ctx, change):
 	embed_helper(ctx, embed, change)
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Removed protection from {article}").format(article=change["title"])
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -583,7 +575,6 @@ def embed_block_block(ctx, change):
 	if block_flags:
 		embed.add_field(_("Block flags"), ", ".join(block_flags))  # TODO Translate flags into MW messages, this requires making additional request in init_request since we want to get all messages with prefix (amprefix) block-log-flags- and that parameter is exclusive with ammessages
 	embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_expiry(change))
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -642,7 +633,6 @@ def embed_block_reblock(ctx, change):
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	user = change["title"].split(':', 1)[1]
 	embed["title"] = _("Changed block settings for {blocked_user}").format(blocked_user=sanitize_to_markdown(user))
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -665,7 +655,6 @@ def embed_block_unblock(ctx, change):
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	user = change["title"].split(':', 1)[1]
 	embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -768,7 +757,7 @@ def get_changed_groups(change: dict, separator: str):
 @formatter.embed(event="rights/rights", mode="embed")
 def embed_rights_rights(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path(sanitize_to_url("User:{}".format(change["title"].split(":")[1])))
 	if ctx.event == "rights/rights":
 		embed["title"] = _("Changed group membership for {target}").format(target=change["title"].split(":")[1])
@@ -813,7 +802,6 @@ def embed_merge_merge(ctx, change):
 	embed["title"] = _("Merged revision histories of {article} into {dest}").format(article=sanitize_to_markdown(change["title"]),
 	                                                                                dest=sanitize_to_markdown(change["logparams"][
 		                                                                                "dest_title"]))
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
@@ -927,7 +915,7 @@ def compact_newusers_newusers(ctx, change):
 @formatter.embed(event="interwiki/iw_add", mode="embed")
 def embed_interwiki_iw_add(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path("Special:Interwiki")
 	embed["title"] = _("Added an entry to the interwiki table")
 	embed["description"] = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=ctx.parsedcomment,
@@ -952,7 +940,7 @@ def compact_interwiki_iw_add(ctx, change):
 @formatter.embed(event="interwiki/iw_edit", mode="embed")
 def embed_interwiki_iw_edit(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path("Special:Interwiki")
 	embed["title"] = _("Edited an entry in interwiki table")
 	embed["description"] = _("Prefix: {prefix}, website: {website} | {desc}").format(desc=ctx.parsedcomment,
@@ -979,7 +967,7 @@ def compact_interwiki_iw_edit(ctx, change):
 @formatter.embed(event="interwiki/iw_delete", mode="embed")
 def embed_interwiki_iw_delete(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path("Special:Interwiki")
 	embed["title"] = _("Deleted an entry in interwiki table")
 	embed["description"] = _("Prefix: {prefix} | {desc}").format(desc=ctx.parsedcomment, prefix=change["logparams"]['0'])
@@ -1004,7 +992,7 @@ def compact_interwiki_iw_delete(ctx, change):
 @formatter.embed(event="contentmodel/change", mode="embed")
 def embed_contentmodel_change(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Changed the content model of the page {article}").format(article=sanitize_to_markdown(change["title"]))
 	embed["description"] = _("Model changed from {old} to {new}: {reason}").format(old=change["logparams"]["oldmodel"],
@@ -1031,7 +1019,7 @@ def compact_contentmodel_change(ctx, change):
 @formatter.embed(event="contentmodel/new", mode="embed")
 def embed_contentmodel_new(ctx, change):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-	embed_helper(ctx, embed, change)
+	embed_helper(ctx, embed, change, set_desc=False)
 	embed["url"] = create_article_path(sanitize_to_url(change["title"]))
 	embed["title"] = _("Created the page {article} using a non-default content model").format(article=sanitize_to_markdown(change["title"]))
 	embed["description"] = _("Created with model {new}: {reason}").format(new=change["logparams"]["newmodel"], reason=ctx.parsedcomment)
@@ -1181,7 +1169,6 @@ def embed_renameuser_renameuser(ctx, change):
 		embed["title"] = _("Renamed user \"{old_name}\" to \"{new_name}\"").format(
 			old_name=sanitize_to_markdown(change["logparams"]["olduser"]), new_name=sanitize_to_markdown(change["logparams"]["newuser"]))
 	embed["url"] = create_article_path("User:" + sanitize_to_url(change["logparams"]["newuser"]))
-	embed["description"] = ctx.parsedcomment
 	return embed
 
 
