@@ -261,72 +261,21 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "datadump/delete":
 
 	elif action == "pagetranslation/mark":
-		link = create_article_path(change["title"])
-		if "?" in link:
-			link = link + "&oldid={}".format(change["logparams"]["revision"])
-		else:
-			link = link + "?oldid={}".format(change["logparams"]["revision"])
-		link = link_formatter(link)
-		content = _("[{author}]({author_url}) marked [{article}]({article_url}) for translation{comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/unmark":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) removed [{article}]({article_url}) from the translation system{comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/moveok":
-		link = link_formatter(create_article_path(change["logparams"]["target"]))
-		content = _("[{author}]({author_url}) completed moving translation pages from *{article}* to [{target}]({target_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], target=change["logparams"]["target"], target_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/movenok":
-		link = link_formatter(create_article_path(change["title"]))
-		target_url = link_formatter(create_article_path(change["logparams"]["target"]))
-		content = _("[{author}]({author_url}) encountered a problem while moving [{article}]({article_url}) to [{target}]({target_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			target=change["logparams"]["target"], target_url=target_url,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/deletefok":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) completed deletion of translatable page [{article}]({article_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/deletefnok":
-		link = link_formatter(create_article_path(change["title"]))
-		target_url = link_formatter(create_article_path(change["logparams"]["target"]))
-		content = _("[{author}]({author_url}) failed to delete [{article}]({article_url}) which belongs to translatable page [{target}]({target_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			target=change["logparams"]["target"], target_url=target_url,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/deletelok":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) completed deletion of translation page [{article}]({article_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/deletelnok":
-		link = link_formatter(create_article_path(change["title"]))
-		target_url = link_formatter(create_article_path(change["logparams"]["target"]))
-		content = _("[{author}]({author_url}) failed to delete [{article}]({article_url}) which belongs to translation page [{target}]({target_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			target=change["logparams"]["target"], target_url=target_url,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/encourage":
 		link = link_formatter(create_article_path(change["title"]))
 		content = _("[{author}]({author_url}) encouraged translation of [{article}]({article_url}){comment}").format(
@@ -601,33 +550,21 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "datadump/delete":
 
 	elif action == "pagetranslation/mark":
-		link = create_article_path(change["title"])
-		if "?" in link:
-			link = link + "&oldid={}".format(change["logparams"]["revision"])
-		else:
-			link = link + "?oldid={}".format(change["logparams"]["revision"])
-		embed["title"] = _("Marked \"{article}\" for translation").format(article=change["title"])
+
 	elif action == "pagetranslation/unmark":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Removed \"{article}\" from the translation system").format(article=change["title"])
+
 	elif action == "pagetranslation/moveok":
-		link = create_article_path(change["logparams"]["target"])
-		embed["title"] = _("Completed moving translation pages from \"{article}\" to \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+
 	elif action == "pagetranslation/movenok":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Encountered a problem while moving \"{article}\" to \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+
 	elif action == "pagetranslation/deletefok":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Completed deletion of translatable page \"{article}\"").format(article=change["title"])
+
 	elif action == "pagetranslation/deletefnok":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Failed to delete \"{article}\" which belongs to translatable page \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+
 	elif action == "pagetranslation/deletelok":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Completed deletion of translation page \"{article}\"").format(article=change["title"])
+
 	elif action == "pagetranslation/deletelnok":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Failed to delete \"{article}\" which belongs to translation page \"{target}\"").format(article=change["title"], target=change["logparams"]["target"])
+
 	elif action == "pagetranslation/encourage":
 		link = create_article_path(change["title"])
 		embed["title"] = _("Encouraged translation of \"{article}\"").format(article=change["title"])
