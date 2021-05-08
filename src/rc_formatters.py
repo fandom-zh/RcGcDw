@@ -277,95 +277,21 @@ def compact_formatter(action, change, parsed_comment, categories, recent_changes
 	elif action == "pagetranslation/deletelnok":
 
 	elif action == "pagetranslation/encourage":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) encouraged translation of [{article}]({article_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/discourage":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) discouraged translation of [{article}]({article_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/prioritylanguages":
-		link = link_formatter(create_article_path(change["title"]))
-		if "languages" in change["logparams"]:
-			languages = "`, `".join(change["logparams"]["languages"].split(","))
-			if change["logparams"]["force"] == "on":
-				content = _("[{author}]({author_url}) limited languages for [{article}]({article_url}) to `{languages}`{comment}").format(
-					author=author, author_url=author_url,
-					article=change["title"], article_url=link,
-					languages=languages, comment=parsed_comment
-				)
-			else:
-				content = _("[{author}]({author_url}) set the priority languages for [{article}]({article_url}) to `{languages}`{comment}").format(
-					author=author, author_url=author_url,
-					article=change["title"], article_url=link,
-					languages=languages, comment=parsed_comment
-				)
-		else:
-			content = _("[{author}]({author_url}) removed priority languages from [{article}]({article_url}){comment}").format(
-				author=author, author_url=author_url,
-				article=change["title"], article_url=link,
-				comment=parsed_comment
-			)
+
 	elif action == "pagetranslation/associate":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) added translatable page [{article}]({article_url}) to aggregate group \"{group}\"{comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			group=change["logparams"]["aggregategroup"], comment=parsed_comment
-		)
+
 	elif action == "pagetranslation/dissociate":
-		link = link_formatter(create_article_path(change["title"]))
-		content = _("[{author}]({author_url}) removed translatable page [{article}]({article_url}) from aggregate group \"{group}\"{comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			group=change["logparams"]["aggregategroup"], comment=parsed_comment
-		)
+
 	elif action == "translationreview/message":
-		link = create_article_path(change["title"])
-		if "?" in link:
-			link = link + "&oldid={}".format(change["logparams"]["revision"])
-		else:
-			link = link + "?oldid={}".format(change["logparams"]["revision"])
-		link = link_formatter(link)
-		content = _("[{author}]({author_url}) reviewed translation [{article}]({article_url}){comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			comment=parsed_comment
-		)
+
 	elif action == "translationreview/group":
-		link = link_formatter(create_article_path(change["title"]))
-		if "old-state" in change["logparams"]:
-			content = _("[{author}]({author_url}) changed the state of `{language}` translations of [{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}").format(
-				author=author, author_url=author_url, language=change["logparams"]["language"],
-				article=change["logparams"]["group-label"], article_url=link,
-				old_state=change["logparams"]["old-state"], new_state=change["logparams"]["new-state"],
-				comment=parsed_comment
-			)
-		else:
-			content = _("[{author}]({author_url}) changed the state of `{language}` translations of [{article}]({article_url}) to `{new_state}`{comment}").format(
-				author=author, author_url=author_url, language=change["logparams"]["language"],
-				article=change["logparams"]["group-label"], article_url=link,
-				new_state=change["logparams"]["new-state"], comment=parsed_comment
-			)
+
 	elif action == "pagelang/pagelang":
-		link = link_formatter(create_article_path(change["title"]))
-		old_lang = "`{}`".format(change["logparams"]["oldlanguage"])
-		if change["logparams"]["oldlanguage"][-5:] == "[def]":
-			old_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
-		new_lang = "`{}`".format(change["logparams"]["newlanguage"])
-		if change["logparams"]["newlanguage"][-5:] == "[def]":
-			new_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
-		content = _("[{author}]({author_url}) changed the language of [{article}]({article_url}) from {old_lang} to {new_lang}{comment}").format(
-			author=author, author_url=author_url,
-			article=change["title"], article_url=link,
-			old_lang=old_lang, new_lang=new_lang, comment=parsed_comment
-		)
+
 	elif action == "renameuser/renameuser":
 
 	elif action == "suppressed":
@@ -566,51 +492,22 @@ def embed_formatter(action, change, parsed_comment, categories, recent_changes):
 	elif action == "pagetranslation/deletelnok":
 
 	elif action == "pagetranslation/encourage":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Encouraged translation of \"{article}\"").format(article=change["title"])
+
 	elif action == "pagetranslation/discourage":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Discouraged translation of \"{article}\"").format(article=change["title"])
+
 	elif action == "pagetranslation/prioritylanguages":
-		link = create_article_path(change["title"])
-		if "languages" in change["logparams"]:
-			languages = "`, `".join(change["logparams"]["languages"].split(","))
-			if change["logparams"]["force"] == "on":
-				embed["title"] = _("Limited languages for \"{article}\" to `{languages}`").format(article=change["title"], languages=languages)
-			else:
-				embed["title"] = _("Priority languages for \"{article}\" set to `{languages}`").format(article=change["title"], languages=languages)
-		else:
-			embed["title"] = _("Removed priority languages from \"{article}\"").format(article=change["title"])
+
 	elif action == "pagetranslation/associate":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Added translatable page \"{article}\" to aggregate group \"{group}\"").format(article=change["title"], group=change["logparams"]["aggregategroup"])
+
 	elif action == "pagetranslation/dissociate":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Removed translatable page \"{article}\" from aggregate group \"{group}\"").format(article=change["title"], group=change["logparams"]["aggregategroup"])
+
 	elif action == "translationreview/message":
-		link = create_article_path(change["title"])
-		if "?" in link:
-			link = link + "&oldid={}".format(change["logparams"]["revision"])
-		else:
-			link = link + "?oldid={}".format(change["logparams"]["revision"])
-		embed["title"] = _("Reviewed translation \"{article}\"").format(article=change["title"])
+
 	elif action == "translationreview/group":
-		link = create_article_path(change["title"])
-		embed["title"] = _("Changed the state of `{language}` translations of \"{article}\"").format(language=change["logparams"]["language"], article=change["title"])
-		if "old-state" in change["logparams"]:
-			embed.add_field(_("Old state"), change["logparams"]["old-state"], inline=True)
-		embed.add_field(_("New state"), change["logparams"]["new-state"], inline=True)
+
 	elif action == "pagelang/pagelang":
 		link = create_article_path(change["title"])
-		old_lang = "`{}`".format(change["logparams"]["oldlanguage"])
-		if change["logparams"]["oldlanguage"][-5:] == "[def]":
-			old_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
-		new_lang = "`{}`".format(change["logparams"]["newlanguage"])
-		if change["logparams"]["newlanguage"][-5:] == "[def]":
-			new_lang = "`{}` {}".format(change["logparams"]["oldlanguage"][:-5], _("(default)"))
-		embed["title"] = _("Changed the language of \"{article}\"").format(article=change["title"])
-		embed.add_field(_("Old language"), old_lang, inline=True)
-		embed.add_field(_("New language"), new_lang, inline=True)
+
 	elif action == "renameuser/renameuser":
 
 	elif action == "suppressed":
