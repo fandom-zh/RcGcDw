@@ -18,6 +18,7 @@ import math
 import re
 import time
 import datetime
+from collections import OrderedDict
 from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import rc_formatters
@@ -125,33 +126,59 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
 	action = ctx.event
 	embed_helper(ctx, embed, change)
-	urls = ctx.client.make_api_request("{wiki}?action=query&format=json&prop=imageinfo&list=&meta=&titles={filename}&iiprop=timestamp%7Curl%7Carchivename&iilimit=5".format(
-			wiki=ctx.WIKI_API_PATH, filename=sanitize_to_url(change["title"])), "query", "pages")
+	# Requesting more information on the image
+	request_for_image_data = None
+	try:
+		params = OrderedDict()
+		params["action"] = "query"
+		params["format"] = "json"
+		if settings["license_detection"] and action == "upload/upload":
+			params["prop"] = "imageinfo|revisions"
+			params["rvprop"] = "content"
+			params["rvslots"] = "main"
+		else:
+			params["prop"] = "imageinfo"
+		params["title"] = sanitize_to_url(change["title"])
+		params["iiprop"] = "timestamp%7Curl%7Carchivename"
+		params["iilimit"] = "5"
+		request_for_image_data = ctx.client.make_api_request(params, "query", "pages")
+	except (ServerError, MediaWikiError):
+		logger.exception("Couldn't retrieve more information about the image {} because of server/MediaWiki error".format(change["title"]))
+	except (ClientError, BadRequest):
+		raise
+	except KeyError:
+		logger.exception(
+			"Couldn't retrieve more information about the image {} because of unknown error".format(
+				change["title"]))
+	else:
+		if "-1" not in request_for_image_data:  # Image still exists and not removed
+			image_data = next(iter(request_for_image_data.values()))
+		else:
+			logger.warning("Request for additional image information have failed. The preview will not be shown.")
+			request_for_image_data = None
 	link = create_article_path(sanitize_to_url(change["title"]))
 	image_direct_url = None
 	# Make a request for file revisions so we can get direct URL to the image for embed
-	if urls is not None:
-		logger.debug(urls)
-		if "-1" not in urls:  # image still exists and not removed
-			try:
-				img_info = next(iter(urls.values()))["imageinfo"]
-				for num, revision in enumerate(img_info):
-					if revision["timestamp"] == change["logparams"]["img_timestamp"]:  # find the correct revision corresponding for this log entry
-						image_direct_url = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time() * 5))  # cachebusting
-						break
-			except KeyError:
-				logger.exception(
-					"Wiki did not respond with extended information about file. The preview will not be shown.")
+	if request_for_image_data is not None:
+		try:
+			urls = image_data["imageinfo"]
+			for num, revision in enumerate(urls):
+				if revision["timestamp"] == change["logparams"]["img_timestamp"]:  # find the correct revision corresponding for this log entry
+					image_direct_url = "{rev}?{cache}".format(rev=revision["url"], cache=int(time.time() * 5))  # cachebusting
+					break
+		except KeyError:
+			logger.exception(
+				"Wiki did not respond with extended information about file. The preview will not be shown.")
 	else:
 		logger.warning("Request for additional image information have failed. The preview will not be shown.")
 	if action in ("upload/overwrite", "upload/revert"):
 		if image_direct_url:
 			try:
-				revision = img_info[num + 1]
+				revision = image_data["imageinfo"][num + 1]
 			except IndexError:
 				logger.exception(
 					"Could not analize the information about the image (does it have only one version when expected more in overwrite?) which resulted in no Options field: {}".format(
-						img_info))
+						image_data["imageinfo"]))
 			else:
 				undolink = "{wiki}index.php?title={filename}&action=revert&oldimage={archiveid}".format(
 					wiki=ctx.client.WIKI_SCRIPT_PATH, filename=sanitize_to_url(change["title"]), archiveid=revision["archivename"])
@@ -166,33 +193,28 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
 	else:
 		embed["title"] = _("Uploaded {name}").format(name=change["title"])
 		if settings["license_detection"]:
-			article_content = ctx.client.make_api_request(
-				"{wiki}?action=query&format=json&prop=revisions&titles={article}&rvprop=content".format(
-					wiki=ctx.client.WIKI_API_PATH, article=sanitize_to_url(change["title"])), "query", "pages")
-			if article_content is None:
-				logger.warning("Something went wrong when getting license for the image")
-				return 0
-			if "-1" not in article_content:
-				content = list(article_content.values())[0]['revisions'][0]['*']
-				try:
-					matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
-					if matches is not None:
-						license = matches.group("license")
+			try:
+				content = image_data['revisions'][0]["slots"]["main"]['*']
+				matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
+				if matches is not None:
+					license = matches.group("license")
+				else:
+					if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
+						license = _("**No license!**")
 					else:
-						if re.search(re.compile(settings["license_regex_detect"], re.IGNORECASE), content) is None:
-							license = _("**No license!**")
-						else:
-							license = "?"
-				except IndexError:
-					logger.error(
-						"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
-					license = "?"
-				except re.error:
-					logger.error(
-						"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
-					license = "?"
+						license = "?"
+			except IndexError:
+				logger.error(
+					"Given regex for the license detection is incorrect. It does not have a capturing group called \"license\" specified. Please fix license_regex value in the config!")
+				license = "?"
+			except re.error:
+				logger.error(
+					"Given regex for the license detection is incorrect. Please fix license_regex or license_regex_detect values in the config!")
+				license = "?"
+			except KeyError:
+				logger.exception("Unknown error when retriefing the image data for a license, full content: {}".format(image_data))
 		if license is not None:
-			ctx.parsedcomment += _("\nLicense: {}").format(license)
+			embed["description"] += _("\nLicense: {}").format(license)
 		if image_direct_url:
 			embed.add_field(_("Options"), _("([preview]({link}))").format(link=image_direct_url))
 			if settings["appearance"]["embed"]["embed_images"]:

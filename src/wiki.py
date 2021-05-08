@@ -340,6 +340,7 @@ class Wiki(object):
 				logger.exception("MediaWiki error on request: {}".format(request.url))
 				raise
 			except KeyError:
+				logger.exception("KeyError while iterating over json_path, full response: {}".format(request.json()))
 				raise
 		return request_json
 
