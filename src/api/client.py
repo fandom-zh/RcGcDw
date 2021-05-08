@@ -18,7 +18,7 @@ from __future__ import annotations
 import src.misc
 from typing import Union
 from collections import OrderedDict
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
 	from src.wiki import Wiki
@@ -48,6 +48,15 @@ class Client:
 		link_parser = self.LinkParser()
 		link_parser.feed(summary)
 		return link_parser.new_string
+
+	def pull_curseprofile_comment(self, comment_id) -> Optional[str]:
+		"""Pulls a CurseProfile comment for current wiki set in the settings and with comment_id passed as an argument.
+
+		Returns:
+			String if comment was possible to be fetched
+			None if not
+		"""
+		return self.__recent_changes.pull_comment(comment_id)
 
 	def make_api_request(self, params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False):
 		"""Method to GET request data from the wiki's API with error handling including recognition of MediaWiki errors.

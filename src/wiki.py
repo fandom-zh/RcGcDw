@@ -427,15 +427,13 @@ class Wiki(object):
 
 	def pull_comment(self, comment_id):
 		try:
-			comment = self.handle_mw_errors(self._safe_request(
-				"{wiki}?action=comment&do=getRaw&comment_id={comment}&format=json".format(wiki=WIKI_API_PATH,
-				                                                                          comment=comment_id)).json())[
-				"text"]
+			comment = self.api_request("?action=comment&do=getRaw&comment_id={comment}&format=json".format(wiki=WIKI_API_PATH,
+				                                                                          comment=comment_id), "text")
 			logger.debug("Got the following comment from the API: {}".format(comment))
-		except MWError:
+		except (ServerError, MediaWikiError):
 			pass
-		except (TypeError, AttributeError):
-			logger.exception("Could not resolve the comment text.")
+		except (BadRequest, ClientError):
+			logger.exception("Some kind of issue while creating a request (most likely client error).")
 		except KeyError:
 			logger.exception("CurseProfile extension API did not respond with a valid comment content.")
 		else:
