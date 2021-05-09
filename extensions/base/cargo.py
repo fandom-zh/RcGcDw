@@ -48,7 +48,7 @@ def compact_cargo_createtable(ctx: Context, change: dict):
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
-# cargo/recreatetable
+# cargo/recreatetable - Recreating a Cargo table
 
 
 @formatter.embed(event="cargo/recreatetable")
@@ -71,7 +71,7 @@ def compact_cargo_recreatetable(ctx: Context, change: dict):
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
-# cargo/replacetable
+# cargo/replacetable - Replacing a Cargo table
 
 
 @formatter.embed(event="cargo/replacetable")
@@ -84,7 +84,7 @@ def embed_cargo_replacetable(ctx: Context, change: dict):
     return embed
 
 
-@formatter.compact(event="cargo/recreatetable")
+@formatter.compact(event="cargo/replacetable")
 def compact_cargo_replacetable(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
     table = re.search(r"\[(.*?)]\(<(.*?)>\)", ctx.client.parse_links(change["logparams"]["0"]))
@@ -94,7 +94,7 @@ def compact_cargo_replacetable(ctx: Context, change: dict):
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
-# cargo/deletetable
+# cargo/deletetable - Deleting a table in Cargo
 
 
 @formatter.embed(event="cargo/deletetable")
@@ -106,7 +106,7 @@ def embed_cargo_deletetable(ctx: Context, change: dict):
     return embed
 
 
-@formatter.compact(event="cargo/recreatetable")
+@formatter.compact(event="cargo/deletetable")
 def compact_cargo_deletetable(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
     content = _("[{author}]({author_url}) deleted the Cargo table \"{table}\"").format(author=author,

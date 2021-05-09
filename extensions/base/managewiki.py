@@ -195,7 +195,7 @@ def embed_managewiki_unlock(ctx: Context, change: dict):
     return embed
 
 
-@formatter.compact(event="managewiki/undelete")
+@formatter.compact(event="managewiki/unlock")
 def compact_managewiki_unlock(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
     parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
