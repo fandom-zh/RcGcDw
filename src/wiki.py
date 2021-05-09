@@ -411,7 +411,7 @@ class Wiki(object):
 					except KeyError:
 						self.tags[tag["name"]] = None  # Tags with no display name are hidden and should not appear on RC as well
 				for message in startup_info["allmessages"]:
-					if not "missing" in message:  # ignore missing strings
+					if "missing" not in message:  # ignore missing strings
 						self.mw_messages[message["name"]] = message["*"]
 					else:
 						logging.warning("Could not fetch the MW message translation for: {}".format(message["name"]))

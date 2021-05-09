@@ -62,6 +62,10 @@ def check_tables():
 
 def add_entry(pageid: int, revid: int, logid: int, message, message_id: str):
 	"""Add an edit or log entry to the DB
+	:param message:
+	:param logid:
+	:param revid:
+	:param pageid:
 	:param message_id:
 	"""
 	db_cursor.execute("INSERT INTO messages (message_id, content) VALUES (?, ?)", (message_id, message))

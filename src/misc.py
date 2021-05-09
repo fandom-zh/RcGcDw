@@ -152,7 +152,7 @@ class ContentParser(HTMLParser):
 	def handle_data(self, data):
 		def escape_formatting(data: str) -> str:
 			"""Escape Discord formatting"""
-			return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
+			return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data)
 		data = escape_formatting(data)
 		if self.current_tag == "ins" and self.ins_length <= 1000:
 			self.ins_length += len("**" + data + "**")
