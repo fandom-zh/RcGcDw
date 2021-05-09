@@ -48,7 +48,7 @@ global client
 fetch_url = "{wiki}wikia.php?controller=DiscussionPost&method=getPosts&sortDirection=descending&sortKey=creation_date&limit={limit}&includeCounters=false".format(wiki=settings["fandom_discussions"]["wiki_url"], limit=settings["fandom_discussions"]["limit"])
 domain = prepare_paths(settings["fandom_discussions"]["wiki_url"], dry=True)  # Shutdown if the path for discussions is wrong
 display_mode = settings.get("fandom_discussions", {}).get("appearance", {}).get("mode", "embed")
-webhook_url =settings.get("fandom_discussions", {}).get("webhookURL", settings.get("webhookURL"))
+webhook_url = settings.get("fandom_discussions", {}).get("webhookURL", settings.get("webhookURL"))
 
 
 def inject_client(client_obj):
@@ -119,7 +119,8 @@ def parse_discussion_post(post, comment_pages):
 		except KeyError:
 			discussion_logger.error("Could not parse paths for article comment, here is the content of comment_pages: {}, ignoring...".format(comment_pages))
 			raise ArticleCommentError
-	event_type = f"discussions/{post_type.lower()}"
+	event_type = f"discussion/{post_type.lower()}"
+	context.set_comment_page(comment_page)
 	message = default_message(event_type, formatter_hooks)(context, post)
 	send_to_discord(message, meta=DiscordMessageMetadata("POST"))
 

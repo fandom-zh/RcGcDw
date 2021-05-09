@@ -26,9 +26,13 @@ class Context:
 		self.webhook_url = webhook_url
 		self.message_type = message_type
 		self.event = None
+		self.comment_page = None
 
 	def set_categories(self, cats):
 		self.categories = cats
 
 	def set_parsedcomment(self, parsedcomment: str):
 		self.parsedcomment = parsedcomment
+
+	def set_comment_page(self, page):
+		self.comment_page = page

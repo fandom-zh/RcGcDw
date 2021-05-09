@@ -18,3 +18,6 @@ import extensions.base.abusefilter
 import extensions.base.managewiki
 import extensions.base.cargo
 import extensions.base.datadump
+import extensions.base.sprite
+import extensions.base.translate
+import extensions.base.discussions
