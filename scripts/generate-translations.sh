@@ -1,8 +1,10 @@
 cd ..
-declare -a StringArray=("discussion_formatters" "rc_formatters" "rcgcdw" "rc" "misc")
+declare -a StringArray=("rcgcdw" "rc" "misc")
 for file in ${StringArray[@]}; do
   xgettext -L Python --package-name=RcGcDw -o "locale/templates/$file.pot" src/$file.py
 done
+# Get all translatable files for formatters
+find . -name '*.py' -print | xargs xgettext -L Python --package-name=RcGcDw -o "locale/templates/formatters.pot"
 for language in de fr lol pl pt-br ru uk zh-hans zh-hant hi
 do
   for file in ${StringArray[@]}; do
@@ -14,4 +16,5 @@ xgettext -L Python --package-name=RcGcDw -o "locale/templates/redaction.pot" src
 for language in de fr lol pl pt-br ru uk zh-hans zh-hant hi
 do
   msgmerge -U locale/$language/LC_MESSAGES/redaction.po locale/templates/redaction.pot
+  msgmerge -U locale/$language/LC_MESSAGES/formatters.po locale/templates/formatters.pot
 done
