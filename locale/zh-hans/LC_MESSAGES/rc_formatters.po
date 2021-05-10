@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
-"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"PO-Revision-Date: 2021-05-06 14:10+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
 "rcgcdw/rc_formatters/zh-hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
@@ -565,19 +565,19 @@ msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
 msgstr "[{author}]({author_url}) 替换了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:436
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 创建了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 创建了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 删除了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:443
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -585,20 +585,20 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) 导入了 [{article}]({article_url}) 的 {count} 个修订"
-"版本{comment}"
+"[{author}]({author_url}) 删除了 [标签]({tag_url}) \"{tag}\" 并将其从 {count} "
+"个修订版本/日志项中移除{comment}"
 
 #: src/rc_formatters.py:449
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 激活了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 激活了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 取消激活了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 取消激活了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:454
 #, python-brace-format
@@ -616,13 +616,12 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) 锁定了wiki *{wiki_name}* {comment}"
 
 #: src/rc_formatters.py:462
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) 修改了命名空间 *{namespace_name}* 于 *{wiki_name}* "
-"{comment}"
+"[{author}]({author_url}) 修改了命名空间 *{namespace_name}* 于 *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:467
 #, python-brace-format
@@ -639,9 +638,9 @@ msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
 msgstr "[{author}]({author_url}) 修改了用户组 *{group_name}*{comment}"
 
 #: src/rc_formatters.py:477
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) 删除了wiki *{wiki_name}* {comment}"
+msgstr "[{author}]({author_url}) 删除了wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:481
 #, python-brace-format
@@ -1246,32 +1245,31 @@ msgid "Replaced the Cargo table \"{table}\""
 msgstr "替换了 Cargo 表 \"{table}\""
 
 #: src/rc_formatters.py:1121
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "创建了标签 \"{tag}\""
 
 #: src/rc_formatters.py:1125
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "删除了标签 \"{tag}\""
 
 #: src/rc_formatters.py:1127
-#, fuzzy
 msgid "Removed from"
-msgstr "移除了"
+msgstr "移除范围"
 
 #: src/rc_formatters.py:1127
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
+msgstr[0] "{} 个修订版本/日志项"
 
 #: src/rc_formatters.py:1131
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "激活了标签 \"{tag}\""
 
 #: src/rc_formatters.py:1134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "取消激活了标签 \"{tag}\""
 
@@ -1290,7 +1288,7 @@ msgid "Locked a \"{wiki}\" wiki"
 msgstr "锁定了wiki \"{wiki}\""
 
 #: src/rc_formatters.py:1147
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
 msgstr "修改了命名空间 \"{namespace_name}\""
 
@@ -1309,9 +1307,9 @@ msgid "Modified \"{usergroup_name}\" usergroup"
 msgstr "修改了用户组 \"{usergroup_name}\""
 
 #: src/rc_formatters.py:1160
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "删除了wiki \"{wiki}\""
+msgstr "取消删除了wiki \"{wiki}\""
 
 #: src/rc_formatters.py:1163
 #, python-brace-format

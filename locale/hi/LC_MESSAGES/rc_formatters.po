@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
-"PO-Revision-Date: 2020-12-30 13:26+0000\n"
+"PO-Revision-Date: 2021-05-06 14:10+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
 "rc_formatters/hi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
@@ -593,19 +593,22 @@ msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
 msgstr "[{author}]({author_url}) ने कार्गो टेबल \"{table}\" को बदल दिया"
 
 #: src/rc_formatters.py:436
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" बनाया"
+msgstr ""
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" बनाया{comment}"
 
 #: src/rc_formatters.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिलीट किया"
+msgstr ""
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिलीट "
+"किया{comment}"
 
 #: src/rc_formatters.py:443
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -613,24 +616,27 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) ने [{article}]({article_url}) को {count} रिवीशन के "
-"साथ ({article_url}) इम्पोर्ट किया{comment}"
+"[{author}]({author_url}) ने [टैग]({tag_url}) \"{tag}\" को डिलीट किया और इसे "
+"{count} रिवीशन या लॉग एंट्री से हटाया{comment}"
 msgstr[1] ""
-"[{author}]({author_url}) ने [{article}]({article_url}) को {count} रिवीशनों के "
-"साथ ({article_url}) इम्पोर्ट किया{comment}"
+"[{author}]({author_url}) ने [टैग]({tag_url}) \"{tag}\" को डिलीट किया और इसे "
+"{count} रिवीशनों या लॉग एंट्रियों से हटाया{comment}"
 
 #: src/rc_formatters.py:449
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को ऐक्टिवेट किया"
+msgstr ""
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को सक्रीय "
+"किया{comment}"
 
 #: src/rc_formatters.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr ""
-"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिऐक्टिवेट किया"
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को अक्रीय "
+"किया{comment}"
 
 #: src/rc_formatters.py:454
 #, python-brace-format
@@ -648,12 +654,12 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* के लॉक किया{comment}"
 
 #: src/rc_formatters.py:462
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) ने *{wiki_name}* पर एक नेमस्पेस *{namespace_name}* को "
+"[{author}]({author_url}) ने *{wiki_name}* पर नेमस्पेस *{namespace_name}* को "
 "मॉडिफाइ किया{comment}"
 
 #: src/rc_formatters.py:467
@@ -672,9 +678,9 @@ msgstr ""
 "[{author}]({author_url}) ने यूज़र ग्रुप *{group_name}* को मॉडिफाइ किया{comment}"
 
 #: src/rc_formatters.py:477
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* को डिलीट किया{comment}"
+msgstr "[{author}]({author_url}) ने विकि *{wiki_name}* को अनडिलीट किया{comment}"
 
 #: src/rc_formatters.py:481
 #, python-brace-format
@@ -1290,35 +1296,34 @@ msgid "Replaced the Cargo table \"{table}\""
 msgstr "कोर्गो टेबल \"{table}\" को बदला गया"
 
 #: src/rc_formatters.py:1121
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "टैग \"{tag}\" बनाया गया"
 
 #: src/rc_formatters.py:1125
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "टैग \"{tag}\" को डिलीट किया गया"
 
 #: src/rc_formatters.py:1127
-#, fuzzy
 msgid "Removed from"
-msgstr "हटाया गया"
+msgstr "इससे हटाया गया"
 
 #: src/rc_formatters.py:1127
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} रिवीशन और/या लॉग एंट्री"
+msgstr[1] "{} रिवीशन और/या लॉग एंट्रियाँ"
 
 #: src/rc_formatters.py:1131
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Activated the tag \"{tag}\""
-msgstr "टैग \"{tag}\" को ऐक्टिवेट किया गया"
+msgstr "टैग \"{tag}\" को सक्रीय किया गया"
 
 #: src/rc_formatters.py:1134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
-msgstr "टैग \"{tag}\" को डिऐक्टिवेट किया गया"
+msgstr "टैग \"{tag}\" को अक्रीय किया गया"
 
 #: src/rc_formatters.py:1137
 msgid "Changed wiki settings"
@@ -1335,7 +1340,7 @@ msgid "Locked a \"{wiki}\" wiki"
 msgstr "\"{wiki}\" विकी को लॉक किया गया"
 
 #: src/rc_formatters.py:1147
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
 msgstr "\"{namespace_name}\" नेमस्पेस को मॉडिफाइ किया गया"
 
@@ -1354,9 +1359,9 @@ msgid "Modified \"{usergroup_name}\" usergroup"
 msgstr "\"{usergroup_name}\" यूज़रग्रुप को मॉडिफाइ किया गया"
 
 #: src/rc_formatters.py:1160
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "\"{wiki}\" विकी को डिलीट किया गया"
+msgstr "\"{wiki}\" विकि को अनडिलीट किया गया"
 
 #: src/rc_formatters.py:1163
 #, python-brace-format

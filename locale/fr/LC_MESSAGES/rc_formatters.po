@@ -7,17 +7,18 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
-"PO-Revision-Date: 2020-03-17 21:40+0100\n"
-"Last-Translator: Frisk <>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2021-05-06 14:10+0000\n"
+"Last-Translator: magiczocker <jan-frederik-kriete@t-online.de>\n"
+"Language-Team: French <https://translate.wikibot.de/projects/rcgcdw/"
+"rc_formatters/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.6\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ../../..\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SearchPath-0: rcgcdw.pot\n"
 
 #: src/rc_formatters.py:28
@@ -1287,9 +1288,9 @@ msgid ""
 msgstr ""
 
 #: src/rc_formatters.py:1195
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Modification de la visibilité d'une révision de la page {article} "
+msgstr "Modification de la visibilité d'une révision de la page {article}"
 
 #: src/rc_formatters.py:1198
 #, python-brace-format

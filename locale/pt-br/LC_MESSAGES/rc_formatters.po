@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-14 16:24+0200\n"
-"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"PO-Revision-Date: 2021-05-06 14:10+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/rc_formatters/pt-br/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/rc_formatters.py:28
 msgid "None"
@@ -595,19 +595,21 @@ msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
 msgstr "[{author}]({author_url}) substituiu a tabela Cargo \"{table}\""
 
 #: src/rc_formatters.py:436
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) criou a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) criou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:441
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) excluiu a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) excluiu a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:443
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -615,23 +617,25 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) importou [{article}]({article_url}) com {count} "
-"revisão{comment}"
+"[{author}]({author_url}) excluiu a [etiqueta]({tag_url}) \"{tag}\" e removeu "
+"{count} revisão ou entrada de registro{comment}"
 msgstr[1] ""
-"[{author}]({author_url}) importou [{article}]({article_url}) com {count} "
-"revisões{comment}"
+"[{author}]({author_url}) excluiu a [etiqueta]({tag_url}) \"{tag}\" e removeu "
+"{count} revisões e/ou entradas de registro{comment}"
 
 #: src/rc_formatters.py:449
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ativou a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) ativou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:452
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) desativou a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) desativou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: src/rc_formatters.py:454
 #, python-brace-format
@@ -649,13 +653,13 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) travou uma wiki *{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:462
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) modificou o espaço nominal *{namespace_name}* "
-"em*{wiki_name}*{comment}"
+"[{author}]({author_url}) modificou o espaço nominal *{namespace_name}* em "
+"*{wiki_name}*{comment}"
 
 #: src/rc_formatters.py:467
 #, python-brace-format
@@ -673,7 +677,7 @@ msgstr ""
 "[{author}]({author_url}) modificou o grupo de usuário *{group_name}*{comment}"
 
 #: src/rc_formatters.py:477
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) excluiu uma wiki *{wiki_name}*{comment}"
 
@@ -1290,35 +1294,34 @@ msgid "Replaced the Cargo table \"{table}\""
 msgstr "Substituiu a tabela Cargo \"{table}\""
 
 #: src/rc_formatters.py:1121
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the tag \"{tag}\""
-msgstr "Criou uma etiqueta \"{tag}\""
+msgstr "Criou a etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:1125
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the tag \"{tag}\""
-msgstr "Excluiu uma etiqueta \"{tag}\""
+msgstr "Excluiu a etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:1127
-#, fuzzy
 msgid "Removed from"
-msgstr "Removido"
+msgstr "Removido de"
 
 #: src/rc_formatters.py:1127
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "revisão ou entrada no registro"
+msgstr[1] "revisões e/ou entradas no registro"
 
 #: src/rc_formatters.py:1131
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Activated the tag \"{tag}\""
-msgstr "Ativou uma etiqueta \"{tag}\""
+msgstr "Ativou a etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:1134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
-msgstr "Desativou uma etiqueta \"{tag}\""
+msgstr "Desativou a etiqueta \"{tag}\""
 
 #: src/rc_formatters.py:1137
 msgid "Changed wiki settings"
@@ -1335,7 +1338,7 @@ msgid "Locked a \"{wiki}\" wiki"
 msgstr "Travou a wiki \"{wiki}\""
 
 #: src/rc_formatters.py:1147
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
 msgstr "Modificou o espaço nominal \"{namespace_name}\""
 
@@ -1354,9 +1357,9 @@ msgid "Modified \"{usergroup_name}\" usergroup"
 msgstr "Modificou o grupo de usuário \"{usergroup_name}\""
 
 #: src/rc_formatters.py:1160
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "Excluiu a wiki \"{wiki}\""
+msgstr "Recuperou a exclusão de um wiki \"{wiki}\""
 
 #: src/rc_formatters.py:1163
 #, python-brace-format
