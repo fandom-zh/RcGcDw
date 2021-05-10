@@ -21,15 +21,15 @@ import datetime
 from collections import OrderedDict
 from src.discord.message import DiscordMessage
 from src.api import formatter
-from src.i18n import rc_formatters
+from src.i18n import formatters_i18n
 from src.api.context import Context
 from src.api.util import embed_helper, sanitize_to_url, parse_mediawiki_changes, clean_link, compact_author, \
     create_article_path, sanitize_to_markdown
 from src.configloader import settings
 from src.exceptions import *
 
-_ = rc_formatters.gettext
-ngettext = rc_formatters.ngettext
+_ = formatters_i18n.gettext
+ngettext = formatters_i18n.ngettext
 
 logger = logging.getLogger("extensions.base")
 

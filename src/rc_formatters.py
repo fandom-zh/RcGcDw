@@ -36,10 +36,10 @@ from src.discord.message import DiscordMessage, DiscordMessageMetadata
 if AUTO_SUPPRESSION_ENABLED:
 	from src.discord.redaction import delete_messages, redact_messages
 
-from src.i18n import rc_formatters
+from src.i18n import formatters_i18n
 #from src.rc import recent_changes, pull_comment
-_ = rc_formatters.gettext
-ngettext = rc_formatters.ngettext
+_ = formatters_i18n.gettext
+ngettext = formatters_i18n.ngettext
 
 logger = logging.getLogger("rcgcdw.rc_formatters")
 #from src.rcgcdw import recent_changes, ngettext, logger, profile_field_name, LinkParser, pull_comment

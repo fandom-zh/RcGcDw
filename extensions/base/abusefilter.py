@@ -17,14 +17,14 @@ import ipaddress
 import logging
 from src.discord.message import DiscordMessage
 from src.api import formatter
-from src.i18n import rc_formatters
+from src.i18n import formatters_i18n
 from src.api.context import Context
 from src.api.util import embed_helper, sanitize_to_url, parse_mediawiki_changes, clean_link, compact_author, \
 	create_article_path, sanitize_to_markdown
 from src.configloader import settings
 
-_ = rc_formatters.gettext
-ngettext = rc_formatters.ngettext
+_ = formatters_i18n.gettext
+ngettext = formatters_i18n.ngettext
 
 abusefilter_results = {"": _("None"), "warn": _("Warning issued"), "block": _("**Blocked user**"), "tag": _("Tagged the edit"), "disallow": _("Disallowed the action"), "rangeblock": _("**IP range blocked**"), "throttle": _("Throttled actions"), "blockautopromote": _("Removed autoconfirmed group"), "degroup": _("**Removed from privileged groups**")}
 abusefilter_actions = {"edit": _("Edit"), "upload": _("Upload"), "move": _("Move"), "stashupload": _("Stash upload"), "delete": _("Deletion"), "createaccount": _("Account creation"), "autocreateaccount": _("Auto account creation")}

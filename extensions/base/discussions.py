@@ -26,9 +26,9 @@ from src.api.context import Context
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.api import formatter
-from src.i18n import discussion_formatters
+from src.i18n import formatters_i18n
 
-_ = discussion_formatters.gettext
+_ = formatters_i18n.gettext
 
 
 logger = logging.getLogger("rcgcdw.discussion_formatter")

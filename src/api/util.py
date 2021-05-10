@@ -20,9 +20,9 @@ from src.discord.message import DiscordMessage
 from src.configloader import settings
 import src.misc
 import logging
-from src.i18n import rc_formatters
+from src.i18n import formatters_i18n
 
-_ = rc_formatters.gettext
+_ = formatters_i18n.gettext
 
 if TYPE_CHECKING:
 	from src.api.context import Context
