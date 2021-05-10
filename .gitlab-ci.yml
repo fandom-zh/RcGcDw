@@ -6,6 +6,7 @@ include:
 pytest:
   stage: test
   script:
+    - pip3.7 install -U pytest
     - pytest --junitxml=report.xml
   artifacts:
     when: always
