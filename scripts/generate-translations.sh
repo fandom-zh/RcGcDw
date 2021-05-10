@@ -4,7 +4,7 @@ for file in ${StringArray[@]}; do
   xgettext -L Python --package-name=RcGcDw -o "locale/templates/$file.pot" src/$file.py
 done
 # Get all translatable files for formatters
-find . -name '*.py' -print | xargs xgettext -L Python --package-name=RcGcDw -o "locale/templates/formatters.pot"
+find extensions/ -name '*.py' -print | xargs xgettext -L Python --package-name=RcGcDw -o "locale/templates/formatters.pot"
 for language in de fr lol pl pt-br ru uk zh-hans zh-hant hi
 do
   for file in ${StringArray[@]}; do
