@@ -25,6 +25,8 @@ class Context:
 		self.client = client
 		self.webhook_url = webhook_url
 		self.message_type = message_type
+		self.categories = None
+		self.parsedcomment = None
 		self.event = None
 		self.comment_page = None
 

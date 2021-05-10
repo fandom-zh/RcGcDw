@@ -26,7 +26,40 @@ Directory with extensions should be possible to be changed using settings.json
  /extensions/posthooks/   
 
 ## API
-api object exposes various data which allows to extend the usefulness of what can be then sent to Discord.
+api object exposes various data which allows to extend the usefulness of what can be then sent to Discord. It also contains
+common functions that can be used to interact with the script and the wiki.
+
+### Client
+**Path**: `src.api.client.Client`    
+_Client is a class containing most of usable methods and communication layer with the core functionality._    
+Client consists of the following fields:    
+- WIKI_API_PATH - string - URL path leading to API (`WIKI_DOMAIN/api.php`)
+- WIKI_ARTICLE_PATH - string - URL path leading to article path (`WIKI_DOMAIN/articlepath`)
+- WIKI_SCRIPT_PATH - string - URL path leading to script path of the wiki (`WIKI_DOMAIN/`)
+- WIKI_JUST_DOMAIN - string - URL path leading just to the wiki domain (`WIKI_DOMAIN`)
+- content_parser - class - a reference to HTMLParser implementation that parses edit diffs
+- tags - dict - a container storing all [tags](https://www.mediawiki.org/wiki/Manual:Tags) the wiki has configured
+- namespaces - dict - a dictionary of [namespaces](https://www.mediawiki.org/wiki/Manual:Namespace) on the wiki
+- LinkParser - class - a class of LinkParser which is usually used to parse parsed_comment from events including turning URLs into Markdown links    
+Client consists of the following methods:
+- refresh_internal_data() - requests namespaces, tags and MediaWiki messages to be retrieved and updated in internal storage
+- parse_links(text: str) - parses links using LinkParser object
+- pull_curseprofile_comment(comment_id: Union[str, int]) - allows to retrieve CurseProfile comment from wikis originated from Gamepedia
+- make_api_request(params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False) - allows to make a request to the wiki with parameters specified in params argument, json_path additionally allows to provide a list of strings that will be iterated over and json path of the result of this iteration returned. Timeout in float (seconds) can be added to limit the time for response, allow_redirects can be set to disallow or allow redirects
+- get_formatters() - returns a dictionary of all formatters in format of `{'eventtype': func}`
+- get_ipmapper() - returns ip mapper which tracks edit counts of IP editors
+
+### Context
+**Path**: `src.api.context.Context`    
+_Context is a class which objects of are only used as first argument of formatter definitions._   
+Context can consist of the following fields:
+- client - Client object
+- webhook_url - string - webhook url for given formatter
+- message_type - string - can be either `embed` or `compact`
+- categories - {"new": set(), "removed": set()} - each set containing strings of added or removed categories for given page
+- parsedcomment - string - contains escaped and Markdown parsed summary (parsed_comment) of a log/edit action 
+- event - string - action called, should be the same as formatter event action
+- comment_page - dict - containing `fullUrl` and `article` with strings both to full article url and its name
 
 ### Language support
 
@@ -45,7 +78,7 @@ import logging
 from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.api.context import Context
-from src.api.util import create_article_path, link_formatter
+from src.api.util import create_article_path, clean_link
 from src.i18n import formatters_i18n
 
 _ = formatters_i18n.gettext
@@ -66,7 +99,7 @@ def embed_modify(ctx: Context, change: dict) -> DiscordMessage:
 
 @formatter.compact(event="abuselog/modify")
 def embed_modify(ctx: Context, change: dict) -> DiscordMessage:
- link = link_formatter(create_article_path(
+ link = clean_link(create_article_path(
   "Special:AbuseFilter/history/{number}/diff/prev/{historyid}".format(number=change["logparams"]['newId'],
                                                                       historyid=change["logparams"][
                                                                        "historyId"])))
@@ -96,3 +129,7 @@ class test1(Hook):
 		return DiscordMessage
 
 ```
+
+[]: https://www.mediawiki.org/wiki/Manual:Tagstags
+
+[https://www.mediawiki.org/wiki/Manual:Namespace]: https://www.mediawiki.org/wiki/Manual:Namespace
