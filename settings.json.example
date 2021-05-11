@@ -20,6 +20,7 @@
     "ignored": ["external", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers"],
     "show_updown_messages": true,
     "ignored_namespaces": [],
+    "extensions_dir": "extensions",
     "overview": false,
     "overview_time": "00:00",
     "send_empty_overview": false,

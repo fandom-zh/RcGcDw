@@ -19,7 +19,7 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, requests, datetime, math, os.path, schedule, sys, re
+import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib
 
 import src.misc
 from collections import defaultdict, Counter
@@ -55,7 +55,7 @@ logger.debug("Current settings: {settings}".format(settings=settings))
 def load_extensions():
 	"""Loads all of the extensions, can be a local import because all we need is them to register"""
 	try:
-		import extensions
+		importlib.import_module(settings.get('extensions_dir', 'extensions'), 'extensions')
 	except ImportError:
 		logger.critical("No extensions module found. What's going on?")
 		sys.exit(1)
