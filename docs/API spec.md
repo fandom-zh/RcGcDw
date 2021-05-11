@@ -16,7 +16,7 @@ A class allowing to change the message content and/or execute additional actions
 Directory with extensions is specified by setting `extensions_dir` in settings.json.    
 The directory with hooks and formatters needs to be below root directory (directory in which start.py is located) and every directory inside it needs to be a Python package importing its child packages and modules.
 
-.
+.  
 ├── extensions   
 │   ├── base   
 │   │   ├── abusefilter.py  
