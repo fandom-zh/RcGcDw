@@ -29,7 +29,7 @@ import src.api.client
 from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
 from src.configloader import settings
-from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser
+from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser, run_hooks
 from src.api.util import create_article_path, default_message, sanitize_to_markdown
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
@@ -235,8 +235,7 @@ def rc_processor(change, changed_categories):
 	                       page_id=change.get("pageid", None))
 	logger.debug(change)
 	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
-	for hook in pre_hooks:
-		hook(change)
+	run_hooks(pre_hooks, context, change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		context.event = "suppressed"
 		discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
@@ -267,7 +266,13 @@ def rc_processor(change, changed_categories):
 		if identification_string in settings["ignored"]:
 			return
 		context.event = identification_string
-		discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
+		try:
+			discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
+		except:
+			if settings.get("error_tolerance", 1) > 0:
+				discord_message: Optional[DiscordMessage] = None  # It's handled by send_to_discord, we still want other code to run
+			else:
+				raise
 		if identification_string in ("delete/delete", "delete/delete_redir") and AUTO_SUPPRESSION_ENABLED:  # TODO Move it into a hook?
 			delete_messages(dict(pageid=change.get("pageid")))
 		elif identification_string == "delete/event" and AUTO_SUPPRESSION_ENABLED:
@@ -284,8 +289,7 @@ def rc_processor(change, changed_categories):
 			else:
 				for revid in logparams.get("ids", []):
 					delete_messages(dict(revid=revid))
-	for hook in post_hooks:
-		hook(discord_message, metadata)
+	run_hooks(post_hooks, discord_message, metadata, context)
 	send_to_discord(discord_message, metadata)
 
 
@@ -294,9 +298,12 @@ def abuselog_processing(entry):
 	if action in settings["ignored"]:
 		return
 	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
+	run_hooks(pre_hooks, context, entry)
 	context.event = action
 	discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
-	send_to_discord(discord_message, DiscordMessageMetadata("POST"))
+	metadata = DiscordMessageMetadata("POST")
+	run_hooks(post_hooks, discord_message, metadata, context)
+	send_to_discord(discord_message, metadata)
 
 
 load_extensions()

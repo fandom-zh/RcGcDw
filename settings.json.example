@@ -21,6 +21,7 @@
     "show_updown_messages": true,
     "ignored_namespaces": [],
     "extensions_dir": "extensions",
+    "error_tolerance": 1,
     "overview": false,
     "overview_time": "00:00",
     "send_empty_overview": false,

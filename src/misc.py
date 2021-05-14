@@ -291,6 +291,17 @@ def send_simple(msgtype, message, name, avatar):
 	send_to_discord(discord_msg, meta=DiscordMessageMetadata("POST"))
 
 
+def run_hooks(hooks, *arguments):
+	for hook in hooks:
+		try:
+			hook(*arguments)
+		except:
+			if settings.get("error_tolerance", 1) > 0:
+				misc_logger.exception("On running a pre hook, ignoring pre-hook")
+			else:
+				raise
+
+
 def profile_field_name(name, embed):
 	try:
 		return profile_fields[name]

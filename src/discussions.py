@@ -21,7 +21,7 @@ from typing import Dict, Any
 from src.configloader import settings
 
 #from src.discussion_formatters import embed_formatter, compact_formatter
-from src.misc import datafile, prepare_paths
+from src.misc import datafile, prepare_paths, run_hooks
 from src.discord.queue import messagequeue, send_to_discord
 from src.discord.message import DiscordMessageMetadata
 from src.session import session
@@ -121,8 +121,11 @@ def parse_discussion_post(post, comment_pages):
 			raise ArticleCommentError
 	event_type = f"discussion/{post_type.lower()}"
 	context.set_comment_page(comment_page)
-	message = default_message(event_type, formatter_hooks)(context, post)
-	send_to_discord(message, meta=DiscordMessageMetadata("POST"))
+	run_hooks(pre_hooks, context, post)
+	discord_message = default_message(event_type, formatter_hooks)(context, post)
+	metadata = DiscordMessageMetadata("POST")
+	run_hooks(post_hooks, discord_message, metadata, context)
+	send_to_discord(discord_message, metadata)
 
 
 def safe_request(url):
