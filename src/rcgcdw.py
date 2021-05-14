@@ -22,7 +22,7 @@
 import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib
 
 import src.misc
-from collections import defaultdict, Counter
+from collections import defaultdict, Counter, OrderedDict
 
 from typing import Optional
 import src.api.client
@@ -33,7 +33,7 @@ from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser, run_hooks
 from src.api.util import create_article_path, default_message, sanitize_to_markdown
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
-from src.exceptions import MWError
+from src.exceptions import MWError, ServerError, MediaWikiError, BadRequest, ClientError
 from src.i18n import rcgcdw
 from src.wiki import Wiki
 
@@ -78,102 +78,70 @@ def no_formatter(ctx: Context, change: dict) -> None:
 
 formatter_hooks["no_formatter"] = no_formatter
 
-def day_overview_request():
+def day_overview_request() -> list:
+	"""Make requests for changes in last 24h"""
 	logger.info("Fetching daily overview... This may take up to 30 seconds!")
 	timestamp = (datetime.datetime.utcnow() - datetime.timedelta(hours=24)).isoformat(timespec='milliseconds')
-	logger.debug("timestamp is {}".format(timestamp))
-	complete = False
 	result = []
 	passes = 0
-	continuearg = ""
-	while not complete and passes < 10:
-		request = wiki._safe_request(
-			"{wiki}?action=query&format=json&list=recentchanges&rcend={timestamp}Z&rcprop=title%7Ctimestamp%7Csizes%7Cloginfo%7Cuser&rcshow=!bot&rclimit=500&rctype=edit%7Cnew%7Clog{continuearg}".format(
-				wiki=WIKI_API_PATH, timestamp=timestamp, continuearg=continuearg))
-		if request:
-			try:
-				request = request.json()
-				request = wiki.handle_mw_errors(request)
-				rc = request['query']['recentchanges']
-				continuearg = request["continue"]["rccontinue"] if "continue" in request else None
-			except ValueError:
-				logger.warning("ValueError in fetching changes")
-				wiki.downtime_controller(True)
-				complete = 2
-			except KeyError:
-				logger.warning("Wiki returned %s" % request)
-				complete = 2
-			except MWError:
-				complete = 2
-			else:
-				result += rc
-				if continuearg:
-					continuearg = "&rccontinue={}".format(continuearg)
-					passes += 1
-					logger.debug(
-						"continuing requesting next pages of recent changes with {} passes and continuearg being {}".format(
-							passes, continuearg))
-					time.sleep(3.0)
-				else:
-					complete = 1
+	continuearg: Optional[str] = None
+	while passes < 10:
+		params = OrderedDict(dict(action="query", format="json", list="recentchanges", rcend=timestamp,
+								  rcprop="title|timestamp|sizes|loginfo|user", rcshow="!bot", rclimit="max",
+								  rctype="edit|new|log", rccontinue=continuearg))
+		request = wiki.retried_api_request(params)
+		result += request['query']['recentchanges']
+		if "continue" in request:
+			continuearg = request["continue"].get("rccontinue", None)
 		else:
-			complete = 2
-	if passes == 10:
-		logger.debug("quit the loop because there been too many passes")
-	return result, complete
+			return result
+		passes += 1
+		logger.debug(
+			"continuing requesting next pages of recent changes with {} passes and continuearg being {}".format(
+				passes, continuearg))
+		time.sleep(3.0)
+	logger.debug("quit the loop because there been too many passes")
+	return result
 
 
-def daily_overview_sync(edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score):
+def daily_overview_sync(data: dict) -> dict:
 	weight = storage["daily_overview"]["days_tracked"]
-	logger.debug(_)
 	if weight == 0:
-		storage["daily_overview"].update({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed": changed_bytes, "new_articles": new_articles, "unique_editors": unique_contributors, "day_score": day_score})
-		edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score = str(edits), str(files), str(admin), str(changed_bytes), str(new_articles), str(unique_contributors), str(day_score)
+		storage["daily_overview"].update(data)
+		data_output = {k: str(v) for k, v in data.items()}
 	else:
-		edits_avg = src.misc.weighted_average(storage["daily_overview"]["edits"], weight, edits)
-		edits = _("{value} (avg. {avg})").format(value=edits, avg=edits_avg)
-		files_avg = src.misc.weighted_average(storage["daily_overview"]["new_files"], weight, files)
-		files = _("{value} (avg. {avg})").format(value=files, avg=files_avg)
-		admin_avg = src.misc.weighted_average(storage["daily_overview"]["admin_actions"], weight, admin)
-		admin = _("{value} (avg. {avg})").format(value=admin, avg=admin_avg)
-		changed_bytes_avg = src.misc.weighted_average(storage["daily_overview"]["bytes_changed"], weight, changed_bytes)
-		changed_bytes = _("{value} (avg. {avg})").format(value=changed_bytes, avg=changed_bytes_avg)
-		new_articles_avg = src.misc.weighted_average(storage["daily_overview"]["new_articles"], weight, new_articles)
-		new_articles = _("{value} (avg. {avg})").format(value=new_articles, avg=new_articles_avg)
-		unique_contributors_avg = src.misc.weighted_average(storage["daily_overview"]["unique_editors"], weight, unique_contributors)
-		unique_contributors = _("{value} (avg. {avg})").format(value=unique_contributors, avg=unique_contributors_avg)
-		day_score_avg = src.misc.weighted_average(storage["daily_overview"]["day_score"], weight, day_score)
-		day_score = _("{value} (avg. {avg})").format(value=day_score, avg=day_score_avg)
-		storage["daily_overview"].update({"edits": edits_avg, "new_files": files_avg, "admin_actions": admin_avg, "bytes_changed": changed_bytes_avg,
-		             "new_articles": new_articles_avg, "unique_editors": unique_contributors_avg, "day_score": day_score_avg})
+		data_output = {}
+		for data_point, value in data.items():
+			new_average = src.misc.weighted_average(storage["daily_overview"][data_point], weight, value)
+			data_output[data_point] = _("{value} (avg. {avg})").format(value=value, avg=new_average)
+			storage["daily_overview"][data_point] = new_average
 	storage["daily_overview"]["days_tracked"] += 1
 	datafile.save_datafile()
-	return edits, files, admin, changed_bytes, new_articles, unique_contributors, day_score
+	return data_output
 
 
 def day_overview():
-	result = day_overview_request()
-	if result[1] == 1:
+	try:
+		result = day_overview_request()
+	except (ServerError, MediaWikiError):
+		logger.error("Couldn't complete Daily Overview as requests for changes resulted in errors.")
+	else:
 		activity = defaultdict(dict)
 		hours = defaultdict(dict)
 		articles = defaultdict(dict)
-		edits = 0
-		files = 0
-		admin = 0
-		changed_bytes = 0
-		new_articles = 0
+		edits = files = admin = changed_bytes = new_articles = 0
 		active_articles = []
 		embed = DiscordMessage("embed", "daily_overview", settings["webhookURL"])
 		embed["title"] = _("Daily overview")
 		embed["url"] = create_article_path("Special:Statistics")
 		embed.set_author(settings["wikiname"], create_article_path(""))
-		if not result[0]:
+		if not result:
 			if not settings["send_empty_overview"]:
 				return  # no changes in this day
 			else:
 				embed["description"] = _("No activity")
 		else:
-			for item in result[0]:
+			for item in result:
 				if "actionhidden" in item or "suppressed" in item or "userhidden" in item:
 					continue  # while such actions have type value (edit/new/log) many other values are hidden and therefore can crash with key error, let's not process such events
 				activity = add_to_dict(activity, item["user"])
@@ -190,7 +158,7 @@ def day_overview():
 				elif item["type"] == "log":
 					files = files + 1 if item["logtype"] == item["logaction"] == "upload" else files
 					admin = admin + 1 if item["logtype"] in ["delete", "merge", "block", "protect", "import", "rights",
-					                                         "abusefilter", "interwiki", "managetags"] else admin
+															 "abusefilter", "interwiki", "managetags"] else admin
 			overall = round(new_articles + edits * 0.1 + files * 0.3 + admin * 0.1 + math.fabs(changed_bytes * 0.001), 2)
 			if activity:
 				active_users = []
@@ -204,27 +172,25 @@ def day_overview():
 					active_hours.append(str(hour))
 				houramount = ngettext(" UTC ({} action)", " UTC ({} actions)", numberh).format(numberh)
 			else:
-				active_users = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
-				active_hours = [_("But nobody came")]
-				usramount = ""
-				houramount = ""
+				active_users = active_hours = [_("But nobody came")]  # a reference to my favorite game of all the time, sorry ^_^
+				usramount = houramount = ""
 			if not active_articles:
 				active_articles = [_("But nobody came")]
-			edits, files, admin, changed_bytes, new_articles, unique_contributors, overall = daily_overview_sync(edits, files, admin, changed_bytes, new_articles, len(activity), overall)
+			messages = daily_overview_sync({"edits": edits, "new_files": files, "admin_actions": admin, "bytes_changed":
+				changed_bytes, "new_articles": new_articles, "unique_editors": len(activity), "day_score": overall})
 			fields = (
 			(ngettext("Most active user", "Most active users", len(active_users)), ', '.join(active_users)),
 			(ngettext("Most edited article", "Most edited articles", len(active_articles)), ', '.join(active_articles)),
-			(_("Edits made"), edits), (_("New files"), files), (_("Admin actions"), admin),
-			(_("Bytes changed"), changed_bytes), (_("New articles"), new_articles),
-			(_("Unique contributors"), unique_contributors),
+			(_("Edits made"), messages["edits"]), (_("New files"), messages["new_files"]),
+			(_("Admin actions"), messages["admin_actions"]), (_("Bytes changed"), messages["bytes_changed"]),
+			(_("New articles"), messages["new_articles"]), (_("Unique contributors"), messages["unique_editors"]),
 			(ngettext("Most active hour", "Most active hours", len(active_hours)), ', '.join(active_hours) + houramount),
-			(_("Day score"), overall))
+			(_("Day score"), messages["day_score"])
+			)
 			for name, value in fields:
 				embed.add_field(name, value, inline=True)
 		embed.finish_embed()
 		send_to_discord(embed, meta=DiscordMessageMetadata("POST"))
-	else:
-		logger.debug("function requesting changes for day overview returned with error code")
 
 
 def rc_processor(change, changed_categories):

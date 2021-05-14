@@ -280,7 +280,18 @@ class Wiki(object):
 				sys.exit(0)
 			return request
 
-	def api_request(self, params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False):
+	def retried_api_request(self, params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False):
+		"""Wrapper around api_request function that additionally re-request the same request multiple times."""
+		retries = 0
+		while retries < 5:
+			try:
+				return self.api_request(params, *json_path, timeout=timeout, allow_redirects=allow_redirects)
+			except (ServerError, MediaWikiError):
+				retries += 1
+				time.sleep(2.0)
+		raise ServerError
+
+	def api_request(self, params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False) -> dict:
 		"""Method to GET request data from the wiki's API with error handling including recognition of MediaWiki errors.
 		
 		Parameters:
