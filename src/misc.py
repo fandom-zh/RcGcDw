@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 import base64
-import json, logging, sys, re
+import json, logging, sys, re, platform
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urlunparse
 import requests
@@ -84,6 +84,15 @@ class DataFile:
 		except PermissionError:
 			misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
 			sys.exit(1)
+		except OSError as e:
+			if settings.get("error_tolerance", 1) > 1:
+				if platform.system() == "Windows":
+					if "Invalid argument: 'data.json'" in str(e):
+						misc_logger.error("Saving the data file failed due to Invalid argument exception, we've seen it "
+										  "before in issue #209, if you know the reason for it happening please reopen the "
+										  "issue with explanation, for now we are going to just ignore it.")  #  Reference #209
+						return
+			raise
 
 	def __setitem__(self, instance, value):
 		self.data[instance] = value
