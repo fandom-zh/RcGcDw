@@ -16,6 +16,8 @@ from __future__ import annotations
 import re
 from urllib.parse import quote
 from typing import Optional, Callable, TYPE_CHECKING
+
+from src.exceptions import ServerError, MediaWikiError
 from src.discord.message import DiscordMessage
 from src.configloader import settings
 import src.misc
@@ -80,10 +82,12 @@ def compact_author(ctx: Context, change: dict) -> (Optional[str], Optional[str])
 	"""Returns link to the author and the author itself respecting the settings"""
 	author, author_url = None, None
 	if ctx.event != "suppressed":
-		author_url = clean_link(create_article_path("User:{user}".format(user=change["user"])))  # TODO Sanitize user in here and in embed_helper
+		author_url = clean_link(create_article_path("User:{user}".format(user=sanitize_to_url(change["user"]))))
 		if "anon" in change:
-			change["user"] = _("Unregistered user")
-			author = change["user"]
+			if settings.get("hide_ips", False):
+				author = _("Unregistered user")
+			else:
+				author = change["user"]
 		else:
 			author = change["user"]
 	return author, author_url
@@ -99,41 +103,41 @@ def embed_helper(ctx: Context, message: DiscordMessage, change: dict, set_user=T
 	adding tags (if the log is tagged anyhow)
 	setting default description (to ctx.parsedcomment)"""
 	if set_user:
-		# TODO Repurpose it so change['user'] stays the same
+		author = None
 		if "anon" in change:
-			author_url = create_article_path("Special:Contributions/{user}".format(
-				user=change["user"].replace(" ", "_")))  # Replace here needed in case of #75
+			author_url = create_article_path("Special:Contributions/{user}".format(user=sanitize_to_url(change["user"])))
 			ip_mapper = ctx.client.get_ipmapper()
 			logger.debug("current user: {} with cache of IPs: {}".format(change["user"], ip_mapper.keys()))
 			if change["user"] not in list(ip_mapper.keys()):
-				contibs = ctx.client.make_api_request(
-					"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
-						wiki=ctx.client.WIKI_API_PATH, user=change["user"], timestamp=change["timestamp"]), "query",
-					"usercontribs")
-				if contibs is None:
-					logger.warning(
-						"WARNING: Something went wrong when checking amount of contributions for given IP address")
+				try:
+					contibs = ctx.client.make_api_request(
+						"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+							wiki=ctx.client.WIKI_API_PATH, user=sanitize_to_url(change["user"]), timestamp=change["timestamp"]), "query",
+						"usercontribs")
+				except (ServerError, MediaWikiError):
+					logger.warning("WARNING: Something went wrong when checking amount of contributions for given IP address")
 					if settings.get("hide_ips", False):
-						change["user"] = _("Unregistered user")
-					change["user"] = change["user"] + "(?)"
+						author = _("Unregistered user")
+					else:
+						author = change["user"] + "(?)"
 				else:
 					ip_mapper[change["user"]] = len(contibs)
-					logger.debug(
-						"Current params user {} and state of map_ips {}".format(change["user"], ip_mapper))
+					logger.debug("Current params user {} and state of map_ips {}".format(change["user"], ip_mapper))
 					if settings.get("hide_ips", False):
-						change["user"] = _("Unregistered user")
-					change["user"] = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
+						author = _("Unregistered user")
+					else:
+						author = "{author} ({contribs})".format(author=change["user"], contribs=len(contibs))
 			else:
-				logger.debug(
-					"Current params user {} and state of map_ips {}".format(change["user"], ip_mapper))
+				logger.debug("Current params user {} and state of map_ips {}".format(change["user"], ip_mapper))
 				if ctx.event in ("edit", "new"):
 					ip_mapper[change["user"]] += 1
-				change["user"] = "{author} ({amount})".format(
+				author = "{author} ({amount})".format(
 					author=change["user"] if settings.get("hide_ips", False) is False else _("Unregistered user"),
 					amount=ip_mapper[change["user"]])
 		else:
-			author_url = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
-		message.set_author(change["user"], author_url)
+			author_url = create_article_path("User:{}".format(sanitize_to_url(change["user"])))
+			author = change["user"]
+		message.set_author(author, author_url)
 	if set_edit_meta:
 		if settings["appearance"]["embed"]["show_footer"]:
 			message["timestamp"] = change["timestamp"]
