@@ -109,13 +109,25 @@ Client consists of the following methods:
 **Path**: `src.api.context.Context`    
 _Context is a class which objects of are only used as first argument of formatter definitions._   
 Context can consist of the following fields:
-- `client` - Client object
+- `client` - [Client](#Client) object
 - `webhook_url` - string - webhook url for given formatter
 - `message_type` - string - can be either `embed` or `compact`
 - `categories` - {"new": set(), "removed": set()} - each set containing strings of added or removed categories for given page
 - `parsedcomment` - string - contains escaped and Markdown parsed summary (parsed_comment) of a log/edit action 
 - `event` - string - action called, should be the same as formatter event action
 - `comment_page` - dict - containing `fullUrl` and `article` with strings both to full article url and its name
+
+### Util
+**Path**: `src.api.util`
+_Util is a module with a few common functions that can be useful for generating Discord messages, parsing changes in formatting and more._    
+Util provides the following functionalities:
+- `clean_link(link: str)` – returns a string wrapped with <> brackets, so the link given as a string doesn't embed in Discord
+- `sanitize_to_markdown(text: str)` – returns a string with Discord Markdown characters escaped
+- `sanitize_to_url(text: str)` – returns a string that should be safe to be part of URL with special characters either escaped or encoded
+- `parse_mediawiki_changes(ctx: Context, content: str, embed: DiscordMessage)` – populates embed with two new fields "Added" and "Removed" containing diff of changes within content argument retrieved using action=compare request between two revisions
+- `create_article_path(article: str)` – returns a string with URL leading to an article page (basically taking into account wiki's article path)
+- `compact_author(ctx: Context, content: dict)` – returns two strings - first containing the name of the author with hide_ips setting taken into account and second a URL leading to author's contribution page, this makes it easier for compact formatters to include author detail in messages
+- `embed_helper(ctx: Context, message: DiscordMessage, change: dict, set_user=True, set_edit_meta=True, set_desc=True)` – a function populating the message (Discord embed message) with most essential fields accordingly. Populating includes the following fields: author, author_url, category and tags fields, description
 
 ### Language support
 RcGcDw implements i18n with gettext and already exposes Translations instance with its `src.i18` module. formatters_i18n variable is used for instance of all formatters inside base directory. 
