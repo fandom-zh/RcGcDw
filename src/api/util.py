@@ -78,6 +78,12 @@ def create_article_path(article: str) -> str:
 	return src.misc.WIKI_ARTICLE_PATH.replace("$1", article)
 
 
+def compact_summary(ctx: Context) -> str:
+	"""Creates a comment for compact formatters"""
+	if ctx.parsedcomment:
+		return " *({})*".format(ctx.parsedcomment)
+	return ""
+
 def compact_author(ctx: Context, change: dict) -> (Optional[str], Optional[str]):
 	"""Returns link to the author and the author itself respecting the settings"""
 	author, author_url = None, None

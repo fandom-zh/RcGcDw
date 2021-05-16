@@ -18,7 +18,7 @@ from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import formatters_i18n
 from src.api.context import Context
-from src.api.util import embed_helper, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url
+from src.api.util import embed_helper, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url, compact_summary
 
 _ = formatters_i18n.gettext
 ngettext = formatters_i18n.ngettext
@@ -41,7 +41,7 @@ def embed_managewiki_settings(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/settings")
 def compact_managewiki_settings(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) changed wiki settings{reason}".format(author=author, author_url=author_url, reason=parsed_comment))
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
@@ -60,7 +60,7 @@ def embed_managewiki_delete(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/delete")
 def compact_managewiki_delete(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}").format(author=author,
                                                                                          author_url=author_url,
                                                                                          wiki_name=change[
@@ -84,7 +84,7 @@ def embed_managewiki_lock(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/lock")
 def compact_managewiki_lock(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}").format(
         author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")),
         comment=parsed_comment)
@@ -107,7 +107,7 @@ def embed_managewiki_namespaces(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/namespaces")
 def compact_managewiki_namespaces(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) modified namespace *{namespace_name}* on *{wiki_name}*{comment}").format(
         author=author, author_url=author_url, namespace_name=change["logparams"].get("namespace", _("Unknown")),
         wiki_name=change["logparams"].get("wiki", _("Unknown")), comment=parsed_comment)
@@ -130,7 +130,7 @@ def embed_managewiki_namespaces_delete(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/namespaces-delete")
 def compact_managewiki_namespaces_delete(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _(
         "[{author}]({author_url}) deleted a namespace *{namespace_name}* on *{wiki_name}*{comment}").format(
         author=author, author_url=author_url,
@@ -154,7 +154,7 @@ def embed_managewiki_rights(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/rights")
 def compact_managewiki_rights(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     group_name = change["title"].split("/permissions/", 1)[1]
     content = _("[{author}]({author_url}) modified user group *{group_name}*{comment}").format(
         author=author, author_url=author_url, group_name=group_name, comment=parsed_comment
@@ -176,7 +176,7 @@ def embed_managewiki_undelete(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/undelete")
 def compact_managewiki_undelete(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}").format(
         author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")),
         comment=parsed_comment
@@ -198,7 +198,7 @@ def embed_managewiki_unlock(ctx: Context, change: dict):
 @formatter.compact(event="managewiki/unlock")
 def compact_managewiki_unlock(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}").format(
         author=author, author_url=author_url, wiki_name=change["logparams"].get("wiki", _("Unknown")),
         comment=parsed_comment

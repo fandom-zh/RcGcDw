@@ -19,7 +19,7 @@ from src.api import formatter
 from src.i18n import formatters_i18n
 from src.api.context import Context
 from src.api.util import embed_helper, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url, \
-    clean_link
+    clean_link, compact_summary
 
 _ = formatters_i18n.gettext
 ngettext = formatters_i18n.ngettext
@@ -51,7 +51,7 @@ def compact_pagetranslation_mark(ctx: Context, change: dict):
     else:
         link = link + "?oldid={}".format(change["logparams"]["revision"])
     link = clean_link(link)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) marked [{article}]({article_url}) for translation{comment}").format(
         author=author, author_url=author_url,
         article=change["title"], article_url=link,
@@ -74,7 +74,7 @@ def embed_pagetranslation_unmark(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/unmark")
 def compact_pagetranslation_unmark(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _(
         "[{author}]({author_url}) removed [{article}]({article_url}) from the translation system{comment}").format(
@@ -100,7 +100,7 @@ def embed_pagetranslation_moveok(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/moveok")
 def compact_pagetranslation_moveok(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["logparams"]["target"])))
     content = _(
         "[{author}]({author_url}) completed moving translation pages from *{article}* to [{target}]({target_url}){comment}").format(
@@ -126,7 +126,7 @@ def embed_pagetranslation_movenok(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/movenok")
 def compact_pagetranslation_movenok(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     target_url = clean_link(create_article_path(sanitize_to_url(change["logparams"]["target"])))
     content = _(
@@ -154,7 +154,7 @@ def embed_pagetranslation_deletefnok(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/deletefnok")
 def compact_pagetranslation_deletefnok(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     target_url = clean_link(create_article_path(sanitize_to_url(change["logparams"]["target"])))
     content = _(
@@ -182,7 +182,7 @@ def embed_pagetranslation_deletelok(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/deletelok")
 def compact_pagetranslation_deletelok(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _(
         "[{author}]({author_url}) completed deletion of translation page [{article}]({article_url}){comment}").format(
@@ -208,7 +208,7 @@ def embed_pagetranslation_deletelnok(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/deletelnok")
 def compact_pagetranslation_deletelnok(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     target_url = clean_link(create_article_path(sanitize_to_url(change["logparams"]["target"])))
     content = _(
@@ -235,7 +235,7 @@ def embed_pagetranslation_encourage(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/encourage")
 def compact_pagetranslation_encourage(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _("[{author}]({author_url}) encouraged translation of [{article}]({article_url}){comment}").format(
         author=author, author_url=author_url,
@@ -259,7 +259,7 @@ def embed_pagetranslation_discourage(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/discourage")
 def compact_pagetranslation_discourage(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _("[{author}]({author_url}) discouraged translation of [{article}]({article_url}){comment}").format(
         author=author, author_url=author_url,
@@ -292,7 +292,7 @@ def embed_pagetranslation_prioritylanguages(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/prioritylanguages")
 def compact_pagetranslation_prioritylanguages(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     if "languages" in change["logparams"]:
         languages = "`, `".join(change["logparams"]["languages"].split(","))
@@ -336,7 +336,7 @@ def embed_pagetranslation_associate(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/associate")
 def compact_pagetranslation_associate(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _(
         "[{author}]({author_url}) added translatable page [{article}]({article_url}) to aggregate group \"{group}\"{comment}").format(
@@ -362,7 +362,7 @@ def embed_pagetranslation_dissociate(ctx: Context, change: dict):
 @formatter.compact(event="pagetranslation/dissociate")
 def compact_pagetranslation_dissociate(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _(
         "[{author}]({author_url}) removed translatable page [{article}]({article_url}) from aggregate group \"{group}\"{comment}").format(
@@ -391,7 +391,7 @@ def embed_translationreview_message(ctx: Context, change: dict):
 @formatter.compact(event="translationreview/message")
 def compact_translationreview_message(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = create_article_path(sanitize_to_url(change["title"]))
     if "?" in link:
         link = link + "&oldid={}".format(change["logparams"]["revision"])
@@ -424,7 +424,7 @@ def embed_translationreview_group(ctx: Context, change: dict):
 @formatter.compact(event="translationreview/group")
 def compact_translationreview_group(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     if "old-state" in change["logparams"]:
         content = _(
@@ -470,7 +470,7 @@ def embed_pagelang_pagelang(ctx: Context, change: dict):
 @formatter.compact(event="pagelang/pagelang")
 def compact_pagelang_pagelang(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     old_lang, new_lang = get_languages(change)
     content = _(

@@ -19,7 +19,7 @@ from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import formatters_i18n
 from src.api.context import Context
-from src.api.util import embed_helper, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url
+from src.api.util import embed_helper, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url, compact_summary
 
 _ = formatters_i18n.gettext
 ngettext = formatters_i18n.ngettext
@@ -41,7 +41,7 @@ def embed_datadump_generate(ctx: Context, change: dict) -> DiscordMessage:
 @formatter.compact(event="mdatadump/generate")
 def compact_datadump_generate(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) generated *{file}* dump{comment}").format(
         author=author, author_url=author_url, file=change["logparams"]["filename"],
         comment=parsed_comment
@@ -63,7 +63,7 @@ def embed_datadump_delete(ctx: Context, change: dict) -> DiscordMessage:
 @formatter.compact(event="mdatadump/delete")
 def compact_datadump_delete(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) deleted *{file}* dump{comment}").format(
         author=author, author_url=author_url, file=change["logparams"]["filename"],
         comment=parsed_comment
