@@ -54,7 +54,7 @@ def compact_pagetranslation_mark(ctx: Context, change: dict):
     parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) marked [{article}]({article_url}) for translation{comment}").format(
         author=author, author_url=author_url,
-        article=change["title"], article_url=link,
+        article=sanitize_to_markdown(change["title"]), article_url=link,
         comment=parsed_comment
     )
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)

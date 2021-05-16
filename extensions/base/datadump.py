@@ -43,7 +43,7 @@ def compact_datadump_generate(ctx: Context, change: dict):
     author, author_url = compact_author(ctx, change)
     parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) generated *{file}* dump{comment}").format(
-        author=author, author_url=author_url, file=change["logparams"]["filename"],
+        author=author, author_url=author_url, file=sanitize_to_markdown(change["logparams"]["filename"]),
         comment=parsed_comment
     )
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
@@ -55,7 +55,7 @@ def compact_datadump_generate(ctx: Context, change: dict):
 def embed_datadump_delete(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-    embed["title"] = _("Deleted {file} dump").format(file=change["logparams"]["filename"])
+    embed["title"] = _("Deleted {file} dump").format(file=sanitize_to_markdown(change["logparams"]["filename"]))
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     return embed
 
@@ -65,7 +65,7 @@ def compact_datadump_delete(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
     parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) deleted *{file}* dump{comment}").format(
-        author=author, author_url=author_url, file=change["logparams"]["filename"],
+        author=author, author_url=author_url, file=sanitize_to_markdown(change["logparams"]["filename"]),
         comment=parsed_comment
     )
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)

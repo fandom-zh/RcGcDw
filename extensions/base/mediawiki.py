@@ -66,7 +66,7 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
     )
     embed["title"] = "{redirect}{article} ({new}{minor}{bot}{space}{editsize})".format(
         redirect="⤷ " if "redirect" in change else "",
-        article=change["title"],
+        article=sanitize_to_markdown(change["title"]),
         editsize="+" + str(editsize) if editsize > 0 else editsize,
         new=_("(N!) ") if action == "new" else "",
         minor=_("m") if action == "edit" and "minor" in change else "",
@@ -110,12 +110,12 @@ def compact_edit(ctx: Context, change: dict) -> DiscordMessage:
     if action == "edit":
         content = _(
             "[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(
-            author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment,
+            author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), edit_link=edit_link, comment=parsed_comment,
             edit_size=edit_size, sign=sign, bold=bold)
     else:
         content = _(
             "[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}({sign}{edit_size}){bold}").format(
-            author=author, author_url=author_url, article=change["title"], edit_link=edit_link, comment=parsed_comment,
+            author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), edit_link=edit_link, comment=parsed_comment,
             edit_size=edit_size, sign=sign, bold=bold)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
@@ -193,11 +193,11 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
             if settings["appearance"]["embed"]["embed_images"]:
                 embed["image"]["url"] = image_direct_url
         if action == "upload/overwrite":
-            embed["title"] = _("Uploaded a new version of {name}").format(name=change["title"])
+            embed["title"] = _("Uploaded a new version of {name}").format(name=sanitize_to_markdown(change["title"]))
         elif action == "upload/revert":
-            embed["title"] = _("Reverted a version of {name}").format(name=change["title"])
+            embed["title"] = _("Reverted a version of {name}").format(name=sanitize_to_markdown(change["title"]))
     else:
-        embed["title"] = _("Uploaded {name}").format(name=change["title"])
+        embed["title"] = _("Uploaded {name}").format(name=sanitize_to_markdown(change["title"]))
         if settings["license_detection"]:
             try:
                 content = image_data['revisions'][0]["slots"]["main"]['*']
@@ -271,7 +271,7 @@ def embed_delete_delete(ctx, change) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
     embed['url'] = create_article_path(sanitize_to_url(change["title"]))
-    embed["title"] = _("Deleted page {article}").format(article=change["title"])
+    embed["title"] = _("Deleted page {article}").format(article=sanitize_to_markdown(change["title"]))
     return embed
 
 
@@ -306,7 +306,7 @@ def compact_delete_delete_redir(ctx, change) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
     parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) deleted redirect by overwriting [{page}]({page_link}){comment}").format(
-        author=author, author_url=author_url, page=change["title"], page_link=page_link,
+        author=author, author_url=author_url, page=sanitize_to_markdown(change["title"]), page_link=page_link,
         comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
@@ -369,7 +369,7 @@ def embed_delete_revision(ctx, change) -> DiscordMessage:
     embed['url'] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = ngettext("Changed visibility of revision on page {article} ",
                               "Changed visibility of {amount} revisions on page {article} ", amount).format(
-        article=change["title"], amount=amount)
+        article=sanitize_to_markdown(change["title"]), amount=amount)
     return embed
 
 
@@ -383,7 +383,7 @@ def compact_delete_revision(ctx, change) -> DiscordMessage:
         "[{author}]({author_url}) changed visibility of revision on page [{article}]({article_url}){comment}",
         "[{author}]({author_url}) changed visibility of {amount} revisions on page [{article}]({article_url}){comment}",
         amount).format(author=author, author_url=author_url,
-                       article=change["title"], article_url=link, amount=amount, comment=parsed_comment)
+                       article=sanitize_to_markdown(change["title"]), article_url=link, amount=amount, comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -397,9 +397,7 @@ def embed_move_move(ctx, change) -> DiscordMessage:
     embed["url"] = create_article_path(sanitize_to_url(change["logparams"]['target_title']))
     embed["description"] = "{supress}. {desc}".format(desc=ctx.parsedcomment,
                                                       supress=_("No redirect has been made") if "suppressredirect" in
-                                                                                                change[
-                                                                                                    "logparams"] else _(
-                                                          "A redirect has been made"))
+                                                              change["logparams"] else _("A redirect has been made"))
     embed["title"] = _("Moved {redirect}{article} to {target}").format(redirect="⤷ " if "redirect" in change else "",
                                                                        article=sanitize_to_markdown(change["title"]),
                                                                        target=sanitize_to_markdown(
@@ -416,7 +414,7 @@ def compact_move_move(ctx, change) -> DiscordMessage:
     parsed_comment = compact_summary(ctx)
     content = _(
         "[{author}]({author_url}) moved {redirect}*{article}* to [{target}]({target_url}) {made_a_redirect}{comment}").format(
-        author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=change["title"],
+        author=author, author_url=author_url, redirect="⤷ " if "redirect" in change else "", article=sanitize_to_markdown(change["title"]),
         target=sanitize_to_markdown(change["logparams"]['target_title']), target_url=link, comment=parsed_comment,
         made_a_redirect=redirect_status)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
@@ -432,9 +430,7 @@ def embed_move_move_redir(ctx, change) -> DiscordMessage:
     embed["url"] = create_article_path(sanitize_to_url(change["logparams"]['target_title']))
     embed["description"] = "{supress}. {desc}".format(desc=ctx.parsedcomment,
                                                       supress=_("No redirect has been made") if "suppressredirect" in
-                                                                                                change[
-                                                                                                    "logparams"] else _(
-                                                          "A redirect has been made"))
+                                                              change["logparams"] else _("A redirect has been made"))
     embed["title"] = _("Moved {redirect}{article} to {title} over redirect").format(
         redirect="⤷ " if "redirect" in change else "", article=sanitize_to_markdown(change["title"]),
         title=sanitize_to_markdown(change["logparams"]["target_title"]))
@@ -527,8 +523,7 @@ def embed_protect_modify(ctx, change):
     embed["title"] = _("Changed protection level for {article}").format(article=sanitize_to_markdown(change["title"]))
     embed["description"] = "{settings}{cascade} | {reason}".format(
         settings=sanitize_to_markdown(change["logparams"].get("description", "")),
-        cascade=_(" [cascading]") if "cascade" in change[
-            "logparams"] else "",
+        cascade=_(" [cascading]") if "cascade" in change["logparams"] else "",
         reason=ctx.parsedcomment)
     return embed
 
@@ -556,7 +551,7 @@ def embed_protect_unprotect(ctx, change):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
-    embed["title"] = _("Removed protection from {article}").format(article=change["title"])
+    embed["title"] = _("Removed protection from {article}").format(article=sanitize_to_markdown(change["title"]))
     return embed
 
 
@@ -707,7 +702,7 @@ def compact_block_reblock(ctx, change):
     user = change["title"].split(':', 1)[1]
     parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) changed block settings for [{blocked_user}]({user_url}){comment}").format(
-        author=author, author_url=author_url, blocked_user=user, user_url=link, comment=parsed_comment)
+        author=author, author_url=author_url, blocked_user=sanitize_to_markdown(user), user_url=link, comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -719,7 +714,7 @@ def embed_block_unblock(ctx, change):
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     user = change["title"].split(':', 1)[1]
-    embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=user)
+    embed["title"] = _("Unblocked {blocked_user}").format(blocked_user=sanitize_to_markdown(user))
     return embed
 
 
@@ -731,7 +726,7 @@ def compact_block_unblock(ctx, change):
     parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}").format(author=author,
                                                                                                    author_url=author_url,
-                                                                                                   blocked_user=user,
+                                                                                                   blocked_user=sanitize_to_markdown(user),
                                                                                                    user_url=link,
                                                                                                    comment=parsed_comment)
 
@@ -826,18 +821,18 @@ def get_changed_groups(change: dict, separator: str):
     return added, removed
 
 
-@formatter.embed(event="rights/rights", mode="embed")
+@formatter.embed(event="rights/rights", aliases=["rights/autopromote"])
 def embed_rights_rights(ctx, change):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change, set_desc=False)
     embed["url"] = create_article_path(sanitize_to_url("User:{}".format(change["title"].split(":")[1])))
     if ctx.event == "rights/rights":
-        embed["title"] = _("Changed group membership for {target}").format(target=change["title"].split(":")[1])
+        embed["title"] = _("Changed group membership for {target}").format(target=sanitize_to_markdown(change["title"].split(":")[1]))
     else:
         author_url = ""
         embed.set_author(_("System"), author_url)
         embed["title"] = _("{target} got autopromoted to a new usergroup").format(
-            target=change["title"].split(":")[1])
+            target=sanitize_to_markdown(change["title"].split(":")[1]))
     # if len(change["logparams"]["oldgroups"]) < len(change["logparams"]["newgroups"]):
     # 	embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
     added, removed = get_changed_groups(change, "\n")
@@ -848,7 +843,7 @@ def embed_rights_rights(ctx, change):
     return embed
 
 
-@formatter.compact(event="rights/rights")
+@formatter.compact(event="rights/rights", aliases=["rights/autopromote"])
 def compact_rights_rights(ctx, change):
     link = clean_link(create_article_path(sanitize_to_url("User:{user}".format(user=change["title"].split(":")[1]))))
     added, removed = get_changed_groups(change, ", ")
@@ -857,11 +852,11 @@ def compact_rights_rights(ctx, change):
     if ctx.event == "rights/rights":
         content = _(
             "[{author}]({author_url}) changed group membership for [{target}]({target_url}) {added} {removed}{comment}").format(
-            author=author, author_url=author_url, target=change["title"].split(":")[1], target_url=link,
+            author=author, author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
             added=added, removed=removed, comment=parsed_comment)
     else:
         content = _("{author} autopromoted [{target}]({target_url}) {added} {removed}{comment}").format(
-            author=_("System"), author_url=author_url, target=change["title"].split(":")[1], target_url=link,
+            author=_("System"), author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
             added=added, removed=removed, comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
@@ -888,8 +883,8 @@ def compact_merge_merge(ctx, change):
     link_dest = clean_link(create_article_path(sanitize_to_url(change["logparams"]["dest_title"])))
     content = _(
         "[{author}]({author_url}) merged revision histories of [{article}]({article_url}) into [{dest}]({dest_url}){comment}").format(
-        author=author, author_url=author_url, article=change["title"], article_url=link, dest_url=link_dest,
-        dest=change["logparams"]["dest_title"], comment=parsed_comment)
+        author=author, author_url=author_url, article=sanitize_to_markdown(change["title"]), article_url=link, dest_url=link_dest,
+        dest=sanitize_to_markdown(change["logparams"]["dest_title"]), comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -940,7 +935,7 @@ def embed_newusers_create2(ctx, change):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
-    embed["title"] = _("Created account {article}").format(article=change["title"])
+    embed["title"] = _("Created account {article}").format(article=sanitize_to_markdown(change["title"]))
     return embed
 
 
@@ -950,7 +945,7 @@ def compact_newusers_create2(ctx, change):
     parsed_comment = compact_summary(ctx)
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _("Account [{article}]({article_url}) was created by [{author}]({author_url}){comment}").format(
-        article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
+        article=sanitize_to_markdown(change["title"]), article_url=link, author=author, author_url=author_url, comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -974,7 +969,7 @@ def compact_newusers_byemail(ctx, change):
     link = clean_link(create_article_path(sanitize_to_url(change["title"])))
     content = _(
         "Account [{article}]({article_url}) was created by [{author}]({author_url}) and password was sent by email{comment}").format(
-        article=change["title"], article_url=link, author=author, author_url=author_url, comment=parsed_comment)
+        article=sanitize_to_markdown(change["title"]), article_url=link, author=author, author_url=author_url, comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -985,7 +980,7 @@ def compact_newusers_byemail(ctx, change):
 def embed_newusers_newusers(ctx, change):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-    embed["url"] = create_article_path("User:{}".format(change["user"].replace(" ", "_")))
+    embed["url"] = create_article_path(sanitize_to_url("User:{}".format(change["user"])))
     embed["title"] = _("Created account")
     return embed
 

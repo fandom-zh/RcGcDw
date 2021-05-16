@@ -64,7 +64,7 @@ def compact_abuselog(ctx: Context, change: dict):
 	author_url = clean_link(create_article_path("User:{user}".format(user=change["user"])))
 	author = abuse_filter_format_user(change)
 	message = _("[{author}]({author_url}) triggered *{abuse_filter}*, performing the action \"{action}\" on *[{target}]({target_url})* - action taken: {result}.").format(
-		author=author, author_url=author_url, abuse_filter=change["filter"],
+		author=author, author_url=author_url, abuse_filter=sanitize_to_markdown(change["filter"]),
 		action=abusefilter_actions.get(change["action"], _("Unknown")), target=change.get("title", _("Unknown")),
 		target_url=clean_link(create_article_path(sanitize_to_url(change.get("title", _("Unknown"))))),
 		result=abusefilter_results.get(change["result"], _("Unknown")))
