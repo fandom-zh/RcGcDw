@@ -811,7 +811,7 @@ def compact_import_interwiki(ctx, change):
 
 
 # rights/rights - Assigning rights groups
-def get_changed_groups(change: dict, separator: str):
+def get_changed_groups(change: dict, separator: str) -> [str, str]:
     """Creates strings comparing the changes between the user groups for the user"""
     old_groups = {_(x) for x in change["logparams"]["oldgroups"]}  # translate all groups and pull them into a set
     new_groups = {_(x) for x in change["logparams"]["newgroups"]}
@@ -851,13 +851,13 @@ def compact_rights_rights(ctx, change):
     parsed_comment = compact_summary(ctx)
     if ctx.event == "rights/rights":
         content = _(
-            "[{author}]({author_url}) changed group membership for [{target}]({target_url}) {added} {removed}{comment}").format(
+            "[{author}]({author_url}) changed group membership for [{target}]({target_url}) {added}{comma} {removed}{comment}").format(
             author=author, author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
-            added=added, removed=removed, comment=parsed_comment)
+            added=added, comma="," if added and removed else "", removed=removed, comment=parsed_comment)
     else:
-        content = _("{author} autopromoted [{target}]({target_url}) {added} {removed}{comment}").format(
+        content = _("{author} autopromoted [{target}]({target_url}) {added}{comma} {removed}{comment}").format(
             author=_("System"), author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
-            added=added, removed=removed, comment=parsed_comment)
+            added=added, comma="," if added and removed else "",removed=removed, comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
