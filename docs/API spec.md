@@ -129,5 +129,17 @@ Util provides the following functionalities:
 - `compact_author(ctx: Context, content: dict)` – returns two strings - first containing the name of the author with hide_ips setting taken into account and second a URL leading to author's contribution page, this makes it easier for compact formatters to include author detail in messages
 - `embed_helper(ctx: Context, message: DiscordMessage, change: dict, set_user=True, set_edit_meta=True, set_desc=True)` – a function populating the message (Discord embed message) with most essential fields accordingly. Populating includes the following fields: author, author_url, category and tags fields, description
 
+### DiscordMessage
+**Path**: `src.discord.message.DiscordMessage`
+_DiscordMessage is a class taking care of creation of Discord messages that can be sent via send_to_discord function later on._   
+DiscordMessage object when created with message_type == embed will take all assignments and reads using object[key] as ones reading/setting the actual embed object.   
+DiscordMessage consists of the following:   
+- `__init__(message_type: str, event_type: str, webhook_url: str, content=None)` – constructor which takes message type (can be either `embed` or `compact`), event_type (for example `protect/protect`), webhook_url (full URL of webhook message is intended to be sent to), content optional parameter used in compact messages as main body
+- `set_author(name, url, icon_url="")` – a method that can be used to set username, URL to their profile and optionally an icon for the embed
+- `add_field(name, value, inline=False)` – a method to add a field with given name and value, optional inline argument can be set if field should be inline
+- `set_avatar(url)` – sets avatar for WEBHOOK MESSAGE (not to be confused with actual embed)
+- `set_name(name)` – sets name for WEBHOOK MESSAGE
+- `set_link(link)` – equivalent to object["link"] = link for embed messages
+
 ### Language support
 RcGcDw implements i18n with gettext and already exposes Translations instance with its `src.i18` module. formatters_i18n variable is used for instance of all formatters inside base directory. 
