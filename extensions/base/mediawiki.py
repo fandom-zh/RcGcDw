@@ -579,7 +579,7 @@ def block_expiry(change: dict) -> str:
                                           timedelta_for_expiry.seconds % 31557600 // 86400, \
                                           timedelta_for_expiry.seconds % 86400 // 3600, timedelta_for_expiry.seconds % 3600 // 60
             if not any([years, days, hours, minutes]):
-                return _("less than a minute")
+                return _("for less than a minute")
             time_names = (
                 ngettext("year", "years", years), ngettext("day", "days", days), ngettext("hour", "hours", hours),
                 ngettext("minute", "minutes", minutes))
@@ -587,7 +587,7 @@ def block_expiry(change: dict) -> str:
             for num, timev in enumerate([years, days, hours, minutes]):
                 if timev:
                     final_time.append(
-                        _("{time_unit} {time_number}").format(time_unit=time_names[num], time_number=timev))
+                        _("for  {time_number} {time_unit}").format(time_unit=time_names[num], time_number=timev))
             return ", ".join(final_time)
         else:
             return change["logparams"]["duration"]  # Temporary? Should be rare? We will see in testing
