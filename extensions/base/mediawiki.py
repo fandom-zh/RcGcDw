@@ -815,7 +815,7 @@ def get_changed_groups(change: dict, separator: str) -> [str, str]:
     """Creates strings comparing the changes between the user groups for the user"""
     def expiry_parse_time(passed_time):
         try:
-            return " (until " + datetime.datetime.strptime(passed_time, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M:%S UTC") + ")"
+            return _(" (until {date_and_time})").format(date_and_time=datetime.datetime.strptime(passed_time, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M:%S UTC"))
         except ValueError:
             return ""
     new_group_meta = {_(t["group"]): expiry_parse_time(t.get("expiry", "infinity")) for t in change["logparams"].get("newmetadata", [])}
