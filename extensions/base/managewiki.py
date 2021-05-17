@@ -13,7 +13,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging
 from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import formatters_i18n
@@ -66,6 +65,30 @@ def compact_managewiki_delete(ctx: Context, change: dict):
                                                                                          wiki_name=change[
                                                                                              "logparams"].get("wiki",
                                                                                                               _("Unknown")),
+                                                                                         comment=parsed_comment)
+    return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+# managewiki/delete-group - Deleting a group
+
+
+@formatter.embed(event="managewiki/delete-group")
+def embed_managewiki_delete_group(ctx: Context, change: dict) -> DiscordMessage:
+    embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+    embed_helper(ctx, embed, change)
+    embed["url"] = create_article_path(sanitize_to_url(change["title"]))
+    group = change["title"].split("/")[-1]
+    embed["title"] = _("Deleted a \"{group}\" user group").format(wiki=group)
+    return embed
+
+
+@formatter.compact(event="managewiki/delete-group")
+def compact_managewiki_delete_group(ctx: Context, change: dict) -> DiscordMessage:
+    author, author_url = compact_author(ctx, change)
+    parsed_comment = compact_summary(ctx)
+    group = change["title"].split("/")[-1]
+    content = _("[{author}]({author_url}) deleted a usergroup *{group}*{comment}").format(author=author,
+                                                                                         author_url=author_url,
+                                                                                         group=group,
                                                                                          comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
