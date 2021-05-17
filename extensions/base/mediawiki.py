@@ -813,10 +813,16 @@ def compact_import_interwiki(ctx, change):
 # rights/rights - Assigning rights groups
 def get_changed_groups(change: dict, separator: str) -> [str, str]:
     """Creates strings comparing the changes between the user groups for the user"""
+    def expiry_parse_time(passed_time):
+        try:
+            return " (until " + datetime.datetime.strptime(passed_time, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y-%m-%d %H:%M:%S UTC") + ")"
+        except ValueError:
+            return ""
+    new_group_meta = {_(t["group"]): expiry_parse_time(t.get("expiry", "infinity")) for t in change["logparams"].get("newmetadata", [])}
     old_groups = {_(x) for x in change["logparams"]["oldgroups"]}  # translate all groups and pull them into a set
     new_groups = {_(x) for x in change["logparams"]["newgroups"]}
     added = separator.join(
-        ["+ " + x for x in new_groups - old_groups])  # add + before every string and join them with separator
+        ["+ " + x + new_group_meta.get(x, "") for x in new_groups - old_groups])  # add + before every string and join them with separator
     removed = separator.join(["- " + x for x in old_groups - new_groups])
     return added, removed
 
