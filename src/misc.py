@@ -43,6 +43,7 @@ WIKI_JUST_DOMAIN: str = ""
 
 profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XBL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
 
+
 class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
 	def __init__(self):
@@ -239,12 +240,14 @@ def parse_mw_request_info(request_data: dict, url: str):
 			))
 	return request_data
 
+
 def add_to_dict(dictionary, key):
 	if key in dictionary:
 		dictionary[key] += 1
 	else:
 		dictionary[key] = 1
 	return dictionary
+
 
 def prepare_paths(path, dry=False):
 	global WIKI_API_PATH
