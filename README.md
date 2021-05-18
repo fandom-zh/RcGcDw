@@ -34,6 +34,7 @@
 * BabylonAS, Philo and Russian Minecraft Wiki community – Russian translation
 * Mak_and_Iv – Ukrainian translation
 * Tamara Carvallo – Spanish translation
+* Lakejason0 - Simplified Chinese translation
 
 Thank you!
 
