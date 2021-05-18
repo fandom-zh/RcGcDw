@@ -1,3 +1,10 @@
+# #-#-#-#-#  rcgcdw.po  #-#-#-#-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+# #-#-#-#-#  formatters.po  #-#-#-#-#
 # #-#-#-#-#  discussion_formatters.po  #-#-#-#-#
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -14,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:47+0200\n"
+"POT-Creation-Date: 2021-05-18 13:59+0200\n"
 "PO-Revision-Date: 2020-12-30 13:26+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
@@ -23,6 +30,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  rcgcdw.po  #-#-#-#-#\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.4.1\n"
+"#-#-#-#-#  formatters.po  #-#-#-#-#\n"
 "#-#-#-#-#  discussion_formatters.po  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 4.2.1\n"
@@ -796,43 +808,43 @@ msgstr ""
 
 #: extensions/base/mediawiki.py:37
 msgid "director"
-msgstr ""
+msgstr "директор"
 
 #: extensions/base/mediawiki.py:37
 msgid "bot"
-msgstr ""
+msgstr "бот"
 
 #: extensions/base/mediawiki.py:37
 msgid "editor"
-msgstr ""
+msgstr "досматривающий"
 
 #: extensions/base/mediawiki.py:37
 msgid "directors"
-msgstr ""
+msgstr "директора"
 
 #: extensions/base/mediawiki.py:37
 msgid "sysop"
-msgstr ""
+msgstr "администратор"
 
 #: extensions/base/mediawiki.py:37
 msgid "bureaucrat"
-msgstr ""
+msgstr "бюрократ"
 
 #: extensions/base/mediawiki.py:37
 msgid "reviewer"
-msgstr ""
+msgstr "выверяющий"
 
 #: extensions/base/mediawiki.py:38
 msgid "autoreview"
-msgstr ""
+msgstr "автодосматриваемый"
 
 #: extensions/base/mediawiki.py:38
 msgid "autopatrol"
-msgstr ""
+msgstr "автопатрулируемый"
 
 #: extensions/base/mediawiki.py:38
 msgid "wiki_guardian"
-msgstr ""
+msgstr "смотритель вики"
 
 #: extensions/base/mediawiki.py:71
 msgid "(N!) "
@@ -1114,26 +1126,30 @@ msgstr ""
 #: extensions/base/mediawiki.py:584
 msgid "year"
 msgid_plural "years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "год"
+msgstr[1] "года"
+msgstr[2] "лет"
 
 #: extensions/base/mediawiki.py:584
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "день"
+msgstr[1] "дня"
+msgstr[2] "дней"
 
 #: extensions/base/mediawiki.py:584
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "час"
+msgstr[1] "часа"
+msgstr[2] "часов"
 
 #: extensions/base/mediawiki.py:585
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "минута"
+msgstr[1] "минуты"
+msgstr[2] "минут"
 
 #: extensions/base/mediawiki.py:590
 #, python-brace-format
@@ -1622,6 +1638,115 @@ msgstr ""
 "({article_url})"
 
 #, python-brace-format
+#~ msgid "{value} (avg. {avg})"
+#~ msgstr "{value} (ср. {avg})"
+
+#~ msgid "Daily overview"
+#~ msgstr "Ежедневный обзор"
+
+#~ msgid "No activity"
+#~ msgstr "Нет активности"
+
+#~ msgid " ({} action)"
+#~ msgid_plural " ({} actions)"
+#~ msgstr[0] " ({} действие)"
+#~ msgstr[1] " ({} действия)"
+#~ msgstr[2] " ({} действий)"
+
+#~ msgid " ({} edit)"
+#~ msgid_plural " ({} edits)"
+#~ msgstr[0] " ({} правка)"
+#~ msgstr[1] " ({} правки)"
+#~ msgstr[2] " ({} правок)"
+
+#~ msgid " UTC ({} action)"
+#~ msgid_plural " UTC ({} actions)"
+#~ msgstr[0] " UTC ({} действие)"
+#~ msgstr[1] " UTC ({} действия)"
+#~ msgstr[2] " UTC ({} действий)"
+
+#~ msgid "But nobody came"
+#~ msgstr "Но никто не пришёл"
+
+#~ msgid "Most active user"
+#~ msgid_plural "Most active users"
+#~ msgstr[0] "Самый активный участник"
+#~ msgstr[1] "Самые активные участники"
+#~ msgstr[2] "Самые активные участники"
+
+#~ msgid "Most edited article"
+#~ msgid_plural "Most edited articles"
+#~ msgstr[0] "Самая редактируемая статья"
+#~ msgstr[1] "Самые редактируемые статьи"
+#~ msgstr[2] "Самые редактируемые статьи"
+
+#~ msgid "Edits made"
+#~ msgstr "Сделано правок"
+
+#~ msgid "New files"
+#~ msgstr "Новых файлов"
+
+#~ msgid "Admin actions"
+#~ msgstr "Административных действий"
+
+#~ msgid "Bytes changed"
+#~ msgstr "Изменено байтов"
+
+#~ msgid "New articles"
+#~ msgstr "Новых статей"
+
+#~ msgid "Unique contributors"
+#~ msgstr "Уникальных редакторов"
+
+#~ msgid "Most active hour"
+#~ msgid_plural "Most active hours"
+#~ msgstr[0] "Самый активный час"
+#~ msgstr[1] "Самые активные часы"
+#~ msgstr[2] "Самые активные часы"
+
+#~ msgid "Day score"
+#~ msgstr "Очков за день"
+
+#~ msgid "No description provided"
+#~ msgstr "Нет описания правки"
+
+#~ msgid "second"
+#~ msgid_plural "seconds"
+#~ msgstr[0] "секунда"
+#~ msgstr[1] "секунды"
+#~ msgstr[2] "секунд"
+
+#~ msgid "week"
+#~ msgid_plural "weeks"
+#~ msgstr[0] "неделя"
+#~ msgstr[1] "недели"
+#~ msgstr[2] "недель"
+
+#~ msgid "month"
+#~ msgid_plural "months"
+#~ msgstr[0] "месяц"
+#~ msgstr[1] "месяца"
+#~ msgstr[2] "месяцев"
+
+#~ msgid "millennium"
+#~ msgid_plural "millennia"
+#~ msgstr[0] "тысячелетие"
+#~ msgstr[1] "тысячелетия"
+#~ msgstr[2] "тысячелетий"
+
+#~ msgid "decade"
+#~ msgid_plural "decades"
+#~ msgstr[0] "десятилетие"
+#~ msgstr[1] "десятилетия"
+#~ msgstr[2] "десятилетий"
+
+#~ msgid "century"
+#~ msgid_plural "centuries"
+#~ msgstr[0] "век"
+#~ msgstr[1] "века"
+#~ msgstr[2] "веков"
+
+#, python-brace-format
 #~ msgid ""
 #~ "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 #~ "[support server](<{support}>)."
@@ -1745,9 +1870,6 @@ msgstr ""
 #~ msgstr ""
 #~ "[{author}]({author_url}) удалил доступную для перевода страницу "
 #~ "[{article}]({article_url}){comment}"
-
-#~ msgid "No description provided"
-#~ msgstr "Нет описания правки"
 
 #~ msgid "unknown expiry time"
 #~ msgstr "неизвестный период"

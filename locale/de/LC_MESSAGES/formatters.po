@@ -1,3 +1,4 @@
+# #-#-#-#-#  formatters.po  #-#-#-#-#
 # #-#-#-#-#  discussion_formatters.po  #-#-#-#-#
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
@@ -9,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:47+0200\n"
+"POT-Creation-Date: 2021-05-18 13:59+0200\n"
 "PO-Revision-Date: 2020-12-29 15:21+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
@@ -18,6 +19,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  rcgcdw.po  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 2.4.1\n"
+"X-Loco-Source-Locale: de_DE\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Loco-Parser: loco_parse_po\n"
+"#-#-#-#-#  formatters.po  #-#-#-#-#\n"
 "#-#-#-#-#  discussion_formatters.po  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.2.1\n"
@@ -795,43 +803,43 @@ msgstr ""
 
 #: extensions/base/mediawiki.py:37
 msgid "director"
-msgstr ""
+msgstr "Direktor"
 
 #: extensions/base/mediawiki.py:37
 msgid "bot"
-msgstr ""
+msgstr "Bot"
 
 #: extensions/base/mediawiki.py:37
 msgid "editor"
-msgstr ""
+msgstr "editor"
 
 #: extensions/base/mediawiki.py:37
 msgid "directors"
-msgstr ""
+msgstr "Direktor"
 
 #: extensions/base/mediawiki.py:37
 msgid "sysop"
-msgstr ""
+msgstr "Administrator"
 
 #: extensions/base/mediawiki.py:37
 msgid "bureaucrat"
-msgstr ""
+msgstr "Bürokrat"
 
 #: extensions/base/mediawiki.py:37
 msgid "reviewer"
-msgstr ""
+msgstr "Prüfer"
 
 #: extensions/base/mediawiki.py:38
 msgid "autoreview"
-msgstr ""
+msgstr "Passive Sichter"
 
 #: extensions/base/mediawiki.py:38
 msgid "autopatrol"
-msgstr ""
+msgstr "autopatrol"
 
 #: extensions/base/mediawiki.py:38
 msgid "wiki_guardian"
-msgstr ""
+msgstr "Wiki Guardian"
 
 #: extensions/base/mediawiki.py:71
 msgid "(N!) "
@@ -1112,26 +1120,26 @@ msgstr ""
 #: extensions/base/mediawiki.py:584
 msgid "year"
 msgid_plural "years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Jahr"
+msgstr[1] "Jahre"
 
 #: extensions/base/mediawiki.py:584
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tag"
+msgstr[1] "Tage"
 
 #: extensions/base/mediawiki.py:584
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Stunde"
+msgstr[1] "Stunden"
 
 #: extensions/base/mediawiki.py:585
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Minute"
+msgstr[1] "Minuten"
 
 #: extensions/base/mediawiki.py:590
 #, python-brace-format
@@ -1598,6 +1606,103 @@ msgstr ""
 "[{author}]({author_url}) änderte das Stück für [{article}]({article_url})"
 
 #, python-brace-format
+#~ msgid "{value} (avg. {avg})"
+#~ msgstr "{value} (vgl. {avg})"
+
+#~ msgid "Daily overview"
+#~ msgstr "Tägliche Übersicht"
+
+#~ msgid "No activity"
+#~ msgstr "Keine Aktivität"
+
+#~ msgid " ({} action)"
+#~ msgid_plural " ({} actions)"
+#~ msgstr[0] " (eine Aktion)"
+#~ msgstr[1] " ({} Aktionen)"
+
+#~ msgid " ({} edit)"
+#~ msgid_plural " ({} edits)"
+#~ msgstr[0] " (eine Änderung)"
+#~ msgstr[1] " ({} Änderungen)"
+
+#~ msgid " UTC ({} action)"
+#~ msgid_plural " UTC ({} actions)"
+#~ msgstr[0] " UTC (eine Aktion)"
+#~ msgstr[1] " UTC ({} Aktionen)"
+
+#~ msgid "But nobody came"
+#~ msgstr "Keine Aktivität"
+
+#~ msgid "Most active user"
+#~ msgid_plural "Most active users"
+#~ msgstr[0] "Aktivster Benutzer"
+#~ msgstr[1] "Aktivste Benutzer"
+
+#~ msgid "Most edited article"
+#~ msgid_plural "Most edited articles"
+#~ msgstr[0] "Meist bearbeiteter Artikel"
+#~ msgstr[1] "Meist bearbeitete Artikel"
+
+#~ msgid "Edits made"
+#~ msgstr "Bearbeitungen"
+
+#~ msgid "New files"
+#~ msgstr "Neue Dateien"
+
+#~ msgid "Admin actions"
+#~ msgstr "Admin-Aktionen"
+
+#~ msgid "Bytes changed"
+#~ msgstr "Bytes geändert"
+
+#~ msgid "New articles"
+#~ msgstr "Neue Artikel"
+
+#~ msgid "Unique contributors"
+#~ msgstr "Einzelne Autoren"
+
+#~ msgid "Most active hour"
+#~ msgid_plural "Most active hours"
+#~ msgstr[0] "Aktivste Stunde"
+#~ msgstr[1] "Aktivste Stunden"
+
+#~ msgid "Day score"
+#~ msgstr "Tageswert"
+
+#~ msgid "No description provided"
+#~ msgstr "Keine Zusammenfassung angegeben"
+
+#~ msgid "second"
+#~ msgid_plural "seconds"
+#~ msgstr[0] "Sekunde"
+#~ msgstr[1] "Sekunden"
+
+#~ msgid "week"
+#~ msgid_plural "weeks"
+#~ msgstr[0] "Woche"
+#~ msgstr[1] "Wochen"
+
+#~ msgid "month"
+#~ msgid_plural "months"
+#~ msgstr[0] "Monat"
+#~ msgstr[1] "Monate"
+
+#~ msgid "millennium"
+#~ msgid_plural "millennia"
+#~ msgstr[0] "Jahrtausend"
+#~ msgstr[1] "Jahrtausende"
+
+#~ msgid "decade"
+#~ msgid_plural "decades"
+#~ msgstr[0] "Jahrzehnt"
+#~ msgstr[1] "Jahrzehnte"
+
+#~ msgid "century"
+#~ msgid_plural "centuries"
+#~ msgstr[0] "Jahrhundert"
+#~ msgstr[1] "Jahrhunderte"
+
+#, python-brace-format
 #~ msgid ""
 #~ "Unknown event `{event}` by [{author}]({author_url}), report it on the "
 #~ "[support server](<{support}>)."
@@ -1719,9 +1824,6 @@ msgstr ""
 #~ msgstr ""
 #~ "[{author}]({author_url}) schloss die Löschung der übersetzbaren Seite "
 #~ "[{article}]({article_url}) ab{comment}"
-
-#~ msgid "No description provided"
-#~ msgstr "Keine Zusammenfassung angegeben"
 
 #~ msgid "unknown expiry time"
 #~ msgstr "unbekannte Ablaufdauer"

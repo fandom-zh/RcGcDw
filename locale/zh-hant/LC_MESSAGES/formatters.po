@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:47+0200\n"
+"POT-Creation-Date: 2021-05-18 13:59+0200\n"
 "PO-Revision-Date: 2021-04-14 14:22+0000\n"
 "Last-Translator: Winston Sung <winston21.sung@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.wikibot.de/projects/"
@@ -17,6 +17,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.2.1\n"
+"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
 "#-#-#-#-#  discussion_formatters.po (RcGcDw)  #-#-#-#-#\n"
 "#-#-#-#-#  rc_formatters.po (RcGcDw)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -706,43 +710,43 @@ msgstr ""
 
 #: extensions/base/mediawiki.py:37
 msgid "director"
-msgstr ""
+msgstr "嚮導"
 
 #: extensions/base/mediawiki.py:37
 msgid "bot"
-msgstr ""
+msgstr "機器人"
 
 #: extensions/base/mediawiki.py:37
 msgid "editor"
-msgstr ""
+msgstr "編輯者"
 
 #: extensions/base/mediawiki.py:37
 msgid "directors"
-msgstr ""
+msgstr "嚮導"
 
 #: extensions/base/mediawiki.py:37
 msgid "sysop"
-msgstr ""
+msgstr "管理員"
 
 #: extensions/base/mediawiki.py:37
 msgid "bureaucrat"
-msgstr ""
+msgstr "行政員"
 
 #: extensions/base/mediawiki.py:37
 msgid "reviewer"
-msgstr ""
+msgstr "覆核員"
 
 #: extensions/base/mediawiki.py:38
 msgid "autoreview"
-msgstr ""
+msgstr "自動覆核使用者"
 
 #: extensions/base/mediawiki.py:38
 msgid "autopatrol"
-msgstr ""
+msgstr "自動巡查使用者"
 
 #: extensions/base/mediawiki.py:38
 msgid "wiki_guardian"
-msgstr ""
+msgstr "Wiki守衛"
 
 #: extensions/base/mediawiki.py:71
 msgid "(N!) "
@@ -1001,22 +1005,22 @@ msgstr ""
 #: extensions/base/mediawiki.py:584
 msgid "year"
 msgid_plural "years"
-msgstr[0] ""
+msgstr[0] "年"
 
 #: extensions/base/mediawiki.py:584
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
+msgstr[0] "日"
 
 #: extensions/base/mediawiki.py:584
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] ""
+msgstr[0] "時"
 
 #: extensions/base/mediawiki.py:585
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] ""
+msgstr[0] "分"
 
 #: extensions/base/mediawiki.py:590
 #, python-brace-format
@@ -1431,6 +1435,88 @@ msgstr ""
 msgid ""
 "[{author}]({author_url}) edited the slice for [{article}]({article_url})"
 msgstr ""
+
+#, python-brace-format
+#~ msgid "{value} (avg. {avg})"
+#~ msgstr "{value}（平均 {avg}）"
+
+#~ msgid "Daily overview"
+#~ msgstr "每日總覽"
+
+#~ msgid "No activity"
+#~ msgstr "無動態"
+
+#~ msgid " ({} action)"
+#~ msgid_plural " ({} actions)"
+#~ msgstr[0] " （{} 次操作）"
+
+#~ msgid " ({} edit)"
+#~ msgid_plural " ({} edits)"
+#~ msgstr[0] " （{} 次編輯）"
+
+#~ msgid " UTC ({} action)"
+#~ msgid_plural " UTC ({} actions)"
+#~ msgstr[0] " UTC（{} 次操作）"
+
+#~ msgid "But nobody came"
+#~ msgstr "無人"
+
+#~ msgid "Most active user"
+#~ msgid_plural "Most active users"
+#~ msgstr[0] "最活躍的使用者"
+
+#~ msgid "Most edited article"
+#~ msgid_plural "Most edited articles"
+#~ msgstr[0] "編輯次數最多的頁面"
+
+#~ msgid "Edits made"
+#~ msgstr "作出的編輯"
+
+#~ msgid "New files"
+#~ msgstr "新建檔案"
+
+#~ msgid "Admin actions"
+#~ msgstr "管理員操作"
+
+#~ msgid "Bytes changed"
+#~ msgstr "變更位元組"
+
+#~ msgid "New articles"
+#~ msgstr "新建頁面"
+
+#~ msgid "Unique contributors"
+#~ msgstr "編輯者數"
+
+#~ msgid "Most active hour"
+#~ msgid_plural "Most active hours"
+#~ msgstr[0] "最活躍時段"
+
+#~ msgid "Day score"
+#~ msgstr "每日分數"
+
+#~ msgid "second"
+#~ msgid_plural "seconds"
+#~ msgstr[0] "秒"
+
+#~ msgid "week"
+#~ msgid_plural "weeks"
+#~ msgstr[0] "週"
+
+#~ msgid "month"
+#~ msgid_plural "months"
+#~ msgstr[0] "月"
+
+#~ msgid "millennium"
+#~ msgid_plural "millennia"
+#~ msgstr[0] "千年"
+
+#~ msgid "decade"
+#~ msgid_plural "decades"
+#~ msgstr[0] "十年"
+
+#~ msgid "century"
+#~ msgid_plural "centuries"
+#~ msgstr[0] "世紀"
 
 #, python-brace-format
 #~ msgid "for {num} {translated_length}"
