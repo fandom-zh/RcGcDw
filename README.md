@@ -31,8 +31,9 @@
 * MarkusRost – German translation
 * JSBM – French translation
 * [Eduaddad](https://eduardoaddad.com.br) – Brazilian Portuguese translation
-* BabylonAS and Russian Minecraft Wiki community – Russian translation
+* BabylonAS, Philo and Russian Minecraft Wiki community – Russian translation
 * Mak_and_Iv – Ukrainian translation
+* Tamara Carvallo – Spanish translation
 
 Thank you!
 
