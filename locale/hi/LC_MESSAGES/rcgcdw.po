@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 00:28+0100\n"
+"POT-Creation-Date: 2021-05-18 13:47+0200\n"
 "PO-Revision-Date: 2020-12-06 14:17+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/main/hi/"
@@ -19,187 +19,178 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/rcgcdw.py:115 src/rcgcdw.py:117 src/rcgcdw.py:119 src/rcgcdw.py:121
-#: src/rcgcdw.py:123 src/rcgcdw.py:125 src/rcgcdw.py:127
+#: src/rcgcdw.py:116
 #, python-brace-format
 msgid "{value} (avg. {avg})"
 msgstr "{value} (औसत {avg})"
 
-#: src/rcgcdw.py:147
+#: src/rcgcdw.py:135
 msgid "Daily overview"
 msgstr "दैनिक अवलोकन"
 
-#: src/rcgcdw.py:154
+#: src/rcgcdw.py:142
 msgid "No activity"
 msgstr "कोई ऐक्टिविटी नहीं थी"
 
-#: src/rcgcdw.py:178
+#: src/rcgcdw.py:166
 msgid " ({} action)"
 msgid_plural " ({} actions)"
 msgstr[0] " ({} एक्शन)"
 msgstr[1] " ({} एक्शन)"
 
-#: src/rcgcdw.py:180
+#: src/rcgcdw.py:168
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] " ({} सम्पादना)"
 msgstr[1] " ({} सम्पादनाएँ)"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:173
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] " UTC ({} एक्शन)"
 msgstr[1] " UTC ({} एक्शन)"
 
-#: src/rcgcdw.py:187 src/rcgcdw.py:188 src/rcgcdw.py:192
+#: src/rcgcdw.py:175 src/rcgcdw.py:178
 msgid "But nobody came"
 msgstr "पर कोई नहीं आया"
 
-#: src/rcgcdw.py:195
+#: src/rcgcdw.py:182
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] "सबसे सक्रीय सदस्य"
 msgstr[1] "सबसे सक्रीय सदस्य"
 
-#: src/rcgcdw.py:196
+#: src/rcgcdw.py:183
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] "सबसे ज़्यादा सम्पादित किया गया आर्टिकल"
 msgstr[1] "सबसे ज़्यादा सम्पादित किए गए आर्टिकल"
 
-#: src/rcgcdw.py:197
+#: src/rcgcdw.py:184
 msgid "Edits made"
 msgstr "दिए गए सम्पादनाएँ"
 
-#: src/rcgcdw.py:197
+#: src/rcgcdw.py:184
 msgid "New files"
 msgstr "नए चित्र"
 
-#: src/rcgcdw.py:197
+#: src/rcgcdw.py:185
 msgid "Admin actions"
 msgstr "एडमिन एक्शन"
 
-#: src/rcgcdw.py:198
+#: src/rcgcdw.py:185
 msgid "Bytes changed"
 msgstr "बदले गए बाइट"
 
-#: src/rcgcdw.py:198
+#: src/rcgcdw.py:186
 msgid "New articles"
 msgstr "नए आर्टिकल"
 
-#: src/rcgcdw.py:199
+#: src/rcgcdw.py:186
 msgid "Unique contributors"
 msgstr "विशेष सदस्य"
 
-#: src/rcgcdw.py:200
+#: src/rcgcdw.py:187
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] "सबसे सक्रीय घंटा"
 msgstr[1] "सबसे सक्रीय घंटे"
 
-#: src/rcgcdw.py:201
+#: src/rcgcdw.py:188
 msgid "Day score"
 msgstr "दिन का स्कोर"
 
-#: src/rcgcdw.py:243
-msgid "director"
-msgstr "निर्देशक"
+#: src/rcgcdw.py:214
+msgid "~~hidden~~"
+msgstr ""
 
-#: src/rcgcdw.py:243
-msgid "bot"
-msgstr "बॉट"
+#: src/rcgcdw.py:216
+msgid "No description provided"
+msgstr "कोई विवरण नहीं दिया गया"
 
-#: src/rcgcdw.py:243
-msgid "editor"
-msgstr "सम्पादक"
+#: src/rcgcdw.py:219
+msgid "hidden"
+msgstr ""
 
-#: src/rcgcdw.py:243
-msgid "directors"
-msgstr "निर्देशक"
+#~ msgid "director"
+#~ msgstr "निर्देशक"
 
-#: src/rcgcdw.py:243
-msgid "sysop"
-msgstr "साइसॉप"
+#~ msgid "bot"
+#~ msgstr "बॉट"
 
-#: src/rcgcdw.py:243
-msgid "bureaucrat"
-msgstr "ब्यूरोक्रैट"
+#~ msgid "editor"
+#~ msgstr "सम्पादक"
 
-#: src/rcgcdw.py:243
-msgid "reviewer"
-msgstr "रिव्युअर"
+#~ msgid "directors"
+#~ msgstr "निर्देशक"
 
-#: src/rcgcdw.py:244
-msgid "autoreview"
-msgstr "ऑटोरिव्यु"
+#~ msgid "sysop"
+#~ msgstr "साइसॉप"
 
-#: src/rcgcdw.py:244
-msgid "autopatrol"
-msgstr "ऑटोपैट्रॉल"
+#~ msgid "bureaucrat"
+#~ msgstr "ब्यूरोक्रैट"
 
-#: src/rcgcdw.py:244
-msgid "wiki_guardian"
-msgstr "विकी_संरक्षक"
+#~ msgid "reviewer"
+#~ msgstr "रिव्युअर"
 
-#: src/rcgcdw.py:244
-msgid "second"
-msgid_plural "seconds"
-msgstr[0] "सेकंड"
-msgstr[1] "सेकंड"
+#~ msgid "autoreview"
+#~ msgstr "ऑटोरिव्यु"
 
-#: src/rcgcdw.py:244
-msgid "minute"
-msgid_plural "minutes"
-msgstr[0] "मिनट"
-msgstr[1] "मिनट"
+#~ msgid "autopatrol"
+#~ msgstr "ऑटोपैट्रॉल"
 
-#: src/rcgcdw.py:244
-msgid "hour"
-msgid_plural "hours"
-msgstr[0] "घंटा"
-msgstr[1] "घंटे"
+#~ msgid "wiki_guardian"
+#~ msgstr "विकी_संरक्षक"
 
-#: src/rcgcdw.py:244
-msgid "day"
-msgid_plural "days"
-msgstr[0] "दिन"
-msgstr[1] "दिन"
+#~ msgid "second"
+#~ msgid_plural "seconds"
+#~ msgstr[0] "सेकंड"
+#~ msgstr[1] "सेकंड"
 
-#: src/rcgcdw.py:244
-msgid "week"
-msgid_plural "weeks"
-msgstr[0] "हफ्ता"
-msgstr[1] "हफ्तें"
+#~ msgid "minute"
+#~ msgid_plural "minutes"
+#~ msgstr[0] "मिनट"
+#~ msgstr[1] "मिनट"
 
-#: src/rcgcdw.py:244
-msgid "month"
-msgid_plural "months"
-msgstr[0] "महीना"
-msgstr[1] "महीनें"
+#~ msgid "hour"
+#~ msgid_plural "hours"
+#~ msgstr[0] "घंटा"
+#~ msgstr[1] "घंटे"
 
-#: src/rcgcdw.py:244
-msgid "year"
-msgid_plural "years"
-msgstr[0] "साल"
-msgstr[1] "साल"
+#~ msgid "day"
+#~ msgid_plural "days"
+#~ msgstr[0] "दिन"
+#~ msgstr[1] "दिन"
 
-#: src/rcgcdw.py:244
-msgid "millennium"
-msgid_plural "millennia"
-msgstr[0] "सहस्त्राब्द"
-msgstr[1] "सहस्त्राब्द"
+#~ msgid "week"
+#~ msgid_plural "weeks"
+#~ msgstr[0] "हफ्ता"
+#~ msgstr[1] "हफ्तें"
 
-#: src/rcgcdw.py:244
-msgid "decade"
-msgid_plural "decades"
-msgstr[0] "दशक"
-msgstr[1] "दशक"
+#~ msgid "month"
+#~ msgid_plural "months"
+#~ msgstr[0] "महीना"
+#~ msgstr[1] "महीनें"
 
-#: src/rcgcdw.py:244
-msgid "century"
-msgid_plural "centuries"
-msgstr[0] "शताब्दी"
-msgstr[1] "शताब्दियाँ"
+#~ msgid "year"
+#~ msgid_plural "years"
+#~ msgstr[0] "साल"
+#~ msgstr[1] "साल"
+
+#~ msgid "millennium"
+#~ msgid_plural "millennia"
+#~ msgstr[0] "सहस्त्राब्द"
+#~ msgstr[1] "सहस्त्राब्द"
+
+#~ msgid "decade"
+#~ msgid_plural "decades"
+#~ msgstr[0] "दशक"
+#~ msgstr[1] "दशक"
+
+#~ msgid "century"
+#~ msgid_plural "centuries"
+#~ msgstr[0] "शताब्दी"
+#~ msgstr[1] "शताब्दियाँ"
 
 #~ msgid "None"
 #~ msgstr "कुछ नहीं"
@@ -758,9 +749,6 @@ msgstr[1] "शताब्दियाँ"
 
 #~ msgid "Title"
 #~ msgstr "शीर्षक"
-
-#~ msgid "No description provided"
-#~ msgstr "कोई विवरण नहीं दिया गया"
 
 #~ msgid "(N!) "
 #~ msgstr "(न!) "

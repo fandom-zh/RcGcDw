@@ -12,23 +12,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  discussion_formatters.po  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-04-23 23:32+0200\n"
-"Last-Translator: Frisk <>\n"
-"Language-Team: \n"
-"Language: en_US\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 19.12.3\n"
-"#-#-#-#-#  rc_formatters.po  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-14 16:24+0200\n"
+"POT-Creation-Date: 2021-05-18 13:47+0200\n"
 "PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: MakandIv <>\n"
 "Language-Team: Ukrainian <https://weblate.frisk.space/projects/rcgcdw/"
@@ -37,51 +23,438 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  discussion_formatters.po  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 19.12.3\n"
+"#-#-#-#-#  rc_formatters.po  #-#-#-#-#\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/discussion_formatters.py:21 src/discussion_formatters.py:56
-#: src/discussion_formatters.py:67 src/discussion_formatters.py:95
-#: src/discussion_formatters.py:163 src/discussion_formatters.py:176
-msgid "unknown"
-msgstr ""
+#: src/api/util.py:61 src/api/util.py:66
+msgid "__Only whitespace__"
+msgstr "__Тільки пробіли__"
 
-#: src/discussion_formatters.py:27 src/discussion_formatters.py:102
-#: src/rc_formatters.py:46 src/rc_formatters.py:53 src/rc_formatters.py:60
-#: src/rc_formatters.py:75 src/rc_formatters.py:96
+#: src/api/util.py:71
+msgid "Removed"
+msgstr "Видалено"
+
+#: src/api/util.py:73
+msgid "Added"
+msgstr "Додано"
+
+#: src/api/util.py:94 src/api/util.py:126 src/api/util.py:133
+#: src/api/util.py:141 extensions/base/discussions.py:247
+#: extensions/base/discussions.py:264 extensions/base/abusefilter.py:45
 msgid "Unregistered user"
 msgstr ""
 
-#: src/discussion_formatters.py:39
+#: src/api/util.py:160 extensions/base/discussions.py:193
+#: extensions/base/discussions.py:195
+msgid "Tags"
+msgstr "Теги"
+
+#: src/api/util.py:162
+msgid "**Added**: "
+msgstr "**Додано**: "
+
+#: src/api/util.py:163
+msgid " and {} more\n"
+msgstr " та ще {}\n"
+
+#: src/api/util.py:165
+msgid "**Removed**: "
+msgstr "**Видалено**: "
+
+#: src/api/util.py:166
+msgid " and {} more"
+msgstr " та ще {}"
+
+#: src/api/util.py:168
+msgid "Changed categories"
+msgstr "Змінені категорії"
+
+#: extensions/base/cargo.py:37
+#, fuzzy, python-brace-format
+msgid "Created the Cargo table \"{table}\""
+msgstr "Створив тег \"{tag}\""
+
+#: extensions/base/cargo.py:45
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
+
+#: extensions/base/cargo.py:60
+#, fuzzy, python-brace-format
+msgid "Recreated the Cargo table \"{table}\""
+msgstr "Створив тег \"{tag}\""
+
+#: extensions/base/cargo.py:68
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
+
+#: extensions/base/cargo.py:83
+#, fuzzy, python-brace-format
+msgid "Replaced the Cargo table \"{table}\""
+msgstr "Вилучив тег \"{tag}\""
+
+#: extensions/base/cargo.py:91
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
+
+#: extensions/base/cargo.py:105
+#, fuzzy, python-brace-format
+msgid "Deleted the Cargo table \"{table}\""
+msgstr "Вилучив тег \"{tag}\""
+
+#: extensions/base/cargo.py:112
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) вилучив [тег]({tag_url}) \"{tag}\""
+
+#: extensions/base/translate.py:41
+#, python-brace-format
+msgid "Marked \"{article}\" for translation"
+msgstr ""
+
+#: extensions/base/translate.py:55
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) marked [{article}]({article_url}) for "
+"translation{comment}"
+msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
+
+#: extensions/base/translate.py:70
+#, python-brace-format
+msgid "Removed \"{article}\" from the translation system"
+msgstr ""
+
+#: extensions/base/translate.py:80
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed [{article}]({article_url}) from the "
+"translation system{comment}"
+msgstr ""
+"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
+"версією{comment}"
+
+#: extensions/base/translate.py:95
+#, python-brace-format
+msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:106
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) completed moving translation pages from *{article}* "
+"to [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) переніс налаштування захисту з {redirect}*{article}"
+"* на [{target}]({target_url}){comment}"
+
+#: extensions/base/translate.py:121
+#, python-brace-format
+msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:133
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) encountered a problem while moving [{article}]"
+"({article_url}) to [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) об'єднав історії версій [{article}]({article_url}) "
+"з [{dest}]({dest_url}){comment}"
+
+#: extensions/base/translate.py:149
+#, python-brace-format
+msgid ""
+"Failed to delete \"{article}\" which belongs to translatable page "
+"\"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:161
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
+"belongs to translatable page [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
+"версією{comment}"
+
+#: extensions/base/translate.py:177
+#, fuzzy, python-brace-format
+msgid "Completed deletion of translation page \"{article}\""
+msgstr "Змінив видимість {amount} версії сторінки {article} "
+
+#: extensions/base/translate.py:188
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) completed deletion of translation page [{article}]"
+"({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) змінив видимість {amount} версії сторінки "
+"[{article}]({article_url}){comment}"
+
+#: extensions/base/translate.py:203
+#, python-brace-format
+msgid ""
+"Failed to delete \"{article}\" which belongs to translation page \"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:215
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
+"belongs to translation page [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
+"версією{comment}"
+
+#: extensions/base/translate.py:231
+#, fuzzy, python-brace-format
+msgid "Encouraged translation of \"{article}\""
+msgstr "Зняв захист з {article}"
+
+#: extensions/base/translate.py:240
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
+"{comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: extensions/base/translate.py:255
+#, python-brace-format
+msgid "Discouraged translation of \"{article}\""
+msgstr ""
+
+#: extensions/base/translate.py:264
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) discouraged translation of [{article}]"
+"({article_url}){comment}"
+msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
+
+#: extensions/base/translate.py:282
+#, python-brace-format
+msgid "Limited languages for \"{article}\" to `{languages}`"
+msgstr ""
+
+#: extensions/base/translate.py:285
+#, python-brace-format
+msgid "Priority languages for \"{article}\" set to `{languages}`"
+msgstr ""
+
+#: extensions/base/translate.py:288
+#, fuzzy, python-brace-format
+msgid "Removed priority languages from \"{article}\""
+msgstr "Зняв захист з {article}"
+
+#: extensions/base/translate.py:301
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
+"`{languages}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив налаштування захисту [{article}]"
+"({article_url}) на: {settings}{comment}"
+
+#: extensions/base/translate.py:308
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) set the priority languages for [{article}]"
+"({article_url}) to `{languages}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив налаштування захисту [{article}]"
+"({article_url}) на: {settings}{comment}"
+
+#: extensions/base/translate.py:315
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed priority languages from [{article}]"
+"({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: extensions/base/translate.py:331
+#, python-brace-format
+msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
+msgstr ""
+
+#: extensions/base/translate.py:342
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) added translatable page [{article}]({article_url}) "
+"to aggregate group \"{group}\"{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: extensions/base/translate.py:357
+#, python-brace-format
+msgid ""
+"Removed translatable page \"{article}\" from aggregate group \"{group}\""
+msgstr ""
+
+#: extensions/base/translate.py:368
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed translatable page [{article}]"
+"({article_url}) from aggregate group \"{group}\"{comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: extensions/base/translate.py:387
+#, fuzzy, python-brace-format
+msgid "Reviewed translation \"{article}\""
+msgstr "Зняв захист з {article}"
+
+#: extensions/base/translate.py:401
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) reviewed translation [{article}]({article_url})"
+"{comment}"
+msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
+
+#: extensions/base/translate.py:416
+#, python-brace-format
+msgid "Changed the state of `{language}` translations of \"{article}\""
+msgstr ""
+
+#: extensions/base/translate.py:419
+msgid "Old state"
+msgstr ""
+
+#: extensions/base/translate.py:420
+msgid "New state"
+msgstr ""
+
+#: extensions/base/translate.py:431
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the state of `{language}` translations of "
+"[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: extensions/base/translate.py:439
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the state of `{language}` translations of "
+"[{article}]({article_url}) to `{new_state}`{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: extensions/base/translate.py:452 extensions/base/translate.py:455
+msgid "(default)"
+msgstr ""
+
+#: extensions/base/translate.py:464
+#, fuzzy, python-brace-format
+msgid "Changed the language of \"{article}\""
+msgstr "Зняв захист з {article}"
+
+#: extensions/base/translate.py:465
+msgid "Old language"
+msgstr ""
+
+#: extensions/base/translate.py:466
+msgid "New language"
+msgstr ""
+
+#: extensions/base/translate.py:477
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the language of [{article}]({article_url}) "
+"from {old_lang} to {new_lang}{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: extensions/base/discussions.py:148 extensions/base/discussions.py:207
+#: extensions/base/discussions.py:245 extensions/base/discussions.py:261
+#: extensions/base/discussions.py:284 extensions/base/discussions.py:306
+#: extensions/base/discussions.py:334 extensions/base/discussions.py:354
+msgid "unknown"
+msgstr ""
+
+#: extensions/base/discussions.py:157
+#, python-brace-format
+msgid "Created \"{title}\""
+msgstr ""
+
+#: extensions/base/discussions.py:161
+#, python-brace-format
+msgid "Created a poll \"{title}\""
+msgstr ""
+
+#: extensions/base/discussions.py:168
+msgid "Option {}"
+msgstr ""
+
+#: extensions/base/discussions.py:170
+#, python-brace-format
+msgid "__[View image]({image_url})__"
+msgstr ""
+
+#: extensions/base/discussions.py:174
+#, python-brace-format
+msgid "Created a quiz \"{title}\""
+msgstr ""
+
+#: extensions/base/discussions.py:193
+msgid "{} tags"
+msgstr ""
+
+#: extensions/base/discussions.py:198
+#, python-brace-format
+msgid "Replied to \"{title}\""
+msgstr ""
+
+#: extensions/base/discussions.py:214
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:42
+#: extensions/base/discussions.py:217
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:45
+#: extensions/base/discussions.py:220
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:54
+#: extensions/base/discussions.py:234
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
 
-#: src/discussion_formatters.py:61
+#: extensions/base/discussions.py:292
+#, python-brace-format
+msgid "Created \"{title}\" on {user}'s Message Wall"
+msgstr ""
+
+#: extensions/base/discussions.py:298
+#, python-brace-format
+msgid "Replied to \"{title}\" on {user}'s Message Wall"
+msgstr ""
+
+#: extensions/base/discussions.py:312
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
@@ -89,7 +462,7 @@ msgid ""
 "Message_Wall:{user_wall}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:64
+#: extensions/base/discussions.py:318
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
@@ -98,14 +471,24 @@ msgid ""
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:72
+#: extensions/base/discussions.py:338
+#, python-brace-format
+msgid "Commented on {article}"
+msgstr ""
+
+#: extensions/base/discussions.py:344
+#, python-brace-format
+msgid "Replied to a comment on {article}"
+msgstr ""
+
+#: extensions/base/discussions.py:359
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
 "on [{article}](<{url}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:78
+#: extensions/base/discussions.py:365
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}"
@@ -113,144 +496,222 @@ msgid ""
 "[{article}](<{url}>)"
 msgstr ""
 
-#: src/discussion_formatters.py:86 src/rc_formatters.py:672
+#: extensions/base/managewiki.py:34
+msgid "Changed wiki settings"
+msgstr ""
+
+#: extensions/base/managewiki.py:44
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) changed wiki settings{reason}"
+msgstr "[{author}]({author_url}) змінив видимість подій журналу{comment}"
+
+#: extensions/base/managewiki.py:55
+#, fuzzy, python-brace-format
+msgid "Deleted a \"{wiki}\" wiki"
+msgstr "Вилучив тег \"{tag}\""
+
+#: extensions/base/managewiki.py:55 extensions/base/managewiki.py:67
+#: extensions/base/managewiki.py:103 extensions/base/managewiki.py:112
+#: extensions/base/managewiki.py:125 extensions/base/managewiki.py:126
+#: extensions/base/managewiki.py:135 extensions/base/managewiki.py:136
+#: extensions/base/managewiki.py:148 extensions/base/managewiki.py:149
+#: extensions/base/managewiki.py:160 extensions/base/managewiki.py:161
+#: extensions/base/managewiki.py:195 extensions/base/managewiki.py:204
+#: extensions/base/managewiki.py:217 extensions/base/managewiki.py:226
+#: extensions/base/abusefilter.py:55 extensions/base/abusefilter.py:56
+#: extensions/base/abusefilter.py:57 extensions/base/abusefilter.py:68
+#: extensions/base/abusefilter.py:69 extensions/base/abusefilter.py:70
+#: extensions/base/mediawiki.py:744
+msgid "Unknown"
+msgstr "Невідомо"
+
+#: extensions/base/managewiki.py:63
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
+
+#: extensions/base/managewiki.py:80
 #, python-brace-format
+msgid "Deleted a \"{group}\" user group"
+msgstr ""
+
+#: extensions/base/managewiki.py:89
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted a usergroup *{group}*{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
+
+#: extensions/base/managewiki.py:103
+#, python-brace-format
+msgid "Locked a \"{wiki}\" wiki"
+msgstr ""
+
+#: extensions/base/managewiki.py:111
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
+
+#: extensions/base/managewiki.py:124
+#, python-brace-format
+msgid "Modified \"{namespace_name}\" namespace"
+msgstr ""
+
+#: extensions/base/managewiki.py:126 extensions/base/managewiki.py:149
+msgid "Wiki"
+msgstr ""
+
+#: extensions/base/managewiki.py:134
+#, fuzzy, python-brace-format
 msgid ""
-"Unknown event `{event}` by [{author}]({author_url}), report it on the "
-"[support server](<{support}>)."
+"[{author}]({author_url}) modified namespace *{namespace_name}* on "
+"*{wiki_name}*{comment}"
 msgstr ""
+"[{author}]({author_url}) завантажив нову версію [{file}]({file_link})"
+"{comment}"
 
-#: src/discussion_formatters.py:123
+#: extensions/base/managewiki.py:147
 #, python-brace-format
-msgid "Created \"{title}\""
+msgid "Deleted a \"{namespace_name}\" namespace"
 msgstr ""
 
-#: src/discussion_formatters.py:127
+#: extensions/base/managewiki.py:158
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
+"*{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
+
+#: extensions/base/managewiki.py:173
 #, python-brace-format
-msgid "Created a poll \"{title}\""
+msgid "Modified \"{usergroup_name}\" usergroup"
 msgstr ""
 
-#: src/discussion_formatters.py:134
-msgid "Option {}"
-msgstr ""
+#: extensions/base/managewiki.py:182
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
 
-#: src/discussion_formatters.py:135
+#: extensions/base/managewiki.py:195
+#, fuzzy, python-brace-format
+msgid "Undeleted a \"{wiki}\" wiki"
+msgstr "Вилучив тег \"{tag}\""
+
+#: extensions/base/managewiki.py:203
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
+
+#: extensions/base/managewiki.py:217
 #, python-brace-format
-msgid "__[View image]({image_url})__"
+msgid "Unlocked a \"{wiki}\" wiki"
 msgstr ""
 
-#: src/discussion_formatters.py:139
+#: extensions/base/managewiki.py:225
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
+
+#: extensions/base/datadump.py:36
 #, python-brace-format
-msgid "Created a quiz \"{title}\""
+msgid "Generated {file} dump"
 msgstr ""
 
-#: src/rc_formatters.py:1283
-msgid "Tags"
-msgstr "Теги"
+#: extensions/base/datadump.py:45
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
 
-#: src/discussion_formatters.py:155
-msgid "{} tags"
-msgstr ""
+#: extensions/base/datadump.py:58
+#, fuzzy, python-brace-format
+msgid "Deleted {file} dump"
+msgstr "Вилучив сторінку {article}"
 
-#: src/discussion_formatters.py:160
-#, python-brace-format
-msgid "Replied to \"{title}\""
-msgstr ""
+#: extensions/base/datadump.py:67
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
+msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
 
-#: src/discussion_formatters.py:169
-#, python-brace-format
-msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
-
-#: src/discussion_formatters.py:173
-#, python-brace-format
-msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr ""
-
-#: src/discussion_formatters.py:180
-#, python-brace-format
-msgid "Commented on {article}"
-msgstr ""
-
-#: src/discussion_formatters.py:184
-#, python-brace-format
-msgid "Replied to a comment on {article}"
-msgstr ""
-
-#: src/discussion_formatters.py:188 src/rc_formatters.py:1259
-#, python-brace-format
-msgid "Unknown event `{event}`"
-msgstr ""
-
-#: src/rc_formatters.py:1265 src/rc_formatters.py:1267
-msgid "Report this on the support server"
-msgstr "Повідомити про це на сервер підтримки"
-
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "None"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "Warning issued"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "**Blocked user**"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "Tagged the edit"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "Disallowed the action"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "**IP range blocked**"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "Throttled actions"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "Removed autoconfirmed group"
 msgstr ""
 
-#: src/rc_formatters.py:28
+#: extensions/base/abusefilter.py:29
 msgid "**Removed from privileged groups**"
 msgstr ""
 
-#: src/rc_formatters.py:29
+#: extensions/base/abusefilter.py:30
 msgid "Edit"
 msgstr ""
 
-#: src/rc_formatters.py:29
+#: extensions/base/abusefilter.py:30
 msgid "Upload"
 msgstr ""
 
-#: src/rc_formatters.py:29
+#: extensions/base/abusefilter.py:30
 msgid "Move"
 msgstr ""
 
-#: src/rc_formatters.py:29
+#: extensions/base/abusefilter.py:30
 msgid "Stash upload"
 msgstr ""
 
-#: src/rc_formatters.py:29
+#: extensions/base/abusefilter.py:30
 msgid "Deletion"
 msgstr ""
 
-#: src/rc_formatters.py:29
+#: extensions/base/abusefilter.py:30
 msgid "Account creation"
 msgstr ""
 
-#: src/rc_formatters.py:29
+#: extensions/base/abusefilter.py:30
 msgid "Auto account creation"
 msgstr ""
 
-#: src/rc_formatters.py:83
+#: extensions/base/abusefilter.py:54
+#, python-brace-format
+msgid "{user} triggered \"{abuse_filter}\""
+msgstr ""
+
+#: extensions/base/abusefilter.py:55
+msgid "Performed"
+msgstr ""
+
+#: extensions/base/abusefilter.py:56
+msgid "Action taken"
+msgstr ""
+
+#: extensions/base/abusefilter.py:57
+msgid "Title"
+msgstr ""
+
+#: extensions/base/abusefilter.py:66
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) triggered *{abuse_filter}*, performing the action "
@@ -259,19 +720,85 @@ msgstr ""
 "[{author}]({author_url}) перейменував {redirect}*{article}* поверх "
 "перенаправлення в [{target}]({target_url}) {made_a_redirect}{comment}"
 
-#: src/rc_formatters.py:85 src/rc_formatters.py:86 src/rc_formatters.py:87
-#: src/rc_formatters.py:457 src/rc_formatters.py:460 src/rc_formatters.py:463
-#: src/rc_formatters.py:464 src/rc_formatters.py:469 src/rc_formatters.py:470
-#: src/rc_formatters.py:478 src/rc_formatters.py:482 src/rc_formatters.py:682
-#: src/rc_formatters.py:683 src/rc_formatters.py:684 src/rc_formatters.py:1141
-#: src/rc_formatters.py:1144 src/rc_formatters.py:1147
-#: src/rc_formatters.py:1149 src/rc_formatters.py:1152
-#: src/rc_formatters.py:1154 src/rc_formatters.py:1160
-#: src/rc_formatters.py:1163 src/rc_formatters.py:1255
-msgid "Unknown"
-msgstr "Невідомо"
+#: extensions/base/abusefilter.py:83
+#, python-brace-format
+msgid "Edited abuse filter number {number}"
+msgstr "Відредагував фільтр зловживань під номером {number}"
 
-#: src/rc_formatters.py:116
+#: extensions/base/abusefilter.py:95
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})"
+msgstr ""
+"[{author}]({author_url}) відредагував фільтр зловживань [під номером "
+"{number}]({filter_url})"
+
+#: extensions/base/abusefilter.py:111
+#, python-brace-format
+msgid "Created abuse filter number {number}"
+msgstr "Створив фільтр зловживань під номером {number}"
+
+#: extensions/base/abusefilter.py:119
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created abuse filter [number {number}]({filter_url})"
+msgstr ""
+"[{author}]({author_url}) створив фільтр зловживань [під номером {number}]"
+"({filter_url})"
+
+#: extensions/base/mediawiki.py:37
+msgid "director"
+msgstr ""
+
+#: extensions/base/mediawiki.py:37
+msgid "bot"
+msgstr ""
+
+#: extensions/base/mediawiki.py:37
+msgid "editor"
+msgstr ""
+
+#: extensions/base/mediawiki.py:37
+msgid "directors"
+msgstr ""
+
+#: extensions/base/mediawiki.py:37
+msgid "sysop"
+msgstr ""
+
+#: extensions/base/mediawiki.py:37
+msgid "bureaucrat"
+msgstr ""
+
+#: extensions/base/mediawiki.py:37
+msgid "reviewer"
+msgstr ""
+
+#: extensions/base/mediawiki.py:38
+msgid "autoreview"
+msgstr ""
+
+#: extensions/base/mediawiki.py:38
+msgid "autopatrol"
+msgstr ""
+
+#: extensions/base/mediawiki.py:38
+msgid "wiki_guardian"
+msgstr ""
+
+#: extensions/base/mediawiki.py:71
+msgid "(N!) "
+msgstr "(Н!) "
+
+#: extensions/base/mediawiki.py:72
+msgid "m"
+msgstr "м"
+
+#: extensions/base/mediawiki.py:73
+msgid "b"
+msgstr "б"
+
+#: extensions/base/mediawiki.py:112
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}"
@@ -280,7 +807,7 @@ msgstr ""
 "[{author}]({author_url}) відредагував [{article}]({edit_link}){comment} "
 "({sign}{edit_size})"
 
-#: src/rc_formatters.py:118
+#: extensions/base/mediawiki.py:117
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}"
@@ -289,19 +816,55 @@ msgstr ""
 "[{author}]({author_url}) створив [{article}]({edit_link}){comment} ({sign}"
 "{edit_size})"
 
-#: src/rc_formatters.py:121
-#, python-brace-format
-msgid "[{author}]({author_url}) uploaded [{file}]({file_link}){comment}"
-msgstr "[{author}]({author_url}) завантажив [{file}]({file_link}){comment}"
+#: extensions/base/mediawiki.py:191 extensions/base/mediawiki.py:226
+msgid "Options"
+msgstr "Параметри"
 
-#: src/rc_formatters.py:128
+#: extensions/base/mediawiki.py:191
+#, python-brace-format
+msgid "([preview]({link}) | [undo]({undolink}))"
+msgstr "([перегляд]({link}) | [скасувати]({undolink}))"
+
+#: extensions/base/mediawiki.py:196
+#, python-brace-format
+msgid "Uploaded a new version of {name}"
+msgstr "Завантажив нову версію {name}"
+
+#: extensions/base/mediawiki.py:198
+#, python-brace-format
+msgid "Reverted a version of {name}"
+msgstr "Повернув версію {name}"
+
+#: extensions/base/mediawiki.py:200
+#, python-brace-format
+msgid "Uploaded {name}"
+msgstr "Загрузил {name}"
+
+#: extensions/base/mediawiki.py:209
+msgid "**No license!**"
+msgstr "**Немає ліцензії!**"
+
+#: extensions/base/mediawiki.py:224
+msgid ""
+"\n"
+"License: {}"
+msgstr ""
+"\n"
+"Ліцензія: {}"
+
+#: extensions/base/mediawiki.py:226
+#, python-brace-format
+msgid "([preview]({link}))"
+msgstr "([перегляд]({link}))"
+
+#: extensions/base/mediawiki.py:237
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}"
 msgstr ""
 "[{author}] ({author_url}) повернув версію [{file}] ({file_link}) {comment}"
 
-#: src/rc_formatters.py:132
+#: extensions/base/mediawiki.py:248
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) uploaded a new version of [{file}]({file_link})"
@@ -310,12 +873,27 @@ msgstr ""
 "[{author}]({author_url}) завантажив нову версію [{file}]({file_link})"
 "{comment}"
 
-#: src/rc_formatters.py:135
+#: extensions/base/mediawiki.py:259
+#, python-brace-format
+msgid "[{author}]({author_url}) uploaded [{file}]({file_link}){comment}"
+msgstr "[{author}]({author_url}) завантажив [{file}]({file_link}){comment}"
+
+#: extensions/base/mediawiki.py:274
+#, python-brace-format
+msgid "Deleted page {article}"
+msgstr "Вилучив сторінку {article}"
+
+#: extensions/base/mediawiki.py:283
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted [{page}]({page_link}){comment}"
 msgstr "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:141
+#: extensions/base/mediawiki.py:298
+#, python-brace-format
+msgid "Deleted redirect {article} by overwriting"
+msgstr "Вилучив перенаправлення {article} by overwriting"
+
+#: extensions/base/mediawiki.py:308
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted redirect by overwriting [{page}]"
@@ -324,241 +902,34 @@ msgstr ""
 "[{author}]({author_url}) вилучив перенаправлення за допомогою перезапису "
 "[{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:147 src/rc_formatters.py:152
-msgid "without making a redirect"
-msgstr "не залишивши перенаправлення"
-
-#: src/rc_formatters.py:147 src/rc_formatters.py:153
-msgid "with a redirect"
-msgstr "з перенаправленням"
-
-#: src/rc_formatters.py:148
+#: extensions/base/mediawiki.py:322
 #, python-brace-format
-msgid ""
-"[{author}]({author_url}) moved {redirect}*{article}* to [{target}]"
-"({target_url}) {made_a_redirect}{comment}"
-msgstr ""
-"[{author}]({author_url}) перейменував {redirect}*{article}* в [{target}]"
-"({target_url}) {made_a_redirect}{comment}"
+msgid "Restored {article}"
+msgstr "Відновив {article}"
 
-#: src/rc_formatters.py:154
+#: extensions/base/mediawiki.py:331
 #, python-brace-format
-msgid ""
-"[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
-"[{target}]({target_url}) {made_a_redirect}{comment}"
-msgstr ""
-"[{author}]({author_url}) перейменував {redirect}*{article}* поверх "
-"перенаправлення в [{target}]({target_url}) {made_a_redirect}{comment}"
+msgid "[{author}]({author_url}) restored [{article}]({article_url}){comment}"
+msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
 
-#: src/rc_formatters.py:159
+#: extensions/base/mediawiki.py:348
+msgid "Changed visibility of log events"
+msgstr "Змінив видимість подій журналу"
+
+#: extensions/base/mediawiki.py:356
 #, python-brace-format
-msgid ""
-"[{author}]({author_url}) moved protection settings from {redirect}*{article}"
-"* to [{target}]({target_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) переніс налаштування захисту з {redirect}*{article}"
-"* на [{target}]({target_url}){comment}"
+msgid "[{author}]({author_url}) changed visibility of log events{comment}"
+msgstr "[{author}]({author_url}) змінив видимість подій журналу{comment}"
 
-#: src/rc_formatters.py:170 src/rc_formatters.py:855
-#, fuzzy
-msgid "for infinity and beyond"
-msgstr "навіки і назавжди"
-
-#: src/rc_formatters.py:179 src/rc_formatters.py:863
+#: extensions/base/mediawiki.py:370
 #, python-brace-format
-msgid "for {num} {translated_length}"
-msgstr "на {num}{translated_length}"
+msgid "Changed visibility of revision on page {article} "
+msgid_plural "Changed visibility of {amount} revisions on page {article} "
+msgstr[0] "Змінив видимість {amount} версії сторінки {article} "
+msgstr[1] "Змінив видимість {amount} версій сторінки {article} "
+msgstr[2] "Змінив видимість {amount} версій сторінки {article} "
 
-#: src/rc_formatters.py:185 src/rc_formatters.py:867
-msgid "until {}"
-msgstr ""
-
-#: src/rc_formatters.py:189
-msgid " on pages: "
-msgstr " на сторінках: "
-
-#: src/rc_formatters.py:196 src/rc_formatters.py:881
-msgid " and namespaces: "
-msgstr " і в простору імен: "
-
-#: src/rc_formatters.py:198
-msgid " on namespaces: "
-msgstr " в просторах імен: "
-
-#: src/rc_formatters.py:210
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
-"{restriction_desc}{comment}"
-msgstr ""
-"[{author}]({author_url}) заблокував [{user}]({user_url}) на {time}"
-"{restriction_desc}{comment}"
-
-#: src/rc_formatters.py:214
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) changed block settings for [{blocked_user}]"
-"({user_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) змінив блокування для [{blocked_user}]({user_url})"
-"{comment}"
-
-#: src/rc_formatters.py:218
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) розблокував [{blocked_user}]({user_url}){comment}"
-
-#: src/rc_formatters.py:223
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile"
-msgstr ""
-"[{author}]({author_url}) залишив [коментар]({comment}) на профілі {target}"
-
-#: src/rc_formatters.py:225
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) left a [comment]({comment}) on their own profile"
-msgstr ""
-"[{author}]({author_url}) залишив [коментар]({comment}) на профілі {target}"
-
-#: src/rc_formatters.py:231
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
-"profile"
-msgstr ""
-"[{author}]({author_url}) відповів на [коментар]({comment}) на профілі "
-"{target}"
-
-#: src/rc_formatters.py:237
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) replied to a [comment]({comment}) on their own "
-"profile"
-msgstr ""
-"[{author}]({author_url}) відповів на [коментар]({comment}) на профілі "
-"{target}"
-
-#: src/rc_formatters.py:245
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile"
-msgstr ""
-"[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
-"{target}"
-
-#: src/rc_formatters.py:251
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited a [comment]({comment}) on their own profile"
-msgstr ""
-"[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
-"{target}"
-
-#: src/rc_formatters.py:257
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) purged a comment on {target}'s profile"
-msgstr "[{author}] ({author_url}) вилучив коментар в профілі {target}"
-
-#: src/rc_formatters.py:259
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) purged a comment on their own profile"
-msgstr "[{author}] ({author_url}) вилучив коментар в профілі {target}"
-
-#: src/rc_formatters.py:267
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s profile"
-msgstr ""
-"[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
-"{target}"
-
-#: src/rc_formatters.py:269
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) deleted a [comment]({comment}) on their own profile"
-msgstr ""
-"[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
-"{target}"
-
-#: src/rc_formatters.py:274
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
-"profile. *({desc})*"
-msgstr ""
-"[{author}]({author_url}) відредагував {field} на профілі {target}. *({desc})*"
-
-#: src/rc_formatters.py:281
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
-"profile. *({desc})*"
-msgstr ""
-"[{author}]({author_url}) відредагував {field} на профілі {target}. *({desc})*"
-
-#: src/rc_formatters.py:296 src/rc_formatters.py:298 src/rc_formatters.py:977
-#: src/rc_formatters.py:979
-msgid "none"
-msgstr "нічого"
-
-#: src/rc_formatters.py:301
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) changed group membership for [{target}]"
-"({target_url}) from {old_groups} to {new_groups}{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
-"({article_url}) з {old} на {new}{comment}"
-
-#: src/rc_formatters.py:303
-#, fuzzy, python-brace-format
-msgid ""
-"{author} autopromoted [{target}]({target_url}) from {old_groups} to "
-"{new_groups}{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
-"({article_url}) з {old} на {new}{comment}"
-
-#: src/rc_formatters.py:304 src/rc_formatters.py:965
-msgid "System"
-msgstr "Система"
-
-#: src/rc_formatters.py:309
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) protected [{article}]({article_url}) with the "
-"following settings: {settings}{comment}"
-msgstr ""
-"[{author}]({author_url}) захистив [{article}]({article_url}) з наступними "
-"налаштуваннями: {settings}{comment}"
-
-#: src/rc_formatters.py:311 src/rc_formatters.py:319 src/rc_formatters.py:987
-#: src/rc_formatters.py:993
-msgid " [cascading]"
-msgstr " [каскадний]"
-
-#: src/rc_formatters.py:316
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) modified protection settings of [{article}]"
-"({article_url}) to: {settings}{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив налаштування захисту [{article}]"
-"({article_url}) на: {settings}{comment}"
-
-#: src/rc_formatters.py:323
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) removed protection from [{article}]({article_url})"
-"{comment}"
-msgstr ""
-"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:327
+#: extensions/base/mediawiki.py:383
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed visibility of revision on page [{article}]"
@@ -576,7 +947,235 @@ msgstr[2] ""
 "[{author}]({author_url}) змінив видимість {amount} версій сторінки "
 "[{article}]({article_url}){comment}"
 
-#: src/rc_formatters.py:340
+#: extensions/base/mediawiki.py:399 extensions/base/mediawiki.py:432
+msgid "No redirect has been made"
+msgstr "Перенаправлення не зроблено"
+
+#: extensions/base/mediawiki.py:400 extensions/base/mediawiki.py:433
+msgid "A redirect has been made"
+msgstr "Перенаправлення було зроблено"
+
+#: extensions/base/mediawiki.py:401
+#, python-brace-format
+msgid "Moved {redirect}{article} to {target}"
+msgstr "Перейменував сторінку {redirect}{article} to {target}"
+
+#: extensions/base/mediawiki.py:412 extensions/base/mediawiki.py:444
+msgid "without making a redirect"
+msgstr "не залишивши перенаправлення"
+
+#: extensions/base/mediawiki.py:413 extensions/base/mediawiki.py:445
+msgid "with a redirect"
+msgstr "з перенаправленням"
+
+#: extensions/base/mediawiki.py:416
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) moved {redirect}*{article}* to [{target}]"
+"({target_url}) {made_a_redirect}{comment}"
+msgstr ""
+"[{author}]({author_url}) перейменував {redirect}*{article}* в [{target}]"
+"({target_url}) {made_a_redirect}{comment}"
+
+#: extensions/base/mediawiki.py:434
+#, python-brace-format
+msgid "Moved {redirect}{article} to {title} over redirect"
+msgstr ""
+"Перейменував сторінку {redirect}{article} to {title} поверх перенаправлення"
+
+#: extensions/base/mediawiki.py:448
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
+"[{target}]({target_url}) {made_a_redirect}{comment}"
+msgstr ""
+"[{author}]({author_url}) перейменував {redirect}*{article}* поверх "
+"перенаправлення в [{target}]({target_url}) {made_a_redirect}{comment}"
+
+#: extensions/base/mediawiki.py:464
+#, python-brace-format
+msgid "Moved protection settings from {redirect}{article} to {title}"
+msgstr "Переніс налаштування захисту з {redirect}{article} на {title}"
+
+#: extensions/base/mediawiki.py:477
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) moved protection settings from {redirect}*{article}"
+"* to [{target}]({target_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) переніс налаштування захисту з {redirect}*{article}"
+"* на [{target}]({target_url}){comment}"
+
+#: extensions/base/mediawiki.py:492
+#, python-brace-format
+msgid "Protected {target}"
+msgstr "Захистив {target}"
+
+#: extensions/base/mediawiki.py:495 extensions/base/mediawiki.py:510
+#: extensions/base/mediawiki.py:526 extensions/base/mediawiki.py:541
+msgid " [cascading]"
+msgstr " [каскадний]"
+
+#: extensions/base/mediawiki.py:506
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) protected [{article}]({article_url}) with the "
+"following settings: {settings}{comment}"
+msgstr ""
+"[{author}]({author_url}) захистив [{article}]({article_url}) з наступними "
+"налаштуваннями: {settings}{comment}"
+
+#: extensions/base/mediawiki.py:523
+#, python-brace-format
+msgid "Changed protection level for {article}"
+msgstr "Змінив рівень захисту для {article}"
+
+#: extensions/base/mediawiki.py:537
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) modified protection settings of [{article}]"
+"({article_url}) to: {settings}{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив налаштування захисту [{article}]"
+"({article_url}) на: {settings}{comment}"
+
+#: extensions/base/mediawiki.py:554
+#, python-brace-format
+msgid "Removed protection from {article}"
+msgstr "Зняв захист з {article}"
+
+#: extensions/base/mediawiki.py:563
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed protection from [{article}]({article_url})"
+"{comment}"
+msgstr ""
+"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#: extensions/base/mediawiki.py:572
+#, fuzzy
+msgid "for infinity and beyond"
+msgstr "навіки і назавжди"
+
+#: extensions/base/mediawiki.py:582
+msgid "for less than a minute"
+msgstr ""
+
+#: extensions/base/mediawiki.py:584
+msgid "year"
+msgid_plural "years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: extensions/base/mediawiki.py:584
+msgid "day"
+msgid_plural "days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: extensions/base/mediawiki.py:584
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: extensions/base/mediawiki.py:585
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: extensions/base/mediawiki.py:590
+#, python-brace-format
+msgid "for  {time_number} {time_unit}"
+msgstr ""
+
+#: extensions/base/mediawiki.py:610
+msgid "Blocked from editing the following pages: "
+msgstr "Заблокований від редагування в наступних сторінках: "
+
+#: extensions/base/mediawiki.py:617 extensions/base/mediawiki.py:662
+msgid " and namespaces: "
+msgstr " і в простору імен: "
+
+#: extensions/base/mediawiki.py:619
+msgid "Blocked from editing pages on following namespaces: "
+msgstr "Заблокований від редагування на сторінках в наступних просторах назв: "
+
+#: extensions/base/mediawiki.py:630
+msgid "Partial block details"
+msgstr "Часткові деталі блокування"
+
+#: extensions/base/mediawiki.py:633
+msgid "Block flags"
+msgstr ""
+
+#: extensions/base/mediawiki.py:635
+#, fuzzy, python-brace-format
+msgid "Blocked {blocked_user} {time}"
+msgstr "Заблокував {blocked_user} на {time}"
+
+#: extensions/base/mediawiki.py:654
+msgid " on pages: "
+msgstr " на сторінках: "
+
+#: extensions/base/mediawiki.py:664
+msgid " on namespaces: "
+msgstr " в просторах імен: "
+
+#: extensions/base/mediawiki.py:676
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
+"{restriction_desc}{comment}"
+msgstr ""
+"[{author}]({author_url}) заблокував [{user}]({user_url}) на {time}"
+"{restriction_desc}{comment}"
+
+#: extensions/base/mediawiki.py:694
+#, python-brace-format
+msgid "Changed block settings for {blocked_user}"
+msgstr "Змінив блокування для {blocked_user}"
+
+#: extensions/base/mediawiki.py:704
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed block settings for [{blocked_user}]"
+"({user_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) змінив блокування для [{blocked_user}]({user_url})"
+"{comment}"
+
+#: extensions/base/mediawiki.py:717
+#, python-brace-format
+msgid "Unblocked {blocked_user}"
+msgstr "Розблокував {blocked_user}"
+
+#: extensions/base/mediawiki.py:727
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) розблокував [{blocked_user}]({user_url}){comment}"
+
+#: extensions/base/mediawiki.py:743
+#, fuzzy
+msgid "Action has been hidden by administration"
+msgstr "Дія була прихована адміністрацією."
+
+#: extensions/base/mediawiki.py:750
+msgid "An action has been hidden by administration."
+msgstr "Дія була прихована адміністрацією."
+
+#: extensions/base/mediawiki.py:761
+#, python-brace-format
+msgid "Imported {article} with {count} revision"
+msgid_plural "Imported {article} with {count} revisions"
+msgstr[0] "Імпортував {article} з {count} версією"
+msgstr[1] "Імпортував {article} з {count} версіями"
+msgstr[2] "Імпортував {article} з {count} версіями"
+
+#: extensions/base/mediawiki.py:772
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -594,17 +1193,15 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: src/rc_formatters.py:345
-#, python-brace-format
-msgid "[{author}]({author_url}) restored [{article}]({article_url}){comment}"
-msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
+#: extensions/base/mediawiki.py:788
+#, fuzzy, python-brace-format
+msgid "Imported {article} with {count} revision from \"{source}\""
+msgid_plural "Imported {article} with {count} revisions from \"{source}\""
+msgstr[0] "Імпортував {article} з {count} версією"
+msgstr[1] "Імпортував {article} з {count} версіями"
+msgstr[2] "Імпортував {article} з {count} версіями"
 
-#: src/rc_formatters.py:347
-#, python-brace-format
-msgid "[{author}]({author_url}) changed visibility of log events{comment}"
-msgstr "[{author}]({author_url}) змінив видимість подій журналу{comment}"
-
-#: src/rc_formatters.py:359
+#: extensions/base/mediawiki.py:803
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -622,23 +1219,56 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: src/rc_formatters.py:364
+#: extensions/base/mediawiki.py:818
+#, python-brace-format
+msgid " (until {date_and_time})"
+msgstr ""
+
+#: extensions/base/mediawiki.py:836
+#, python-brace-format
+msgid "Changed group membership for {target}"
+msgstr "Змінено членство в групі для {target}"
+
+#: extensions/base/mediawiki.py:839 extensions/base/mediawiki.py:865
+msgid "System"
+msgstr "Система"
+
+#: extensions/base/mediawiki.py:840
+#, python-brace-format
+msgid "{target} got autopromoted to a new usergroup"
+msgstr "{target} автоматично переведений в нову групу користувачів"
+
+#: extensions/base/mediawiki.py:846
 #, python-brace-format
 msgid ""
-"[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})"
+"{reason}\n"
+"{added}{linebreak}{removed}"
 msgstr ""
-"[{author}]({author_url}) відредагував фільтр зловживань [під номером "
-"{number}]({filter_url})"
 
-#: src/rc_formatters.py:368
-#, python-brace-format
+#: extensions/base/mediawiki.py:860
+#, fuzzy, python-brace-format
 msgid ""
-"[{author}]({author_url}) created abuse filter [number {number}]({filter_url})"
+"[{author}]({author_url}) changed group membership for [{target}]"
+"({target_url}) {added}{comma} {removed}{comment}"
 msgstr ""
-"[{author}]({author_url}) створив фільтр зловживань [під номером {number}]"
-"({filter_url})"
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
 
-#: src/rc_formatters.py:372
+#: extensions/base/mediawiki.py:864
+#, fuzzy, python-brace-format
+msgid ""
+"{author} autopromoted [{target}]({target_url}) {added}{comma} {removed}"
+"{comment}"
+msgstr ""
+"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
+"({article_url}) з {old} на {new}{comment}"
+
+#: extensions/base/mediawiki.py:877
+#, python-brace-format
+msgid "Merged revision histories of {article} into {dest}"
+msgstr "Об'єднав історії версій {article} з {dest}"
+
+#: extensions/base/mediawiki.py:891
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
@@ -647,17 +1277,30 @@ msgstr ""
 "[{author}]({author_url}) об'єднав історії версій [{article}]({article_url}) "
 "з [{dest}]({dest_url}){comment}"
 
-#: src/rc_formatters.py:375
+#: extensions/base/mediawiki.py:905
+msgid "Created account automatically"
+msgstr "Обліковий запис був створений автоматично"
+
+#: extensions/base/mediawiki.py:912
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
 msgstr "Обліковий запис [{author}]({author_url}) був автоматично створений"
 
-#: src/rc_formatters.py:377 src/rc_formatters.py:385
+#: extensions/base/mediawiki.py:925 extensions/base/mediawiki.py:990
+msgid "Created account"
+msgstr "Створено обліковий запис"
+
+#: extensions/base/mediawiki.py:932 extensions/base/mediawiki.py:997
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
 msgstr "Обліковий запис [{author}]({author_url}) був створений"
 
-#: src/rc_formatters.py:380
+#: extensions/base/mediawiki.py:944
+#, python-brace-format
+msgid "Created account {article}"
+msgstr "Створено обліковий запис {article}"
+
+#: extensions/base/mediawiki.py:953
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
@@ -666,7 +1309,14 @@ msgstr ""
 "Обліковий запис [{article}]({article_url}) був створений [{author}]"
 "({author_url}){comment}"
 
-#: src/rc_formatters.py:383
+#: extensions/base/mediawiki.py:966
+#, python-brace-format
+msgid "Created account {article} and password was sent by email"
+msgstr ""
+"Створено обліковий запис {article} і і пароль був відправлений на електронну "
+"пошту"
+
+#: extensions/base/mediawiki.py:977
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
@@ -675,7 +1325,16 @@ msgstr ""
 "Обліковий запис [{article}]({article_url}) був створений [{author}]"
 "({author_url}) і пароль був відправлений на електронну пошту{comment}"
 
-#: src/rc_formatters.py:388
+#: extensions/base/mediawiki.py:1009
+msgid "Added an entry to the interwiki table"
+msgstr "Додав запис в таблицю інтервікі"
+
+#: extensions/base/mediawiki.py:1010 extensions/base/mediawiki.py:1037
+#, python-brace-format
+msgid "Prefix: {prefix}, website: {website} | {desc}"
+msgstr "Префікс: {prefix}, веб-сайт: {website} | {desc}"
+
+#: extensions/base/mediawiki.py:1022
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) added an entry to the [interwiki table]"
@@ -684,7 +1343,11 @@ msgstr ""
 "[{author}]({author_url}) додав запис в [таблицю інтервікі]({table_url}), яка "
 "вказує на {website} з префіксом {prefix}"
 
-#: src/rc_formatters.py:394
+#: extensions/base/mediawiki.py:1036
+msgid "Edited an entry in interwiki table"
+msgstr "Відредагував запис в таблиці інтервікі"
+
+#: extensions/base/mediawiki.py:1049
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
@@ -693,14 +1356,34 @@ msgstr ""
 "[{author}]({author_url}) відредагував запис в [таблиці інтервікі]"
 "({table_url}), яка вказує на {website} з префіксом {prefix}"
 
-#: src/rc_formatters.py:400
+#: extensions/base/mediawiki.py:1063
+msgid "Deleted an entry in interwiki table"
+msgstr "Вилучив запис в таблиці інтервікі"
+
+#: extensions/base/mediawiki.py:1064
 #, python-brace-format
+msgid "Prefix: {prefix} | {desc}"
+msgstr "Префікс: {prefix} | {desc}"
+
+#: extensions/base/mediawiki.py:1074
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
+"{desc}"
 msgstr ""
 "[{author}]({author_url}) вилучив запис в [таблиці інтервікі]({table_url})"
 
-#: src/rc_formatters.py:403
+#: extensions/base/mediawiki.py:1091
+#, python-brace-format
+msgid "Changed the content model of the page {article}"
+msgstr "Змінив модель вмісту сторінки {article}"
+
+#: extensions/base/mediawiki.py:1093
+#, python-brace-format
+msgid "Model changed from {old} to {new}: {reason}"
+msgstr "Модель змінена з {old} на {new}: {reason}"
+
+#: extensions/base/mediawiki.py:1105
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
@@ -709,7 +1392,17 @@ msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: src/rc_formatters.py:407
+#: extensions/base/mediawiki.py:1120
+#, python-brace-format
+msgid "Created the page {article} using a non-default content model"
+msgstr ""
+
+#: extensions/base/mediawiki.py:1122
+#, fuzzy, python-brace-format
+msgid "Created with model {new}: {reason}"
+msgstr "Модель змінена з {old} на {new}: {reason}"
+
+#: extensions/base/mediawiki.py:1133
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
@@ -718,62 +1411,41 @@ msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: src/rc_formatters.py:410
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited the sprite for [{article}]({article_url})"
-msgstr ""
-"[{author}]({author_url}) відредагував спрайт для [{article}]({article_url})"
-
-#: src/rc_formatters.py:413
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) created the sprite sheet for [{article}]"
-"({article_url})"
-msgstr ""
-"[{author}]({author_url}) створив таблицю спрайтів для [{article}]"
-"({article_url})"
-
-#: src/rc_formatters.py:416
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited the slice for [{article}]({article_url})"
-msgstr ""
-"[{author}]({author_url}) відредагував фрагмент для [{article}]({article_url})"
-
-#: src/rc_formatters.py:421
+#: extensions/base/mediawiki.py:1148
 #, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
+msgid "Created the tag \"{tag}\""
+msgstr "Створив тег \"{tag}\""
 
-#: src/rc_formatters.py:423
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) вилучив [тег]({tag_url}) \"{tag}\""
-
-#: src/rc_formatters.py:428
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
-
-#: src/rc_formatters.py:433
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
-
-#: src/rc_formatters.py:436
+#: extensions/base/mediawiki.py:1158
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
 
-#: src/rc_formatters.py:441
+#: extensions/base/mediawiki.py:1180
+#, fuzzy, python-brace-format
+msgid "Deleted the tag \"{tag}\""
+msgstr "Вилучив тег \"{tag}\""
+
+#: extensions/base/mediawiki.py:1182
+#, fuzzy
+msgid "Removed from"
+msgstr "Видалено"
+
+#: extensions/base/mediawiki.py:1182
+msgid "{} revision or log entry"
+msgid_plural "{} revisions and/or log entries"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: extensions/base/mediawiki.py:1194
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) вилучив [тег]({tag_url}) \"{tag}\""
 
-#: src/rc_formatters.py:443
+#: extensions/base/mediawiki.py:1204
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -791,241 +1463,42 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: src/rc_formatters.py:449
+#: extensions/base/mediawiki.py:1221
+#, fuzzy, python-brace-format
+msgid "Activated the tag \"{tag}\""
+msgstr "Активував тег \"{tag}\""
+
+#: extensions/base/mediawiki.py:1230
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) активував [тег]({tag_url}) \"{tag}\""
 
-#: src/rc_formatters.py:452
+#: extensions/base/mediawiki.py:1249
+#, fuzzy, python-brace-format
+msgid "Deactivated the tag \"{tag}\""
+msgstr "Деактивував тег \"{tag}\""
+
+#: extensions/base/mediawiki.py:1258
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) деактивував [тег]({tag_url}) \"{tag}\""
 
-#: src/rc_formatters.py:454
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) changed wiki settings{reason}"
-msgstr "[{author}]({author_url}) змінив видимість подій журналу{comment}"
+#: extensions/base/mediawiki.py:1278
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
+msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
-#: src/rc_formatters.py:456
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
-
-#: src/rc_formatters.py:459
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
-
-#: src/rc_formatters.py:462
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) modified namespace *{namespace_name}* on "
-"*{wiki_name}*{comment}"
-msgstr ""
-"[{author}]({author_url}) завантажив нову версію [{file}]({file_link})"
-"{comment}"
-
-#: src/rc_formatters.py:467
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
-"*{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
-
-#: src/rc_formatters.py:473
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
-msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
-
-#: src/rc_formatters.py:477
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
-
-#: src/rc_formatters.py:481
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
-
-#: src/rc_formatters.py:486
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
-
-#: src/rc_formatters.py:491
-#, fuzzy, python-brace-format
-msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) імпортував інтервікі{comment}"
-
-#: src/rc_formatters.py:502
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) marked [{article}]({article_url}) for "
-"translation{comment}"
-msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:509
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) removed [{article}]({article_url}) from the "
-"translation system{comment}"
-msgstr ""
-"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
-"версією{comment}"
-
-#: src/rc_formatters.py:516
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) completed moving translation pages from *{article}* "
-"to [{target}]({target_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) переніс налаштування захисту з {redirect}*{article}"
-"* на [{target}]({target_url}){comment}"
-
-#: src/rc_formatters.py:524
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) encountered a problem while moving [{article}]"
-"({article_url}) to [{target}]({target_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) об'єднав історії версій [{article}]({article_url}) "
-"з [{dest}]({dest_url}){comment}"
-
-#: src/rc_formatters.py:532
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) completed deletion of translatable page [{article}]"
-"({article_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:540
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
-"belongs to translatable page [{target}]({target_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
-"версією{comment}"
-
-#: src/rc_formatters.py:548
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) completed deletion of translation page [{article}]"
-"({article_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) змінив видимість {amount} версії сторінки "
-"[{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:556
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
-"belongs to translation page [{target}]({target_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
-"версією{comment}"
-
-#: src/rc_formatters.py:564
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
-"{comment}"
-msgstr ""
-"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:571
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) discouraged translation of [{article}]"
-"({article_url}){comment}"
-msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:581
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
-"`{languages}`{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив налаштування захисту [{article}]"
-"({article_url}) на: {settings}{comment}"
-
-#: src/rc_formatters.py:587
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) set the priority languages for [{article}]"
-"({article_url}) to `{languages}`{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив налаштування захисту [{article}]"
-"({article_url}) на: {settings}{comment}"
-
-#: src/rc_formatters.py:593
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) removed priority languages from [{article}]"
-"({article_url}){comment}"
-msgstr ""
-"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:600
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) added translatable page [{article}]({article_url}) "
-"to aggregate group \"{group}\"{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
-"({article_url}) з {old} на {new}{comment}"
-
-#: src/rc_formatters.py:607
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) removed translatable page [{article}]"
-"({article_url}) from aggregate group \"{group}\"{comment}"
-msgstr ""
-"[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:619
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) reviewed translation [{article}]({article_url})"
-"{comment}"
-msgstr "[{author}]({author_url}) відновив [{article}]({article_url}){comment}"
-
-#: src/rc_formatters.py:627
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) changed the state of `{language}` translations of "
-"[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
-"({article_url}) з {old} на {new}{comment}"
-
-#: src/rc_formatters.py:634
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) changed the state of `{language}` translations of "
-"[{article}]({article_url}) to `{new_state}`{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
-"({article_url}) з {old} на {new}{comment}"
-
-#: src/rc_formatters.py:643 src/rc_formatters.py:646 src/rc_formatters.py:1238
-#: src/rc_formatters.py:1241
-msgid "(default)"
+#: extensions/base/mediawiki.py:1283
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" to \"{new_name}\""
 msgstr ""
 
-#: src/rc_formatters.py:647
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) changed the language of [{article}]({article_url}) "
-"from {old_lang} to {new_lang}{comment}"
-msgstr ""
-"[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
-"({article_url}) з {old} на {new}{comment}"
-
-#: src/rc_formatters.py:656
+#: extensions/base/mediawiki.py:1298
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
@@ -1037,641 +1510,210 @@ msgstr[0] "[{author}]({author_url}) вилучив [{page}]({page_link}){comment
 msgstr[1] "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 msgstr[2] "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:661
+#: extensions/base/mediawiki.py:1306
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
 "{comment}"
 msgstr "[{author}]({author_url}) вилучив [{page}]({page_link}){comment}"
 
-#: src/rc_formatters.py:665
-msgid "An action has been hidden by administration."
-msgstr "Дія була прихована адміністрацією."
-
-#: src/rc_formatters.py:681
-#, python-brace-format
-msgid "{user} triggered \"{abuse_filter}\""
-msgstr ""
-
-#: src/rc_formatters.py:682
-msgid "Performed"
-msgstr ""
-
-#: src/rc_formatters.py:683
-msgid "Action taken"
-msgstr ""
-
-#: src/rc_formatters.py:684
-msgid "Title"
-msgstr ""
-
-#: src/rc_formatters.py:693 src/rc_formatters.py:980
-msgid "No description provided"
-msgstr "Немає опису редагування"
-
-#: src/rc_formatters.py:717
-msgid "(N!) "
-msgstr "(Н!) "
-
-#: src/rc_formatters.py:718
-msgid "m"
-msgstr "м"
-
-#: src/rc_formatters.py:718
-msgid "b"
-msgstr "б"
-
-#: src/rc_formatters.py:735 src/rc_formatters.py:740
-msgid "__Only whitespace__"
-msgstr "__Тільки пробіли__"
-
-#: src/rc_formatters.py:745
-msgid "Removed"
-msgstr "Видалено"
-
-#: src/rc_formatters.py:747
-msgid "Added"
-msgstr "Додано"
-
-#: src/rc_formatters.py:781 src/rc_formatters.py:820
-msgid "Options"
-msgstr "Параметри"
-
-#: src/rc_formatters.py:781
-#, python-brace-format
-msgid "([preview]({link}) | [undo]({undolink}))"
-msgstr "([перегляд]({link}) | [скасувати]({undolink}))"
-
-#: src/rc_formatters.py:786
-#, python-brace-format
-msgid "Uploaded a new version of {name}"
-msgstr "Завантажив нову версію {name}"
-
-#: src/rc_formatters.py:788
-#, python-brace-format
-msgid "Reverted a version of {name}"
-msgstr "Повернув версію {name}"
-
-#: src/rc_formatters.py:790
-#, python-brace-format
-msgid "Uploaded {name}"
-msgstr "Загрузил {name}"
-
-#: src/rc_formatters.py:806
-msgid "**No license!**"
-msgstr "**Немає ліцензії!**"
-
-#: src/rc_formatters.py:818
-msgid ""
-"\n"
-"License: {}"
-msgstr ""
-"\n"
-"Ліцензія: {}"
-
-#: src/rc_formatters.py:820
-#, python-brace-format
-msgid "([preview]({link}))"
-msgstr "([перегляд]({link}))"
-
-#: src/rc_formatters.py:825
-#, python-brace-format
-msgid "Deleted page {article}"
-msgstr "Вилучив сторінку {article}"
-
-#: src/rc_formatters.py:830
-#, python-brace-format
-msgid "Deleted redirect {article} by overwriting"
-msgstr "Вилучив перенаправлення {article} by overwriting"
-
-#: src/rc_formatters.py:836
-msgid "No redirect has been made"
-msgstr "Перенаправлення не зроблено"
-
-#: src/rc_formatters.py:837
-msgid "A redirect has been made"
-msgstr "Перенаправлення було зроблено"
-
-#: src/rc_formatters.py:838
-#, python-brace-format
-msgid "Moved {redirect}{article} to {target}"
-msgstr "Перейменував сторінку {redirect}{article} to {target}"
-
-#: src/rc_formatters.py:841
-#, python-brace-format
-msgid "Moved {redirect}{article} to {title} over redirect"
-msgstr ""
-"Перейменував сторінку {redirect}{article} to {title} поверх перенаправлення"
-
-#: src/rc_formatters.py:845
-#, python-brace-format
-msgid "Moved protection settings from {redirect}{article} to {title}"
-msgstr "Переніс налаштування захисту з {redirect}{article} на {title}"
-
-#: src/rc_formatters.py:869
-msgid "unknown expiry time"
-msgstr ""
-
-#: src/rc_formatters.py:874
-msgid "Blocked from editing the following pages: "
-msgstr "Заблокований від редагування в наступних сторінках: "
-
-#: src/rc_formatters.py:883
-msgid "Blocked from editing pages on following namespaces: "
-msgstr "Заблокований від редагування на сторінках в наступних просторах назв: "
-
-#: src/rc_formatters.py:894
-msgid "Partial block details"
-msgstr "Часткові деталі блокування"
-
-#: src/rc_formatters.py:895
-#, fuzzy, python-brace-format
-msgid "Blocked {blocked_user} {time}"
-msgstr "Заблокував {blocked_user} на {time}"
-
-#: src/rc_formatters.py:899
-#, python-brace-format
-msgid "Changed block settings for {blocked_user}"
-msgstr "Змінив блокування для {blocked_user}"
-
-#: src/rc_formatters.py:903
-#, python-brace-format
-msgid "Unblocked {blocked_user}"
-msgstr "Розблокував {blocked_user}"
-
-#: src/rc_formatters.py:910
-#, python-brace-format
-msgid "Left a comment on {target}'s profile"
-msgstr "Залишив коментар на профілі {target}"
-
-#: src/rc_formatters.py:912
-msgid "Left a comment on their own profile"
-msgstr "Залишив коментар на своєму профілі"
-
-#: src/rc_formatters.py:919
-#, python-brace-format
-msgid "Replied to a comment on {target}'s profile"
-msgstr "Відповів на коментар на профілі {target}"
-
-#: src/rc_formatters.py:921
-msgid "Replied to a comment on their own profile"
-msgstr "Відповів на коментар на своєму профілі"
-
-#: src/rc_formatters.py:928
-#, python-brace-format
-msgid "Edited a comment on {target}'s profile"
-msgstr "Відредагував коментар на профілі {target}"
-
-#: src/rc_formatters.py:930
-msgid "Edited a comment on their own profile"
-msgstr "Відредагував коментар на своєму профілі"
-
-#: src/rc_formatters.py:935
-#, python-brace-format
-msgid "Edited {target}'s profile"
-msgstr "Відредагував профіль {target}"
-
-#: src/rc_formatters.py:937
-msgid "Edited their own profile"
-msgstr "Відредагував свій профіль"
-
-#: src/rc_formatters.py:939
-#, python-brace-format
-msgid "Cleared the {field} field"
-msgstr "Очистив поле {field}"
-
-#: src/rc_formatters.py:941
-#, python-brace-format
-msgid "{field} field changed to: {desc}"
-msgstr "Поле {field} змінено на: {desc}"
-
-#: src/rc_formatters.py:946
-#, python-brace-format
-msgid "Purged a comment on {target}'s profile"
-msgstr "Вилучив коментар в профілі {target}"
-
-#: src/rc_formatters.py:948
-#, fuzzy
-msgid "Purged a comment on their own profile"
-msgstr "Відредагував коментар на своєму профілі"
-
-#: src/rc_formatters.py:956
-#, python-brace-format
-msgid "Deleted a comment on {target}'s profile"
-msgstr "Вилучив коментар на профілі {target}"
-
-#: src/rc_formatters.py:958
-#, fuzzy
-msgid "Deleted a comment on their own profile"
-msgstr "Відредагував коментар на своєму профілі"
-
-#: src/rc_formatters.py:962
-#, python-brace-format
-msgid "Changed group membership for {target}"
-msgstr "Змінено членство в групі для {target}"
-
-#: src/rc_formatters.py:966
-#, python-brace-format
-msgid "{target} got autopromoted to a new usergroup"
-msgstr "{target} автоматично переведений в нову групу користувачів"
-
-#: src/rc_formatters.py:981
-#, python-brace-format
-msgid "Groups changed from {old_groups} to {new_groups}{reason}"
-msgstr "Групи змінені з {old_groups} на {new_groups}{reason}"
-
-#: src/rc_formatters.py:985
-#, python-brace-format
-msgid "Protected {target}"
-msgstr "Захистив {target}"
-
-#: src/rc_formatters.py:991
-#, python-brace-format
-msgid "Changed protection level for {article}"
-msgstr "Змінив рівень захисту для {article}"
-
-#: src/rc_formatters.py:997
-#, python-brace-format
-msgid "Removed protection from {article}"
-msgstr "Зняв захист з {article}"
-
-#: src/rc_formatters.py:1001
-#, python-brace-format
-msgid "Changed visibility of revision on page {article} "
-msgid_plural "Changed visibility of {amount} revisions on page {article} "
-msgstr[0] "Змінив видимість {amount} версії сторінки {article} "
-msgstr[1] "Змінив видимість {amount} версій сторінки {article} "
-msgstr[2] "Змінив видимість {amount} версій сторінки {article} "
-
-#: src/rc_formatters.py:1013
-#, python-brace-format
-msgid "Imported {article} with {count} revision"
-msgid_plural "Imported {article} with {count} revisions"
-msgstr[0] "Імпортував {article} з {count} версією"
-msgstr[1] "Імпортував {article} з {count} версіями"
-msgstr[2] "Імпортував {article} з {count} версіями"
-
-#: src/rc_formatters.py:1018
-#, python-brace-format
-msgid "Restored {article}"
-msgstr "Відновив {article}"
-
-#: src/rc_formatters.py:1021
-msgid "Changed visibility of log events"
-msgstr "Змінив видимість подій журналу"
-
-#: src/rc_formatters.py:1031
-#, fuzzy, python-brace-format
-msgid "Imported {article} with {count} revision from \"{source}\""
-msgid_plural "Imported {article} with {count} revisions from \"{source}\""
-msgstr[0] "Імпортував {article} з {count} версією"
-msgstr[1] "Імпортував {article} з {count} версіями"
-msgstr[2] "Імпортував {article} з {count} версіями"
-
-#: src/rc_formatters.py:1036
-#, python-brace-format
-msgid "Edited abuse filter number {number}"
-msgstr "Відредагував фільтр зловживань під номером {number}"
-
-#: src/rc_formatters.py:1039
-#, python-brace-format
-msgid "Created abuse filter number {number}"
-msgstr "Створив фільтр зловживань під номером {number}"
-
-#: src/rc_formatters.py:1042
-#, python-brace-format
-msgid "Merged revision histories of {article} into {dest}"
-msgstr "Об'єднав історії версій {article} з {dest}"
-
-#: src/rc_formatters.py:1046
-msgid "Created account automatically"
-msgstr "Обліковий запис був створений автоматично"
-
-#: src/rc_formatters.py:1049 src/rc_formatters.py:1058
-msgid "Created account"
-msgstr "Створено обліковий запис"
-
-#: src/rc_formatters.py:1052
-#, python-brace-format
-msgid "Created account {article}"
-msgstr "Створено обліковий запис {article}"
-
-#: src/rc_formatters.py:1055
-#, python-brace-format
-msgid "Created account {article} and password was sent by email"
-msgstr ""
-"Створено обліковий запис {article} і і пароль був відправлений на електронну "
-"пошту"
-
-#: src/rc_formatters.py:1061
-msgid "Added an entry to the interwiki table"
-msgstr "Додав запис в таблицю інтервікі"
-
-#: src/rc_formatters.py:1062 src/rc_formatters.py:1068
-#, python-brace-format
-msgid "Prefix: {prefix}, website: {website} | {desc}"
-msgstr "Префікс: {prefix}, веб-сайт: {website} | {desc}"
-
-#: src/rc_formatters.py:1067
-msgid "Edited an entry in interwiki table"
-msgstr "Відредагував запис в таблиці інтервікі"
-
-#: src/rc_formatters.py:1073
-msgid "Deleted an entry in interwiki table"
-msgstr "Вилучив запис в таблиці інтервікі"
-
-#: src/rc_formatters.py:1074
-#, python-brace-format
-msgid "Prefix: {prefix} | {desc}"
-msgstr "Префікс: {prefix} | {desc}"
-
-#: src/rc_formatters.py:1077
-#, python-brace-format
-msgid "Changed the content model of the page {article}"
-msgstr "Змінив модель вмісту сторінки {article}"
-
-#: src/rc_formatters.py:1078
-#, python-brace-format
-msgid "Model changed from {old} to {new}: {reason}"
-msgstr "Модель змінена з {old} на {new}: {reason}"
-
-#: src/rc_formatters.py:1083
-#, python-brace-format
-msgid "Created the page {article} using a non-default content model"
-msgstr ""
-
-#: src/rc_formatters.py:1084
-#, fuzzy, python-brace-format
-msgid "Created with model {new}: {reason}"
-msgstr "Модель змінена з {old} на {new}: {reason}"
-
-#: src/rc_formatters.py:1087
+#: extensions/base/sprite.py:37
 #, python-brace-format
 msgid "Edited the sprite for {article}"
 msgstr "Відредагував спрайт для {article}"
 
-#: src/rc_formatters.py:1090
+#: extensions/base/sprite.py:45
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the sprite for [{article}]({article_url})"
+msgstr ""
+"[{author}]({author_url}) відредагував спрайт для [{article}]({article_url})"
+
+#: extensions/base/sprite.py:60
 #, python-brace-format
 msgid "Created the sprite sheet for {article}"
 msgstr "Створив таблицю спрайтів для {article}"
 
-#: src/rc_formatters.py:1093
+#: extensions/base/sprite.py:68
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) created the sprite sheet for [{article}]"
+"({article_url})"
+msgstr ""
+"[{author}]({author_url}) створив таблицю спрайтів для [{article}]"
+"({article_url})"
+
+#: extensions/base/sprite.py:79
 #, python-brace-format
 msgid "Edited the slice for {article}"
 msgstr "Відредагував фрагмент для {article}"
 
-#: src/rc_formatters.py:1099
-#, fuzzy, python-brace-format
-msgid "Created the Cargo table \"{table}\""
-msgstr "Створив тег \"{tag}\""
+#: extensions/base/sprite.py:86
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the slice for [{article}]({article_url})"
+msgstr ""
+"[{author}]({author_url}) відредагував фрагмент для [{article}]({article_url})"
 
-#: src/rc_formatters.py:1103
-#, fuzzy, python-brace-format
-msgid "Deleted the Cargo table \"{table}\""
-msgstr "Вилучив тег \"{tag}\""
+#~ msgid "Report this on the support server"
+#~ msgstr "Повідомити про це на сервер підтримки"
 
-#: src/rc_formatters.py:1110
-#, fuzzy, python-brace-format
-msgid "Recreated the Cargo table \"{table}\""
-msgstr "Створив тег \"{tag}\""
+#, python-brace-format
+#~ msgid "for {num} {translated_length}"
+#~ msgstr "на {num}{translated_length}"
 
-#: src/rc_formatters.py:1117
 #, fuzzy, python-brace-format
-msgid "Replaced the Cargo table \"{table}\""
-msgstr "Вилучив тег \"{tag}\""
+#~ msgid ""
+#~ "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) залишив [коментар]({comment}) на профілі {target}"
 
-#: src/rc_formatters.py:1121
 #, fuzzy, python-brace-format
-msgid "Created the tag \"{tag}\""
-msgstr "Створив тег \"{tag}\""
+#~ msgid ""
+#~ "[{author}]({author_url}) left a [comment]({comment}) on their own profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) залишив [коментар]({comment}) на профілі {target}"
 
-#: src/rc_formatters.py:1125
 #, fuzzy, python-brace-format
-msgid "Deleted the tag \"{tag}\""
-msgstr "Вилучив тег \"{tag}\""
+#~ msgid ""
+#~ "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
+#~ "profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відповів на [коментар]({comment}) на профілі "
+#~ "{target}"
 
-#: src/rc_formatters.py:1127
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
+#~ "profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відповів на [коментар]({comment}) на профілі "
+#~ "{target}"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s "
+#~ "profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
+#~ "{target}"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) edited a [comment]({comment}) on their own "
+#~ "profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
+#~ "{target}"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) purged a comment on {target}'s profile"
+#~ msgstr "[{author}] ({author_url}) вилучив коментар в профілі {target}"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) purged a comment on their own profile"
+#~ msgstr "[{author}] ({author_url}) вилучив коментар в профілі {target}"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
+#~ "profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
+#~ "{target}"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) deleted a [comment]({comment}) on their own "
+#~ "profile"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відредагував [коментар]({comment}) на профілі "
+#~ "{target}"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
+#~ "profile. *({desc})*"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відредагував {field} на профілі {target}. "
+#~ "*({desc})*"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
+#~ "profile. *({desc})*"
+#~ msgstr ""
+#~ "[{author}]({author_url}) відредагував {field} на профілі {target}. "
+#~ "*({desc})*"
+
+#~ msgid "none"
+#~ msgstr "нічого"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) completed deletion of translatable page "
+#~ "[{article}]({article_url}){comment}"
+#~ msgstr ""
+#~ "[{author}]({author_url}) зняв захист з [{article}]({article_url}){comment}"
+
+#~ msgid "No description provided"
+#~ msgstr "Немає опису редагування"
+
+#, python-brace-format
+#~ msgid "Left a comment on {target}'s profile"
+#~ msgstr "Залишив коментар на профілі {target}"
+
+#~ msgid "Left a comment on their own profile"
+#~ msgstr "Залишив коментар на своєму профілі"
+
+#, python-brace-format
+#~ msgid "Replied to a comment on {target}'s profile"
+#~ msgstr "Відповів на коментар на профілі {target}"
+
+#~ msgid "Replied to a comment on their own profile"
+#~ msgstr "Відповів на коментар на своєму профілі"
+
+#, python-brace-format
+#~ msgid "Edited a comment on {target}'s profile"
+#~ msgstr "Відредагував коментар на профілі {target}"
+
+#~ msgid "Edited a comment on their own profile"
+#~ msgstr "Відредагував коментар на своєму профілі"
+
+#, python-brace-format
+#~ msgid "Edited {target}'s profile"
+#~ msgstr "Відредагував профіль {target}"
+
+#~ msgid "Edited their own profile"
+#~ msgstr "Відредагував свій профіль"
+
+#, python-brace-format
+#~ msgid "Cleared the {field} field"
+#~ msgstr "Очистив поле {field}"
+
+#, python-brace-format
+#~ msgid "{field} field changed to: {desc}"
+#~ msgstr "Поле {field} змінено на: {desc}"
+
+#, python-brace-format
+#~ msgid "Purged a comment on {target}'s profile"
+#~ msgstr "Вилучив коментар в профілі {target}"
+
 #, fuzzy
-msgid "Removed from"
-msgstr "Видалено"
+#~ msgid "Purged a comment on their own profile"
+#~ msgstr "Відредагував коментар на своєму профілі"
 
-#: src/rc_formatters.py:1127
-msgid "{} revision or log entry"
-msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: src/rc_formatters.py:1131
-#, fuzzy, python-brace-format
-msgid "Activated the tag \"{tag}\""
-msgstr "Активував тег \"{tag}\""
-
-#: src/rc_formatters.py:1134
-#, fuzzy, python-brace-format
-msgid "Deactivated the tag \"{tag}\""
-msgstr "Деактивував тег \"{tag}\""
-
-#: src/rc_formatters.py:1137
-msgid "Changed wiki settings"
-msgstr ""
-
-#: src/rc_formatters.py:1141
-#, fuzzy, python-brace-format
-msgid "Deleted a \"{wiki}\" wiki"
-msgstr "Вилучив тег \"{tag}\""
-
-#: src/rc_formatters.py:1144
 #, python-brace-format
-msgid "Locked a \"{wiki}\" wiki"
-msgstr ""
+#~ msgid "Deleted a comment on {target}'s profile"
+#~ msgstr "Вилучив коментар на профілі {target}"
 
-#: src/rc_formatters.py:1147
-#, python-brace-format
-msgid "Modified \"{namespace_name}\" namespace"
-msgstr ""
-
-#: src/rc_formatters.py:1149 src/rc_formatters.py:1154
-msgid "Wiki"
-msgstr ""
-
-#: src/rc_formatters.py:1151
-#, python-brace-format
-msgid "Deleted a \"{namespace_name}\" namespace"
-msgstr ""
-
-#: src/rc_formatters.py:1157
-#, python-brace-format
-msgid "Modified \"{usergroup_name}\" usergroup"
-msgstr ""
-
-#: src/rc_formatters.py:1160
-#, fuzzy, python-brace-format
-msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "Вилучив тег \"{tag}\""
-
-#: src/rc_formatters.py:1163
-#, python-brace-format
-msgid "Unlocked a \"{wiki}\" wiki"
-msgstr ""
-
-#: src/rc_formatters.py:1166
-#, python-brace-format
-msgid "Generated {file} dump"
-msgstr ""
-
-#: src/rc_formatters.py:1169
-#, fuzzy, python-brace-format
-msgid "Deleted {file} dump"
-msgstr "Вилучив сторінку {article}"
-
-#: src/rc_formatters.py:1177
-#, python-brace-format
-msgid "Marked \"{article}\" for translation"
-msgstr ""
-
-#: src/rc_formatters.py:1180
-#, python-brace-format
-msgid "Removed \"{article}\" from the translation system"
-msgstr ""
-
-#: src/rc_formatters.py:1183
-#, python-brace-format
-msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
-msgstr ""
-
-#: src/rc_formatters.py:1186
-#, python-brace-format
-msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
-msgstr ""
-
-#: src/rc_formatters.py:1189
-#, python-brace-format
-msgid "Completed deletion of translatable page \"{article}\""
-msgstr ""
-
-#: src/rc_formatters.py:1192
-#, python-brace-format
-msgid ""
-"Failed to delete \"{article}\" which belongs to translatable page "
-"\"{target}\""
-msgstr ""
-
-#: src/rc_formatters.py:1195
-#, fuzzy, python-brace-format
-msgid "Completed deletion of translation page \"{article}\""
-msgstr "Змінив видимість {amount} версії сторінки {article} "
-
-#: src/rc_formatters.py:1198
-#, python-brace-format
-msgid ""
-"Failed to delete \"{article}\" which belongs to translation page \"{target}\""
-msgstr ""
-
-#: src/rc_formatters.py:1201
-#, fuzzy, python-brace-format
-msgid "Encouraged translation of \"{article}\""
-msgstr "Зняв захист з {article}"
-
-#: src/rc_formatters.py:1204
-#, python-brace-format
-msgid "Discouraged translation of \"{article}\""
-msgstr ""
-
-#: src/rc_formatters.py:1210
-#, python-brace-format
-msgid "Limited languages for \"{article}\" to `{languages}`"
-msgstr ""
-
-#: src/rc_formatters.py:1212
-#, python-brace-format
-msgid "Priority languages for \"{article}\" set to `{languages}`"
-msgstr ""
-
-#: src/rc_formatters.py:1214
-#, fuzzy, python-brace-format
-msgid "Removed priority languages from \"{article}\""
-msgstr "Зняв захист з {article}"
-
-#: src/rc_formatters.py:1217
-#, python-brace-format
-msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
-msgstr ""
-
-#: src/rc_formatters.py:1220
-#, python-brace-format
-msgid ""
-"Removed translatable page \"{article}\" from aggregate group \"{group}\""
-msgstr ""
-
-#: src/rc_formatters.py:1227
-#, fuzzy, python-brace-format
-msgid "Reviewed translation \"{article}\""
-msgstr "Зняв захист з {article}"
-
-#: src/rc_formatters.py:1230
-#, python-brace-format
-msgid "Changed the state of `{language}` translations of \"{article}\""
-msgstr ""
-
-#: src/rc_formatters.py:1232
-msgid "Old state"
-msgstr ""
-
-#: src/rc_formatters.py:1233
-msgid "New state"
-msgstr ""
-
-#: src/rc_formatters.py:1242
-#, fuzzy, python-brace-format
-msgid "Changed the language of \"{article}\""
-msgstr "Зняв захист з {article}"
-
-#: src/rc_formatters.py:1243
-msgid "Old language"
-msgstr ""
-
-#: src/rc_formatters.py:1244
-msgid "New language"
-msgstr ""
-
-#: src/rc_formatters.py:1248
-#, python-brace-format
-msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
-msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: src/rc_formatters.py:1250
-#, python-brace-format
-msgid "Renamed user \"{old_name}\" to \"{new_name}\""
-msgstr ""
-
-#: src/rc_formatters.py:1254
 #, fuzzy
-msgid "Action has been hidden by administration"
-msgstr "Дія була прихована адміністрацією."
+#~ msgid "Deleted a comment on their own profile"
+#~ msgstr "Відредагував коментар на своєму профілі"
 
-#: src/rc_formatters.py:1288
-msgid "**Added**: "
-msgstr "**Додано**: "
-
-#: src/rc_formatters.py:1288
-msgid " and {} more\n"
-msgstr " та ще {}\n"
-
-#: src/rc_formatters.py:1289
-msgid "**Removed**: "
-msgstr "**Видалено**: "
-
-#: src/rc_formatters.py:1289
-msgid " and {} more"
-msgstr " та ще {}"
-
-#: src/rc_formatters.py:1290
-msgid "Changed categories"
-msgstr "Змінені категорії"
+#, python-brace-format
+#~ msgid "Groups changed from {old_groups} to {new_groups}{reason}"
+#~ msgstr "Групи змінені з {old_groups} на {new_groups}{reason}"
 
 #, fuzzy, python-brace-format
 #~ msgid "[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}"
