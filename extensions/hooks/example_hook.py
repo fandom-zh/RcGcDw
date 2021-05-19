@@ -13,5 +13,16 @@
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-import extensions.base
-import extensions.hooks
+from src.api.hook import pre_hook, post_hook
+
+
+@pre_hook
+def example_pre_hook(context, change):
+    if context.event == "edit":
+        print("I'm an edit with {} bytes changed!".format(change.get("newlen", 0) - change.get("oldlen", 0)))
+
+
+@post_hook
+def example_post_hook(message, metadata, context):
+    print("Our Discord message looks as follows: ")
+    print(message)

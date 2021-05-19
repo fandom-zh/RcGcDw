@@ -13,5 +13,4 @@
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-import extensions.base
-import extensions.hooks
+import extensions.hooks.example_hook

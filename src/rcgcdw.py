@@ -58,6 +58,7 @@ def load_extensions():
 		importlib.import_module(settings.get('extensions_dir', 'extensions'), 'extensions')
 	except ImportError:
 		logger.critical("No extensions module found. What's going on?")
+		logger.exception("Error:")
 		sys.exit(1)
 
 storage = datafile
