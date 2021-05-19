@@ -15,6 +15,7 @@
 
 
 import logging
+from src.configloader import settings
 from src.discord.message import DiscordMessage
 from src.api import formatter
 from src.i18n import rc_formatters
@@ -31,40 +32,40 @@ ngettext = rc_formatters.ngettext
 
 
 @formatter.embed(event="curseprofile/profile-edited")
-def embed_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def embed_curseprofile_profile_edited(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-	target_user = change["title"].split(':', 1)[1]
-	if target_user != change["user"]:
-		embed["title"] = _("Edited {target}'s profile").format(target=sanitize_to_markdown(target_user))
-	else:
-		embed["title"] = _("Edited their own profile")
-	if ctx.parsedcomment is None:  # If the field is empty
-		embed["description"] = _("Cleared the {field} field").format(field=profile_field_name(change["logparams"]['4:section'], True))
-	else:
-		embed["description"] = _("{field} field changed to: {desc}").format(field=profile_field_name(change["logparams"]['4:section'], True), desc=ctx.parsedcomment)
+    target_user = change["title"].split(':', 1)[1]
+    if target_user != change["user"]:
+        embed["title"] = _("Edited {target}'s profile").format(target=sanitize_to_markdown(target_user))
+    else:
+        embed["title"] = _("Edited their own profile")
+    if ctx.parsedcomment is None:  # If the field is empty
+        embed["description"] = _("Cleared the {field} field").format(field=profile_field_name(change["logparams"]['4:section'], True))
+    else:
+        embed["description"] = _("{field} field changed to: {desc}").format(field=profile_field_name(change["logparams"]['4:section'], True), desc=ctx.parsedcomment)
     embed["url"] = create_article_path("UserProfile:" + sanitize_to_url(target_user))
     return embed
 
 
 @formatter.compact(event="curseprofile/profile-edited")
-def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def compact_curseprofile_profile_edited(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
-	target_user = change["title"].split(':', 1)[1]
+    target_user = change["title"].split(':', 1)[1]
     link = clean_link(create_article_path("UserProfile:" + sanitize_to_url(target_user)))
-	if target_user != author:
-	    if ctx.parsedcomment is None:  # If the field is empty
+    if target_user != author:
+        if ctx.parsedcomment is None:  # If the field is empty
             edit_clear_message = _("[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s profile.")
         else:
             edit_clear_message = _("[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s profile. *({desc})*")
-		content = edit_clear_message.format(author=author, author_url=author_url, target=sanitize_to_markdown(target_user), target_url=link,
+        content = edit_clear_message.format(author=author, author_url=author_url, target=sanitize_to_markdown(target_user), target_url=link,
             field=profile_field_name(change["logparams"]['4:section'], False), desc=ctx.parsedcomment)
-	else:
-	    if ctx.parsedcomment is None:  # If the field is empty
+    else:
+        if ctx.parsedcomment is None:  # If the field is empty
             edit_clear_message = _("[{author}]({author_url}) cleared the {field} on [their own]({target_url}) profile.")
         else:
             edit_clear_message = _("[{author}]({author_url}) edited the {field} on [their own]({target_url}) profile. *({desc})*")
-		content = edit_clear_message.format(author=author, author_url=author_url, target_url=link,
+        content = edit_clear_message.format(author=author, author_url=author_url, target_url=link,
             field=profile_field_name(change["logparams"]['4:section'], False), desc=ctx.parsedcomment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
@@ -73,30 +74,30 @@ def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
 
 
 @formatter.embed(event="curseprofile/comment-created")
-def embed_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def embed_curseprofile_comment_created(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-	target_user = change["title"].split(':', 1)[1]
-	if target_user != change["user"]:
-		embed["title"] = _("Left a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
-	else:
-		embed["title"] = _("Left a comment on their own profile")
-	if settings["appearance"]["embed"]["show_edit_changes"]:
-		embed["description"] = ctx.client.pull_curseprofile_comment(change["logparams"]["4:comment_id"])
+    target_user = change["title"].split(':', 1)[1]
+    if target_user != change["user"]:
+        embed["title"] = _("Left a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
+    else:
+        embed["title"] = _("Left a comment on their own profile")
+    if settings["appearance"]["embed"]["show_edit_changes"]:
+        embed["description"] = ctx.client.pull_curseprofile_comment(change["logparams"]["4:comment_id"])
     embed["url"] = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
     return embed
 
 
 @formatter.compact(event="curseprofile/comment-created")
-def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def compact_curseprofile_comment_created(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
-	target_user = change["title"].split(':', 1)[1]
-	link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-	if target_user != author:
-		content = _("[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile.").format(
+    target_user = change["title"].split(':', 1)[1]
+    link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
+    if target_user != author:
+        content = _("[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile.").format(
             author=author, author_url=author_url, comment=link, target=sanitize_to_markdown(target_user))
-	else:
-		content = _("[{author}]({author_url}) left a [comment]({comment}) on their own profile.").format(author=author, author_url=author_url, comment=link)
+    else:
+        content = _("[{author}]({author_url}) left a [comment]({comment}) on their own profile.").format(author=author, author_url=author_url, comment=link)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -104,30 +105,30 @@ def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
 
 
 @formatter.embed(event="curseprofile/comment-edited")
-def embed_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def embed_curseprofile_comment_edited(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-	target_user = change["title"].split(':', 1)[1]
-	if target_user != change["user"]:
-		embed["title"] = _("Edited a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
-	else:
-		embed["title"] = _("Edited a comment on their own profile")
-	if settings["appearance"]["embed"]["show_edit_changes"]:
-		embed["description"] = ctx.client.pull_curseprofile_comment(change["logparams"]["4:comment_id"])
+    target_user = change["title"].split(':', 1)[1]
+    if target_user != change["user"]:
+        embed["title"] = _("Edited a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
+    else:
+        embed["title"] = _("Edited a comment on their own profile")
+    if settings["appearance"]["embed"]["show_edit_changes"]:
+        embed["description"] = ctx.client.pull_curseprofile_comment(change["logparams"]["4:comment_id"])
     embed["url"] = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
     return embed
 
 
 @formatter.compact(event="curseprofile/comment-edited")
-def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def compact_curseprofile_comment_edited(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
-	target_user = change["title"].split(':', 1)[1]
-	link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-	if target_user != author:
-		content = _("[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile.").format(
+    target_user = change["title"].split(':', 1)[1]
+    link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
+    if target_user != author:
+        content = _("[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile.").format(
             author=author, author_url=author_url, comment=link, target=sanitize_to_markdown(target_user))
-	else:
-		content = _("[{author}]({author_url}) edited a [comment]({comment}) on their own profile.").format(author=author, author_url=author_url, comment=link)
+    else:
+        content = _("[{author}]({author_url}) edited a [comment]({comment}) on their own profile.").format(author=author, author_url=author_url, comment=link)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -135,30 +136,30 @@ def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
 
 
 @formatter.embed(event="curseprofile/comment-replied")
-def embed_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def embed_curseprofile_comment_replied(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-	target_user = change["title"].split(':', 1)[1]
-	if target_user != change["user"]:
-		embed["title"] = _("Replied to a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
-	else:
-		embed["title"] = _("Replied to a comment on their own profile")
-	if settings["appearance"]["embed"]["show_edit_changes"]:
-		embed["description"] = ctx.client.pull_curseprofile_comment(change["logparams"]["4:comment_id"])
+    target_user = change["title"].split(':', 1)[1]
+    if target_user != change["user"]:
+        embed["title"] = _("Replied to a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
+    else:
+        embed["title"] = _("Replied to a comment on their own profile")
+    if settings["appearance"]["embed"]["show_edit_changes"]:
+        embed["description"] = ctx.client.pull_curseprofile_comment(change["logparams"]["4:comment_id"])
     embed["url"] = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
     return embed
 
 
 @formatter.compact(event="curseprofile/comment-replied")
-def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def compact_curseprofile_comment_replied(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
-	target_user = change["title"].split(':', 1)[1]
-	link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
-	if target_user != author:
-		content = _("[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s profile.").format(
+    target_user = change["title"].split(':', 1)[1]
+    link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
+    if target_user != author:
+        content = _("[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s profile.").format(
             author=author, author_url=author_url, comment=link, target=sanitize_to_markdown(target_user))
-	else:
-		content = _("[{author}]({author_url}) replied to a [comment]({comment}) on their own profile.").format(author=author, author_url=author_url, comment=link)
+    else:
+        content = _("[{author}]({author_url}) replied to a [comment]({comment}) on their own profile.").format(author=author, author_url=author_url, comment=link)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -166,17 +167,17 @@ def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
 
 
 @formatter.embed(event="curseprofile/comment-deleted")
-def embed_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def embed_curseprofile_comment_deleted(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-	target_user = change["title"].split(':', 1)[1]
-	if target_user != change["user"]:
-		embed["title"] = _("Deleted a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
-	else:
-		embed["title"] = _("Deleted a comment on their own profile")
-	if ctx.parsedcomment is not None:
-		embed["description"] = ctx.parsedcomment
-	if "4:comment_id" in change["logparams"]:
+    target_user = change["title"].split(':', 1)[1]
+    if target_user != change["user"]:
+        embed["title"] = _("Deleted a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
+    else:
+        embed["title"] = _("Deleted a comment on their own profile")
+    if ctx.parsedcomment is not None:
+        embed["description"] = ctx.parsedcomment
+    if "4:comment_id" in change["logparams"]:
         embed["url"] = create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"]))
     else:
         embed["url"] = create_article_path("UserProfile:" + sanitize_to_url(target_user))
@@ -184,20 +185,20 @@ def embed_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
 
 
 @formatter.compact(event="curseprofile/comment-deleted")
-def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def compact_curseprofile_comment_deleted(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
-	target_user = change["title"].split(':', 1)[1]
-	if "4:comment_id" in change["logparams"]:
-	    link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
+    target_user = change["title"].split(':', 1)[1]
+    if "4:comment_id" in change["logparams"]:
+        link = clean_link(create_article_path("Special:CommentPermalink/{commentid}".format(commentid=change["logparams"]["4:comment_id"])))
     else:
         link = clean_link(create_article_path("UserProfile:" + sanitize_to_url(target_user)))
     parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
-	if target_user != author:
-		content = _("[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s profile.{reason}").format(
+    if target_user != author:
+        content = _("[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s profile.{reason}").format(
             author=author, author_url=author_url, comment=link, target=sanitize_to_markdown(target_user), reason=parsed_comment)
-	else:
-		content = _("[{author}]({author_url}) deleted a [comment]({comment}) on their own profile.{reason}").format(
-			author=author, author_url=author_url, comment=link, reason=parsed_comment)
+    else:
+        content = _("[{author}]({author_url}) deleted a [comment]({comment}) on their own profile.{reason}").format(
+            author=author, author_url=author_url, comment=link, reason=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -205,29 +206,29 @@ def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
 
 
 @formatter.embed(event="curseprofile/comment-purged")
-def embed_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def embed_curseprofile_comment_purged(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     embed_helper(ctx, embed, change)
-	target_user = change["title"].split(':', 1)[1]
-	if target_user != change["user"]:
-		embed["title"] = _("Purged a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
-	else:
-		embed["title"] = _("Purged a comment on their own profile")
-	if ctx.parsedcomment is not None:
-		embed["description"] = ctx.parsedcomment
-	embed["url"] = create_article_path("UserProfile:" + sanitize_to_url(target_user))
+    target_user = change["title"].split(':', 1)[1]
+    if target_user != change["user"]:
+        embed["title"] = _("Purged a comment on {target}'s profile").format(target=sanitize_to_markdown(target_user))
+    else:
+        embed["title"] = _("Purged a comment on their own profile")
+    if ctx.parsedcomment is not None:
+        embed["description"] = ctx.parsedcomment
+    embed["url"] = create_article_path("UserProfile:" + sanitize_to_url(target_user))
     return embed
 
 
 @formatter.compact(event="curseprofile/comment-purged")
-def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
+def compact_curseprofile_comment_purged(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
-	target_user = change["title"].split(':', 1)[1]
-	link = clean_link(create_article_path("UserProfile:" + sanitize_to_url(target_user)))
+    target_user = change["title"].split(':', 1)[1]
+    link = clean_link(create_article_path("UserProfile:" + sanitize_to_url(target_user)))
     parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
-	if target_user != author:
-		content = _("[{author}]({author_url}) purged a comment on [{target}]({link})'s profile.{reason}").format(
+    if target_user != author:
+        content = _("[{author}]({author_url}) purged a comment on [{target}]({link})'s profile.{reason}").format(
             author=author, author_url=author_url, link=link, target=sanitize_to_markdown(target_user), reason=parsed_comment)
-	else:
-		content = _("[{author}]({author_url}) purged a comment on [their own]({link}) profile.{reason}").format(author=author, author_url=author_url, link=link)
+    else:
+        content = _("[{author}]({author_url}) purged a comment on [their own]({link}) profile.{reason}").format(author=author, author_url=author_url, link=link)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content, reason=parsed_comment)
