@@ -17,12 +17,12 @@
 import logging
 from src.discord.message import DiscordMessage
 from src.api import formatter
-from src.i18n import rc_formatters
+from src.i18n import formatters_i18n
 from src.api.context import Context
-from src.api.util import embed_helper, clean_link, compact_author, create_article_path, sanitize_to_url
+from src.api.util import embed_helper, clean_link, compact_author, create_article_path, sanitize_to_url, compact_summary
 
-_ = rc_formatters.gettext
-ngettext = rc_formatters.ngettext
+_ = formatters_i18n.gettext
+ngettext = formatters_i18n.ngettext
 
 
 # Interwiki - https://www.mediawiki.org/wiki/Extension:Interwiki
@@ -45,7 +45,7 @@ def embed_interwiki_iw_add(ctx: Context, change: dict) -> DiscordMessage:
 def compact_interwiki_iw_add(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
     link = clean_link(create_article_path("Special:Interwiki"))
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _(
         "[{author}]({author_url}) added an entry to the [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(
         author=author, author_url=author_url, desc=parsed_comment, prefix=change["logparams"]['0'],
@@ -72,7 +72,7 @@ def embed_interwiki_iw_edit(ctx: Context, change: dict) -> DiscordMessage:
 def compact_interwiki_iw_edit(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
     link = clean_link(create_article_path("Special:Interwiki"))
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _(
         "[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) pointing to {website} with {prefix} prefix").format(
         author=author, author_url=author_url, desc=parsed_comment, prefix=change["logparams"]['0'],
@@ -98,7 +98,7 @@ def embed_interwiki_iw_delete(ctx: Context, change: dict) -> DiscordMessage:
 def compact_interwiki_iw_delete(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
     link = clean_link(create_article_path("Special:Interwiki"))
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     content = _("[{author}]({author_url}) deleted an entry in [interwiki table]({table_url}){desc}").format(
         author=author,
         author_url=author_url,

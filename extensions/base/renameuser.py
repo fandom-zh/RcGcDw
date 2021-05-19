@@ -17,12 +17,12 @@
 import logging
 from src.discord.message import DiscordMessage
 from src.api import formatter
-from src.i18n import rc_formatters
+from src.i18n import formatters_i18n
 from src.api.context import Context
-from src.api.util import embed_helper, clean_link, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url
+from src.api.util import embed_helper, compact_summary, clean_link, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url
 
-_ = rc_formatters.gettext
-ngettext = rc_formatters.ngettext
+_ = formatters_i18n.gettext
+ngettext = formatters_i18n.ngettext
 
 
 # Renameuser - https://www.mediawiki.org/wiki/Extension:Renameuser
@@ -52,7 +52,7 @@ def compact_renameuser_renameuser(ctx: Context, change: dict) -> DiscordMessage:
     author, author_url = compact_author(ctx, change)
     link = clean_link(create_article_path("User:" + sanitize_to_url(change["logparams"]["newuser"])))
     edits = change["logparams"]["edits"]
-    parsed_comment = "" if ctx.parsedcomment is None else " *(" + ctx.parsedcomment + ")*"
+    parsed_comment = compact_summary(ctx)
     if edits > 0:
         content = ngettext(
             "[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to [{new_name}]({link}){comment}",

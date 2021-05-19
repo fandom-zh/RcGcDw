@@ -21,3 +21,6 @@ import extensions.base.datadump
 import extensions.base.sprite
 import extensions.base.translate
 import extensions.base.discussions
+import extensions.base.curseprofile
+import extensions.base.interwiki
+import extensions.base.renameuser

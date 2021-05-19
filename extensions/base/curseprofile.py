@@ -18,13 +18,13 @@ import logging
 from src.configloader import settings
 from src.discord.message import DiscordMessage
 from src.api import formatter
-from src.i18n import rc_formatters
+from src.i18n import formatters_i18n
 from src.api.context import Context
 from src.api.util import embed_helper, clean_link, compact_author, create_article_path, sanitize_to_markdown, sanitize_to_url
 from src.misc import profile_field_name
 
-_ = rc_formatters.gettext
-ngettext = rc_formatters.ngettext
+_ = formatters_i18n.gettext
+ngettext = formatters_i18n.ngettext
 
 
 # CurseProfile - https://help.fandom.com/wiki/Extension:CurseProfile
