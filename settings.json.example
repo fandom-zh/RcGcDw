@@ -20,6 +20,8 @@
     "ignored": ["external", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers"],
     "show_updown_messages": true,
     "ignored_namespaces": [],
+    "extensions_dir": "extensions",
+    "error_tolerance": 1,
     "overview": false,
     "overview_time": "00:00",
     "send_empty_overview": false,
@@ -43,7 +45,7 @@
         "disable_existing_loggers": false,
         "formatters": {
             "standard": {
-                "format": "%(name)s - %(levelname)s: %(message)s"
+                "format": "%(name)s - %(asctime)s - %(levelname)s: %(message)s"
             }
         },
         "handlers": {

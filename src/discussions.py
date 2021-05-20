@@ -1,31 +1,34 @@
 # -*- coding: utf-8 -*-
 
-# Recent changes Goat compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
-# Copyright (C) 2020 Frisk
+# This file is part of Recent changes Goat compatible Discord webhook (RcGcDw).
 
-# This program is free software: you can redistribute it and/or modify
+# RcGcDw is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-# This program is distributed in the hope that it will be useful,
+# RcGcDw is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging, schedule, requests
 from typing import Dict, Any
 
 from src.configloader import settings
 
-from src.discussion_formatters import embed_formatter, compact_formatter
-from src.misc import datafile, prepare_paths
-from src.discord.queue import messagequeue
+#from src.discussion_formatters import embed_formatter, compact_formatter
+from src.misc import datafile, prepare_paths, run_hooks
+from src.discord.queue import messagequeue, send_to_discord
+from src.discord.message import DiscordMessageMetadata
 from src.session import session
 from src.exceptions import ArticleCommentError
+from src.api.util import default_message
+from src.api.context import Context
+from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
 
 # Create a custom logger
 
@@ -39,8 +42,20 @@ if "discussion_id" not in datafile.data:
 
 storage = datafile
 
+global client
+
+# setup a few things first so we don't have to do expensive nested get operations every time
 fetch_url = "{wiki}wikia.php?controller=DiscussionPost&method=getPosts&sortDirection=descending&sortKey=creation_date&limit={limit}&includeCounters=false".format(wiki=settings["fandom_discussions"]["wiki_url"], limit=settings["fandom_discussions"]["limit"])
 domain = prepare_paths(settings["fandom_discussions"]["wiki_url"], dry=True)  # Shutdown if the path for discussions is wrong
+display_mode = settings.get("fandom_discussions", {}).get("appearance", {}).get("mode", "embed")
+webhook_url = settings.get("fandom_discussions", {}).get("webhookURL", settings.get("webhookURL"))
+
+
+def inject_client(client_obj):
+	"""Function to avoid circular import issues"""
+	global client
+	client = client_obj
+
 
 def fetch_discussions():
 	messagequeue.resend_msgs()
@@ -78,6 +93,7 @@ def fetch_discussions():
 				for post in request_json:
 					if int(post["id"]) > storage["discussion_id"]:
 						try:
+							discussion_logger.debug(f"Sending discussion post with ID {post['id']}")
 							parse_discussion_post(post, comment_pages)
 						except ArticleCommentError:
 							return None
@@ -85,9 +101,12 @@ def fetch_discussions():
 					storage["discussion_id"] = int(post["id"])
 					datafile.save_datafile()
 
+
 def parse_discussion_post(post, comment_pages):
 	"""Initial post recognition & handling"""
+	global client
 	post_type = post["_embedded"]["thread"][0]["containerType"]
+	context = Context(display_mode, webhook_url, client)
 	# Filter posts by forum
 	if post_type == "FORUM" and settings["fandom_discussions"].get("show_forums", []):
 		if not post["forumName"] in settings["fandom_discussions"]["show_forums"]:
@@ -100,7 +119,13 @@ def parse_discussion_post(post, comment_pages):
 		except KeyError:
 			discussion_logger.error("Could not parse paths for article comment, here is the content of comment_pages: {}, ignoring...".format(comment_pages))
 			raise ArticleCommentError
-	formatter(post_type, post, comment_page)
+	event_type = f"discussion/{post_type.lower()}"
+	context.set_comment_page(comment_page)
+	run_hooks(pre_hooks, context, post)
+	discord_message = default_message(event_type, formatter_hooks)(context, post)
+	metadata = DiscordMessageMetadata("POST")
+	run_hooks(post_hooks, discord_message, metadata, context)
+	send_to_discord(discord_message, metadata)
 
 
 def safe_request(url):
@@ -121,6 +146,6 @@ def safe_request(url):
 			return None
 		return request
 
-formatter = embed_formatter if settings["fandom_discussions"]["appearance"]["mode"] == "embed" else compact_formatter
 
 schedule.every(settings["fandom_discussions"]["cooldown"]).seconds.do(fetch_discussions)
+

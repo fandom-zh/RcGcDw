@@ -1,31 +1,30 @@
 # -*- coding: utf-8 -*-
 
-# Recent changes Goat compatible Discord webhook is a project for using a webhook as recent changes page from MediaWiki.
-# Copyright (C) 2018 Frisk
+# This file is part of Recent changes Goat compatible Discord webhook (RcGcDw).
 
-# This program is free software: you can redistribute it and/or modify
+# RcGcDw is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-# This program is distributed in the hope that it will be useful,
+# RcGcDw is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 import base64
-import json, logging, sys, re
+import json, logging, sys, re, platform
 from html.parser import HTMLParser
-from urllib.parse import urlparse, urlunparse, quote
+from urllib.parse import urlparse, urlunparse
 import requests
+
 from src.configloader import settings
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.discord.queue import messagequeue, send_to_discord
+from src.exceptions import MediaWikiError
 from src.i18n import misc
-
-AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 _ = misc.gettext
 
@@ -44,10 +43,12 @@ WIKI_JUST_DOMAIN: str = ""
 
 profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About me"), "profile-link-google": _("Google link"), "profile-link-facebook":_("Facebook link"), "profile-link-twitter": _("Twitter link"), "profile-link-reddit": _("Reddit link"), "profile-link-twitch": _("Twitch link"), "profile-link-psn": _("PSN link"), "profile-link-vk": _("VK link"), "profile-link-xbl": _("XBL link"), "profile-link-steam": _("Steam link"), "profile-link-discord": _("Discord handle"), "profile-link-battlenet": _("Battle.net handle")}
 
+
 class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
 	def __init__(self):
 		self.data = self.load_datafile()
+		misc_logger.debug("Current contents of data.json {}".format(self.data))
 		self.changed = False
 
 	@staticmethod
@@ -80,9 +81,19 @@ class DataFile:
 			with open("data.json", "w", encoding="utf-8") as data_file:
 				data_file.write(json.dumps(self.data, indent=4))
 			self.changed = False
+			misc_logger.debug("Saving the database succeeded.")
 		except PermissionError:
 			misc_logger.critical("Could not modify a data file (no permissions). No way to store last edit.")
 			sys.exit(1)
+		except OSError as e:
+			if settings.get("error_tolerance", 1) > 1:
+				if platform.system() == "Windows":
+					if "Invalid argument: 'data.json'" in str(e):
+						misc_logger.error("Saving the data file failed due to Invalid argument exception, we've seen it "
+										  "before in issue #209, if you know the reason for it happening please reopen the "
+										  "issue with explanation, for now we are going to just ignore it.")  #  Reference #209
+						return
+			raise
 
 	def __setitem__(self, instance, value):
 		self.data[instance] = value
@@ -105,17 +116,25 @@ def weighted_average(value, weight, new_value):
 	return round(((value * weight) + new_value) / (weight + 1), 2)
 
 
-def link_formatter(link):
-	"""Formats a link to not embed it"""
-	return "<" + quote(link.replace(" ", "_"), "/:?=&") + ">"
+def class_searcher(attribs: list) -> str:
+	"""Function to return classes of given element in HTMLParser on handle_starttag
 
-
-def escape_formatting(data):
-	"""Escape Discord formatting"""
-	return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data, 0)
+	:returns a string with all of the classes of element
+	"""
+	for attr in attribs:
+		if attr[0] == "class":
+			return attr[1]
+	return ""
 
 
 class ContentParser(HTMLParser):
+	"""ContentPerser is an implementation of HTMLParser that parses output of action=compare&prop=diff API request
+	for two MediaWiki revisions. It extracts the following:
+	small_prev_ins - storing up to 1000 characters of added text
+	small_prev_del - storing up to 1000 chracters of removed text
+	ins_length - storing length of inserted text
+	del_length - storing length of deleted text
+	"""
 	more = _("\n__And more__")
 	current_tag = ""
 	last_ins = None
@@ -129,16 +148,21 @@ class ContentParser(HTMLParser):
 	def handle_starttag(self, tagname, attribs):
 		if tagname == "ins" or tagname == "del":
 			self.current_tag = tagname
-		if tagname == "td" and "diff-addedline" in attribs[0] and self.ins_length <= 1000:
-			self.current_tag = "tda"
-			self.last_ins = ""
-		if tagname == "td" and "diff-deletedline" in attribs[0] and self.del_length <= 1000:
-			self.current_tag = "tdd"
-			self.last_del = ""
-		if tagname == "td" and "diff-empty" in attribs[0]:
-			self.empty = True
+		if tagname == "td":
+			classes = class_searcher(attribs).split(' ')
+			if "diff-addedline" in classes and self.ins_length <= 1000:
+				self.current_tag = "tda"
+				self.last_ins = ""
+			if "diff-deletedline" in classes and self.del_length <= 1000:
+				self.current_tag = "tdd"
+				self.last_del = ""
+			if "diff-empty" in classes:
+				self.empty = True
 
 	def handle_data(self, data):
+		def escape_formatting(data: str) -> str:
+			"""Escape Discord formatting"""
+			return re.sub(r"([`_*~<>{}@/|\\])", "\\\\\\1", data)
 		data = escape_formatting(data)
 		if self.current_tag == "ins" and self.ins_length <= 1000:
 			self.ins_length += len("**" + data + "**")
@@ -202,12 +226,28 @@ def safe_read(request, *keys):
 	return request
 
 
+def parse_mw_request_info(request_data: dict, url: str):
+	"""A function parsing request JSON message from MediaWiki logging all warnings and raising on MediaWiki errors"""
+	# any([True for k in request_data.keys() if k in ("error", "errors")])
+	errors: list = request_data.get("errors", {})  # Is it ugly? I don't know tbh
+	if errors:
+		raise MediaWikiError(str(errors))
+	warnings: list = request_data.get("warnings", {})
+	if warnings:
+		for warning in warnings:
+			misc_logger.warning("MediaWiki returned the following warning: {code} - {text} on {url}.".format(
+				code=warning["code"], text=warning.get("text", warning.get("*", "")), url=url
+			))
+	return request_data
+
+
 def add_to_dict(dictionary, key):
 	if key in dictionary:
 		dictionary[key] += 1
 	else:
 		dictionary[key] = 1
 	return dictionary
+
 
 def prepare_paths(path, dry=False):
 	global WIKI_API_PATH
@@ -255,17 +295,23 @@ def prepare_paths(path, dry=False):
 prepare_paths(settings["wiki_url"])
 
 
-def create_article_path(article: str) -> str:
-	"""Takes the string and creates an URL with it as the article name"""
-	return WIKI_ARTICLE_PATH.replace("$1", article)
-
-
 def send_simple(msgtype, message, name, avatar):
 	discord_msg = DiscordMessage("compact", msgtype, settings["webhookURL"], content=message)
 	discord_msg.set_avatar(avatar)
 	discord_msg.set_name(name)
 	messagequeue.resend_msgs()
 	send_to_discord(discord_msg, meta=DiscordMessageMetadata("POST"))
+
+
+def run_hooks(hooks, *arguments):
+	for hook in hooks:
+		try:
+			hook(*arguments)
+		except:
+			if settings.get("error_tolerance", 1) > 0:
+				misc_logger.exception("On running a pre hook, ignoring pre-hook")
+			else:
+				raise
 
 
 def profile_field_name(name, embed):

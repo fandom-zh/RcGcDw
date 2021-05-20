@@ -11,7 +11,7 @@
 * Very customizable
 
 ### Dependencies ###
-* **Python 3.6+**
+* **Python 3.7+**
 * requests 2.18.4+
 * beautifulsoup 4.6.0+
 * schedule 0.5.0+
@@ -31,15 +31,23 @@
 * MarkusRost – German translation
 * JSBM – French translation
 * [Eduaddad](https://eduardoaddad.com.br) – Brazilian Portuguese translation
-* BabylonAS and Russian Minecraft Wiki community – Russian translation
+* BabylonAS, Philo and Russian Minecraft Wiki community – Russian translation
 * Mak_and_Iv – Ukrainian translation
+* Tamara Carvallo – Spanish translation
+* Lakejason0 - Simplified Chinese translation
 
 Thank you!
 
 [![Translation status](https://weblate.frisk.space/widgets/rcgcdw/-/multi-auto.svg)](https://weblate.frisk.space/engage/rcgcdw/?utm_source=widget)
 
-### Other extensions/compatible programs ###
+### Extensions/compatible programs ###
 * [Wiki Utilities](https://github.com/Sidemen19/Wiki-Utilities) – an integration that allows wiki administrators to revert edits, block editors, and delete pages on the wiki by reacting to messages created by RcGcDw/RcGcDb. Author: [Sidemen19](https://github.com/Sidemen19)
+
+### Alternatives ###
+There are various alternatives to RcGcDw you may want to consider if for some reason RcGcDw doesn't satisfy your needs:
+* [Wiki-Bot](https://wiki.wikibot.de/wiki/Wiki-Bot_Wiki) - while it's not exactly an alternative since Wiki-Bot is running a modified version of RcGcDw in the backend, you can use its rcscript feature to add a webhook for your wiki and have it work similarly to how RcGcDw does without hosting anything on your own,
+* [Extension:Discord](https://www.mediawiki.org/wiki/Extension:Discord) - MediaWiki extension to do the same thing,
+* [Extension:DiscordNotifications](https://www.mediawiki.org/wiki/Extension:DiscordNotifications) - another MediaWiki extension with the same goal.
 
 ### Wiki ###
 For more information, check the [wiki](https://gitlab.com/piotrex43/RcGcDw/wikis/Home)! 

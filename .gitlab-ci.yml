@@ -1,17 +1,32 @@
-image: python:3.6-alpine
+image: python:3.7-alpine
 
 include:
   - template: Code-Quality.gitlab-ci.yml
 
+stages:
+  - test
+  - pytest
+
 test:
-  type: test
   script:
     - apk add libxml2-dev libxslt-dev libxml2 gcc musl-dev linux-headers
-    - pip3.6 install -r requirements.txt
+    - pip3.7 install -r requirements.txt
     - sed -i -e "s/111111111111111111/$DISCORD1/g" settings.json.example
     - sed -i -e "s/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$DISCORD2/g" settings.json.example
     - mv settings.json.example settings.json
-    - python3.6 start.py --test
+    - python3.7 start.py --test
   only:
   - testing
-  - merge_requests
+
+pytest:
+  stage: test
+  script:
+    - pip3.7 install -U pytest
+    - pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+  only:
+    - testing
+

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"POT-Creation-Date: 2021-05-18 13:47+0200\n"
 "PO-Revision-Date: 2020-07-12 12:17+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,60 +19,60 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Location"
 msgstr "Місцезнаходження"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "About me"
 msgstr "Про мене"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Google link"
 msgstr "Посилання на Google"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Facebook link"
 msgstr "Посилання на Facebook"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Twitter link"
 msgstr "Посилання на Twitter"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Reddit link"
 msgstr "Посилання на Reddit"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Twitch link"
 msgstr "Посилання на Twitch"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "PSN link"
 msgstr "Посилання на PSN"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "VK link"
 msgstr "Посилання на VK"
 
-#: src/misc.py:45
+#: src/misc.py:44
 #, fuzzy
 msgid "XBL link"
 msgstr "Посилання на XVL"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Steam link"
 msgstr "Посилання на Steam"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Discord handle"
 msgstr "Посилання на Discord"
 
-#: src/misc.py:45
+#: src/misc.py:44
 msgid "Battle.net handle"
 msgstr "Посилання на Battle.net"
 
-#: src/misc.py:119
+#: src/misc.py:138
 msgid ""
 "\n"
 "__And more__"
@@ -80,10 +80,10 @@ msgstr ""
 "\n"
 "__І більше__"
 
-#: src/misc.py:276
+#: src/misc.py:322
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: src/misc.py:278
+#: src/misc.py:324
 msgid "unknown"
 msgstr "невідомо"

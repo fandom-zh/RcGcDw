@@ -1,3 +1,18 @@
+# This file is part of Recent changes Goat compatible Discord webhook (RcGcDw).
+
+# RcGcDw is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# RcGcDw is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
+
 import re
 import sys
 import time
@@ -159,14 +174,14 @@ def send_to_discord(data: Optional[DiscordMessage], meta: DiscordMessageMetadata
 						logger.info("Message \"{}\" has been rejected due to matching filter ({}).".format(
 							to_check, regex))
 						return  # discard the message without anything
-	if messagequeue:
-		messagequeue.add_message((data, meta))
-	else:
-		code = send_to_discord_webhook(data, metadata=meta)
-		if code == 3:
+		if messagequeue:
 			messagequeue.add_message((data, meta))
-		elif code == 2:
-			time.sleep(5.0)
-			messagequeue.add_message((data, meta))
-		elif code < 2:
-			pass
+		else:
+			code = send_to_discord_webhook(data, metadata=meta)
+			if code == 3:
+				messagequeue.add_message((data, meta))
+			elif code == 2:
+				time.sleep(5.0)
+				messagequeue.add_message((data, meta))
+			elif code < 2:
+				pass
