@@ -16,30 +16,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-18 13:59+0200\n"
-"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
-"rcgcdw/rc_formatters/pt-br/>\n"
+"rcgcdw/formatters/pt-br/>\n"
 "Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  rcgcdw.po  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  formatters.po  #-#-#-#-#\n"
-"#-#-#-#-#  discussion_formatters.po  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  rc_formatters.po  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
@@ -576,15 +567,14 @@ msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) excluiu uma wiki *{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:80
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted a \"{group}\" user group"
-msgstr "Modificou o grupo de usuário \"{usergroup_name}\""
+msgstr "Excluiu um grupo de usuários \"{group}\""
 
 #: extensions/base/managewiki.py:89
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a usergroup *{group}*{comment}"
-msgstr ""
-"[{author}]({author_url}) modificou o grupo de usuário *{group_name}*{comment}"
+msgstr "[{author}]({author_url}) excluiu o grupo de usuário *{group}*{comment}"
 
 #: extensions/base/managewiki.py:103
 #, python-brace-format
@@ -606,13 +596,13 @@ msgid "Wiki"
 msgstr "Wiki"
 
 #: extensions/base/managewiki.py:134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) modificou o espaço nominal *{namespace_name}* "
-"em*{wiki_name}*{comment}"
+"[{author}]({author_url}) modificou o espaço nominal *{namespace_name}* em "
+"*{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:147
 #, python-brace-format
@@ -640,14 +630,16 @@ msgstr ""
 "[{author}]({author_url}) modificou o grupo de usuário *{group_name}*{comment}"
 
 #: extensions/base/managewiki.py:195
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "Excluiu a wiki \"{wiki}\""
+msgstr "Recuperou a exclusão de uma wiki \"{wiki}\""
 
 #: extensions/base/managewiki.py:203
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) excluiu uma wiki *{wiki_name}*{comment}"
+msgstr ""
+"[{author}]({author_url}) recuperou a exclusão de uma wiki "
+"*{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:217
 #, python-brace-format
@@ -1106,7 +1098,7 @@ msgstr "para o infinito e além"
 
 #: extensions/base/mediawiki.py:582
 msgid "for less than a minute"
-msgstr ""
+msgstr "por menos de um minuto"
 
 #: extensions/base/mediawiki.py:584
 msgid "year"
@@ -1135,7 +1127,7 @@ msgstr[1] "minutos"
 #: extensions/base/mediawiki.py:590
 #, python-brace-format
 msgid "for  {time_number} {time_unit}"
-msgstr ""
+msgstr "por {time_number} {time_unit}"
 
 #: extensions/base/mediawiki.py:610
 msgid "Blocked from editing the following pages: "
@@ -1155,7 +1147,7 @@ msgstr "Detalhes do bloqueio parcial"
 
 #: extensions/base/mediawiki.py:633
 msgid "Block flags"
-msgstr ""
+msgstr "Bloquear sinalizadores"
 
 #: extensions/base/mediawiki.py:635
 #, python-brace-format
@@ -1260,7 +1252,7 @@ msgstr[1] ""
 #: extensions/base/mediawiki.py:818
 #, python-brace-format
 msgid " (until {date_and_time})"
-msgstr ""
+msgstr " (até {date_and_time})"
 
 #: extensions/base/mediawiki.py:836
 #, python-brace-format
@@ -1402,13 +1394,13 @@ msgid "Prefix: {prefix} | {desc}"
 msgstr "Prefixo: {prefix} | {desc}"
 
 #: extensions/base/mediawiki.py:1074
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
 "{desc}"
 msgstr ""
-"[{author}]({author_url}) excluiu uma entrada na [tabela de Interwiki]"
-"({table_url})"
+"[{author}]({author_url}) excluiu uma entrada na [tabela de "
+"Interwiki]({table_url}){desc}"
 
 #: extensions/base/mediawiki.py:1091
 #, python-brace-format
@@ -1454,10 +1446,11 @@ msgid "Created the tag \"{tag}\""
 msgstr "Criou uma etiqueta \"{tag}\""
 
 #: extensions/base/mediawiki.py:1158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) criou a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) criou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1180
 #, fuzzy, python-brace-format
@@ -1465,21 +1458,21 @@ msgid "Deleted the tag \"{tag}\""
 msgstr "Excluiu uma etiqueta \"{tag}\""
 
 #: extensions/base/mediawiki.py:1182
-#, fuzzy
 msgid "Removed from"
-msgstr "Removido"
+msgstr "Removido de"
 
 #: extensions/base/mediawiki.py:1182
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} revisão ou entrada de registro"
+msgstr[1] "{} revisões e/ou entradas de registro"
 
 #: extensions/base/mediawiki.py:1194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) excluiu a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) excluiu a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1204
 #, fuzzy, python-brace-format
@@ -1502,10 +1495,11 @@ msgid "Activated the tag \"{tag}\""
 msgstr "Ativou uma etiqueta \"{tag}\""
 
 #: extensions/base/mediawiki.py:1230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ativou a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) ativou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1249
 #, fuzzy, python-brace-format
@@ -1513,10 +1507,11 @@ msgid "Deactivated the tag \"{tag}\""
 msgstr "Desativou uma etiqueta \"{tag}\""
 
 #: extensions/base/mediawiki.py:1258
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) desativou a [etiqueta]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) desativou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1278
 #, python-brace-format
