@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:59+0200\n"
+"POT-Creation-Date: 2021-05-21 21:20+0200\n"
 "PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: Dianliang233 <dianliang233@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
@@ -37,8 +37,9 @@ msgstr "添加了"
 msgid "Unregistered user"
 msgstr "未注册用户"
 
-#: src/api/util.py:160 extensions/base/discussions.py:193
-#: extensions/base/discussions.py:195
+#: src/api/util.py:160
+#, fuzzy
+msgctxt "recent changes Tags"
 msgid "Tags"
 msgstr "标签"
 
@@ -400,7 +401,15 @@ msgstr "__[查看图片]({image_url})__"
 msgid "Created a quiz \"{title}\""
 msgstr "创建了问卷 \"{title}\""
 
+#: extensions/base/discussions.py:193 extensions/base/discussions.py:195
+#, fuzzy
+msgctxt "Fandom discussions Tags/Forums"
+msgid "Tags"
+msgstr "标签"
+
 #: extensions/base/discussions.py:193
+#, fuzzy
+msgctxt "Fandom discussions amount of Tags/Forums"
 msgid "{} tags"
 msgstr "{} 个标签"
 
@@ -578,7 +587,8 @@ msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) 修改了命名空间 *{namespace_name}* 于 *{wiki_name}*{comment}"
+"[{author}]({author_url}) 修改了命名空间 *{namespace_name}* 于 *{wiki_name}"
+"*{comment}"
 
 #: extensions/base/managewiki.py:147
 #, python-brace-format
@@ -643,6 +653,257 @@ msgstr "删除了转储 {file}"
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
 msgstr "[{author}]({author_url}) 删除了 *{file}* 转储{comment}"
+
+#: extensions/base/curseprofile.py:40
+#, python-brace-format
+msgid "Edited {target}'s profile"
+msgstr "编辑了 {target} 的资料页"
+
+#: extensions/base/curseprofile.py:42
+msgid "Edited their own profile"
+msgstr "编辑了自己的资料页"
+
+#: extensions/base/curseprofile.py:44
+#, python-brace-format
+msgid "Cleared the {field} field"
+msgstr "清空了 {field} 栏位"
+
+#: extensions/base/curseprofile.py:46
+#, python-brace-format
+msgid "{field} field changed to: {desc}"
+msgstr "{field} 栏位改为：{desc}"
+
+#: extensions/base/curseprofile.py:58
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s "
+"profile."
+msgstr ""
+"[{author}]({author_url}) 在 [{target}]({target_url}) 的资料页上编辑了 "
+"{field} 栏位。*({desc})*"
+
+#: extensions/base/curseprofile.py:60
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
+"profile. *({desc})*"
+msgstr ""
+"[{author}]({author_url}) 在 [{target}]({target_url}) 的资料页上编辑了 "
+"{field} 栏位。*({desc})*"
+
+#: extensions/base/curseprofile.py:65
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) cleared the {field} on [their own]({target_url}) "
+"profile."
+msgstr ""
+"[{author}]({author_url}) 在[自己]({target_url})的资料页上编辑了 {field} 栏"
+"位。*({desc})*"
+
+#: extensions/base/curseprofile.py:67
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
+"profile. *({desc})*"
+msgstr ""
+"[{author}]({author_url}) 在[自己]({target_url})的资料页上编辑了 {field} 栏"
+"位。*({desc})*"
+
+#: extensions/base/curseprofile.py:82
+#, python-brace-format
+msgid "Left a comment on {target}'s profile"
+msgstr "在 {target} 的资料页上留下留言"
+
+#: extensions/base/curseprofile.py:84
+msgid "Left a comment on their own profile"
+msgstr "在自己的资料页上留下留言"
+
+#: extensions/base/curseprofile.py:97
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile."
+msgstr ""
+"[{author}]({author_url}) 在 {target} 的资料页上留下了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:100
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) left a [comment]({comment}) on their own profile."
+msgstr "[{author}]({author_url}) 在自己的资料页上留下了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:113
+#, python-brace-format
+msgid "Edited a comment on {target}'s profile"
+msgstr "编辑了 {target} 的资料页上的一条留言"
+
+#: extensions/base/curseprofile.py:115
+msgid "Edited a comment on their own profile"
+msgstr "编辑了自己的资料页上的一条留言"
+
+#: extensions/base/curseprofile.py:128
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile."
+msgstr ""
+"[{author}]({author_url}) 在 {target} 的资料页上编辑了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:131
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited a [comment]({comment}) on their own profile."
+msgstr "[{author}]({author_url}) 在自己的资料页上编辑了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:144
+#, python-brace-format
+msgid "Replied to a comment on {target}'s profile"
+msgstr "在 {target} 的资料页上回复留言"
+
+#: extensions/base/curseprofile.py:146
+msgid "Replied to a comment on their own profile"
+msgstr "在自己的资料页上回复留言"
+
+#: extensions/base/curseprofile.py:159
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
+"profile."
+msgstr ""
+"[{author}]({author_url}) 在 {target} 的资料页上回复了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:162
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) replied to a [comment]({comment}) on their own "
+"profile."
+msgstr "[{author}]({author_url}) 在自己的资料页上回复了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:175
+#, python-brace-format
+msgid "Deleted a comment on {target}'s profile"
+msgstr "删除了 {target} 的资料页上的一条留言"
+
+#: extensions/base/curseprofile.py:177
+msgid "Deleted a comment on their own profile"
+msgstr "删除了自己的资料页上的一条评论"
+
+#: extensions/base/curseprofile.py:197
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
+"profile.{reason}"
+msgstr ""
+"[{author}]({author_url}) 在 {target} 的资料页上删除了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:200
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a [comment]({comment}) on their own profile."
+"{reason}"
+msgstr "[{author}]({author_url}) 在自己的资料页上删除了一条[评论]({comment})"
+
+#: extensions/base/curseprofile.py:214
+#, python-brace-format
+msgid "Purged a comment on {target}'s profile"
+msgstr "永久删除了 {target} 的资料页上的一条留言"
+
+#: extensions/base/curseprofile.py:216
+msgid "Purged a comment on their own profile"
+msgstr "永久删除了自己的资料页上的一条评论"
+
+#: extensions/base/curseprofile.py:230
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) purged a comment on [{target}]({link})'s profile."
+"{reason}"
+msgstr "[{author}]({author_url}) 在 {target} 的资料页上永久删除了一条评论"
+
+#: extensions/base/curseprofile.py:233
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) purged a comment on [their own]({link}) profile."
+"{reason}"
+msgstr "[{author}]({author_url}) 在自己的资料页上永久删除了一条评论"
+
+#: extensions/base/renameuser.py:38
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
+msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
+msgstr[0] "将有 {edits} 次编辑的用户 \"{old_name}\" 重命名为 \"{new_name}\""
+
+#: extensions/base/renameuser.py:43
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" to \"{new_name}\""
+msgstr "将用户 \"{old_name}\" 重命名为 \"{new_name}\""
+
+#: extensions/base/renameuser.py:58
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
+"[{new_name}]({link}){comment}"
+msgid_plural ""
+"[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to "
+"[{new_name}]({link}){comment}"
+msgstr[0] ""
+"[{author}]({author_url}) 将编辑数为 {edits} 的用户 *{old_name}* 重命名为 "
+"[{new_name}]({link}) {comment}"
+
+#: extensions/base/renameuser.py:66
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
+"{comment}"
+msgstr ""
+"[{author}]({author_url}) 将用户 *{old_name}* 重命名为 [{new_name}]({link})"
+"{comment}"
+
+#: extensions/base/interwiki.py:37
+msgid "Added an entry to the interwiki table"
+msgstr "向跨wiki表添加了跨wiki前缀"
+
+#: extensions/base/interwiki.py:38 extensions/base/interwiki.py:65
+#, python-brace-format
+msgid "Prefix: {prefix}, website: {website} | {desc}"
+msgstr "前缀：{prefix}，网站：{website} | {desc}"
+
+#: extensions/base/interwiki.py:50
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) added an entry to the [interwiki table]"
+"({table_url}) pointing to {website} with {prefix} prefix"
+msgstr ""
+"[{author}]({author_url}) 向[跨wiki表]({table_url})中加入了指向 {website} 的，"
+"前缀为 {prefix} 的跨wiki前缀"
+
+#: extensions/base/interwiki.py:64
+msgid "Edited an entry in interwiki table"
+msgstr "编辑了跨wiki表的跨wiki前缀"
+
+#: extensions/base/interwiki.py:77
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
+"pointing to {website} with {prefix} prefix"
+msgstr ""
+"[{author}]({author_url})修改了[跨wiki表]({table_url}) 中指向 {website} 的，前"
+"缀为 {prefix} 的跨wiki前缀"
+
+#: extensions/base/interwiki.py:91
+msgid "Deleted an entry in interwiki table"
+msgstr "删除了跨wiki表的跨wiki前缀"
+
+#: extensions/base/interwiki.py:92
+#, python-brace-format
+msgid "Prefix: {prefix} | {desc}"
+msgstr "前缀：{prefix} | {desc}"
+
+#: extensions/base/interwiki.py:102
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
+"{desc}"
+msgstr ""
+"[{author}]({author_url}) 删除了[跨wiki表]({table_url})中的一个跨wiki前缀"
+"{desc}"
 
 #: extensions/base/abusefilter.py:29
 msgid "None"
@@ -1207,7 +1468,7 @@ msgstr " （直到 {date_and_time}）"
 msgid "Changed group membership for {target}"
 msgstr "更改了 {target} 的用户组"
 
-#: extensions/base/mediawiki.py:839 extensions/base/mediawiki.py:865
+#: extensions/base/mediawiki.py:839
 msgid "System"
 msgstr "系统"
 
@@ -1231,17 +1492,21 @@ msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}) {added}{comma} {removed}{comment}"
 msgstr ""
-"[{author}]({author_url}) 更改了 [{target}]({target_url}) 的用户组 {added}{comma} "
-"{removed}{comment}"
+"[{author}]({author_url}) 更改了 [{target}]({target_url}) 的用户组 {added}"
+"{comma} {removed}{comment}"
 
 #: extensions/base/mediawiki.py:864
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
-"{author} autopromoted [{target}]({target_url}) {added}{comma} {removed}"
+"System autopromoted [{target}]({target_url}) {added}{comma} {removed}"
 "{comment}"
 msgstr ""
 "{author} 自动提升了 [{target}]({target_url}) 的用户组 {added}{comma} "
 "{removed}{comment}"
+
+#: extensions/base/mediawiki.py:866
+msgid ","
+msgstr ""
 
 #: extensions/base/mediawiki.py:877
 #, python-brace-format
@@ -1303,63 +1568,16 @@ msgstr ""
 "通过电子邮件发送{comment}"
 
 #: extensions/base/mediawiki.py:1009
-msgid "Added an entry to the interwiki table"
-msgstr "向跨wiki表添加了跨wiki前缀"
-
-#: extensions/base/mediawiki.py:1010 extensions/base/mediawiki.py:1037
-#, python-brace-format
-msgid "Prefix: {prefix}, website: {website} | {desc}"
-msgstr "前缀：{prefix}，网站：{website} | {desc}"
-
-#: extensions/base/mediawiki.py:1022
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) added an entry to the [interwiki table]"
-"({table_url}) pointing to {website} with {prefix} prefix"
-msgstr ""
-"[{author}]({author_url}) 向[跨wiki表]({table_url})中加入了指向 {website} 的，"
-"前缀为 {prefix} 的跨wiki前缀"
-
-#: extensions/base/mediawiki.py:1036
-msgid "Edited an entry in interwiki table"
-msgstr "编辑了跨wiki表的跨wiki前缀"
-
-#: extensions/base/mediawiki.py:1049
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
-"pointing to {website} with {prefix} prefix"
-msgstr ""
-"[{author}]({author_url})修改了[跨wiki表]({table_url}) 中指向 {website} 的，前"
-"缀为 {prefix} 的跨wiki前缀"
-
-#: extensions/base/mediawiki.py:1063
-msgid "Deleted an entry in interwiki table"
-msgstr "删除了跨wiki表的跨wiki前缀"
-
-#: extensions/base/mediawiki.py:1064
-#, python-brace-format
-msgid "Prefix: {prefix} | {desc}"
-msgstr "前缀：{prefix} | {desc}"
-
-#: extensions/base/mediawiki.py:1074
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
-"{desc}"
-msgstr "[{author}]({author_url}) 删除了[跨wiki表]({table_url})中的一个跨wiki前缀{desc}"
-
-#: extensions/base/mediawiki.py:1091
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr "更改了页面 {article} 的内容模型"
 
-#: extensions/base/mediawiki.py:1093
+#: extensions/base/mediawiki.py:1011
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "内容模型从 {old} 更改为 {new}：{reason}"
 
-#: extensions/base/mediawiki.py:1105
+#: extensions/base/mediawiki.py:1023
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
@@ -1368,17 +1586,17 @@ msgstr ""
 "[{author}]({author_url}) 将页面 [{article}]({article_url}) 的内容模型从 "
 "{old} 更改为 {new}{comment}"
 
-#: extensions/base/mediawiki.py:1120
+#: extensions/base/mediawiki.py:1038
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr "使用非默认内容模型创建了页面 {article}"
 
-#: extensions/base/mediawiki.py:1122
+#: extensions/base/mediawiki.py:1040
 #, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr "使用内容模型 {new} 创建：{reason}"
 
-#: extensions/base/mediawiki.py:1133
+#: extensions/base/mediawiki.py:1051
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
@@ -1387,38 +1605,38 @@ msgstr ""
 "[{author}]({author_url}) 创建了页面 [{article}]({article_url})，使用了非默认"
 "的内容模型 {new}{comment}"
 
-#: extensions/base/mediawiki.py:1148
+#: extensions/base/mediawiki.py:1066
 #, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "创建了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1158
+#: extensions/base/mediawiki.py:1076
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) 创建了[标签]({tag_url}) \"{tag}\"{comment}"
 
-#: extensions/base/mediawiki.py:1180
+#: extensions/base/mediawiki.py:1098
 #, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "删除了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1182
+#: extensions/base/mediawiki.py:1100
 msgid "Removed from"
 msgstr "移除从"
 
-#: extensions/base/mediawiki.py:1182
+#: extensions/base/mediawiki.py:1100
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
 msgstr[0] "{} 个修订版本和/或日志条目"
 
-#: extensions/base/mediawiki.py:1194
+#: extensions/base/mediawiki.py:1112
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\"{comment}"
 
-#: extensions/base/mediawiki.py:1204
+#: extensions/base/mediawiki.py:1122
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -1427,62 +1645,31 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\" 并从 {count} "
-"个修订版本和/或日志条目中移除该标签{comment}"
+"[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\" 并从 {count} 个修"
+"订版本和/或日志条目中移除该标签{comment}"
 
-#: extensions/base/mediawiki.py:1221
+#: extensions/base/mediawiki.py:1139
 #, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "激活了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1230
+#: extensions/base/mediawiki.py:1148
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) 激活了[标签]({tag_url}) \"{tag}\"{comment}"
 
-#: extensions/base/mediawiki.py:1249
+#: extensions/base/mediawiki.py:1167
 #, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "取消激活了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1258
+#: extensions/base/mediawiki.py:1176
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 取消激活了[标签]({tag_url}) \"{tag}\"{comment}"
-
-#: extensions/base/mediawiki.py:1278
-#, python-brace-format
-msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
-msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
-msgstr[0] "将有 {edits} 次编辑的用户 \"{old_name}\" 重命名为 \"{new_name}\""
-
-#: extensions/base/mediawiki.py:1283
-#, python-brace-format
-msgid "Renamed user \"{old_name}\" to \"{new_name}\""
-msgstr "将用户 \"{old_name}\" 重命名为 \"{new_name}\""
-
-#: extensions/base/mediawiki.py:1298
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
-"[{new_name}]({link}){comment}"
-msgid_plural ""
-"[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to "
-"[{new_name}]({link}){comment}"
-msgstr[0] ""
-"[{author}]({author_url}) 将编辑数为 {edits} 的用户 *{old_name}* 重命名为 "
-"[{new_name}]({link}) {comment}"
-
-#: extensions/base/mediawiki.py:1306
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
-"{comment}"
 msgstr ""
-"[{author}]({author_url}) 将用户 *{old_name}* 重命名为 [{new_name}]({link})"
-"{comment}"
+"[{author}]({author_url}) 取消激活了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/sprite.py:37
 #, python-brace-format
@@ -1636,84 +1823,6 @@ msgstr "[{author}]({author_url}) 编辑了 [{article}]({article_url}) 的 Slice"
 #~ msgid "until {}"
 #~ msgstr "直到{}"
 
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在 {target} 的资料页上留下了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) left a [comment]({comment}) on their own profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在自己的资料页上留下了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在 {target} 的资料页上回复了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在自己的资料页上回复了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在 {target} 的资料页上编辑了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited a [comment]({comment}) on their own "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在自己的资料页上编辑了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid "[{author}]({author_url}) purged a comment on {target}'s profile"
-#~ msgstr "[{author}]({author_url}) 在 {target} 的资料页上永久删除了一条评论"
-
-#, python-brace-format
-#~ msgid "[{author}]({author_url}) purged a comment on their own profile"
-#~ msgstr "[{author}]({author_url}) 在自己的资料页上永久删除了一条评论"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在 {target} 的资料页上删除了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) deleted a [comment]({comment}) on their own "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在自己的资料页上删除了一条[评论]({comment})"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
-#~ "profile. *({desc})*"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在 [{target}]({target_url}) 的资料页上编辑了 "
-#~ "{field} 栏位。*({desc})*"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
-#~ "profile. *({desc})*"
-#~ msgstr ""
-#~ "[{author}]({author_url}) 在[自己]({target_url})的资料页上编辑了 {field} 栏"
-#~ "位。*({desc})*"
-
 #~ msgid "none"
 #~ msgstr "无"
 
@@ -1727,56 +1836,6 @@ msgstr "[{author}]({author_url}) 编辑了 [{article}]({article_url}) 的 Slice"
 
 #~ msgid "unknown expiry time"
 #~ msgstr "未知的过期时间"
-
-#, python-brace-format
-#~ msgid "Left a comment on {target}'s profile"
-#~ msgstr "在 {target} 的资料页上留下留言"
-
-#~ msgid "Left a comment on their own profile"
-#~ msgstr "在自己的资料页上留下留言"
-
-#, python-brace-format
-#~ msgid "Replied to a comment on {target}'s profile"
-#~ msgstr "在 {target} 的资料页上回复留言"
-
-#~ msgid "Replied to a comment on their own profile"
-#~ msgstr "在自己的资料页上回复留言"
-
-#, python-brace-format
-#~ msgid "Edited a comment on {target}'s profile"
-#~ msgstr "编辑了 {target} 的资料页上的一条留言"
-
-#~ msgid "Edited a comment on their own profile"
-#~ msgstr "编辑了自己的资料页上的一条留言"
-
-#, python-brace-format
-#~ msgid "Edited {target}'s profile"
-#~ msgstr "编辑了 {target} 的资料页"
-
-#~ msgid "Edited their own profile"
-#~ msgstr "编辑了自己的资料页"
-
-#, python-brace-format
-#~ msgid "Cleared the {field} field"
-#~ msgstr "清空了 {field} 栏位"
-
-#, python-brace-format
-#~ msgid "{field} field changed to: {desc}"
-#~ msgstr "{field} 栏位改为：{desc}"
-
-#, python-brace-format
-#~ msgid "Purged a comment on {target}'s profile"
-#~ msgstr "永久删除了 {target} 的资料页上的一条留言"
-
-#~ msgid "Purged a comment on their own profile"
-#~ msgstr "永久删除了自己的资料页上的一条评论"
-
-#, python-brace-format
-#~ msgid "Deleted a comment on {target}'s profile"
-#~ msgstr "删除了 {target} 的资料页上的一条留言"
-
-#~ msgid "Deleted a comment on their own profile"
-#~ msgstr "删除了自己的资料页上的一条评论"
 
 #, python-brace-format
 #~ msgid "Groups changed from {old_groups} to {new_groups}{reason}"

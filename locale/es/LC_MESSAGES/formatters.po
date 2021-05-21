@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 14:13+0200\n"
+"POT-Creation-Date: 2021-05-21 21:20+0200\n"
 "PO-Revision-Date: 2021-01-22 13:58+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/"
@@ -51,8 +51,9 @@ msgstr "Agregado"
 msgid "Unregistered user"
 msgstr "Usuario no registrado"
 
-#: src/api/util.py:160 extensions/base/discussions.py:193
-#: extensions/base/discussions.py:195
+#: src/api/util.py:160
+#, fuzzy
+msgctxt "recent changes Tags"
 msgid "Tags"
 msgstr "Etiquetas"
 
@@ -462,7 +463,15 @@ msgstr "__[Ver imagen]({image_url})__"
 msgid "Created a quiz \"{title}\""
 msgstr "Creó un cuestionario \"{title}\""
 
+#: extensions/base/discussions.py:193 extensions/base/discussions.py:195
+#, fuzzy
+msgctxt "Fandom discussions Tags/Forums"
+msgid "Tags"
+msgstr "Etiquetas"
+
 #: extensions/base/discussions.py:193
+#, fuzzy
+msgctxt "Fandom discussions amount of Tags/Forums"
 msgid "{} tags"
 msgstr "{} etiquetas"
 
@@ -722,6 +731,277 @@ msgstr ""
 #, fuzzy, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
 msgstr "[{author}]({author_url}) eliminó un wiki *{wiki_name}* ({comment})"
+
+#: extensions/base/curseprofile.py:40
+#, python-brace-format
+msgid "Edited {target}'s profile"
+msgstr "Editó el perfil de {target}"
+
+#: extensions/base/curseprofile.py:42
+msgid "Edited their own profile"
+msgstr "Editó su propio perfil"
+
+#: extensions/base/curseprofile.py:44
+#, python-brace-format
+msgid "Cleared the {field} field"
+msgstr "Borró el campo {field}"
+
+#: extensions/base/curseprofile.py:46
+#, python-brace-format
+msgid "{field} field changed to: {desc}"
+msgstr "El campo {field} cambió a: {desc}"
+
+#: extensions/base/curseprofile.py:58
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s "
+"profile."
+msgstr ""
+"[{author}]({author_url}) editó el {field} en el perfil de {target}. "
+"*({desc})*"
+
+#: extensions/base/curseprofile.py:60
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
+"profile. *({desc})*"
+msgstr ""
+"[{author}]({author_url}) editó el {field} en el perfil de {target}. "
+"*({desc})*"
+
+#: extensions/base/curseprofile.py:65
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) cleared the {field} on [their own]({target_url}) "
+"profile."
+msgstr ""
+"[{author}]({author_url}) editó el {field} en su propio perfil. *({desc})*"
+
+#: extensions/base/curseprofile.py:67
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
+"profile. *({desc})*"
+msgstr ""
+"[{author}]({author_url}) editó el {field} en su propio perfil. *({desc})*"
+
+#: extensions/base/curseprofile.py:82
+#, python-brace-format
+msgid "Left a comment on {target}'s profile"
+msgstr "Dejó un comentario en el perfil de {target}"
+
+#: extensions/base/curseprofile.py:84
+msgid "Left a comment on their own profile"
+msgstr "Dejó un comentario en su propio perfil"
+
+#: extensions/base/curseprofile.py:97
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile."
+msgstr ""
+"[{author}]({author_url}) dejó un [comentario]({comment}) en el perfil de "
+"{target}"
+
+#: extensions/base/curseprofile.py:100
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) left a [comment]({comment}) on their own profile."
+msgstr ""
+"[{author}]({author_url}) dejó un [comentario]({comment}) en su propio perfil"
+
+#: extensions/base/curseprofile.py:113
+#, python-brace-format
+msgid "Edited a comment on {target}'s profile"
+msgstr "Editó un comentario en el perfil de {target}"
+
+#: extensions/base/curseprofile.py:115
+msgid "Edited a comment on their own profile"
+msgstr "Editó un comentario en su propio perfil"
+
+#: extensions/base/curseprofile.py:128
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile."
+msgstr ""
+"[{author}]({author_url}) editó un [comentario]({comment}) en el perfil de "
+"{target}"
+
+#: extensions/base/curseprofile.py:131
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited a [comment]({comment}) on their own profile."
+msgstr ""
+"[{author}]({author_url}) editó un [comentario]({comment}) en su propio perfil"
+
+#: extensions/base/curseprofile.py:144
+#, python-brace-format
+msgid "Replied to a comment on {target}'s profile"
+msgstr "Respondió a un comentario en el perfil de {target}"
+
+#: extensions/base/curseprofile.py:146
+msgid "Replied to a comment on their own profile"
+msgstr "Respondió a un comentario en su propio perfil"
+
+#: extensions/base/curseprofile.py:159
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
+"profile."
+msgstr ""
+"[{author}]({author_url}) respondió a un [comentario]({comment}) en el perfil "
+"de {target}"
+
+#: extensions/base/curseprofile.py:162
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) replied to a [comment]({comment}) on their own "
+"profile."
+msgstr ""
+"[{author}]({author_url}) respondió a un [comentario]({comment}) en su propio "
+"perfil"
+
+#: extensions/base/curseprofile.py:175
+#, python-brace-format
+msgid "Deleted a comment on {target}'s profile"
+msgstr "Eliminó un comentario en el perfil de {target}"
+
+#: extensions/base/curseprofile.py:177
+#, fuzzy
+msgid "Deleted a comment on their own profile"
+msgstr "Editó un comentario en su propio perfil"
+
+#: extensions/base/curseprofile.py:197
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
+"profile.{reason}"
+msgstr ""
+"[{author}]({author_url}) editó un [comentario]({comment}) en el perfil de "
+"{target}"
+
+#: extensions/base/curseprofile.py:200
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a [comment]({comment}) on their own profile."
+"{reason}"
+msgstr ""
+"[{author}]({author_url}) editó un [comentario]({comment}) en su propio perfil"
+
+#: extensions/base/curseprofile.py:214
+#, python-brace-format
+msgid "Purged a comment on {target}'s profile"
+msgstr "Borró un comentario en el perfil de {target}"
+
+#: extensions/base/curseprofile.py:216
+#, fuzzy
+msgid "Purged a comment on their own profile"
+msgstr "Editó un comentario en su propio perfil"
+
+#: extensions/base/curseprofile.py:230
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) purged a comment on [{target}]({link})'s profile."
+"{reason}"
+msgstr ""
+"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
+"[{author}]({author_url}) borró un comentario en el perfil de {target}\n"
+"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
+"[{author}]({author_url}) eliminó un comentario en el perfil de {target}"
+
+#: extensions/base/curseprofile.py:233
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) purged a comment on [their own]({link}) profile."
+"{reason}"
+msgstr ""
+"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
+"[{author}]({author_url}) borró un comentario en su propio perfil\n"
+"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
+"[{author}]({author_url}) eliminó un comentario en su propio perfil"
+
+#: extensions/base/renameuser.py:38
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
+msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
+msgstr[0] ""
+msgstr[1] ""
+
+#: extensions/base/renameuser.py:43
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" to \"{new_name}\""
+msgstr ""
+
+#: extensions/base/renameuser.py:58
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
+"[{new_name}]({link}){comment}"
+msgid_plural ""
+"[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to "
+"[{new_name}]({link}){comment}"
+msgstr[0] "[{author}]({author_url}) eliminó [{page}]({page_link}){comment}"
+msgstr[1] "[{author}]({author_url}) eliminó [{page}]({page_link}){comment}"
+
+#: extensions/base/renameuser.py:66
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
+"{comment}"
+msgstr "[{author}]({author_url}) eliminó [{page}]({page_link}){comment}"
+
+#: extensions/base/interwiki.py:37
+msgid "Added an entry to the interwiki table"
+msgstr "Agregó una entrada a la tabla interwiki"
+
+#: extensions/base/interwiki.py:38 extensions/base/interwiki.py:65
+#, python-brace-format
+msgid "Prefix: {prefix}, website: {website} | {desc}"
+msgstr "Prefijo: {prefix}, sitio web: {website} | {desc}"
+
+#: extensions/base/interwiki.py:50
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) added an entry to the [interwiki table]"
+"({table_url}) pointing to {website} with {prefix} prefix"
+msgstr ""
+"[{author}]({author_url}) agregó una entrada a la [tabla interwiki]"
+"({table_url}) que apunta a {website} con el prefijo {prefix}"
+
+#: extensions/base/interwiki.py:64
+#, fuzzy
+msgid "Edited an entry in interwiki table"
+msgstr ""
+"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
+"Editó una entrada en la tabla de interwiki\n"
+"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
+"Editó una entrada en la tabla interwiki"
+
+#: extensions/base/interwiki.py:77
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
+"pointing to {website} with {prefix} prefix"
+msgstr ""
+"[{author}]({author_url}) editó una entrada en la [tabla interwiki]"
+"({table_url}) que apunta a {website} con el prefijo {prefix}"
+
+#: extensions/base/interwiki.py:91
+msgid "Deleted an entry in interwiki table"
+msgstr "Eliminó una entrada en la tabla interwiki"
+
+#: extensions/base/interwiki.py:92
+#, python-brace-format
+msgid "Prefix: {prefix} | {desc}"
+msgstr "Prefijo: {prefix} | {desc}"
+
+#: extensions/base/interwiki.py:102
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
+"{desc}"
+msgstr ""
+"[{author}]({author_url}) eliminó una entrada en la [tabla interwiki]"
+"({table_url})"
 
 #: extensions/base/abusefilter.py:29
 #, fuzzy
@@ -1417,7 +1697,7 @@ msgstr ""
 "#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
 "Modificó el grupo de {target}"
 
-#: extensions/base/mediawiki.py:839 extensions/base/mediawiki.py:865
+#: extensions/base/mediawiki.py:839
 msgid "System"
 msgstr "Sistema"
 
@@ -1449,7 +1729,7 @@ msgstr ""
 #: extensions/base/mediawiki.py:864
 #, fuzzy, python-brace-format
 msgid ""
-"{author} autopromoted [{target}]({target_url}) {added}{comma} {removed}"
+"System autopromoted [{target}]({target_url}) {added}{comma} {removed}"
 "{comment}"
 msgstr ""
 "#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
@@ -1458,6 +1738,10 @@ msgstr ""
 "#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
 "{author} promovió automáticamente [{target}]({target_url}) de {old_groups} a "
 "{new_groups}{comment}"
+
+#: extensions/base/mediawiki.py:866
+msgid ","
+msgstr ""
 
 #: extensions/base/mediawiki.py:877
 #, python-brace-format
@@ -1535,60 +1819,6 @@ msgstr ""
 "y la contraseña se envió por correo electrónico{comment}"
 
 #: extensions/base/mediawiki.py:1009
-msgid "Added an entry to the interwiki table"
-msgstr "Agregó una entrada a la tabla interwiki"
-
-#: extensions/base/mediawiki.py:1010 extensions/base/mediawiki.py:1037
-#, python-brace-format
-msgid "Prefix: {prefix}, website: {website} | {desc}"
-msgstr "Prefijo: {prefix}, sitio web: {website} | {desc}"
-
-#: extensions/base/mediawiki.py:1022
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) added an entry to the [interwiki table]"
-"({table_url}) pointing to {website} with {prefix} prefix"
-msgstr ""
-"[{author}]({author_url}) agregó una entrada a la [tabla interwiki]"
-"({table_url}) que apunta a {website} con el prefijo {prefix}"
-
-#: extensions/base/mediawiki.py:1036
-#, fuzzy
-msgid "Edited an entry in interwiki table"
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"Editó una entrada en la tabla de interwiki\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Editó una entrada en la tabla interwiki"
-
-#: extensions/base/mediawiki.py:1049
-#, python-brace-format
-msgid ""
-"[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
-"pointing to {website} with {prefix} prefix"
-msgstr ""
-"[{author}]({author_url}) editó una entrada en la [tabla interwiki]"
-"({table_url}) que apunta a {website} con el prefijo {prefix}"
-
-#: extensions/base/mediawiki.py:1063
-msgid "Deleted an entry in interwiki table"
-msgstr "Eliminó una entrada en la tabla interwiki"
-
-#: extensions/base/mediawiki.py:1064
-#, python-brace-format
-msgid "Prefix: {prefix} | {desc}"
-msgstr "Prefijo: {prefix} | {desc}"
-
-#: extensions/base/mediawiki.py:1074
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
-"{desc}"
-msgstr ""
-"[{author}]({author_url}) eliminó una entrada en la [tabla interwiki]"
-"({table_url})"
-
-#: extensions/base/mediawiki.py:1091
 #, fuzzy, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr ""
@@ -1597,12 +1827,12 @@ msgstr ""
 "#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
 "Cambió el modelo de contenido de la página {article}"
 
-#: extensions/base/mediawiki.py:1093
+#: extensions/base/mediawiki.py:1011
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "El modelo cambió de {old} a {new}: {reason}"
 
-#: extensions/base/mediawiki.py:1105
+#: extensions/base/mediawiki.py:1023
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
@@ -1611,17 +1841,17 @@ msgstr ""
 "[{author}]({author_url}) cambió el modelo de contenido de la página "
 "[{article}]({article_url}) de {old} a {new}{comment}"
 
-#: extensions/base/mediawiki.py:1120
+#: extensions/base/mediawiki.py:1038
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1122
+#: extensions/base/mediawiki.py:1040
 #, fuzzy, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr "El modelo cambió de {old} a {new}: {reason}"
 
-#: extensions/base/mediawiki.py:1133
+#: extensions/base/mediawiki.py:1051
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
@@ -1630,40 +1860,40 @@ msgstr ""
 "[{author}]({author_url}) cambió el modelo de contenido de la página "
 "[{article}]({article_url}) de {old} a {new}{comment}"
 
-#: extensions/base/mediawiki.py:1148
+#: extensions/base/mediawiki.py:1066
 #, fuzzy, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "Creó una etiqueta \"{tag}\""
 
-#: extensions/base/mediawiki.py:1158
+#: extensions/base/mediawiki.py:1076
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) creó una [etiqueta]({tag_url}) \"{tag}\""
 
-#: extensions/base/mediawiki.py:1180
+#: extensions/base/mediawiki.py:1098
 #, fuzzy, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "Eliminó una etiqueta \"{tag}\""
 
-#: extensions/base/mediawiki.py:1182
+#: extensions/base/mediawiki.py:1100
 #, fuzzy
 msgid "Removed from"
 msgstr "Eliminado"
 
-#: extensions/base/mediawiki.py:1182
+#: extensions/base/mediawiki.py:1100
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extensions/base/mediawiki.py:1194
+#: extensions/base/mediawiki.py:1112
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) eliminó una [etiqueta]({tag_url}) \"{tag}\""
 
-#: extensions/base/mediawiki.py:1204
+#: extensions/base/mediawiki.py:1122
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -1678,57 +1908,27 @@ msgstr[1] ""
 "[{author}]({author_url}) importó [{article}]({article_url}) con {count} "
 "revisiones{comment}"
 
-#: extensions/base/mediawiki.py:1221
+#: extensions/base/mediawiki.py:1139
 #, fuzzy, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "Activó una etiqueta \"{tag}\""
 
-#: extensions/base/mediawiki.py:1230
+#: extensions/base/mediawiki.py:1148
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) activó una [etiqueta]({tag_url}) \"{tag}\""
 
-#: extensions/base/mediawiki.py:1249
+#: extensions/base/mediawiki.py:1167
 #, fuzzy, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "Desactivó una etiqueta \"{tag}\""
 
-#: extensions/base/mediawiki.py:1258
+#: extensions/base/mediawiki.py:1176
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) desactivó una [etiqueta]({tag_url}) \"{tag}\""
-
-#: extensions/base/mediawiki.py:1278
-#, python-brace-format
-msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
-msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
-msgstr[0] ""
-msgstr[1] ""
-
-#: extensions/base/mediawiki.py:1283
-#, python-brace-format
-msgid "Renamed user \"{old_name}\" to \"{new_name}\""
-msgstr ""
-
-#: extensions/base/mediawiki.py:1298
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
-"[{new_name}]({link}){comment}"
-msgid_plural ""
-"[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to "
-"[{new_name}]({link}){comment}"
-msgstr[0] "[{author}]({author_url}) eliminó [{page}]({page_link}){comment}"
-msgstr[1] "[{author}]({author_url}) eliminó [{page}]({page_link}){comment}"
-
-#: extensions/base/mediawiki.py:1306
-#, fuzzy, python-brace-format
-msgid ""
-"[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
-"{comment}"
-msgstr "[{author}]({author_url}) eliminó [{page}]({page_link}){comment}"
 
 #: extensions/base/sprite.py:37
 #, python-brace-format
@@ -1774,68 +1974,6 @@ msgstr "[{author}]({author_url}) editó el sector de [{article}]({article_url})"
 #~ msgstr "hasta {}"
 
 #, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) dejó un [comentario]({comment}) en el perfil de "
-#~ "{target}"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) left a [comment]({comment}) on their own profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) dejó un [comentario]({comment}) en su propio "
-#~ "perfil"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) respondió a un [comentario]({comment}) en el "
-#~ "perfil de {target}"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) respondió a un [comentario]({comment}) en su "
-#~ "propio perfil"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) editó un [comentario]({comment}) en el perfil de "
-#~ "{target}"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited a [comment]({comment}) on their own "
-#~ "profile"
-#~ msgstr ""
-#~ "[{author}]({author_url}) editó un [comentario]({comment}) en su propio "
-#~ "perfil"
-
-#, fuzzy, python-brace-format
-#~ msgid "[{author}]({author_url}) purged a comment on {target}'s profile"
-#~ msgstr ""
-#~ "#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-#~ "[{author}]({author_url}) borró un comentario en el perfil de {target}\n"
-#~ "#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-#~ "[{author}]({author_url}) eliminó un comentario en el perfil de {target}"
-
-#, fuzzy, python-brace-format
-#~ msgid "[{author}]({author_url}) purged a comment on their own profile"
-#~ msgstr ""
-#~ "#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-#~ "[{author}]({author_url}) borró un comentario en su propio perfil\n"
-#~ "#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-#~ "[{author}]({author_url}) eliminó un comentario en su propio perfil"
-
-#, python-brace-format
 #~ msgid "[{author}]({author_url}) deleted a comment on {target}'s profile"
 #~ msgstr ""
 #~ "[{author}]({author_url}) eliminó un comentario en el perfil de {target}"
@@ -1843,21 +1981,6 @@ msgstr "[{author}]({author_url}) editó el sector de [{article}]({article_url})"
 #, python-brace-format
 #~ msgid "[{author}]({author_url}) deleted a comment on their own profile"
 #~ msgstr "[{author}]({author_url}) eliminó un comentario en su propio perfil"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited the {field} on {target}'s profile. "
-#~ "*({desc})*"
-#~ msgstr ""
-#~ "[{author}]({author_url}) editó el {field} en el perfil de {target}. "
-#~ "*({desc})*"
-
-#, python-brace-format
-#~ msgid ""
-#~ "[{author}]({author_url}) edited the {field} on their own profile. "
-#~ "*({desc})*"
-#~ msgstr ""
-#~ "[{author}]({author_url}) editó el {field} en su propio perfil. *({desc})*"
 
 #~ msgid "none"
 #~ msgstr "ninguno"
@@ -1888,50 +2011,6 @@ msgstr "[{author}]({author_url}) editó el sector de [{article}]({article_url})"
 
 #~ msgid "unknown expiry time"
 #~ msgstr "tiempo de caducidad desconocido"
-
-#, python-brace-format
-#~ msgid "Left a comment on {target}'s profile"
-#~ msgstr "Dejó un comentario en el perfil de {target}"
-
-#~ msgid "Left a comment on their own profile"
-#~ msgstr "Dejó un comentario en su propio perfil"
-
-#, python-brace-format
-#~ msgid "Replied to a comment on {target}'s profile"
-#~ msgstr "Respondió a un comentario en el perfil de {target}"
-
-#~ msgid "Replied to a comment on their own profile"
-#~ msgstr "Respondió a un comentario en su propio perfil"
-
-#, python-brace-format
-#~ msgid "Edited a comment on {target}'s profile"
-#~ msgstr "Editó un comentario en el perfil de {target}"
-
-#~ msgid "Edited a comment on their own profile"
-#~ msgstr "Editó un comentario en su propio perfil"
-
-#, python-brace-format
-#~ msgid "Edited {target}'s profile"
-#~ msgstr "Editó el perfil de {target}"
-
-#~ msgid "Edited their own profile"
-#~ msgstr "Editó su propio perfil"
-
-#, python-brace-format
-#~ msgid "Cleared the {field} field"
-#~ msgstr "Borró el campo {field}"
-
-#, python-brace-format
-#~ msgid "{field} field changed to: {desc}"
-#~ msgstr "El campo {field} cambió a: {desc}"
-
-#, python-brace-format
-#~ msgid "Purged a comment on {target}'s profile"
-#~ msgstr "Borró un comentario en el perfil de {target}"
-
-#, python-brace-format
-#~ msgid "Deleted a comment on {target}'s profile"
-#~ msgstr "Eliminó un comentario en el perfil de {target}"
 
 #, python-brace-format
 #~ msgid "Groups changed from {old_groups} to {new_groups}{reason}"
