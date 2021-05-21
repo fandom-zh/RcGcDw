@@ -861,8 +861,8 @@ def compact_rights_rights(ctx, change):
             author=author, author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
             added=added, comma="," if added and removed else "", removed=removed, comment=parsed_comment)
     else:
-        content = _("{author} autopromoted [{target}]({target_url}) {added}{comma} {removed}{comment}").format(
-            author=_("System"), author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
+        content = _("System autopromoted [{target}]({target_url}) {added}{comma} {removed}{comment}").format(
+            author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
             added=added, comma=_(",") if added and removed else "",removed=removed, comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
