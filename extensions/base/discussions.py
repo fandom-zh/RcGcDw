@@ -190,9 +190,9 @@ def embed_discussion_forum(ctx: Context, post: dict):
                 tag_displayname.append("[{title}]({url})".format(title=tag["articleTitle"], url=create_article_path(
                     quote_plus(tag["articleTitle"].replace(" ", "_"), "/:?=&"))))
             if len(", ".join(tag_displayname)) > 1000:
-                embed.add_field(_("Tags"), _("{} tags").format(len(post["_embedded"]["thread"][0]["tags"])))
+                embed.add_field(formatters_i18n.pgettext("Fandom discussions Tags/Forums", "Tags"), formatters_i18n.pgettext("Fandom discussions amount of Tags/Forums", "{} tags").format(len(post["_embedded"]["thread"][0]["tags"])))
             else:
-                embed.add_field(_("Tags"), ", ".join(tag_displayname))
+                embed.add_field(formatters_i18n.pgettext("Fandom discussions Tags/Forums", "Tags"), ", ".join(tag_displayname))
     else:
         embed.event_type = "discussion/forum/reply"
         embed["title"] = _("Replied to \"{title}\"").format(title=post["_embedded"]["thread"][0]["title"])

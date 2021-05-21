@@ -157,7 +157,7 @@ def embed_helper(ctx: Context, message: DiscordMessage, change: dict, set_user=T
 						tag_displayname.append(ctx.client.tags[tag])
 				else:
 					tag_displayname.append(tag)
-			message.add_field(_("Tags"), ", ".join(tag_displayname))
+			message.add_field(formatters_i18n.pgettext("recent changes Tags", "Tags"), ", ".join(tag_displayname))
 		if ctx.categories is not None and not (len(ctx.categories["new"]) == 0 and len(ctx.categories["removed"]) == 0):
 			new_cat = (_("**Added**: ") + ", ".join(list(ctx.categories["new"])[0:16]) + (
 				"\n" if len(ctx.categories["new"]) <= 15 else _(" and {} more\n").format(
