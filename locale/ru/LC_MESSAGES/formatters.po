@@ -16,32 +16,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-18 13:59+0200\n"
-"PO-Revision-Date: 2020-12-30 13:26+0000\n"
+"PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
-"rc_formatters/ru/>\n"
+"formatters/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  rcgcdw.po  #-#-#-#-#\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.1\n"
-"#-#-#-#-#  formatters.po  #-#-#-#-#\n"
-"#-#-#-#-#  discussion_formatters.po  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  rc_formatters.po  #-#-#-#-#\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
@@ -586,15 +576,14 @@ msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) удалил вики *{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:80
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted a \"{group}\" user group"
-msgstr "Изменил группу \"{usergroup_name}\""
+msgstr "Удалил группу \"{group}\""
 
 #: extensions/base/managewiki.py:89
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a usergroup *{group}*{comment}"
-msgstr ""
-"[{author}]({author_url}) изменил группу пользователей *{group_name}*{comment}"
+msgstr "[{author}]({author_url}) удалил группу пользователей *{group}*{comment}"
 
 #: extensions/base/managewiki.py:103
 #, python-brace-format
@@ -607,7 +596,7 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) заблокировал вики *{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:124
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
 msgstr "Изменил пространство имён \"{namespace_name}\""
 
@@ -616,7 +605,7 @@ msgid "Wiki"
 msgstr "Вики"
 
 #: extensions/base/managewiki.py:134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
@@ -650,14 +639,14 @@ msgstr ""
 "[{author}]({author_url}) изменил группу пользователей *{group_name}*{comment}"
 
 #: extensions/base/managewiki.py:195
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "Удалил вики \"{wiki}\""
+msgstr "Восстановил вики \"{wiki}\""
 
 #: extensions/base/managewiki.py:203
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) удалил вики *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) восстановил вики *{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:217
 #, python-brace-format
@@ -1117,11 +1106,11 @@ msgstr ""
 
 #: extensions/base/mediawiki.py:572
 msgid "for infinity and beyond"
-msgstr "до бесконечности и дальше"
+msgstr "навеки и навсегда"
 
 #: extensions/base/mediawiki.py:582
 msgid "for less than a minute"
-msgstr ""
+msgstr "менее чем на минуту"
 
 #: extensions/base/mediawiki.py:584
 msgid "year"
@@ -1154,7 +1143,7 @@ msgstr[2] "минут"
 #: extensions/base/mediawiki.py:590
 #, python-brace-format
 msgid "for  {time_number} {time_unit}"
-msgstr ""
+msgstr "на {time_number} {time_unit}"
 
 #: extensions/base/mediawiki.py:610
 msgid "Blocked from editing the following pages: "
@@ -1291,7 +1280,7 @@ msgstr[2] ""
 #: extensions/base/mediawiki.py:818
 #, python-brace-format
 msgid " (until {date_and_time})"
-msgstr ""
+msgstr " (до {date_and_time})"
 
 #: extensions/base/mediawiki.py:836
 #, python-brace-format
@@ -1315,13 +1304,13 @@ msgid ""
 msgstr ""
 
 #: extensions/base/mediawiki.py:860
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}) {added}{comma} {removed}{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил модель содержимого страницы [{target}]"
-"({target_url}) с {old_groups} на {new_groups}{comment}"
+"[{author}]({author_url}) изменил членство в группах для участника "
+"[{target}]({target_url}) {added}{comma} {removed}{comment}"
 
 #: extensions/base/mediawiki.py:864
 #, fuzzy, python-brace-format
@@ -1435,12 +1424,13 @@ msgid "Prefix: {prefix} | {desc}"
 msgstr "Префикс: {prefix} | {desc}"
 
 #: extensions/base/mediawiki.py:1074
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
 "{desc}"
 msgstr ""
-"[{author}]({author_url}) удалил запись из [таблицы интервики]({table_url})"
+"[{author}]({author_url}) удалил запись из [таблицы "
+"интервики]({table_url}){desc}"
 
 #: extensions/base/mediawiki.py:1091
 #, python-brace-format
@@ -1482,41 +1472,40 @@ msgstr ""
 "использованием нестандартной модели содержимого {new}{comment}"
 
 #: extensions/base/mediawiki.py:1148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "Создал метку «{tag}»"
 
 #: extensions/base/mediawiki.py:1158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) создал [метку]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) создал [метку]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1180
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "Удалил метку «{tag}»"
 
 #: extensions/base/mediawiki.py:1182
-#, fuzzy
 msgid "Removed from"
 msgstr "Удалено"
 
 #: extensions/base/mediawiki.py:1182
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{} правка или запись в журнале"
+msgstr[1] "{} правки или записи в журнале"
+msgstr[2] "{} правок или записей в журнале"
 
 #: extensions/base/mediawiki.py:1194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) удалил [метку]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) удалил [метку]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1204
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -1524,36 +1513,38 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правкой{comment}"
+"[{author}]({author_url}) удалил [метку]({tag_url}) \"{tag}\" и убрал её из "
+"{count} правки или записи в журнале{comment}"
 msgstr[1] ""
-"[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правками{comment}"
+"[{author}]({author_url}) удалил [метку]({tag_url}) \"{tag}\" и убрал её из "
+"{count} правок или записей в журнале{comment}"
 msgstr[2] ""
-"[{author}]({author_url}) импортировал страницу [{article}]({article_url}) с "
-"{count} правками{comment}"
+"[{author}]({author_url}) удалил [метку]({tag_url}) \"{tag}\" и убрал её из "
+"{count} правок или записей в журнале{comment}"
 
 #: extensions/base/mediawiki.py:1221
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "Активировал метку «{tag}»"
 
 #: extensions/base/mediawiki.py:1230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) активировал [метку]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) активировал [метку]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1249
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "Деактивировал метку «{tag}»"
 
 #: extensions/base/mediawiki.py:1258
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) деактивировал [метку]({tag_url}) \"{tag}\""
+msgstr ""
+"[{author}]({author_url}) деактивировал [метку]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1278
 #, python-brace-format
