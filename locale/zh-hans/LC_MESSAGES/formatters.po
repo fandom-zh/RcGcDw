@@ -3,30 +3,21 @@
 # This file is distributed under the same license as the RcGcDw package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-18 13:59+0200\n"
-"PO-Revision-Date: 2020-12-29 15:21+0000\n"
+"PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
-"rcgcdw/rc_formatters/zh-hans/>\n"
+"rcgcdw/formatters/zh-hans/>\n"
 "Language: zh-hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"#-#-#-#-#  discussion_formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  rc_formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
@@ -558,9 +549,9 @@ msgid "Deleted a \"{group}\" user group"
 msgstr "修改了用户组 \"{usergroup_name}\""
 
 #: extensions/base/managewiki.py:89
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a usergroup *{group}*{comment}"
-msgstr "[{author}]({author_url}) 修改了用户组 *{group_name}*{comment}"
+msgstr "[{author}]({author_url}) 删除了用户组 *{group}*{comment}"
 
 #: extensions/base/managewiki.py:103
 #, python-brace-format
@@ -573,7 +564,7 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) 锁定了wiki *{wiki_name}* {comment}"
 
 #: extensions/base/managewiki.py:124
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
 msgstr "修改了命名空间 \"{namespace_name}\""
 
@@ -582,13 +573,12 @@ msgid "Wiki"
 msgstr "Wiki"
 
 #: extensions/base/managewiki.py:134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) 修改了命名空间 *{namespace_name}* 于 *{wiki_name}* "
-"{comment}"
+"[{author}]({author_url}) 修改了命名空间 *{namespace_name}* 于 *{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:147
 #, python-brace-format
@@ -615,14 +605,14 @@ msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
 msgstr "[{author}]({author_url}) 修改了用户组 *{group_name}*{comment}"
 
 #: extensions/base/managewiki.py:195
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "删除了wiki \"{wiki}\""
+msgstr "取消删除了wiki \"{wiki}\""
 
 #: extensions/base/managewiki.py:203
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) 删除了wiki *{wiki_name}* {comment}"
+msgstr "[{author}]({author_url}) 取消删除了wiki *{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:217
 #, python-brace-format
@@ -1069,7 +1059,7 @@ msgstr "时长为无限期"
 
 #: extensions/base/mediawiki.py:582
 msgid "for less than a minute"
-msgstr ""
+msgstr "时长小于一分钟"
 
 #: extensions/base/mediawiki.py:584
 msgid "year"
@@ -1094,7 +1084,7 @@ msgstr[0] "分"
 #: extensions/base/mediawiki.py:590
 #, python-brace-format
 msgid "for  {time_number} {time_unit}"
-msgstr ""
+msgstr "时长为 {time_number} {time_unit}"
 
 #: extensions/base/mediawiki.py:610
 msgid "Blocked from editing the following pages: "
@@ -1114,7 +1104,7 @@ msgstr "部分封禁详情"
 
 #: extensions/base/mediawiki.py:633
 msgid "Block flags"
-msgstr ""
+msgstr "封禁标记"
 
 #: extensions/base/mediawiki.py:635
 #, python-brace-format
@@ -1210,7 +1200,7 @@ msgstr[0] ""
 #: extensions/base/mediawiki.py:818
 #, python-brace-format
 msgid " (until {date_and_time})"
-msgstr ""
+msgstr " （直到 {date_and_time}）"
 
 #: extensions/base/mediawiki.py:836
 #, python-brace-format
@@ -1232,24 +1222,26 @@ msgid ""
 "{reason}\n"
 "{added}{linebreak}{removed}"
 msgstr ""
+"{reason}\n"
+"{added}{linebreak}{removed}"
 
 #: extensions/base/mediawiki.py:860
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}) {added}{comma} {removed}{comment}"
 msgstr ""
-"[{author}]({author_url}) 已将 [{target}]({target_url}) 的用户组从 "
-"{old_groups} 更改为 {new_groups}{comment}"
+"[{author}]({author_url}) 更改了 [{target}]({target_url}) 的用户组 {added}{comma} "
+"{removed}{comment}"
 
 #: extensions/base/mediawiki.py:864
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{author} autopromoted [{target}]({target_url}) {added}{comma} {removed}"
 "{comment}"
 msgstr ""
-"{author} 自动提升了 [{target}]({target_url}) 的用户组，从 {old_groups} 更改"
-"为 {new_groups}{comment}"
+"{author} 自动提升了 [{target}]({target_url}) 的用户组 {added}{comma} "
+"{removed}{comment}"
 
 #: extensions/base/mediawiki.py:877
 #, python-brace-format
@@ -1351,12 +1343,11 @@ msgid "Prefix: {prefix} | {desc}"
 msgstr "前缀：{prefix} | {desc}"
 
 #: extensions/base/mediawiki.py:1074
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
 "{desc}"
-msgstr ""
-"[{author}]({author_url})删除了[跨wiki表]({table_url})中的一个跨wiki前缀"
+msgstr "[{author}]({author_url}) 删除了[跨wiki表]({table_url})中的一个跨wiki前缀{desc}"
 
 #: extensions/base/mediawiki.py:1091
 #, python-brace-format
@@ -1397,39 +1388,38 @@ msgstr ""
 "的内容模型 {new}{comment}"
 
 #: extensions/base/mediawiki.py:1148
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "创建了标签 \"{tag}\""
 
 #: extensions/base/mediawiki.py:1158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 创建了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 创建了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1180
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "删除了标签 \"{tag}\""
 
 #: extensions/base/mediawiki.py:1182
-#, fuzzy
 msgid "Removed from"
-msgstr "移除了"
+msgstr "移除从"
 
 #: extensions/base/mediawiki.py:1182
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
+msgstr[0] "{} 个修订版本和/或日志条目"
 
 #: extensions/base/mediawiki.py:1194
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 删除了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1204
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -1437,30 +1427,30 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) 导入了 [{article}]({article_url}) 的 {count} 个修订"
-"版本{comment}"
+"[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\" 并从 {count} "
+"个修订版本和/或日志条目中移除该标签{comment}"
 
 #: extensions/base/mediawiki.py:1221
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "激活了标签 \"{tag}\""
 
 #: extensions/base/mediawiki.py:1230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 激活了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 激活了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1249
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "取消激活了标签 \"{tag}\""
 
 #: extensions/base/mediawiki.py:1258
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) 取消激活了一个[标签]({tag_url}) \"{tag}\""
+msgstr "[{author}]({author_url}) 取消激活了[标签]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1278
 #, python-brace-format
