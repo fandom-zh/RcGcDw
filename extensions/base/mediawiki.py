@@ -126,7 +126,6 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
     license = None
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
     action = ctx.event
-    embed_helper(ctx, embed, change)
     # Requesting more information on the image
     request_for_image_data = None
     try:
@@ -220,12 +219,13 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
             except KeyError:
                 logger.exception(
                     "Unknown error when retriefing the image data for a license, full content: {}".format(image_data))
-        if license is not None:
-            embed["description"] += _("\nLicense: {}").format(license)
         if image_direct_url:
             embed.add_field(_("Options"), _("([preview]({link}))").format(link=image_direct_url))
             if settings["appearance"]["embed"]["embed_images"]:
                 embed["image"]["url"] = image_direct_url
+    embed_helper(ctx, embed, change)
+    if license is not None:
+        embed["description"] += _("\nLicense: {}").format(license)
     return embed
 
 
@@ -596,7 +596,6 @@ def block_expiry(change: dict) -> str:
 @formatter.embed(event="block/block", mode="embed")
 def embed_block_block(ctx, change):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-    embed_helper(ctx, embed, change)
     user = change["title"].split(':', 1)[1]
     try:
         ipaddress.ip_address(user)
@@ -633,6 +632,7 @@ def embed_block_block(ctx, change):
         embed.add_field(_("Block flags"), ", ".join(
             block_flags))  # TODO Translate flags into MW messages, this requires making additional request in init_request since we want to get all messages with prefix (amprefix) block-log-flags- and that parameter is exclusive with ammessages
     embed["title"] = _("Blocked {blocked_user} {time}").format(blocked_user=user, time=block_expiry(change))
+    embed_helper(ctx, embed, change)
     return embed
 
 
@@ -811,7 +811,7 @@ def compact_import_interwiki(ctx, change):
 
 
 # rights/rights - Assigning rights groups
-def get_changed_groups(change: dict, separator: str) -> [str, str]:
+def get_changed_groups(change: dict) -> [[str], [str]]:
     """Creates strings comparing the changes between the user groups for the user"""
     def expiry_parse_time(passed_time):
         try:
@@ -819,51 +819,57 @@ def get_changed_groups(change: dict, separator: str) -> [str, str]:
         except ValueError:
             return ""
     new_group_meta = {_(t["group"]): expiry_parse_time(t.get("expiry", "infinity")) for t in change["logparams"].get("newmetadata", [])}
-    old_groups = {_(x) for x in change["logparams"]["oldgroups"]}  # translate all groups and pull them into a set
+    # translate all groups and pull them into a set
+    old_groups = {_(x) for x in change["logparams"]["oldgroups"]}
     new_groups = {_(x) for x in change["logparams"]["newgroups"]}
-    added = separator.join(
-        ["+ " + x + new_group_meta.get(x, "") for x in new_groups - old_groups])  # add + before every string and join them with separator
-    removed = separator.join(["- " + x for x in old_groups - new_groups])
+    added = [x + new_group_meta.get(x, "") for x in new_groups - old_groups]
+    removed = [x for x in old_groups - new_groups]
     return added, removed
 
 
 @formatter.embed(event="rights/rights", aliases=["rights/autopromote"])
 def embed_rights_rights(ctx, change):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-    embed_helper(ctx, embed, change, set_desc=False)
     embed["url"] = create_article_path(sanitize_to_url("User:{}".format(change["title"].split(":")[1])))
     if ctx.event == "rights/rights":
         embed["title"] = _("Changed group membership for {target}").format(target=sanitize_to_markdown(change["title"].split(":")[1]))
     else:
-        author_url = ""
-        embed.set_author(_("System"), author_url)
+        embed.set_author(_("System"), "")
         embed["title"] = _("{target} got autopromoted to a new usergroup").format(
             target=sanitize_to_markdown(change["title"].split(":")[1]))
     # if len(change["logparams"]["oldgroups"]) < len(change["logparams"]["newgroups"]):
-    # 	embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
-    added, removed = get_changed_groups(change, "\n")
-    reason = ": {desc}".format(desc=ctx.parsedcomment) if change.get("parsedcomment", None) else ""
-    embed["description"] = _("{reason}\n{added}{linebreak}{removed}").format(added=added, removed=removed,
-                                                                             reason=reason,
-                                                                             linebreak="\n" if added else "")
+    #     embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
+    added, removed = get_changed_groups(change)
+    if added:
+        embed.add_field(ngettext("Added groups", "Added group", len(added)), "\n".join(added), inline=True)
+    if removed:
+        embed.add_field(ngettext("Removed groups", "Removed group", len(removed)), "\n".join(removed), inline=True)
+    embed_helper(ctx, embed, change)
     return embed
 
 
 @formatter.compact(event="rights/rights", aliases=["rights/autopromote"])
 def compact_rights_rights(ctx, change):
     link = clean_link(create_article_path(sanitize_to_url("User:{user}".format(user=change["title"].split(":")[1]))))
-    added, removed = get_changed_groups(change, ", ")
+    added, removed = get_changed_groups(change)
     author, author_url = compact_author(ctx, change)
     parsed_comment = compact_summary(ctx)
     if ctx.event == "rights/rights":
-        content = _(
-            "[{author}]({author_url}) changed group membership for [{target}]({target_url}) {added}{comma} {removed}{comment}").format(
-            author=author, author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
-            added=added, comma="," if added and removed else "", removed=removed, comment=parsed_comment)
+        group_changes = "Unknown group changes."  # Because I don't know if it can handle time extensions correctly
+        if added and removed:
+            group_changes = _("Added to {added} and removed from {removed}.").format(
+                added=_(", ").join(added), removed=_(", ").join(removed))
+        elif added:
+            group_changes = _("Added to {added}.").format(added=_(", ").join(added))
+        elif removed:
+            group_changes = _("Removed from {removed}.").format(removed=_(", ").join(removed))
+        content = _("[{author}]({author_url}) changed group membership for [{target}]({target_url}): {group_changes}{comment}").format(
+            author=author, author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]),
+            target_url=link, group_changes=group_changes, comment=parsed_comment)
     else:
-        content = _("System autopromoted [{target}]({target_url}) {added}{comma} {removed}{comment}").format(
-            author_url=author_url, target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
-            added=added, comma=_(",") if added and removed else "",removed=removed, comment=parsed_comment)
+        content = _("The system autopromoted [{target}]({target_url}) to {added}.{comment}").format(
+            target=sanitize_to_markdown(change["title"].split(":")[1]), target_url=link,
+            added=_(", ").join(added), comment=parsed_comment)
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
@@ -1092,13 +1098,13 @@ def compact_managetags_create(ctx, change):
 @formatter.embed(event="managetags/delete", mode="embed")
 def embed_managetags_delete(ctx, change):
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-    embed_helper(ctx, embed, change)
     ctx.client.refresh_internal_data()
     embed["url"] = create_article_path(sanitize_to_url(change["title"]))
     embed["title"] = _("Deleted the tag \"{tag}\"").format(tag=sanitize_to_markdown(change["logparams"]["tag"]))
     if change["logparams"]["count"] > 0:
         embed.add_field(_('Removed from'), ngettext("{} revision or log entry", "{} revisions and/or log entries",
                                                     change["logparams"]["count"]).format(change["logparams"]["count"]))
+    embed_helper(ctx, embed, change)
     return embed
 
 
