@@ -8,6 +8,7 @@ stages:
   - pytest
 
 test:
+  stage: test
   script:
     - apk add libxml2-dev libxslt-dev libxml2 gcc musl-dev linux-headers
     - pip3.7 install -r requirements.txt
@@ -19,7 +20,7 @@ test:
   - testing
 
 pytest:
-  stage: test
+  stage: pytest
   script:
     - pip3.7 install -U pytest
     - pytest --junitxml=report.xml
