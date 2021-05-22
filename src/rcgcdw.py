@@ -30,7 +30,7 @@ from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
 from src.configloader import settings
 from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser, run_hooks
-from src.api.util import create_article_path, default_message, sanitize_to_markdown
+from src.api.util import create_article_path, default_message
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.exceptions import MWError, ServerError, MediaWikiError, BadRequest, ClientError
@@ -210,7 +210,6 @@ def rc_processor(change, changed_categories):
 		if "commenthidden" not in change:
 			LinkParser.feed(change.get("parsedcomment", ""))
 			parsed_comment = LinkParser.new_string
-			parsed_comment = sanitize_to_markdown(parsed_comment)
 		else:
 			parsed_comment = _("~~hidden~~")
 		if not parsed_comment and context.message_type == "embed" and settings["appearance"].get("embed", {}).get("show_no_description_provided", True):
@@ -257,6 +256,7 @@ def rc_processor(change, changed_categories):
 				for revid in logparams.get("ids", []):
 					delete_messages(dict(revid=revid))
 	run_hooks(post_hooks, discord_message, metadata, context, change)
+	discord_message.finish_embed()
 	send_to_discord(discord_message, metadata)
 
 
@@ -270,6 +270,7 @@ def abuselog_processing(entry):
 	discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
 	metadata = DiscordMessageMetadata("POST")
 	run_hooks(post_hooks, discord_message, metadata, context, entry)
+	discord_message.finish_embed()
 	send_to_discord(discord_message, metadata)
 
 
