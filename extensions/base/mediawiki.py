@@ -841,9 +841,9 @@ def embed_rights_rights(ctx, change):
     #     embed["thumbnail"]["url"] = "https://i.imgur.com/WnGhF5g.gif"
     added, removed = get_changed_groups(change)
     if added:
-        embed.add_field(ngettext("Added groups", "Added group", len(added)), "\n".join(added), inline=True)
+        embed.add_field(ngettext("Added group", "Added groups", len(added)), "\n".join(added), inline=True)
     if removed:
-        embed.add_field(ngettext("Removed groups", "Removed group", len(removed)), "\n".join(removed), inline=True)
+        embed.add_field(ngettext("Removed group", "Removed groups", len(removed)), "\n".join(removed), inline=True)
     embed_helper(ctx, embed, change)
     return embed
 
