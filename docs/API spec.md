@@ -148,4 +148,4 @@ RcGcDw implements i18n with gettext and already exposes Translations instance wi
 **Path**: `src.api.hook`    
 There are two decorator functions available in the module: `pre_hook` and `post_hook`. They don't take arguments and simply register the function as a hook.
 Pre-hook functions take the following arguments: `context` ([Context object](#Context)) and `change` (dict object with change).
-Post-hook functions take the following arguments: `message` ([Discord message object](#DiscordMessage)), `metadata` ([Discord message metadata](#DiscordMessageMetadata)) and `context` ([Context object](#Context))
+Post-hook functions take the following arguments: `message` ([Discord message object](#DiscordMessage)), `metadata` ([Discord message metadata](#DiscordMessageMetadata)), `context` ([Context object](#Context)) and `change` (dictionary of main change body)

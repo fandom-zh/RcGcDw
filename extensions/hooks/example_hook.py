@@ -23,6 +23,6 @@ def example_pre_hook(context, change):
 
 
 @post_hook
-def example_post_hook(message, metadata, context):
+def example_post_hook(message, metadata, context, change):
     print("Our Discord message looks as follows: ")
     print(message)

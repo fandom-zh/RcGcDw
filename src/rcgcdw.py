@@ -256,7 +256,7 @@ def rc_processor(change, changed_categories):
 			else:
 				for revid in logparams.get("ids", []):
 					delete_messages(dict(revid=revid))
-	run_hooks(post_hooks, discord_message, metadata, context)
+	run_hooks(post_hooks, discord_message, metadata, context, change)
 	send_to_discord(discord_message, metadata)
 
 
@@ -269,7 +269,7 @@ def abuselog_processing(entry):
 	context.event = action
 	discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
 	metadata = DiscordMessageMetadata("POST")
-	run_hooks(post_hooks, discord_message, metadata, context)
+	run_hooks(post_hooks, discord_message, metadata, context, entry)
 	send_to_discord(discord_message, metadata)
 
 

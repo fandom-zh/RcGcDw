@@ -124,7 +124,7 @@ def parse_discussion_post(post, comment_pages):
 	run_hooks(pre_hooks, context, post)
 	discord_message = default_message(event_type, formatter_hooks)(context, post)
 	metadata = DiscordMessageMetadata("POST")
-	run_hooks(post_hooks, discord_message, metadata, context)
+	run_hooks(post_hooks, discord_message, metadata, context, post)
 	send_to_discord(discord_message, metadata)
 
 
