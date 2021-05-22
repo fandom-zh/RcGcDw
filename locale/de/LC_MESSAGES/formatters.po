@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-21 21:20+0200\n"
-"PO-Revision-Date: 2021-05-21 18:19+0000\n"
+"PO-Revision-Date: 2021-05-22 12:08+0000\n"
 "Last-Translator: magiczocker <jan-frederik-kriete@t-online.de>\n"
 "Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/de/>\n"
@@ -43,7 +43,6 @@ msgid "Unregistered user"
 msgstr "Nicht angemeldeter Benutzer"
 
 #: src/api/util.py:160
-#, fuzzy
 msgctxt "recent changes Tags"
 msgid "Tags"
 msgstr "Markierungen"
@@ -422,16 +421,14 @@ msgid "Created a quiz \"{title}\""
 msgstr "Erstellte ein Quiz „{title}“"
 
 #: extensions/base/discussions.py:193 extensions/base/discussions.py:195
-#, fuzzy
 msgctxt "Fandom discussions Tags/Forums"
 msgid "Tags"
 msgstr "Markierungen"
 
 #: extensions/base/discussions.py:193
-#, fuzzy
 msgctxt "Fandom discussions amount of Tags/Forums"
 msgid "{} tags"
-msgstr "{} Tags"
+msgstr "{} Markierungen"
 
 #: extensions/base/discussions.py:198
 #, python-brace-format
@@ -697,13 +694,13 @@ msgid "{field} field changed to: {desc}"
 msgstr "{field} geändert zu: {desc}"
 
 #: extensions/base/curseprofile.py:58
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s "
 "profile."
 msgstr ""
-"[{author}]({author_url}) bearbeitete den {field} auf dem Profil von "
-"[{target}]({target_url}). *({desc})*"
+"[{author}]({author_url}) leerte das {field} auf dem Profil von "
+"[{target}]({target_url})."
 
 #: extensions/base/curseprofile.py:60
 #, python-brace-format
@@ -715,13 +712,13 @@ msgstr ""
 "[{target}]({target_url}). *({desc})*"
 
 #: extensions/base/curseprofile.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) cleared the {field} on [their own]({target_url}) "
 "profile."
 msgstr ""
-"[{author}]({author_url}) bearbeitete den {field} auf dem [eigenen Profil]"
-"({target_url}). *({desc})*"
+"[{author}]({author_url}) leerte das {field} auf dem [eigenen "
+"Profil]({target_url})."
 
 #: extensions/base/curseprofile.py:67
 #, python-brace-format
@@ -742,20 +739,20 @@ msgid "Left a comment on their own profile"
 msgstr "Hinterließ ein Kommentar auf dem eigenen Profil"
 
 #: extensions/base/curseprofile.py:97
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile."
 msgstr ""
 "[{author}]({author_url}) hinterließ einen [Kommentar]({comment}) auf dem "
-"Profil von {target}"
+"Profil von {target}."
 
 #: extensions/base/curseprofile.py:100
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on their own profile."
 msgstr ""
 "[{author}]({author_url}) hinterließ einen [Kommentar]({comment}) auf dem "
-"eigenen Profil"
+"eigenen Profil."
 
 #: extensions/base/curseprofile.py:113
 #, python-brace-format
@@ -767,20 +764,20 @@ msgid "Edited a comment on their own profile"
 msgstr "Bearbeitete ein Kommentar auf dem eigenen Profil"
 
 #: extensions/base/curseprofile.py:128
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile."
 msgstr ""
 "[{author}]({author_url}) bearbeitete einen [Kommentar]({comment}) auf dem "
-"Profil von {target}"
+"Profil von {target}."
 
 #: extensions/base/curseprofile.py:131
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on their own profile."
 msgstr ""
 "[{author}]({author_url}) bearbeitete einen [Kommentar]({comment}) auf dem "
-"eigenen Profil"
+"eigenen Profil."
 
 #: extensions/base/curseprofile.py:144
 #, python-brace-format
@@ -792,22 +789,22 @@ msgid "Replied to a comment on their own profile"
 msgstr "Antwortete auf ein Kommentar auf dem eigenen Profil"
 
 #: extensions/base/curseprofile.py:159
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
 "profile."
 msgstr ""
 "[{author}]({author_url}) antwortete auf einen [Kommentar]({comment}) auf dem "
-"Profil von {target}"
+"Profil von {target}."
 
 #: extensions/base/curseprofile.py:162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
 "profile."
 msgstr ""
 "[{author}]({author_url}) antwortete auf einen [Kommentar]({comment}) auf dem "
-"eigenen Profil"
+"eigenen Profil."
 
 #: extensions/base/curseprofile.py:175
 #, python-brace-format
@@ -819,22 +816,22 @@ msgid "Deleted a comment on their own profile"
 msgstr "Löschte ein Kommentar auf dem eigenen Profil"
 
 #: extensions/base/curseprofile.py:197
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
 "profile.{reason}"
 msgstr ""
 "[{author}]({author_url}) löschte einen [Kommentar]({comment}) auf dem Profil "
-"von {target}"
+"von {target}.{reason}"
 
 #: extensions/base/curseprofile.py:200
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on their own profile."
 "{reason}"
 msgstr ""
 "[{author}]({author_url}) löschte einen [Kommentar]({comment}) auf dem "
-"eigenen Profil"
+"eigenen Profil.{reason}"
 
 #: extensions/base/curseprofile.py:214
 #, python-brace-format
@@ -846,22 +843,22 @@ msgid "Purged a comment on their own profile"
 msgstr "Löschte ein Kommentar auf dem eigenen Profil dauerhaft"
 
 #: extensions/base/curseprofile.py:230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) purged a comment on [{target}]({link})'s profile."
 "{reason}"
 msgstr ""
-"[{author}]({author_url}) löschte einen Kommentar auf dem Profil von {target} "
-"dauerhaft"
+"[{author}]({author_url}) löschte einen Kommentar auf dem Profil von "
+"[{target}]({link}) dauerhaft.{reason}"
 
 #: extensions/base/curseprofile.py:233
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) purged a comment on [their own]({link}) profile."
 "{reason}"
 msgstr ""
-"[{author}]({author_url}) löschte einen Kommentar auf dem eigenen Profil "
-"dauerhaft"
+"[{author}]({author_url}) löschte einen Kommentar auf dem [eigenen]({link}) "
+"Profil dauerhaft.{reason}"
 
 #: extensions/base/renameuser.py:38
 #, python-brace-format
@@ -1568,17 +1565,17 @@ msgstr ""
 "({target_url}) {added}{comma} {removed}{comment}"
 
 #: extensions/base/mediawiki.py:864
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "System autopromoted [{target}]({target_url}) {added}{comma} {removed}"
 "{comment}"
 msgstr ""
-"{author} änderte die Benutzergruppen für [{target}]({target_url}) "
-"automatisch {added}{comma} {removed}{comment}"
+"System änderte die Benutzergruppen für [{target}]({target_url}) automatisch "
+"{added}{comma} {removed}{comment}"
 
 #: extensions/base/mediawiki.py:866
 msgid ","
-msgstr ""
+msgstr ","
 
 #: extensions/base/mediawiki.py:877
 #, python-brace-format

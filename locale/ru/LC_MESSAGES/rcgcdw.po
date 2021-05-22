@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-21 21:04+0200\n"
-"PO-Revision-Date: 2021-05-21 18:18+0000\n"
+"PO-Revision-Date: 2021-05-22 12:08+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/main/ru/"
 ">\n"
@@ -113,7 +113,7 @@ msgstr "~~скрыто~~"
 
 #: src/rcgcdw.py:217
 msgid "No description provided"
-msgstr ""
+msgstr "Описание не предоставлено"
 
 #: src/rcgcdw.py:220
 msgid "hidden"
