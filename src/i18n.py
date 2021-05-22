@@ -19,6 +19,11 @@ logger = logging.getLogger("rcgcdw.i18n")
 
 # Setup translation
 
+
+def python37_pgettext_backward_compatibility(context: str, string: str):
+	"""Creates backward compatibility with Python 3.7 as pgettext has been introduced only in Python 3.8"""
+	return formatters_i18n.gettext(string)
+
 try:
 	if settings["lang"] != "en":
 		rcgcdw = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
@@ -28,6 +33,7 @@ try:
 		redaction = gettext.translation('redaction', localedir='locale', languages=[settings["lang"]])
 	else:
 		rcgcdw, discussion_formatters, rc, formatters_i18n, misc, redaction = gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations()
+	formatters_i18n.pgettext = python37_pgettext_backward_compatibility
 except FileNotFoundError:
 	logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
 	sys.exit(1)
