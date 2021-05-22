@@ -31,4 +31,7 @@ def example_post_hook(message, metadata, context, change):
         username = change["title"].split(':', 1)[1]
         if discord_users.get(username, "") and username != change["user"]:
             message.webhook_object["content"] = (content or "") + " <@{}>".format(discord_users[username])
-            message.webhook_object["allowed_mentions"].get("users", []).append(discord_users[username])
+            if message.webhook_object["allowed_mentions"].get("users", []):
+                message.webhook_object["allowed_mentions"]["users"].append(discord_users[username])
+            else:
+                message.webhook_object["allowed_mentions"]["users"] = [discord_users[username]]
