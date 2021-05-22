@@ -855,6 +855,7 @@ def compact_rights_rights(ctx, change):
     author, author_url = compact_author(ctx, change)
     parsed_comment = compact_summary(ctx)
     if ctx.event == "rights/rights":
+        group_changes = "Unknown group changes."  # Because I don't know if it can handle time extensions correctly
         if added and removed:
             group_changes = _("Added to {added} and removed from {removed}.").format(
                 added=_(", ").join(added), removed=_(", ").join(removed))
