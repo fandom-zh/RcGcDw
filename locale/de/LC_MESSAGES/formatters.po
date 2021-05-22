@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:03+0200\n"
-"PO-Revision-Date: 2021-05-22 16:00+0000\n"
+"PO-Revision-Date: 2021-05-22 16:45+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/de/>\n"
@@ -1549,52 +1549,49 @@ msgstr "{target} wurde automatisch einer neuen Benutzergruppe zugeordnet"
 #: extensions/base/mediawiki.py:844
 msgid "Added groups"
 msgid_plural "Added group"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hinzugefügte Gruppe"
+msgstr[1] "Hinzugefügte Gruppen"
 
 #: extensions/base/mediawiki.py:846
-#, fuzzy
 msgid "Removed groups"
 msgid_plural "Removed group"
-msgstr[0] "Entfernt von"
-msgstr[1] "Entfernt von"
+msgstr[0] "Entfernte Gruppe"
+msgstr[1] "Entfernte Gruppen"
 
 #: extensions/base/mediawiki.py:860
 #, python-brace-format
 msgid "Added to {added} and removed from {removed}."
-msgstr ""
+msgstr "Hinzugefügt zu {added} und entfernt von {removed}."
 
 #: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
 #: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
-#, fuzzy
 msgid ", "
-msgstr ","
+msgstr ", "
 
 #: extensions/base/mediawiki.py:863
 #, python-brace-format
 msgid "Added to {added}."
-msgstr ""
+msgstr "Hinzugefügt zu {added}."
 
 #: extensions/base/mediawiki.py:865
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed from {removed}."
-msgstr "Entfernt von"
+msgstr "Entfernt von {removed}."
 
 #: extensions/base/mediawiki.py:866
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}): {group_changes}{comment}"
 msgstr ""
-"[{author}]({author_url}) änderte die Benutzergruppen für [{target}]"
-"({target_url}) {added}{comma} {removed}{comment}"
+"[{author}]({author_url}) änderte die Benutzergruppen für "
+"[{target}]({target_url}): {group_changes}{comment}"
 
 #: extensions/base/mediawiki.py:870
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
 msgstr ""
-"System änderte die Benutzergruppen für [{target}]({target_url}) automatisch "
-"{added}{comma} {removed}{comment}"
+"[{target}]({target_url}) wurde automatisch zu {added} hinzugefügt.{comment}"
 
 #: extensions/base/mediawiki.py:883
 #, python-brace-format
