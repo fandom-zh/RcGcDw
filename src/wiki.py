@@ -119,17 +119,14 @@ class Wiki(object):
 		"""Make a typical MW request for rc/abuselog
 
 		If succeeds return the .json() of request and if not raises ConnectionError"""
-		request = self._safe_request(WIKI_API_PATH, params=self.construct_params(amount))
-		if request is not None:
-			try:
-				request = request.json()
-			except ValueError:
-				logger.warning("ValueError in fetching changes")
-				logger.warning("Changes URL:" + request.url)
-				self.downtime_controller(True)
-				raise ConnectionError
-			return request
-		raise ConnectionError
+		try:
+			request = self.api_request(self.construct_params(amount))
+		except (ServerError, MediaWikiError):
+			raise ConnectionError
+		except (ClientError, KeyError, BadRequest):
+			raise
+		return request
+
 
 	def construct_params(self, amount):
 		"""Constructs GET parameters for recentchanges/abuselog fetching feature"""
