@@ -34,6 +34,7 @@ class DiscordMessage:
 				content = settings["event_appearance"][event_type]["emoji"] + " " + content
 			self.webhook_object["content"] = content
 
+		self.message_type = message_type
 		self.event_type = event_type
 
 	def __setitem__(self, key, value):
@@ -63,6 +64,8 @@ class DiscordMessage:
 		self.__setup_embed()
 
 	def finish_embed(self):
+		if self.message_type != "embed":
+			return
 		if self.embed["color"] is None:
 			if settings["event_appearance"].get(self.event_type, {"color": None})["color"] is None:
 				self.embed["color"] = random.randrange(1, 16777215)

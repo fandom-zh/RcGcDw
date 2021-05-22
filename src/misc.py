@@ -21,6 +21,7 @@ from urllib.parse import urlparse, urlunparse
 import requests
 
 from src.configloader import settings
+from src.api.util import sanitize_to_markdown
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.discord.queue import messagequeue, send_to_discord
 from src.exceptions import MediaWikiError
@@ -344,13 +345,13 @@ class LinkParser(HTMLParser):
 
 	def handle_data(self, data):
 		if self.recent_href:
-			self.new_string = self.new_string + "[{}](<{}>)".format(data.replace("//", "/\\/"), self.recent_href)
+			self.new_string = self.new_string + "[{}](<{}>)".format(sanitize_to_markdown(data), self.recent_href)
 			self.recent_href = ""
 		else:
-			self.new_string = self.new_string + data.replace("//", "/\\/")
+			self.new_string = self.new_string + sanitize_to_markdown(data)
 
 	def handle_comment(self, data):
-		self.new_string = self.new_string + data.replace("//", "/\\/")
+		self.new_string = self.new_string + sanitize_to_markdown(data)
 
 	def handle_endtag(self, tag):
 		misc_logger.debug(self.new_string)
