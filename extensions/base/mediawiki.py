@@ -219,13 +219,13 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
             except KeyError:
                 logger.exception(
                     "Unknown error when retriefing the image data for a license, full content: {}".format(image_data))
-        if license is not None:
-            embed["description"] += _("\nLicense: {}").format(license)
         if image_direct_url:
             embed.add_field(_("Options"), _("([preview]({link}))").format(link=image_direct_url))
             if settings["appearance"]["embed"]["embed_images"]:
                 embed["image"]["url"] = image_direct_url
     embed_helper(ctx, embed, change)
+    if license is not None:
+        embed["description"] += _("\nLicense: {}").format(license)
     return embed
 
 
