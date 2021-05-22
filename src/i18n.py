@@ -22,7 +22,10 @@ logger = logging.getLogger("rcgcdw.i18n")
 
 def python37_pgettext_backward_compatibility(context: str, string: str):
 	"""Creates backward compatibility with Python 3.7 as pgettext has been introduced only in Python 3.8"""
-	return formatters_i18n.gettext(string)
+	translation = formatters_i18n.gettext("{}\x04{}".format(context, string))
+	if "\x04" in translation:  # gettext returned same message
+		return string
+	return translation
 
 try:
 	if settings["lang"] != "en":
