@@ -27,7 +27,7 @@ discord_users = settings.get("hooks", {}).get("usertalk", {})
 
 @post_hook
 def example_post_hook(message, metadata, context, change):
-    if discord_users and change["ns"] in [2, 3] and not "/" in change["title"]:
+    if discord_users and change["ns"] in [2, 3, 202] and not "/" in change["title"]:
         username = change["title"].split(':', 1)[1]
         if discord_users.get(username, "") and username != change["user"]:
             message.webhook_object["content"] = (content or "") + " <@{}>".format(discord_users[username])
