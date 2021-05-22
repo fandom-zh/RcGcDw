@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:20+0200\n"
+"POT-Creation-Date: 2021-05-22 18:03+0200\n"
 "PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: Dianliang233 <dianliang233@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
@@ -1089,46 +1089,46 @@ msgstr ""
 "[{author}]({author_url}) 创建了 [{article}]({edit_link}){comment}{bold}"
 "（{sign}{edit_size}）{bold}"
 
-#: extensions/base/mediawiki.py:191 extensions/base/mediawiki.py:226
+#: extensions/base/mediawiki.py:190 extensions/base/mediawiki.py:223
 msgid "Options"
 msgstr "选项"
 
-#: extensions/base/mediawiki.py:191
+#: extensions/base/mediawiki.py:190
 #, python-brace-format
 msgid "([preview]({link}) | [undo]({undolink}))"
 msgstr "([预览]({link}) | [撤销]({undolink}))"
 
-#: extensions/base/mediawiki.py:196
+#: extensions/base/mediawiki.py:195
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
 msgstr "上传了 {name} 的新版本"
 
-#: extensions/base/mediawiki.py:198
+#: extensions/base/mediawiki.py:197
 #, python-brace-format
 msgid "Reverted a version of {name}"
 msgstr "回退了 {name} 的一个版本"
 
-#: extensions/base/mediawiki.py:200
+#: extensions/base/mediawiki.py:199
 #, python-brace-format
 msgid "Uploaded {name}"
 msgstr "上传了 {name}"
 
-#: extensions/base/mediawiki.py:209
+#: extensions/base/mediawiki.py:208
 msgid "**No license!**"
 msgstr "**没有许可协议！**"
 
-#: extensions/base/mediawiki.py:224
+#: extensions/base/mediawiki.py:223
+#, python-brace-format
+msgid "([preview]({link}))"
+msgstr "([预览]({link}))"
+
+#: extensions/base/mediawiki.py:228
 msgid ""
 "\n"
 "License: {}"
 msgstr ""
 "\n"
 "许可协议：{}"
-
-#: extensions/base/mediawiki.py:226
-#, python-brace-format
-msgid "([preview]({link}))"
-msgstr "([预览]({link}))"
 
 #: extensions/base/mediawiki.py:237
 #, python-brace-format
@@ -1347,27 +1347,27 @@ msgstr[0] "分"
 msgid "for  {time_number} {time_unit}"
 msgstr "时长为 {time_number} {time_unit}"
 
-#: extensions/base/mediawiki.py:610
+#: extensions/base/mediawiki.py:609
 msgid "Blocked from editing the following pages: "
 msgstr "被阻止编辑下列页面： "
 
-#: extensions/base/mediawiki.py:617 extensions/base/mediawiki.py:662
+#: extensions/base/mediawiki.py:616 extensions/base/mediawiki.py:662
 msgid " and namespaces: "
 msgstr " 和命名空间： "
 
-#: extensions/base/mediawiki.py:619
+#: extensions/base/mediawiki.py:618
 msgid "Blocked from editing pages on following namespaces: "
 msgstr "被阻止编辑下列命名空间的页面： "
 
-#: extensions/base/mediawiki.py:630
+#: extensions/base/mediawiki.py:629
 msgid "Partial block details"
 msgstr "部分封禁详情"
 
-#: extensions/base/mediawiki.py:633
+#: extensions/base/mediawiki.py:632
 msgid "Block flags"
 msgstr "封禁标记"
 
-#: extensions/base/mediawiki.py:635
+#: extensions/base/mediawiki.py:634
 #, python-brace-format
 msgid "Blocked {blocked_user} {time}"
 msgstr "封禁 {blocked_user} {time}"
@@ -1463,57 +1463,73 @@ msgstr[0] ""
 msgid " (until {date_and_time})"
 msgstr " （直到 {date_and_time}）"
 
-#: extensions/base/mediawiki.py:836
+#: extensions/base/mediawiki.py:835
 #, python-brace-format
 msgid "Changed group membership for {target}"
 msgstr "更改了 {target} 的用户组"
 
-#: extensions/base/mediawiki.py:839
+#: extensions/base/mediawiki.py:837
 msgid "System"
 msgstr "系统"
 
-#: extensions/base/mediawiki.py:840
+#: extensions/base/mediawiki.py:838
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} 被自动地提升到新用户组"
 
+#: extensions/base/mediawiki.py:844
+msgid "Added groups"
+msgid_plural "Added group"
+msgstr[0] ""
+
 #: extensions/base/mediawiki.py:846
-#, python-brace-format
-msgid ""
-"{reason}\n"
-"{added}{linebreak}{removed}"
-msgstr ""
-"{reason}\n"
-"{added}{linebreak}{removed}"
+#, fuzzy
+msgid "Removed groups"
+msgid_plural "Removed group"
+msgstr[0] "移除从"
 
 #: extensions/base/mediawiki.py:860
 #, python-brace-format
+msgid "Added to {added} and removed from {removed}."
+msgstr ""
+
+#: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
+#: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
+msgid ", "
+msgstr ""
+
+#: extensions/base/mediawiki.py:863
+#, python-brace-format
+msgid "Added to {added}."
+msgstr ""
+
+#: extensions/base/mediawiki.py:865
+#, fuzzy, python-brace-format
+msgid "Removed from {removed}."
+msgstr "移除从"
+
+#: extensions/base/mediawiki.py:866
+#, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
-"({target_url}) {added}{comma} {removed}{comment}"
+"({target_url}): {group_changes}{comment}"
 msgstr ""
 "[{author}]({author_url}) 更改了 [{target}]({target_url}) 的用户组 {added}"
 "{comma} {removed}{comment}"
 
-#: extensions/base/mediawiki.py:864
+#: extensions/base/mediawiki.py:870
 #, fuzzy, python-brace-format
-msgid ""
-"System autopromoted [{target}]({target_url}) {added}{comma} {removed}"
-"{comment}"
+msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
 msgstr ""
 "{author} 自动提升了 [{target}]({target_url}) 的用户组 {added}{comma} "
 "{removed}{comment}"
 
-#: extensions/base/mediawiki.py:866
-msgid ","
-msgstr ""
-
-#: extensions/base/mediawiki.py:877
+#: extensions/base/mediawiki.py:883
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
 msgstr "将 {article} 的修订版本历史合并到了 {dest}"
 
-#: extensions/base/mediawiki.py:891
+#: extensions/base/mediawiki.py:897
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
@@ -1522,30 +1538,30 @@ msgstr ""
 "[{author}]({author_url}) 将 [{article}]({article_url}) 的修订版本历史合并到 "
 "[{dest}]({dest_url}){comment}"
 
-#: extensions/base/mediawiki.py:905
+#: extensions/base/mediawiki.py:911
 msgid "Created account automatically"
 msgstr "自动创建账户"
 
-#: extensions/base/mediawiki.py:912
+#: extensions/base/mediawiki.py:918
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
 msgstr "用户账户 [{author}]({author_url}) 被自动创建"
 
-#: extensions/base/mediawiki.py:925 extensions/base/mediawiki.py:990
+#: extensions/base/mediawiki.py:931 extensions/base/mediawiki.py:996
 msgid "Created account"
 msgstr "创建了账户"
 
-#: extensions/base/mediawiki.py:932 extensions/base/mediawiki.py:997
+#: extensions/base/mediawiki.py:938 extensions/base/mediawiki.py:1003
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
 msgstr "用户账户 [{author}]({author_url}) 被创建"
 
-#: extensions/base/mediawiki.py:944
+#: extensions/base/mediawiki.py:950
 #, python-brace-format
 msgid "Created account {article}"
 msgstr "创建了账户 {article}"
 
-#: extensions/base/mediawiki.py:953
+#: extensions/base/mediawiki.py:959
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
@@ -1553,12 +1569,12 @@ msgid ""
 msgstr ""
 "用户账户 [{article}]({article_url}) 被 [{author}]({author_url}) 创建{comment}"
 
-#: extensions/base/mediawiki.py:966
+#: extensions/base/mediawiki.py:972
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr "创建了账户 {article} 且密码已通过电子邮件发送"
 
-#: extensions/base/mediawiki.py:977
+#: extensions/base/mediawiki.py:983
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
@@ -1567,17 +1583,17 @@ msgstr ""
 "用户账户 [{article}]({article_url}) 被 [{author}]({author_url}) 创建，密码已"
 "通过电子邮件发送{comment}"
 
-#: extensions/base/mediawiki.py:1009
+#: extensions/base/mediawiki.py:1015
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr "更改了页面 {article} 的内容模型"
 
-#: extensions/base/mediawiki.py:1011
+#: extensions/base/mediawiki.py:1017
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "内容模型从 {old} 更改为 {new}：{reason}"
 
-#: extensions/base/mediawiki.py:1023
+#: extensions/base/mediawiki.py:1029
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
@@ -1586,17 +1602,17 @@ msgstr ""
 "[{author}]({author_url}) 将页面 [{article}]({article_url}) 的内容模型从 "
 "{old} 更改为 {new}{comment}"
 
-#: extensions/base/mediawiki.py:1038
+#: extensions/base/mediawiki.py:1044
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr "使用非默认内容模型创建了页面 {article}"
 
-#: extensions/base/mediawiki.py:1040
+#: extensions/base/mediawiki.py:1046
 #, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr "使用内容模型 {new} 创建：{reason}"
 
-#: extensions/base/mediawiki.py:1051
+#: extensions/base/mediawiki.py:1057
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
@@ -1605,38 +1621,38 @@ msgstr ""
 "[{author}]({author_url}) 创建了页面 [{article}]({article_url})，使用了非默认"
 "的内容模型 {new}{comment}"
 
-#: extensions/base/mediawiki.py:1066
+#: extensions/base/mediawiki.py:1072
 #, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "创建了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1076
+#: extensions/base/mediawiki.py:1082
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) 创建了[标签]({tag_url}) \"{tag}\"{comment}"
 
-#: extensions/base/mediawiki.py:1098
+#: extensions/base/mediawiki.py:1103
 #, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "删除了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1100
+#: extensions/base/mediawiki.py:1105
 msgid "Removed from"
 msgstr "移除从"
 
-#: extensions/base/mediawiki.py:1100
+#: extensions/base/mediawiki.py:1105
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
 msgstr[0] "{} 个修订版本和/或日志条目"
 
-#: extensions/base/mediawiki.py:1112
+#: extensions/base/mediawiki.py:1118
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\"{comment}"
 
-#: extensions/base/mediawiki.py:1122
+#: extensions/base/mediawiki.py:1128
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -1648,23 +1664,23 @@ msgstr[0] ""
 "[{author}]({author_url}) 删除了[标签]({tag_url}) \"{tag}\" 并从 {count} 个修"
 "订版本和/或日志条目中移除该标签{comment}"
 
-#: extensions/base/mediawiki.py:1139
+#: extensions/base/mediawiki.py:1145
 #, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "激活了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1148
+#: extensions/base/mediawiki.py:1154
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) 激活了[标签]({tag_url}) \"{tag}\"{comment}"
 
-#: extensions/base/mediawiki.py:1167
+#: extensions/base/mediawiki.py:1173
 #, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "取消激活了标签 \"{tag}\""
 
-#: extensions/base/mediawiki.py:1176
+#: extensions/base/mediawiki.py:1182
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
@@ -1706,6 +1722,14 @@ msgstr "编辑了 {article} 的 Slice"
 msgid ""
 "[{author}]({author_url}) edited the slice for [{article}]({article_url})"
 msgstr "[{author}]({author_url}) 编辑了 [{article}]({article_url}) 的 Slice"
+
+#, python-brace-format
+#~ msgid ""
+#~ "{reason}\n"
+#~ "{added}{linebreak}{removed}"
+#~ msgstr ""
+#~ "{reason}\n"
+#~ "{added}{linebreak}{removed}"
 
 #, python-brace-format
 #~ msgid "{value} (avg. {avg})"

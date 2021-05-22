@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:20+0200\n"
+"POT-Creation-Date: 2021-05-22 18:03+0200\n"
 "PO-Revision-Date: 2021-05-22 12:08+0000\n"
 "Last-Translator: Frisk The Evil Goat Overlord <piotrex43@protonmail.ch>\n"
 "Language-Team: Polish <https://translate.wikibot.de/projects/rcgcdw/"
@@ -1129,46 +1129,46 @@ msgstr ""
 "[{author}]({author_url}) stworzył(a) [{article}]({edit_link}){comment} {bold}"
 "({sign}{edit_size}){bold}"
 
-#: extensions/base/mediawiki.py:191 extensions/base/mediawiki.py:226
+#: extensions/base/mediawiki.py:190 extensions/base/mediawiki.py:223
 msgid "Options"
 msgstr "Opcje"
 
-#: extensions/base/mediawiki.py:191
+#: extensions/base/mediawiki.py:190
 #, python-brace-format
 msgid "([preview]({link}) | [undo]({undolink}))"
 msgstr "([podgląd]({link}) | [wycofaj]({undolink}))"
 
-#: extensions/base/mediawiki.py:196
+#: extensions/base/mediawiki.py:195
 #, python-brace-format
 msgid "Uploaded a new version of {name}"
 msgstr "Przesłał(a) nową wersję {name}"
 
-#: extensions/base/mediawiki.py:198
+#: extensions/base/mediawiki.py:197
 #, python-brace-format
 msgid "Reverted a version of {name}"
 msgstr "Wycofał(a) wersję {name}"
 
-#: extensions/base/mediawiki.py:200
+#: extensions/base/mediawiki.py:199
 #, python-brace-format
 msgid "Uploaded {name}"
 msgstr "Przesłał(a) {name}"
 
-#: extensions/base/mediawiki.py:209
+#: extensions/base/mediawiki.py:208
 msgid "**No license!**"
 msgstr "**Brak licencji!**"
 
-#: extensions/base/mediawiki.py:224
+#: extensions/base/mediawiki.py:223
+#, python-brace-format
+msgid "([preview]({link}))"
+msgstr "([podgląd]({link}))"
+
+#: extensions/base/mediawiki.py:228
 msgid ""
 "\n"
 "License: {}"
 msgstr ""
 "\n"
 "Licencja: {}"
-
-#: extensions/base/mediawiki.py:226
-#, python-brace-format
-msgid "([preview]({link}))"
-msgstr "([podgląd]({link}))"
 
 #: extensions/base/mediawiki.py:237
 #, python-brace-format
@@ -1409,27 +1409,27 @@ msgstr[2] "minut"
 msgid "for  {time_number} {time_unit}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:610
+#: extensions/base/mediawiki.py:609
 msgid "Blocked from editing the following pages: "
 msgstr "Blokada przed edytowaniem następujących stron: "
 
-#: extensions/base/mediawiki.py:617 extensions/base/mediawiki.py:662
+#: extensions/base/mediawiki.py:616 extensions/base/mediawiki.py:662
 msgid " and namespaces: "
 msgstr " oraz przestrzeniach nazw: "
 
-#: extensions/base/mediawiki.py:619
+#: extensions/base/mediawiki.py:618
 msgid "Blocked from editing pages on following namespaces: "
 msgstr "Blokada przed edytowaniem stron na następujących przestrzeniach nazw: "
 
-#: extensions/base/mediawiki.py:630
+#: extensions/base/mediawiki.py:629
 msgid "Partial block details"
 msgstr "Szczegóły częściowej blokady"
 
-#: extensions/base/mediawiki.py:633
+#: extensions/base/mediawiki.py:632
 msgid "Block flags"
 msgstr ""
 
-#: extensions/base/mediawiki.py:635
+#: extensions/base/mediawiki.py:634
 #, python-brace-format
 msgid "Blocked {blocked_user} {time}"
 msgstr "Zablokowano {blocked_user} {time}"
@@ -1542,55 +1542,77 @@ msgstr[2] ""
 msgid " (until {date_and_time})"
 msgstr ""
 
-#: extensions/base/mediawiki.py:836
+#: extensions/base/mediawiki.py:835
 #, python-brace-format
 msgid "Changed group membership for {target}"
 msgstr "Zmieniono przynależność do grup dla {target}"
 
-#: extensions/base/mediawiki.py:839
+#: extensions/base/mediawiki.py:837
 msgid "System"
 msgstr "System"
 
-#: extensions/base/mediawiki.py:840
+#: extensions/base/mediawiki.py:838
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} automatycznie otrzymał nową grupę użytkownika"
 
+#: extensions/base/mediawiki.py:844
+msgid "Added groups"
+msgid_plural "Added group"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: extensions/base/mediawiki.py:846
-#, python-brace-format
-msgid ""
-"{reason}\n"
-"{added}{linebreak}{removed}"
-msgstr ""
+#, fuzzy
+msgid "Removed groups"
+msgid_plural "Removed group"
+msgstr[0] "Usunięto"
+msgstr[1] "Usunięto"
+msgstr[2] "Usunięto"
 
 #: extensions/base/mediawiki.py:860
+#, python-brace-format
+msgid "Added to {added} and removed from {removed}."
+msgstr ""
+
+#: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
+#: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
+msgid ", "
+msgstr ""
+
+#: extensions/base/mediawiki.py:863
+#, python-brace-format
+msgid "Added to {added}."
+msgstr ""
+
+#: extensions/base/mediawiki.py:865
+#, fuzzy, python-brace-format
+msgid "Removed from {removed}."
+msgstr "Usunięto"
+
+#: extensions/base/mediawiki.py:866
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
-"({target_url}) {added}{comma} {removed}{comment}"
+"({target_url}): {group_changes}{comment}"
 msgstr ""
 "[{author}]({author_url}) zmienił(a) przynależność do grup dla [{target}]"
 "({target_url}) z {old_groups} na {new_groups}{comment}"
 
-#: extensions/base/mediawiki.py:864
+#: extensions/base/mediawiki.py:870
 #, fuzzy, python-brace-format
-msgid ""
-"System autopromoted [{target}]({target_url}) {added}{comma} {removed}"
-"{comment}"
+msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
 msgstr ""
 "{author} automatycznie zmienił przynależność do grup [{target}]"
 "({target_url}) z {old_groups} na {new_groups}{comment}"
 
-#: extensions/base/mediawiki.py:866
-msgid ","
-msgstr ""
-
-#: extensions/base/mediawiki.py:877
+#: extensions/base/mediawiki.py:883
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
 msgstr "Połączono historie {article} z {dest}"
 
-#: extensions/base/mediawiki.py:891
+#: extensions/base/mediawiki.py:897
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
@@ -1599,30 +1621,30 @@ msgstr ""
 "[{author}]({author_url}) połączył(a) historie zmian [{article}]"
 "({article_url}) z [{dest}]({dest_url}){comment}"
 
-#: extensions/base/mediawiki.py:905
+#: extensions/base/mediawiki.py:911
 msgid "Created account automatically"
 msgstr "Konto zostało utworzone automatycznie"
 
-#: extensions/base/mediawiki.py:912
+#: extensions/base/mediawiki.py:918
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
 msgstr "Konto [{author}]({author_url}) zostało utworzone automatycznie"
 
-#: extensions/base/mediawiki.py:925 extensions/base/mediawiki.py:990
+#: extensions/base/mediawiki.py:931 extensions/base/mediawiki.py:996
 msgid "Created account"
 msgstr "Stworzono konto"
 
-#: extensions/base/mediawiki.py:932 extensions/base/mediawiki.py:997
+#: extensions/base/mediawiki.py:938 extensions/base/mediawiki.py:1003
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
 msgstr "Konto [{author}]({author_url}) zostało utworzone"
 
-#: extensions/base/mediawiki.py:944
+#: extensions/base/mediawiki.py:950
 #, python-brace-format
 msgid "Created account {article}"
 msgstr "Utworzono konto {article}"
 
-#: extensions/base/mediawiki.py:953
+#: extensions/base/mediawiki.py:959
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
@@ -1631,12 +1653,12 @@ msgstr ""
 "Konto [{article}]({article_url}) zostało utworzone przez [{author}]"
 "({author_url}){comment}"
 
-#: extensions/base/mediawiki.py:966
+#: extensions/base/mediawiki.py:972
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr "Utworzono konto {article} oraz wysłano hasło z użyciem emaila"
 
-#: extensions/base/mediawiki.py:977
+#: extensions/base/mediawiki.py:983
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
@@ -1645,17 +1667,17 @@ msgstr ""
 "Konto [{article}]({article_url}) zostało utworzone przez [{author}]"
 "({author_url}) oraz hasło do konta zostało przesłane przez email {comment}"
 
-#: extensions/base/mediawiki.py:1009
+#: extensions/base/mediawiki.py:1015
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr "Zmieniono model zawartości {article}"
 
-#: extensions/base/mediawiki.py:1011
+#: extensions/base/mediawiki.py:1017
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "Model został zmieniony z {old} na {new}: {reason}"
 
-#: extensions/base/mediawiki.py:1023
+#: extensions/base/mediawiki.py:1029
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
@@ -1664,17 +1686,17 @@ msgstr ""
 "[{author}]({author_url}) zmienił(a) model zawartości [{article}]"
 "({article_url}) z {old} na {new}{comment}"
 
-#: extensions/base/mediawiki.py:1038
+#: extensions/base/mediawiki.py:1044
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1040
+#: extensions/base/mediawiki.py:1046
 #, fuzzy, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr "Model został zmieniony z {old} na {new}: {reason}"
 
-#: extensions/base/mediawiki.py:1051
+#: extensions/base/mediawiki.py:1057
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
@@ -1683,41 +1705,41 @@ msgstr ""
 "[{author}]({author_url}) utworzył(a) stronę [{article}]({article_url}) "
 "używając niedomyślnego modelu zawartości {new}{comment}"
 
-#: extensions/base/mediawiki.py:1066
+#: extensions/base/mediawiki.py:1072
 #, fuzzy, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "Utworzono znacznik „{tag}”"
 
-#: extensions/base/mediawiki.py:1076
+#: extensions/base/mediawiki.py:1082
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) utworzył(a) [znacznik]({tag_url}) „{tag}”"
 
-#: extensions/base/mediawiki.py:1098
+#: extensions/base/mediawiki.py:1103
 #, fuzzy, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "Usunięto znacznik „{tag}”"
 
-#: extensions/base/mediawiki.py:1100
+#: extensions/base/mediawiki.py:1105
 #, fuzzy
 msgid "Removed from"
 msgstr "Usunięto"
 
-#: extensions/base/mediawiki.py:1100
+#: extensions/base/mediawiki.py:1105
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: extensions/base/mediawiki.py:1112
+#: extensions/base/mediawiki.py:1118
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) usunął [znacznik]({tag_url}) „{tag}”"
 
-#: extensions/base/mediawiki.py:1122
+#: extensions/base/mediawiki.py:1128
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -1735,23 +1757,23 @@ msgstr[2] ""
 "[{author}]({author_url}) zaimportował(a) [{article}]({article_url}) z "
 "{count} wersjami{comment}"
 
-#: extensions/base/mediawiki.py:1139
+#: extensions/base/mediawiki.py:1145
 #, fuzzy, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "Aktywowano znaczni „{tag}”"
 
-#: extensions/base/mediawiki.py:1148
+#: extensions/base/mediawiki.py:1154
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) aktywował(a) [znacznik]({tag_url}) „{tag}”"
 
-#: extensions/base/mediawiki.py:1167
+#: extensions/base/mediawiki.py:1173
 #, fuzzy, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "Dezaktywowano znacznik „{tag}”"
 
-#: extensions/base/mediawiki.py:1176
+#: extensions/base/mediawiki.py:1182
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
