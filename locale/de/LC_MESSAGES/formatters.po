@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:03+0200\n"
+"POT-Creation-Date: 2021-05-22 18:48+0200\n"
 "PO-Revision-Date: 2021-05-22 16:45+0000\n"
 "Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
 "Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
@@ -1547,14 +1547,16 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} wurde automatisch einer neuen Benutzergruppe zugeordnet"
 
 #: extensions/base/mediawiki.py:844
-msgid "Added groups"
-msgid_plural "Added group"
+#, fuzzy
+msgid "Added group"
+msgid_plural "Added groups"
 msgstr[0] "Hinzugefügte Gruppe"
 msgstr[1] "Hinzugefügte Gruppen"
 
 #: extensions/base/mediawiki.py:846
-msgid "Removed groups"
-msgid_plural "Removed group"
+#, fuzzy
+msgid "Removed group"
+msgid_plural "Removed groups"
 msgstr[0] "Entfernte Gruppe"
 msgstr[1] "Entfernte Gruppen"
 
@@ -1584,8 +1586,8 @@ msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}): {group_changes}{comment}"
 msgstr ""
-"[{author}]({author_url}) änderte die Benutzergruppen für "
-"[{target}]({target_url}): {group_changes}{comment}"
+"[{author}]({author_url}) änderte die Benutzergruppen für [{target}]"
+"({target_url}): {group_changes}{comment}"
 
 #: extensions/base/mediawiki.py:870
 #, python-brace-format

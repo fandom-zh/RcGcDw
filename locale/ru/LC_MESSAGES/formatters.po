@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:03+0200\n"
+"POT-Creation-Date: 2021-05-22 18:48+0200\n"
 "PO-Revision-Date: 2021-05-22 16:00+0000\n"
 "Last-Translator: Alex Great <geoag@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
@@ -1576,16 +1576,17 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "Участник {target} был автоматически повышен до новой группы участников"
 
 #: extensions/base/mediawiki.py:844
-msgid "Added groups"
-msgid_plural "Added group"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+#, fuzzy
+msgid "Added group"
+msgid_plural "Added groups"
+msgstr[0] "Удалено"
+msgstr[1] "Удалено"
+msgstr[2] "Удалено"
 
 #: extensions/base/mediawiki.py:846
 #, fuzzy
-msgid "Removed groups"
-msgid_plural "Removed group"
+msgid "Removed group"
+msgid_plural "Removed groups"
 msgstr[0] "Удалено"
 msgstr[1] "Удалено"
 msgstr[2] "Удалено"

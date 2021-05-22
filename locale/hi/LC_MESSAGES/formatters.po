@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:03+0200\n"
+"POT-Creation-Date: 2021-05-22 18:48+0200\n"
 "PO-Revision-Date: 2020-12-30 13:26+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
@@ -1557,15 +1557,16 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} को एक नए यूज़रग्रुप में ऑटोप्रमोट किया गया"
 
 #: extensions/base/mediawiki.py:844
-msgid "Added groups"
-msgid_plural "Added group"
-msgstr[0] ""
-msgstr[1] ""
+#, fuzzy
+msgid "Added group"
+msgid_plural "Added groups"
+msgstr[0] "हटाया गया"
+msgstr[1] "हटाया गया"
 
 #: extensions/base/mediawiki.py:846
 #, fuzzy
-msgid "Removed groups"
-msgid_plural "Removed group"
+msgid "Removed group"
+msgid_plural "Removed groups"
 msgstr[0] "हटाया गया"
 msgstr[1] "हटाया गया"
 

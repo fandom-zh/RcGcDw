@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:03+0200\n"
+"POT-Creation-Date: 2021-05-22 18:48+0200\n"
 "PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: Dianliang233 <dianliang233@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
@@ -1478,14 +1478,15 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} 被自动地提升到新用户组"
 
 #: extensions/base/mediawiki.py:844
-msgid "Added groups"
-msgid_plural "Added group"
-msgstr[0] ""
+#, fuzzy
+msgid "Added group"
+msgid_plural "Added groups"
+msgstr[0] "移除从"
 
 #: extensions/base/mediawiki.py:846
 #, fuzzy
-msgid "Removed groups"
-msgid_plural "Removed group"
+msgid "Removed group"
+msgid_plural "Removed groups"
 msgstr[0] "移除从"
 
 #: extensions/base/mediawiki.py:860
