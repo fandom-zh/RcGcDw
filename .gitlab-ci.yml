@@ -25,6 +25,7 @@ test:
 
 pytest:
   stage: pytest
+  needs: ['test']
   script:
     - pip3.7 install -U pytest
     - pytest --junitxml=report.xml
