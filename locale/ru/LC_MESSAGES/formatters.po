@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-21 21:20+0200\n"
-"PO-Revision-Date: 2021-05-22 12:08+0000\n"
-"Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
+"PO-Revision-Date: 2021-05-22 16:00+0000\n"
+"Last-Translator: Alex Great <geoag@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/ru/>\n"
 "Language: ru\n"
@@ -79,47 +79,47 @@ msgstr "Изменены категории"
 #: extensions/base/cargo.py:37
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
-msgstr "Создал Cargo таблицу \"{table}\""
+msgstr "Создал таблицу Cargo «{table}»"
 
 #: extensions/base/cargo.py:45
 #, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) создал таблицу Cargo \"{table}\""
+msgstr "[{author}]({author_url}) создал таблицу Cargo «{table}»"
 
 #: extensions/base/cargo.py:60
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
-msgstr "Воссоздал Cargo таблицу \"{table}\""
+msgstr "Воссоздал таблицу Cargo «{table}»"
 
 #: extensions/base/cargo.py:68
 #, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) воссоздал таблицу Cargo \"{table}\""
+msgstr "[{author}]({author_url}) воссоздал таблицу Cargo «{table}»"
 
 #: extensions/base/cargo.py:83
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
-msgstr "Заменил Cargo таблицу \"{table}\""
+msgstr "Заменил таблицу Cargo «{table}»"
 
 #: extensions/base/cargo.py:91
 #, python-brace-format
 msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) заменил таблицу Cargo \"{table}\""
+msgstr "[{author}]({author_url}) заменил таблицу Cargo «{table}»"
 
 #: extensions/base/cargo.py:105
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr "Удалил Cargo таблицу \"{table}\""
+msgstr "Удалил таблицу Cargo «{table}»"
 
 #: extensions/base/cargo.py:112
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) удалил таблицу Cargo \"{table}\""
+msgstr "[{author}]({author_url}) удалил таблицу Cargo «{table}»"
 
 #: extensions/base/translate.py:41
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
-msgstr "Пометил страницу \"{article}\" как доступную для перевода"
+msgstr "Пометил страницу «{article}» как доступную для перевода"
 
 #: extensions/base/translate.py:55
 #, python-brace-format
@@ -127,13 +127,13 @@ msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
 msgstr ""
-"[{author}]({author_url}) пометил страницу [{article}]({article_url}) как "
+"[{author}]({author_url}) пометил страницу «[{article}]({article_url})» как "
 "доступную для перевода{comment}"
 
 #: extensions/base/translate.py:70
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
-msgstr "Удалил \"{article}\" из системы перевода"
+msgstr "Удалил страницу «{article}» из системы перевода"
 
 #: extensions/base/translate.py:80
 #, python-brace-format
@@ -141,14 +141,13 @@ msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
-"[{author}]({author_url}) удалил [{article}]({article_url}) из системы "
-"перевода{comment}"
+"[{author}]({author_url}) удалил страницу «[{article}]({article_url})» из "
+"системы перевода{comment}"
 
 #: extensions/base/translate.py:95
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
-msgstr ""
-"Переименовал доступную для перевода страницу \"{article}\" в \"{target}\""
+msgstr "Переименовал доступную для перевода страницу «{article}» в «{target}»"
 
 #: extensions/base/translate.py:106
 #, python-brace-format
@@ -157,14 +156,13 @@ msgid ""
 "to [{target}]({target_url}){comment}"
 msgstr ""
 "[{author}]({author_url}) переименовал доступную для перевода страницу "
-"*{article}* в [{target}]({target_url}){comment}"
+"«*{article}*» в «[{target}]({target_url})»{comment}"
 
 #: extensions/base/translate.py:121
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
 msgstr ""
-"Столкнулся с проблемой при попытке переименования \"{article}\" в "
-"\"{target}\""
+"Столкнулся с проблемой при попытке переименования «{article}» в «{target}»"
 
 #: extensions/base/translate.py:133
 #, python-brace-format
@@ -173,7 +171,7 @@ msgid ""
 "({article_url}) to [{target}]({target_url}){comment}"
 msgstr ""
 "[{author}]({author_url}) столкнулся с проблемой при попытке переименования "
-"[{article}]({article_url}) в [{target}]({target_url}){comment}"
+"«[{article}]({article_url})» в «[{target}]({target_url})»{comment}"
 
 #: extensions/base/translate.py:149
 #, python-brace-format
@@ -181,8 +179,8 @@ msgid ""
 "Failed to delete \"{article}\" which belongs to translatable page "
 "\"{target}\""
 msgstr ""
-"Не смог удалить \"{article}\", относящуюся к доступной для перевода странице "
-"\"{target}\""
+"Не смог удалить страницу «{article}», относящуюся к доступной для перевода "
+"странице «{target}»"
 
 #: extensions/base/translate.py:161
 #, python-brace-format
@@ -190,14 +188,14 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translatable page [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) не смог удалить [{article}]({article_url}), "
-"относящуюся к доступной для перевода странице [{target}]({target_url})"
-"{comment}"
+"[{author}]({author_url}) не смог удалить страницу "
+"«[{article}]({article_url})», относящуюся к доступной для перевода странице "
+"«[{target}]({target_url})»{comment}"
 
 #: extensions/base/translate.py:177
 #, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Удалил страницу перевода \"{article}\""
+msgstr "Удалил страницу перевода «{article}»"
 
 #: extensions/base/translate.py:188
 #, python-brace-format
@@ -205,15 +203,16 @@ msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) удалил страницу перевода [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) удалил страницу перевода "
+"«[{article}]({article_url})»{comment}"
 
 #: extensions/base/translate.py:203
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translation page \"{target}\""
 msgstr ""
-"Не смог удалить \"{article}\", относящуюся к странице перевода \"{target}\""
+"Не смог удалить страницу «{article}», относящуюся к странице перевода "
+"«{target}»"
 
 #: extensions/base/translate.py:215
 #, python-brace-format
@@ -221,13 +220,14 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translation page [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) не смог удалить [{article}]({article_url}), "
-"относящуюся к странице перевода [{target}]({target_url}){comment}"
+"[{author}]({author_url}) не смог удалить страницу "
+"«[{article}]({article_url})», относящуюся к странице перевода "
+"«[{target}]({target_url})»{comment}"
 
 #: extensions/base/translate.py:231
 #, python-brace-format
 msgid "Encouraged translation of \"{article}\""
-msgstr "Повысил приоритет перевода страницы \"{article}\""
+msgstr "Повысил приоритет перевода страницы «{article}»"
 
 #: extensions/base/translate.py:240
 #, python-brace-format
@@ -235,13 +235,13 @@ msgid ""
 "[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
 "{comment}"
 msgstr ""
-"[{author}]({author_url}) повысил приоритет перевода страницы [{article}]"
-"({article_url}){comment}"
+"[{author}]({author_url}) повысил приоритет перевода страницы "
+"«[{article}]({article_url})»{comment}"
 
 #: extensions/base/translate.py:255
 #, python-brace-format
 msgid "Discouraged translation of \"{article}\""
-msgstr "Понизил приоритет перевода страницы \"{article}\""
+msgstr "Понизил приоритет перевода страницы «{article}»"
 
 #: extensions/base/translate.py:264
 #, python-brace-format
@@ -249,25 +249,25 @@ msgid ""
 "[{author}]({author_url}) discouraged translation of [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) понизил приоритет перевода страницы [{article}]"
-"({article_url}){comment}"
+"[{author}]({author_url}) понизил приоритет перевода страницы "
+"«[{article}]({article_url})»{comment}"
 
 #: extensions/base/translate.py:282
 #, python-brace-format
 msgid "Limited languages for \"{article}\" to `{languages}`"
-msgstr "Ограничил для страницы \"{article}\" список языков: `{languages}`"
+msgstr "Ограничил для страницы «{article}» список языков: `{languages}`"
 
 #: extensions/base/translate.py:285
 #, python-brace-format
 msgid "Priority languages for \"{article}\" set to `{languages}`"
 msgstr ""
-"Задал для страницы \"{article}\" следующий список приоритетных языков: "
+"Задал для страницы «{article}» следующий список приоритетных языков: "
 "`{languages}`"
 
 #: extensions/base/translate.py:288
 #, python-brace-format
 msgid "Removed priority languages from \"{article}\""
-msgstr "Удалил приоритетные языки со страницы \"{article}\""
+msgstr "Удалил приоритетные языки со страницы «{article}»"
 
 #: extensions/base/translate.py:301
 #, python-brace-format
@@ -275,7 +275,7 @@ msgid ""
 "[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
 "`{languages}`{comment}"
 msgstr ""
-"[{author}]({author_url}) ограничил для страницы [{article}]({article_url}) "
+"[{author}]({author_url}) ограничил для страницы «[{article}]({article_url})» "
 "список языков: `{languages}`{comment}"
 
 #: extensions/base/translate.py:308
@@ -284,7 +284,7 @@ msgid ""
 "[{author}]({author_url}) set the priority languages for [{article}]"
 "({article_url}) to `{languages}`{comment}"
 msgstr ""
-"[{author}]({author_url}) задал для страницы [{article}]({article_url}) "
+"[{author}]({author_url}) задал для страницы «[{article}]({article_url})» "
 "следующий список приоритетных языков: `{languages}`{comment}"
 
 #: extensions/base/translate.py:315
@@ -293,15 +293,15 @@ msgid ""
 "[{author}]({author_url}) removed priority languages from [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) удалил приоритетные языки со страницы [{article}]"
-"({article_url}){comment}"
+"[{author}]({author_url}) удалил приоритетные языки со страницы "
+"«[{article}]({article_url})»{comment}"
 
 #: extensions/base/translate.py:331
 #, python-brace-format
 msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
 msgstr ""
-"Добавил доступную для перевода страницу \"{article}\" в агрегированную "
-"группу \"{group}\""
+"Добавил доступную для перевода страницу «{article}» в агрегированную группу "
+"«{group}»"
 
 #: extensions/base/translate.py:342
 #, python-brace-format
@@ -309,16 +309,16 @@ msgid ""
 "[{author}]({author_url}) added translatable page [{article}]({article_url}) "
 "to aggregate group \"{group}\"{comment}"
 msgstr ""
-"[{author}]({author_url}) добавил доступную для перевода страницу [{article}]"
-"({article_url}) в агрегированную группу \"{group}\"{comment}"
+"[{author}]({author_url}) добавил доступную для перевода страницу "
+"«[{article}]({article_url})» в агрегированную группу «{group}»{comment}"
 
 #: extensions/base/translate.py:357
 #, python-brace-format
 msgid ""
 "Removed translatable page \"{article}\" from aggregate group \"{group}\""
 msgstr ""
-"Удалил доступную для перевода страницу \"{article}\" из агрегированной "
-"группы \"{group}\""
+"Удалил доступную для перевода страницу «{article}» из агрегированной группы "
+"«{group}»"
 
 #: extensions/base/translate.py:368
 #, python-brace-format
@@ -326,13 +326,13 @@ msgid ""
 "[{author}]({author_url}) removed translatable page [{article}]"
 "({article_url}) from aggregate group \"{group}\"{comment}"
 msgstr ""
-"[{author}]({author_url}) удалил доступную для перевода страницу [{article}]"
-"({article_url}) из агрегированной группы \"{group}\"{comment}"
+"[{author}]({author_url}) удалил доступную для перевода страницу "
+"«[{article}]({article_url})» из агрегированной группы «{group}»{comment}"
 
 #: extensions/base/translate.py:387
 #, python-brace-format
 msgid "Reviewed translation \"{article}\""
-msgstr "Проверил перевод \"{article}\""
+msgstr "Проверил перевод страницы «{article}»"
 
 #: extensions/base/translate.py:401
 #, python-brace-format
@@ -340,13 +340,13 @@ msgid ""
 "[{author}]({author_url}) reviewed translation [{article}]({article_url})"
 "{comment}"
 msgstr ""
-"[{author}]({author_url}) проверил перевод [{article}]({article_url}){comment}"
+"[{author}]({author_url}) проверил перевод страницы "
+"«[{article}]({article_url})»{comment}"
 
 #: extensions/base/translate.py:416
 #, python-brace-format
 msgid "Changed the state of `{language}` translations of \"{article}\""
-msgstr ""
-"Изменил состояние переводов страницы \"{article}\" на `{language}` язык"
+msgstr "Изменил состояние переводов страницы «{article}» на `{language}` язык"
 
 #: extensions/base/translate.py:419
 msgid "Old state"
@@ -362,9 +362,9 @@ msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил состояние переводов страницы [{article}]"
-"({article_url}) на `{language}` язык с `{old_state}` на `{new_state}"
-"`{comment}"
+"[{author}]({author_url}) изменил состояние переводов страницы "
+"«[{article}]({article_url})» на `{language}` язык с `{old_state}` на "
+"`{new_state}`{comment}"
 
 #: extensions/base/translate.py:439
 #, python-brace-format
@@ -372,8 +372,8 @@ msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) to `{new_state}`{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил состояние переводов страницы [{article}]"
-"({article_url}) на `{language}` язык на `{new_state}`{comment}"
+"[{author}]({author_url}) изменил состояние переводов страницы "
+"«[{article}]({article_url})» на `{language}` язык на `{new_state}`{comment}"
 
 #: extensions/base/translate.py:452 extensions/base/translate.py:455
 msgid "(default)"
@@ -398,8 +398,8 @@ msgid ""
 "[{author}]({author_url}) changed the language of [{article}]({article_url}) "
 "from {old_lang} to {new_lang}{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил язык страницы [{article}]({article_url}) с "
-"{old_lang} на {new_lang}{comment}"
+"[{author}]({author_url}) изменил язык страницы «[{article}]({article_url})» "
+"с {old_lang} на {new_lang}{comment}"
 
 #: extensions/base/discussions.py:148 extensions/base/discussions.py:207
 #: extensions/base/discussions.py:245 extensions/base/discussions.py:261
@@ -411,12 +411,12 @@ msgstr "неизвестно"
 #: extensions/base/discussions.py:157
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr "Создал \"{title}\""
+msgstr "Создал «{title}»"
 
 #: extensions/base/discussions.py:161
 #, python-brace-format
 msgid "Created a poll \"{title}\""
-msgstr "Создал опрос \"{title}\""
+msgstr "Создал опрос «{title}»"
 
 #: extensions/base/discussions.py:168
 msgid "Option {}"
@@ -430,7 +430,7 @@ msgstr "__[Просмотреть изображение]({image_url})__"
 #: extensions/base/discussions.py:174
 #, python-brace-format
 msgid "Created a quiz \"{title}\""
-msgstr "Создал викторину \"{title}\""
+msgstr "Создал викторину «{title}»"
 
 #: extensions/base/discussions.py:193 extensions/base/discussions.py:195
 msgctxt "Fandom discussions Tags/Forums"
@@ -445,7 +445,7 @@ msgstr "{} меток"
 #: extensions/base/discussions.py:198
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr "Ответил на \"{title}\""
+msgstr "Ответил на «{title}»"
 
 #: extensions/base/discussions.py:214
 #, python-brace-format
@@ -453,8 +453,8 @@ msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}]({author_url}) создал(а) [{title}](<{url}f/p/{threadId}>) в "
-"{forumName}"
+"[{author}]({author_url}) создал(а) «[{title}](<{url}f/p/{threadId}>)» на "
+"странице «{forumName}»"
 
 #: extensions/base/discussions.py:217
 #, python-brace-format
@@ -462,8 +462,8 @@ msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}]({author_url}) создал(а) опрос [{title}](<{url}f/p/{threadId}>) в "
-"{forumName}"
+"[{author}]({author_url}) создал(а) опрос «[{title}](<{url}f/p/{threadId}>)» "
+"на странице «{forumName}»"
 
 #: extensions/base/discussions.py:220
 #, python-brace-format
@@ -471,8 +471,8 @@ msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
-"[{author}]({author_url}) создал викторину [{title}](<{url}f/p/{threadId}>) в "
-"{forumName}"
+"[{author}]({author_url}) создал викторину «[{title}](<{url}f/p/{threadId}>)» "
+"на странице «{forumName}»"
 
 #: extensions/base/discussions.py:234
 #, python-brace-format
@@ -481,17 +481,17 @@ msgid ""
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
 "[{author}]({author_url}) [ответил](<{url}f/p/{threadId}/r/{postId}>) на "
-"[{title}](<{url}f/p/{threadId}>) в {forumName}"
+"«[{title}](<{url}f/p/{threadId}>)» на странице «{forumName}»"
 
 #: extensions/base/discussions.py:292
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr "Создал \"{title}\" на Стене Обсуждения Участника {user}"
+msgstr "Создал «{title}» на стене обсуждения участника {user}"
 
 #: extensions/base/discussions.py:298
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr "Ответил на \"{title}\" на Стене Обсуждения Участника {user}"
+msgstr "Ответил на «{title}» на стене обсуждения участника {user}"
 
 #: extensions/base/discussions.py:312
 #, python-brace-format
@@ -500,9 +500,9 @@ msgid ""
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) создал [{title}](<{url}wiki/Message_Wall:"
-"{user_wall}?threadId={threadId}>) на [Стене Обсуждения Участника {user}]"
-"(<{url}wiki/Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) создал «[{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>)» на [стене обсуждения "
+"участника {user}](<{url}wiki/Message_Wall:{user_wall}>)"
 
 #: extensions/base/discussions.py:318
 #, python-brace-format
@@ -512,20 +512,20 @@ msgid ""
 "Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) [ответил](<{url}wiki/Message_Wall:{user_wall}?"
-"threadId={threadId}#{replyId}>) на [{title}](<{url}wiki/Message_Wall:"
-"{user_wall}?threadId={threadId}>) на [Стене Обсуждения Участника {user}]"
-"(<{url}wiki/Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) [ответил](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}#{replyId}>) на «[{title}](<{url}"
+"wiki/Message_Wall:{user_wall}?threadId={threadId}>)» на [стене обсуждения "
+"участника {user}](<{url}wiki/Message_Wall:{user_wall}>)"
 
 #: extensions/base/discussions.py:338
 #, python-brace-format
 msgid "Commented on {article}"
-msgstr "Оставил Комментарий к статье {article}"
+msgstr "Оставил комментарий к статье «{article}»"
 
 #: extensions/base/discussions.py:344
 #, python-brace-format
 msgid "Replied to a comment on {article}"
-msgstr "Ответил на Комментарий к статье {article}"
+msgstr "Ответил на комментарий к статье «{article}»"
 
 #: extensions/base/discussions.py:359
 #, python-brace-format
@@ -533,8 +533,8 @@ msgid ""
 "[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
 "on [{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url}) оставил [комментарий](<{url}?commentId={commentId}"
-">) к [{article}](<{url}>)"
+"[{author}]({author_url}) оставил [комментарий](<{url}?commentId={commentId}>)"
+" к статье «[{article}](<{url}>)»"
 
 #: extensions/base/discussions.py:365
 #, python-brace-format
@@ -543,9 +543,9 @@ msgid ""
 "&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
 "[{article}](<{url}>)"
 msgstr ""
-"[{author}]({author_url}) [ответил](<{url}?commentId={commentId}"
-"&replyId={replyId}>) на [комментарий](<{url}?commentId={commentId}>) к "
-"[{article}](<{url}>)"
+"[{author}]({author_url}) "
+"[ответил](<{url}?commentId={commentId}&replyId={replyId}>) на "
+"[комментарий](<{url}?commentId={commentId}>) к статье «[{article}](<{url}>)»"
 
 #: extensions/base/managewiki.py:34
 msgid "Changed wiki settings"
@@ -559,7 +559,7 @@ msgstr "[{author}]({author_url}) изменил настройки вики{reas
 #: extensions/base/managewiki.py:55
 #, python-brace-format
 msgid "Deleted a \"{wiki}\" wiki"
-msgstr "Удалил вики \"{wiki}\""
+msgstr "Удалил вики «{wiki}»"
 
 #: extensions/base/managewiki.py:55 extensions/base/managewiki.py:67
 #: extensions/base/managewiki.py:103 extensions/base/managewiki.py:112
@@ -579,33 +579,33 @@ msgstr "Неизвестно"
 #: extensions/base/managewiki.py:63
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) удалил вики *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) удалил вики «*{wiki_name}*»{comment}"
 
 #: extensions/base/managewiki.py:80
 #, python-brace-format
 msgid "Deleted a \"{group}\" user group"
-msgstr "Удалил группу \"{group}\""
+msgstr "Удалил группу «{group}»"
 
 #: extensions/base/managewiki.py:89
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted a usergroup *{group}*{comment}"
 msgstr ""
-"[{author}]({author_url}) удалил группу пользователей *{group}*{comment}"
+"[{author}]({author_url}) удалил группу пользователей «*{group}*»{comment}"
 
 #: extensions/base/managewiki.py:103
 #, python-brace-format
 msgid "Locked a \"{wiki}\" wiki"
-msgstr "Заблокировал вики \"{wiki}\""
+msgstr "Заблокировал вики «{wiki}»"
 
 #: extensions/base/managewiki.py:111
 #, python-brace-format
 msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) заблокировал вики *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) заблокировал вики «*{wiki_name}*»{comment}"
 
 #: extensions/base/managewiki.py:124
 #, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
-msgstr "Изменил пространство имён \"{namespace_name}\""
+msgstr "Изменил пространство имён «{namespace_name}»"
 
 #: extensions/base/managewiki.py:126 extensions/base/managewiki.py:149
 msgid "Wiki"
@@ -617,13 +617,13 @@ msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) изменил пространство имён *{namespace_name}* на "
-"вики *{wiki_name}*{comment}"
+"[{author}]({author_url}) изменил пространство имён «*{namespace_name}*» на "
+"вики «*{wiki_name}*»{comment}"
 
 #: extensions/base/managewiki.py:147
 #, python-brace-format
 msgid "Deleted a \"{namespace_name}\" namespace"
-msgstr "Удалил пространство имён \"{namespace_name}\""
+msgstr "Удалил пространство имён «{namespace_name}»"
 
 #: extensions/base/managewiki.py:158
 #, python-brace-format
@@ -631,59 +631,58 @@ msgid ""
 "[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) удалил пространство имён *{namespace_name}* на вики "
-"*{wiki_name}*{comment}"
+"[{author}]({author_url}) удалил пространство имён «*{namespace_name}*» на "
+"вики «*{wiki_name}*»{comment}"
 
 #: extensions/base/managewiki.py:173
 #, python-brace-format
 msgid "Modified \"{usergroup_name}\" usergroup"
-msgstr "Изменил группу \"{usergroup_name}\""
+msgstr "Изменил группу «{usergroup_name}»"
 
 #: extensions/base/managewiki.py:182
 #, python-brace-format
 msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
-msgstr ""
-"[{author}]({author_url}) изменил группу пользователей *{group_name}*{comment}"
+msgstr "[{author}]({author_url}) изменил группу «*{group_name}*»{comment}"
 
 #: extensions/base/managewiki.py:195
 #, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "Восстановил вики \"{wiki}\""
+msgstr "Восстановил вики «{wiki}»"
 
 #: extensions/base/managewiki.py:203
 #, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) восстановил вики *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) восстановил вики «*{wiki_name}*»{comment}"
 
 #: extensions/base/managewiki.py:217
 #, python-brace-format
 msgid "Unlocked a \"{wiki}\" wiki"
-msgstr "Разблокировал вики \"{wiki}\""
+msgstr "Разблокировал вики «{wiki}»"
 
 #: extensions/base/managewiki.py:225
 #, python-brace-format
 msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) разблокировал вики *{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) разблокировал вики «*{wiki_name}*»{comment}"
 
 #: extensions/base/datadump.py:36
 #, python-brace-format
 msgid "Generated {file} dump"
-msgstr "Сгенерировал дамп {file}"
+msgstr "Сгенерировал дамп для «{file}»"
 
 #: extensions/base/datadump.py:45
 #, python-brace-format
 msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) сгенерировал дамп *{file}*{comment}"
+msgstr "[{author}]({author_url}) сгенерировал дамп для «*{file}*»{comment}"
 
 #: extensions/base/datadump.py:58
 #, python-brace-format
 msgid "Deleted {file} dump"
-msgstr "Удалил дамп {file}"
+msgstr "Удалил дамп для «{file}»"
 
 #: extensions/base/datadump.py:67
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
-msgstr "[{author}]({author_url}) удалил дамп *{file}*{comment}"
+msgstr "[{author}]({author_url}) удалил дамп для «*{file}*»{comment}"
 
 #: extensions/base/curseprofile.py:40
 #, python-brace-format
@@ -702,7 +701,7 @@ msgstr "Очистил поле «{field}»"
 #: extensions/base/curseprofile.py:46
 #, python-brace-format
 msgid "{field} field changed to: {desc}"
-msgstr "Поле «{field}» изменено на: {desc}"
+msgstr "Поле «{field}» изменено на: «{desc}»"
 
 #: extensions/base/curseprofile.py:58
 #, python-brace-format
@@ -710,7 +709,7 @@ msgid ""
 "[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s "
 "profile."
 msgstr ""
-"[{author}]({author_url}) отредактировал поле «{field}» на профиле участника "
+"[{author}]({author_url}) отредактировал поле «{field}» в профиле участника "
 "[{target}]({target_url})."
 
 #: extensions/base/curseprofile.py:60
@@ -719,7 +718,7 @@ msgid ""
 "[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
 "profile. *({desc})*"
 msgstr ""
-"[{author}]({author_url}) отредактировал поле «{field}» на профиле участника "
+"[{author}]({author_url}) отредактировал поле «{field}» в профиле участника "
 "[{target}]({target_url}). *({desc})*"
 
 #: extensions/base/curseprofile.py:65
@@ -728,8 +727,8 @@ msgid ""
 "[{author}]({author_url}) cleared the {field} on [their own]({target_url}) "
 "profile."
 msgstr ""
-"[{author}]({author_url}) отредактировал поле «{field}» на [своём "
-"собственном]({target_url}) профиле."
+"[{author}]({author_url}) отредактировал поле «{field}» в "
+"[своём]({target_url}) профиле."
 
 #: extensions/base/curseprofile.py:67
 #, python-brace-format
@@ -737,24 +736,24 @@ msgid ""
 "[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
 "profile. *({desc})*"
 msgstr ""
-"[{author}]({author_url}) отредактировал поле «{field}» на [своём собственном]"
-"({target_url}) профиле. *({desc})*"
+"[{author}]({author_url}) отредактировал поле «{field}» в "
+"[своём]({target_url}) профиле. *({desc})*"
 
 #: extensions/base/curseprofile.py:82
 #, python-brace-format
 msgid "Left a comment on {target}'s profile"
-msgstr "Оставил комментарий на профиле участника {target}"
+msgstr "Оставил комментарий в профиле участника {target}"
 
 #: extensions/base/curseprofile.py:84
 msgid "Left a comment on their own profile"
-msgstr "Оставил комментарий на своём профиле"
+msgstr "Оставил комментарий в своём профиле"
 
 #: extensions/base/curseprofile.py:97
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile."
 msgstr ""
-"[{author}]({author_url}) оставил [комментарий]({comment}) на профиле "
+"[{author}]({author_url}) оставил [комментарий]({comment}) в профиле "
 "участника {target}."
 
 #: extensions/base/curseprofile.py:100
@@ -762,24 +761,23 @@ msgstr ""
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on their own profile."
 msgstr ""
-"[{author}]({author_url}) оставил [комментарий]({comment}) на своём "
-"собственном профиле."
+"[{author}]({author_url}) оставил [комментарий]({comment}) в своём профиле."
 
 #: extensions/base/curseprofile.py:113
 #, python-brace-format
 msgid "Edited a comment on {target}'s profile"
-msgstr "Отредактировал комментарий на профиле участника {target}"
+msgstr "Отредактировал комментарий в профиле участника {target}"
 
 #: extensions/base/curseprofile.py:115
 msgid "Edited a comment on their own profile"
-msgstr "Отредактировал комментарий на своём профиле"
+msgstr "Отредактировал комментарий в своём профиле"
 
 #: extensions/base/curseprofile.py:128
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile."
 msgstr ""
-"[{author}]({author_url}) отредактировал [комментарий]({comment}) на профиле "
+"[{author}]({author_url}) отредактировал [комментарий]({comment}) в профиле "
 "участника {target}."
 
 #: extensions/base/curseprofile.py:131
@@ -787,17 +785,17 @@ msgstr ""
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on their own profile."
 msgstr ""
-"[{author}]({author_url}) отредактировал [комментарий]({comment}) на своём "
-"собственном профиле."
+"[{author}]({author_url}) отредактировал [комментарий]({comment}) в своём "
+"профиле."
 
 #: extensions/base/curseprofile.py:144
 #, python-brace-format
 msgid "Replied to a comment on {target}'s profile"
-msgstr "Ответил на комментарий на профиле участника {target}"
+msgstr "Ответил на комментарий в профиле участника {target}"
 
 #: extensions/base/curseprofile.py:146
 msgid "Replied to a comment on their own profile"
-msgstr "Ответил на комментарий на своём профиле"
+msgstr "Ответил на комментарий в своём профиле"
 
 #: extensions/base/curseprofile.py:159
 #, python-brace-format
@@ -805,7 +803,7 @@ msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
 "profile."
 msgstr ""
-"[{author}]({author_url}) ответил на [комментарий]({comment}) на профиле "
+"[{author}]({author_url}) ответил на [комментарий]({comment}) в профиле "
 "участника {target}."
 
 #: extensions/base/curseprofile.py:162
@@ -814,17 +812,16 @@ msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
 "profile."
 msgstr ""
-"[{author}]({author_url}) ответил на [комментарий]({comment}) на своём "
-"собственном профиле."
+"[{author}]({author_url}) ответил на [комментарий]({comment}) в своём профиле."
 
 #: extensions/base/curseprofile.py:175
 #, python-brace-format
 msgid "Deleted a comment on {target}'s profile"
-msgstr "Удалил комментарий на профиле участника {target}"
+msgstr "Удалил комментарий в профиле участника {target}"
 
 #: extensions/base/curseprofile.py:177
 msgid "Deleted a comment on their own profile"
-msgstr "Удалил комментарий на своём профиле"
+msgstr "Удалил комментарий в своём профиле"
 
 #: extensions/base/curseprofile.py:197
 #, python-brace-format
@@ -832,8 +829,8 @@ msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
 "profile.{reason}"
 msgstr ""
-"[{author}]({author_url}) удалил [комментарий]({comment}) на профиле "
-"участника {target}.{reason}"
+"[{author}]({author_url}) удалил [комментарий]({comment}) в профиле участника "
+"{target}.{reason}"
 
 #: extensions/base/curseprofile.py:200
 #, python-brace-format
@@ -841,17 +838,17 @@ msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on their own profile."
 "{reason}"
 msgstr ""
-"[{author}]({author_url}) удалил [комментарий]({comment}) на своём "
-"собственном профиле.{reason}"
+"[{author}]({author_url}) удалил [комментарий]({comment}) в своём "
+"профиле.{reason}"
 
 #: extensions/base/curseprofile.py:214
 #, python-brace-format
 msgid "Purged a comment on {target}'s profile"
-msgstr "Навсегда удалил комментарий на профиле {target}"
+msgstr "Навсегда удалил комментарий в профиле участника {target}"
 
 #: extensions/base/curseprofile.py:216
 msgid "Purged a comment on their own profile"
-msgstr "Навсегда удалил комментарий на своём профиле"
+msgstr "Навсегда удалил комментарий в своём профиле"
 
 #: extensions/base/curseprofile.py:230
 #, python-brace-format
@@ -859,7 +856,7 @@ msgid ""
 "[{author}]({author_url}) purged a comment on [{target}]({link})'s profile."
 "{reason}"
 msgstr ""
-"[{author}]({author_url}) навсегда удалил комментарий на профиле "
+"[{author}]({author_url}) навсегда удалил комментарий в профиле участника "
 "[{target}]({link}).{reason}"
 
 #: extensions/base/curseprofile.py:233
@@ -868,24 +865,21 @@ msgid ""
 "[{author}]({author_url}) purged a comment on [their own]({link}) profile."
 "{reason}"
 msgstr ""
-"[{author}]({author_url}) навсегда удалил комментарий на [своём "
-"собственном]({link}) профиле.{reason}"
+"[{author}]({author_url}) навсегда удалил комментарий в [своём]({link}) "
+"профиле.{reason}"
 
 #: extensions/base/renameuser.py:38
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
 msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
-msgstr[0] ""
-"Переименовал участника \"{old_name}\" с {edits} правкой в \"{new_name}\""
-msgstr[1] ""
-"Переименовал участника \"{old_name}\" с {edits} правками в \"{new_name}\""
-msgstr[2] ""
-"Переименовал участника \"{old_name}\" с {edits} правками в \"{new_name}\""
+msgstr[0] "Переименовал участника {old_name} с {edits} правкой в {new_name}"
+msgstr[1] "Переименовал участника {old_name} с {edits} правками в {new_name}"
+msgstr[2] "Переименовал участника {old_name} с {edits} правками в {new_name}"
 
 #: extensions/base/renameuser.py:43
 #, python-brace-format
 msgid "Renamed user \"{old_name}\" to \"{new_name}\""
-msgstr "Переименовал участника \"{old_name}\" в \"{new_name}\""
+msgstr "Переименовал участника {old_name} в {new_name}"
 
 #: extensions/base/renameuser.py:58
 #, python-brace-format
@@ -916,7 +910,7 @@ msgstr ""
 
 #: extensions/base/interwiki.py:37
 msgid "Added an entry to the interwiki table"
-msgstr "Добавил запись в таблицу префиксов интервики"
+msgstr "Добавил запись в таблицу интервики"
 
 #: extensions/base/interwiki.py:38 extensions/base/interwiki.py:65
 #, python-brace-format
@@ -934,7 +928,7 @@ msgstr ""
 
 #: extensions/base/interwiki.py:64
 msgid "Edited an entry in interwiki table"
-msgstr "Отредактировал запись в таблице префиксов интервики"
+msgstr "Отредактировал запись в таблице интервики"
 
 #: extensions/base/interwiki.py:77
 #, python-brace-format
@@ -947,7 +941,7 @@ msgstr ""
 
 #: extensions/base/interwiki.py:91
 msgid "Deleted an entry in interwiki table"
-msgstr "Удалил запись из таблицы префиксов интервики"
+msgstr "Удалил запись из таблицы интервики"
 
 #: extensions/base/interwiki.py:92
 #, python-brace-format
