@@ -138,7 +138,7 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
             params["rvslots"] = "main"
         else:
             params["prop"] = "imageinfo"
-        params["titles"] = sanitize_to_url(change["title"])
+        params["titles"] = change["title"]
         params["iiprop"] = "timestamp|url|archivename"
         params["iilimit"] = "5"
         request_for_image_data = ctx.client.make_api_request(params, "query", "pages")
@@ -197,7 +197,7 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
             embed["title"] = _("Reverted a version of {name}").format(name=sanitize_to_markdown(change["title"]))
     else:
         embed["title"] = _("Uploaded {name}").format(name=sanitize_to_markdown(change["title"]))
-        if settings["license_detection"]:
+        if settings["license_detection"] and image_direct_url:
             try:
                 content = image_data['revisions'][0]["slots"]["main"]['*']
                 matches = re.search(re.compile(settings["license_regex"], re.IGNORECASE), content)
