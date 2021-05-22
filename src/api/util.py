@@ -117,7 +117,7 @@ def embed_helper(ctx: Context, message: DiscordMessage, change: dict, set_user=T
 			if change["user"] not in list(ip_mapper.keys()):
 				try:
 					contibs = ctx.client.make_api_request(
-						"{wiki}?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
+						"?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
 							wiki=ctx.client.WIKI_API_PATH, user=sanitize_to_url(change["user"]), timestamp=change["timestamp"]), "query",
 						"usercontribs")
 				except (ServerError, MediaWikiError):
