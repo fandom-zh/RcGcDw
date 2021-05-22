@@ -277,7 +277,7 @@ load_extensions()
 # Log in and download wiki information
 wiki = Wiki(rc_processor, abuselog_processing)
 client = src.api.client.Client(formatter_hooks, wiki)
-if settings["fandom_discussions"]["enabled"]:
+if settings["fandom_discussions"]["enabled"] or TESTING:
 	import src.discussions
 	src.discussions.inject_client(client)  # Not the prettiest but gets the job done
 try:

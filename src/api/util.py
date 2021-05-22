@@ -118,7 +118,7 @@ def embed_helper(ctx: Context, message: DiscordMessage, change: dict, set_user=T
 				try:
 					contibs = ctx.client.make_api_request(
 						"?action=query&format=json&list=usercontribs&uclimit=max&ucuser={user}&ucstart={timestamp}&ucprop=".format(
-							wiki=ctx.client.WIKI_API_PATH, user=sanitize_to_url(change["user"]), timestamp=change["timestamp"]), "query",
+							user=sanitize_to_url(change["user"]), timestamp=change["timestamp"]), "query",
 						"usercontribs")
 				except (ServerError, MediaWikiError):
 					logger.warning("WARNING: Something went wrong when checking amount of contributions for given IP address")
