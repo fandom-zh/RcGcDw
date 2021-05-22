@@ -138,8 +138,8 @@ def embed_upload_upload(ctx, change) -> DiscordMessage:
             params["rvslots"] = "main"
         else:
             params["prop"] = "imageinfo"
-        params["title"] = sanitize_to_url(change["title"])
-        params["iiprop"] = "timestamp%7Curl%7Carchivename"
+        params["titles"] = sanitize_to_url(change["title"])
+        params["iiprop"] = "timestamp|url|archivename"
         params["iilimit"] = "5"
         request_for_image_data = ctx.client.make_api_request(params, "query", "pages")
     except (ServerError, MediaWikiError):
