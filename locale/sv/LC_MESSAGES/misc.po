@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: RcGcDw\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-22 18:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/misc.py:44
+msgid "Location"
+msgstr ""
+
+#: src/misc.py:44
+msgid "About me"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Google link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Facebook link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Twitter link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Reddit link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Twitch link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "PSN link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "VK link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "XBL link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Steam link"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Discord handle"
+msgstr ""
+
+#: src/misc.py:44
+msgid "Battle.net handle"
+msgstr ""
+
+#: src/misc.py:138
+msgid ""
+"\n"
+"__And more__"
+msgstr ""
+
+#: src/misc.py:322
+msgid "Unknown"
+msgstr ""
+
+#: src/misc.py:324
+msgid "unknown"
+msgstr ""

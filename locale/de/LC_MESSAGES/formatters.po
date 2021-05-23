@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: 2021-05-22 16:45+0000\n"
-"Last-Translator: MarkusRost <sukramxro@gmail.com>\n"
+"PO-Revision-Date: 2021-05-23 17:18+0000\n"
+"Last-Translator: magiczocker <jan-frederik-kriete@t-online.de>\n"
 "Language-Team: German <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/de/>\n"
 "Language: de\n"
@@ -1547,14 +1547,12 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} wurde automatisch einer neuen Benutzergruppe zugeordnet"
 
 #: extensions/base/mediawiki.py:844
-#, fuzzy
 msgid "Added group"
 msgid_plural "Added groups"
 msgstr[0] "Hinzugefügte Gruppe"
 msgstr[1] "Hinzugefügte Gruppen"
 
 #: extensions/base/mediawiki.py:846
-#, fuzzy
 msgid "Removed group"
 msgid_plural "Removed groups"
 msgstr[0] "Entfernte Gruppe"
