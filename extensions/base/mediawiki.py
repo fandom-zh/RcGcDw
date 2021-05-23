@@ -44,7 +44,6 @@ if 1 == 2:  # additional translation strings in unreachable code
 @formatter.embed(event="edit", mode="embed", aliases=["new"])
 def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
     embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
-    embed_helper(ctx, embed, change)
     action = ctx.event
     editsize = change["newlen"] - change["oldlen"]
     if editsize > 0:
@@ -88,6 +87,7 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
             parse_mediawiki_changes(ctx, changed_content, embed)
         else:
             logger.warning("Unable to download data on the edit content!")
+    embed_helper(ctx, embed, change)
     return embed
 
 
