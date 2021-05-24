@@ -574,10 +574,9 @@ def block_expiry(change: dict) -> str:
         if "expiry" in change["logparams"]:
             expiry_date_time_obj = datetime.datetime.strptime(change["logparams"]["expiry"], '%Y-%m-%dT%H:%M:%SZ')
             timestamp_date_time_obj = datetime.datetime.strptime(change["timestamp"], '%Y-%m-%dT%H:%M:%SZ')
-            timedelta_for_expiry = expiry_date_time_obj - timestamp_date_time_obj
-            years, days, hours, minutes = timedelta_for_expiry.seconds // 31557600, \
-                                          timedelta_for_expiry.seconds % 31557600 // 86400, \
-                                          timedelta_for_expiry.seconds % 86400 // 3600, timedelta_for_expiry.seconds % 3600 // 60
+            timedelta_for_expiry = (expiry_date_time_obj - timestamp_date_time_obj).total_seconds()
+            years, days, hours, minutes = timedelta_for_expiry // 31557600, timedelta_for_expiry % 31557600 // 86400, \
+                                          timedelta_for_expiry % 86400 // 3600, timedelta_for_expiry % 3600 // 60
             if not any([years, days, hours, minutes]):
                 return _("for less than a minute")
             time_names = (
@@ -587,7 +586,7 @@ def block_expiry(change: dict) -> str:
             for num, timev in enumerate([years, days, hours, minutes]):
                 if timev:
                     final_time.append(
-                        _("for  {time_number} {time_unit}").format(time_unit=time_names[num], time_number=timev))
+                        _("for {time_number} {time_unit}").format(time_unit=time_names[num], time_number=int(timev)))
             return ", ".join(final_time)
         else:
             return change["logparams"]["duration"]  # Temporary? Should be rare? We will see in testing
