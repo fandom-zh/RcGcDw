@@ -64,52 +64,47 @@ from src.configloader import settings
 # }
 edit_alerts = settings.get("hooks", {}).get("edit_alerts", [])
 
+
+class RequirementNotMet(Exception):
+    pass
+
+
+def check_group_requirements(change_data: list, settings_data: list):
+    """This function resolves group discussions and raises RequirementNotMet when requirement is not met"""
+    if settings_data:
+        for required_group in settings_data:
+            for required_item in required_group:
+                if required_item not in change_data:
+                    raise RequirementNotMet
+
+
 @post_hook
 def edit_alerts_hook(message, metadata, context, change):
+    # For every alert in edit_alerts, they can have different functions and so on
     for alert in edit_alerts:
+        # For every requirement, if one of the requirements passes the alert gets executed
         for requirement in alert.get("requirements", []):
-            reqAction = requirement.get("action", [])
-            if reqAction and context.event not in reqAction and context.event.split('/', 1)[0] not in reqAction:
+            try:
+                req_action = requirement.get("action", [])
+                # If current action isn't in config for this requirement AND current event type is not in the requirements in settings skip this requirement
+                if req_action and context.event not in req_action and context.event.split('/', 1)[0] not in req_action:
+                    raise RequirementNotMet
+                req_user = requirement.get("user", [])
+                # If current user is not in config AND checkings for anon and user fail
+                if req_user and change["user"] not in req_user and ("@__anon__" if "anon" in change else "@__user__") not in req_user:
+                    raise RequirementNotMet
+                req_title = requirement.get("title", [])
+                if req_title and change["title"] not in req_title:
+                    raise RequirementNotMet
+                check_group_requirements(change.get("tags", []), requirement.get("tags", []))
+                if requirement.get("categories", []):
+                    for reqCats in requirement.get("categories", []):
+                        check_group_requirements(context.categories.new, reqCats.get("added", []))
+                        check_group_requirements(context.categories.new, reqCats.get("removed", []))
+            except RequirementNotMet:
                 continue
-            reqUser = requirement.get("user", [])
-            if reqUser and change["user"] not in reqUser and ("@__anon__" if "anon" in change else "@__user__") not in reqUser:
-                continue
-            reqTitle = requirement.get("title", [])
-            if reqTitle and change["title"] not in reqTitle:
-                continue
-            if requirement.get("tags", []):
-                for reqTags in requirement.get("tags", []):
-                    for reqTag in reqTags:
-                        if reqTag not in change.get("tags", []):
-                            break
-                    else:
-                        break
-                else:
-                    continue
-            if requirement.get("categories", []):
-                for reqCats in requirement.get("categories", []):
-                    if reqCats.get("added", []):
-                        for addedCats in reqCats.get("added", []):
-                            for addedCat in addedCats:
-                                if addedCat not in context.categories.new:
-                                    break
-                            else:
-                                break
-                        else:
-                            continue
-                    if reqCats.get("removed", []):
-                        for removedCats in reqCats.get("removed", []):
-                            for removedCat in removedCats:
-                                if removedCat not in context.categories.removed:
-                                    break
-                            else:
-                                break
-                        else:
-                            continue
-                    break
-                else:
-                    continue
-            break
+            else:
+                break
         else:
             continue
         message.webhook_object["content"] = (message.webhook_object.get("content", "") or "") + alert["content"]
