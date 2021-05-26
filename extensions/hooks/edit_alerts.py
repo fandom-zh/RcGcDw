@@ -77,8 +77,9 @@ def check_group_requirements(change_data: list, settings_data: list):
             # test all items in required_group are in change_data (one group fulfills the requirement) return the function
             for required_item in required_group:
                 if required_item not in change_data:
-                    continue
-            break
+                    break
+            else:
+                break
         else:
             raise RequirementNotMet
 
