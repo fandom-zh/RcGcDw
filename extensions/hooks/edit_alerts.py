@@ -75,9 +75,12 @@ def check_group_requirements(change_data: list, settings_data: list):
     if settings_data:
         for required_group in settings_data:
             # test all items in required_group are in change_data (one group fulfills the requirement) return the function
-            if all([required_item in change_data for required_item in required_group]):
-                return
-        raise RequirementNotMet
+            for required_item in required_group:
+                if required_item not in change_data:
+                    continue
+            break
+        else:
+            raise RequirementNotMet
 
 
 
@@ -103,8 +106,8 @@ def edit_alerts_hook(message, metadata, context, change):
                 if requirement.get("categories", []):
                     for req_cats in requirement.get("categories", []):
                         try:
-                            check_group_requirements(context.categories.new, reqCats.get("added", []))
-                            check_group_requirements(context.categories.removed, reqCats.get("removed", []))
+                            check_group_requirements(context.categories.new, req_cats.get("added", []))
+                            check_group_requirements(context.categories.removed, req_cats.get("removed", []))
                         except RequirementNotMet:
                             continue
                         else:
