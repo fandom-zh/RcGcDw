@@ -100,7 +100,7 @@ def edit_alerts_hook(message, metadata, context, change):
                 if requirement.get("categories", []):
                     for reqCats in requirement.get("categories", []):
                         check_group_requirements(context.categories.new, reqCats.get("added", []))
-                        check_group_requirements(context.categories.new, reqCats.get("removed", []))
+                        check_group_requirements(context.categories.removed, reqCats.get("removed", []))
             except RequirementNotMet:
                 continue
             else:
