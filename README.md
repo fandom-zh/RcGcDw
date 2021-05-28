@@ -38,7 +38,7 @@
 
 Thank you!
 
-[![Translation status](https://weblate.frisk.space/widgets/rcgcdw/-/multi-auto.svg)](https://weblate.frisk.space/engage/rcgcdw/?utm_source=widget)
+[![Translation status](https://translate.wikibot.de/widgets/rcgcdw/-/multi-auto.svg)](https://translate.wikibot.de/engage/rcgcdw/?utm_source=widget)
 
 ### Extensions/compatible programs ###
 * [Wiki Utilities](https://github.com/Sidemen19/Wiki-Utilities) – an integration that allows wiki administrators to revert edits, block editors, and delete pages on the wiki by reacting to messages created by RcGcDw/RcGcDb. Author: [Sidemen19](https://github.com/Sidemen19)
