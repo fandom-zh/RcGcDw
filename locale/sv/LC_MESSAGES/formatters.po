@@ -8,57 +8,59 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-05-31 21:54+0000\n"
+"Last-Translator: Spisen <spisen11@gmail.com>\n"
+"Language-Team: Swedish <https://translate.wikibot.de/projects/rcgcdw/"
+"formatters/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
-msgstr ""
+msgstr "__Endast blanksteg__"
 
 #: src/api/util.py:71
 msgid "Removed"
-msgstr ""
+msgstr "Tog bort"
 
 #: src/api/util.py:73
 msgid "Added"
-msgstr ""
+msgstr "Lagt till"
 
 #: src/api/util.py:94 src/api/util.py:126 src/api/util.py:133
 #: src/api/util.py:141 extensions/base/discussions.py:247
 #: extensions/base/discussions.py:264 extensions/base/abusefilter.py:45
 msgid "Unregistered user"
-msgstr ""
+msgstr "Oregistrerad användare"
 
 #: src/api/util.py:160
 msgctxt "recent changes Tags"
 msgid "Tags"
-msgstr ""
+msgstr "Taggar"
 
 #: src/api/util.py:162
 msgid "**Added**: "
-msgstr ""
+msgstr "**Lagt till**: "
 
 #: src/api/util.py:163
 msgid " and {} more\n"
-msgstr ""
+msgstr " och {} mer\n"
 
 #: src/api/util.py:165
 msgid "**Removed**: "
-msgstr ""
+msgstr "**Tog bort**: "
 
 #: src/api/util.py:166
 msgid " and {} more"
-msgstr ""
+msgstr " och {} mer"
 
 #: src/api/util.py:168
 msgid "Changed categories"
-msgstr ""
+msgstr "Ändrade kategorier"
 
 #: extensions/base/cargo.py:37
 #, python-brace-format
@@ -103,7 +105,7 @@ msgstr ""
 #: extensions/base/translate.py:41
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
-msgstr ""
+msgstr "Markerade \"{article}\" för översättning"
 
 #: extensions/base/translate.py:55
 #, python-brace-format
@@ -111,11 +113,13 @@ msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
 msgstr ""
+"[{author}]({author_url}) markerade [{article}]({article_url}) för "
+"översättning{comment}"
 
 #: extensions/base/translate.py:70
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
-msgstr ""
+msgstr "Tog bort \"{article}\" från översättningssystemet"
 
 #: extensions/base/translate.py:80
 #, python-brace-format
@@ -123,11 +127,14 @@ msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
+"[{author}]({author_url}) tog bort [{article}]({article_url}) från "
+"översättningssystemet{comment}"
 
 #: extensions/base/translate.py:95
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
 msgstr ""
+"Slutförde flytten av översättningssidor från \"{article}\" till \"{target}\""
 
 #: extensions/base/translate.py:106
 #, python-brace-format
@@ -135,11 +142,13 @@ msgid ""
 "[{author}]({author_url}) completed moving translation pages from *{article}* "
 "to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) slutförde flytten av översättningssidor från "
+"*{article}* till [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:121
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
-msgstr ""
+msgstr "Ett problem uppstod vid flytten av \"{article}\" till \"{target}\""
 
 #: extensions/base/translate.py:133
 #, python-brace-format
@@ -147,6 +156,8 @@ msgid ""
 "[{author}]({author_url}) encountered a problem while moving [{article}]"
 "({article_url}) to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) påträffade ett problem vid flytten av "
+"[{article}]({article_url}) till [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:149
 #, python-brace-format
@@ -154,6 +165,8 @@ msgid ""
 "Failed to delete \"{article}\" which belongs to translatable page "
 "\"{target}\""
 msgstr ""
+"Det gick inte att ta bort\"{article}\" som tillhör den översättbara sidan \""
+"{target}\""
 
 #: extensions/base/translate.py:161
 #, python-brace-format
@@ -161,11 +174,13 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translatable page [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) kunde inte ta bort [{article}]({article_url}) som "
+"tillhör den översättbara sidan [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:177
 #, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr ""
+msgstr "Raderingen av översättningssidan \"{article}\" har slutförts"
 
 #: extensions/base/translate.py:188
 #, python-brace-format
@@ -173,12 +188,16 @@ msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) lyckades med raderingen av översättningssidan "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:203
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translation page \"{target}\""
 msgstr ""
+"Det gick inte att ta bort\"{article}\" som tillhör översättningssidan \""
+"{target}\""
 
 #: extensions/base/translate.py:215
 #, python-brace-format
@@ -186,11 +205,13 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translation page [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) kunde inte ta bort [{article}]({article_url}) som "
+"tillhör översättningssidan [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:231
 #, python-brace-format
 msgid "Encouraged translation of \"{article}\""
-msgstr ""
+msgstr "Uppmuntrade till översättning av \"{article}\""
 
 #: extensions/base/translate.py:240
 #, python-brace-format
@@ -198,11 +219,13 @@ msgid ""
 "[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
 "{comment}"
 msgstr ""
+"[{author}]({author_url}) uppmuntrade till översättning av "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:255
 #, python-brace-format
 msgid "Discouraged translation of \"{article}\""
-msgstr ""
+msgstr "Uppmuntrade inte till översättning av \"{article}\""
 
 #: extensions/base/translate.py:264
 #, python-brace-format
@@ -210,21 +233,23 @@ msgid ""
 "[{author}]({author_url}) discouraged translation of [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) uppmuntrade inte till översättning av "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:282
 #, python-brace-format
 msgid "Limited languages for \"{article}\" to `{languages}`"
-msgstr ""
+msgstr "Begränsade språk för \"{article}\" till `{languages}`"
 
 #: extensions/base/translate.py:285
 #, python-brace-format
 msgid "Priority languages for \"{article}\" set to `{languages}`"
-msgstr ""
+msgstr "Prioriterade språk för \"{article}\" till`{languages}`"
 
 #: extensions/base/translate.py:288
 #, python-brace-format
 msgid "Removed priority languages from \"{article}\""
-msgstr ""
+msgstr "Tog bort prioriterade språk från \"{article}\""
 
 #: extensions/base/translate.py:301
 #, python-brace-format
@@ -232,6 +257,8 @@ msgid ""
 "[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
 "`{languages}`{comment}"
 msgstr ""
+"[{author}]({author_url}) begränsade språk för [{article}]({article_url}) "
+"till `{languages}`{comment}"
 
 #: extensions/base/translate.py:308
 #, python-brace-format
@@ -239,6 +266,8 @@ msgid ""
 "[{author}]({author_url}) set the priority languages for [{article}]"
 "({article_url}) to `{languages}`{comment}"
 msgstr ""
+"[{author}]({author_url}) prioriterade språk för [{article}]({article_url}) "
+"till `{languages}`{comment}"
 
 #: extensions/base/translate.py:315
 #, python-brace-format
@@ -246,6 +275,8 @@ msgid ""
 "[{author}]({author_url}) removed priority languages from [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) tog bort prioriterade språk från "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:331
 #, python-brace-format

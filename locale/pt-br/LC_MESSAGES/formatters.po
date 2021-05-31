@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: 2021-05-21 18:19+0000\n"
+"PO-Revision-Date: 2021-05-31 21:54+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/formatters/pt-br/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.6\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
@@ -51,7 +51,6 @@ msgid "Unregistered user"
 msgstr "Usuário não registrado"
 
 #: src/api/util.py:160
-#, fuzzy
 msgctxt "recent changes Tags"
 msgid "Tags"
 msgstr "Etiquetas"
@@ -425,13 +424,11 @@ msgid "Created a quiz \"{title}\""
 msgstr "Criou um quiz \"{title}\""
 
 #: extensions/base/discussions.py:193 extensions/base/discussions.py:195
-#, fuzzy
 msgctxt "Fandom discussions Tags/Forums"
 msgid "Tags"
 msgstr "Etiquetas"
 
 #: extensions/base/discussions.py:193
-#, fuzzy
 msgctxt "Fandom discussions amount of Tags/Forums"
 msgid "{} tags"
 msgstr "{} etiquetas"
@@ -596,7 +593,7 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) travou uma wiki *{wiki_name}*{comment}"
 
 #: extensions/base/managewiki.py:124
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
 msgstr "Modificou o espaço nominal \"{namespace_name}\""
 
@@ -700,13 +697,13 @@ msgid "{field} field changed to: {desc}"
 msgstr "Campo {field} alterado para: {desc}"
 
 #: extensions/base/curseprofile.py:58
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s "
 "profile."
 msgstr ""
-"[{author}]({author_url}) editou o {field} no perfil de [{target}]"
-"({target_url}). *({desc})*"
+"[{author}]({author_url}) limpou o {field} no perfil de "
+"[{target}]({target_url})"
 
 #: extensions/base/curseprofile.py:60
 #, python-brace-format
@@ -718,13 +715,13 @@ msgstr ""
 "({target_url}). *({desc})*"
 
 #: extensions/base/curseprofile.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) cleared the {field} on [their own]({target_url}) "
 "profile."
 msgstr ""
-"[{author}]({author_url}) editou o {field} em seu [próprio perfil]"
-"({target_url}). *({desc})*"
+"[{author}]({author_url}) limpou o {field} em seu [próprio "
+"perfil]({target_url})."
 
 #: extensions/base/curseprofile.py:67
 #, python-brace-format
@@ -1560,17 +1557,17 @@ msgstr[1] "Removido de"
 #: extensions/base/mediawiki.py:860
 #, python-brace-format
 msgid "Added to {added} and removed from {removed}."
-msgstr ""
+msgstr "Adicionado a {added} e removido de {removed}."
 
 #: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
 #: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: extensions/base/mediawiki.py:863
 #, python-brace-format
 msgid "Added to {added}."
-msgstr ""
+msgstr "Adicionado a {added}."
 
 #: extensions/base/mediawiki.py:865
 #, fuzzy, python-brace-format
