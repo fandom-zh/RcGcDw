@@ -36,13 +36,16 @@ class Client:
 		self.WIKI_JUST_DOMAIN: str = src.misc.WIKI_JUST_DOMAIN
 		self.content_parser = src.misc.ContentParser
 		self.tags = self.__recent_changes.tags
-		self.namespaces = self.__recent_changes.namespaces
 		self.LinkParser: type(src.misc.LinkParser) = src.misc.LinkParser
 		#self.make_api_request: src.rc.wiki.__recent_changes.api_request = self.__recent_changes.api_request
 
 	def refresh_internal_data(self):
 		"""Refreshes internal storage data for wiki tags and MediaWiki messages."""
 		self.__recent_changes.init_info()
+
+	@property
+	def namespaces(self):
+		return self.__recent_changes.namespaces
 
 	def parse_links(self, summary: str):
 		link_parser = self.LinkParser()
