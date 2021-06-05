@@ -44,8 +44,12 @@ class Client:
 		self.__recent_changes.init_info()
 
 	@property
-	def namespaces(self):
-		return self.__recent_changes.namespaces
+	def namespaces(self) -> dict:
+		"""Return a dict of namespaces, if None return empty dict"""
+		if self.__recent_changes.namespaces is not None:
+			return self.__recent_changes.namespaces
+		else:
+			return dict()
 
 	def parse_links(self, summary: str):
 		link_parser = self.LinkParser()
