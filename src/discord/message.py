@@ -73,7 +73,7 @@ class DiscordMessage:
 				self.embed["color"] = settings["event_appearance"][self.event_type]["color"]
 		else:
 			self.embed["color"] = math.floor(self.embed["color"])
-		if not self.embed["author"]["icon_url"] and settings["event_appearance"].get(self.event_type, {"icon": None})["icon"]:
+		if not self.embed["author"].get("icon_url", None) and settings["event_appearance"].get(self.event_type, {"icon": None})["icon"]:
 			self.embed["author"]["icon_url"] = settings["event_appearance"][self.event_type]["icon"]
 		if len(self.embed["title"]) > 254:
 			self.embed["title"] = self.embed["title"][0:253] + "…"
