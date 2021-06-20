@@ -57,15 +57,15 @@ def parse_mediawiki_changes(ctx: Context, content: str, embed: DiscordMessage) -
 	edit_diff = ctx.client.content_parser()
 	edit_diff.feed(content)
 	if edit_diff.small_prev_del:
-		if edit_diff.small_prev_del.replace("~~", "").isspace():
+		if edit_diff.small_prev_del.replace("~~", "").replace("__", "").isspace():
 			edit_diff.small_prev_del = _('__Only whitespace__')
 		else:
-			edit_diff.small_prev_del = edit_diff.small_prev_del.replace("~~~~", "")
+			edit_diff.small_prev_del = edit_diff.small_prev_del.replace("~~~~", "").replace("____", "")
 	if edit_diff.small_prev_ins:
-		if edit_diff.small_prev_ins.replace("**", "").isspace():
+		if edit_diff.small_prev_ins.replace("**", "").replace("__", "").isspace():
 			edit_diff.small_prev_ins = _('__Only whitespace__')
 		else:
-			edit_diff.small_prev_ins = edit_diff.small_prev_ins.replace("****", "")
+			edit_diff.small_prev_ins = edit_diff.small_prev_ins.replace("****", "").replace("____", "")
 	logger.debug("Changed content: {}".format(edit_diff.small_prev_ins))
 	if edit_diff.small_prev_del and not ctx.event == "new":
 		embed.add_field(_("Removed"), "{data}".format(data=edit_diff.small_prev_del), inline=True)
