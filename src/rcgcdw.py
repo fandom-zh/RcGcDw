@@ -33,7 +33,7 @@ from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser, run_hooks
 from src.api.util import create_article_path, default_message
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
-from src.exceptions import MWError, ServerError, MediaWikiError, BadRequest, ClientError
+from src.exceptions import MWError, ServerError, MediaWikiError, BadRequest, ClientError, NoFormatter
 from src.i18n import rcgcdw
 from src.wiki import Wiki
 
@@ -75,7 +75,7 @@ if settings["limitrefetch"] != -1 and os.path.exists("lastchange.txt") is True:
 
 def no_formatter(ctx: Context, change: dict) -> None:
 	logger.warning(f"There is no formatter specified for {ctx.event}! Ignoring event.")
-	return
+	raise NoFormatter
 
 formatter_hooks["no_formatter"] = no_formatter
 
@@ -205,7 +205,16 @@ def rc_processor(change, changed_categories):
 	run_hooks(pre_hooks, context, change)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		context.event = "suppressed"
-		discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
+		try:
+			discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
+		except NoFormatter:
+			return
+		except:
+			if settings.get("error_tolerance", 1) > 0:
+				discord_message: Optional[
+					DiscordMessage] = None  # It's handled by send_to_discord, we still want other code to run
+			else:
+				raise
 	else:
 		if "commenthidden" not in change:
 			LinkParser.feed(change.get("parsedcomment", ""))
@@ -267,7 +276,15 @@ def abuselog_processing(entry):
 	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
 	run_hooks(pre_hooks, context, entry)
 	context.event = action
-	discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
+	try:
+		discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
+	except NoFormatter:
+		return
+	except:
+		if settings.get("error_tolerance", 1) > 0:
+			discord_message: Optional[DiscordMessage] = None  # It's handled by send_to_discord, we still want other code to run
+		else:
+			raise
 	metadata = DiscordMessageMetadata("POST")
 	run_hooks(post_hooks, discord_message, metadata, context, entry)
 	discord_message.finish_embed()

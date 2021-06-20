@@ -73,7 +73,7 @@ def compact_abuselog(ctx: Context, change: dict):
 # abusefilter/modify - AbuseFilter filter modification
 
 
-@formatter.embed(event="abuselog/modify")
+@formatter.embed(event="abusefilter/modify")
 def embed_abuselog_modify(ctx: Context, change: dict):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
 	embed_helper(ctx, embed, change)
@@ -84,7 +84,7 @@ def embed_abuselog_modify(ctx: Context, change: dict):
 	return embed
 
 
-@formatter.compact(event="abuselog/modify")
+@formatter.compact(event="abusefilter/modify")
 def compact_abuselog_modify(ctx: Context, change: dict):
 	author, author_url = compact_author(ctx, change)
 	link = clean_link(create_article_path(
@@ -103,7 +103,7 @@ def compact_abuselog_modify(ctx: Context, change: dict):
 # abusefilter/create - AbuseFilter filter creation
 
 
-@formatter.embed(event="abuselog/create")
+@formatter.embed(event="abusefilter/create")
 def embed_abuselog_create(ctx: Context, change: dict):
 	embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
 	embed_helper(ctx, embed, change)
@@ -111,7 +111,7 @@ def embed_abuselog_create(ctx: Context, change: dict):
 	embed["title"] = _("Created abuse filter number {number}").format(number=change["logparams"]['newId'])
 	return embed
 
-@formatter.compact(event="abuselog/create")
+@formatter.compact(event="abusefilter/create")
 def compact_abuselog_create(ctx: Context, change: dict):
 	author, author_url = compact_author(ctx, change)
 	link = clean_link(

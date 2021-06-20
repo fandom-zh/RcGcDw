@@ -16,19 +16,20 @@
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging, schedule, requests
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from src.configloader import settings
 
 #from src.discussion_formatters import embed_formatter, compact_formatter
 from src.misc import datafile, prepare_paths, run_hooks
 from src.discord.queue import messagequeue, send_to_discord
-from src.discord.message import DiscordMessageMetadata
+from src.discord.message import DiscordMessageMetadata, DiscordMessage
 from src.session import session
-from src.exceptions import ArticleCommentError
+from src.exceptions import ArticleCommentError, NoFormatter
 from src.api.util import default_message
 from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
+
 
 # Create a custom logger
 
@@ -122,7 +123,15 @@ def parse_discussion_post(post, comment_pages):
 	event_type = f"discussion/{post_type.lower()}"
 	context.set_comment_page(comment_page)
 	run_hooks(pre_hooks, context, post)
-	discord_message = default_message(event_type, formatter_hooks)(context, post)
+	try:
+		discord_message = default_message(event_type, formatter_hooks)(context, post)
+	except NoFormatter:
+		return
+	except:
+		if settings.get("error_tolerance", 1) > 0:
+			discord_message: Optional[DiscordMessage] = None  # It's handled by send_to_discord, we still want other code to run
+		else:
+			raise
 	metadata = DiscordMessageMetadata("POST")
 	run_hooks(post_hooks, discord_message, metadata, context, post)
 	send_to_discord(discord_message, metadata)

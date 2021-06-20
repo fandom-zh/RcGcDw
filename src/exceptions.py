@@ -32,6 +32,10 @@ class ServerError(Exception):
 	"""Exception for when a request fails because of Server error"""
 	pass
 
+class NoFormatter(Exception):
+	"""Exception to throw when there are no formatters"""
+	pass
+
 
 class ClientError(Exception):
 	"""Exception for when a request failes because of Client error"""
