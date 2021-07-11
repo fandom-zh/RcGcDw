@@ -74,15 +74,15 @@ def redact_messages(ids: list, entry_type: int, to_censor: dict):
 					logger.error("Couldn't find entry in the database for RevDel to censor information. This is probably because the script has been recently restarted or cache cleared.")
 					return
 				if "user" in to_censor and "url" in new_embed["author"]:
-					new_embed["author"]["name"] = _("Removed")
+					new_embed["author"]["name"] = _("hidden")
 					new_embed["author"].pop("url")
 				if "action" in to_censor and "url" in new_embed:
-					new_embed["title"] = _("Removed")
+					new_embed["title"] = _("~~hidden~~")
 					new_embed.pop("url")
 				if "content" in to_censor and "fields" in new_embed:
 					new_embed.pop("fields")
 				if "comment" in to_censor:
-					new_embed["description"] = _("Removed")
+					new_embed["description"] = _("~~hidden~~")
 				message["embeds"][0] = new_embed
 				db_cursor.execute("UPDATE messages SET content = ? WHERE message_id = ?;", (json.dumps(message), row[1],))
 				db_connection.commit()
