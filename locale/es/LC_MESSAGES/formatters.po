@@ -3,39 +3,25 @@
 # This file is distributed under the same license as the RcGcDw package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: 2021-01-22 13:58+0000\n"
+"PO-Revision-Date: 2021-07-11 12:33+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/"
-"rc_formatters/es/>\n"
+"formatters/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"#-#-#-#-#  discussion_formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  rc_formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/api/util.py:61 src/api/util.py:66
-#, fuzzy
 msgid "__Only whitespace__"
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"__Sólo espacios en blanco__\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"__Solo espacios en blanco__"
+msgstr "__Sólo espacios en blanco__"
 
 #: src/api/util.py:71
 msgid "Removed"
@@ -58,13 +44,8 @@ msgid "Tags"
 msgstr "Etiquetas"
 
 #: src/api/util.py:162
-#, fuzzy
 msgid "**Added**: "
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"**Añadió**: \n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"**Agregó**: "
+msgstr "**Agregó**: "
 
 #: src/api/util.py:163
 msgid " and {} more\n"
@@ -79,13 +60,8 @@ msgid " and {} more"
 msgstr " y {} más"
 
 #: src/api/util.py:168
-#, fuzzy
 msgid "Changed categories"
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"Cambió de categorías\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Cambio las categorías"
+msgstr "Cambio las categorías"
 
 #: extensions/base/cargo.py:37
 #, python-brace-format
@@ -118,13 +94,9 @@ msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
 msgstr "[{author}]({author_url}) reemplazó la tabla Cargo \"{table}\""
 
 #: extensions/base/cargo.py:105
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"Eliminó la tabla Cargo \"{table}\"\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Eliminó la tabla Cargo\"{table}\""
+msgstr "Eliminó la tabla Cargo \"{table}\""
 
 #: extensions/base/cargo.py:112
 #, python-brace-format
@@ -134,33 +106,37 @@ msgstr "[{author}]({author_url}) eliminó la tabla Cargo \"{table}\""
 #: extensions/base/translate.py:41
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
-msgstr ""
+msgstr "Marcó \"{article}\" para traducir"
 
 #: extensions/base/translate.py:55
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
-msgstr "[{author}]({author_url}) restauró [{article}]({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) marcó [{article}]({article_url}) para "
+"traducción{comment}"
 
 #: extensions/base/translate.py:70
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
-msgstr ""
+msgstr "Eliminó \"{article}\" del sistema de traducción"
 
 #: extensions/base/translate.py:80
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
-"[{author}]({author_url}) importó [{article}]({article_url}) con {count} "
-"revisión{comment}"
+"[{author}]({author_url}) eliminó [{article}]({article_url}) del sistema de "
+"traducción{comment}"
 
 #: extensions/base/translate.py:95
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
 msgstr ""
+"Completó el traslado de las páginas de traducción de \"{article}\" a \""
+"{target}\""
 
 #: extensions/base/translate.py:106
 #, fuzzy, python-brace-format
