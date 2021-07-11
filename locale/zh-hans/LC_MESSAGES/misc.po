@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:47+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2020-12-06 14:17+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
@@ -19,59 +19,59 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Location"
 msgstr "位置"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "About me"
 msgstr "关于我"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Google link"
 msgstr "Google 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Facebook link"
 msgstr "Facebook 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitter link"
 msgstr "Twitter 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Reddit link"
 msgstr "Reddit 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitch link"
 msgstr "Twitch 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "PSN link"
 msgstr "PSN 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "VK link"
 msgstr "VK 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "XBL link"
 msgstr "XBL 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Steam link"
 msgstr "Steam 链接"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Discord handle"
 msgstr "Discord handle"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Battle.net handle"
 msgstr "Battle.net handle"
 
-#: src/misc.py:138
+#: src/misc.py:139
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__还有更多__"
 
-#: src/misc.py:322
+#: src/misc.py:328
 msgid "Unknown"
 msgstr "未知"
 
-#: src/misc.py:324
+#: src/misc.py:330
 msgid "unknown"
 msgstr "未知"

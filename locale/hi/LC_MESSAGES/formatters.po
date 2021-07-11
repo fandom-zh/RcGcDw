@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:48+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2021-07-11 12:33+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
@@ -545,7 +545,7 @@ msgstr "\"{wiki}\" विकी को डिलीट किया गया"
 #: extensions/base/abusefilter.py:55 extensions/base/abusefilter.py:56
 #: extensions/base/abusefilter.py:57 extensions/base/abusefilter.py:68
 #: extensions/base/abusefilter.py:69 extensions/base/abusefilter.py:70
-#: extensions/base/mediawiki.py:744
+#: extensions/base/mediawiki.py:743
 msgid "Unknown"
 msgstr "अनजान"
 
@@ -1085,15 +1085,15 @@ msgstr "ऑटोपैट्रॉल"
 msgid "wiki_guardian"
 msgstr "विकी_संरक्षक"
 
-#: extensions/base/mediawiki.py:71
+#: extensions/base/mediawiki.py:70
 msgid "(N!) "
 msgstr "(न!) "
 
-#: extensions/base/mediawiki.py:72
+#: extensions/base/mediawiki.py:71
 msgid "m"
 msgstr "छो"
 
-#: extensions/base/mediawiki.py:73
+#: extensions/base/mediawiki.py:72
 msgid "b"
 msgstr "बॉ"
 
@@ -1355,73 +1355,73 @@ msgstr ""
 msgid "for infinity and beyond"
 msgstr "अनंत और इसके परे तक"
 
-#: extensions/base/mediawiki.py:582
+#: extensions/base/mediawiki.py:581
 msgid "for less than a minute"
 msgstr "एक मिनट से कम के लिए"
 
-#: extensions/base/mediawiki.py:584
+#: extensions/base/mediawiki.py:583
 msgid "year"
 msgid_plural "years"
 msgstr[0] "साल"
 msgstr[1] "साल"
 
-#: extensions/base/mediawiki.py:584
+#: extensions/base/mediawiki.py:583
 msgid "day"
 msgid_plural "days"
 msgstr[0] "दिन"
 msgstr[1] "दिन"
 
-#: extensions/base/mediawiki.py:584
+#: extensions/base/mediawiki.py:583
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "घंटा"
 msgstr[1] "घंटे"
 
-#: extensions/base/mediawiki.py:585
+#: extensions/base/mediawiki.py:584
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "मिनट"
 msgstr[1] "मिनट"
 
-#: extensions/base/mediawiki.py:590
+#: extensions/base/mediawiki.py:589
 #, python-brace-format
-msgid "for  {time_number} {time_unit}"
+msgid "for {time_number} {time_unit}"
 msgstr "{time_number} {time_unit} के लिए"
 
-#: extensions/base/mediawiki.py:609
+#: extensions/base/mediawiki.py:608
 msgid "Blocked from editing the following pages: "
 msgstr "इन पृष्ठों को सम्पादित करने से ब्लॉक्ड: "
 
-#: extensions/base/mediawiki.py:616 extensions/base/mediawiki.py:662
+#: extensions/base/mediawiki.py:615 extensions/base/mediawiki.py:661
 msgid " and namespaces: "
 msgstr " और इन नेमस्पेसों पर: "
 
-#: extensions/base/mediawiki.py:618
+#: extensions/base/mediawiki.py:617
 msgid "Blocked from editing pages on following namespaces: "
 msgstr "इन नेमस्पेसों में पृष्ठों को सम्पादित करने से ब्लॉक्ड: "
 
-#: extensions/base/mediawiki.py:629
+#: extensions/base/mediawiki.py:628
 msgid "Partial block details"
 msgstr "आधा ब्लॉक विवरण"
 
-#: extensions/base/mediawiki.py:632
+#: extensions/base/mediawiki.py:631
 msgid "Block flags"
 msgstr "ब्लॉक के फ्लैग"
 
-#: extensions/base/mediawiki.py:634
+#: extensions/base/mediawiki.py:633
 #, python-brace-format
 msgid "Blocked {blocked_user} {time}"
 msgstr "{blocked_user} को ब्लॉक किया {time}"
 
-#: extensions/base/mediawiki.py:654
+#: extensions/base/mediawiki.py:653
 msgid " on pages: "
 msgstr " इन पृष्ठों पर: "
 
-#: extensions/base/mediawiki.py:664
+#: extensions/base/mediawiki.py:663
 msgid " on namespaces: "
 msgstr " इन नेमस्पेसों पर: "
 
-#: extensions/base/mediawiki.py:676
+#: extensions/base/mediawiki.py:675
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
@@ -1430,12 +1430,12 @@ msgstr ""
 "[{author}]({author_url}) ने [{user}]({user_url}) {time}{restriction_desc} को "
 "ब्लॉक किया{comment}"
 
-#: extensions/base/mediawiki.py:694
+#: extensions/base/mediawiki.py:693
 #, python-brace-format
 msgid "Changed block settings for {blocked_user}"
 msgstr "{blocked_user} के ब्लॉक सेटिंग्स को बदला"
 
-#: extensions/base/mediawiki.py:704
+#: extensions/base/mediawiki.py:703
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed block settings for [{blocked_user}]"
@@ -1444,12 +1444,12 @@ msgstr ""
 "[{author}]({author_url}) ने [{blocked_user}]({user_url}) के ब्लॉक सेटिंगस को "
 "बदला{comment}"
 
-#: extensions/base/mediawiki.py:717
+#: extensions/base/mediawiki.py:716
 #, python-brace-format
 msgid "Unblocked {blocked_user}"
 msgstr "{blocked_user} को अनब्लॉक किया"
 
-#: extensions/base/mediawiki.py:727
+#: extensions/base/mediawiki.py:726
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
@@ -1457,22 +1457,22 @@ msgstr ""
 "[{author}]({author_url}) ने [{blocked_user}]({user_url}) को अनब्लॉक "
 "किया{comment}"
 
-#: extensions/base/mediawiki.py:743
+#: extensions/base/mediawiki.py:742
 msgid "Action has been hidden by administration"
 msgstr "ऐक्शन ऐडमिनिस्ट्रेशन द्वारा छिपाया गया है"
 
-#: extensions/base/mediawiki.py:750
+#: extensions/base/mediawiki.py:749
 msgid "An action has been hidden by administration."
 msgstr "एक ऐक्शन ऐडमिनिस्ट्रेशन द्वारा छिपाया गया है।"
 
-#: extensions/base/mediawiki.py:761
+#: extensions/base/mediawiki.py:760
 #, python-brace-format
 msgid "Imported {article} with {count} revision"
 msgid_plural "Imported {article} with {count} revisions"
 msgstr[0] "{count} रिवीशन के साथ {article} को इम्पोर्ट किया गया"
 msgstr[1] "{count} रिवीशनों के साथ {article} को इम्पोर्ट किया गया"
 
-#: extensions/base/mediawiki.py:772
+#: extensions/base/mediawiki.py:771
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -1487,14 +1487,14 @@ msgstr[1] ""
 "[{author}]({author_url}) ने [{article}]({article_url}) को {count} रिवीशनों के "
 "साथ ({article_url}) इम्पोर्ट किया{comment}"
 
-#: extensions/base/mediawiki.py:788
+#: extensions/base/mediawiki.py:787
 #, python-brace-format
 msgid "Imported {article} with {count} revision from \"{source}\""
 msgid_plural "Imported {article} with {count} revisions from \"{source}\""
 msgstr[0] "\"{source}\" से {count} रिवीशन के साथ {article} को इम्पोर्ट किया गया"
 msgstr[1] "\"{source}\" से {count} रिवीशनों के साथ {article} को इम्पोर्ट किया गया"
 
-#: extensions/base/mediawiki.py:803
+#: extensions/base/mediawiki.py:802
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -1509,58 +1509,58 @@ msgstr[1] ""
 "[{author}]({author_url}) ने [{source}]({source_url}) से [{article}]"
 "({article_url}) को {count} रिवीशनों के साथ ({article_url}) इम्पोर्ट किया{comment}"
 
-#: extensions/base/mediawiki.py:818
+#: extensions/base/mediawiki.py:817
 #, python-brace-format
 msgid " (until {date_and_time})"
 msgstr " ({date_and_time} तक)"
 
-#: extensions/base/mediawiki.py:835
+#: extensions/base/mediawiki.py:834
 #, python-brace-format
 msgid "Changed group membership for {target}"
 msgstr "{target} के ग्रुपों को बदला"
 
-#: extensions/base/mediawiki.py:837
+#: extensions/base/mediawiki.py:836
 msgid "System"
 msgstr "सिस्टम"
 
-#: extensions/base/mediawiki.py:838
+#: extensions/base/mediawiki.py:837
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} को एक नए यूज़रग्रुप में ऑटोप्रमोट किया गया"
 
-#: extensions/base/mediawiki.py:844
+#: extensions/base/mediawiki.py:843
 msgid "Added group"
 msgid_plural "Added groups"
 msgstr[0] "जोड़ा गया समूह"
 msgstr[1] "जोड़े गए समूह"
 
-#: extensions/base/mediawiki.py:846
+#: extensions/base/mediawiki.py:845
 msgid "Removed group"
 msgid_plural "Removed groups"
 msgstr[0] "हटाया गया समूह"
 msgstr[1] "हटाए गए समूह"
 
-#: extensions/base/mediawiki.py:860
+#: extensions/base/mediawiki.py:859
 #, python-brace-format
 msgid "Added to {added} and removed from {removed}."
 msgstr "{added} में जोड़ा गया और {removed} से हटाया गया।"
 
-#: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
-#: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
+#: extensions/base/mediawiki.py:860 extensions/base/mediawiki.py:862
+#: extensions/base/mediawiki.py:864 extensions/base/mediawiki.py:871
 msgid ", "
 msgstr ", "
 
-#: extensions/base/mediawiki.py:863
+#: extensions/base/mediawiki.py:862
 #, python-brace-format
 msgid "Added to {added}."
 msgstr "{added} में जोड़ा गया।"
 
-#: extensions/base/mediawiki.py:865
+#: extensions/base/mediawiki.py:864
 #, python-brace-format
 msgid "Removed from {removed}."
 msgstr "{removed} से हटाया गया।"
 
-#: extensions/base/mediawiki.py:866
+#: extensions/base/mediawiki.py:865
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
@@ -1569,18 +1569,18 @@ msgstr ""
 "[{author}]({author_url}) ने [{target}]({target_url}) के समूह सदस्यता को बदला:"
 " {group_changes}{comment}"
 
-#: extensions/base/mediawiki.py:870
+#: extensions/base/mediawiki.py:869
 #, python-brace-format
 msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
 msgstr ""
 "सिस्टम ने [{target}]({target_url}) को {added} में ऑटोप्रमोट किया।{comment}"
 
-#: extensions/base/mediawiki.py:883
+#: extensions/base/mediawiki.py:882
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
 msgstr "{article} के रिवीशन इतिहास को {dest} में मर्ज किया गया"
 
-#: extensions/base/mediawiki.py:897
+#: extensions/base/mediawiki.py:896
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
@@ -1589,30 +1589,30 @@ msgstr ""
 "[{author}]({author_url}) ने [{article}]({article_url}) के रिवीशन इतिहास को "
 "[{dest}]({dest_url}) में मर्ज किया{comment}"
 
-#: extensions/base/mediawiki.py:911
+#: extensions/base/mediawiki.py:910
 msgid "Created account automatically"
 msgstr "अपने आप अकाउंट बनाया गया"
 
-#: extensions/base/mediawiki.py:918
+#: extensions/base/mediawiki.py:917
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
 msgstr "अकाउंट [{author}]({author_url}) अपने आप बना है"
 
-#: extensions/base/mediawiki.py:931 extensions/base/mediawiki.py:996
+#: extensions/base/mediawiki.py:930 extensions/base/mediawiki.py:995
 msgid "Created account"
 msgstr "अकाउंट बनाया गया"
 
-#: extensions/base/mediawiki.py:938 extensions/base/mediawiki.py:1003
+#: extensions/base/mediawiki.py:937 extensions/base/mediawiki.py:1002
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
 msgstr "अकाउंट [{author}]({author_url}) को बनाया गया है"
 
-#: extensions/base/mediawiki.py:950
+#: extensions/base/mediawiki.py:949
 #, python-brace-format
 msgid "Created account {article}"
 msgstr "अकाउंट {article} बनाया गया"
 
-#: extensions/base/mediawiki.py:959
+#: extensions/base/mediawiki.py:958
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
@@ -1621,12 +1621,12 @@ msgstr ""
 "अकाउंट [{article}]({article_url}) [{author}]({author_url}) द्वारा बनाया गया "
 "है{comment}"
 
-#: extensions/base/mediawiki.py:972
+#: extensions/base/mediawiki.py:971
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr "अकाउंट {article} बनाया गया और पासवर्ड ईमेल के ज़रिये भेजा गया"
 
-#: extensions/base/mediawiki.py:983
+#: extensions/base/mediawiki.py:982
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
@@ -1635,17 +1635,17 @@ msgstr ""
 "अकाउंट [{article}]({article_url}) [{author}]({author_url}) द्वारा बनाया गया है "
 "और पासवर्ड ईमेल के ज़रिये भेजा गया है{comment}"
 
-#: extensions/base/mediawiki.py:1015
+#: extensions/base/mediawiki.py:1014
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr "पृष्ठ {article} के कंटेंट मॉडल को बदला गया"
 
-#: extensions/base/mediawiki.py:1017
+#: extensions/base/mediawiki.py:1016
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "मॉडल को {old} से {new} में बदला गया: {reason}"
 
-#: extensions/base/mediawiki.py:1029
+#: extensions/base/mediawiki.py:1028
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
@@ -1654,17 +1654,17 @@ msgstr ""
 "[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) के कंटेंट मॉडल को "
 "{old} से {new} में बदला{comment}"
 
-#: extensions/base/mediawiki.py:1044
+#: extensions/base/mediawiki.py:1043
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr "पृष्ठ {article} को गैर-डिफ़ॉल्ट कंटेंट मॉडल की मदद से बनाया"
 
-#: extensions/base/mediawiki.py:1046
+#: extensions/base/mediawiki.py:1045
 #, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr "मॉडल {new} से बनाया: {reason}"
 
-#: extensions/base/mediawiki.py:1057
+#: extensions/base/mediawiki.py:1056
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
@@ -1673,34 +1673,34 @@ msgstr ""
 "[{author}]({author_url}) ने पृष्ठ [{article}]({article_url}) को गैर-डिफ़ॉल्ट कंटेंट "
 "मॉडल की मदद से बनाया {new}{comment}"
 
-#: extensions/base/mediawiki.py:1072
+#: extensions/base/mediawiki.py:1071
 #, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "टैग \"{tag}\" बनाया गया"
 
-#: extensions/base/mediawiki.py:1082
+#: extensions/base/mediawiki.py:1081
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr ""
 "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" बनाया{comment}"
 
-#: extensions/base/mediawiki.py:1103
+#: extensions/base/mediawiki.py:1102
 #, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "टैग \"{tag}\" को डिलीट किया गया"
 
-#: extensions/base/mediawiki.py:1105
+#: extensions/base/mediawiki.py:1104
 msgid "Removed from"
 msgstr "इससे हटाया गया"
 
-#: extensions/base/mediawiki.py:1105
+#: extensions/base/mediawiki.py:1104
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
 msgstr[0] "{} रिवीशन या लॉग एंट्री"
 msgstr[1] "{} रिवीशन और/या लॉग एंट्री"
 
-#: extensions/base/mediawiki.py:1118
+#: extensions/base/mediawiki.py:1117
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
@@ -1708,7 +1708,7 @@ msgstr ""
 "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिलीट "
 "किया{comment}"
 
-#: extensions/base/mediawiki.py:1128
+#: extensions/base/mediawiki.py:1127
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -1723,12 +1723,12 @@ msgstr[1] ""
 "[{author}]({author_url}) ने [टैग]({tag_url}) \"{tag}\" को डिलीट किया और इसे "
 "{count} रिवीशनों और/या लॉग एंट्रियों से हटाया।{comment}"
 
-#: extensions/base/mediawiki.py:1145
+#: extensions/base/mediawiki.py:1144
 #, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "टैग \"{tag}\" को सक्रीय किया गया"
 
-#: extensions/base/mediawiki.py:1154
+#: extensions/base/mediawiki.py:1153
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
@@ -1736,12 +1736,12 @@ msgstr ""
 "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को सक्रीय "
 "किया{comment}"
 
-#: extensions/base/mediawiki.py:1173
+#: extensions/base/mediawiki.py:1172
 #, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "टैग \"{tag}\" को अक्रीय किया गया"
 
-#: extensions/base/mediawiki.py:1182
+#: extensions/base/mediawiki.py:1181
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"

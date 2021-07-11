@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:47+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2020-08-03 13:44+0000\n"
 "Last-Translator: MarkusRost <>\n"
 "Language-Team: German <https://weblate.frisk.space/projects/rcgcdw/main/de/"
@@ -17,59 +17,59 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "X-Loco-Parser: loco_parse_po\n"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Location"
 msgstr "Wohnort"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "About me"
 msgstr "„Über mich“-Abschnitt"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Google link"
 msgstr "Google-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Facebook link"
 msgstr "Facebook-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitter link"
 msgstr "Twitter-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Reddit link"
 msgstr "Reddit-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitch link"
 msgstr "Twitch-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "PSN link"
 msgstr "PSN-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "VK link"
 msgstr "VK-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "XBL link"
 msgstr "Xbox-Live-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Steam link"
 msgstr "Steam-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Discord handle"
 msgstr "Discord-Link"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Battle.net handle"
 msgstr "Battle.net-Link"
 
-#: src/misc.py:138
+#: src/misc.py:139
 msgid ""
 "\n"
 "__And more__"
@@ -77,10 +77,10 @@ msgstr ""
 "\n"
 "__Und mehr__"
 
-#: src/misc.py:322
+#: src/misc.py:328
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/misc.py:324
+#: src/misc.py:330
 msgid "unknown"
 msgstr "unbekannt"

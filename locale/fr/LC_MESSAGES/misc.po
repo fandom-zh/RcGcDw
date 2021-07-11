@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:47+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2020-03-17 21:40+0100\n"
 "Last-Translator: Frisk <>\n"
 "Language-Team: \n"
@@ -20,59 +20,59 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SearchPath-0: rcgcdw.pot\n"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Location"
 msgstr "Emplacement"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "About me"
 msgstr "À propos de moi"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Google link"
 msgstr "Lien Google"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Facebook link"
 msgstr "Lien Facebook"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitter link"
 msgstr "Lien Twitter"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Reddit link"
 msgstr "Lien Reddit"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitch link"
 msgstr "Lien Twitch"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "PSN link"
 msgstr "Lien PSN"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "VK link"
 msgstr "Lien VK"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "XBL link"
 msgstr "Lien XBL"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Steam link"
 msgstr "Lien Steam"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Discord handle"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Battle.net handle"
 msgstr ""
 
-#: src/misc.py:138
+#: src/misc.py:139
 msgid ""
 "\n"
 "__And more__"
@@ -80,11 +80,11 @@ msgstr ""
 "\n"
 "__Et plus__"
 
-#: src/misc.py:322
+#: src/misc.py:328
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/misc.py:324
+#: src/misc.py:330
 #, fuzzy
 msgid "unknown"
 msgstr "Inconnu"

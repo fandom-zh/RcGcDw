@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:48+0200\n"
+"POT-Creation-Date: 2021-07-11 14:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,14 +99,14 @@ msgstr[1] ""
 msgid "Day score"
 msgstr ""
 
-#: src/rcgcdw.py:215
+#: src/rcgcdw.py:223
 msgid "~~hidden~~"
 msgstr ""
 
-#: src/rcgcdw.py:217
+#: src/rcgcdw.py:225
 msgid "No description provided"
 msgstr ""
 
-#: src/rcgcdw.py:220
+#: src/rcgcdw.py:228
 msgid "hidden"
 msgstr ""

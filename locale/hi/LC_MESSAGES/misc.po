@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 13:47+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2020-11-25 10:16+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://weblate.frisk.space/projects/rcgcdw/misc/hi/>\n"
@@ -18,59 +18,59 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Location"
 msgstr "जगह"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "About me"
 msgstr "मेरे बारे में"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Google link"
 msgstr "गूगल लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Facebook link"
 msgstr "फेसबुक लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitter link"
 msgstr "ट्विटर लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Reddit link"
 msgstr "रेड्डिट लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitch link"
 msgstr "ट्विच लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "PSN link"
 msgstr "PSN लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "VK link"
 msgstr "VK लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "XBL link"
 msgstr "XBL लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Steam link"
 msgstr "स्टीम लिंक"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Discord handle"
 msgstr "डिस्कॉर्ड अकाउंट"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Battle.net handle"
 msgstr "Battle.net अकाउंट"
 
-#: src/misc.py:138
+#: src/misc.py:139
 msgid ""
 "\n"
 "__And more__"
@@ -78,10 +78,10 @@ msgstr ""
 "\n"
 "__और काफी कुछ__"
 
-#: src/misc.py:322
+#: src/misc.py:328
 msgid "Unknown"
 msgstr "अनजान"
 
-#: src/misc.py:324
+#: src/misc.py:330
 msgid "unknown"
 msgstr "अनजान"

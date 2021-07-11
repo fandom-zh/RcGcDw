@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:48+0200\n"
+"POT-Creation-Date: 2021-07-11 14:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,68 +17,68 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Location"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "About me"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Google link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Facebook link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitter link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Reddit link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitch link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "PSN link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "VK link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "XBL link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Steam link"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Discord handle"
 msgstr ""
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Battle.net handle"
 msgstr ""
 
-#: src/misc.py:138
+#: src/misc.py:139
 msgid ""
 "\n"
 "__And more__"
 msgstr ""
 
-#: src/misc.py:322
+#: src/misc.py:328
 msgid "Unknown"
 msgstr ""
 
-#: src/misc.py:324
+#: src/misc.py:330
 msgid "unknown"
 msgstr ""

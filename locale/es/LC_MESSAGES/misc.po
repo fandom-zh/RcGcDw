@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-18 14:13+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2020-11-28 22:44+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://weblate.frisk.space/projects/rcgcdw/misc/es/"
@@ -19,59 +19,59 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.2.1\n"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Location"
 msgstr "Ubicación"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "About me"
 msgstr "Sobre mí"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Google link"
 msgstr "Enlace de Google"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Facebook link"
 msgstr "Enlace de Facebook"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitter link"
 msgstr "Enlace de Twitter"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Reddit link"
 msgstr "Enlace de Reddit"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Twitch link"
 msgstr "Enlace de Twitch"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "PSN link"
 msgstr "Enlace de PSN"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "VK link"
 msgstr "Enlace de VK"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "XBL link"
 msgstr "Enlace de XBL"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Steam link"
 msgstr "Enlace de Steam"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Discord handle"
 msgstr "ID de Discord"
 
-#: src/misc.py:44
+#: src/misc.py:45
 msgid "Battle.net handle"
 msgstr "Cuenta en Battle.net"
 
-#: src/misc.py:138
+#: src/misc.py:139
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__Y más__"
 
-#: src/misc.py:322
+#: src/misc.py:328
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: src/misc.py:324
+#: src/misc.py:330
 msgid "unknown"
 msgstr "desconocido"

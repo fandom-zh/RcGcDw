@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-22 18:48+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2020-11-18 07:47+0000\n"
 "Last-Translator: MakandIv <>\n"
 "Language-Team: Ukrainian <https://weblate.frisk.space/projects/rcgcdw/"
@@ -541,7 +541,7 @@ msgstr "Вилучив тег \"{tag}\""
 #: extensions/base/abusefilter.py:55 extensions/base/abusefilter.py:56
 #: extensions/base/abusefilter.py:57 extensions/base/abusefilter.py:68
 #: extensions/base/abusefilter.py:69 extensions/base/abusefilter.py:70
-#: extensions/base/mediawiki.py:744
+#: extensions/base/mediawiki.py:743
 msgid "Unknown"
 msgstr "Невідомо"
 
@@ -1064,15 +1064,15 @@ msgstr "автопатрульний"
 msgid "wiki_guardian"
 msgstr "зберігач_вікі"
 
-#: extensions/base/mediawiki.py:71
+#: extensions/base/mediawiki.py:70
 msgid "(N!) "
 msgstr "(Н!) "
 
-#: extensions/base/mediawiki.py:72
+#: extensions/base/mediawiki.py:71
 msgid "m"
 msgstr "м"
 
-#: extensions/base/mediawiki.py:73
+#: extensions/base/mediawiki.py:72
 msgid "b"
 msgstr "б"
 
@@ -1335,77 +1335,77 @@ msgstr ""
 msgid "for infinity and beyond"
 msgstr "навіки і назавжди"
 
-#: extensions/base/mediawiki.py:582
+#: extensions/base/mediawiki.py:581
 msgid "for less than a minute"
 msgstr ""
 
-#: extensions/base/mediawiki.py:584
+#: extensions/base/mediawiki.py:583
 msgid "year"
 msgid_plural "years"
 msgstr[0] "рік"
 msgstr[1] "роки"
 msgstr[2] "років"
 
-#: extensions/base/mediawiki.py:584
+#: extensions/base/mediawiki.py:583
 msgid "day"
 msgid_plural "days"
 msgstr[0] "день"
 msgstr[1] "дня"
 msgstr[2] "днів"
 
-#: extensions/base/mediawiki.py:584
+#: extensions/base/mediawiki.py:583
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "година"
 msgstr[1] "години"
 msgstr[2] "годин"
 
-#: extensions/base/mediawiki.py:585
+#: extensions/base/mediawiki.py:584
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "хвилина"
 msgstr[1] "хвилини"
 msgstr[2] "хвилин"
 
-#: extensions/base/mediawiki.py:590
+#: extensions/base/mediawiki.py:589
 #, python-brace-format
-msgid "for  {time_number} {time_unit}"
+msgid "for {time_number} {time_unit}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:609
+#: extensions/base/mediawiki.py:608
 msgid "Blocked from editing the following pages: "
 msgstr "Заблокований від редагування в наступних сторінках: "
 
-#: extensions/base/mediawiki.py:616 extensions/base/mediawiki.py:662
+#: extensions/base/mediawiki.py:615 extensions/base/mediawiki.py:661
 msgid " and namespaces: "
 msgstr " і в простору імен: "
 
-#: extensions/base/mediawiki.py:618
+#: extensions/base/mediawiki.py:617
 msgid "Blocked from editing pages on following namespaces: "
 msgstr "Заблокований від редагування на сторінках в наступних просторах назв: "
 
-#: extensions/base/mediawiki.py:629
+#: extensions/base/mediawiki.py:628
 msgid "Partial block details"
 msgstr "Часткові деталі блокування"
 
-#: extensions/base/mediawiki.py:632
+#: extensions/base/mediawiki.py:631
 msgid "Block flags"
 msgstr ""
 
-#: extensions/base/mediawiki.py:634
+#: extensions/base/mediawiki.py:633
 #, fuzzy, python-brace-format
 msgid "Blocked {blocked_user} {time}"
 msgstr "Заблокував {blocked_user} на {time}"
 
-#: extensions/base/mediawiki.py:654
+#: extensions/base/mediawiki.py:653
 msgid " on pages: "
 msgstr " на сторінках: "
 
-#: extensions/base/mediawiki.py:664
+#: extensions/base/mediawiki.py:663
 msgid " on namespaces: "
 msgstr " в просторах імен: "
 
-#: extensions/base/mediawiki.py:676
+#: extensions/base/mediawiki.py:675
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
@@ -1414,12 +1414,12 @@ msgstr ""
 "[{author}]({author_url}) заблокував [{user}]({user_url}) на {time}"
 "{restriction_desc}{comment}"
 
-#: extensions/base/mediawiki.py:694
+#: extensions/base/mediawiki.py:693
 #, python-brace-format
 msgid "Changed block settings for {blocked_user}"
 msgstr "Змінив блокування для {blocked_user}"
 
-#: extensions/base/mediawiki.py:704
+#: extensions/base/mediawiki.py:703
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed block settings for [{blocked_user}]"
@@ -1428,28 +1428,28 @@ msgstr ""
 "[{author}]({author_url}) змінив блокування для [{blocked_user}]({user_url})"
 "{comment}"
 
-#: extensions/base/mediawiki.py:717
+#: extensions/base/mediawiki.py:716
 #, python-brace-format
 msgid "Unblocked {blocked_user}"
 msgstr "Розблокував {blocked_user}"
 
-#: extensions/base/mediawiki.py:727
+#: extensions/base/mediawiki.py:726
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
 msgstr ""
 "[{author}]({author_url}) розблокував [{blocked_user}]({user_url}){comment}"
 
-#: extensions/base/mediawiki.py:743
+#: extensions/base/mediawiki.py:742
 #, fuzzy
 msgid "Action has been hidden by administration"
 msgstr "Дія була прихована адміністрацією."
 
-#: extensions/base/mediawiki.py:750
+#: extensions/base/mediawiki.py:749
 msgid "An action has been hidden by administration."
 msgstr "Дія була прихована адміністрацією."
 
-#: extensions/base/mediawiki.py:761
+#: extensions/base/mediawiki.py:760
 #, python-brace-format
 msgid "Imported {article} with {count} revision"
 msgid_plural "Imported {article} with {count} revisions"
@@ -1457,7 +1457,7 @@ msgstr[0] "Імпортував {article} з {count} версією"
 msgstr[1] "Імпортував {article} з {count} версіями"
 msgstr[2] "Імпортував {article} з {count} версіями"
 
-#: extensions/base/mediawiki.py:772
+#: extensions/base/mediawiki.py:771
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -1475,7 +1475,7 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: extensions/base/mediawiki.py:788
+#: extensions/base/mediawiki.py:787
 #, fuzzy, python-brace-format
 msgid "Imported {article} with {count} revision from \"{source}\""
 msgid_plural "Imported {article} with {count} revisions from \"{source}\""
@@ -1483,7 +1483,7 @@ msgstr[0] "Імпортував {article} з {count} версією"
 msgstr[1] "Імпортував {article} з {count} версіями"
 msgstr[2] "Імпортував {article} з {count} версіями"
 
-#: extensions/base/mediawiki.py:803
+#: extensions/base/mediawiki.py:802
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
@@ -1501,26 +1501,26 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: extensions/base/mediawiki.py:818
+#: extensions/base/mediawiki.py:817
 #, python-brace-format
 msgid " (until {date_and_time})"
 msgstr ""
 
-#: extensions/base/mediawiki.py:835
+#: extensions/base/mediawiki.py:834
 #, python-brace-format
 msgid "Changed group membership for {target}"
 msgstr "Змінено членство в групі для {target}"
 
-#: extensions/base/mediawiki.py:837
+#: extensions/base/mediawiki.py:836
 msgid "System"
 msgstr "Система"
 
-#: extensions/base/mediawiki.py:838
+#: extensions/base/mediawiki.py:837
 #, python-brace-format
 msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} автоматично переведений в нову групу користувачів"
 
-#: extensions/base/mediawiki.py:844
+#: extensions/base/mediawiki.py:843
 #, fuzzy
 msgid "Added group"
 msgid_plural "Added groups"
@@ -1528,7 +1528,7 @@ msgstr[0] "Видалено"
 msgstr[1] "Видалено"
 msgstr[2] "Видалено"
 
-#: extensions/base/mediawiki.py:846
+#: extensions/base/mediawiki.py:845
 #, fuzzy
 msgid "Removed group"
 msgid_plural "Removed groups"
@@ -1536,27 +1536,27 @@ msgstr[0] "Видалено"
 msgstr[1] "Видалено"
 msgstr[2] "Видалено"
 
-#: extensions/base/mediawiki.py:860
+#: extensions/base/mediawiki.py:859
 #, python-brace-format
 msgid "Added to {added} and removed from {removed}."
 msgstr ""
 
-#: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
-#: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
+#: extensions/base/mediawiki.py:860 extensions/base/mediawiki.py:862
+#: extensions/base/mediawiki.py:864 extensions/base/mediawiki.py:871
 msgid ", "
 msgstr ""
 
-#: extensions/base/mediawiki.py:863
+#: extensions/base/mediawiki.py:862
 #, python-brace-format
 msgid "Added to {added}."
 msgstr ""
 
-#: extensions/base/mediawiki.py:865
+#: extensions/base/mediawiki.py:864
 #, fuzzy, python-brace-format
 msgid "Removed from {removed}."
 msgstr "Видалено"
 
-#: extensions/base/mediawiki.py:866
+#: extensions/base/mediawiki.py:865
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
@@ -1565,19 +1565,19 @@ msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: extensions/base/mediawiki.py:870
+#: extensions/base/mediawiki.py:869
 #, fuzzy, python-brace-format
 msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
 msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: extensions/base/mediawiki.py:883
+#: extensions/base/mediawiki.py:882
 #, python-brace-format
 msgid "Merged revision histories of {article} into {dest}"
 msgstr "Об'єднав історії версій {article} з {dest}"
 
-#: extensions/base/mediawiki.py:897
+#: extensions/base/mediawiki.py:896
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) merged revision histories of [{article}]"
@@ -1586,30 +1586,30 @@ msgstr ""
 "[{author}]({author_url}) об'єднав історії версій [{article}]({article_url}) "
 "з [{dest}]({dest_url}){comment}"
 
-#: extensions/base/mediawiki.py:911
+#: extensions/base/mediawiki.py:910
 msgid "Created account automatically"
 msgstr "Обліковий запис був створений автоматично"
 
-#: extensions/base/mediawiki.py:918
+#: extensions/base/mediawiki.py:917
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created automatically"
 msgstr "Обліковий запис [{author}]({author_url}) був автоматично створений"
 
-#: extensions/base/mediawiki.py:931 extensions/base/mediawiki.py:996
+#: extensions/base/mediawiki.py:930 extensions/base/mediawiki.py:995
 msgid "Created account"
 msgstr "Створено обліковий запис"
 
-#: extensions/base/mediawiki.py:938 extensions/base/mediawiki.py:1003
+#: extensions/base/mediawiki.py:937 extensions/base/mediawiki.py:1002
 #, python-brace-format
 msgid "Account [{author}]({author_url}) was created"
 msgstr "Обліковий запис [{author}]({author_url}) був створений"
 
-#: extensions/base/mediawiki.py:950
+#: extensions/base/mediawiki.py:949
 #, python-brace-format
 msgid "Created account {article}"
 msgstr "Створено обліковий запис {article}"
 
-#: extensions/base/mediawiki.py:959
+#: extensions/base/mediawiki.py:958
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url})"
@@ -1618,14 +1618,14 @@ msgstr ""
 "Обліковий запис [{article}]({article_url}) був створений [{author}]"
 "({author_url}){comment}"
 
-#: extensions/base/mediawiki.py:972
+#: extensions/base/mediawiki.py:971
 #, python-brace-format
 msgid "Created account {article} and password was sent by email"
 msgstr ""
 "Створено обліковий запис {article} і і пароль був відправлений на електронну "
 "пошту"
 
-#: extensions/base/mediawiki.py:983
+#: extensions/base/mediawiki.py:982
 #, python-brace-format
 msgid ""
 "Account [{article}]({article_url}) was created by [{author}]({author_url}) "
@@ -1634,17 +1634,17 @@ msgstr ""
 "Обліковий запис [{article}]({article_url}) був створений [{author}]"
 "({author_url}) і пароль був відправлений на електронну пошту{comment}"
 
-#: extensions/base/mediawiki.py:1015
+#: extensions/base/mediawiki.py:1014
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr "Змінив модель вмісту сторінки {article}"
 
-#: extensions/base/mediawiki.py:1017
+#: extensions/base/mediawiki.py:1016
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr "Модель змінена з {old} на {new}: {reason}"
 
-#: extensions/base/mediawiki.py:1029
+#: extensions/base/mediawiki.py:1028
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
@@ -1653,17 +1653,17 @@ msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: extensions/base/mediawiki.py:1044
+#: extensions/base/mediawiki.py:1043
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1046
+#: extensions/base/mediawiki.py:1045
 #, fuzzy, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr "Модель змінена з {old} на {new}: {reason}"
 
-#: extensions/base/mediawiki.py:1057
+#: extensions/base/mediawiki.py:1056
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
@@ -1672,41 +1672,41 @@ msgstr ""
 "[{author}]({author_url}) змінив модель вмісту сторінки [{article}]"
 "({article_url}) з {old} на {new}{comment}"
 
-#: extensions/base/mediawiki.py:1072
+#: extensions/base/mediawiki.py:1071
 #, fuzzy, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "Створив тег \"{tag}\""
 
-#: extensions/base/mediawiki.py:1082
+#: extensions/base/mediawiki.py:1081
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) створив [тег]({tag_url}) \"{tag}\""
 
-#: extensions/base/mediawiki.py:1103
+#: extensions/base/mediawiki.py:1102
 #, fuzzy, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "Вилучив тег \"{tag}\""
 
-#: extensions/base/mediawiki.py:1105
+#: extensions/base/mediawiki.py:1104
 #, fuzzy
 msgid "Removed from"
 msgstr "Видалено"
 
-#: extensions/base/mediawiki.py:1105
+#: extensions/base/mediawiki.py:1104
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: extensions/base/mediawiki.py:1118
+#: extensions/base/mediawiki.py:1117
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) вилучив [тег]({tag_url}) \"{tag}\""
 
-#: extensions/base/mediawiki.py:1128
+#: extensions/base/mediawiki.py:1127
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -1724,23 +1724,23 @@ msgstr[2] ""
 "[{author}]({author_url}) імпортував [{article}]({article_url}) з {count} "
 "версіями{comment}"
 
-#: extensions/base/mediawiki.py:1145
+#: extensions/base/mediawiki.py:1144
 #, fuzzy, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr "Активував тег \"{tag}\""
 
-#: extensions/base/mediawiki.py:1154
+#: extensions/base/mediawiki.py:1153
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr "[{author}]({author_url}) активував [тег]({tag_url}) \"{tag}\""
 
-#: extensions/base/mediawiki.py:1173
+#: extensions/base/mediawiki.py:1172
 #, fuzzy, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr "Деактивував тег \"{tag}\""
 
-#: extensions/base/mediawiki.py:1182
+#: extensions/base/mediawiki.py:1181
 #, fuzzy, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:04+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.wikibot.de/projects/"
@@ -94,15 +94,15 @@ msgstr[0] "最活躍時段"
 msgid "Day score"
 msgstr "每日分數"
 
-#: src/rcgcdw.py:215
+#: src/rcgcdw.py:223
 msgid "~~hidden~~"
 msgstr "~~隱藏~~"
 
-#: src/rcgcdw.py:217
+#: src/rcgcdw.py:225
 msgid "No description provided"
 msgstr "沒有提供描述"
 
-#: src/rcgcdw.py:220
+#: src/rcgcdw.py:228
 msgid "hidden"
 msgstr "隱藏"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 21:04+0200\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2021-07-11 12:33+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/main/hi/>"
@@ -100,15 +100,15 @@ msgstr[1] "सबसे सक्रीय घंटे"
 msgid "Day score"
 msgstr "दिन का स्कोर"
 
-#: src/rcgcdw.py:215
+#: src/rcgcdw.py:223
 msgid "~~hidden~~"
 msgstr "~~छिपाया गया~~"
 
-#: src/rcgcdw.py:217
+#: src/rcgcdw.py:225
 msgid "No description provided"
 msgstr "कोई विवरण नहीं दिया गया"
 
-#: src/rcgcdw.py:220
+#: src/rcgcdw.py:228
 msgid "hidden"
 msgstr "छिपाया गया"
 
