@@ -8,102 +8,104 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-07-11 12:33+0000\n"
+"Last-Translator: しぃ <lzmashili@icloud.com>\n"
+"Language-Team: Japanese <https://translate.wikibot.de/projects/rcgcdw/"
+"formatters/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
-msgstr ""
+msgstr "__空白のみ__"
 
 #: src/api/util.py:71
 msgid "Removed"
-msgstr ""
+msgstr "削除済"
 
 #: src/api/util.py:73
 msgid "Added"
-msgstr ""
+msgstr "追加済"
 
 #: src/api/util.py:94 src/api/util.py:126 src/api/util.py:133
 #: src/api/util.py:141 extensions/base/discussions.py:247
 #: extensions/base/discussions.py:264 extensions/base/abusefilter.py:45
 msgid "Unregistered user"
-msgstr ""
+msgstr "未登録利用者"
 
 #: src/api/util.py:160
 msgctxt "recent changes Tags"
 msgid "Tags"
-msgstr ""
+msgstr "タグ"
 
 #: src/api/util.py:162
 msgid "**Added**: "
-msgstr ""
+msgstr "**追加済**: "
 
 #: src/api/util.py:163
 msgid " and {} more\n"
-msgstr ""
+msgstr " そして {} その他にも\n"
 
 #: src/api/util.py:165
 msgid "**Removed**: "
-msgstr ""
+msgstr "**削除済**: "
 
 #: src/api/util.py:166
 msgid " and {} more"
-msgstr ""
+msgstr " そして {} その他にも"
 
 #: src/api/util.py:168
 msgid "Changed categories"
-msgstr ""
+msgstr "変更後の分類"
 
 #: extensions/base/cargo.py:37
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
-msgstr ""
+msgstr "Cargo テーブル\"{table}\"を作成しました"
 
 #: extensions/base/cargo.py:45
 #, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) がCargo テーブル\"{table}\"を作成しました"
 
 #: extensions/base/cargo.py:60
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
-msgstr ""
+msgstr "Cargo テーブル \"{table}\" の再作成"
 
 #: extensions/base/cargo.py:68
 #, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) がCargo テーブル\"{table}\"を再作成しました"
 
 #: extensions/base/cargo.py:83
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "Cargo テーブル \"{table}\" の置き換え"
 
 #: extensions/base/cargo.py:91
 #, python-brace-format
 msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) がCargo テーブル\"{table}\"を置き換えました"
 
 #: extensions/base/cargo.py:105
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "Cargo テーブル \"{table}\" の削除"
 
 #: extensions/base/cargo.py:112
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}) がCargo テーブル\"{table}\"を削除しました"
 
 #: extensions/base/translate.py:41
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
-msgstr ""
+msgstr "ページ \"{article}\" を翻訳可能にしました"
 
 #: extensions/base/translate.py:55
 #, python-brace-format
@@ -111,11 +113,13 @@ msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
 msgstr ""
+"[{author}]({author_url}) は [{article}]({article_url}) というページを翻訳可能にしました "
+"{comment}"
 
 #: extensions/base/translate.py:70
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
-msgstr ""
+msgstr "翻訳システムから \"{article}\" を削除しました"
 
 #: extensions/base/translate.py:80
 #, python-brace-format
@@ -123,11 +127,12 @@ msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
+"[{author}]({author_url}) は [{article}]({article_url}) を翻訳から削除しました {comment}"
 
 #: extensions/base/translate.py:95
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
-msgstr ""
+msgstr "翻訳ページを \"{article}\" から \"{target}\" への移動を完了"
 
 #: extensions/base/translate.py:106
 #, python-brace-format
@@ -135,11 +140,13 @@ msgid ""
 "[{author}]({author_url}) completed moving translation pages from *{article}* "
 "to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) が *{article}* から [{target}]({target_url}) "
+"への翻訳ページの移動が完了しました {comment}"
 
 #: extensions/base/translate.py:121
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
-msgstr ""
+msgstr "\"{article}\" から \"{target}\" に移動する際に問題が発生しました"
 
 #: extensions/base/translate.py:133
 #, python-brace-format
@@ -147,13 +154,15 @@ msgid ""
 "[{author}]({author_url}) encountered a problem while moving [{article}]"
 "({article_url}) to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) が [{article}]({article_url}) から "
+"[{target}]({target_url}) に移動する際に問題が発生しました {comment}"
 
 #: extensions/base/translate.py:149
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translatable page "
 "\"{target}\""
-msgstr ""
+msgstr "翻訳可能なページ\"{target}\"に関する\"{article}\"の削除に失敗しました"
 
 #: extensions/base/translate.py:161
 #, python-brace-format
@@ -161,11 +170,13 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translatable page [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url})は、翻訳可能なページに属する[{article}]({article_url})の削除に失敗しました "
+"[{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:177
 #, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr ""
+msgstr "翻訳ページ\"{article}\"の削除を完了"
 
 #: extensions/base/translate.py:188
 #, python-brace-format
@@ -173,12 +184,13 @@ msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) が翻訳ページ [{article}]({article_url}) の削除を完了 {comment}"
 
 #: extensions/base/translate.py:203
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translation page \"{target}\""
-msgstr ""
+msgstr "翻訳ページ\"{target}\"に属する\"{article}\"の削除に失敗しました"
 
 #: extensions/base/translate.py:215
 #, python-brace-format
@@ -186,45 +198,47 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translation page [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url})が翻訳ページ[{target}]({target_url})に属する[{article}]({articl"
+"e_url})の削除に失敗しました {comment}"
 
 #: extensions/base/translate.py:231
 #, python-brace-format
 msgid "Encouraged translation of \"{article}\""
-msgstr ""
+msgstr "推奨される\"{article}\"の翻訳"
 
 #: extensions/base/translate.py:240
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
 "{comment}"
-msgstr ""
+msgstr "[{author}]({author_url})が推奨する翻訳：[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:255
 #, python-brace-format
 msgid "Discouraged translation of \"{article}\""
-msgstr ""
+msgstr "\"{article}\"の翻訳に挫折"
 
 #: extensions/base/translate.py:264
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) discouraged translation of [{article}]"
 "({article_url}){comment}"
-msgstr ""
+msgstr "[{author}]({author_url}) が挫折した翻訳： [{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:282
 #, python-brace-format
 msgid "Limited languages for \"{article}\" to `{languages}`"
-msgstr ""
+msgstr "\"{article}\"の言語を`{languages}`に限定"
 
 #: extensions/base/translate.py:285
 #, python-brace-format
 msgid "Priority languages for \"{article}\" set to `{languages}`"
-msgstr ""
+msgstr "\"{article}\"の優先言語は`{languages}`に設定されています"
 
 #: extensions/base/translate.py:288
 #, python-brace-format
 msgid "Removed priority languages from \"{article}\""
-msgstr ""
+msgstr "\"{article}\"から優先順位の高い言語を削除しました"
 
 #: extensions/base/translate.py:301
 #, python-brace-format
@@ -232,6 +246,8 @@ msgid ""
 "[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
 "`{languages}`{comment}"
 msgstr ""
+"[{author}]({author_url}) は [{article}]({article_url}) の言語を `{languages}` "
+"に限定しました {comment}"
 
 #: extensions/base/translate.py:308
 #, python-brace-format
@@ -239,6 +255,8 @@ msgid ""
 "[{author}]({author_url}) set the priority languages for [{article}]"
 "({article_url}) to `{languages}`{comment}"
 msgstr ""
+"[{author}]({author_url})は、[{article}]({article_url}) "
+"ページの優先言語リストを以下のように設定しています： `{languages}`{comment}"
 
 #: extensions/base/translate.py:315
 #, python-brace-format
@@ -246,11 +264,12 @@ msgid ""
 "[{author}]({author_url}) removed priority languages from [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) の優先言語を [{article}]({article_url}) から削除しました {comment}"
 
 #: extensions/base/translate.py:331
 #, python-brace-format
 msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
-msgstr ""
+msgstr "翻訳可能なページ \"{article}\" を集計グループ \"{group}\" に追加しました"
 
 #: extensions/base/translate.py:342
 #, python-brace-format
@@ -258,12 +277,14 @@ msgid ""
 "[{author}]({author_url}) added translatable page [{article}]({article_url}) "
 "to aggregate group \"{group}\"{comment}"
 msgstr ""
+"[{author}]({author_url}) は、翻訳可能なページ [{article}]({article_url}) を集計グループ \""
+"{group}\"に追加しました{comment}"
 
 #: extensions/base/translate.py:357
 #, python-brace-format
 msgid ""
 "Removed translatable page \"{article}\" from aggregate group \"{group}\""
-msgstr ""
+msgstr "翻訳可能なページ \"{article}\" を集約グループ \"{group}\" から削除しました"
 
 #: extensions/base/translate.py:368
 #, python-brace-format
@@ -271,11 +292,13 @@ msgid ""
 "[{author}]({author_url}) removed translatable page [{article}]"
 "({article_url}) from aggregate group \"{group}\"{comment}"
 msgstr ""
+"[{author}]({author_url}) は、翻訳可能なページ [{article}]({article_url}) を集計グループ \""
+"{group}\"から削除しました{comment}"
 
 #: extensions/base/translate.py:387
 #, python-brace-format
 msgid "Reviewed translation \"{article}\""
-msgstr ""
+msgstr "\"{article}\" ページの翻訳を確認しました"
 
 #: extensions/base/translate.py:401
 #, python-brace-format
@@ -283,19 +306,20 @@ msgid ""
 "[{author}]({author_url}) reviewed translation [{article}]({article_url})"
 "{comment}"
 msgstr ""
+"[{author}]({author_url}) の翻訳をチェックしました [{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:416
 #, python-brace-format
 msgid "Changed the state of `{language}` translations of \"{article}\""
-msgstr ""
+msgstr "\"{article}\"ページの翻訳状況を`{language}`に変更しました"
 
 #: extensions/base/translate.py:419
 msgid "Old state"
-msgstr ""
+msgstr "古い状態"
 
 #: extensions/base/translate.py:420
 msgid "New state"
-msgstr ""
+msgstr "新しい状態"
 
 #: extensions/base/translate.py:431
 #, python-brace-format

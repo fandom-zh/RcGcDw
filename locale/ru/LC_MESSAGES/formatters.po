@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: 2021-05-31 21:54+0000\n"
+"PO-Revision-Date: 2021-07-11 12:33+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/ru/>\n"
@@ -49,7 +49,7 @@ msgstr "Добавлено"
 #: src/api/util.py:141 extensions/base/discussions.py:247
 #: extensions/base/discussions.py:264 extensions/base/abusefilter.py:45
 msgid "Unregistered user"
-msgstr "Незарегистрированный пользователь"
+msgstr "Незарегистрированный участник"
 
 #: src/api/util.py:160
 msgctxt "recent changes Tags"
@@ -1576,25 +1576,23 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "Участник {target} был автоматически повышен до новой группы участников"
 
 #: extensions/base/mediawiki.py:844
-#, fuzzy
 msgid "Added group"
 msgid_plural "Added groups"
-msgstr[0] "Удалено"
-msgstr[1] "Удалено"
-msgstr[2] "Удалено"
+msgstr[0] "Добавленная группа"
+msgstr[1] "Добавленные группы"
+msgstr[2] "Добавленные группы"
 
 #: extensions/base/mediawiki.py:846
-#, fuzzy
 msgid "Removed group"
 msgid_plural "Removed groups"
-msgstr[0] "Удалено"
-msgstr[1] "Удалено"
-msgstr[2] "Удалено"
+msgstr[0] "Удалённая группа"
+msgstr[1] "Удалённые группы"
+msgstr[2] "Удалённые группы"
 
 #: extensions/base/mediawiki.py:860
 #, python-brace-format
 msgid "Added to {added} and removed from {removed}."
-msgstr ""
+msgstr "Добавил в {added} и убрал из {removed}."
 
 #: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
 #: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
@@ -1604,12 +1602,12 @@ msgstr ", "
 #: extensions/base/mediawiki.py:863
 #, python-brace-format
 msgid "Added to {added}."
-msgstr ""
+msgstr "Добавил в {added}."
 
 #: extensions/base/mediawiki.py:865
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed from {removed}."
-msgstr "Удалено"
+msgstr "Убрал из {removed}."
 
 #: extensions/base/mediawiki.py:866
 #, python-brace-format

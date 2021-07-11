@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: 2021-05-31 21:54+0000\n"
+"PO-Revision-Date: 2021-07-11 12:33+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/formatters/pt-br/>\n"
@@ -703,7 +703,7 @@ msgid ""
 "profile."
 msgstr ""
 "[{author}]({author_url}) limpou o {field} no perfil de "
-"[{target}]({target_url})"
+"[{target}]({target_url})."
 
 #: extensions/base/curseprofile.py:60
 #, python-brace-format
@@ -742,19 +742,19 @@ msgid "Left a comment on their own profile"
 msgstr "Deixou um comentário em seu próprio perfil"
 
 #: extensions/base/curseprofile.py:97
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile."
 msgstr ""
 "[{author}]({author_url}) deixou um [comentário]({comment}) no perfil de "
-"{target}"
+"{target}."
 
 #: extensions/base/curseprofile.py:100
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on their own profile."
 msgstr ""
-"[{author}]({author_url}) deixou um [comentário]({comment}) no próprio perfil"
+"[{author}]({author_url}) deixou um [comentário]({comment}) no próprio perfil."
 
 #: extensions/base/curseprofile.py:113
 #, python-brace-format
@@ -766,19 +766,19 @@ msgid "Edited a comment on their own profile"
 msgstr "Editou um comentário em seu próprio perfil"
 
 #: extensions/base/curseprofile.py:128
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile."
 msgstr ""
 "[{author}]({author_url}) editou um [comentário]({comment}) no perfil de "
-"{target}"
+"{target}."
 
 #: extensions/base/curseprofile.py:131
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on their own profile."
 msgstr ""
-"[{author}]({author_url}) editou um [comentário]({comment}) no próprio perfil"
+"[{author}]({author_url}) editou um [comentário]({comment}) no próprio perfil."
 
 #: extensions/base/curseprofile.py:144
 #, python-brace-format
@@ -790,22 +790,22 @@ msgid "Replied to a comment on their own profile"
 msgstr "Respondeu a um comentário em seu próprio perfil"
 
 #: extensions/base/curseprofile.py:159
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
 "profile."
 msgstr ""
 "[{author}]({author_url}) respondeu a um [comentário]({comment}) no perfil de "
-"{target}"
+"{target}."
 
 #: extensions/base/curseprofile.py:162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
 "profile."
 msgstr ""
 "[{author}]({author_url}) respondeu a um [comentário]({comment}) no próprio "
-"perfil"
+"perfil."
 
 #: extensions/base/curseprofile.py:175
 #, python-brace-format
@@ -817,21 +817,22 @@ msgid "Deleted a comment on their own profile"
 msgstr "Excluiu um comentário em seu próprio perfil"
 
 #: extensions/base/curseprofile.py:197
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
 "profile.{reason}"
 msgstr ""
 "[{author}]({author_url}) excluiu um [comentário]({comment}) no perfil de "
-"{target}"
+"{target}.{reason}"
 
 #: extensions/base/curseprofile.py:200
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on their own profile."
 "{reason}"
 msgstr ""
-"[{author}]({author_url}) excluiu um [comentário]({comment}) no próprio perfil"
+"[{author}]({author_url}) excluiu um [comentário]({comment}) no próprio "
+"perfil.{reason}"
 
 #: extensions/base/curseprofile.py:214
 #, python-brace-format
@@ -843,18 +844,22 @@ msgid "Purged a comment on their own profile"
 msgstr "Limitou um comentário em seu próprio perfil"
 
 #: extensions/base/curseprofile.py:230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) purged a comment on [{target}]({link})'s profile."
 "{reason}"
-msgstr "[{author}]({author_url}) limpou um comentário no perfil de {target}"
+msgstr ""
+"[{author}]({author_url}) limpou um comentário no perfil de "
+"[{target}]({link}).{reason}"
 
 #: extensions/base/curseprofile.py:233
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) purged a comment on [their own]({link}) profile."
 "{reason}"
-msgstr "[{author}]({author_url}) limpou um comentário no próprio perfil"
+msgstr ""
+"[{author}]({author_url}) limpou um comentário no [próprio "
+"perfil]{link}.{reason}"
 
 #: extensions/base/renameuser.py:38
 #, python-brace-format
@@ -1541,18 +1546,16 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} foi promovido para um novo grupo de usuários"
 
 #: extensions/base/mediawiki.py:844
-#, fuzzy
 msgid "Added group"
 msgid_plural "Added groups"
-msgstr[0] "Removido de"
-msgstr[1] "Removido de"
+msgstr[0] "Adicionado grupo"
+msgstr[1] "Adicionado grupos"
 
 #: extensions/base/mediawiki.py:846
-#, fuzzy
 msgid "Removed group"
 msgid_plural "Removed groups"
-msgstr[0] "Removido de"
-msgstr[1] "Removido de"
+msgstr[0] "Removido grupo"
+msgstr[1] "Removido grupos"
 
 #: extensions/base/mediawiki.py:860
 #, python-brace-format
@@ -1570,25 +1573,25 @@ msgid "Added to {added}."
 msgstr "Adicionado a {added}."
 
 #: extensions/base/mediawiki.py:865
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed from {removed}."
-msgstr "Removido de"
+msgstr "Removido de {removed}."
 
 #: extensions/base/mediawiki.py:866
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}): {group_changes}{comment}"
 msgstr ""
-"[{author}]({author_url}) alterou os privilégios do usuário [{target}]"
-"({target_url}) de {old_groups} para {new_groups}{comment}"
+"[{author}]({author_url}) mudou a associação do grupo para "
+"[{target}]({target_url}): {group_changes}{comment}"
 
 #: extensions/base/mediawiki.py:870
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
 msgstr ""
-"{author} autopromoveu [{target}]({target_url}) de {old_groups} para "
-"{new_groups}{comment}"
+"O sistema foi promovido automaticamente [{target}]({target_url}) para "
+"{added}.{comment}"
 
 #: extensions/base/mediawiki.py:883
 #, python-brace-format
@@ -1689,7 +1692,7 @@ msgstr ""
 "modelo de conteúdo não padrão {new}{comment}"
 
 #: extensions/base/mediawiki.py:1072
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "Criou uma etiqueta \"{tag}\""
 
@@ -1701,7 +1704,7 @@ msgstr ""
 "[{author}]({author_url}) criou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "Excluiu uma etiqueta \"{tag}\""
 
@@ -1723,7 +1726,7 @@ msgstr ""
 "[{author}]({author_url}) excluiu a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1128
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -1731,16 +1734,16 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) importou [{article}]({article_url}) com {count} "
-"revisão{comment}"
+"[{author}]({author_url}) excluiu [etiqueta]({tag_url}) \"{tag}\" e o removeu "
+"{count} revisão ou entrada de registro{comment}"
 msgstr[1] ""
-"[{author}]({author_url}) importou [{article}]({article_url}) com {count} "
-"revisões{comment}"
+"[{author}]({author_url}) excluiu [etiqueta]({tag_url}) \"{tag}\" e o removeu "
+"{count} revisões e/ou entradas de registro{comment}"
 
 #: extensions/base/mediawiki.py:1145
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Activated the tag \"{tag}\""
-msgstr "Ativou uma etiqueta \"{tag}\""
+msgstr "Ativou a etiqueta \"{tag}\""
 
 #: extensions/base/mediawiki.py:1154
 #, python-brace-format
@@ -1750,9 +1753,9 @@ msgstr ""
 "[{author}]({author_url}) ativou a [etiqueta]({tag_url}) \"{tag}\"{comment}"
 
 #: extensions/base/mediawiki.py:1173
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
-msgstr "Desativou uma etiqueta \"{tag}\""
+msgstr "Desativou a etiqueta \"{tag}\""
 
 #: extensions/base/mediawiki.py:1182
 #, python-brace-format

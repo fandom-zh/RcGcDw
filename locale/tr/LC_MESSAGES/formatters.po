@@ -8,102 +8,105 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-07-11 12:33+0000\n"
+"Last-Translator: Doğukan Karakaş <dogukankarakas6@gmail.com>\n"
+"Language-Team: Turkish <https://translate.wikibot.de/projects/rcgcdw/"
+"formatters/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
-msgstr ""
+msgstr "__Sadece boş alan__"
 
 #: src/api/util.py:71
 msgid "Removed"
-msgstr ""
+msgstr "Kaldırıldı"
 
 #: src/api/util.py:73
 msgid "Added"
-msgstr ""
+msgstr "Eklendi"
 
 #: src/api/util.py:94 src/api/util.py:126 src/api/util.py:133
 #: src/api/util.py:141 extensions/base/discussions.py:247
 #: extensions/base/discussions.py:264 extensions/base/abusefilter.py:45
 msgid "Unregistered user"
-msgstr ""
+msgstr "Kayıtsız kullanıcı"
 
 #: src/api/util.py:160
 msgctxt "recent changes Tags"
 msgid "Tags"
-msgstr ""
+msgstr "Etiketler"
 
 #: src/api/util.py:162
 msgid "**Added**: "
-msgstr ""
+msgstr "**Eklendi**: "
 
 #: src/api/util.py:163
 msgid " and {} more\n"
-msgstr ""
+msgstr " ve {} fazlası\n"
 
 #: src/api/util.py:165
 msgid "**Removed**: "
-msgstr ""
+msgstr "**Kaldırıldı**: "
 
 #: src/api/util.py:166
 msgid " and {} more"
-msgstr ""
+msgstr " ve {} fazlası"
 
 #: src/api/util.py:168
 msgid "Changed categories"
-msgstr ""
+msgstr "Kategoriler değiştirildi"
 
 #: extensions/base/cargo.py:37
 #, python-brace-format
 msgid "Created the Cargo table \"{table}\""
-msgstr ""
+msgstr "Kargo tablosu \"{table}\" oluşturuldu"
 
 #: extensions/base/cargo.py:45
 #, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}), \"{table}\" Kargo tablosunu oluşturdu"
 
 #: extensions/base/cargo.py:60
 #, python-brace-format
 msgid "Recreated the Cargo table \"{table}\""
-msgstr ""
+msgstr "Kargo tablosu \"{table}\" tekrar oluşturuldu"
 
 #: extensions/base/cargo.py:68
 #, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
 msgstr ""
+"[{author}]({author_url}), \"{table}\" Kargo tablosunu tekrar oluşturuldu"
 
 #: extensions/base/cargo.py:83
 #, python-brace-format
 msgid "Replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "Kargo tablosu \"{table}\" değiştirildi"
 
 #: extensions/base/cargo.py:91
 #, python-brace-format
 msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}), \"{table}\" Kargo tablosunu değiştirdi"
 
 #: extensions/base/cargo.py:105
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "Kargo tablosu \"{table}\" silindi"
 
 #: extensions/base/cargo.py:112
 #, python-brace-format
 msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
-msgstr ""
+msgstr "[{author}]({author_url}), \"{table}\" Kargo tablosunu sildi"
 
 #: extensions/base/translate.py:41
 #, python-brace-format
 msgid "Marked \"{article}\" for translation"
-msgstr ""
+msgstr "\"{article}\" çeviri için işaretlendi"
 
 #: extensions/base/translate.py:55
 #, python-brace-format
@@ -111,11 +114,13 @@ msgid ""
 "[{author}]({author_url}) marked [{article}]({article_url}) for "
 "translation{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesini çeviri için "
+"işaretledi{comment}"
 
 #: extensions/base/translate.py:70
 #, python-brace-format
 msgid "Removed \"{article}\" from the translation system"
-msgstr ""
+msgstr "\"{article}\" çeviri sisteminden kaldırıldı"
 
 #: extensions/base/translate.py:80
 #, python-brace-format
@@ -123,11 +128,15 @@ msgid ""
 "[{author}]({author_url}) removed [{article}]({article_url}) from the "
 "translation system{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesini çeviri "
+"sisteminden kaldırdı{comment}"
 
 #: extensions/base/translate.py:95
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
 msgstr ""
+"\"{article}\" çeviri sayfasını \"{target}\" sayfasına taşıma başarıyla "
+"tamamlandı"
 
 #: extensions/base/translate.py:106
 #, python-brace-format
@@ -135,11 +144,14 @@ msgid ""
 "[{author}]({author_url}) completed moving translation pages from *{article}* "
 "to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}), *{article}* çeviri sayfalarını başarıyla "
+"[{target}]({target_url}) sayfasına taşıdı{comment}"
 
 #: extensions/base/translate.py:121
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
 msgstr ""
+"\"{article}\" makalesini \"{target}\" hedefine taşırken bir sıkıntı yaşandı"
 
 #: extensions/base/translate.py:133
 #, python-brace-format
@@ -147,13 +159,15 @@ msgid ""
 "[{author}]({author_url}) encountered a problem while moving [{article}]"
 "({article_url}) to [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesini "
+"[{target}]({target_url}) hedefine taşırken bir sıkıntı yaşadı{comment}"
 
 #: extensions/base/translate.py:149
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translatable page "
 "\"{target}\""
-msgstr ""
+msgstr "Çevrilebilir \"{target}\" sayfasına ait olan \"{article}\" silinemedi"
 
 #: extensions/base/translate.py:161
 #, python-brace-format
@@ -161,11 +175,13 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translatable page [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}), [{target}]({target_url}) çeviri sayfasına ait olan "
+"[{article}]({article_url}) makalesini silemedi{comment}"
 
 #: extensions/base/translate.py:177
 #, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr ""
+msgstr "Çeviri sayfası \"{article}\" başarıyla silindi"
 
 #: extensions/base/translate.py:188
 #, python-brace-format

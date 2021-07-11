@@ -3,30 +3,21 @@
 # This file is distributed under the same license as the RcGcDw package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: 2020-12-30 13:26+0000\n"
+"PO-Revision-Date: 2021-07-11 12:33+0000\n"
 "Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
-"rc_formatters/hi/>\n"
+"formatters/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"#-#-#-#-#  discussion_formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.1\n"
-"#-#-#-#-#  rc_formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
@@ -47,7 +38,6 @@ msgid "Unregistered user"
 msgstr "अनरेजिसटर्ड सदस्य"
 
 #: src/api/util.py:160
-#, fuzzy
 msgctxt "recent changes Tags"
 msgid "Tags"
 msgstr "टैग"
@@ -416,13 +406,11 @@ msgid "Created a quiz \"{title}\""
 msgstr "एक क्विज़ \"{title}\" बनाया"
 
 #: extensions/base/discussions.py:193 extensions/base/discussions.py:195
-#, fuzzy
 msgctxt "Fandom discussions Tags/Forums"
 msgid "Tags"
 msgstr "टैग"
 
 #: extensions/base/discussions.py:193
-#, fuzzy
 msgctxt "Fandom discussions amount of Tags/Forums"
 msgid "{} tags"
 msgstr "{} टैग"
@@ -567,15 +555,14 @@ msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* को डिलीट किया{comment}"
 
 #: extensions/base/managewiki.py:80
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted a \"{group}\" user group"
-msgstr "\"{usergroup_name}\" यूज़रग्रुप को मॉडिफाइ किया गया"
+msgstr "\"{group}\" यूज़रग्रुप को हटाया गया"
 
 #: extensions/base/managewiki.py:89
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) deleted a usergroup *{group}*{comment}"
-msgstr ""
-"[{author}]({author_url}) ने यूज़र ग्रुप *{group_name}* को मॉडिफाइ किया{comment}"
+msgstr "[{author}]({author_url}) ने यूज़र ग्रुप *{group}* को हटाया{comment}"
 
 #: extensions/base/managewiki.py:103
 #, python-brace-format
@@ -588,22 +575,22 @@ msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
 msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* के लॉक किया{comment}"
 
 #: extensions/base/managewiki.py:124
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Modified \"{namespace_name}\" namespace"
-msgstr "\"{namespace_name}\" नेमस्पेस को मॉडिफाइ किया गया"
+msgstr "\"{namespace_name}\" नेमस्पेस को मॉडिफाई किया गया"
 
 #: extensions/base/managewiki.py:126 extensions/base/managewiki.py:149
 msgid "Wiki"
 msgstr "विकी"
 
 #: extensions/base/managewiki.py:134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) modified namespace *{namespace_name}* on "
 "*{wiki_name}*{comment}"
 msgstr ""
-"[{author}]({author_url}) ने *{wiki_name}* पर एक नेमस्पेस *{namespace_name}* को "
-"मॉडिफाइ किया{comment}"
+"[{author}]({author_url}) ने *{wiki_name}* पर नेमस्पेस *{namespace_name}* को "
+"मॉडिफाई किया{comment}"
 
 #: extensions/base/managewiki.py:147
 #, python-brace-format
@@ -631,14 +618,14 @@ msgstr ""
 "[{author}]({author_url}) ने यूज़र ग्रुप *{group_name}* को मॉडिफाइ किया{comment}"
 
 #: extensions/base/managewiki.py:195
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Undeleted a \"{wiki}\" wiki"
-msgstr "\"{wiki}\" विकी को डिलीट किया गया"
+msgstr "\"{wiki}\" विकि को अनडिलीट किया गया"
 
 #: extensions/base/managewiki.py:203
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
-msgstr "[{author}]({author_url}) ने विकी *{wiki_name}* को डिलीट किया{comment}"
+msgstr "[{author}]({author_url}) ने विकि *{wiki_name}* को अनडिलीट किया{comment}"
 
 #: extensions/base/managewiki.py:217
 #, python-brace-format
@@ -691,13 +678,13 @@ msgid "{field} field changed to: {desc}"
 msgstr "{field} फील्ड को बदला गया: {desc} में"
 
 #: extensions/base/curseprofile.py:58
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s "
 "profile."
 msgstr ""
-"[{author}]({author_url}) ने [{target}]({target_url}) के प्रॉफाइल पर {field} को "
-"सम्पादित किया। *({desc})*"
+"[{author}]({author_url}) ने [{target}]({target_url}) के प्रोफाइल पर {field} "
+"को साफ़ किया।"
 
 #: extensions/base/curseprofile.py:60
 #, python-brace-format
@@ -705,17 +692,17 @@ msgid ""
 "[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
 "profile. *({desc})*"
 msgstr ""
-"[{author}]({author_url}) ने [{target}]({target_url}) के प्रॉफाइल पर {field} को "
-"सम्पादित किया। *({desc})*"
+"[{author}]({author_url}) ने [{target}]({target_url}) के प्रोफाइल पर {field} "
+"को सम्पादित किया। *({desc})*"
 
 #: extensions/base/curseprofile.py:65
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) cleared the {field} on [their own]({target_url}) "
 "profile."
 msgstr ""
-"[{author}]({author_url}) ने [अपने]({target_url}) प्रॉफाइल पर {field} को सम्पादित "
-"किया। *({desc})*"
+"[{author}]({author_url}) ने [अपने]({target_url}) प्रोफाइल पर {field} को साफ़ "
+"किया।"
 
 #: extensions/base/curseprofile.py:67
 #, python-brace-format
@@ -723,30 +710,32 @@ msgid ""
 "[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
 "profile. *({desc})*"
 msgstr ""
-"[{author}]({author_url}) ने [अपने]({target_url}) प्रॉफाइल पर {field} को सम्पादित "
-"किया। *({desc})*"
+"[{author}]({author_url}) ने [अपने]({target_url}) प्रोफाइल पर {field} को "
+"सम्पादित किया। *({desc})*"
 
 #: extensions/base/curseprofile.py:82
 #, python-brace-format
 msgid "Left a comment on {target}'s profile"
-msgstr "{target} के प्रॉफाइल पर एक कमेंट छोड़ा"
+msgstr "{target} के प्रोफाइल पर एक कमेंट छोड़ा"
 
 #: extensions/base/curseprofile.py:84
 msgid "Left a comment on their own profile"
-msgstr "अपने प्रॉफाइल पर एक कमेंट छोड़ा"
+msgstr "अपने प्रोफाइल पर एक कमेंट छोड़ा"
 
 #: extensions/base/curseprofile.py:97
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile."
 msgstr ""
-"[{author}]({author_url}) ने {target} के प्रॉफाइल पर एक [कमेंट]({comment}) छोड़ा"
+"[{author}]({author_url}) ने {target} के प्रोफाइल पर एक [कमेंट]({comment}) "
+"छोड़ा।"
 
 #: extensions/base/curseprofile.py:100
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) left a [comment]({comment}) on their own profile."
-msgstr "[{author}]({author_url}) ने अपने प्रॉफाइल पर एक [कमेंट]({comment}) छोड़ा"
+msgstr ""
+"[{author}]({author_url}) ने अपने प्रोफाइल पर एक [कमेंट]({comment}) छोड़ा।"
 
 #: extensions/base/curseprofile.py:113
 #, python-brace-format
@@ -758,19 +747,20 @@ msgid "Edited a comment on their own profile"
 msgstr "अपने प्रॉफाइल के एक कमेंट को सम्पादित किया"
 
 #: extensions/base/curseprofile.py:128
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile."
 msgstr ""
-"[{author}]({author_url}) ने {target} के प्रॉफाइल के एक [कमेंट]({comment}) पर जवाब "
-"दिया"
+"[{author}]({author_url}) ने {target} के प्रोफाइल के एक [कमेंट]({comment}) पर "
+"जवाब दिया।"
 
 #: extensions/base/curseprofile.py:131
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) edited a [comment]({comment}) on their own profile."
 msgstr ""
-"[{author}]({author_url}) ने अपने प्रॉफाइल के एक [कमेंट]({comment}) को सम्पादित किया"
+"[{author}]({author_url}) ने अपने प्रोफाइल के एक [कमेंट]({comment}) को सम्पादि"
+"त किया।"
 
 #: extensions/base/curseprofile.py:144
 #, python-brace-format
@@ -782,24 +772,22 @@ msgid "Replied to a comment on their own profile"
 msgstr "अपने प्रॉफाइल क के एक कमेंट पर जवाब दिया"
 
 #: extensions/base/curseprofile.py:159
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
 "profile."
 msgstr ""
-"[{author}]({author_url}) ने {target} के प्रॉफाइल के एक [कमेंट]({comment}) पर जवाब "
-"दिया"
+"[{author}]({author_url}) ने {target} के प्रॉफाइल के एक [कमेंट]({comment}) पर "
+"जवाब दिया।"
 
 #: extensions/base/curseprofile.py:162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) replied to a [comment]({comment}) on their own "
 "profile."
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) ने अपने प्रॉफाइल के एक [कमेंट] ({comment}) पर जवाब दिया\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) ने अपने प्रॉफाइल के एक [कमेंट]({comment}) पर जवाब दिया"
+"[{author}]({author_url}) ने अपने प्रोफाइल पर एक [कमेंट]({comment}) पर जवाब "
+"दिया।"
 
 #: extensions/base/curseprofile.py:175
 #, python-brace-format
@@ -811,21 +799,22 @@ msgid "Deleted a comment on their own profile"
 msgstr "अपने प्रॉफाइल के एक कमेंट को डिलीट किया"
 
 #: extensions/base/curseprofile.py:197
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
 "profile.{reason}"
 msgstr ""
-"[{author}]({author_url}) ने {target} के प्रॉफाइल के एक [कमेंट]({comment}) को डिलीट "
-"किया"
+"[{author}]({author_url}) ने {target} के प्रोफाइल के एक [कमेंट]({comment}) को "
+"डिलीट किया।{reason}"
 
 #: extensions/base/curseprofile.py:200
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted a [comment]({comment}) on their own profile."
 "{reason}"
 msgstr ""
-"[{author}]({author_url}) ने अपने प्रॉफाइल के एक [कमेंट]({comment}) को डिलीट किया"
+"[{author}]({author_url}) ने अपने प्रोफाइल के एक [कमेंट]({comment}) को डिलीट "
+"किया।{reason}"
 
 #: extensions/base/curseprofile.py:214
 #, python-brace-format
@@ -837,18 +826,22 @@ msgid "Purged a comment on their own profile"
 msgstr "अपने प्रॉफाइल के एक कमेंट को पर्ज किया"
 
 #: extensions/base/curseprofile.py:230
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) purged a comment on [{target}]({link})'s profile."
 "{reason}"
-msgstr "[{author}]({author_url}) ने {target} के प्रॉफाइल के एक कमेंट को पर्ज किया"
+msgstr ""
+"[{author}]({author_url}) ने [{target}]({link}) के प्रोफाइल के एक कमेंट को पर्"
+"ज किया।{reason}"
 
 #: extensions/base/curseprofile.py:233
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) purged a comment on [their own]({link}) profile."
 "{reason}"
-msgstr "[{author}]({author_url}) ने अपने प्रॉफाइल के एक कमेंट को पर्ज किया"
+msgstr ""
+"[{author}]({author_url}) ने [अपने]({link}) प्रोफाइल के एक कमेंट को पर्ज "
+"किया।{reason}"
 
 #: extensions/base/renameuser.py:38
 #, python-brace-format
@@ -929,13 +922,13 @@ msgid "Prefix: {prefix} | {desc}"
 msgstr "उपसर्ग: {prefix} | {desc}"
 
 #: extensions/base/interwiki.py:102
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
 "{desc}"
 msgstr ""
-"[{author}]({author_url}) ने [इंटरविकी टेबल]({table_url}) पर एक एंट्री को डिलीट "
-"किया"
+"[{author}]({author_url}) ने [इंटरविकि टेबल]({table_url}) पर एक एंट्री को डिली"
+"ट किया{desc}"
 
 #: extensions/base/abusefilter.py:29
 msgid "None"
@@ -946,13 +939,8 @@ msgid "Warning issued"
 msgstr "सूचना दे दी गई है"
 
 #: extensions/base/abusefilter.py:29
-#, fuzzy
 msgid "**Blocked user**"
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"**सदस्य को ब्लॉक कर दिया गया है**\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"**ब्लॉक्ड सदस्य**"
+msgstr "**ब्लॉक्ड सदस्य**"
 
 #: extensions/base/abusefilter.py:29
 msgid "Tagged the edit"
@@ -1208,17 +1196,13 @@ msgid "Deleted redirect {article} by overwriting"
 msgstr "ओवर्राइट करके रेडिरेक्ट {article} को डिलीट किया"
 
 #: extensions/base/mediawiki.py:308
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted redirect by overwriting [{page}]"
 "({page_link}){comment}"
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url} ने [{page}]({page_link}){comment} को ओवर्राइट करके "
-"रेडिरेक्ट को डिलीट किया\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) ने [{page}]({page_link}){comment} को ओवर्राइट करके "
-"रेडिरेक्ट को डिलीट किया"
+"[{author}]({author_url}) ने [{page}]({page_link}) को ओवर्राइट करके अनुप्रेषण "
+"को डिलीट किया{comment}"
 
 #: extensions/base/mediawiki.py:322
 #, python-brace-format
@@ -1248,7 +1232,7 @@ msgstr[0] "पृष्ठ {article} पर रिवीशन के दृश�
 msgstr[1] "पृष्ठ {article} पर {amount} रिवीशनों के दृश्यता को बदला "
 
 #: extensions/base/mediawiki.py:383
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed visibility of revision on page [{article}]"
 "({article_url}){comment}"
@@ -1256,19 +1240,11 @@ msgid_plural ""
 "[{author}]({author_url}) changed visibility of {amount} revisions on page "
 "[{article}]({article_url}){comment}"
 msgstr[0] ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url} ने [{article}]({article_url}) पर रिवीशन के दृश्यता को "
-"बदल दिया{comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) ने [{article}]({article_url}) पर रिवीशन के दृश्यता को "
-"बदल दिया{comment}"
+"[{author}]({author_url}) ने [{article}]({article_url}) पर रिवीशन के दृश्यता "
+"को बदल दिया{comment}"
 msgstr[1] ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url} ने [{article}]({article_url}) पर {amount} रिवीशनों के "
-"दृश्यता को बदल दिया{comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) ने [{article}]({article_url}) पर {amount} रिवीशनों के "
-"दृश्यता को बदल दिया{comment}"
+"[{author}]({author_url}) ने [{article}]({article_url}) पर {amount} रिवीशनों "
+"के दृश्यता को बदल दिया{comment}"
 
 #: extensions/base/mediawiki.py:399 extensions/base/mediawiki.py:432
 msgid "No redirect has been made"
@@ -1306,17 +1282,13 @@ msgid "Moved {redirect}{article} to {title} over redirect"
 msgstr "{redirect}{article} को रेडिरेक्ट के साथ {title} पर ले जाया गया है"
 
 #: extensions/base/mediawiki.py:448
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
 "[{target}]({target_url}) {made_a_redirect}{comment}"
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) ने {redirect}*{article}* को रेडिरेक्ट के साथ [{target}]"
-"({target_url}) {made_a_redirect} पर मूव किया{comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) ने {redirect}*{article}* को रेडिरेक्ट के साथ [{target}]"
-"({target_url}) {made_a_redirect}{comment} पर मूव किया"
+"[{author}]({author_url}) ने {redirect}*{article}* को अनुप्रेषण के साथ "
+"[{target}]({target_url}) पर मूव किया {made_a_redirect}{comment}"
 
 #: extensions/base/mediawiki.py:464
 #, python-brace-format
@@ -1385,7 +1357,7 @@ msgstr "अनंत और इसके परे तक"
 
 #: extensions/base/mediawiki.py:582
 msgid "for less than a minute"
-msgstr ""
+msgstr "एक मिनट से कम के लिए"
 
 #: extensions/base/mediawiki.py:584
 msgid "year"
@@ -1414,7 +1386,7 @@ msgstr[1] "मिनट"
 #: extensions/base/mediawiki.py:590
 #, python-brace-format
 msgid "for  {time_number} {time_unit}"
-msgstr ""
+msgstr "{time_number} {time_unit} के लिए"
 
 #: extensions/base/mediawiki.py:609
 msgid "Blocked from editing the following pages: "
@@ -1434,7 +1406,7 @@ msgstr "आधा ब्लॉक विवरण"
 
 #: extensions/base/mediawiki.py:632
 msgid "Block flags"
-msgstr ""
+msgstr "ब्लॉक के फ्लैग"
 
 #: extensions/base/mediawiki.py:634
 #, python-brace-format
@@ -1540,7 +1512,7 @@ msgstr[1] ""
 #: extensions/base/mediawiki.py:818
 #, python-brace-format
 msgid " (until {date_and_time})"
-msgstr ""
+msgstr " ({date_and_time} तक)"
 
 #: extensions/base/mediawiki.py:835
 #, python-brace-format
@@ -1557,54 +1529,51 @@ msgid "{target} got autopromoted to a new usergroup"
 msgstr "{target} को एक नए यूज़रग्रुप में ऑटोप्रमोट किया गया"
 
 #: extensions/base/mediawiki.py:844
-#, fuzzy
 msgid "Added group"
 msgid_plural "Added groups"
-msgstr[0] "हटाया गया"
-msgstr[1] "हटाया गया"
+msgstr[0] "जोड़ा गया समूह"
+msgstr[1] "जोड़े गए समूह"
 
 #: extensions/base/mediawiki.py:846
-#, fuzzy
 msgid "Removed group"
 msgid_plural "Removed groups"
-msgstr[0] "हटाया गया"
-msgstr[1] "हटाया गया"
+msgstr[0] "हटाया गया समूह"
+msgstr[1] "हटाए गए समूह"
 
 #: extensions/base/mediawiki.py:860
 #, python-brace-format
 msgid "Added to {added} and removed from {removed}."
-msgstr ""
+msgstr "{added} में जोड़ा गया और {removed} से हटाया गया।"
 
 #: extensions/base/mediawiki.py:861 extensions/base/mediawiki.py:863
 #: extensions/base/mediawiki.py:865 extensions/base/mediawiki.py:872
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: extensions/base/mediawiki.py:863
 #, python-brace-format
 msgid "Added to {added}."
-msgstr ""
+msgstr "{added} में जोड़ा गया।"
 
 #: extensions/base/mediawiki.py:865
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed from {removed}."
-msgstr "हटाया गया"
+msgstr "{removed} से हटाया गया।"
 
 #: extensions/base/mediawiki.py:866
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed group membership for [{target}]"
 "({target_url}): {group_changes}{comment}"
 msgstr ""
-"[{author}]({author_url}) ने [{target}]({target_url}) के लिए ग्रुप {old_groups} से "
-"{new_groups} में बदला{comment}"
+"[{author}]({author_url}) ने [{target}]({target_url}) के समूह सदस्यता को बदला:"
+" {group_changes}{comment}"
 
 #: extensions/base/mediawiki.py:870
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
 msgstr ""
-"{author} ने [{target}]({target_url}) को {old_groups} से {new_groups} में "
-"ऑटोप्रमोट किया{comment}"
+"सिस्टम ने [{target}]({target_url}) को {added} में ऑटोप्रमोट किया।{comment}"
 
 #: extensions/base/mediawiki.py:883
 #, python-brace-format
@@ -1705,40 +1674,42 @@ msgstr ""
 "मॉडल की मदद से बनाया {new}{comment}"
 
 #: extensions/base/mediawiki.py:1072
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr "टैग \"{tag}\" बनाया गया"
 
 #: extensions/base/mediawiki.py:1082
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" बनाया"
+msgstr ""
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" बनाया{comment}"
 
 #: extensions/base/mediawiki.py:1103
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr "टैग \"{tag}\" को डिलीट किया गया"
 
 #: extensions/base/mediawiki.py:1105
-#, fuzzy
 msgid "Removed from"
-msgstr "हटाया गया"
+msgstr "इससे हटाया गया"
 
 #: extensions/base/mediawiki.py:1105
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} रिवीशन या लॉग एंट्री"
+msgstr[1] "{} रिवीशन और/या लॉग एंट्री"
 
 #: extensions/base/mediawiki.py:1118
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिलीट किया"
+msgstr ""
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिलीट "
+"किया{comment}"
 
 #: extensions/base/mediawiki.py:1128
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revision or log entry{comment}"
@@ -1746,34 +1717,37 @@ msgid_plural ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
 "it from {count} revisions and/or log entries{comment}"
 msgstr[0] ""
-"[{author}]({author_url}) ने [{article}]({article_url}) को {count} रिवीशन के "
-"साथ ({article_url}) इम्पोर्ट किया{comment}"
+"[{author}]({author_url}) ने [टैग]({tag_url}) \"{tag}\" को डिलीट किया और इसे "
+"{count} रिवीशन या लॉग एंट्री से हटाया।{comment}"
 msgstr[1] ""
-"[{author}]({author_url}) ने [{article}]({article_url}) को {count} रिवीशनों के "
-"साथ ({article_url}) इम्पोर्ट किया{comment}"
+"[{author}]({author_url}) ने [टैग]({tag_url}) \"{tag}\" को डिलीट किया और इसे "
+"{count} रिवीशनों और/या लॉग एंट्रियों से हटाया।{comment}"
 
 #: extensions/base/mediawiki.py:1145
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Activated the tag \"{tag}\""
-msgstr "टैग \"{tag}\" को ऐक्टिवेट किया गया"
+msgstr "टैग \"{tag}\" को सक्रीय किया गया"
 
 #: extensions/base/mediawiki.py:1154
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
-msgstr "[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को ऐक्टिवेट किया"
+msgstr ""
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को सक्रीय "
+"किया{comment}"
 
 #: extensions/base/mediawiki.py:1173
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
-msgstr "टैग \"{tag}\" को डिऐक्टिवेट किया गया"
+msgstr "टैग \"{tag}\" को अक्रीय किया गया"
 
 #: extensions/base/mediawiki.py:1182
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr ""
-"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को डिऐक्टिवेट किया"
+"[{author}]({author_url}) ने एक [टैग]({tag_url}) \"{tag}\" को अक्रीय "
+"किया{comment}"
 
 #: extensions/base/sprite.py:37
 #, python-brace-format
