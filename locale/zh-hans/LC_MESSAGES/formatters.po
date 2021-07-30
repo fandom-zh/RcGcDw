@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 14:32+0200\n"
-"PO-Revision-Date: 2021-05-31 21:54+0000\n"
+"PO-Revision-Date: 2021-07-30 10:44+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
 "rcgcdw/formatters/zh-hans/>\n"
@@ -1347,7 +1347,7 @@ msgid_plural "minutes"
 msgstr[0] "分"
 
 #: extensions/base/mediawiki.py:589
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "for {time_number} {time_unit}"
 msgstr "时长为 {time_number} {time_unit}"
 
