@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 14:34+0200\n"
-"PO-Revision-Date: 2021-07-11 12:33+0000\n"
+"PO-Revision-Date: 2021-07-30 10:44+0000\n"
 "Last-Translator: Eduaddad <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
 "rcgcdw/formatters/pt-br/>\n"
@@ -1402,7 +1402,7 @@ msgstr[0] "minuto"
 msgstr[1] "minutos"
 
 #: extensions/base/mediawiki.py:589
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "for {time_number} {time_unit}"
 msgstr "por {time_number} {time_unit}"
 
