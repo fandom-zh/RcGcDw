@@ -8,76 +8,81 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 14:13+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-07-11 12:33+0000\n"
+"Last-Translator: Doğukan Karakaş <dogukankarakas6@gmail.com>\n"
+"Language-Team: Turkish <https://translate.wikibot.de/projects/rcgcdw/misc/tr/"
+">\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/misc.py:45
 msgid "Location"
-msgstr ""
+msgstr "Konum"
 
 #: src/misc.py:45
 msgid "About me"
-msgstr ""
+msgstr "Hakkımda"
 
 #: src/misc.py:45
 msgid "Google link"
-msgstr ""
+msgstr "Google bağlantısı"
 
 #: src/misc.py:45
 msgid "Facebook link"
-msgstr ""
+msgstr "Facebook bağlantısı"
 
 #: src/misc.py:45
 msgid "Twitter link"
-msgstr ""
+msgstr "Twitter bağlantısı"
 
 #: src/misc.py:45
 msgid "Reddit link"
-msgstr ""
+msgstr "Reddit bağlantısı"
 
 #: src/misc.py:45
 msgid "Twitch link"
-msgstr ""
+msgstr "Twitch bağlantısı"
 
 #: src/misc.py:45
 msgid "PSN link"
-msgstr ""
+msgstr "PSN bağlantısı"
 
 #: src/misc.py:45
 msgid "VK link"
-msgstr ""
+msgstr "VK bağlantısı"
 
 #: src/misc.py:45
 msgid "XBL link"
-msgstr ""
+msgstr "XBL bağlantısı"
 
 #: src/misc.py:45
 msgid "Steam link"
-msgstr ""
+msgstr "Steam bağlantısı"
 
 #: src/misc.py:45
 msgid "Discord handle"
-msgstr ""
+msgstr "Discord adı"
 
 #: src/misc.py:45
 msgid "Battle.net handle"
-msgstr ""
+msgstr "Battle.net adı"
 
 #: src/misc.py:114
 msgid ""
 "\n"
 "__And more__"
 msgstr ""
+"\n"
+"__Ve dahası__"
 
 #: src/misc.py:271
 msgid "Unknown"
-msgstr ""
+msgstr "Bilinmiyor"
 
 #: src/misc.py:273
 msgid "unknown"
-msgstr ""
+msgstr "bilinmiyor"

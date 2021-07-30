@@ -7,212 +7,204 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 00:28+0100\n"
-"PO-Revision-Date: 2020-09-03 13:14+0200\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"PO-Revision-Date: 2021-05-22 12:08+0000\n"
+"Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
+"Language-Team: Ukrainian <https://translate.wikibot.de/projects/rcgcdw/main/"
+"uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.6\n"
 
-#: src/rcgcdw.py:115 src/rcgcdw.py:117 src/rcgcdw.py:119 src/rcgcdw.py:121
-#: src/rcgcdw.py:123 src/rcgcdw.py:125 src/rcgcdw.py:127
+#: src/rcgcdw.py:117
 #, python-brace-format
 msgid "{value} (avg. {avg})"
 msgstr "{value} (сер. {avg})"
 
-#: src/rcgcdw.py:147
+#: src/rcgcdw.py:136
 msgid "Daily overview"
 msgstr "Щоденний огляд"
 
-#: src/rcgcdw.py:154
+#: src/rcgcdw.py:143
 msgid "No activity"
 msgstr "Немає активності"
 
-#: src/rcgcdw.py:178
+#: src/rcgcdw.py:167
 msgid " ({} action)"
 msgid_plural " ({} actions)"
 msgstr[0] " ({} дія)"
 msgstr[1] " ({} дії)"
 msgstr[2] " ({} дій)"
 
-#: src/rcgcdw.py:180
+#: src/rcgcdw.py:169
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] " ({} редагування)"
 msgstr[1] " ({} редагування)"
 msgstr[2] " ({} редагувань)"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:174
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] " UTC ({} дія)"
 msgstr[1] " UTC ({} дії)"
 msgstr[2] " UTC ({} дій)"
 
-#: src/rcgcdw.py:187 src/rcgcdw.py:188 src/rcgcdw.py:192
+#: src/rcgcdw.py:176 src/rcgcdw.py:179
 msgid "But nobody came"
 msgstr "Але ніхто не прийшов"
 
-#: src/rcgcdw.py:195
+#: src/rcgcdw.py:183
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] "Найактивніший користувач"
 msgstr[1] "Найактивніші користувачі"
 msgstr[2] "Найактивніші користувачі"
 
-#: src/rcgcdw.py:196
+#: src/rcgcdw.py:184
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] "Найредаговішана стаття"
 msgstr[1] "Найредаговішані статті"
 msgstr[2] "Найредаговішані статті"
 
-#: src/rcgcdw.py:197
+#: src/rcgcdw.py:185
 msgid "Edits made"
 msgstr "Зроблено редагувань"
 
-#: src/rcgcdw.py:197
+#: src/rcgcdw.py:185
 msgid "New files"
 msgstr "Нових файлів"
 
-#: src/rcgcdw.py:197
+#: src/rcgcdw.py:186
 msgid "Admin actions"
 msgstr "Адміністративних дій"
 
-#: src/rcgcdw.py:198
+#: src/rcgcdw.py:186
 msgid "Bytes changed"
 msgstr "Змінено байтів"
 
-#: src/rcgcdw.py:198
+#: src/rcgcdw.py:187
 msgid "New articles"
 msgstr "Нових статей"
 
-#: src/rcgcdw.py:199
+#: src/rcgcdw.py:187
 msgid "Unique contributors"
 msgstr "Унікальних редакторів"
 
-#: src/rcgcdw.py:200
+#: src/rcgcdw.py:188
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] "Найактивніша година"
 msgstr[1] "Найактивніший час"
 msgstr[2] "Найактивніший час"
 
-#: src/rcgcdw.py:201
+#: src/rcgcdw.py:189
 msgid "Day score"
 msgstr "Очок за день"
 
-#: src/rcgcdw.py:243
-msgid "director"
-msgstr "директор"
+#: src/rcgcdw.py:223
+msgid "~~hidden~~"
+msgstr "~~приховано~~"
 
-#: src/rcgcdw.py:243
-msgid "bot"
-msgstr "бот"
+#: src/rcgcdw.py:225
+msgid "No description provided"
+msgstr "Опис не надано"
 
-#: src/rcgcdw.py:243
-msgid "editor"
-msgstr "редактор"
+#: src/rcgcdw.py:228
+msgid "hidden"
+msgstr "приховано"
 
-#: src/rcgcdw.py:243
-msgid "directors"
-msgstr "директора"
+#~ msgid "director"
+#~ msgstr "директор"
 
-#: src/rcgcdw.py:243
-msgid "sysop"
-msgstr "администратор"
+#~ msgid "bot"
+#~ msgstr "бот"
 
-#: src/rcgcdw.py:243
-msgid "bureaucrat"
-msgstr "бюрократ"
+#~ msgid "editor"
+#~ msgstr "редактор"
 
-#: src/rcgcdw.py:243
-msgid "reviewer"
-msgstr "оглядач"
+#~ msgid "directors"
+#~ msgstr "директора"
 
-#: src/rcgcdw.py:244
-msgid "autoreview"
-msgstr "автоперегляд"
+#~ msgid "sysop"
+#~ msgstr "администратор"
 
-#: src/rcgcdw.py:244
-msgid "autopatrol"
-msgstr "автопатрульний"
+#~ msgid "bureaucrat"
+#~ msgstr "бюрократ"
 
-#: src/rcgcdw.py:244
-msgid "wiki_guardian"
-msgstr "зберігач_вікі"
+#~ msgid "reviewer"
+#~ msgstr "оглядач"
 
-#: src/rcgcdw.py:244
-msgid "second"
-msgid_plural "seconds"
-msgstr[0] "секунда"
-msgstr[1] "секунди"
-msgstr[2] "секунд"
+#~ msgid "autoreview"
+#~ msgstr "автоперегляд"
 
-#: src/rcgcdw.py:244
-msgid "minute"
-msgid_plural "minutes"
-msgstr[0] "хвилина"
-msgstr[1] "хвилини"
-msgstr[2] "хвилин"
+#~ msgid "autopatrol"
+#~ msgstr "автопатрульний"
 
-#: src/rcgcdw.py:244
-msgid "hour"
-msgid_plural "hours"
-msgstr[0] "година"
-msgstr[1] "години"
-msgstr[2] "годин"
+#~ msgid "wiki_guardian"
+#~ msgstr "зберігач_вікі"
 
-#: src/rcgcdw.py:244
-msgid "day"
-msgid_plural "days"
-msgstr[0] "день"
-msgstr[1] "дня"
-msgstr[2] "днів"
+#~ msgid "second"
+#~ msgid_plural "seconds"
+#~ msgstr[0] "секунда"
+#~ msgstr[1] "секунди"
+#~ msgstr[2] "секунд"
 
-#: src/rcgcdw.py:244
-msgid "week"
-msgid_plural "weeks"
-msgstr[0] "тиждень"
-msgstr[1] "тижні"
-msgstr[2] "тижнів"
+#~ msgid "minute"
+#~ msgid_plural "minutes"
+#~ msgstr[0] "хвилина"
+#~ msgstr[1] "хвилини"
+#~ msgstr[2] "хвилин"
 
-#: src/rcgcdw.py:244
-msgid "month"
-msgid_plural "months"
-msgstr[0] "місяць"
-msgstr[1] "місяці"
-msgstr[2] "місяців"
+#~ msgid "hour"
+#~ msgid_plural "hours"
+#~ msgstr[0] "година"
+#~ msgstr[1] "години"
+#~ msgstr[2] "годин"
 
-#: src/rcgcdw.py:244
-msgid "year"
-msgid_plural "years"
-msgstr[0] "рік"
-msgstr[1] "роки"
-msgstr[2] "років"
+#~ msgid "day"
+#~ msgid_plural "days"
+#~ msgstr[0] "день"
+#~ msgstr[1] "дня"
+#~ msgstr[2] "днів"
 
-#: src/rcgcdw.py:244
-msgid "millennium"
-msgid_plural "millennia"
-msgstr[0] "тисячоліття"
-msgstr[1] "тисячоліття"
-msgstr[2] "тисячоліть"
+#~ msgid "week"
+#~ msgid_plural "weeks"
+#~ msgstr[0] "тиждень"
+#~ msgstr[1] "тижні"
+#~ msgstr[2] "тижнів"
 
-#: src/rcgcdw.py:244
-msgid "decade"
-msgid_plural "decades"
-msgstr[0] "десятиліття"
-msgstr[1] "десятиліття"
-msgstr[2] "десятиліть"
+#~ msgid "month"
+#~ msgid_plural "months"
+#~ msgstr[0] "місяць"
+#~ msgstr[1] "місяці"
+#~ msgstr[2] "місяців"
 
-#: src/rcgcdw.py:244
-msgid "century"
-msgid_plural "centuries"
-msgstr[0] "століття"
-msgstr[1] "століття"
-msgstr[2] "століть"
+#~ msgid "year"
+#~ msgid_plural "years"
+#~ msgstr[0] "рік"
+#~ msgstr[1] "роки"
+#~ msgstr[2] "років"
+
+#~ msgid "millennium"
+#~ msgid_plural "millennia"
+#~ msgstr[0] "тисячоліття"
+#~ msgstr[1] "тисячоліття"
+#~ msgstr[2] "тисячоліть"
+
+#~ msgid "decade"
+#~ msgid_plural "decades"
+#~ msgstr[0] "десятиліття"
+#~ msgstr[1] "десятиліття"
+#~ msgstr[2] "десятиліть"
+
+#~ msgid "century"
+#~ msgid_plural "centuries"
+#~ msgstr[0] "століття"
+#~ msgstr[1] "століття"
+#~ msgstr[2] "століть"

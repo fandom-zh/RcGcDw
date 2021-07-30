@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-28 23:45+0100\n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
 "PO-Revision-Date: 2020-08-16 19:13+0000\n"
 "Last-Translator: Winston Sung <>\n"
 "Language-Team: Chinese (Traditional) <https://weblate.frisk.space/projects/"
@@ -71,7 +71,7 @@ msgstr "Discord handle"
 msgid "Battle.net handle"
 msgstr "Battle.net handle"
 
-#: src/misc.py:119
+#: src/misc.py:139
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__還有更多__"
 
-#: src/misc.py:276
+#: src/misc.py:328
 msgid "Unknown"
 msgstr "未知"
 
-#: src/misc.py:278
+#: src/misc.py:330
 msgid "unknown"
 msgstr "未知"

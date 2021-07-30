@@ -1,3 +1,18 @@
+# This file is part of Recent changes Goat compatible Discord webhook (RcGcDw).
+
+# RcGcDw is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# RcGcDw is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
+
 import logging
 import json
 from src.configloader import settings
@@ -59,15 +74,15 @@ def redact_messages(ids: list, entry_type: int, to_censor: dict):
 					logger.error("Couldn't find entry in the database for RevDel to censor information. This is probably because the script has been recently restarted or cache cleared.")
 					return
 				if "user" in to_censor and "url" in new_embed["author"]:
-					new_embed["author"]["name"] = _("Removed")
+					new_embed["author"]["name"] = _("hidden")
 					new_embed["author"].pop("url")
 				if "action" in to_censor and "url" in new_embed:
-					new_embed["title"] = _("Removed")
+					new_embed["title"] = _("~~hidden~~")
 					new_embed.pop("url")
 				if "content" in to_censor and "fields" in new_embed:
 					new_embed.pop("fields")
 				if "comment" in to_censor:
-					new_embed["description"] = _("Removed")
+					new_embed["description"] = _("~~hidden~~")
 				message["embeds"][0] = new_embed
 				db_cursor.execute("UPDATE messages SET content = ? WHERE message_id = ?;", (json.dumps(message), row[1],))
 				db_connection.commit()

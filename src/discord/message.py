@@ -1,3 +1,18 @@
+# This file is part of Recent changes Goat compatible Discord webhook (RcGcDw).
+
+# RcGcDw is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# RcGcDw is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
+
 import json
 import math
 import random
@@ -19,6 +34,7 @@ class DiscordMessage:
 				content = settings["event_appearance"][event_type]["emoji"] + " " + content
 			self.webhook_object["content"] = content
 
+		self.message_type = message_type
 		self.event_type = event_type
 
 	def __setitem__(self, key, value):
@@ -48,6 +64,8 @@ class DiscordMessage:
 		self.__setup_embed()
 
 	def finish_embed(self):
+		if self.message_type != "embed":
+			return
 		if self.embed["color"] is None:
 			if settings["event_appearance"].get(self.event_type, {"color": None})["color"] is None:
 				self.embed["color"] = random.randrange(1, 16777215)
@@ -55,8 +73,10 @@ class DiscordMessage:
 				self.embed["color"] = settings["event_appearance"][self.event_type]["color"]
 		else:
 			self.embed["color"] = math.floor(self.embed["color"])
-		if not self.embed["author"]["icon_url"] and settings["event_appearance"].get(self.event_type, {"icon": None})["icon"]:
+		if not self.embed["author"].get("icon_url", None) and settings["event_appearance"].get(self.event_type, {"icon": None})["icon"]:
 			self.embed["author"]["icon_url"] = settings["event_appearance"][self.event_type]["icon"]
+		if len(self.embed["title"]) > 254:
+			self.embed["title"] = self.embed["title"][0:253] + "…"
 
 	def set_author(self, name, url, icon_url=""):
 		self.embed["author"]["name"] = name
@@ -73,6 +93,9 @@ class DiscordMessage:
 
 	def set_name(self, name):
 		self.webhook_object["username"] = name
+
+	def set_link(self, link):
+		self.embed["link"] = link
 
 
 class DiscordMessageRaw(DiscordMessage):

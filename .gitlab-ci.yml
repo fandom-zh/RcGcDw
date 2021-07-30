@@ -1,17 +1,47 @@
-image: python:3.6-alpine
+image: python:3.7-alpine
 
 include:
   - template: Code-Quality.gitlab-ci.yml
 
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+stages:
+  - test
+  - pytest
+
+cache:
+    paths:
+      - settings.json
+      - .cache/pip
+      - venv/
+
 test:
-  type: test
+  stage: test
   script:
     - apk add libxml2-dev libxslt-dev libxml2 gcc musl-dev linux-headers
-    - pip3.6 install -r requirements.txt
+    - pip3.7 install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip3.7 install -r requirements.txt
     - sed -i -e "s/111111111111111111/$DISCORD1/g" settings.json.example
     - sed -i -e "s/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/$DISCORD2/g" settings.json.example
     - mv settings.json.example settings.json
-    - python3.6 start.py --test
+    - python3.7 start.py --test
   only:
   - testing
-  - merge_requests
+
+pytest:
+  stage: pytest
+  needs: ['test']
+  script:
+    - source venv/bin/activate
+    - pip3.7 install -U pytest
+    - pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+  only:
+    - testing
+

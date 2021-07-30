@@ -9,7 +9,7 @@ def return_example_file(force=False) -> dict:
 	try:
 		if force:
 			raise FileNotFoundError
-		with open('settings.json.example', 'r') as example_file:
+		with open('settings.json.example', 'r', encoding="utf-8") as example_file:
 			return json.loads(example_file.read())
 	except FileNotFoundError:
 		try:

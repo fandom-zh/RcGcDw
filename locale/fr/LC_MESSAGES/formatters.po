@@ -1,0 +1,1811 @@
+# #-#-#-#-#  rcgcdw.po  #-#-#-#-#
+# UN TITRE MERVEILLEUSEMENT DESCRIPTIF
+# COPYRIGHT HAHAHAHA I WISH J'AI PAS DE COPYRIGHT
+# AUTEUR #1 C'EST MOI MWAHAHAHAHAHA
+#
+# #-#-#-#-#  formatters.po  #-#-#-#-#
+# #-#-#-#-#  discussion_formatters.po  #-#-#-#-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+# #-#-#-#-#  rc_formatters.po  #-#-#-#-#
+# UN TITRE MERVEILLEUSEMENT DESCRIPTIF
+# COPYRIGHT HAHAHAHA I WISH J'AI PAS DE COPYRIGHT
+# AUTEUR #1 C'EST MOI MWAHAHAHAHAHA
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"PO-Revision-Date: 2020-03-17 21:40+0100\n"
+"Last-Translator: Frisk <>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  rcgcdw.po  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2.1\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-SearchPath-0: rcgcdw.pot\n"
+"#-#-#-#-#  formatters.po  #-#-#-#-#\n"
+"#-#-#-#-#  discussion_formatters.po  #-#-#-#-#\n"
+"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"#-#-#-#-#  rc_formatters.po  #-#-#-#-#\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: rcgcdw.pot\n"
+
+#: src/api/util.py:61 src/api/util.py:66
+msgid "__Only whitespace__"
+msgstr "__Espaces uniquement__"
+
+#: src/api/util.py:71
+msgid "Removed"
+msgstr "Retirés"
+
+#: src/api/util.py:73
+msgid "Added"
+msgstr "Ajoutés"
+
+#: src/api/util.py:94 src/api/util.py:126 src/api/util.py:133
+#: src/api/util.py:141 extensions/base/discussions.py:247
+#: extensions/base/discussions.py:264 extensions/base/abusefilter.py:45
+msgid "Unregistered user"
+msgstr ""
+
+#: src/api/util.py:160
+#, fuzzy
+msgctxt "recent changes Tags"
+msgid "Tags"
+msgstr "Tags"
+
+#: src/api/util.py:162
+msgid "**Added**: "
+msgstr "**Ajoutées : ** "
+
+#: src/api/util.py:163
+msgid " and {} more\n"
+msgstr " et {} autres\n"
+
+#: src/api/util.py:165
+msgid "**Removed**: "
+msgstr "**Retirées : ** "
+
+#: src/api/util.py:166
+msgid " and {} more"
+msgstr " et {} autres"
+
+#: src/api/util.py:168
+msgid "Changed categories"
+msgstr "Catégories modifiées"
+
+#: extensions/base/cargo.py:37
+#, python-brace-format
+msgid "Created the Cargo table \"{table}\""
+msgstr "Création du tableau Cargo « {table} »"
+
+#: extensions/base/cargo.py:45
+#, python-brace-format
+msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) a créé le tableau Cargo « {table} »"
+
+#: extensions/base/cargo.py:60
+#, python-brace-format
+msgid "Recreated the Cargo table \"{table}\""
+msgstr "Recréation du tableau Cargo « {table} »"
+
+#: extensions/base/cargo.py:68
+#, python-brace-format
+msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) a recréé le tableau Cargo « {table} »"
+
+#: extensions/base/cargo.py:83
+#, python-brace-format
+msgid "Replaced the Cargo table \"{table}\""
+msgstr "Remplacement du tableau Cargo « {table} »"
+
+#: extensions/base/cargo.py:91
+#, python-brace-format
+msgid "[{author}]({author_url}) replaced the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) a remplacé le tableau cargo « {table} »"
+
+#: extensions/base/cargo.py:105
+#, python-brace-format
+msgid "Deleted the Cargo table \"{table}\""
+msgstr "Suppression du tableau Cargo « {table} »"
+
+#: extensions/base/cargo.py:112
+#, python-brace-format
+msgid "[{author}]({author_url}) deleted the Cargo table \"{table}\""
+msgstr "[{author}]({author_url}) a supprimé le tableau Cargo « {table} »"
+
+#: extensions/base/translate.py:41
+#, python-brace-format
+msgid "Marked \"{article}\" for translation"
+msgstr ""
+
+#: extensions/base/translate.py:55
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) marked [{article}]({article_url}) for "
+"translation{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:70
+#, python-brace-format
+msgid "Removed \"{article}\" from the translation system"
+msgstr ""
+
+#: extensions/base/translate.py:80
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed [{article}]({article_url}) from the "
+"translation system{comment}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/translate.py:95
+#, python-brace-format
+msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:106
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) completed moving translation pages from *{article}* "
+"to [{target}]({target_url}){comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/translate.py:121
+#, python-brace-format
+msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:133
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) encountered a problem while moving [{article}]"
+"({article_url}) to [{target}]({target_url}){comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/translate.py:149
+#, python-brace-format
+msgid ""
+"Failed to delete \"{article}\" which belongs to translatable page "
+"\"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:161
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
+"belongs to translatable page [{target}]({target_url}){comment}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/translate.py:177
+#, fuzzy, python-brace-format
+msgid "Completed deletion of translation page \"{article}\""
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:188
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) completed deletion of translation page [{article}]"
+"({article_url}){comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:203
+#, python-brace-format
+msgid ""
+"Failed to delete \"{article}\" which belongs to translation page \"{target}\""
+msgstr ""
+
+#: extensions/base/translate.py:215
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
+"belongs to translation page [{target}]({target_url}){comment}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/translate.py:231
+#, fuzzy, python-brace-format
+msgid "Encouraged translation of \"{article}\""
+msgstr "Retrait de la protection de {article}"
+
+#: extensions/base/translate.py:240
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
+"{comment}"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/translate.py:255
+#, python-brace-format
+msgid "Discouraged translation of \"{article}\""
+msgstr ""
+
+#: extensions/base/translate.py:264
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) discouraged translation of [{article}]"
+"({article_url}){comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:282
+#, python-brace-format
+msgid "Limited languages for \"{article}\" to `{languages}`"
+msgstr ""
+
+#: extensions/base/translate.py:285
+#, python-brace-format
+msgid "Priority languages for \"{article}\" set to `{languages}`"
+msgstr ""
+
+#: extensions/base/translate.py:288
+#, fuzzy, python-brace-format
+msgid "Removed priority languages from \"{article}\""
+msgstr "Retrait de la protection de {article}"
+
+#: extensions/base/translate.py:301
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
+"`{languages}`{comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/translate.py:308
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) set the priority languages for [{article}]"
+"({article_url}) to `{languages}`{comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/translate.py:315
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed priority languages from [{article}]"
+"({article_url}){comment}"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/translate.py:331
+#, python-brace-format
+msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
+msgstr ""
+
+#: extensions/base/translate.py:342
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) added translatable page [{article}]({article_url}) "
+"to aggregate group \"{group}\"{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:357
+#, python-brace-format
+msgid ""
+"Removed translatable page \"{article}\" from aggregate group \"{group}\""
+msgstr ""
+
+#: extensions/base/translate.py:368
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed translatable page [{article}]"
+"({article_url}) from aggregate group \"{group}\"{comment}"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/translate.py:387
+#, fuzzy, python-brace-format
+msgid "Reviewed translation \"{article}\""
+msgstr "Retrait de la protection de {article}"
+
+#: extensions/base/translate.py:401
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) reviewed translation [{article}]({article_url})"
+"{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:416
+#, python-brace-format
+msgid "Changed the state of `{language}` translations of \"{article}\""
+msgstr ""
+
+#: extensions/base/translate.py:419
+msgid "Old state"
+msgstr ""
+
+#: extensions/base/translate.py:420
+msgid "New state"
+msgstr ""
+
+#: extensions/base/translate.py:431
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the state of `{language}` translations of "
+"[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:439
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the state of `{language}` translations of "
+"[{article}]({article_url}) to `{new_state}`{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/translate.py:452 extensions/base/translate.py:455
+msgid "(default)"
+msgstr ""
+
+#: extensions/base/translate.py:464
+#, fuzzy, python-brace-format
+msgid "Changed the language of \"{article}\""
+msgstr "Retrait de la protection de {article}"
+
+#: extensions/base/translate.py:465
+msgid "Old language"
+msgstr ""
+
+#: extensions/base/translate.py:466
+msgid "New language"
+msgstr ""
+
+#: extensions/base/translate.py:477
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the language of [{article}]({article_url}) "
+"from {old_lang} to {new_lang}{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/discussions.py:148 extensions/base/discussions.py:207
+#: extensions/base/discussions.py:245 extensions/base/discussions.py:261
+#: extensions/base/discussions.py:284 extensions/base/discussions.py:306
+#: extensions/base/discussions.py:334 extensions/base/discussions.py:354
+msgid "unknown"
+msgstr "inconnu"
+
+#: extensions/base/discussions.py:157
+#, python-brace-format
+msgid "Created \"{title}\""
+msgstr "Création de {title}"
+
+#: extensions/base/discussions.py:161
+#, fuzzy, python-brace-format
+msgid "Created a poll \"{title}\""
+msgstr "Création de {title}"
+
+#: extensions/base/discussions.py:168
+msgid "Option {}"
+msgstr ""
+
+#: extensions/base/discussions.py:170
+#, python-brace-format
+msgid "__[View image]({image_url})__"
+msgstr ""
+
+#: extensions/base/discussions.py:174
+#, fuzzy, python-brace-format
+msgid "Created a quiz \"{title}\""
+msgstr "Création de {title}"
+
+#: extensions/base/discussions.py:193 extensions/base/discussions.py:195
+#, fuzzy
+msgctxt "Fandom discussions Tags/Forums"
+msgid "Tags"
+msgstr "Tags"
+
+#: extensions/base/discussions.py:193
+msgctxt "Fandom discussions amount of Tags/Forums"
+msgid "{} tags"
+msgstr ""
+
+#: extensions/base/discussions.py:198
+#, python-brace-format
+msgid "Replied to \"{title}\""
+msgstr "A répondu à « {title} »"
+
+#: extensions/base/discussions.py:214
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
+
+#: extensions/base/discussions.py:217
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
+
+#: extensions/base/discussions.py:220
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
+"{forumName}"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
+
+#: extensions/base/discussions.py:234
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
+"to [{title}](<{url}f/p/{threadId}>) in {forumName}"
+msgstr ""
+"[Réponse](<{url}f/p/{threadId}/r/{postId}>) de [{author}](<{url}f/u/"
+"{creatorId}>) à [{title}](<{url}f/p/{threadId}>) dans {forumName}"
+
+#: extensions/base/discussions.py:292
+#, python-brace-format
+msgid "Created \"{title}\" on {user}'s Message Wall"
+msgstr "Création de « {title} » sur le mur de {user}"
+
+#: extensions/base/discussions.py:298
+#, python-brace-format
+msgid "Replied to \"{title}\" on {user}'s Message Wall"
+msgstr "Réponse à « {title} » sur le mur de {user}"
+
+#: extensions/base/discussions.py:312
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{title}](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
+"Message_Wall:{user_wall}>)"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
+
+#: extensions/base/discussions.py:318
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}wiki/Message_Wall:"
+"{user_wall}?threadId={threadId}#{replyId}>) to [{title}](<{url}wiki/"
+"Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
+"(<{url}wiki/Message_Wall:{user_wall}>)"
+msgstr ""
+"Création de [{title}](<{url}f/p/{threadId}>) par [{author}](<{url}f/u/"
+"{creatorId}>)  dans {forumName}"
+
+#: extensions/base/discussions.py:338
+#, fuzzy, python-brace-format
+msgid "Commented on {article}"
+msgstr "Création de {title}"
+
+#: extensions/base/discussions.py:344
+#, fuzzy, python-brace-format
+msgid "Replied to a comment on {article}"
+msgstr "A répondu à « {title} »"
+
+#: extensions/base/discussions.py:359
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [comment](<{url}?commentId={commentId}>) "
+"on [{article}](<{url}>)"
+msgstr ""
+"[Réponse](<{url}f/p/{threadId}/r/{postId}>) de [{author}](<{url}f/u/"
+"{creatorId}>) à [{title}](<{url}f/p/{threadId}>) dans {forumName}"
+
+#: extensions/base/discussions.py:365
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created a [reply](<{url}?commentId={commentId}"
+"&replyId={replyId}>) to a [comment](<{url}?commentId={commentId}>) on "
+"[{article}](<{url}>)"
+msgstr ""
+"[Réponse](<{url}f/p/{threadId}/r/{postId}>) de [{author}](<{url}f/u/"
+"{creatorId}>) à [{title}](<{url}f/p/{threadId}>) dans {forumName}"
+
+#: extensions/base/managewiki.py:34
+msgid "Changed wiki settings"
+msgstr ""
+
+#: extensions/base/managewiki.py:44
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) changed wiki settings{reason}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/managewiki.py:55
+#, fuzzy, python-brace-format
+msgid "Deleted a \"{wiki}\" wiki"
+msgstr "Suppression du tag « {tag} »"
+
+#: extensions/base/managewiki.py:55 extensions/base/managewiki.py:67
+#: extensions/base/managewiki.py:103 extensions/base/managewiki.py:112
+#: extensions/base/managewiki.py:125 extensions/base/managewiki.py:126
+#: extensions/base/managewiki.py:135 extensions/base/managewiki.py:136
+#: extensions/base/managewiki.py:148 extensions/base/managewiki.py:149
+#: extensions/base/managewiki.py:160 extensions/base/managewiki.py:161
+#: extensions/base/managewiki.py:195 extensions/base/managewiki.py:204
+#: extensions/base/managewiki.py:217 extensions/base/managewiki.py:226
+#: extensions/base/abusefilter.py:55 extensions/base/abusefilter.py:56
+#: extensions/base/abusefilter.py:57 extensions/base/abusefilter.py:68
+#: extensions/base/abusefilter.py:69 extensions/base/abusefilter.py:70
+#: extensions/base/mediawiki.py:743
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: extensions/base/managewiki.py:63
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted a wiki *{wiki_name}*{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/managewiki.py:80
+#, python-brace-format
+msgid "Deleted a \"{group}\" user group"
+msgstr ""
+
+#: extensions/base/managewiki.py:89
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted a usergroup *{group}*{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/managewiki.py:103
+#, python-brace-format
+msgid "Locked a \"{wiki}\" wiki"
+msgstr ""
+
+#: extensions/base/managewiki.py:111
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) locked a wiki *{wiki_name}*{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/managewiki.py:124
+#, python-brace-format
+msgid "Modified \"{namespace_name}\" namespace"
+msgstr ""
+
+#: extensions/base/managewiki.py:126 extensions/base/managewiki.py:149
+msgid "Wiki"
+msgstr ""
+
+#: extensions/base/managewiki.py:134
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) modified namespace *{namespace_name}* on "
+"*{wiki_name}*{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/managewiki.py:147
+#, python-brace-format
+msgid "Deleted a \"{namespace_name}\" namespace"
+msgstr ""
+
+#: extensions/base/managewiki.py:158
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a namespace *{namespace_name}* on "
+"*{wiki_name}*{comment}"
+msgstr "[{author}]({author_url}) a supprimé le tableau Cargo « {table} »"
+
+#: extensions/base/managewiki.py:173
+#, python-brace-format
+msgid "Modified \"{usergroup_name}\" usergroup"
+msgstr ""
+
+#: extensions/base/managewiki.py:182
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) modified user group *{group_name}*{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/managewiki.py:195
+#, fuzzy, python-brace-format
+msgid "Undeleted a \"{wiki}\" wiki"
+msgstr "Suppression du tag « {tag} »"
+
+#: extensions/base/managewiki.py:203
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) undeleted a wiki *{wiki_name}*{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/managewiki.py:217
+#, python-brace-format
+msgid "Unlocked a \"{wiki}\" wiki"
+msgstr ""
+
+#: extensions/base/managewiki.py:225
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) unlocked a wiki *{wiki_name}*{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/datadump.py:36
+#, python-brace-format
+msgid "Generated {file} dump"
+msgstr ""
+
+#: extensions/base/datadump.py:45
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) generated *{file}* dump{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/datadump.py:58
+#, fuzzy, python-brace-format
+msgid "Deleted {file} dump"
+msgstr "Suppression de la page {article}"
+
+#: extensions/base/datadump.py:67
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted *{file}* dump{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/curseprofile.py:40
+#, python-brace-format
+msgid "Edited {target}'s profile"
+msgstr "Modification du profil de {target}"
+
+#: extensions/base/curseprofile.py:42
+msgid "Edited their own profile"
+msgstr "Modification de son propre profil"
+
+#: extensions/base/curseprofile.py:44
+#, python-brace-format
+msgid "Cleared the {field} field"
+msgstr ""
+
+#: extensions/base/curseprofile.py:46
+#, python-brace-format
+msgid "{field} field changed to: {desc}"
+msgstr "{field} modifié pour: {desc}"
+
+#: extensions/base/curseprofile.py:58
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) cleared the {field} on [{target}]({target_url})'s "
+"profile."
+msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:60
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the {field} on [{target}]({target_url})'s "
+"profile. *({desc})*"
+msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:65
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) cleared the {field} on [their own]({target_url}) "
+"profile."
+msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:67
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the {field} on [their own]({target_url}) "
+"profile. *({desc})*"
+msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:82
+#, python-brace-format
+msgid "Left a comment on {target}'s profile"
+msgstr "Ajout d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:84
+msgid "Left a comment on their own profile"
+msgstr "Ajout d'un commentaire sur son propre profil"
+
+#: extensions/base/curseprofile.py:97
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) left a [comment]({comment}) on {target}'s profile."
+msgstr "Ajout d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:100
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) left a [comment]({comment}) on their own profile."
+msgstr "Ajout d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:113
+#, python-brace-format
+msgid "Edited a comment on {target}'s profile"
+msgstr "Édition d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:115
+msgid "Edited a comment on their own profile"
+msgstr "Modification d'un commentaire sur son propre profil"
+
+#: extensions/base/curseprofile.py:128
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited a [comment]({comment}) on {target}'s profile."
+msgstr "Édition d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:131
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited a [comment]({comment}) on their own profile."
+msgstr "Édition d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:144
+#, python-brace-format
+msgid "Replied to a comment on {target}'s profile"
+msgstr "Réponse à un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:146
+msgid "Replied to a comment on their own profile"
+msgstr "Réponse à un commentaire sur son propre profil"
+
+#: extensions/base/curseprofile.py:159
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) replied to a [comment]({comment}) on {target}'s "
+"profile."
+msgstr "Réponse à un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:162
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) replied to a [comment]({comment}) on their own "
+"profile."
+msgstr "Réponse à un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:175
+#, python-brace-format
+msgid "Deleted a comment on {target}'s profile"
+msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:177
+#, fuzzy
+msgid "Deleted a comment on their own profile"
+msgstr "Modification d'un commentaire sur son propre profil"
+
+#: extensions/base/curseprofile.py:197
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a [comment]({comment}) on {target}'s "
+"profile.{reason}"
+msgstr "Édition d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:200
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted a [comment]({comment}) on their own profile."
+"{reason}"
+msgstr "Édition d'un commentaire sur le profil de {target}"
+
+#: extensions/base/curseprofile.py:214
+#, python-brace-format
+msgid "Purged a comment on {target}'s profile"
+msgstr "Retrait d'un commentaire sur le profil de {target}."
+
+#: extensions/base/curseprofile.py:216
+#, fuzzy
+msgid "Purged a comment on their own profile"
+msgstr "Modification d'un commentaire sur son propre profil"
+
+#: extensions/base/curseprofile.py:230
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) purged a comment on [{target}]({link})'s profile."
+"{reason}"
+msgstr ""
+"[{author}]({author_url}) a retiré un commentaire sur le profil de {target}."
+
+#: extensions/base/curseprofile.py:233
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) purged a comment on [their own]({link}) profile."
+"{reason}"
+msgstr ""
+"[{author}]({author_url}) a retiré un commentaire sur le profil de {target}."
+
+#: extensions/base/renameuser.py:38
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" with {edits} edit to \"{new_name}\""
+msgid_plural "Renamed user \"{old_name}\" with {edits} edits to \"{new_name}\""
+msgstr[0] ""
+msgstr[1] ""
+
+#: extensions/base/renameuser.py:43
+#, python-brace-format
+msgid "Renamed user \"{old_name}\" to \"{new_name}\""
+msgstr ""
+
+#: extensions/base/renameuser.py:58
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) renamed user *{old_name}* with {edits} edit to "
+"[{new_name}]({link}){comment}"
+msgid_plural ""
+"[{author}]({author_url}) renamed user *{old_name}* with {edits} edits to "
+"[{new_name}]({link}){comment}"
+msgstr[0] "[{author}]({author_url}) a supprimé le tableau Cargo « {table} »"
+msgstr[1] "[{author}]({author_url}) a supprimé le tableau Cargo « {table} »"
+
+#: extensions/base/renameuser.py:66
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) renamed user *{old_name}* to [{new_name}]({link})"
+"{comment}"
+msgstr "[{author}]({author_url}) a supprimé le tableau Cargo « {table} »"
+
+#: extensions/base/interwiki.py:37
+msgid "Added an entry to the interwiki table"
+msgstr "Ajout d'une entrée à la table interwiki"
+
+#: extensions/base/interwiki.py:38 extensions/base/interwiki.py:65
+#, python-brace-format
+msgid "Prefix: {prefix}, website: {website} | {desc}"
+msgstr "Préfixe: {prefix}, site: {website} | {desc}"
+
+#: extensions/base/interwiki.py:50
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) added an entry to the [interwiki table]"
+"({table_url}) pointing to {website} with {prefix} prefix"
+msgstr "Retrait d'une entrée de la table interwiki"
+
+#: extensions/base/interwiki.py:64
+msgid "Edited an entry in interwiki table"
+msgstr "Modification d'une entrée de la table interwiki"
+
+#: extensions/base/interwiki.py:77
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited an entry in [interwiki table]({table_url}) "
+"pointing to {website} with {prefix} prefix"
+msgstr "Retrait d'une entrée de la table interwiki"
+
+#: extensions/base/interwiki.py:91
+msgid "Deleted an entry in interwiki table"
+msgstr "Retrait d'une entrée de la table interwiki"
+
+#: extensions/base/interwiki.py:92
+#, python-brace-format
+msgid "Prefix: {prefix} | {desc}"
+msgstr "Préfixe: {prefix} | {desc}"
+
+#: extensions/base/interwiki.py:102
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted an entry in [interwiki table]({table_url})"
+"{desc}"
+msgstr "Retrait d'une entrée de la table interwiki"
+
+#: extensions/base/abusefilter.py:29
+msgid "None"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "Warning issued"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "**Blocked user**"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "Tagged the edit"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "Disallowed the action"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "**IP range blocked**"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "Throttled actions"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "Removed autoconfirmed group"
+msgstr ""
+
+#: extensions/base/abusefilter.py:29
+msgid "**Removed from privileged groups**"
+msgstr ""
+
+#: extensions/base/abusefilter.py:30
+msgid "Edit"
+msgstr ""
+
+#: extensions/base/abusefilter.py:30
+msgid "Upload"
+msgstr ""
+
+#: extensions/base/abusefilter.py:30
+msgid "Move"
+msgstr ""
+
+#: extensions/base/abusefilter.py:30
+msgid "Stash upload"
+msgstr ""
+
+#: extensions/base/abusefilter.py:30
+msgid "Deletion"
+msgstr ""
+
+#: extensions/base/abusefilter.py:30
+msgid "Account creation"
+msgstr ""
+
+#: extensions/base/abusefilter.py:30
+msgid "Auto account creation"
+msgstr ""
+
+#: extensions/base/abusefilter.py:54
+#, python-brace-format
+msgid "{user} triggered \"{abuse_filter}\""
+msgstr ""
+
+#: extensions/base/abusefilter.py:55
+msgid "Performed"
+msgstr ""
+
+#: extensions/base/abusefilter.py:56
+msgid "Action taken"
+msgstr ""
+
+#: extensions/base/abusefilter.py:57
+msgid "Title"
+msgstr ""
+
+#: extensions/base/abusefilter.py:66
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) triggered *{abuse_filter}*, performing the action "
+"\"{action}\" on *[{target}]({target_url})* - action taken: {result}."
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/abusefilter.py:83
+#, python-brace-format
+msgid "Edited abuse filter number {number}"
+msgstr "Édition de la règle {number} du filtre anti-abus"
+
+#: extensions/base/abusefilter.py:95
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited abuse filter [number {number}]({filter_url})"
+msgstr "Édition de la règle {number} du filtre anti-abus"
+
+#: extensions/base/abusefilter.py:111
+#, fuzzy, python-brace-format
+msgid "Created abuse filter number {number}"
+msgstr "Édition de la règle {number} du filtre anti-abus"
+
+#: extensions/base/abusefilter.py:119
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created abuse filter [number {number}]({filter_url})"
+msgstr "Édition de la règle {number} du filtre anti-abus"
+
+#: extensions/base/mediawiki.py:37
+msgid "director"
+msgstr "Directeur"
+
+#: extensions/base/mediawiki.py:37
+msgid "bot"
+msgstr "Robot"
+
+#: extensions/base/mediawiki.py:37
+msgid "editor"
+msgstr "editor"
+
+#: extensions/base/mediawiki.py:37
+msgid "directors"
+msgstr "Directeur"
+
+#: extensions/base/mediawiki.py:37
+msgid "sysop"
+msgstr "Administrateur"
+
+#: extensions/base/mediawiki.py:37
+msgid "bureaucrat"
+msgstr "Bureaucrate"
+
+#: extensions/base/mediawiki.py:37
+msgid "reviewer"
+msgstr "reviewer"
+
+#: extensions/base/mediawiki.py:38
+msgid "autoreview"
+msgstr "autoreview"
+
+#: extensions/base/mediawiki.py:38
+msgid "autopatrol"
+msgstr "autopatrol"
+
+#: extensions/base/mediawiki.py:38
+msgid "wiki_guardian"
+msgstr "Gardien du wiki"
+
+#: extensions/base/mediawiki.py:70
+msgid "(N!) "
+msgstr "(N!) "
+
+#: extensions/base/mediawiki.py:71
+msgid "m"
+msgstr "m"
+
+#: extensions/base/mediawiki.py:72
+msgid "b"
+msgstr "b"
+
+#: extensions/base/mediawiki.py:112
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited [{article}]({edit_link}){comment} {bold}"
+"({sign}{edit_size}){bold}"
+msgstr "Édition d'un commentaire sur le profil de {target}"
+
+#: extensions/base/mediawiki.py:117
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created [{article}]({edit_link}){comment} {bold}"
+"({sign}{edit_size}){bold}"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/mediawiki.py:190 extensions/base/mediawiki.py:223
+msgid "Options"
+msgstr "Options"
+
+#: extensions/base/mediawiki.py:190
+#, python-brace-format
+msgid "([preview]({link}) | [undo]({undolink}))"
+msgstr "([Aperçu]({link}) | [Annuler]({undolink}))"
+
+#: extensions/base/mediawiki.py:195
+#, python-brace-format
+msgid "Uploaded a new version of {name}"
+msgstr "Téléversement d'une nouvelle version de {name}"
+
+#: extensions/base/mediawiki.py:197
+#, python-brace-format
+msgid "Reverted a version of {name}"
+msgstr "Rétablissement d'une version de {name}"
+
+#: extensions/base/mediawiki.py:199
+#, python-brace-format
+msgid "Uploaded {name}"
+msgstr "Téléversement de {name}"
+
+#: extensions/base/mediawiki.py:208
+msgid "**No license!**"
+msgstr "**Aucune license!**"
+
+#: extensions/base/mediawiki.py:223
+#, python-brace-format
+msgid "([preview]({link}))"
+msgstr "([Aperçu]({link}))"
+
+#: extensions/base/mediawiki.py:228
+msgid ""
+"\n"
+"License: {}"
+msgstr ""
+"\n"
+"License: {}"
+
+#: extensions/base/mediawiki.py:237
+#, python-brace-format
+msgid ""
+"[{author}]({author_url}) reverted a version of [{file}]({file_link}){comment}"
+msgstr ""
+"[{author}]({author_url}) a rétabli une version de [{file}]({file_link})"
+"{comment}"
+
+#: extensions/base/mediawiki.py:248
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) uploaded a new version of [{file}]({file_link})"
+"{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/mediawiki.py:259
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) uploaded [{file}]({file_link}){comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/mediawiki.py:274
+#, python-brace-format
+msgid "Deleted page {article}"
+msgstr "Suppression de la page {article}"
+
+#: extensions/base/mediawiki.py:283
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) deleted [{page}]({page_link}){comment}"
+msgstr "[{author}]({author_url}) a supprimé le tableau Cargo « {table} »"
+
+#: extensions/base/mediawiki.py:298
+#, python-brace-format
+msgid "Deleted redirect {article} by overwriting"
+msgstr "Suppression par écrasement de la redirection {article}"
+
+#: extensions/base/mediawiki.py:308
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted redirect by overwriting [{page}]"
+"({page_link}){comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/mediawiki.py:322
+#, python-brace-format
+msgid "Restored {article}"
+msgstr "Restauration de {article}"
+
+#: extensions/base/mediawiki.py:331
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) restored [{article}]({article_url}){comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/mediawiki.py:348
+msgid "Changed visibility of log events"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/mediawiki.py:356
+#, fuzzy, python-brace-format
+msgid "[{author}]({author_url}) changed visibility of log events{comment}"
+msgstr "Modification de la visibilité d'évènements des journaux"
+
+#: extensions/base/mediawiki.py:370
+#, python-brace-format
+msgid "Changed visibility of revision on page {article} "
+msgid_plural "Changed visibility of {amount} revisions on page {article} "
+msgstr[0] "Modification de la visibilité d'une révision de la page {article} "
+msgstr[1] ""
+"Modification de la visibilité de {amount} révisions sur la page {article} "
+
+#: extensions/base/mediawiki.py:383
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed visibility of revision on page [{article}]"
+"({article_url}){comment}"
+msgid_plural ""
+"[{author}]({author_url}) changed visibility of {amount} revisions on page "
+"[{article}]({article_url}){comment}"
+msgstr[0] "Modification de la visibilité d'une révision de la page {article} "
+msgstr[1] ""
+"Modification de la visibilité de {amount} révisions sur la page {article} "
+
+#: extensions/base/mediawiki.py:399 extensions/base/mediawiki.py:432
+msgid "No redirect has been made"
+msgstr "Aucune redirection créée"
+
+#: extensions/base/mediawiki.py:400 extensions/base/mediawiki.py:433
+msgid "A redirect has been made"
+msgstr "Une redirection a été créée"
+
+#: extensions/base/mediawiki.py:401
+#, python-brace-format
+msgid "Moved {redirect}{article} to {target}"
+msgstr "Déplacement de {redirect}{article} vers {target}"
+
+#: extensions/base/mediawiki.py:412 extensions/base/mediawiki.py:444
+msgid "without making a redirect"
+msgstr ""
+
+#: extensions/base/mediawiki.py:413 extensions/base/mediawiki.py:445
+msgid "with a redirect"
+msgstr ""
+
+#: extensions/base/mediawiki.py:416
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) moved {redirect}*{article}* to [{target}]"
+"({target_url}) {made_a_redirect}{comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/mediawiki.py:434
+#, python-brace-format
+msgid "Moved {redirect}{article} to {title} over redirect"
+msgstr "Déplacement de {redirect}{article} vers {title} par redirection"
+
+#: extensions/base/mediawiki.py:448
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) moved {redirect}*{article}* over redirect to "
+"[{target}]({target_url}) {made_a_redirect}{comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/mediawiki.py:464
+#, python-brace-format
+msgid "Moved protection settings from {redirect}{article} to {title}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/mediawiki.py:477
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) moved protection settings from {redirect}*{article}"
+"* to [{target}]({target_url}){comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/mediawiki.py:492
+#, python-brace-format
+msgid "Protected {target}"
+msgstr "Protection de {target}"
+
+#: extensions/base/mediawiki.py:495 extensions/base/mediawiki.py:510
+#: extensions/base/mediawiki.py:526 extensions/base/mediawiki.py:541
+msgid " [cascading]"
+msgstr " [protection en cascade]"
+
+#: extensions/base/mediawiki.py:506
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) protected [{article}]({article_url}) with the "
+"following settings: {settings}{comment}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:523
+#, python-brace-format
+msgid "Changed protection level for {article}"
+msgstr "Modification du niveau de protection de {article}"
+
+#: extensions/base/mediawiki.py:537
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) modified protection settings of [{article}]"
+"({article_url}) to: {settings}{comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/mediawiki.py:554
+#, python-brace-format
+msgid "Removed protection from {article}"
+msgstr "Retrait de la protection de {article}"
+
+#: extensions/base/mediawiki.py:563
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) removed protection from [{article}]({article_url})"
+"{comment}"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/mediawiki.py:572
+#, fuzzy
+msgid "for infinity and beyond"
+msgstr "toujours"
+
+#: extensions/base/mediawiki.py:581
+msgid "for less than a minute"
+msgstr ""
+
+#: extensions/base/mediawiki.py:583
+msgid "year"
+msgid_plural "years"
+msgstr[0] "année"
+msgstr[1] "années"
+
+#: extensions/base/mediawiki.py:583
+msgid "day"
+msgid_plural "days"
+msgstr[0] "jour"
+msgstr[1] "jours"
+
+#: extensions/base/mediawiki.py:583
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "heure"
+msgstr[1] "heures"
+
+#: extensions/base/mediawiki.py:584
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "minute"
+msgstr[1] "minutes"
+
+#: extensions/base/mediawiki.py:589
+#, python-brace-format
+msgid "for {time_number} {time_unit}"
+msgstr ""
+
+#: extensions/base/mediawiki.py:608
+msgid "Blocked from editing the following pages: "
+msgstr "Ne peut plus modifier les pages suivantes : "
+
+#: extensions/base/mediawiki.py:615 extensions/base/mediawiki.py:661
+msgid " and namespaces: "
+msgstr " et ces espaces de noms: "
+
+#: extensions/base/mediawiki.py:617
+msgid "Blocked from editing pages on following namespaces: "
+msgstr "Ne peut plus modifier les pages des espaces de noms suivants : "
+
+#: extensions/base/mediawiki.py:628
+msgid "Partial block details"
+msgstr "Détails partiaux du blocage"
+
+#: extensions/base/mediawiki.py:631
+msgid "Block flags"
+msgstr ""
+
+#: extensions/base/mediawiki.py:633
+#, fuzzy, python-brace-format
+msgid "Blocked {blocked_user} {time}"
+msgstr "{blocked_user} a été bloqué pour {time}"
+
+#: extensions/base/mediawiki.py:653
+msgid " on pages: "
+msgstr " on pages: "
+
+#: extensions/base/mediawiki.py:663
+msgid " on namespaces: "
+msgstr " on namespaces: "
+
+#: extensions/base/mediawiki.py:675
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) blocked [{user}]({user_url}) {time}"
+"{restriction_desc}{comment}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:693
+#, python-brace-format
+msgid "Changed block settings for {blocked_user}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:703
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed block settings for [{blocked_user}]"
+"({user_url}){comment}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:716
+#, python-brace-format
+msgid "Unblocked {blocked_user}"
+msgstr "{blocked_user} a été débloqué"
+
+#: extensions/base/mediawiki.py:726
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) unblocked [{blocked_user}]({user_url}){comment}"
+msgstr "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:742
+#, fuzzy
+msgid "Action has been hidden by administration"
+msgstr "L'action a été masquée par le personnel de Gamepedia."
+
+#: extensions/base/mediawiki.py:749
+#, fuzzy
+msgid "An action has been hidden by administration."
+msgstr "L'action a été masquée par le personnel de Gamepedia."
+
+#: extensions/base/mediawiki.py:760
+#, python-brace-format
+msgid "Imported {article} with {count} revision"
+msgid_plural "Imported {article} with {count} revisions"
+msgstr[0] "Article {article} importé avec {count} révision"
+msgstr[1] "Article {article} importé avec {count} révisions"
+
+#: extensions/base/mediawiki.py:771
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
+"revision{comment}"
+msgid_plural ""
+"[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
+"revisions{comment}"
+msgstr[0] "Modification des paramètres de blocage pour {blocked_user}"
+msgstr[1] "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:787
+#, fuzzy, python-brace-format
+msgid "Imported {article} with {count} revision from \"{source}\""
+msgid_plural "Imported {article} with {count} revisions from \"{source}\""
+msgstr[0] "Article {article} importé avec {count} révision"
+msgstr[1] "Article {article} importé avec {count} révisions"
+
+#: extensions/base/mediawiki.py:802
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
+"revision from [{source}]({source_url}){comment}"
+msgid_plural ""
+"[{author}]({author_url}) imported [{article}]({article_url}) with {count} "
+"revisions from [{source}]({source_url}){comment}"
+msgstr[0] "Modification des paramètres de blocage pour {blocked_user}"
+msgstr[1] "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:817
+#, python-brace-format
+msgid " (until {date_and_time})"
+msgstr ""
+
+#: extensions/base/mediawiki.py:834
+#, python-brace-format
+msgid "Changed group membership for {target}"
+msgstr "Modification des groupes pour {target}"
+
+#: extensions/base/mediawiki.py:836
+msgid "System"
+msgstr "Système"
+
+#: extensions/base/mediawiki.py:837
+#, python-brace-format
+msgid "{target} got autopromoted to a new usergroup"
+msgstr "{target} a été auto-promu dans un nouveau groupe"
+
+#: extensions/base/mediawiki.py:843
+#, fuzzy
+msgid "Added group"
+msgid_plural "Added groups"
+msgstr[0] "Retirés"
+msgstr[1] "Retirés"
+
+#: extensions/base/mediawiki.py:845
+#, fuzzy
+msgid "Removed group"
+msgid_plural "Removed groups"
+msgstr[0] "Retirés"
+msgstr[1] "Retirés"
+
+#: extensions/base/mediawiki.py:859
+#, python-brace-format
+msgid "Added to {added} and removed from {removed}."
+msgstr ""
+
+#: extensions/base/mediawiki.py:860 extensions/base/mediawiki.py:862
+#: extensions/base/mediawiki.py:864 extensions/base/mediawiki.py:871
+msgid ", "
+msgstr ""
+
+#: extensions/base/mediawiki.py:862
+#, python-brace-format
+msgid "Added to {added}."
+msgstr ""
+
+#: extensions/base/mediawiki.py:864
+#, fuzzy, python-brace-format
+msgid "Removed from {removed}."
+msgstr "Retirés"
+
+#: extensions/base/mediawiki.py:865
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed group membership for [{target}]"
+"({target_url}): {group_changes}{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/mediawiki.py:869
+#, fuzzy, python-brace-format
+msgid "The system autopromoted [{target}]({target_url}) to {added}.{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/mediawiki.py:882
+#, python-brace-format
+msgid "Merged revision histories of {article} into {dest}"
+msgstr "Fusion de l'historique de {article} vers {dest}"
+
+#: extensions/base/mediawiki.py:896
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) merged revision histories of [{article}]"
+"({article_url}) into [{dest}]({dest_url}){comment}"
+msgstr ""
+"Transfert des paramètres de protection de {redirect}{article} vers {title}"
+
+#: extensions/base/mediawiki.py:910
+msgid "Created account automatically"
+msgstr ""
+
+#: extensions/base/mediawiki.py:917
+#, fuzzy, python-brace-format
+msgid "Account [{author}]({author_url}) was created automatically"
+msgstr "[{author}]({author_url}) a créé le tableau Cargo « {table} »"
+
+#: extensions/base/mediawiki.py:930 extensions/base/mediawiki.py:995
+msgid "Created account"
+msgstr ""
+
+#: extensions/base/mediawiki.py:937 extensions/base/mediawiki.py:1002
+#, fuzzy, python-brace-format
+msgid "Account [{author}]({author_url}) was created"
+msgstr "[{author}]({author_url}) a créé le tableau Cargo « {table} »"
+
+#: extensions/base/mediawiki.py:949
+#, fuzzy, python-brace-format
+msgid "Created account {article}"
+msgstr "Suppression de la page {article}"
+
+#: extensions/base/mediawiki.py:958
+#, fuzzy, python-brace-format
+msgid ""
+"Account [{article}]({article_url}) was created by [{author}]({author_url})"
+"{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/mediawiki.py:971
+#, python-brace-format
+msgid "Created account {article} and password was sent by email"
+msgstr ""
+
+#: extensions/base/mediawiki.py:982
+#, python-brace-format
+msgid ""
+"Account [{article}]({article_url}) was created by [{author}]({author_url}) "
+"and password was sent by email{comment}"
+msgstr ""
+
+#: extensions/base/mediawiki.py:1014
+#, python-brace-format
+msgid "Changed the content model of the page {article}"
+msgstr "Modification du modèle de contenu de l'article {article}"
+
+#: extensions/base/mediawiki.py:1016
+#, python-brace-format
+msgid "Model changed from {old} to {new}: {reason}"
+msgstr "Modèle changé de {old} à {new}: {reason}"
+
+#: extensions/base/mediawiki.py:1028
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) changed the content model of the page [{article}]"
+"({article_url}) from {old} to {new}{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/mediawiki.py:1043
+#, python-brace-format
+msgid "Created the page {article} using a non-default content model"
+msgstr ""
+
+#: extensions/base/mediawiki.py:1045
+#, fuzzy, python-brace-format
+msgid "Created with model {new}: {reason}"
+msgstr "Modèle changé de {old} à {new}: {reason}"
+
+#: extensions/base/mediawiki.py:1056
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created the page [{article}]({article_url}) using a "
+"non-default content model {new}{comment}"
+msgstr "Modification de la visibilité d'une révision de la page {article} "
+
+#: extensions/base/mediawiki.py:1071
+#, fuzzy, python-brace-format
+msgid "Created the tag \"{tag}\""
+msgstr "Création du tag « {tag} »"
+
+#: extensions/base/mediawiki.py:1081
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
+msgstr "[{author}]({author_url}) a créé le tableau Cargo « {table} »"
+
+#: extensions/base/mediawiki.py:1102
+#, fuzzy, python-brace-format
+msgid "Deleted the tag \"{tag}\""
+msgstr "Suppression du tag « {tag} »"
+
+#: extensions/base/mediawiki.py:1104
+#, fuzzy
+msgid "Removed from"
+msgstr "Retirés"
+
+#: extensions/base/mediawiki.py:1104
+msgid "{} revision or log entry"
+msgid_plural "{} revisions and/or log entries"
+msgstr[0] ""
+msgstr[1] ""
+
+#: extensions/base/mediawiki.py:1117
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
+msgstr "[{author}]({author_url}) a supprimé le tableau Cargo « {table} »"
+
+#: extensions/base/mediawiki.py:1127
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
+"it from {count} revision or log entry{comment}"
+msgid_plural ""
+"[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
+"it from {count} revisions and/or log entries{comment}"
+msgstr[0] "Modification des paramètres de blocage pour {blocked_user}"
+msgstr[1] "Modification des paramètres de blocage pour {blocked_user}"
+
+#: extensions/base/mediawiki.py:1144
+#, fuzzy, python-brace-format
+msgid "Activated the tag \"{tag}\""
+msgstr "Activation du tag « {tag} »"
+
+#: extensions/base/mediawiki.py:1153
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
+msgstr "[{author}]({author_url}) a créé le tableau Cargo « {table} »"
+
+#: extensions/base/mediawiki.py:1172
+#, fuzzy, python-brace-format
+msgid "Deactivated the tag \"{tag}\""
+msgstr "Désactivation du tag « {tag} »"
+
+#: extensions/base/mediawiki.py:1181
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"
+msgstr "[{author}]({author_url}) a recréé le tableau Cargo « {table} »"
+
+#: extensions/base/sprite.py:37
+#, python-brace-format
+msgid "Edited the sprite for {article}"
+msgstr "Édition du sprite de {article}"
+
+#: extensions/base/sprite.py:45
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the sprite for [{article}]({article_url})"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/sprite.py:60
+#, python-brace-format
+msgid "Created the sprite sheet for {article}"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/sprite.py:68
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) created the sprite sheet for [{article}]"
+"({article_url})"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#: extensions/base/sprite.py:79
+#, python-brace-format
+msgid "Edited the slice for {article}"
+msgstr "Edited the slice for {article}"
+
+#: extensions/base/sprite.py:86
+#, fuzzy, python-brace-format
+msgid ""
+"[{author}]({author_url}) edited the slice for [{article}]({article_url})"
+msgstr "Création d'une feuille de sprite pour {article}"
+
+#~ msgid "Daily overview"
+#~ msgstr "Résumé de la journée"
+
+#~ msgid "No activity"
+#~ msgstr "Aucune activité"
+
+#~ msgid " ({} action)"
+#~ msgid_plural " ({} actions)"
+#~ msgstr[0] " ({} action)"
+#~ msgstr[1] " ({} actions)"
+
+#~ msgid " ({} edit)"
+#~ msgid_plural " ({} edits)"
+#~ msgstr[0] " ({} modification)"
+#~ msgstr[1] " ({} modifications)"
+
+#~ msgid " UTC ({} action)"
+#~ msgid_plural " UTC ({} actions)"
+#~ msgstr[0] " UTC ({} action)"
+#~ msgstr[1] " UTC ({} actions)"
+
+#~ msgid "But nobody came"
+#~ msgstr "Aucune activité"
+
+#~ msgid "Most active user"
+#~ msgid_plural "Most active users"
+#~ msgstr[0] "Membre le plus actif"
+#~ msgstr[1] "Membres les plus actifs"
+
+#~ msgid "Most edited article"
+#~ msgid_plural "Most edited articles"
+#~ msgstr[0] "Article le plus modifié"
+#~ msgstr[1] "Articles les plus modifiés"
+
+#~ msgid "Edits made"
+#~ msgstr "Modifications effectuées"
+
+#~ msgid "New files"
+#~ msgstr "Nouveaux fichiers"
+
+#~ msgid "Admin actions"
+#~ msgstr "Actions d'administrateur"
+
+#~ msgid "Bytes changed"
+#~ msgstr "Octets modifiés"
+
+#~ msgid "New articles"
+#~ msgstr "Nouveaux articles"
+
+#~ msgid "Unique contributors"
+#~ msgstr "Contributeurs uniques"
+
+#~ msgid "Most active hour"
+#~ msgid_plural "Most active hours"
+#~ msgstr[0] "Heure la plus active"
+#~ msgstr[1] "Heures les plus actives"
+
+#~ msgid "Day score"
+#~ msgstr "Score du jour"
+
+#~ msgid "No description provided"
+#~ msgstr "Aucune description"
+
+#~ msgid "second"
+#~ msgid_plural "seconds"
+#~ msgstr[0] "seconde"
+#~ msgstr[1] "secondes"
+
+#~ msgid "week"
+#~ msgid_plural "weeks"
+#~ msgstr[0] "semaine"
+#~ msgstr[1] "semaines"
+
+#~ msgid "month"
+#~ msgid_plural "months"
+#~ msgstr[0] "mois"
+#~ msgstr[1] "mois"
+
+#~ msgid "millennium"
+#~ msgid_plural "millennia"
+#~ msgstr[0] "millénaire"
+#~ msgstr[1] "millénaires"
+
+#~ msgid "decade"
+#~ msgid_plural "decades"
+#~ msgstr[0] "décennie"
+#~ msgstr[1] "décennies"
+
+#~ msgid "century"
+#~ msgid_plural "centuries"
+#~ msgstr[0] "centenaire"
+#~ msgstr[1] "centenaires"
+
+#~ msgid "none"
+#~ msgstr "aucun"
+
+#, fuzzy, python-brace-format
+#~ msgid ""
+#~ "[{author}]({author_url}) completed deletion of translatable page "
+#~ "[{article}]({article_url}){comment}"
+#~ msgstr "Création d'une feuille de sprite pour {article}"
+
+#, python-brace-format
+#~ msgid "Groups changed from {old_groups} to {new_groups}{reason}"
+#~ msgstr "Groupe modifié de {old_groups} vers {new_groups}{reason}"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) restored a wiki *{wiki_name}*{comment}"
+#~ msgstr "Modification de la visibilité d'évènements des journaux"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) deleted a comment on {target}'s profile"
+#~ msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) deleted a comment on their own profile"
+#~ msgstr "Retrait d'un commentaire sur le profil de {target}"
+
+#, fuzzy, python-brace-format
+#~ msgid "[{author}]({author_url}) imported interwiki{comment}"
+#~ msgstr "Modification de la visibilité d'évènements des journaux"
+
+#~ msgid "Imported interwiki"
+#~ msgstr "Importation d'interwiki"
+
+#, fuzzy
+#~ msgid "their own profile"
+#~ msgstr "Modification de son propre profil"
+
+#, fuzzy
+#~ msgid "their own"
+#~ msgstr "Modification de son propre profil"

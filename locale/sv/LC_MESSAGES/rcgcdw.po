@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the RcGcDw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: RcGcDw\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-22 18:48+0200\n"
+"PO-Revision-Date: 2021-05-27 21:02+0000\n"
+"Last-Translator: Spisen <spisen11@gmail.com>\n"
+"Language-Team: Swedish <https://translate.wikibot.de/projects/rcgcdw/main/sv/"
+">\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.6\n"
+
+#: src/rcgcdw.py:117
+#, python-brace-format
+msgid "{value} (avg. {avg})"
+msgstr "{value} (avg. {avg})"
+
+#: src/rcgcdw.py:136
+msgid "Daily overview"
+msgstr "Daglig översikt"
+
+#: src/rcgcdw.py:143
+msgid "No activity"
+msgstr "Ingen aktivitet"
+
+#: src/rcgcdw.py:167
+msgid " ({} action)"
+msgid_plural " ({} actions)"
+msgstr[0] " ({} handling)"
+msgstr[1] " ({} handlingar)"
+
+#: src/rcgcdw.py:169
+msgid " ({} edit)"
+msgid_plural " ({} edits)"
+msgstr[0] " ({} redigering)"
+msgstr[1] " ({} redigeringar)"
+
+#: src/rcgcdw.py:174
+msgid " UTC ({} action)"
+msgid_plural " UTC ({} actions)"
+msgstr[0] " UTC ({} handling)"
+msgstr[1] " UTC ({} handlingar)"
+
+#: src/rcgcdw.py:176 src/rcgcdw.py:179
+msgid "But nobody came"
+msgstr "Ingen kom hit"
+
+#: src/rcgcdw.py:183
+msgid "Most active user"
+msgid_plural "Most active users"
+msgstr[0] "Mest aktiva användaren"
+msgstr[1] "Mest aktiva användarna"
+
+#: src/rcgcdw.py:184
+msgid "Most edited article"
+msgid_plural "Most edited articles"
+msgstr[0] "Mest redigerade artikeln"
+msgstr[1] "Mest redigerade artiklarna"
+
+#: src/rcgcdw.py:185
+msgid "Edits made"
+msgstr "Redigeringar gjorda"
+
+#: src/rcgcdw.py:185
+msgid "New files"
+msgstr "Nya filer"
+
+#: src/rcgcdw.py:186
+msgid "Admin actions"
+msgstr "Administratörsåtgärder"
+
+#: src/rcgcdw.py:186
+msgid "Bytes changed"
+msgstr "Bytes ändrade"
+
+#: src/rcgcdw.py:187
+msgid "New articles"
+msgstr "Nya artiklar"
+
+#: src/rcgcdw.py:187
+msgid "Unique contributors"
+msgstr "Unika bidragsgivare"
+
+#: src/rcgcdw.py:188
+msgid "Most active hour"
+msgid_plural "Most active hours"
+msgstr[0] "Mest aktiva timme"
+msgstr[1] "Mest aktiva timmarna"
+
+#: src/rcgcdw.py:189
+msgid "Day score"
+msgstr "Dagligt poäng"
+
+#: src/rcgcdw.py:215
+msgid "~~hidden~~"
+msgstr "~~gömd~~"
+
+#: src/rcgcdw.py:217
+msgid "No description provided"
+msgstr "Ingen beskrivning gavs"
+
+#: src/rcgcdw.py:220
+msgid "hidden"
+msgstr "gömd"
