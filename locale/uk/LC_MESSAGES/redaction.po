@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 14:32+0200\n"
-"PO-Revision-Date: 2021-05-22 12:08+0000\n"
+"PO-Revision-Date: 2021-07-30 10:44+0000\n"
 "Last-Translator: MakandIv <makushkin_andrey@mail.ru>\n"
 "Language-Team: Ukrainian <https://translate.wikibot.de/projects/rcgcdw/"
 "redaction/uk/>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.6\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/discord/redaction.py:77
 msgid "hidden"
-msgstr ""
+msgstr "приховано"
 
 #: src/discord/redaction.py:80 src/discord/redaction.py:85
 msgid "~~hidden~~"
-msgstr ""
+msgstr "~~приховано~~"
 
 #~ msgid "Removed"
 #~ msgstr "Видалено"

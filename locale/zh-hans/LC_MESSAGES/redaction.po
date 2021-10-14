@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 14:32+0200\n"
-"PO-Revision-Date: 2020-12-13 14:30+0000\n"
+"PO-Revision-Date: 2021-07-30 10:44+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
 "rcgcdw/redaction/zh-hans/>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2.1\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/discord/redaction.py:77
 msgid "hidden"
-msgstr ""
+msgstr "已隐藏"
 
 #: src/discord/redaction.py:80 src/discord/redaction.py:85
 msgid "~~hidden~~"
-msgstr ""
+msgstr "~~已隐藏~~"
 
 #~ msgid "Removed"
 #~ msgstr "移除了"

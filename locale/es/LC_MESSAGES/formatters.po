@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 14:32+0200\n"
-"PO-Revision-Date: 2021-07-11 12:33+0000\n"
+"PO-Revision-Date: 2021-07-30 10:44+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/es/>\n"
@@ -139,31 +139,27 @@ msgstr ""
 "{target}\""
 
 #: extensions/base/translate.py:106
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed moving translation pages from *{article}* "
 "to [{target}]({target_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) movió la configuración de protección de {redirect}"
-"*{article}* a [{target}]({target_url}){comment}"
+"[{author}]({author_url}) movió la configuración de protección de *{article}* "
+"a [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:121
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
-msgstr ""
+msgstr "Se encontró un problema al mover \"{article}\" a \"{target}\""
 
 #: extensions/base/translate.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) encountered a problem while moving [{article}]"
 "({article_url}) to [{target}]({target_url}){comment}"
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) fusionó los historiales de revisión de [{article}]"
-"({article_url}) con [{dest}]({dest_url}){comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) fusionó los historiales de revisión de [{article}]"
-"({article_url}) en [{dest}]({dest_url}){comment}"
+"[{author}]({author_url}) encontró un problema al mover "
+"[{article}]({article_url}) a [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:149
 #, python-brace-format
@@ -171,32 +167,30 @@ msgid ""
 "Failed to delete \"{article}\" which belongs to translatable page "
 "\"{target}\""
 msgstr ""
+"No se pudo borrar \"{article}\" que pertenece a la página traducible \""
+"{target}\""
 
 #: extensions/base/translate.py:161
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translatable page [{target}]({target_url}){comment}"
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) fusionó los historiales de revisión de [{article}]"
-"({article_url}) con [{dest}]({dest_url}){comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) fusionó los historiales de revisión de [{article}]"
-"({article_url}) en [{dest}]({dest_url}){comment}"
+"[{author}]({author_url}) no pudo borrar [{article}]({article_url}) que "
+"pertenece a la página traducible [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Completed deletion of translation page \"{article}\""
-msgstr "Modificó la visibilidad de la revisión en la página {article} "
+msgstr "Se eliminó completamente la página de traducción \"{article}\""
 
 #: extensions/base/translate.py:188
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"[{author}]({author_url}) cambió la visibilidad de la revisión en la página "
+"[{author}]({author_url}) eliminó la página de traducción "
 "[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:203
@@ -204,108 +198,94 @@ msgstr ""
 msgid ""
 "Failed to delete \"{article}\" which belongs to translation page \"{target}\""
 msgstr ""
+"No se pudo borrar \"{article}\" que pertenece a la página de traducción \""
+"{target}\""
 
 #: extensions/base/translate.py:215
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translation page [{target}]({target_url}){comment}"
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) fusionó los historiales de revisión de [{article}]"
-"({article_url}) con [{dest}]({dest_url}){comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) fusionó los historiales de revisión de [{article}]"
-"({article_url}) en [{dest}]({dest_url}){comment}"
+"[{author}]({author_url}) no pudo borrar [{article}]({article_url}) que "
+"pertenece a la página de traducción [{target}]({target_url}){comment}"
 
 #: extensions/base/translate.py:231
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Encouraged translation of \"{article}\""
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"Quitó la protección de {article}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Eliminó la protección de {article}"
+msgstr "Traducción recomendada de \"{article}\""
 
 #: extensions/base/translate.py:240
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
 "{comment}"
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) eliminó la protección de [{article}]({article_url})"
-"{comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) quitó la protección de [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) recomendó la traducción de "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:255
 #, python-brace-format
 msgid "Discouraged translation of \"{article}\""
-msgstr ""
+msgstr "Traducción desaconsejada de \"{article}\""
 
 #: extensions/base/translate.py:264
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) discouraged translation of [{article}]"
 "({article_url}){comment}"
-msgstr "[{author}]({author_url}) restauró [{article}]({article_url}){comment}"
+msgstr ""
+"[{author}]({author_url}) desaconsejó la traducción de "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:282
 #, python-brace-format
 msgid "Limited languages for \"{article}\" to `{languages}`"
-msgstr ""
+msgstr "Idiomas limitados para \"{article}\" a `{languages}`"
 
 #: extensions/base/translate.py:285
 #, python-brace-format
 msgid "Priority languages for \"{article}\" set to `{languages}`"
 msgstr ""
+"Los idiomas prioritarios para \"{article}\" se establecieron en `{languages}`"
 
 #: extensions/base/translate.py:288
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removed priority languages from \"{article}\""
-msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"Quitó la protección de {article}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"Eliminó la protección de {article}"
+msgstr "Se quitaron los idiomas prioritarios de \"{article}\""
 
 #: extensions/base/translate.py:301
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
 "`{languages}`{comment}"
 msgstr ""
-"[{author}]({author_url}) modificó la configuración de protección de "
-"[{article}]({article_url}) a: {settings}{comment}"
+"[{author}]({author_url}) limitó los idiomas para [{article}]({article_url}) "
+"a `{languages}`{comment}"
 
 #: extensions/base/translate.py:308
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) set the priority languages for [{article}]"
 "({article_url}) to `{languages}`{comment}"
 msgstr ""
-"[{author}]({author_url}) modificó la configuración de protección de "
-"[{article}]({article_url}) a: {settings}{comment}"
+"[{author}]({author_url}) estableció  los idiomas de prioridad para "
+"[{article}]({article_url}) en `{languages}`{comment}"
 
 #: extensions/base/translate.py:315
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "[{author}]({author_url}) removed priority languages from [{article}]"
 "({article_url}){comment}"
 msgstr ""
-"#-#-#-#-#  rcgcdw.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) eliminó la protección de [{article}]({article_url})"
-"{comment}\n"
-"#-#-#-#-#  formatters.po (RcGcDw)  #-#-#-#-#\n"
-"[{author}]({author_url}) quitó la protección de [{article}]({article_url})"
-"{comment}"
+"[{author}]({author_url}) eliminó los idiomas prioritarios de "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:331
 #, python-brace-format
 msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
 msgstr ""
+"Se agregó la página traducible \"{article}\" al grupo agregado \"{group}\""
 
 #: extensions/base/translate.py:342
 #, fuzzy, python-brace-format

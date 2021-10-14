@@ -193,7 +193,7 @@ class ContentParser(HTMLParser):
 			if self.last_ins is not None:
 				self.ins_length += 1
 				if self.empty and not self.last_ins.isspace():
-					if "**" not in self.last_ins:
+					if "**" in self.last_ins:
 						self.last_ins = self.last_ins.replace("**", "__")
 					self.ins_length += 4
 					self.last_ins = "**" + self.last_ins + "**"
@@ -204,7 +204,7 @@ class ContentParser(HTMLParser):
 			if self.last_del is not None:
 				self.del_length += 1
 				if self.empty and not self.last_del.isspace():
-					if "~~" not in self.last_del:
+					if "~~" in self.last_del:
 						self.last_del = self.last_del.replace("~~", "__")
 					self.del_length += 4
 					self.last_del = "~~" + self.last_del + "~~"
