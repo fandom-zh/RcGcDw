@@ -81,7 +81,7 @@ def embed_edit(ctx: Context, change: dict) -> DiscordMessage:
                 changed_content = ctx.client.make_api_request(
                     "?action=compare&format=json&fromrev={oldrev}&torev={diff}&topst=1&prop=diff".format(
                         diff=change["revid"], oldrev=change["old_revid"]), "compare", "*")
-        except ServerError:
+        except (ServerError, MediaWikiError):
             changed_content = None
         if changed_content:
             parse_mediawiki_changes(ctx, changed_content, embed)
