@@ -24,7 +24,7 @@ import time, logging.config, requests, datetime, math, os.path, schedule, sys, r
 import src.misc
 import src.configloader
 from collections import defaultdict, Counter, OrderedDict
-
+from src.argparser import command_args
 from typing import Optional
 import src.api.client
 from src.api.context import Context
@@ -41,7 +41,7 @@ settings = src.configloader.settings
 _ = rcgcdw.gettext
 ngettext = rcgcdw.ngettext
 
-TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
+TESTING = command_args.test # debug mode, pipeline testing
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 if AUTO_SUPPRESSION_ENABLED:
