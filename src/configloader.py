@@ -16,19 +16,18 @@
 import json
 import logging
 import sys
-
 global settings
+from src.argparser import command_args
 
 
 def load_settings():
 	global settings
 	try:  # load settings
-		with open("settings.json", encoding="utf8") as sfile:
-			settings = json.load(sfile)
-			if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
-				settings["limitrefetch"] = settings["limit"]
-			if "user-agent" in settings["header"]:
-				settings["header"]["user-agent"] = settings["header"]["user-agent"].format(version="1.14.0.1")  # set the version in the useragent
+		settings = json.load(command_args.settings)
+		if settings["limitrefetch"] < settings["limit"] and settings["limitrefetch"] != -1:
+			settings["limitrefetch"] = settings["limit"]
+		if "user-agent" in settings["header"]:
+			settings["header"]["user-agent"] = settings["header"]["user-agent"].format(version="1.14.0.2")  # set the version in the useragent
 	except FileNotFoundError:
 		logging.critical("No config file could be found. Please make sure settings.json is in the directory.")
 		sys.exit(1)
@@ -44,5 +43,4 @@ def load_settings():
 
 
 load_settings()
-
 

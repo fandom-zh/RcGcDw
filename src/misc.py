@@ -79,7 +79,7 @@ class DataFile:
 		if self.changed is False:  # don't cause unnecessary write operations
 			return
 		try:
-			with open("data.json", "w", encoding="utf-8") as data_file:
+			with open(settings.get("datafile_path", "data.json"), "w", encoding="utf-8") as data_file:
 				data_file.write(json.dumps(self.data, indent=4))
 			self.changed = False
 			misc_logger.debug("Saving the database succeeded.")

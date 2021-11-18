@@ -19,16 +19,16 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib
+import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib, argparse
 
 import src.misc
+import src.configloader
 from collections import defaultdict, Counter, OrderedDict
 
 from typing import Optional
 import src.api.client
 from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
-from src.configloader import settings
 from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser, run_hooks
 from src.api.util import create_article_path, default_message
 from src.discord.queue import send_to_discord
@@ -37,6 +37,7 @@ from src.exceptions import MWError, ServerError, MediaWikiError, BadRequest, Cli
 from src.i18n import rcgcdw
 from src.wiki import Wiki
 
+settings = src.configloader.settings
 _ = rcgcdw.gettext
 ngettext = rcgcdw.ngettext
 

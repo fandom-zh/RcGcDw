@@ -36,6 +36,7 @@
     "show_abuselog": false,
     "hide_ips": false,
     "discord_message_cooldown": 0,
+    "datafile_path": "data.json",
     "auto_suppression": {
         "enabled": false,
         "db_location": ":memory:"
