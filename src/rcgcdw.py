@@ -41,7 +41,7 @@ settings = src.configloader.settings
 _ = rcgcdw.gettext
 ngettext = rcgcdw.ngettext
 
-TESTING = command_args.test # debug mode, pipeline testing
+TESTING = command_args.test  # debug mode, pipeline testing
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 if AUTO_SUPPRESSION_ENABLED:
