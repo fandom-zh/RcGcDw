@@ -108,8 +108,8 @@ class Wiki(object):
 		last_check = self.fetch_changes(amount=amount)
 		if last_check is not None:
 			if settings["limitrefetch"] != -1:
-				storage["rcid"] = last_check[0] if last_check[0] and last_check[0] != storage["rcid"] else storage["rcid"]
-				storage["abuse_log_id"] = last_check[1] if last_check[1] and last_check[1] != storage["abuse_log_id"] else storage["abuse_log_id"]
+				storage["rcid"] = last_check[0] if last_check[0] else storage["rcid"]
+				storage["abuse_log_id"] = last_check[1] if last_check[1] else storage["abuse_log_id"]
 				storage.save_datafile()
 			else:
 				self.memory_id = last_check

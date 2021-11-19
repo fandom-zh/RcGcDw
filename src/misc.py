@@ -97,8 +97,9 @@ class DataFile:
 			raise
 
 	def __setitem__(self, instance, value):
-		self.data[instance] = value
-		self.changed = True
+		if self.data[instance] != value:
+			self.data[instance] = value
+			self.changed = True
 
 	def __getitem__(self, item):
 		try:
