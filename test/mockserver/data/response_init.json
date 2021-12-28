@@ -1,0 +1,461 @@
+{
+  "batchcomplete": "",
+  "limits": {
+    "tags": 5000
+  },
+  "query": {
+    "tags": [
+      {
+        "name": "abusefilter-condition-limit",
+        "displayname": "condition limit reached"
+      },
+      {
+        "name": "added youtube video",
+        "displayname": "contains YouTube embed"
+      },
+      {
+        "name": "advanced mobile edit",
+        "displayname": "Advanced mobile edit"
+      },
+      {
+        "name": "character-spam",
+        "displayname": "Character spam"
+      },
+      {
+        "name": "deletiontemplate-addition",
+        "displayname": "Requested deletion"
+      },
+      {
+        "name": "maps-visual-edit",
+        "displayname": "Visual map edit"
+      },
+      {
+        "name": "missing signature",
+        "displayname": "missing signature"
+      },
+      {
+        "name": "mobile edit",
+        "displayname": "Mobile edit"
+      },
+      {
+        "name": "mobile web edit"
+      },
+      {
+        "name": "mobile-edit",
+        "displayname": "Mobile edit"
+      },
+      {
+        "name": "move",
+        "displayname": "move"
+      },
+      {
+        "name": "mw-blank",
+        "displayname": "Blanking"
+      },
+      {
+        "name": "mw-changed-redirect-target",
+        "displayname": "Redirect target changed"
+      },
+      {
+        "name": "mw-contentmodelchange",
+        "displayname": "content model change"
+      },
+      {
+        "name": "mw-new-redirect",
+        "displayname": "New redirect"
+      },
+      {
+        "name": "mw-removed-redirect",
+        "displayname": "Removed redirect"
+      },
+      {
+        "name": "mw-replace",
+        "displayname": "Replaced"
+      },
+      {
+        "name": "mw-rollback",
+        "displayname": "Rollback"
+      },
+      {
+        "name": "mw-undo",
+        "displayname": "Undo"
+      },
+      {
+        "name": "possible-number-spam",
+        "displayname": "possible-number-spam"
+      },
+      {
+        "name": "section blanking",
+        "displayname": "section blanked"
+      },
+      {
+        "name": "spriteeditor",
+        "displayname": "<a href=\"/wiki/Help:Sprite_editor\" title=\"Help:Sprite editor\">Sprite edit</a>"
+      },
+      {
+        "name": "test",
+        "displayname": "test"
+      },
+      {
+        "name": "tor",
+        "displayname": "Made through Tor"
+      },
+      {
+        "name": "visualeditor",
+        "displayname": "Visual edit"
+      },
+      {
+        "name": "visualeditor-needcheck",
+        "displayname": "Visual edit: Check"
+      },
+      {
+        "name": "visualeditor-switched",
+        "displayname": "<a href=\"/wiki/Minecraft_Wiki:VisualEditor\" title=\"Minecraft Wiki:VisualEditor\">Partial visual edit</a>"
+      },
+      {
+        "name": 0,
+        "displayname": "0"
+      },
+      {
+        "name": "visualeditor-wikitext",
+        "displayname": "2017 source edit"
+      },
+      {
+        "name": 1,
+        "displayname": "1"
+      },
+      {
+        "name": 2,
+        "displayname": "2"
+      },
+      {
+        "name": 3,
+        "displayname": "3"
+      }
+    ],
+    "allmessages": [
+      {
+        "name": "recentchanges-page-added-to-category",
+        "normalizedname": "recentchanges-page-added-to-category",
+        "*": "[[:$1]] added to category"
+      },
+      {
+        "name": "recentchanges-page-removed-from-category",
+        "normalizedname": "recentchanges-page-removed-from-category",
+        "*": "[[:$1]] removed from category"
+      },
+      {
+        "name": "recentchanges-page-added-to-category-bundled",
+        "normalizedname": "recentchanges-page-added-to-category-bundled",
+        "*": "[[:$1]] added to category, [[Special:WhatLinksHere/$1|this page is included within other pages]]"
+      },
+      {
+        "name": "recentchanges-page-removed-from-category-bundled",
+        "normalizedname": "recentchanges-page-removed-from-category-bundled",
+        "*": "[[:$1]] removed from category, [[Special:WhatLinksHere/$1|this page is included within other pages]]"
+      }
+    ],
+    "namespaces": {
+      "0": {
+        "id": 0,
+        "case": "first-letter",
+        "subpages": "",
+        "content": "",
+        "*": ""
+      },
+      "1": {
+        "id": 1,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Talk",
+        "*": "Talk"
+      },
+      "2": {
+        "id": 2,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "User",
+        "*": "User"
+      },
+      "3": {
+        "id": 3,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "User talk",
+        "*": "User talk"
+      },
+      "4": {
+        "id": 4,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Project",
+        "*": "Minecraft Wiki"
+      },
+      "5": {
+        "id": 5,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Project talk",
+        "*": "Minecraft Wiki talk"
+      },
+      "6": {
+        "id": 6,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "File",
+        "*": "File"
+      },
+      "7": {
+        "id": 7,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "File talk",
+        "*": "File talk"
+      },
+      "8": {
+        "id": 8,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "MediaWiki",
+        "*": "MediaWiki"
+      },
+      "9": {
+        "id": 9,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "MediaWiki talk",
+        "*": "MediaWiki talk"
+      },
+      "10": {
+        "id": 10,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Template",
+        "*": "Template"
+      },
+      "11": {
+        "id": 11,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Template talk",
+        "*": "Template talk"
+      },
+      "12": {
+        "id": 12,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Help",
+        "*": "Help"
+      },
+      "13": {
+        "id": 13,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Help talk",
+        "*": "Help talk"
+      },
+      "14": {
+        "id": 14,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Category",
+        "*": "Category"
+      },
+      "15": {
+        "id": 15,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Category talk",
+        "*": "Category talk"
+      },
+      "110": {
+        "id": 110,
+        "case": "first-letter",
+        "canonical": "Forum",
+        "*": "Forum"
+      },
+      "111": {
+        "id": 111,
+        "case": "first-letter",
+        "canonical": "Forum talk",
+        "*": "Forum talk"
+      },
+      "202": {
+        "id": 202,
+        "case": "first-letter",
+        "canonical": "UserProfile",
+        "*": "UserProfile"
+      },
+      "274": {
+        "id": 274,
+        "case": "first-letter",
+        "canonical": "Widget",
+        "*": "Widget"
+      },
+      "275": {
+        "id": 275,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Widget talk",
+        "*": "Widget talk"
+      },
+      "420": {
+        "id": 420,
+        "case": "first-letter",
+        "canonical": "GeoJson",
+        "content": "",
+        "defaultcontentmodel": "GeoJson",
+        "*": "GeoJson"
+      },
+      "421": {
+        "id": 421,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "GeoJson talk",
+        "defaultcontentmodel": "wikitext",
+        "*": "GeoJson talk"
+      },
+      "500": {
+        "id": 500,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "User blog",
+        "*": "User blog"
+      },
+      "501": {
+        "id": 501,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "User blog comment",
+        "*": "User blog comment"
+      },
+      "502": {
+        "id": 502,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Blog",
+        "*": "Blog"
+      },
+      "503": {
+        "id": 503,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Blog talk",
+        "*": "Blog talk"
+      },
+      "828": {
+        "id": 828,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Module",
+        "*": "Module"
+      },
+      "829": {
+        "id": 829,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Module talk",
+        "*": "Module talk"
+      },
+      "1200": {
+        "id": 1200,
+        "case": "first-letter",
+        "canonical": "Message Wall",
+        "*": "Message Wall"
+      },
+      "1201": {
+        "id": 1201,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Thread",
+        "*": "Thread"
+      },
+      "1202": {
+        "id": 1202,
+        "case": "first-letter",
+        "canonical": "Message Wall Greeting",
+        "*": "Message Wall Greeting"
+      },
+      "2300": {
+        "id": 2300,
+        "case": "first-letter",
+        "canonical": "Gadget",
+        "*": "Gadget"
+      },
+      "2301": {
+        "id": 2301,
+        "case": "first-letter",
+        "canonical": "Gadget talk",
+        "*": "Gadget talk"
+      },
+      "2302": {
+        "id": 2302,
+        "case": "case-sensitive",
+        "canonical": "Gadget definition",
+        "defaultcontentmodel": "GadgetDefinition",
+        "*": "Gadget definition"
+      },
+      "2303": {
+        "id": 2303,
+        "case": "case-sensitive",
+        "canonical": "Gadget definition talk",
+        "*": "Gadget definition talk"
+      },
+      "10000": {
+        "id": 10000,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Minecraft Dungeons",
+        "content": "",
+        "*": "Minecraft Dungeons"
+      },
+      "10001": {
+        "id": 10001,
+        "case": "first-letter",
+        "canonical": "Minecraft Dungeons talk",
+        "*": "Minecraft Dungeons talk"
+      },
+      "10002": {
+        "id": 10002,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Minecraft Earth",
+        "content": "",
+        "*": "Minecraft Earth"
+      },
+      "10003": {
+        "id": 10003,
+        "case": "first-letter",
+        "canonical": "Minecraft Earth talk",
+        "*": "Minecraft Earth talk"
+      },
+      "10004": {
+        "id": 10004,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Minecraft Story Mode",
+        "content": "",
+        "*": "Minecraft Story Mode"
+      },
+      "10005": {
+        "id": 10005,
+        "case": "first-letter",
+        "subpages": "",
+        "canonical": "Minecraft Story Mode talk",
+        "*": "Minecraft Story Mode talk"
+      },
+      "-2": {
+        "id": -2,
+        "case": "first-letter",
+        "canonical": "Media",
+        "*": "Media"
+      },
+      "-1": {
+        "id": -1,
+        "case": "first-letter",
+        "canonical": "Special",
+        "*": "Special"
+      }
+    }
+  }
+}

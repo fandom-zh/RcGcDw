@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "code": "unknown_action",
+      "key": "apierror-unrecognizedvalue",
+      "params": [
+        "action",
+        "ddd"
+      ],
+      "module": "main"
+    }
+  ],
+  "*": "See https://localhost/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes."
+}
