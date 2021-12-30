@@ -12,7 +12,6 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
-import pprint
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import urllib.parse
@@ -20,9 +19,11 @@ import requests
 
 response_jsons: dict[str, dict] = {}
 
+class EndOfContent(Exception):
+    pass
 
 def load_response(name: str):
-    with open("data/{}.json".format(name), "r") as response_file:
+    with open("data/response_{}.json".format(name), "r") as response_file:
         response_json: dict = json.loads(response_file.read())
         response_jsons[name] = response_json
 
@@ -31,16 +32,16 @@ def get_response(name: str):
     return response_jsons.get(name)
 
 
-[load_response(x) for x in ["response_recentchanges", "response_recentchanges2", "response_init", "response_error", "response_siteinfo"
-                            "response_image", "response_userinfo"]]
+[load_response(x) for x in ["recentchanges", "recentchanges2", "init", "error", "siteinfo", "image", "userinfo"]]
 
 
 messages_collector = []
-
+askedfor = False
 
 # Return server response based on some output from Minecraft Wiki
 class MockServerRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
+        global askedfor
         # We assume testing will be for API endpoint only since RcGcDw doesn't do requests to other URLs so no need to check main path
         # For simplicity, return a dictionary of query arguments, we assume duplicate keys will not appear
         query = {k: y for (k, y) in urllib.parse.parse_qsl(self.path.split("?")[1])}
@@ -48,51 +49,61 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
             # Regular pooled query for recentchanges
             if query.get("list") == "recentchanges":
                 self.send_essentials_ok()
-                if len(messages_collector) == 0:
+                if askedfor is False:
                     # Limit amount of events accordingly to required amount just in case
-                    response_jsons["response_recentchanges"]["query"]["recentchanges"] = get_response("response_recentchanges")["query"]["recentchanges"][0:int(query.get("rclimit", 20))]
-                    response_content = json.dumps(get_response("response_recentchanges"))
+                    response_jsons["recentchanges"]["query"]["recentchanges"] = get_response("recentchanges")["query"]["recentchanges"][0:int(query.get("rclimit", 20))]
+                    response_content = json.dumps(get_response("recentchanges"))
+                    askedfor = True
                 else:
-                    response_jsons["response_recentchanges2"]["query"]["recentchanges"] = get_response("response_recentchanges2")["query"]["recentchanges"][0:int(query.get("rclimit", 20))]
-                    response_content = json.dumps(get_response("response_recentchanges2"))
+                    response_jsons["recentchanges2"]["query"]["recentchanges"] = get_response("recentchanges2")["query"]["recentchanges"][0:int(query.get("rclimit", 20))]
+                    response_content = json.dumps(get_response("recentchanges2"))
                 self.wfile.write(response_content.encode('utf-8'))
             # Init info
             elif query.get("list") == "tags" and query.get("meta") == "allmessages|siteinfo":
                 self.send_essentials_ok()
-                response_content = json.dumps(get_response("response_init"))
+                response_content = json.dumps(get_response("init"))
                 self.wfile.write(response_content.encode('utf-8'))
             elif query.get("meta") == "siteinfo":
                 self.send_essentials_ok()
-                response_content = json.dumps(get_response("response_siteinfo"))
+                response_content = json.dumps(get_response("siteinfo"))
                 self.wfile.write(response_content.encode('utf-8'))
             elif query.get("prop") == "imageinfo|revisions":
                 self.send_essentials_ok()
-                response_content = json.dumps(get_response("response_image"))
+                response_content = json.dumps(get_response("image"))
                 self.wfile.write(response_content.encode('utf-8'))
             elif query.get("list") == "usercontribs":
                 self.send_essentials_ok()
-                response_content = json.dumps(get_response("response_userinfo"))
+                response_content = json.dumps(get_response("userinfo"))
                 self.wfile.write(response_content.encode('utf-8'))
             else:
                 self.send_response(400)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
-                response_content = json.dumps(get_response("response_error"))
+                response_content = json.dumps(get_response("error"))
                 self.wfile.write(response_content.encode('utf-8'))
+        elif query.get("action") == "compare":
+            self.send_essentials_ok()
+            name = "diff{}{}".format(query.get("fromrev"), query.get("torev"))
+            load_response(name)
+            response_content = json.dumps(get_response(name))
+            self.wfile.write(response_content.encode('utf-8'))
 
     def do_POST(self):
-        self.read_ok_collect()
+        self.read_ok_collect(method="POST")
 
     def do_PATCH(self):
-        self.read_ok_collect()
+        self.read_ok_collect(method="PATCH")
 
     def do_DELETE(self):
-        self.read_ok_collect()
+        self.read_ok_collect(method="DELETE")
 
-    def read_ok_collect(self):
+    def read_ok_collect(self, method: str):
         content_length = int(self.headers['Content-Length'])
         patch_data = self.rfile.read(content_length)
-        messages_collector.append(patch_data.decode('utf-8'))
+        if patch_data:
+            messages_collector.append(json.loads(patch_data.decode('utf-8')))
+        else:
+            messages_collector.append(method + self.path)
         self.send_essentials_ok()
         self.wfile.write(json.dumps({"id": len(messages_collector)}).encode('utf-8'))
 
@@ -102,12 +113,22 @@ class MockServerRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
 
-def start_mock_server(port):
+def start_mock_server(port, config):
     mock_server = HTTPServer(('localhost', port), MockServerRequestHandler)
     try:
         print("Server started successfully at http://localhost:{}".format(port))
-        mock_server.serve_forever()
+        while 1:
+            if len(messages_collector) < 13:
+                mock_server.handle_request()
+            else:
+                raise EndOfContent
     except KeyboardInterrupt:
         print("Shutting down...")
-        print(pprint.pprint(messages_collector))
-        pass
+    except EndOfContent:
+        with open("results/results{}.json".format(config.config), "r") as proper_results:
+            if proper_results.read() == json.dumps(messages_collector):
+                print("Results are correct!")
+            else:
+                print("Results are incorrect, saving failed results to resultsfailed{}.json".format(config.config))
+                with open("results/resultsfailed{}.json".format(config.config), "w") as file_to_write:
+                    file_to_write.write(json.dumps(messages_collector))

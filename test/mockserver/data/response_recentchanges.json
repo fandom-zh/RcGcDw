@@ -139,10 +139,10 @@
         "rcid": 2793424,
         "user": "Good User",
         "anon": "",
-        "oldlen": 811,
-        "newlen": 771,
+        "oldlen": 771,
+        "newlen": 811,
         "timestamp": "2021-12-26T12:13:38Z",
-        "parsedcomment": "Unfo revision by 192.168.1.1. Reason: Mad cats",
+        "parsedcomment": "Undo revision by 192.168.1.1. Reason: Mad cats",
         "tags": [
           "visualeditor"
         ]
@@ -157,8 +157,8 @@
         "rcid": 2793423,
         "user": "192.168.1.1",
         "anon": "",
-        "oldlen": 771,
-        "newlen": 811,
+        "oldlen": 811,
+        "newlen": 771,
         "timestamp": "2021-12-26T12:09:18Z",
         "parsedcomment": "Hahahahhaha, you will never understand my genius!",
         "tags": [

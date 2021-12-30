@@ -19,7 +19,7 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib, argparse
+import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib
 
 import src.misc
 import src.configloader

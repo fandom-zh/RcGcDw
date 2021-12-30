@@ -42,13 +42,14 @@ if not command_args.no_client:
     shutil.move(old_config, backup_filename)
     shutil.copy(new_settings, old_config)
     # revert data file to some low number
-    with open(pathlib.Path(__file__).parent.resolve().parent.resolve().parent.resolve().joinpath("data.json"), "r+") as data_file:
+    with open(pathlib.Path(__file__).parent.resolve().parent.resolve().parent.resolve().joinpath("data.json"), "r") as data_file:
         data_file_data = json.loads(data_file.read())
         data_file_data["rcid"] = 5
+    with open(pathlib.Path(__file__).parent.resolve().parent.resolve().parent.resolve().joinpath("data.json"), "w") as data_file:
         data_file.write(json.dumps(data_file_data, indent=4))
 
 # Start mock server
-server.start_mock_server(8080)
+server.start_mock_server(8080, command_args)
 
 # Revert file changes
 if not command_args.no_client:
