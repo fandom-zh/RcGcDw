@@ -118,7 +118,7 @@ def start_mock_server(port, config):
     try:
         print("Server started successfully at http://localhost:{}".format(port))
         while 1:
-            if len(messages_collector) < 13:
+            if (len(messages_collector) < 13 and config.config == 1) or (len(messages_collector) < 11 and config.config == 2):
                 mock_server.handle_request()
             else:
                 raise EndOfContent
