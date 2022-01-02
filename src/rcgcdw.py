@@ -45,7 +45,7 @@ TESTING = command_args.test  # debug mode, pipeline testing
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 if AUTO_SUPPRESSION_ENABLED:
-	from src.discord.redaction import delete_messages, redact_messages
+	from src.discord.redaction import delete_messages, redact_messages, find_middle_next
 # Prepare logging
 
 logging.config.dictConfig(settings["logging"])
@@ -262,6 +262,8 @@ def rc_processor(change, changed_categories):
 			logparams = change.get('logparams', {"ids": []})
 			if settings["appearance"]["mode"] == "embed":
 				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
+				if "content" in logparams.get("new", {}):  # Also redact revisions in the middle and next ones in case of content (diffs leak)
+					redact_messages(find_middle_next(logparams.get("ids", []), change.get("pageid", -1)), 0, {"content": ""})
 			else:
 				for revid in logparams.get("ids", []):
 					delete_messages(dict(revid=revid))
