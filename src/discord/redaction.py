@@ -96,7 +96,6 @@ def redact_messages(ids: Union[List[Union[str, int]], set[Union[int, str]]], ent
 
 def find_middle_next(ids: List[str], pageid: int) -> set:
 	"""To address #235 RcGcDw should now remove diffs in next revs relative to redacted revs to protect information in revs that revert revdeleted information.
-	This does not fix the problem of leaky diffs in entirety (because we are not doing diff comparisons), however the chances of fixing in most cases is pretty high
 
 	:arg ids - list
 	:arg pageid - int
@@ -112,4 +111,4 @@ def find_middle_next(ids: List[str], pageid: int) -> set:
 			result.add(all_in_page[all_in_page.index(id)+1])
 		except (KeyError, ValueError):
 			logger.debug(f"Value {id} not in {all_in_page} or no value after that.")
-	return result
+	return result - set(ids)

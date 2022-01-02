@@ -262,7 +262,7 @@ def rc_processor(change, changed_categories):
 			logparams = change.get('logparams', {"ids": []})
 			if settings["appearance"]["mode"] == "embed":
 				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
-				if "content" in logparams.get("new", {}):  # Also redact revisions in the middle and next ones in case of content (diffs leak)
+				if "content" in logparams.get("new", {}) and settings.get("appearance", {}).get("embed", {}).get("show_edit_changes", False):  # Also redact revisions in the middle and next ones in case of content (diffs leak)
 					redact_messages(find_middle_next(logparams.get("ids", []), change.get("pageid", -1)), 0, {"content": ""})
 			else:
 				for revid in logparams.get("ids", []):
