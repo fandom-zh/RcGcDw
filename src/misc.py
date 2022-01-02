@@ -48,10 +48,10 @@ profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About
 class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
 	def __init__(self):
-		self.data_filename = settings.get("datafile_path", "data.json")
-		self.data = self.load_datafile()
+		self.data_filename: str = settings.get("datafile_path", "data.json")
+		self.data: dict = self.load_datafile()
 		misc_logger.debug("Current contents of {} {}".format(self.data_filename, self.data))
-		self.changed = False
+		self.changed: bool = False
 
 	def generate_datafile(self):
 		"""Generate a data.json file from a template."""
@@ -256,16 +256,17 @@ def add_to_dict(dictionary, key):
 	return dictionary
 
 
-def prepare_paths(path, dry=False):
-	global WIKI_API_PATH
-	global WIKI_ARTICLE_PATH
-	global WIKI_SCRIPT_PATH
-	global WIKI_JUST_DOMAIN
+def prepare_paths(path: str, dry=False):
 	"""Set the URL paths for article namespace and script namespace
 	WIKI_API_PATH will be: WIKI_DOMAIN/api.php
 	WIKI_ARTICLE_PATH will be: WIKI_DOMAIN/articlepath/$1 where $1 is the replaced string
 	WIKI_SCRIPT_PATH will be: WIKI_DOMAIN/
 	WIKI_JUST_DOMAIN will be: WIKI_DOMAIN"""
+	global WIKI_API_PATH
+	global WIKI_ARTICLE_PATH
+	global WIKI_SCRIPT_PATH
+	global WIKI_JUST_DOMAIN
+
 	def quick_try_url(url):
 		"""Quickly test if URL is the proper script path,
 		False if it appears invalid
