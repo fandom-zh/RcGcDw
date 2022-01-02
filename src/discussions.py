@@ -16,7 +16,7 @@
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging, schedule, requests
-from typing import Dict, Any, Optional
+from typing import Optional
 
 from src.configloader import settings
 

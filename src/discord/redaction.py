@@ -18,7 +18,7 @@ import json
 from typing import List, Union
 
 from src.configloader import settings
-from src.discord.message import DiscordMessageMetadata, DiscordMessage, DiscordMessageRaw
+from src.discord.message import DiscordMessageMetadata, DiscordMessageRaw
 from src.discord.queue import send_to_discord, messagequeue
 from src.fileio.database import db_cursor, db_connection
 from src.i18n import redaction as redaction_translation

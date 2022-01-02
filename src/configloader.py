@@ -16,8 +16,8 @@
 import json
 import logging
 import sys
-global settings
 from src.argparser import command_args
+global settings
 
 
 def load_settings():

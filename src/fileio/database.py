@@ -15,7 +15,6 @@
 
 import sqlite3
 import logging
-import json
 from src.configloader import settings
 
 logger = logging.getLogger("rcgcdw.fileio.database")

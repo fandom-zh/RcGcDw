@@ -29,11 +29,11 @@ from typing import Optional
 import src.api.client
 from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
-from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser, run_hooks
+from src.misc import add_to_dict, datafile, run_hooks
 from src.api.util import create_article_path, default_message
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
-from src.exceptions import MWError, ServerError, MediaWikiError, BadRequest, ClientError, NoFormatter
+from src.exceptions import ServerError, MediaWikiError, NoFormatter
 from src.i18n import rcgcdw
 from src.wiki import Wiki
 
