@@ -37,7 +37,7 @@ pytest:
   script:
     - source venv/bin/activate
     - pip3.7 install -U pytest
-    - pytest --junit-xml=report.xml
+    - PYTHONPATH=. pytest --junit-xml=report.xml
   artifacts:
     when: always
     reports:
