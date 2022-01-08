@@ -16,7 +16,7 @@
 import unittest
 
 from src.api.context import Context
-from discord.message import DiscordMessage, DiscordMessageMetadata
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
 from src.api import formatter
 from src.api.hook import pre_hook, post_hook
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
