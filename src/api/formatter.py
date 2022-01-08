@@ -21,6 +21,7 @@ from typing import Optional, Callable
 
 logger = logging.getLogger("src.api.formatter")
 
+
 def _register_formatter(func, kwargs, formatter_type: str, action_type=None):
 	"""
 	Registers a formatter inside of src.rcgcdw.formatter_hooks
