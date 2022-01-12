@@ -1,0 +1,17 @@
+{
+  "edit": {
+        "type": "edit",
+        "ns": 0,
+        "title": "Some page",
+        "pageid": 9327,
+        "revid": 2075232,
+        "old_revid": 232555,
+        "rcid": 2793437,
+        "user": "User3",
+        "oldlen": 32882,
+        "newlen": 328,
+        "timestamp": "2022-03-26T11:41:22Z",
+        "parsedcomment": "Work on new as",
+        "tags": ["VisualEdit"]
+      }
+}
