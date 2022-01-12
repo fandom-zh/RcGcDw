@@ -1,8 +1,5 @@
 image: python:3.7-alpine
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
-
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
