@@ -14,9 +14,15 @@
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 import gettext, sys, logging
+from typing import Union, Optional
 from src.configloader import settings
 logger = logging.getLogger("rcgcdw.i18n")
-
+rcgcdw: Optional[Union[gettext.GNUTranslations, gettext.NullTranslations]] = None
+discussion_formatters: Optional[Union[gettext.GNUTranslations, gettext.NullTranslations]] = None
+rc: Optional[Union[gettext.GNUTranslations, gettext.NullTranslations]] = None
+formatters_i18n: Optional[Union[gettext.GNUTranslations, gettext.NullTranslations]] = None
+misc: Optional[Union[gettext.GNUTranslations, gettext.NullTranslations]] = None
+redaction: Optional[Union[gettext.GNUTranslations, gettext.NullTranslations]] = None
 # Setup translation
 
 
@@ -27,16 +33,22 @@ def python37_pgettext_backward_compatibility(context: str, string: str):
 		return string
 	return translation
 
-try:
-	if settings["lang"] != "en":
-		rcgcdw = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
-		rc = gettext.translation('rc', localedir='locale', languages=[settings["lang"]])
-		formatters_i18n = gettext.translation('formatters', localedir='locale', languages=[settings["lang"]])
-		misc = gettext.translation('misc', localedir='locale', languages=[settings["lang"]])
-		redaction = gettext.translation('redaction', localedir='locale', languages=[settings["lang"]])
-	else:
-		rcgcdw, discussion_formatters, rc, formatters_i18n, misc, redaction = gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations()
-	formatters_i18n.pgettext = python37_pgettext_backward_compatibility
-except FileNotFoundError:
-	logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
-	sys.exit(1)
+
+def load_languages():
+	global rcgcdw, rc, formatters_i18n, misc, redaction
+	try:
+		if settings["lang"] != "en":
+			rcgcdw = gettext.translation('rcgcdw', localedir='locale', languages=[settings["lang"]])
+			rc = gettext.translation('rc', localedir='locale', languages=[settings["lang"]])
+			formatters_i18n = gettext.translation('formatters', localedir='locale', languages=[settings["lang"]])
+			misc = gettext.translation('misc', localedir='locale', languages=[settings["lang"]])
+			redaction = gettext.translation('redaction', localedir='locale', languages=[settings["lang"]])
+		else:
+			rcgcdw, discussion_formatters, rc, formatters_i18n, misc, redaction = gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations(), gettext.NullTranslations()
+		formatters_i18n.pgettext = python37_pgettext_backward_compatibility
+	except FileNotFoundError:
+		logger.critical("No language files have been found. Make sure locale folder is located in the directory.")
+		sys.exit(1)
+
+
+load_languages()
