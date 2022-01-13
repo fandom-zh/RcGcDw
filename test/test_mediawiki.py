@@ -17,12 +17,11 @@ import importlib
 import json
 from src.configloader import settings
 from src.api.context import Context
-from src.api.client import Client
 from src.api.util import default_message
 from src.api.hooks import formatter_hooks
 from src.misc import WIKI_SCRIPT_PATH
 from test.test_utilities import inject_settings
-from unittest.mock import Mock, PropertyMock
+from unittest.mock import PropertyMock
 import unittest
 
 
@@ -41,6 +40,7 @@ with open("test/data/rc_results.json", "r") as ob:
 
 def get_objects(name: str):
     return jsons.get(name), json.dumps(results.get(name))
+
 
 class TestMWFormatter(unittest.TestCase):
     def test_edit_embed(self):

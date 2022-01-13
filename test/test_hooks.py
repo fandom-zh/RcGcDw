@@ -23,6 +23,12 @@ from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
 
 
 class ApiTesting(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temp = formatter_hooks.copy()
+
+    def tearDown(self) -> None:
+        formatter_hooks.update(self.temp)
+
     def test_embed_formatter_registration(self):
         formatter_hooks.clear()
 

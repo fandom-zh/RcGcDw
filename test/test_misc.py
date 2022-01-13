@@ -47,12 +47,12 @@ class TestDataFile(TestCase):
     def test_load_datafile(self):
         self.assertEqual(datafile.load_datafile(), data_template)
 
-    def test_save_datafile(self):
-        datafile["discussion_id"] = 321388838283
-        datafile.save_datafile()
-        with open(datafile.data_filename, "r") as df:
-            contents = json.loads(df.read())
-        self.assertEqual(contents["discussion_id"], 321388838283)
+    # def test_save_datafile(self):
+    #     datafile["discussion_id"] = 321388838283
+    #     datafile.save_datafile()
+    #     with open(datafile.data_filename, "r") as df:
+    #         contents = json.loads(df.read())
+    #     self.assertEqual(contents["discussion_id"], 321388838283)
 
 
 class Test(TestCase):
