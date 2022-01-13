@@ -14,6 +14,10 @@
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
 # Made just to avoid circular imports
-formatter_hooks = {}
-pre_hooks = []
-post_hooks = []
+from typing import Callable, List, Dict
+from src.discord.message import DiscordMessage, DiscordMessageMetadata
+from src.api.context import Context
+
+formatter_hooks: Dict[str, Callable[[Context, dict], DiscordMessage]] = {}
+pre_hooks: List[Callable[[Context, dict], None]] = []
+post_hooks: List[Callable[[DiscordMessage, DiscordMessageMetadata, Context, dict], None]] = []
