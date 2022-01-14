@@ -55,5 +55,4 @@ class TestMWFormatter(unittest.TestCase):
         # ctx.client.return_value = Mock(spec=Client)
         edit_c, results = get_objects("abuselog")
         result = repr(test(ctx, edit_c))
-        print(result)
         self.assertEqual(results, result)

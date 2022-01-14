@@ -341,6 +341,7 @@ if TESTING:
 	day_overview()
 	import src.discussions
 	src.discussions.fetch_discussions()
+	logger.info("Test has succeeded without premature exceptions.")
 	sys.exit(0)
 
 while 1:
