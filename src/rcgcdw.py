@@ -260,13 +260,14 @@ def rc_processor(change, changed_categories):
 					delete_messages(dict(logid=logid))
 		elif identification_string == "delete/revision" and AUTO_SUPPRESSION_ENABLED:
 			logparams = change.get('logparams', {"ids": []})
-			if settings["appearance"]["mode"] == "embed":
-				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
-				if "content" in logparams.get("new", {}) and settings.get("appearance", {}).get("embed", {}).get("show_edit_changes", False):  # Also redact revisions in the middle and next ones in case of content (diffs leak)
-					redact_messages(find_middle_next(logparams.get("ids", []), change.get("pageid", -1)), 0, {"content": ""})
-			else:
-				for revid in logparams.get("ids", []):
-					delete_messages(dict(revid=revid))
+			if logparams.get("type", "") in ("revision", "logging", "oldimage"):
+				if settings["appearance"]["mode"] == "embed":
+					redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
+					if "content" in logparams.get("new", {}) and settings.get("appearance", {}).get("embed", {}).get("show_edit_changes", False):  # Also redact revisions in the middle and next ones in case of content (diffs leak)
+						redact_messages(find_middle_next(logparams.get("ids", []), change.get("pageid", -1)), 0, {"content": ""})
+				else:
+					for revid in logparams.get("ids", []):
+						delete_messages(dict(revid=revid))
 	run_hooks(post_hooks, discord_message, metadata, context, change)
 	discord_message.finish_embed()
 	send_to_discord(discord_message, metadata)
