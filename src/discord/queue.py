@@ -116,6 +116,9 @@ def handle_discord_http(code, formatted_embed, result):
 			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
 				code))
 		return 3
+	else:
+		logger.error("There was an unexpected HTTP code returned from Discord: {}".format(code))
+		return 1
 
 
 def update_ratelimit(request):
@@ -183,5 +186,5 @@ def send_to_discord(data: Optional[DiscordMessage], meta: DiscordMessageMetadata
 		elif code == 2:
 			time.sleep(5.0)
 			messagequeue.add_message((data, meta))
-		elif code < 2:
+		elif code is None or code < 2:
 			pass
