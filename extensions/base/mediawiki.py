@@ -1003,6 +1003,25 @@ def compact_newusers_newusers(ctx, change):
     return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
 
 
+# newusers/reclaim - New user reclaimed
+
+
+@formatter.embed(event="newusers/reclaim", mode="embed")
+def embed_newusers_reclaim(ctx, change):
+    embed = DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url)
+    embed_helper(ctx, embed, change)
+    embed["url"] = create_article_path(sanitize_to_url("User:{}".format(change["user"])))
+    embed["title"] = _("Reclaimed account")
+    return embed
+
+
+@formatter.compact(event="newusers/reclaim")
+def compact_newusers_reclaim(ctx, change):
+    author, author_url = compact_author(ctx, change)
+    content = _("Account [{author}]({author_url}) was reclaimed").format(author=author, author_url=author_url)
+    return DiscordMessage(ctx.message_type, ctx.event, ctx.webhook_url, content=content)
+
+
 # contentmodel/change - Changing the content model of a page
 
 

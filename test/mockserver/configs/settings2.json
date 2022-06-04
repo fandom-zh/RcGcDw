@@ -17,7 +17,7 @@
         "embed": "",
         "compact": ""
     },
-    "ignored": ["external", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers"],
+    "ignored": ["external", "newusers/create", "newusers/autocreate", "newusers/create2", "newusers/byemail", "newusers/newusers", "newusers/reclaim"],
     "show_updown_messages": true,
     "ignored_namespaces": [],
     "extensions_dir": "extensions",
@@ -359,6 +359,11 @@
             "emoji": "🗿"
         },
         "newusers/newusers": {
+            "icon": "",
+            "color": 65280,
+            "emoji": "🗿"
+        },
+        "newusers/reclaim": {
             "icon": "",
             "color": 65280,
             "emoji": "🗿"
