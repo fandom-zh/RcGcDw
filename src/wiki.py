@@ -124,7 +124,13 @@ class Wiki(object):
 			request = self.api_request(self.construct_params(amount))
 		except (ServerError, MediaWikiError):
 			raise ConnectionError
-		except (ClientError, KeyError, BadRequest):
+		except ClientError as e:
+			if settings.get("error_tolerance", 0) > 1:
+				logger.error("When running RcGcDw received a client error that would indicate RcGcDw's mistake. However since your error_tolerance is set to a value higher than one we are going to log it and ignore it. If this issue persists, please check if the wiki still exists and you have latest RcGcDw version. Returned error: {}".format(e))
+				raise ConnectionError
+			else:
+				raise
+		except (KeyError, BadRequest):
 			raise
 		return request
 
