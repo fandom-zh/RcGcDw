@@ -269,7 +269,8 @@ def rc_processor(change, changed_categories):
 					for revid in logparams.get("ids", []):
 						delete_messages(dict(revid=revid))
 	run_hooks(post_hooks, discord_message, metadata, context, change)
-	discord_message.finish_embed()
+	if discord_message:
+		discord_message.finish_embed()
 	send_to_discord(discord_message, metadata)
 
 
