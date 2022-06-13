@@ -73,15 +73,16 @@ def fetch_discussions():
 			return None
 		else:
 			if request_json:
+				comment_pages: dict = {}
 				comment_events: list = [post["forumId"] for post in request_json if post["_embedded"]["thread"][0]["containerType"] == "ARTICLE_COMMENT" and int(post["id"]) > storage["discussion_id"]]
 				if comment_events:
-					comment_pages = safe_request(
+					comment_pages: requests.Response = safe_request(
 						"{wiki}wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds={pages}&format=json".format(
 							wiki=settings["fandom_discussions"]["wiki_url"], pages=",".join(comment_events)
 						))
 					if comment_pages:
 						try:
-							comment_pages = comment_pages.json()["articleNames"]
+							comment_pages: dict = comment_pages.json()["articleNames"]
 						except ValueError:
 							discussion_logger.warning("ValueError in fetching discussions")
 							return None
