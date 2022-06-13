@@ -121,6 +121,7 @@ def parse_discussion_post(post, comment_pages):
 			discussion_logger.error("Could not parse paths for article comment, here is the content of comment_pages: {}, ignoring...".format(comment_pages))
 			raise ArticleCommentError
 	event_type = f"discussion/{post_type.lower()}"
+	context.event = event_type
 	context.set_comment_page(comment_page)
 	run_hooks(pre_hooks, context, post)
 	try:
