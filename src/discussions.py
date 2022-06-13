@@ -73,7 +73,6 @@ def fetch_discussions():
 			return None
 		else:
 			if request_json:
-				comment_pages: dict = {}
 				comment_events: list = [post["forumId"] for post in request_json if post["_embedded"]["thread"][0]["containerType"] == "ARTICLE_COMMENT" and int(post["id"]) > storage["discussion_id"]]
 				if comment_events:
 					comment_pages = safe_request(
@@ -139,7 +138,7 @@ def parse_discussion_post(post, comment_pages):
 	send_to_discord(discord_message, metadata)
 
 
-def safe_request(url):
+def safe_request(url) -> Optional[requests.Response]:
 	"""Function to assure safety of request, and do not crash the script on exceptions,"""
 	try:
 		request = session.get(url, timeout=10, allow_redirects=False, headers={"Accept": "application/hal+json"})

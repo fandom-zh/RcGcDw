@@ -20,7 +20,8 @@ if TYPE_CHECKING:
 
 
 class Context:
-	"""Context object containing client and some metadata regarding specific formatter call"""
+	"""Context object containing client and some metadata regarding specific formatter call,
+	they are mainly used as a bridge between part that fetches the changes and API's formatters"""
 	def __init__(self, message_type: str, webhook_url: str, client: Client):
 		self.client = client
 		self.webhook_url = webhook_url
@@ -38,3 +39,6 @@ class Context:
 
 	def set_comment_page(self, page):
 		self.comment_page = page
+
+	def __str__(self):
+		return f"<Context message_type={self.message_type} event={self.event} webhook_url={self.webhook_url}"
