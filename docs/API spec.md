@@ -112,9 +112,10 @@ Context can consist of the following fields:
 - `client` - [Client](#Client) object
 - `webhook_url` - string - webhook url for given formatter
 - `message_type` - string - can be either `embed` or `compact`
+- `feed_type` - string - type of the feed, can be either `recentchanges`, `abuselog` or `discussion`
+- `event` - string - action called, should be the same as formatter event action
 - `categories` - {"new": set(), "removed": set()} - each set containing strings of added or removed categories for given page
 - `parsedcomment` - string - contains escaped and Markdown parsed summary (parsed_comment) of a log/edit action 
-- `event` - string - action called, should be the same as formatter event action
 - `comment_page` - dict - containing `fullUrl` and `article` with strings both to full article url and its name
 
 ### Util
