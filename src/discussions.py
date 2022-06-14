@@ -107,7 +107,7 @@ def parse_discussion_post(post, comment_pages):
 	"""Initial post recognition & handling"""
 	global client
 	post_type = post["_embedded"]["thread"][0]["containerType"]
-	context = Context(display_mode, webhook_url, client)
+	context = Context(display_mode, "discussion", webhook_url, client)
 	# Filter posts by forum
 	if post_type == "FORUM" and settings["fandom_discussions"].get("show_forums", []):
 		if not post["forumName"] in settings["fandom_discussions"]["show_forums"]:

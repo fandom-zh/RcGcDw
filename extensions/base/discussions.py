@@ -331,7 +331,7 @@ def embed_discussion_article_comment(ctx: Context, post: dict):
     embed_author_discussions(post, embed)
     article_paths = ctx.comment_page
     if article_paths is None:
-        article_page = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
+        article_paths = {"title": _("unknown"), "fullUrl": settings["fandom_discussions"]["wiki_url"]}  # No page known
     if not post["isReply"]:
         embed.event_type = "discussion/comment/post"
         embed["url"] = "{url}?commentId={commentId}".format(url=article_paths["fullUrl"], commentId=post["threadId"])

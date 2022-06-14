@@ -202,10 +202,10 @@ def rc_processor(change, changed_categories):
 	metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None),
 	                       page_id=change.get("pageid", None))
 	logger.debug(change)
-	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
-	run_hooks(pre_hooks, context, change)
+	context = Context(settings["appearance"]["mode"], "recentchanges", settings["webhookURL"], client)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		context.event = "suppressed"
+		run_hooks(pre_hooks, context, change)
 		try:
 			discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
 		except NoFormatter:
@@ -242,6 +242,7 @@ def rc_processor(change, changed_categories):
 		if identification_string in settings["ignored"]:
 			return
 		context.event = identification_string
+		run_hooks(pre_hooks, context, change)
 		try:
 			discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
 		except:
@@ -278,9 +279,9 @@ def abuselog_processing(entry):
 	action = "abuselog"
 	if action in settings["ignored"]:
 		return
-	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
-	run_hooks(pre_hooks, context, entry)
+	context = Context(settings["appearance"]["mode"], "abuselog", settings["webhookURL"], client)
 	context.event = action
+	run_hooks(pre_hooks, context, entry)
 	try:
 		discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
 	except NoFormatter:
