@@ -38,7 +38,7 @@ def add_mention(message, userid):
 def usertalk_hook(message, metadata, context, change):
     if not discord_users:
         return
-    if context.feed_type in ["recentchanges", "abuselog"] and change["ns"] in [2, 3, 202, 1200] and not "/" in change["title"]:
+    if context.feed_type in ["recentchanges", "abuselog"] and change["ns"] in [2, 3, 202, 1200] and "/" not in change["title"]:
         username = change["title"].split(':', 1)[1]
         if discord_users.get(username, "") and username != change["user"]:
             add_mention(message, discord_users[username])
