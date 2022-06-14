@@ -25,14 +25,29 @@ from src.configloader import settings
 # }
 discord_users = settings.get("hooks", {}).get("usertalk", {})
 
+def add_mention(message, userid):
+    """This function adds a mention for the userid"""
+    message.webhook_object["content"] = (message.webhook_object.get("content", "") or "") + " <@{}>".format(userid)
+    if message.webhook_object["allowed_mentions"].get("users", []):
+        if userid not in message.webhook_object["allowed_mentions"]["users"]:
+            message.webhook_object["allowed_mentions"]["users"].append(userid)
+    else:
+        message.webhook_object["allowed_mentions"]["users"] = [userid]
+
 @post_hook
 def usertalk_hook(message, metadata, context, change):
-    if discord_users and change["ns"] in [2, 3, 202] and not "/" in change["title"]:
+    if not discord_users:
+        return
+    if context.feed_type in ["recentchanges", "abuselog"] and change["ns"] in [2, 3, 202, 1200] and not "/" in change["title"]:
         username = change["title"].split(':', 1)[1]
         if discord_users.get(username, "") and username != change["user"]:
-            message.webhook_object["content"] = (message.webhook_object.get("content", "") or "") + " <@{}>".format(discord_users[username])
-            if message.webhook_object["allowed_mentions"].get("users", []):
-                if discord_users[username] not in message.webhook_object["allowed_mentions"]["users"]:
-                    message.webhook_object["allowed_mentions"]["users"].append(discord_users[username])
-            else:
-                message.webhook_object["allowed_mentions"]["users"] = [discord_users[username]]
+            add_mention(message, discord_users[username])
+    elif context.feed_type == "discussion" and context.event == "discussion/wall" and change["forumName"].endswith(' Message Wall'):
+        username = change["forumName"][:-13]
+        author = None
+        if change["creatorIp"]:
+            author = change["creatorIp"][1:]
+        elif change["createdBy"]["name"]:
+            author = change["createdBy"]["name"]
+        if discord_users.get(username, "") and username != author:
+            add_mention(message, discord_users[username])

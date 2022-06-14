@@ -13,6 +13,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
+import ipaddress
 from src.api.hook import post_hook
 from src.configloader import settings
 
@@ -27,6 +28,11 @@ from src.configloader import settings
 #                 },
 #                 "requirements": [
 #                     {
+#                         "feed": [
+#                             "recentchanges",
+#                             "abuselog",
+#                             "discussion"
+#                         ],
 #                         "action": [
 #                             "edit",
 #                             "delete/delete",
@@ -39,6 +45,14 @@ from src.configloader import settings
 #                         ],
 #                         "title": [
 #                             "PAGETITLE"
+#                         ],
+#                         "forum": [
+#                             "FORUMNAME",
+#                             null
+#                         ],
+#                         "is_reply": null,
+#                         "namespace": [
+#                             0
 #                         ],
 #                         "tags": [
 #                             ["EDIT TAG", "AND EDIT TAG"],
@@ -55,6 +69,16 @@ from src.configloader import settings
 #                                     ["OR CATEGORY"]
 #                                 ]
 #                             }
+#                         ],
+#                         "filter": [
+#                             "Section removal",
+#                             "1"
+#                         ],
+#                         "af_action": [
+#                             "edit"
+#                         ],
+#                         "result": [
+#                             "disallow"
 #                         ]
 #                     }
 #                 ]
@@ -92,28 +116,79 @@ def edit_alerts_hook(message, metadata, context, change):
         # For every requirement, if one of the requirements passes the alert gets executed
         for requirement in alert.get("requirements", []):
             try:
+                req_feed = requirement.get("feed", [])
+                if req_feed and context.feed_type not in req_feed:
+                    raise RequirementNotMet
                 req_action = requirement.get("action", [])
                 # If current action isn't in config for this requirement AND current event type is not in the requirements in settings skip this requirement
                 if req_action and context.event not in req_action and context.event.split('/', 1)[0] not in req_action:
                     raise RequirementNotMet
                 req_user = requirement.get("user", [])
+                change_user = None
+                change_anon = False
+                if context.feed_type == "discussion":
+                    if change["creatorIp"]:
+                        change_user = change["creatorIp"][1:]
+                        change_anon = True
+                    elif change["createdBy"]["name"]:
+                        change_user = change["createdBy"]["name"]
+                        change_anon = False
+                else:
+                    change_user = change["user"]
+                    if context.feed_type == "recentchanges":
+                        change_anon = "anon" in change
+                    else:
+                        try:
+                            ipaddress.ip_address(change_user)
+                        except ValueError:
+                            change_anon = False
+                        else:
+                            change_anon = True
                 # If current user is not in config AND checkings for anon and user fail
-                if req_user and change["user"] not in req_user and ("@__anon__" if "anon" in change else "@__user__") not in req_user:
+                if req_user and change_user and change_user not in req_user and ("@__anon__" if change_anon else "@__user__") not in req_user:
                     raise RequirementNotMet
                 req_title = requirement.get("title", [])
-                if req_title and change["title"] not in req_title:
+                change_title = change["title"]
+                if context.feed_type == "discussion" and change_title is None:
+                    change_title = change["_embedded"]["thread"][0]["title"]
+                    if change_title is None and context.comment_page is not None:
+                        change_title = context.comment_page["title"]
+                if req_title and change_title not in req_title:
                     raise RequirementNotMet
-                check_group_requirements(change.get("tags", []), requirement.get("tags", []))
-                if requirement.get("categories", []):
-                    for req_cats in requirement.get("categories", []):
-                        try:
-                            check_group_requirements(context.categories.new, req_cats.get("added", []))
-                            check_group_requirements(context.categories.removed, req_cats.get("removed", []))
-                        except RequirementNotMet:
-                            continue
+                if context.feed_type == "discussion":
+                    req_forum = requirement.get("forum", [])
+                    if req_forum and change["forumName"] not in req_forum:
+                        raise RequirementNotMet
+                    req_reply = requirement.get("is_reply", None)
+                    if req_reply is not None and change["isReply"] == req_reply:
+                        raise RequirementNotMet
+                else:
+                    req_namespace = requirement.get("namespace", [])
+                    if req_namespace and change["ns"] not in req_namespace:
+                        raise RequirementNotMet
+                if context.feed_type == "recentchanges":
+                    check_group_requirements(change.get("tags", []), requirement.get("tags", []))
+                    if requirement.get("categories", []):
+                        for req_cats in requirement.get("categories", []):
+                            try:
+                                check_group_requirements(context.categories.new, req_cats.get("added", []))
+                                check_group_requirements(context.categories.removed, req_cats.get("removed", []))
+                            except RequirementNotMet:
+                                continue
+                            else:
+                                break
                         else:
-                            break
-                    else:
+                            raise RequirementNotMet
+                elif context.feed_type == "abuselog":
+                    req_filter = requirement.get("filter", [])
+                    # Allow both filter id and name as id might be hidden when logged out
+                    if req_filter and change["filter"] not in req_filter and change["filter_id"] not in req_filter:
+                        raise RequirementNotMet
+                    af_action = requirement.get("af_action", [])
+                    if af_action and change["action"] not in af_action:
+                        raise RequirementNotMet
+                    req_result = requirement.get("result", [])
+                    if req_result and change["result"] not in req_result:
                         raise RequirementNotMet
             except RequirementNotMet:
                 continue
