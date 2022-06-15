@@ -19,7 +19,7 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib
+import time, logging.config, requests, datetime, math, os.path, sys, importlib
 
 import src.misc
 import src.configloader
@@ -316,21 +316,16 @@ time.sleep(3.0)  # this timeout is to prevent timeouts. It seems Fandom does not
 if settings["rc_enabled"]:
 	logger.info("Script started! Fetching newest changes...")
 	wiki.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
-	schedule.every(settings["cooldown"]).seconds.do(wiki.fetch)
+	client.schedule(wiki.fetch, every=settings["cooldown"])
 	if settings["overview"]:
 		try:
 			overview_time = time.strptime(settings["overview_time"], '%H:%M')
-			schedule.every().day.at("{}:{}".format(str(overview_time.tm_hour).zfill(2),
-			                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
+			client.schedule(day_overview, at="{}:{}".format(str(overview_time.tm_hour).zfill(2), str(overview_time.tm_min).zfill(2)))
 			del overview_time
-		except schedule.ScheduleValueError:
-			logger.error("Invalid time format! Currently: {}:{}".format(
-				time.strptime(settings["overview_time"], '%H:%M').tm_hour,
-				time.strptime(settings["overview_time"], '%H:%M').tm_min))
 		except ValueError:
 			logger.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(
 				settings["overview_time"]))
-	schedule.every().day.at("00:00").do(wiki.clear_cache)
+	client.schedule(wiki.clear_cache, at="00:00")
 else:
 	logger.info("Script started! RC is disabled however, this means no recent changes will be sent :c")
 
@@ -349,4 +344,4 @@ if TESTING:
 
 while 1:
 	time.sleep(1.0)
-	schedule.run_pending()
+	client.scheduler.run()

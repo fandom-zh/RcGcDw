@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging, schedule, requests
+import logging, requests
 from typing import Optional
 
 from src.configloader import settings
@@ -158,5 +158,5 @@ def safe_request(url) -> Optional[requests.Response]:
 		return request
 
 
-schedule.every(settings["fandom_discussions"]["cooldown"]).seconds.do(fetch_discussions)
+client.schedule(fetch_discussions, every=settings["fandom_discussions"]["cooldown"])
 
