@@ -16,7 +16,8 @@
 
 from __future__ import annotations
 from datetime import datetime
-import src.misc, sched
+import src.misc
+import sched
 from typing import Union, Callable
 from collections import OrderedDict
 from typing import TYPE_CHECKING, Optional
