@@ -158,5 +158,5 @@ def safe_request(url) -> Optional[requests.Response]:
 		return request
 
 
-schedule.every(settings["fandom_discussions"]["cooldown"]).seconds.do(fetch_discussions)
+client.schedule(fetch_discussions, every=settings["fandom_discussions"]["cooldown"])
 
