@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 14:32+0200\n"
-"PO-Revision-Date: 2021-07-30 10:44+0000\n"
-"Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
+"PO-Revision-Date: 2022-05-03 10:08+0000\n"
+"Last-Translator: Winston Sung <winston21.sung@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.wikibot.de/projects/"
 "rcgcdw/formatters/zh-hans/>\n"
 "Language: zh-hans\n"
@@ -454,12 +454,12 @@ msgstr ""
 #: extensions/base/discussions.py:292
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr "创建了 \"{title}\" 于 {user} 的信息墙"
+msgstr "于 {user} 的留言墙创建 \"{title}\""
 
 #: extensions/base/discussions.py:298
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
-msgstr "回复至 \"{title}\" 于 {user} 的信息墙"
+msgstr "于 {user} 的留言墙回复 \"{title}\""
 
 #: extensions/base/discussions.py:312
 #, python-brace-format
@@ -468,9 +468,8 @@ msgid ""
 "{user_wall}?threadId={threadId}>) on [{user}'s Message Wall](<{url}wiki/"
 "Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) 创建了 [{title}](<{url}wiki/Message_Wall:"
-"{user_wall}?threadId={threadId}>) 于 [{user}的信息墙](<{url}wiki/"
-"Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) 于 [{user}的留言墙](<{url}wiki/Message_Wall:{user_wall}>)"
+" 创建了 [{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>)"
 
 #: extensions/base/discussions.py:318
 #, python-brace-format
@@ -480,10 +479,9 @@ msgid ""
 "Message_Wall:{user_wall}?threadId={threadId}>) on [{user}'s Message Wall]"
 "(<{url}wiki/Message_Wall:{user_wall}>)"
 msgstr ""
-"[{author}]({author_url}) 创建了一条[回复](<{url}wiki/Message_Wall:"
-"{user_wall}?threadId={threadId}#{replyId}>) 至 [{title}](<{url}wiki/"
-"Message_Wall:{user_wall}?threadId={threadId}>) 于 [{user}的信息墙](<{url}"
-"wiki/Message_Wall:{user_wall}>)"
+"[{author}]({author_url}) 于 [{user}的留言墙](<{url}wiki/Message_Wall:{user_wall}>)"
+" [回复](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}#{replyId}>)了 "
+"[{title}](<{url}wiki/Message_Wall:{user_wall}?threadId={threadId}>)"
 
 #: extensions/base/discussions.py:338
 #, python-brace-format

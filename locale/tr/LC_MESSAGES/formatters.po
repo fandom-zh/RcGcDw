@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-22 18:48+0200\n"
-"PO-Revision-Date: 2021-07-11 12:33+0000\n"
+"PO-Revision-Date: 2022-05-03 10:08+0000\n"
 "Last-Translator: Doğukan Karakaş <dogukankarakas6@gmail.com>\n"
 "Language-Team: Turkish <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/tr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: src/api/util.py:61 src/api/util.py:66
 msgid "__Only whitespace__"
-msgstr "__Sadece boş alan__"
+msgstr "__Sadece boşluk__"
 
 #: src/api/util.py:71
 msgid "Removed"
@@ -80,8 +80,7 @@ msgstr "Kargo tablosu \"{table}\" tekrar oluşturuldu"
 #: extensions/base/cargo.py:68
 #, python-brace-format
 msgid "[{author}]({author_url}) recreated the Cargo table \"{table}\""
-msgstr ""
-"[{author}]({author_url}), \"{table}\" Kargo tablosunu tekrar oluşturuldu"
+msgstr "[{author}]({author_url}), \"{table}\" Kargo tablosunu tekrar oluşturdu"
 
 #: extensions/base/cargo.py:83
 #, python-brace-format
@@ -135,8 +134,8 @@ msgstr ""
 #, python-brace-format
 msgid "Completed moving translation pages from \"{article}\" to \"{target}\""
 msgstr ""
-"\"{article}\" çeviri sayfasını \"{target}\" sayfasına taşıma başarıyla "
-"tamamlandı"
+"Çeviri sayfaları başarıyla \"{article}\" konumundan \"{target}\" konumuna "
+"taşındı"
 
 #: extensions/base/translate.py:106
 #, python-brace-format
@@ -150,8 +149,7 @@ msgstr ""
 #: extensions/base/translate.py:121
 #, python-brace-format
 msgid "Encountered a problem while moving \"{article}\" to \"{target}\""
-msgstr ""
-"\"{article}\" makalesini \"{target}\" hedefine taşırken bir sıkıntı yaşandı"
+msgstr "\"{article}\", \"{target}\" hedefine taşırken bir sıkıntı yaşandı"
 
 #: extensions/base/translate.py:133
 #, python-brace-format
@@ -189,12 +187,14 @@ msgid ""
 "[{author}]({author_url}) completed deletion of translation page [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) çeviri sayfasının "
+"silimini tamamladı{comment}"
 
 #: extensions/base/translate.py:203
 #, python-brace-format
 msgid ""
 "Failed to delete \"{article}\" which belongs to translation page \"{target}\""
-msgstr ""
+msgstr "\"{target}\" çeviri sayfasına ait olan \"{article}\" silinemedi"
 
 #: extensions/base/translate.py:215
 #, python-brace-format
@@ -202,11 +202,13 @@ msgid ""
 "[{author}]({author_url}) failed to delete [{article}]({article_url}) which "
 "belongs to translation page [{target}]({target_url}){comment}"
 msgstr ""
+"[{author}]({author_url}), [{target}]({target_url}) çeviri sayfasına ait olan "
+"[{article}]({article_url}) makalesini silemedi{comment}"
 
 #: extensions/base/translate.py:231
 #, python-brace-format
 msgid "Encouraged translation of \"{article}\""
-msgstr ""
+msgstr "\"{article}\" çevirisi teşvik edildi"
 
 #: extensions/base/translate.py:240
 #, python-brace-format
@@ -214,11 +216,13 @@ msgid ""
 "[{author}]({author_url}) encouraged translation of [{article}]({article_url})"
 "{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesinin çevirisi "
+"teşvik etti{comment}"
 
 #: extensions/base/translate.py:255
 #, python-brace-format
 msgid "Discouraged translation of \"{article}\""
-msgstr ""
+msgstr "\"{article}\" çevrilmemesi teşvik edildi"
 
 #: extensions/base/translate.py:264
 #, python-brace-format
@@ -226,21 +230,23 @@ msgid ""
 "[{author}]({author_url}) discouraged translation of [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}) encouraged translation of "
+"[{article}]({article_url}){comment}"
 
 #: extensions/base/translate.py:282
 #, python-brace-format
 msgid "Limited languages for \"{article}\" to `{languages}`"
-msgstr ""
+msgstr "\"{article}\" dilleri `{languages}` ile sınırlandı"
 
 #: extensions/base/translate.py:285
 #, python-brace-format
 msgid "Priority languages for \"{article}\" set to `{languages}`"
-msgstr ""
+msgstr "\"{article}\" için öncellikli `{languages}` yapıldı"
 
 #: extensions/base/translate.py:288
 #, python-brace-format
 msgid "Removed priority languages from \"{article}\""
-msgstr ""
+msgstr "\"{article}\" öncellikli dilleri kaldırıldı"
 
 #: extensions/base/translate.py:301
 #, python-brace-format
@@ -248,6 +254,8 @@ msgid ""
 "[{author}]({author_url}) limited languages for [{article}]({article_url}) to "
 "`{languages}`{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) dillerini `{languages}` "
+"ile sınırladı{comment}"
 
 #: extensions/base/translate.py:308
 #, python-brace-format
@@ -255,6 +263,8 @@ msgid ""
 "[{author}]({author_url}) set the priority languages for [{article}]"
 "({article_url}) to `{languages}`{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesinin öncellikli "
+"dillerini `{languages}` yaptı{comment}"
 
 #: extensions/base/translate.py:315
 #, python-brace-format
@@ -262,11 +272,13 @@ msgid ""
 "[{author}]({author_url}) removed priority languages from [{article}]"
 "({article_url}){comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesinin öncellikli "
+"dillerini kaldırdı{comment}"
 
 #: extensions/base/translate.py:331
 #, python-brace-format
 msgid "Added translatable page \"{article}\" to aggregate group \"{group}\""
-msgstr ""
+msgstr "\"{group}\" toplu grubuna çevrilebilir \"{article}\" sayfası eklendi"
 
 #: extensions/base/translate.py:342
 #, python-brace-format
@@ -274,12 +286,15 @@ msgid ""
 "[{author}]({author_url}) added translatable page [{article}]({article_url}) "
 "to aggregate group \"{group}\"{comment}"
 msgstr ""
+"[{author}]({author_url}), toplu grup \" [{article}]({article_url}) to "
+"aggregate group \"{group}\"{comment}"
 
 #: extensions/base/translate.py:357
 #, python-brace-format
 msgid ""
 "Removed translatable page \"{article}\" from aggregate group \"{group}\""
 msgstr ""
+"Çevrilebilir \"{article}\" sayfası \"{group}\" toplu grubundan kaldırıldı"
 
 #: extensions/base/translate.py:368
 #, python-brace-format
@@ -287,11 +302,13 @@ msgid ""
 "[{author}]({author_url}) removed translatable page [{article}]"
 "({article_url}) from aggregate group \"{group}\"{comment}"
 msgstr ""
+"[{author}]({author_url}), çevrilebilir [{article}]({article_url}) sayfasını "
+"\"{group}\" toplu grubundan kaldırdı{comment}"
 
 #: extensions/base/translate.py:387
 #, python-brace-format
 msgid "Reviewed translation \"{article}\""
-msgstr ""
+msgstr "\"{article}\" çevirisi kontrol edildi"
 
 #: extensions/base/translate.py:401
 #, python-brace-format
@@ -299,19 +316,22 @@ msgid ""
 "[{author}]({author_url}) reviewed translation [{article}]({article_url})"
 "{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) çevirisini kontrol "
+"etti{comment}"
 
 #: extensions/base/translate.py:416
 #, python-brace-format
 msgid "Changed the state of `{language}` translations of \"{article}\""
 msgstr ""
+"\"{article}\" makalesindeki `{language}` çevirilerinin durumu değiştirildi"
 
 #: extensions/base/translate.py:419
 msgid "Old state"
-msgstr ""
+msgstr "Eski durum"
 
 #: extensions/base/translate.py:420
 msgid "New state"
-msgstr ""
+msgstr "Yeni durum"
 
 #: extensions/base/translate.py:431
 #, python-brace-format
@@ -319,6 +339,9 @@ msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) from `{old_state}` to `{new_state}`{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesindeki "
+"`{language}` çevirilerinin `{old_state}` durumunu `{new_state}` ile "
+"değiştirdi{comment}"
 
 #: extensions/base/translate.py:439
 #, python-brace-format
@@ -326,23 +349,25 @@ msgid ""
 "[{author}]({author_url}) changed the state of `{language}` translations of "
 "[{article}]({article_url}) to `{new_state}`{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesindeki "
+"`{language}` çevirilerinin durumunu `{new_state}` ile değiştirdi{comment}"
 
 #: extensions/base/translate.py:452 extensions/base/translate.py:455
 msgid "(default)"
-msgstr ""
+msgstr "(varsayılan)"
 
 #: extensions/base/translate.py:464
 #, python-brace-format
 msgid "Changed the language of \"{article}\""
-msgstr ""
+msgstr "\"{article}\" dili değiştirildi"
 
 #: extensions/base/translate.py:465
 msgid "Old language"
-msgstr ""
+msgstr "Eski dil"
 
 #: extensions/base/translate.py:466
 msgid "New language"
-msgstr ""
+msgstr "Yeni sil"
 
 #: extensions/base/translate.py:477
 #, python-brace-format
@@ -350,52 +375,54 @@ msgid ""
 "[{author}]({author_url}) changed the language of [{article}]({article_url}) "
 "from {old_lang} to {new_lang}{comment}"
 msgstr ""
+"[{author}]({author_url}), [{article}]({article_url}) makalesinin {old_lang} "
+"dillerini {new_lang} ile değiştirdi{comment}"
 
 #: extensions/base/discussions.py:148 extensions/base/discussions.py:207
 #: extensions/base/discussions.py:245 extensions/base/discussions.py:261
 #: extensions/base/discussions.py:284 extensions/base/discussions.py:306
 #: extensions/base/discussions.py:334 extensions/base/discussions.py:354
 msgid "unknown"
-msgstr ""
+msgstr "bilinmiyor"
 
 #: extensions/base/discussions.py:157
 #, python-brace-format
 msgid "Created \"{title}\""
-msgstr ""
+msgstr "\"{title}\" oluşturuldu"
 
 #: extensions/base/discussions.py:161
 #, python-brace-format
 msgid "Created a poll \"{title}\""
-msgstr ""
+msgstr "\"{title}\" anketi oluşturuldu"
 
 #: extensions/base/discussions.py:168
 msgid "Option {}"
-msgstr ""
+msgstr "{} seçeneği"
 
 #: extensions/base/discussions.py:170
 #, python-brace-format
 msgid "__[View image]({image_url})__"
-msgstr ""
+msgstr "__[Resmi gör]({image_url})__"
 
 #: extensions/base/discussions.py:174
 #, python-brace-format
 msgid "Created a quiz \"{title}\""
-msgstr ""
+msgstr "\"{title}\" testi oluşturuldu"
 
 #: extensions/base/discussions.py:193 extensions/base/discussions.py:195
 msgctxt "Fandom discussions Tags/Forums"
 msgid "Tags"
-msgstr ""
+msgstr "Etiketler"
 
 #: extensions/base/discussions.py:193
 msgctxt "Fandom discussions amount of Tags/Forums"
 msgid "{} tags"
-msgstr ""
+msgstr "{} etiket"
 
 #: extensions/base/discussions.py:198
 #, python-brace-format
 msgid "Replied to \"{title}\""
-msgstr ""
+msgstr "\"{title}\" başlığına cevap verdi"
 
 #: extensions/base/discussions.py:214
 #, python-brace-format
@@ -403,6 +430,8 @@ msgid ""
 "[{author}]({author_url}) created [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}), {forumName} forumunda [{title}](<{url}f/p/"
+"{threadId}>) başlığını oluşturdu"
 
 #: extensions/base/discussions.py:217
 #, python-brace-format
@@ -410,6 +439,8 @@ msgid ""
 "[{author}]({author_url}) created a poll [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}), {forumName} forumunda [{title}](<{url}f/p/"
+"{threadId}>) anketini oluşturdu"
 
 #: extensions/base/discussions.py:220
 #, python-brace-format
@@ -417,6 +448,8 @@ msgid ""
 "[{author}]({author_url}) created a quiz [{title}](<{url}f/p/{threadId}>) in "
 "{forumName}"
 msgstr ""
+"[{author}]({author_url}), {forumName} forumunda [{title}](<{url}f/p/"
+"{threadId}>) testini oluşturdu"
 
 #: extensions/base/discussions.py:234
 #, python-brace-format
@@ -424,16 +457,20 @@ msgid ""
 "[{author}]({author_url}) created a [reply](<{url}f/p/{threadId}/r/{postId}>) "
 "to [{title}](<{url}f/p/{threadId}>) in {forumName}"
 msgstr ""
+"[{author}]({author_url}), {forumName} forumundaki [{title}](<{url}f/p/"
+"{threadId}>) başlığında bir [cevap](<{url}f/p/{threadId}/r/{postId}>) "
+"oluşturdu"
 
 #: extensions/base/discussions.py:292
 #, python-brace-format
 msgid "Created \"{title}\" on {user}'s Message Wall"
-msgstr ""
+msgstr "{user} kullanıcısının Mesaj Duvarı'nda \"{title}\" başlığı oluşturuldu"
 
 #: extensions/base/discussions.py:298
 #, python-brace-format
 msgid "Replied to \"{title}\" on {user}'s Message Wall"
 msgstr ""
+"{user} kullanıcısının Mesaj Duvarı'ndaki \"{title}\" başlığına cevap verildi"
 
 #: extensions/base/discussions.py:312
 #, python-brace-format

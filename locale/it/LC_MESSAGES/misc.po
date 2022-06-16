@@ -8,76 +8,81 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-30 11:58+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-03 10:08+0000\n"
+"Last-Translator: Matteo Vicenzi <matteo.vicenzi7@gmail.com>\n"
+"Language-Team: Italian <https://translate.wikibot.de/projects/rcgcdw/misc/it/"
+">\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/misc.py:45
 msgid "Location"
-msgstr ""
+msgstr "Località"
 
 #: src/misc.py:45
 msgid "About me"
-msgstr ""
+msgstr "Su di me"
 
 #: src/misc.py:45
 msgid "Google link"
-msgstr ""
+msgstr "Link Google"
 
 #: src/misc.py:45
 msgid "Facebook link"
-msgstr ""
+msgstr "Link Facebook"
 
 #: src/misc.py:45
 msgid "Twitter link"
-msgstr ""
+msgstr "Link Twitter"
 
 #: src/misc.py:45
 msgid "Reddit link"
-msgstr ""
+msgstr "Link Reddit"
 
 #: src/misc.py:45
 msgid "Twitch link"
-msgstr ""
+msgstr "Link Twitch"
 
 #: src/misc.py:45
 msgid "PSN link"
-msgstr ""
+msgstr "Link PSN"
 
 #: src/misc.py:45
 msgid "VK link"
-msgstr ""
+msgstr "Link VK"
 
 #: src/misc.py:45
 msgid "XBL link"
-msgstr ""
+msgstr "Link XBL"
 
 #: src/misc.py:45
 msgid "Steam link"
-msgstr ""
+msgstr "Link Steam"
 
 #: src/misc.py:45
 msgid "Discord handle"
-msgstr ""
+msgstr "Nome Discord"
 
 #: src/misc.py:45
 msgid "Battle.net handle"
-msgstr ""
+msgstr "Nome Battle.net"
 
 #: src/misc.py:119
 msgid ""
 "\n"
 "__And more__"
 msgstr ""
+"\n"
+"__E di più__"
 
 #: src/misc.py:276
 msgid "Unknown"
-msgstr ""
+msgstr "Sconosciuto"
 
 #: src/misc.py:278
 msgid "unknown"
-msgstr ""
+msgstr "sconosciuto"
