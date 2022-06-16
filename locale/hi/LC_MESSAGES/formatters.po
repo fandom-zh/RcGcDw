@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-11 14:32+0200\n"
-"PO-Revision-Date: 2021-07-11 12:33+0000\n"
-"Last-Translator: Creeper <thisisacreeper0101@gmail.com>\n"
+"PO-Revision-Date: 2022-05-03 10:08+0000\n"
+"Last-Translator: Saurmandal <saurmandal@protonmail.com>\n"
 "Language-Team: Hindi <https://translate.wikibot.de/projects/rcgcdw/"
 "formatters/hi/>\n"
 "Language: hi\n"
@@ -29,22 +29,22 @@ msgstr "हटाया गया"
 
 #: src/api/util.py:73
 msgid "Added"
-msgstr "जोड़ा"
+msgstr "जोड़ा गया"
 
 #: src/api/util.py:94 src/api/util.py:126 src/api/util.py:133
 #: src/api/util.py:141 extensions/base/discussions.py:247
 #: extensions/base/discussions.py:264 extensions/base/abusefilter.py:45
 msgid "Unregistered user"
-msgstr "अनरेजिसटर्ड सदस्य"
+msgstr "अपंजीकृत सदस्य"
 
 #: src/api/util.py:160
 msgctxt "recent changes Tags"
 msgid "Tags"
-msgstr "टैग"
+msgstr "टैग्स"
 
 #: src/api/util.py:162
 msgid "**Added**: "
-msgstr "**जोड़ा**: "
+msgstr "**जोड़ा गया**: "
 
 #: src/api/util.py:163
 msgid " and {} more\n"
@@ -52,7 +52,7 @@ msgstr " और {}\n"
 
 #: src/api/util.py:165
 msgid "**Removed**: "
-msgstr "**हटाया**: "
+msgstr "**हटाया गया**: "
 
 #: src/api/util.py:166
 msgid " and {} more"
@@ -70,7 +70,7 @@ msgstr "कार्गो टेबल \"{table}\" बनाया गया"
 #: extensions/base/cargo.py:45
 #, python-brace-format
 msgid "[{author}]({author_url}) created the Cargo table \"{table}\""
-msgstr "[{author}]({author_url}) ने कीर्गो टेबल \"{table}\" बनाया"
+msgstr "[{author}]({author_url}) ने कार्गो टेबल \"{table}\" बनाया"
 
 #: extensions/base/cargo.py:60
 #, python-brace-format
@@ -95,7 +95,7 @@ msgstr "[{author}]({author_url}) ने कार्गो टेबल \"{table
 #: extensions/base/cargo.py:105
 #, python-brace-format
 msgid "Deleted the Cargo table \"{table}\""
-msgstr "कार्गो टेबल \"{table}\" को डिलीट किया गया"
+msgstr "कार्गो टेबल \"{table}\" को हटाया गया"
 
 #: extensions/base/cargo.py:112
 #, python-brace-format
@@ -1362,14 +1362,14 @@ msgstr "एक मिनट से कम के लिए"
 #: extensions/base/mediawiki.py:583
 msgid "year"
 msgid_plural "years"
-msgstr[0] "साल"
-msgstr[1] "साल"
+msgstr[0] "वर्ष"
+msgstr[1] ""
 
 #: extensions/base/mediawiki.py:583
 msgid "day"
 msgid_plural "days"
 msgstr[0] "दिन"
-msgstr[1] "दिन"
+msgstr[1] ""
 
 #: extensions/base/mediawiki.py:583
 msgid "hour"
@@ -1381,7 +1381,7 @@ msgstr[1] "घंटे"
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "मिनट"
-msgstr[1] "मिनट"
+msgstr[1] ""
 
 #: extensions/base/mediawiki.py:589
 #, python-brace-format
