@@ -344,4 +344,8 @@ if TESTING:
 
 while 1:
 	time.sleep(1.0)
-	client.scheduler.run()
+	try:
+		client.scheduler.run()
+	except KeyboardInterrupt:
+		logger.info("Shutting down...")
+		break

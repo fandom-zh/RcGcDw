@@ -50,7 +50,7 @@ def delete_messages(matching_data: dict):
 	db_connection.commit()
 
 
-def redact_messages(ids: Union[List[Union[str, int]], set[Union[int, str]]], entry_type: int, to_censor: dict):
+def redact_messages(ids, entry_type: int, to_censor: dict):  # : Union[List[Union[str, int]], set[Union[int, str]]]
 	"""Redact past Discord messages
 
 	ids: list of ints
