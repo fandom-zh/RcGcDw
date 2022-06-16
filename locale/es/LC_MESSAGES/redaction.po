@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2022-05-03 10:08+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.6.2\n"
 
-#: src/discord/redaction.py:77
+#: src/discord/redaction.py:79
 msgid "hidden"
 msgstr "oculto"
 
-#: src/discord/redaction.py:80 src/discord/redaction.py:85
+#: src/discord/redaction.py:82 src/discord/redaction.py:87
 msgid "~~hidden~~"
 msgstr "~~oculto~~"
 

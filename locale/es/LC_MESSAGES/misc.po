@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2020-11-28 22:44+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://weblate.frisk.space/projects/rcgcdw/misc/es/"
@@ -71,7 +71,7 @@ msgstr "ID de Discord"
 msgid "Battle.net handle"
 msgstr "Cuenta en Battle.net"
 
-#: src/misc.py:139
+#: src/misc.py:140
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__Y más__"
 
-#: src/misc.py:328
+#: src/misc.py:330
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: src/misc.py:330
+#: src/misc.py:332
 msgid "unknown"
 msgstr "desconocido"

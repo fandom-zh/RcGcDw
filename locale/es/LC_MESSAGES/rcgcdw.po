@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2022-05-03 10:08+0000\n"
 "Last-Translator: Tamara Carvallo <carvallotamara@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.wikibot.de/projects/rcgcdw/main/es/"
@@ -19,96 +19,96 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.6.2\n"
 
-#: src/rcgcdw.py:117
+#: src/rcgcdw.py:118
 #, python-brace-format
 msgid "{value} (avg. {avg})"
 msgstr "{value} (prom. {avg})"
 
-#: src/rcgcdw.py:136
+#: src/rcgcdw.py:137
 msgid "Daily overview"
 msgstr "Resumen diario"
 
-#: src/rcgcdw.py:143
+#: src/rcgcdw.py:144
 msgid "No activity"
 msgstr "Ninguna actividad"
 
-#: src/rcgcdw.py:167
+#: src/rcgcdw.py:168
 msgid " ({} action)"
 msgid_plural " ({} actions)"
 msgstr[0] " ({} acción)"
 msgstr[1] " ({} acciones)"
 
-#: src/rcgcdw.py:169
+#: src/rcgcdw.py:170
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] " ({} edición)"
 msgstr[1] " ({} ediciones)"
 
-#: src/rcgcdw.py:174
+#: src/rcgcdw.py:175
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] " UTC ({} acción)"
 msgstr[1] " UTC ({} acciones)"
 
-#: src/rcgcdw.py:176 src/rcgcdw.py:179
+#: src/rcgcdw.py:177 src/rcgcdw.py:180
 msgid "But nobody came"
 msgstr "Pero nadie vino"
 
-#: src/rcgcdw.py:183
+#: src/rcgcdw.py:184
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] "Usuario más activo"
 msgstr[1] "Usuarios más activos"
 
-#: src/rcgcdw.py:184
+#: src/rcgcdw.py:185
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] "Artículo más editado"
 msgstr[1] "Artículos más editados"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:186
 msgid "Edits made"
 msgstr "Ediciones realizadas"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:186
 msgid "New files"
 msgstr "Nuevos archivos"
 
-#: src/rcgcdw.py:186
+#: src/rcgcdw.py:187
 msgid "Admin actions"
 msgstr "Acciones de administrador"
 
-#: src/rcgcdw.py:186
+#: src/rcgcdw.py:187
 msgid "Bytes changed"
 msgstr "Bytes cambiados"
 
-#: src/rcgcdw.py:187
+#: src/rcgcdw.py:188
 msgid "New articles"
 msgstr "Nuevos articulos"
 
-#: src/rcgcdw.py:187
+#: src/rcgcdw.py:188
 msgid "Unique contributors"
 msgstr "Contribuyentes únicos"
 
-#: src/rcgcdw.py:188
+#: src/rcgcdw.py:189
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] "Hora más activa"
 msgstr[1] "Horas más activas"
 
-#: src/rcgcdw.py:189
+#: src/rcgcdw.py:190
 msgid "Day score"
 msgstr "Puntuación del día"
 
-#: src/rcgcdw.py:223
+#: src/rcgcdw.py:224
 msgid "~~hidden~~"
 msgstr "~~oculto~~"
 
-#: src/rcgcdw.py:225
+#: src/rcgcdw.py:226
 msgid "No description provided"
 msgstr "No se proporcionó descripción"
 
-#: src/rcgcdw.py:228
+#: src/rcgcdw.py:229
 msgid "hidden"
 msgstr "oculto"
 

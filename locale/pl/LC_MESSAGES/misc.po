@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2020-03-17 20:57+0100\n"
 "Last-Translator: Frisk <>\n"
 "Language-Team: \n"
@@ -71,7 +71,7 @@ msgstr "konto Discord"
 msgid "Battle.net handle"
 msgstr "konto Battle.net"
 
-#: src/misc.py:139
+#: src/misc.py:140
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__Oraz więcej__"
 
-#: src/misc.py:328
+#: src/misc.py:330
 msgid "Unknown"
 msgstr "Nieznana"
 
-#: src/misc.py:330
+#: src/misc.py:332
 msgid "unknown"
 msgstr "nieznana sekcja"
