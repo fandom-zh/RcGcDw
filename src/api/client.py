@@ -15,8 +15,10 @@
 
 
 from __future__ import annotations
+from datetime import datetime
 import src.misc
-from typing import Union
+import sched
+from typing import Union, Callable
 from collections import OrderedDict
 from typing import TYPE_CHECKING, Optional
 
@@ -37,7 +39,38 @@ class Client:
 		self.content_parser = src.misc.ContentParser
 		self.tags = self.__recent_changes.tags
 		self.LinkParser: type(src.misc.LinkParser) = src.misc.LinkParser
+		self.scheduler: sched.scheduler = sched.scheduler()
 		#self.make_api_request: src.rc.wiki.__recent_changes.api_request = self.__recent_changes.api_request
+
+	def schedule(self, function: Callable, *args: list, every: Optional[float] = None, at: Optional[str] = None,
+				 priority: int = 5, **kwargs: dict):
+		"""Schedules a function indefinitely, does not execute function immediately
+
+			Parameters:
+
+				function (callable): a function to call each scheduled execution
+				*args: arguments provided to callable function
+				every (float): float of time between each execution
+				at (str): string of time
+				priority (int): priority of the task (lower - more important, RcGcDw tasks are executed at 5)
+				**kwargs: key-value provided to callable function
+
+			Returns:
+
+				sched.event
+		"""
+		def return_delay(given_time: Union[float, str]) -> float:
+			if isinstance(given_time, float) or isinstance(given_time, int):
+				return float(given_time)
+			now = datetime.utcnow()
+			then = datetime(now.year, now.month, now.day, *(map(int, given_time.split(':'))), 0, 0)
+			return float((then - now).seconds)
+		def wrap_reschedule(function, period: float, *args, **kwargs):
+			self.schedule(function, every=period, *args, **kwargs)
+			function(*args, **kwargs)
+		if not any([every, at]) or all([every, at]):
+			raise ValueError("Either every or at (and not both) has to be set for client.schedule function.")
+		return self.scheduler.enter(return_delay(every or at), priority, wrap_reschedule, argument=(function, every or 86400.0, *args), kwargs=kwargs)
 
 	def refresh_internal_data(self):
 		"""Refreshes internal storage data for wiki tags and MediaWiki messages."""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2020-03-18 13:59+0100\n"
 "Last-Translator: BabylonAS\n"
 "Language-Team: \n"
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.3\n"
 
 #: src/misc.py:45
@@ -71,7 +71,7 @@ msgstr "Ссылка на учётную запись Discord"
 msgid "Battle.net handle"
 msgstr "Ссылка на учётную запись Battle.net"
 
-#: src/misc.py:139
+#: src/misc.py:140
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__И ещё__"
 
-#: src/misc.py:328
+#: src/misc.py:330
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: src/misc.py:330
+#: src/misc.py:332
 msgid "unknown"
 msgstr "неизвестно"

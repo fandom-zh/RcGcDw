@@ -1,0 +1,93 @@
+{
+      "edit": {
+        "type": "edit",
+        "ns": 0,
+        "title": "Some page",
+        "pageid": 9327,
+        "revid": 2075232,
+        "old_revid": 232555,
+        "rcid": 2793437,
+        "user": "User3",
+        "oldlen": 32882,
+        "newlen": 328,
+        "timestamp": "2022-03-26T11:41:22Z",
+        "parsedcomment": "Work on new as",
+        "tags": ["VisualEdit"]
+      },
+      "abuselog": {
+        "id": 4690092,
+        "filter": "Prevent vandalism",
+        "filter_id": "3",
+        "user": "User4",
+        "ns": 0,
+        "title": "Survival",
+        "action": "edit",
+        "result": "tag",
+        "revid": "398328478",
+        "timestamp": "2022-01-13T06:20:58Z"
+      },
+      "cargo/createtable": {
+        "type": "log",
+        "ns": 0,
+        "title": "",
+        "pageid": 0,
+        "revid": 0,
+        "old_revid": 0,
+        "rcid": 13325,
+        "user": "User 10",
+        "oldlen": 0,
+        "newlen": 0,
+        "timestamp": "2022-01-13T15:25:09Z",
+        "parsedcomment": "",
+        "logid": 1865,
+        "logtype": "cargo",
+        "logaction": "createtable",
+        "logparams": {
+          "0": "<a href=\"https://somewiki.somefarm.com/wiki/Special:CargoTables/TableTest\">TableTest</a>"
+        },
+        "tags": []
+      },
+      "datadump/generate": {
+        "type": "log",
+        "ns": 0,
+        "title": "Datadump",
+        "pageid": 0,
+        "revid": 0,
+        "old_revid": 0,
+        "rcid": 13325,
+        "user": "User 10",
+        "timestamp": "2022-01-13T15:25:09Z",
+        "parsedcomment": "",
+        "logid": 18,
+        "logtype": "datadump",
+        "logaction": "generate",
+        "logparams": {
+          "filename": "Somefilenoidea.tar.gz"
+        },
+        "tags": []
+      },
+      "interwiki/iw_add": {
+        "type": "log",
+        "ns": -1,
+        "title": "Special:Interwiki",
+        "pageid": 0,
+        "revid": 0,
+        "old_revid": 0,
+        "rcid": 13326,
+        "user": "Not An User",
+        "oldlen": 0,
+        "newlen": 0,
+        "timestamp": "2022-01-13T15:31:25Z",
+        "parsedcomment": "Just a test",
+        "logid": 1866,
+        "logtype": "interwiki",
+        "logaction": "iw_add",
+        "logparams": {
+          "0": "testonlypleaseignore",
+          "1": "https://notawiki.notaplatform.com/wiki/$1",
+          "2": "0",
+          "3": "0"
+        },
+        "tags": []
+      }
+}

@@ -38,6 +38,7 @@ storage = datafile
 
 logger = logging.getLogger("rcgcdw.rc")
 
+
 class Wiki(object):
 	"""Store verious data and functions related to wiki and fetching of Recent Changes"""
 	def __init__(self, rc_processor: Callable, abuse_processor: Callable):
@@ -123,7 +124,13 @@ class Wiki(object):
 			request = self.api_request(self.construct_params(amount))
 		except (ServerError, MediaWikiError):
 			raise ConnectionError
-		except (ClientError, KeyError, BadRequest):
+		except ClientError as e:
+			if settings.get("error_tolerance", 0) > 1:
+				logger.error("When running RcGcDw received a client error that would indicate RcGcDw's mistake. However since your error_tolerance is set to a value higher than one we are going to log it and ignore it. If this issue persists, please check if the wiki still exists and you have latest RcGcDw version. Returned error: {}".format(e))
+				raise ConnectionError
+			else:
+				raise
+		except (KeyError, BadRequest):
 			raise
 		return request
 
@@ -394,8 +401,7 @@ class Wiki(object):
 			if self.downtimecredibility < 60:
 				self.downtimecredibility += 15
 			else:
-				if (
-						time.time() - self.last_downtime) > 1800 and self.check_connection():  # check if last downtime happened within 30 minutes, if yes, don't send a message
+				if (time.time() - self.last_downtime) > 1800 and self.check_connection():  # check if last downtime happened within 30 minutes, if yes, don't send a message
 					send_simple("down_detector", _("{wiki} seems to be down or unreachable.").format(wiki=settings["wikiname"]),
 					     _("Connection status"), settings["avatars"]["connection_failed"])
 					self.last_downtime = time.time()

@@ -1,0 +1,32 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "pages": {
+      "181124": {
+        "pageid": 181124,
+        "ns": 6,
+        "title": "File:Oak Sign (9).png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2021-12-26T12:09:04Z",
+            "url": "http://localhost:8080/test_wiki/images/7/75/Oak_Sign_%289%29.png/revision/latest?cb=20211226120904",
+            "descriptionurl": "http://localhost:8080/wiki/File:Oak_Sign_(9).png",
+            "descriptionshorturl": "http://localhost:8080/index.php?curid=181124"
+          }
+        ],
+        "revisions": [
+          {
+            "slots": {
+              "main": {
+                "contentmodel": "wikitext",
+                "contentformat": "text/x-wiki",
+                "*": "\n== License ==\n{{License Mojang}}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

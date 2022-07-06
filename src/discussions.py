@@ -15,8 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with RcGcDw.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging, schedule, requests
-from typing import Dict, Any, Optional
+import logging, requests
+from typing import Optional
 
 from src.configloader import settings
 
@@ -76,13 +76,13 @@ def fetch_discussions():
 				comment_pages: dict = {}
 				comment_events: list = [post["forumId"] for post in request_json if post["_embedded"]["thread"][0]["containerType"] == "ARTICLE_COMMENT" and int(post["id"]) > storage["discussion_id"]]
 				if comment_events:
-					comment_pages = safe_request(
+					comment_pages: requests.Response = safe_request(
 						"{wiki}wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds={pages}&format=json".format(
 							wiki=settings["fandom_discussions"]["wiki_url"], pages=",".join(comment_events)
 						))
 					if comment_pages:
 						try:
-							comment_pages = comment_pages.json()["articleNames"]
+							comment_pages: dict = comment_pages.json()["articleNames"]
 						except ValueError:
 							discussion_logger.warning("ValueError in fetching discussions")
 							return None
@@ -107,7 +107,7 @@ def parse_discussion_post(post, comment_pages):
 	"""Initial post recognition & handling"""
 	global client
 	post_type = post["_embedded"]["thread"][0]["containerType"]
-	context = Context(display_mode, webhook_url, client)
+	context = Context(display_mode, "discussion", webhook_url, client)
 	# Filter posts by forum
 	if post_type == "FORUM" and settings["fandom_discussions"].get("show_forums", []):
 		if not post["forumName"] in settings["fandom_discussions"]["show_forums"]:
@@ -121,6 +121,7 @@ def parse_discussion_post(post, comment_pages):
 			discussion_logger.error("Could not parse paths for article comment, here is the content of comment_pages: {}, ignoring...".format(comment_pages))
 			raise ArticleCommentError
 	event_type = f"discussion/{post_type.lower()}"
+	context.event = event_type
 	context.set_comment_page(comment_page)
 	run_hooks(pre_hooks, context, post)
 	try:
@@ -138,7 +139,7 @@ def parse_discussion_post(post, comment_pages):
 	send_to_discord(discord_message, metadata)
 
 
-def safe_request(url):
+def safe_request(url) -> Optional[requests.Response]:
 	"""Function to assure safety of request, and do not crash the script on exceptions,"""
 	try:
 		request = session.get(url, timeout=10, allow_redirects=False, headers={"Accept": "application/hal+json"})
@@ -157,5 +158,5 @@ def safe_request(url):
 		return request
 
 
-schedule.every(settings["fandom_discussions"]["cooldown"]).seconds.do(fetch_discussions)
+client.schedule(fetch_discussions, every=settings["fandom_discussions"]["cooldown"])
 

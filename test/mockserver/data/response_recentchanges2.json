@@ -1,0 +1,78 @@
+{
+  "batchcomplete": "",
+  "continue": {
+    "rccontinue": "20211226120903|2793420",
+    "continue": "-||"
+  },
+  "query": {
+    "recentchanges": [
+      {
+        "type": "edit",
+        "ns": 0,
+        "title": "Unique page",
+        "pageid": 9327,
+        "revid": 2075234,
+        "old_revid": 232556,
+        "rcid": 2793440,
+        "user": "User3",
+        "oldlen": 328,
+        "newlen": 32882,
+        "timestamp": "2021-12-26T13:37:10Z",
+        "parsedcomment": "Added content",
+        "tags": []
+      },
+      {
+        "type": "log",
+        "ns": 0,
+        "title": "Some different page",
+        "pageid": 9327,
+        "revid": 0,
+        "old_revid": 0,
+        "rcid": 2793439,
+        "user": "Frisk",
+        "oldlen": 0,
+        "newlen": 0,
+        "timestamp": "2021-12-26T13:35:50Z",
+        "parsedcomment": "aaaaaaaaaaaaaaa",
+        "logid": 1141236,
+        "logtype": "delete",
+        "logaction": "delete",
+        "logparams": {},
+        "tags": []
+      },
+      {
+        "type": "log",
+        "ns": 0,
+        "title": "Java Edition 1.19",
+        "pageid": 177589,
+        "revid": 0,
+        "old_revid": 0,
+        "rcid": 2793438,
+        "user": "Frisk",
+        "oldlen": 0,
+        "newlen": 0,
+        "timestamp": "2021-12-26T13:02:59Z",
+        "parsedcomment": "Heresy!",
+        "logid": 1141235,
+        "logtype": "delete",
+        "logaction": "revision",
+        "logparams": {
+          "type": "revision",
+          "ids": [
+            "2075224"
+          ],
+          "old": {
+            "bitmask": 0
+          },
+          "new": {
+            "bitmask": 7,
+            "content": "",
+            "comment": "",
+            "user": ""
+          }
+        },
+        "tags": []
+      }
+    ]
+  }
+}

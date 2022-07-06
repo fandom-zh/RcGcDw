@@ -17,12 +17,12 @@ import re
 import sys
 import time
 import logging
-from typing import Optional
+from typing import Optional, Union, Tuple
 
 import requests
 
 from src.configloader import settings
-from src.discord.message import DiscordMessage, DiscordMessageMetadata
+from src.discord.message import DiscordMessage, DiscordMessageMetadata, DiscordMessageRaw
 
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 if AUTO_SUPPRESSION_ENABLED:
@@ -35,7 +35,7 @@ logger = logging.getLogger("rcgcdw.discord.queue")
 class MessageQueue:
 	"""Message queue class for undelivered messages"""
 	def __init__(self):
-		self._queue = []
+		self._queue: list[Tuple[Union[DiscordMessage, DiscordMessageRaw], DiscordMessageMetadata]] = []
 
 	def __repr__(self):
 		return self._queue
@@ -49,10 +49,10 @@ class MessageQueue:
 	def clear(self):
 		self._queue.clear()
 
-	def add_message(self, message):
+	def add_message(self, message: Tuple[Union[DiscordMessage, DiscordMessageRaw], DiscordMessageMetadata]):
 		self._queue.append(message)
 
-	def cut_messages(self, item_num):
+	def cut_messages(self, item_num: int):
 		self._queue = self._queue[item_num:]
 
 	@staticmethod
@@ -116,6 +116,9 @@ def handle_discord_http(code, formatted_embed, result):
 			"Discord have trouble processing the event, and because the HTTP code returned is {} it means we blame them.".format(
 				code))
 		return 3
+	else:
+		logger.error("There was an unexpected HTTP code returned from Discord: {}".format(code))
+		return 1
 
 
 def update_ratelimit(request):
@@ -183,5 +186,5 @@ def send_to_discord(data: Optional[DiscordMessage], meta: DiscordMessageMetadata
 		elif code == 2:
 			time.sleep(5.0)
 			messagequeue.add_message((data, meta))
-		elif code < 2:
+		elif code is None or code < 2:
 			pass

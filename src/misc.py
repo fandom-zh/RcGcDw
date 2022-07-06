@@ -48,15 +48,15 @@ profile_fields = {"profile-location": _("Location"), "profile-aboutme": _("About
 class DataFile:
 	"""Data class which instance of is shared by multiple modules to remain consistent and do not cause too many IO operations."""
 	def __init__(self):
-		self.data = self.load_datafile()
-		misc_logger.debug("Current contents of data.json {}".format(self.data))
-		self.changed = False
+		self.data_filename: str = settings.get("datafile_path", "data.json")
+		self.data: dict = self.load_datafile()
+		misc_logger.debug("Current contents of {} {}".format(self.data_filename, self.data))
+		self.changed: bool = False
 
-	@staticmethod
-	def generate_datafile():
+	def generate_datafile(self):
 		"""Generate a data.json file from a template."""
 		try:
-			with open("data.json", 'w', encoding="utf-8") as data:
+			with open(self.data_filename, 'w', encoding="utf-8") as data:
 				data.write(json.dumps(data_template, indent=4))
 		except PermissionError:
 			misc_logger.critical("Could not create a data file (no permissions). No way to store last edit.")
@@ -67,7 +67,7 @@ class DataFile:
 		:rtype: dict
 		"""
 		try:
-			with open("data.json", encoding="utf-8") as data:
+			with open(self.data_filename, encoding="utf-8") as data:
 				return json.loads(data.read())
 		except FileNotFoundError:
 			self.generate_datafile()
@@ -79,7 +79,7 @@ class DataFile:
 		if self.changed is False:  # don't cause unnecessary write operations
 			return
 		try:
-			with open("data.json", "w", encoding="utf-8") as data_file:
+			with open(self.data_filename, "w", encoding="utf-8") as data_file:
 				data_file.write(json.dumps(self.data, indent=4))
 			self.changed = False
 			misc_logger.debug("Saving the database succeeded.")
@@ -89,7 +89,7 @@ class DataFile:
 		except OSError as e:
 			if settings.get("error_tolerance", 1) > 1:
 				if platform.system() == "Windows":
-					if "Invalid argument: 'data.json'" in str(e):
+					if "Invalid argument: '" + self.data_filename + "'" in str(e):
 						misc_logger.error("Saving the data file failed due to Invalid argument exception, we've seen it "
 										  "before in issue #209, if you know the reason for it happening please reopen the "
 										  "issue with explanation, for now we are going to just ignore it.")  #  Reference #209
@@ -97,8 +97,9 @@ class DataFile:
 			raise
 
 	def __setitem__(self, instance, value):
-		self.data[instance] = value
-		self.changed = True
+		if self.data[instance] != value:
+			self.data[instance] = value
+			self.changed = True
 
 	def __getitem__(self, item):
 		try:
@@ -255,16 +256,17 @@ def add_to_dict(dictionary, key):
 	return dictionary
 
 
-def prepare_paths(path, dry=False):
-	global WIKI_API_PATH
-	global WIKI_ARTICLE_PATH
-	global WIKI_SCRIPT_PATH
-	global WIKI_JUST_DOMAIN
+def prepare_paths(path: str, dry=False):
 	"""Set the URL paths for article namespace and script namespace
 	WIKI_API_PATH will be: WIKI_DOMAIN/api.php
 	WIKI_ARTICLE_PATH will be: WIKI_DOMAIN/articlepath/$1 where $1 is the replaced string
 	WIKI_SCRIPT_PATH will be: WIKI_DOMAIN/
 	WIKI_JUST_DOMAIN will be: WIKI_DOMAIN"""
+	global WIKI_API_PATH
+	global WIKI_ARTICLE_PATH
+	global WIKI_SCRIPT_PATH
+	global WIKI_JUST_DOMAIN
+
 	def quick_try_url(url):
 		"""Quickly test if URL is the proper script path,
 		False if it appears invalid

@@ -19,32 +19,33 @@
 # WARNING! SHITTY CODE AHEAD. ENTER ONLY IF YOU ARE SURE YOU CAN TAKE IT
 # You have been warned
 
-import time, logging.config, requests, datetime, math, os.path, schedule, sys, re, importlib
+import time, logging.config, requests, datetime, math, os.path, sys, importlib
 
 import src.misc
+import src.configloader
 from collections import defaultdict, Counter, OrderedDict
-
+from src.argparser import command_args
 from typing import Optional
 import src.api.client
 from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
-from src.configloader import settings
-from src.misc import add_to_dict, datafile, WIKI_API_PATH, LinkParser, run_hooks
+from src.misc import add_to_dict, datafile, run_hooks
 from src.api.util import create_article_path, default_message
 from src.discord.queue import send_to_discord
 from src.discord.message import DiscordMessage, DiscordMessageMetadata
-from src.exceptions import MWError, ServerError, MediaWikiError, BadRequest, ClientError, NoFormatter
+from src.exceptions import ServerError, MediaWikiError, NoFormatter
 from src.i18n import rcgcdw
 from src.wiki import Wiki
 
+settings = src.configloader.settings
 _ = rcgcdw.gettext
 ngettext = rcgcdw.ngettext
 
-TESTING = True if "--test" in sys.argv else False  # debug mode, pipeline testing
+TESTING = command_args.test  # debug mode, pipeline testing
 AUTO_SUPPRESSION_ENABLED = settings.get("auto_suppression", {"enabled": False}).get("enabled")
 
 if AUTO_SUPPRESSION_ENABLED:
-	from src.discord.redaction import delete_messages, redact_messages
+	from src.discord.redaction import delete_messages, redact_messages, find_middle_next
 # Prepare logging
 
 logging.config.dictConfig(settings["logging"])
@@ -201,10 +202,10 @@ def rc_processor(change, changed_categories):
 	metadata = DiscordMessageMetadata("POST", rev_id=change.get("revid", None), log_id=change.get("logid", None),
 	                       page_id=change.get("pageid", None))
 	logger.debug(change)
-	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
-	run_hooks(pre_hooks, context, change)
+	context = Context(settings["appearance"]["mode"], "recentchanges", settings["webhookURL"], client)
 	if ("actionhidden" in change or "suppressed" in change) and "suppressed" not in settings["ignored"]:  # if event is hidden using suppression
 		context.event = "suppressed"
+		run_hooks(pre_hooks, context, change)
 		try:
 			discord_message: Optional[DiscordMessage] = default_message("suppressed", formatter_hooks)(context, change)
 		except NoFormatter:
@@ -241,6 +242,7 @@ def rc_processor(change, changed_categories):
 		if identification_string in settings["ignored"]:
 			return
 		context.event = identification_string
+		run_hooks(pre_hooks, context, change)
 		try:
 			discord_message: Optional[DiscordMessage] = default_message(identification_string, formatter_hooks)(context, change)
 		except:
@@ -259,13 +261,17 @@ def rc_processor(change, changed_categories):
 					delete_messages(dict(logid=logid))
 		elif identification_string == "delete/revision" and AUTO_SUPPRESSION_ENABLED:
 			logparams = change.get('logparams', {"ids": []})
-			if settings["appearance"]["mode"] == "embed":
-				redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
-			else:
-				for revid in logparams.get("ids", []):
-					delete_messages(dict(revid=revid))
+			if logparams.get("type", "") in ("revision", "logging", "oldimage"):
+				if settings["appearance"]["mode"] == "embed":
+					redact_messages(logparams.get("ids", []), 0, logparams.get("new", {}))
+					if "content" in logparams.get("new", {}) and settings.get("appearance", {}).get("embed", {}).get("show_edit_changes", False):  # Also redact revisions in the middle and next ones in case of content (diffs leak)
+						redact_messages(find_middle_next(logparams.get("ids", []), change.get("pageid", -1)), 0, {"content": ""})
+				else:
+					for revid in logparams.get("ids", []):
+						delete_messages(dict(revid=revid))
 	run_hooks(post_hooks, discord_message, metadata, context, change)
-	discord_message.finish_embed()
+	if discord_message:
+		discord_message.finish_embed()
 	send_to_discord(discord_message, metadata)
 
 
@@ -273,9 +279,9 @@ def abuselog_processing(entry):
 	action = "abuselog"
 	if action in settings["ignored"]:
 		return
-	context = Context(settings["appearance"]["mode"], settings["webhookURL"], client)
-	run_hooks(pre_hooks, context, entry)
+	context = Context(settings["appearance"]["mode"], "abuselog", settings["webhookURL"], client)
 	context.event = action
+	run_hooks(pre_hooks, context, entry)
 	try:
 		discord_message: Optional[DiscordMessage] = default_message(action, formatter_hooks)(context, entry)
 	except NoFormatter:
@@ -310,21 +316,16 @@ time.sleep(3.0)  # this timeout is to prevent timeouts. It seems Fandom does not
 if settings["rc_enabled"]:
 	logger.info("Script started! Fetching newest changes...")
 	wiki.fetch(amount=settings["limitrefetch"] if settings["limitrefetch"] != -1 else settings["limit"])
-	schedule.every(settings["cooldown"]).seconds.do(wiki.fetch)
+	client.schedule(wiki.fetch, every=settings["cooldown"])
 	if settings["overview"]:
 		try:
 			overview_time = time.strptime(settings["overview_time"], '%H:%M')
-			schedule.every().day.at("{}:{}".format(str(overview_time.tm_hour).zfill(2),
-			                                       str(overview_time.tm_min).zfill(2))).do(day_overview)
+			client.schedule(day_overview, at="{}:{}".format(str(overview_time.tm_hour).zfill(2), str(overview_time.tm_min).zfill(2)))
 			del overview_time
-		except schedule.ScheduleValueError:
-			logger.error("Invalid time format! Currently: {}:{}".format(
-				time.strptime(settings["overview_time"], '%H:%M').tm_hour,
-				time.strptime(settings["overview_time"], '%H:%M').tm_min))
 		except ValueError:
 			logger.error("Invalid time format! Currentely: {}. Note: It needs to be in HH:MM format.".format(
 				settings["overview_time"]))
-	schedule.every().day.at("00:00").do(wiki.clear_cache)
+	client.schedule(wiki.clear_cache, at="00:00")
 else:
 	logger.info("Script started! RC is disabled however, this means no recent changes will be sent :c")
 
@@ -338,8 +339,13 @@ if TESTING:
 	day_overview()
 	import src.discussions
 	src.discussions.fetch_discussions()
+	logger.info("Test has succeeded without premature exceptions.")
 	sys.exit(0)
 
 while 1:
 	time.sleep(1.0)
-	schedule.run_pending()
+	try:
+		client.scheduler.run()
+	except KeyboardInterrupt:
+		logger.info("Shutting down...")
+		break

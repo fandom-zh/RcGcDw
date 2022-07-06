@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:34+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,28 +36,28 @@ msgstr ""
 msgid "Unregistered user"
 msgstr ""
 
-#: src/api/util.py:160
+#: src/api/util.py:161
 msgctxt "recent changes Tags"
 msgid "Tags"
 msgstr ""
 
-#: src/api/util.py:162
+#: src/api/util.py:163
 msgid "**Added**: "
 msgstr ""
 
-#: src/api/util.py:163
+#: src/api/util.py:164
 msgid " and {} more\n"
 msgstr ""
 
-#: src/api/util.py:165
+#: src/api/util.py:166
 msgid "**Removed**: "
 msgstr ""
 
-#: src/api/util.py:166
+#: src/api/util.py:167
 msgid " and {} more"
 msgstr ""
 
-#: src/api/util.py:168
+#: src/api/util.py:169
 msgid "Changed categories"
 msgstr ""
 
@@ -1472,72 +1472,81 @@ msgid ""
 msgstr ""
 
 #: extensions/base/mediawiki.py:1014
+msgid "Reclaimed account"
+msgstr ""
+
+#: extensions/base/mediawiki.py:1021
+#, python-brace-format
+msgid "Account [{author}]({author_url}) was reclaimed"
+msgstr ""
+
+#: extensions/base/mediawiki.py:1033
 #, python-brace-format
 msgid "Changed the content model of the page {article}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1016
+#: extensions/base/mediawiki.py:1035
 #, python-brace-format
 msgid "Model changed from {old} to {new}: {reason}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1028
+#: extensions/base/mediawiki.py:1047
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) changed the content model of the page [{article}]"
 "({article_url}) from {old} to {new}{comment}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1043
+#: extensions/base/mediawiki.py:1062
 #, python-brace-format
 msgid "Created the page {article} using a non-default content model"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1045
+#: extensions/base/mediawiki.py:1064
 #, python-brace-format
 msgid "Created with model {new}: {reason}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1056
+#: extensions/base/mediawiki.py:1075
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the page [{article}]({article_url}) using a "
 "non-default content model {new}{comment}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1071
+#: extensions/base/mediawiki.py:1090
 #, python-brace-format
 msgid "Created the tag \"{tag}\""
 msgstr ""
 
-#: extensions/base/mediawiki.py:1081
+#: extensions/base/mediawiki.py:1100
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) created the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1102
+#: extensions/base/mediawiki.py:1121
 #, python-brace-format
 msgid "Deleted the tag \"{tag}\""
 msgstr ""
 
-#: extensions/base/mediawiki.py:1104
+#: extensions/base/mediawiki.py:1123
 msgid "Removed from"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1104
+#: extensions/base/mediawiki.py:1123
 msgid "{} revision or log entry"
 msgid_plural "{} revisions and/or log entries"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extensions/base/mediawiki.py:1117
+#: extensions/base/mediawiki.py:1136
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1127
+#: extensions/base/mediawiki.py:1146
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deleted the [tag]({tag_url}) \"{tag}\" and removed "
@@ -1548,23 +1557,23 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: extensions/base/mediawiki.py:1144
+#: extensions/base/mediawiki.py:1163
 #, python-brace-format
 msgid "Activated the tag \"{tag}\""
 msgstr ""
 
-#: extensions/base/mediawiki.py:1153
+#: extensions/base/mediawiki.py:1172
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) activated the [tag]({tag_url}) \"{tag}\"{comment}"
 msgstr ""
 
-#: extensions/base/mediawiki.py:1172
+#: extensions/base/mediawiki.py:1191
 #, python-brace-format
 msgid "Deactivated the tag \"{tag}\""
 msgstr ""
 
-#: extensions/base/mediawiki.py:1181
+#: extensions/base/mediawiki.py:1200
 #, python-brace-format
 msgid ""
 "[{author}]({author_url}) deactivated the [tag]({tag_url}) \"{tag}\"{comment}"

@@ -1,0 +1,98 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "general": {
+      "mainpage": "Random Wiki",
+      "base": "https://localhost:8080/wiki/Mainpage",
+      "sitename": "Minecraft Wiki",
+      "logo": "https://localhost:8080/localhost/images/b/bc/Wiki.png",
+      "generator": "MediaWiki 1.35.3",
+      "phpversion": "7.3.32",
+      "phpsapi": "fpm-fcgi",
+      "dbtype": "mysql",
+      "dbversion": "5.7.25-28-log",
+      "externalimages": [],
+      "langconversion": "",
+      "titleconversion": "",
+      "linkprefixcharset": "",
+      "linkprefix": "",
+      "linktrail": "/^([a-z]+)(.*)$/sD",
+      "legaltitlechars": " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+",
+      "invalidusernamechars": "@:",
+      "fixarabicunicode": "",
+      "fixmalayalamunicode": "",
+      "case": "first-letter",
+      "lang": "en",
+      "fallback": [],
+      "fallback8bitEncoding": "windows-1252",
+      "writeapi": "",
+      "maxarticlesize": 2097152,
+      "timezone": "UTC",
+      "timeoffset": 0,
+      "articlepath": "/wiki/$1",
+      "scriptpath": "",
+      "script": "/index.php",
+      "variantarticlepath": false,
+      "server": "https://localhost:8080",
+      "servername": "localhost:8080",
+      "wikiid": "localhost",
+      "time": "2021-12-26T21:57:13Z",
+      "misermode": "",
+      "uploadsenabled": "",
+      "maxuploadsize": 10485760,
+      "minuploadchunksize": 1024,
+      "galleryoptions": {
+        "imagesPerRow": 0,
+        "imageWidth": 120,
+        "imageHeight": 120,
+        "captionLength": "",
+        "showBytes": "",
+        "showDimensions": "",
+        "mode": "traditional"
+      },
+      "thumblimits": [
+        120,
+        150,
+        180,
+        200,
+        250,
+        300
+      ],
+      "imagelimits": [
+        {
+          "width": 320,
+          "height": 240
+        },
+        {
+          "width": 640,
+          "height": 480
+        },
+        {
+          "width": 800,
+          "height": 600
+        },
+        {
+          "width": 1024,
+          "height": 768
+        },
+        {
+          "width": 1280,
+          "height": 1024
+        }
+      ],
+      "favicon": "https://localhost:8080/favicon.ico",
+      "centralidlookupprovider": "local",
+      "allcentralidlookupproviders": [
+        "local"
+      ],
+      "interwikimagic": "",
+      "magiclinks": {
+        "ISBN": ""
+      },
+      "categorycollation": "uppercase",
+      "citeresponsivereferences": "",
+      "gamepedia": "true",
+      "mobileserver": "https://localhost:8080"
+    }
+  }
+}

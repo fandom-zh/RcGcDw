@@ -15,10 +15,29 @@
 
 import sqlite3
 import logging
-import json
 from src.configloader import settings
 
 logger = logging.getLogger("rcgcdw.fileio.database")
+
+
+def catch_db_OperationalError(func):
+	def catcher(*args, **kwargs):
+		global db_connection, db_cursor
+		try:
+			func(*args, **kwargs)
+		except sqlite3.OperationalError:
+			if settings.get("error_tolerance", 0) > 1:
+				logger.error("SQL database has been damaged during operation. This can indicate it has been deleted "
+							"during runtime or damaged in some way. If it wasn't purposeful you may want to take a look "
+							"at your disk state. In the meantime, RcGcDw will attempt to recover by re-creating empty database.")
+				db_connection, db_cursor = create_connection()
+				check_tables()
+				func(*args, **kwargs)
+			else:
+				raise
+		return func
+
+	return catcher
 
 
 def create_schema():
@@ -60,6 +79,7 @@ def check_tables():
 		create_schema()
 
 
+@catch_db_OperationalError
 def add_entry(pageid: int, revid: int, logid: int, message, message_id: str):
 	"""Add an edit or log entry to the DB
 	:param message:
@@ -69,21 +89,27 @@ def add_entry(pageid: int, revid: int, logid: int, message, message_id: str):
 	:param message_id:
 	"""
 	db_cursor.execute("INSERT INTO messages (message_id, content) VALUES (?, ?)", (message_id, message))
-	db_cursor.execute("INSERT INTO event (pageid, revid, logid, msg_id) VALUES (?, ?, ?, ?)", (pageid, revid, logid, message_id))
-	logger.debug("Adding an entry to the database (pageid: {}, revid: {}, logid: {}, message: {})".format(pageid, revid, logid, message))
+	db_cursor.execute("INSERT INTO event (pageid, revid, logid, msg_id) VALUES (?, ?, ?, ?)",
+					  (pageid, revid, logid, message_id))
+	logger.debug(
+		"Adding an entry to the database (pageid: {}, revid: {}, logid: {}, message: {})".format(pageid, revid, logid,
+																								 message))
 	db_connection.commit()
 
 
+@catch_db_OperationalError
 def clean_entries():
 	"""Cleans entries that are 50+"""
 	cleanup = db_cursor.execute(
 		"SELECT message_id FROM messages WHERE message_id NOT IN (SELECT message_id FROM messages ORDER BY message_id desc LIMIT 50);")
 	for row in cleanup:
 		db_cursor.execute("DELETE FROM messages WHERE message_id = ?", (row[0],))
-	cleanup = db_cursor.execute("SELECT msg_id FROM event WHERE msg_id NOT IN (SELECT msg_id FROM event ORDER BY msg_id desc LIMIT 50);")
+	cleanup = db_cursor.execute(
+		"SELECT msg_id FROM event WHERE msg_id NOT IN (SELECT msg_id FROM event ORDER BY msg_id desc LIMIT 50);")
 	for row in cleanup:
 		db_cursor.execute("DELETE FROM event WHERE msg_id = ?", (row[0],))
 	db_connection.commit()
+
 
 db_connection, db_cursor = create_connection()
 check_tables()

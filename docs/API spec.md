@@ -104,6 +104,7 @@ Client consists of the following methods:
 - `make_api_request(params: Union[str, OrderedDict], *json_path: str, timeout: int = 10, allow_redirects: bool = False)` - allows to make a request to the wiki with parameters specified in params argument, json_path additionally allows to provide a list of strings that will be iterated over and json path of the result of this iteration returned. Timeout in float (seconds) can be added to limit the time for response, allow_redirects can be set to disallow or allow redirects
 - `get_formatters()` - returns a dictionary of all formatters in format of `{'eventtype': func}`
 - `get_ipmapper()` - returns ip mapper which tracks edit counts of IP editors
+- `schedule(function: Callable, *args, every: float, at: str, priority=5, **kwargs)` – schedules a periodic task that executes *function*. Either every or at should be defined. *every* is float amount of seconds every which tasks should be ran, *at* should be HH:MM formatted time at which task should be ran. Function returns sched event, but only for first execution.
 
 ### Context
 **Path**: `src.api.context.Context`    
@@ -112,9 +113,10 @@ Context can consist of the following fields:
 - `client` - [Client](#Client) object
 - `webhook_url` - string - webhook url for given formatter
 - `message_type` - string - can be either `embed` or `compact`
+- `feed_type` - string - type of the feed, can be either `recentchanges`, `abuselog` or `discussion`
+- `event` - string - action called, should be the same as formatter event action
 - `categories` - {"new": set(), "removed": set()} - each set containing strings of added or removed categories for given page
 - `parsedcomment` - string - contains escaped and Markdown parsed summary (parsed_comment) of a log/edit action 
-- `event` - string - action called, should be the same as formatter event action
 - `comment_page` - dict - containing `fullUrl` and `article` with strings both to full article url and its name
 
 ### Util

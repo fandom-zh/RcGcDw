@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2020-11-27 13:07+0000\n"
 "Last-Translator: dr03ramos <dr03ramos@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.wikibot.de/projects/"
@@ -71,7 +71,7 @@ msgstr "Link do Discord"
 msgid "Battle.net handle"
 msgstr "Link do Battle.net"
 
-#: src/misc.py:139
+#: src/misc.py:140
 msgid ""
 "\n"
 "__And more__"
@@ -79,10 +79,10 @@ msgstr ""
 "\n"
 "__E mais__"
 
-#: src/misc.py:328
+#: src/misc.py:330
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/misc.py:330
+#: src/misc.py:332
 msgid "unknown"
 msgstr "desconhecido"

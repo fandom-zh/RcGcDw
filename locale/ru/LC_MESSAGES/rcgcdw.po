@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2021-05-22 12:08+0000\n"
 "Last-Translator: Philo04 <philipp2012lopu@mail.ru>\n"
 "Language-Team: Russian <https://translate.wikibot.de/projects/rcgcdw/main/ru/"
@@ -16,106 +16,106 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.6\n"
 
-#: src/rcgcdw.py:117
+#: src/rcgcdw.py:118
 #, python-brace-format
 msgid "{value} (avg. {avg})"
 msgstr "{value} (ср. {avg})"
 
-#: src/rcgcdw.py:136
+#: src/rcgcdw.py:137
 msgid "Daily overview"
 msgstr "Ежедневный обзор"
 
-#: src/rcgcdw.py:143
+#: src/rcgcdw.py:144
 msgid "No activity"
 msgstr "Нет активности"
 
-#: src/rcgcdw.py:167
+#: src/rcgcdw.py:168
 msgid " ({} action)"
 msgid_plural " ({} actions)"
 msgstr[0] " ({} действие)"
 msgstr[1] " ({} действия)"
 msgstr[2] " ({} действий)"
 
-#: src/rcgcdw.py:169
+#: src/rcgcdw.py:170
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] " ({} правка)"
 msgstr[1] " ({} правки)"
 msgstr[2] " ({} правок)"
 
-#: src/rcgcdw.py:174
+#: src/rcgcdw.py:175
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] " UTC ({} действие)"
 msgstr[1] " UTC ({} действия)"
 msgstr[2] " UTC ({} действий)"
 
-#: src/rcgcdw.py:176 src/rcgcdw.py:179
+#: src/rcgcdw.py:177 src/rcgcdw.py:180
 msgid "But nobody came"
 msgstr "Но никто не пришёл"
 
-#: src/rcgcdw.py:183
+#: src/rcgcdw.py:184
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] "Самый активный участник"
 msgstr[1] "Самые активные участники"
 msgstr[2] "Самые активные участники"
 
-#: src/rcgcdw.py:184
+#: src/rcgcdw.py:185
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] "Самая редактируемая статья"
 msgstr[1] "Самые редактируемые статьи"
 msgstr[2] "Самые редактируемые статьи"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:186
 msgid "Edits made"
 msgstr "Сделано правок"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:186
 msgid "New files"
 msgstr "Новых файлов"
 
-#: src/rcgcdw.py:186
+#: src/rcgcdw.py:187
 msgid "Admin actions"
 msgstr "Административных действий"
 
-#: src/rcgcdw.py:186
+#: src/rcgcdw.py:187
 msgid "Bytes changed"
 msgstr "Изменено байтов"
 
-#: src/rcgcdw.py:187
+#: src/rcgcdw.py:188
 msgid "New articles"
 msgstr "Новых статей"
 
-#: src/rcgcdw.py:187
+#: src/rcgcdw.py:188
 msgid "Unique contributors"
 msgstr "Уникальных редакторов"
 
-#: src/rcgcdw.py:188
+#: src/rcgcdw.py:189
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] "Самый активный час"
 msgstr[1] "Самые активные часы"
 msgstr[2] "Самые активные часы"
 
-#: src/rcgcdw.py:189
+#: src/rcgcdw.py:190
 msgid "Day score"
 msgstr "Очков за день"
 
-#: src/rcgcdw.py:223
+#: src/rcgcdw.py:224
 msgid "~~hidden~~"
 msgstr "~~скрыто~~"
 
-#: src/rcgcdw.py:225
+#: src/rcgcdw.py:226
 msgid "No description provided"
 msgstr "Описание не предоставлено"
 
-#: src/rcgcdw.py:228
+#: src/rcgcdw.py:229
 msgid "hidden"
 msgstr "скрыто"
 

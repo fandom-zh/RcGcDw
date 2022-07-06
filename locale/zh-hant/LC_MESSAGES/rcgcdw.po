@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RcGcDw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-16 23:56+0200\n"
 "PO-Revision-Date: 2021-05-21 18:19+0000\n"
 "Last-Translator: lakejason0 <sunliyuan200402@outlook.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.wikibot.de/projects/"
@@ -19,90 +19,90 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.6\n"
 
-#: src/rcgcdw.py:117
+#: src/rcgcdw.py:118
 #, python-brace-format
 msgid "{value} (avg. {avg})"
 msgstr "{value}（平均 {avg}）"
 
-#: src/rcgcdw.py:136
+#: src/rcgcdw.py:137
 msgid "Daily overview"
 msgstr "每日總覽"
 
-#: src/rcgcdw.py:143
+#: src/rcgcdw.py:144
 msgid "No activity"
 msgstr "無動態"
 
-#: src/rcgcdw.py:167
+#: src/rcgcdw.py:168
 msgid " ({} action)"
 msgid_plural " ({} actions)"
 msgstr[0] " （{} 次操作）"
 
-#: src/rcgcdw.py:169
+#: src/rcgcdw.py:170
 msgid " ({} edit)"
 msgid_plural " ({} edits)"
 msgstr[0] " （{} 次編輯）"
 
-#: src/rcgcdw.py:174
+#: src/rcgcdw.py:175
 msgid " UTC ({} action)"
 msgid_plural " UTC ({} actions)"
 msgstr[0] " UTC（{} 次操作）"
 
-#: src/rcgcdw.py:176 src/rcgcdw.py:179
+#: src/rcgcdw.py:177 src/rcgcdw.py:180
 msgid "But nobody came"
 msgstr "無人"
 
-#: src/rcgcdw.py:183
+#: src/rcgcdw.py:184
 msgid "Most active user"
 msgid_plural "Most active users"
 msgstr[0] "最活躍的使用者"
 
-#: src/rcgcdw.py:184
+#: src/rcgcdw.py:185
 msgid "Most edited article"
 msgid_plural "Most edited articles"
 msgstr[0] "編輯次數最多的頁面"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:186
 msgid "Edits made"
 msgstr "作出的編輯"
 
-#: src/rcgcdw.py:185
+#: src/rcgcdw.py:186
 msgid "New files"
 msgstr "新建檔案"
 
-#: src/rcgcdw.py:186
+#: src/rcgcdw.py:187
 msgid "Admin actions"
 msgstr "管理員操作"
 
-#: src/rcgcdw.py:186
+#: src/rcgcdw.py:187
 msgid "Bytes changed"
 msgstr "變更位元組"
 
-#: src/rcgcdw.py:187
+#: src/rcgcdw.py:188
 msgid "New articles"
 msgstr "新建頁面"
 
-#: src/rcgcdw.py:187
+#: src/rcgcdw.py:188
 msgid "Unique contributors"
 msgstr "編輯者數"
 
-#: src/rcgcdw.py:188
+#: src/rcgcdw.py:189
 msgid "Most active hour"
 msgid_plural "Most active hours"
 msgstr[0] "最活躍時段"
 
-#: src/rcgcdw.py:189
+#: src/rcgcdw.py:190
 msgid "Day score"
 msgstr "每日分數"
 
-#: src/rcgcdw.py:223
+#: src/rcgcdw.py:224
 msgid "~~hidden~~"
 msgstr "~~隱藏~~"
 
-#: src/rcgcdw.py:225
+#: src/rcgcdw.py:226
 msgid "No description provided"
 msgstr "沒有提供描述"
 
-#: src/rcgcdw.py:228
+#: src/rcgcdw.py:229
 msgid "hidden"
 msgstr "隱藏"
 
