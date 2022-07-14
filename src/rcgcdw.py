@@ -279,7 +279,7 @@ def abuselog_processing(entry):
 	action = "abuselog"
 	if action in settings["ignored"]:
 		return
-	context = Context(settings["appearance"]["mode"], "abuselog", settings["webhookURL"], client)
+	context = Context(settings["appearance"]["mode"], "abuselog", settings["webhookURL"], client, formatters_i18n, settings)
 	context.event = action
 	run_hooks(pre_hooks, context, entry)
 	try:
