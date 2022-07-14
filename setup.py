@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name='RcGcDw',
-	version='1.14.0.1',
+	version='1.15.0.1',
 	url='https://gitlab.com/piotrex43/RcGcDw/',
 	license='GNU GPLv3',
 	author='Frisk',
