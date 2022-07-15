@@ -158,4 +158,3 @@ def safe_request(url) -> Optional[requests.Response]:
 		if 499 < request.status_code < 600:
 			return None
 		return request
-
