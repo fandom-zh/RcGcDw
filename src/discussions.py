@@ -29,6 +29,7 @@ from src.exceptions import ArticleCommentError, NoFormatter
 from src.api.util import default_message
 from src.api.context import Context
 from src.api.hooks import formatter_hooks, pre_hooks, post_hooks
+from src.i18n import formatters_i18n
 
 
 # Create a custom logger
@@ -108,7 +109,7 @@ def parse_discussion_post(post, comment_pages):
 	"""Initial post recognition & handling"""
 	global client
 	post_type = post["_embedded"]["thread"][0]["containerType"]
-	context = Context(display_mode, "discussion", webhook_url, client)
+	context = Context(display_mode, "discussion", webhook_url, client, formatters_i18n, settings)
 	# Filter posts by forum
 	if post_type == "FORUM" and settings["fandom_discussions"].get("show_forums", []):
 		if not post["forumName"] in settings["fandom_discussions"]["show_forums"]:
