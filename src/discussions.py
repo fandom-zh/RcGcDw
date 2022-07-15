@@ -56,6 +56,7 @@ def inject_client(client_obj):
 	"""Function to avoid circular import issues"""
 	global client
 	client = client_obj
+	client.schedule(fetch_discussions, every=settings["fandom_discussions"]["cooldown"])
 
 
 def fetch_discussions():
@@ -156,7 +157,3 @@ def safe_request(url) -> Optional[requests.Response]:
 		if 499 < request.status_code < 600:
 			return None
 		return request
-
-
-client.schedule(fetch_discussions, every=settings["fandom_discussions"]["cooldown"])
-
